@@ -214,7 +214,22 @@ public struct DetachUserPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisableOutboundWebIdentityFederationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableOutboundWebIdentityFederationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableMFADeviceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableOutboundWebIdentityFederationInput: Swift.Sendable {
 
     public init() { }
 }
@@ -235,6 +250,11 @@ public struct GetAccountSummaryInput: Swift.Sendable {
 }
 
 public struct GetCredentialReportInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetOutboundWebIdentityFederationInfoInput: Swift.Sendable {
 
     public init() { }
 }
@@ -2918,6 +2938,29 @@ public struct DisableOrganizationsRootSessionsOutput: Swift.Sendable {
     }
 }
 
+/// The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+public struct FeatureDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureDisabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request was rejected because the authentication code was not recognized. The error message describes the specific error.
 public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3028,6 +3071,40 @@ public struct EnableOrganizationsRootSessionsOutput: Swift.Sendable {
     ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
+    }
+}
+
+/// The request failed because outbound identity federation is already enabled for your Amazon Web Services account. You cannot enable the feature multiple times. To fetch the current configuration (including the unique issuer URL), use the GetOutboundWebIdentityFederationInfo operation.
+public struct FeatureEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureEnabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct EnableOutboundWebIdentityFederationOutput: Swift.Sendable {
+    /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints at /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary for token verification.
+    public var issuerIdentifier: Swift.String?
+
+    public init(
+        issuerIdentifier: Swift.String? = nil
+    ) {
+        self.issuerIdentifier = issuerIdentifier
     }
 }
 
@@ -4561,6 +4638,21 @@ public struct GetOrganizationsAccessReportOutput: Swift.Sendable {
         self.marker = marker
         self.numberOfServicesAccessible = numberOfServicesAccessible
         self.numberOfServicesNotAccessed = numberOfServicesNotAccessed
+    }
+}
+
+public struct GetOutboundWebIdentityFederationInfoOutput: Swift.Sendable {
+    /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints at /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary for token verification.
+    public var issuerIdentifier: Swift.String?
+    /// Indicates whether outbound identity federation is currently enabled for your Amazon Web Services account. When true, IAM principals in the account can call the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services.
+    public var jwtVendingEnabled: Swift.Bool
+
+    public init(
+        issuerIdentifier: Swift.String? = nil,
+        jwtVendingEnabled: Swift.Bool = false
+    ) {
+        self.issuerIdentifier = issuerIdentifier
+        self.jwtVendingEnabled = jwtVendingEnabled
     }
 }
 
@@ -9375,6 +9467,13 @@ extension DisableOrganizationsRootSessionsInput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationInput {
+
+    static func urlPathProvider(_ value: DisableOutboundWebIdentityFederationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func urlPathProvider(_ value: EnableMFADeviceInput) -> Swift.String? {
@@ -9392,6 +9491,13 @@ extension EnableOrganizationsRootCredentialsManagementInput {
 extension EnableOrganizationsRootSessionsInput {
 
     static func urlPathProvider(_ value: EnableOrganizationsRootSessionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableOutboundWebIdentityFederationInput {
+
+    static func urlPathProvider(_ value: EnableOutboundWebIdentityFederationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9525,6 +9631,13 @@ extension GetOpenIDConnectProviderInput {
 extension GetOrganizationsAccessReportInput {
 
     static func urlPathProvider(_ value: GetOrganizationsAccessReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoInput {
+
+    static func urlPathProvider(_ value: GetOutboundWebIdentityFederationInfoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10805,6 +10918,16 @@ extension DisableOrganizationsRootSessionsInput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationInput {
+
+    static func write(value: DisableOutboundWebIdentityFederationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("DisableOutboundWebIdentityFederation")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func write(value: EnableMFADeviceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -10834,6 +10957,16 @@ extension EnableOrganizationsRootSessionsInput {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
         try writer["Action"].write("EnableOrganizationsRootSessions")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension EnableOutboundWebIdentityFederationInput {
+
+    static func write(value: EnableOutboundWebIdentityFederationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("EnableOutboundWebIdentityFederation")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11038,6 +11171,16 @@ extension GetOrganizationsAccessReportInput {
         try writer["MaxItems"].write(value.maxItems)
         try writer["SortKey"].write(value.sortKey)
         try writer["Action"].write("GetOrganizationsAccessReport")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoInput {
+
+    static func write(value: GetOutboundWebIdentityFederationInfoInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("GetOutboundWebIdentityFederationInfo")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -12664,6 +12807,13 @@ extension DisableOrganizationsRootSessionsOutput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableOutboundWebIdentityFederationOutput {
+        return DisableOutboundWebIdentityFederationOutput()
+    }
+}
+
 extension EnableMFADeviceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableMFADeviceOutput {
@@ -12693,6 +12843,18 @@ extension EnableOrganizationsRootSessionsOutput {
         var value = EnableOrganizationsRootSessionsOutput()
         value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
+    }
+}
+
+extension EnableOutboundWebIdentityFederationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableOutboundWebIdentityFederationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["EnableOutboundWebIdentityFederationResult"]
+        var value = EnableOutboundWebIdentityFederationOutput()
+        value.issuerIdentifier = try reader["IssuerIdentifier"].readIfPresent()
         return value
     }
 }
@@ -12954,6 +13116,19 @@ extension GetOrganizationsAccessReportOutput {
         value.marker = try reader["Marker"].readIfPresent()
         value.numberOfServicesAccessible = try reader["NumberOfServicesAccessible"].readIfPresent()
         value.numberOfServicesNotAccessed = try reader["NumberOfServicesNotAccessed"].readIfPresent()
+        return value
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOutboundWebIdentityFederationInfoOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetOutboundWebIdentityFederationInfoResult"]
+        var value = GetOutboundWebIdentityFederationInfoOutput()
+        value.issuerIdentifier = try reader["IssuerIdentifier"].readIfPresent()
+        value.jwtVendingEnabled = try reader["JwtVendingEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -14934,6 +15109,20 @@ enum DisableOrganizationsRootSessionsOutputError {
     }
 }
 
+enum DisableOutboundWebIdentityFederationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableMFADeviceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14985,6 +15174,20 @@ enum EnableOrganizationsRootSessionsOutputError {
             case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableOutboundWebIdentityFederationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureEnabled": return try FeatureEnabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15267,6 +15470,20 @@ enum GetOrganizationsAccessReportOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetOutboundWebIdentityFederationInfoOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17098,6 +17315,19 @@ extension ServiceAccessNotEnabledException {
     }
 }
 
+extension FeatureDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = FeatureDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidAuthenticationCodeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthenticationCodeException {
@@ -17117,6 +17347,19 @@ extension CallerIsNotManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = CallerIsNotManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FeatureEnabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureEnabledException {
+        let reader = baseError.errorBodyReader
+        var value = FeatureEnabledException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

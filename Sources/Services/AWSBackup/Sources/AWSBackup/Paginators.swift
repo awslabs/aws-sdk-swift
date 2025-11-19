@@ -787,6 +787,82 @@ extension PaginatorSequence where OperationStackInput == ListRestoreTestingSelec
     }
 }
 extension BackupClient {
+    /// Paginate over `[ListScanJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListScanJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScanJobsOutput`
+    public func listScanJobsPaginated(input: ListScanJobsInput) -> ClientRuntime.PaginatorSequence<ListScanJobsInput, ListScanJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListScanJobsInput, ListScanJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScanJobs(input:))
+    }
+}
+
+extension ListScanJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListScanJobsInput {
+        return ListScanJobsInput(
+            byAccountId: self.byAccountId,
+            byBackupVaultName: self.byBackupVaultName,
+            byCompleteAfter: self.byCompleteAfter,
+            byCompleteBefore: self.byCompleteBefore,
+            byMalwareScanner: self.byMalwareScanner,
+            byRecoveryPointArn: self.byRecoveryPointArn,
+            byResourceArn: self.byResourceArn,
+            byResourceType: self.byResourceType,
+            byScanResultStatus: self.byScanResultStatus,
+            byState: self.byState,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListScanJobsInput, OperationStackOutput == ListScanJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listScanJobsPaginated`
+    /// to access the nested member `[BackupClientTypes.ScanJob]`
+    /// - Returns: `[BackupClientTypes.ScanJob]`
+    public func scanJobs() async throws -> [BackupClientTypes.ScanJob] {
+        return try await self.asyncCompactMap { item in item.scanJobs }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListScanJobSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListScanJobSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScanJobSummariesOutput`
+    public func listScanJobSummariesPaginated(input: ListScanJobSummariesInput) -> ClientRuntime.PaginatorSequence<ListScanJobSummariesInput, ListScanJobSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListScanJobSummariesInput, ListScanJobSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScanJobSummaries(input:))
+    }
+}
+
+extension ListScanJobSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListScanJobSummariesInput {
+        return ListScanJobSummariesInput(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            malwareScanner: self.malwareScanner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType,
+            scanResultStatus: self.scanResultStatus,
+            state: self.state
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListScanJobSummariesInput, OperationStackOutput == ListScanJobSummariesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listScanJobSummariesPaginated`
+    /// to access the nested member `[BackupClientTypes.ScanJobSummary]`
+    /// - Returns: `[BackupClientTypes.ScanJobSummary]`
+    public func scanJobSummaries() async throws -> [BackupClientTypes.ScanJobSummary] {
+        return try await self.asyncCompactMap { item in item.scanJobSummaries }
+    }
+}
+extension BackupClient {
     /// Paginate over `[ListTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

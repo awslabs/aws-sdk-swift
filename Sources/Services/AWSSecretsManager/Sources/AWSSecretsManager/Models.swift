@@ -580,6 +580,8 @@ public struct CreateSecretInput: Swift.Sendable {
     public var secretString: Swift.String?
     /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the Amazon Web Services General Reference guide.
     public var tags: [SecretsManagerClientTypes.Tag]?
+    /// The exact string that identifies the partner that holds the external secret. For more information, see [Using Secrets Manager managed external secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html).
+    public var type: Swift.String?
 
     public init(
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
@@ -590,7 +592,8 @@ public struct CreateSecretInput: Swift.Sendable {
         name: Swift.String? = nil,
         secretBinary: Foundation.Data? = nil,
         secretString: Swift.String? = nil,
-        tags: [SecretsManagerClientTypes.Tag]? = nil
+        tags: [SecretsManagerClientTypes.Tag]? = nil,
+        type: Swift.String? = nil
     ) {
         self.addReplicaRegions = addReplicaRegions
         self.clientRequestToken = clientRequestToken
@@ -601,12 +604,13 @@ public struct CreateSecretInput: Swift.Sendable {
         self.secretBinary = secretBinary
         self.secretString = secretString
         self.tags = tags
+        self.type = type
     }
 }
 
 extension CreateSecretInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSecretInput(addReplicaRegions: \(Swift.String(describing: addReplicaRegions)), clientRequestToken: \(Swift.String(describing: clientRequestToken)), description: \(Swift.String(describing: description)), forceOverwriteReplicaSecret: \(Swift.String(describing: forceOverwriteReplicaSecret)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
+        "CreateSecretInput(addReplicaRegions: \(Swift.String(describing: addReplicaRegions)), clientRequestToken: \(Swift.String(describing: clientRequestToken)), description: \(Swift.String(describing: description)), forceOverwriteReplicaSecret: \(Swift.String(describing: forceOverwriteReplicaSecret)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
 }
 
 extension SecretsManagerClientTypes {
@@ -781,6 +785,25 @@ public struct DescribeSecretInput: Swift.Sendable {
 
 extension SecretsManagerClientTypes {
 
+    /// The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information, see [Managed external secret partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+    public struct ExternalSecretRotationMetadataItem: Swift.Sendable {
+        /// The key that identifies the item.
+        public var key: Swift.String?
+        /// The value of the specified item.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SecretsManagerClientTypes {
+
     /// A structure that defines the rotation configuration for the secret.
     public struct RotationRulesType: Swift.Sendable {
         /// The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calculates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets, this value is calculated from the rotation schedule after every successful rotation. In RotateSecret, you can set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use ScheduleExpression.
@@ -811,6 +834,10 @@ public struct DescribeSecretOutput: Swift.Sendable {
     public var deletedDate: Foundation.Date?
     /// The description of the secret.
     public var description: Swift.String?
+    /// The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see [Managed external secrets partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+    public var externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]?
+    /// The Amazon Resource Name (ARN) of the role that allows Secrets Manager to rotate a secret held by a third-party partner. For more information, see [Security and permissions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-security.html).
+    public var externalSecretRotationRoleArn: Swift.String?
     /// The key ID or alias ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with the Amazon Web Services managed key aws/secretsmanager, this field is omitted. Secrets created using the console use an KMS key ID.
     public var kmsKeyId: Swift.String?
     /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
@@ -843,6 +870,8 @@ public struct DescribeSecretOutput: Swift.Sendable {
     public var rotationRules: SecretsManagerClientTypes.RotationRulesType?
     /// The list of tags attached to the secret. To add tags to a secret, use [TagResource]. To remove tags, use [UntagResource].
     public var tags: [SecretsManagerClientTypes.Tag]?
+    /// The exact string that identifies the partner that holds the external secret. For more information, see [Using Secrets Manager managed external secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html).
+    public var type: Swift.String?
     /// A list of the versions of the secret that have staging labels attached. Versions that don't have staging labels are considered deprecated and Secrets Manager can delete them. Secrets Manager uses staging labels to indicate the status of a secret version during rotation. The three staging labels for rotation are:
     ///
     /// * AWSCURRENT, which indicates the current version of the secret.
@@ -860,6 +889,8 @@ public struct DescribeSecretOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         deletedDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]? = nil,
+        externalSecretRotationRoleArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lastAccessedDate: Foundation.Date? = nil,
         lastChangedDate: Foundation.Date? = nil,
@@ -873,12 +904,15 @@ public struct DescribeSecretOutput: Swift.Sendable {
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil,
+        type: Swift.String? = nil,
         versionIdsToStages: [Swift.String: [Swift.String]]? = nil
     ) {
         self.arn = arn
         self.createdDate = createdDate
         self.deletedDate = deletedDate
         self.description = description
+        self.externalSecretRotationMetadata = externalSecretRotationMetadata
+        self.externalSecretRotationRoleArn = externalSecretRotationRoleArn
         self.kmsKeyId = kmsKeyId
         self.lastAccessedDate = lastAccessedDate
         self.lastChangedDate = lastChangedDate
@@ -892,6 +926,7 @@ public struct DescribeSecretOutput: Swift.Sendable {
         self.rotationLambdaARN = rotationLambdaARN
         self.rotationRules = rotationRules
         self.tags = tags
+        self.type = type
         self.versionIdsToStages = versionIdsToStages
     }
 }
@@ -1110,6 +1145,10 @@ extension SecretsManagerClientTypes {
         public var deletedDate: Foundation.Date?
         /// The user-provided description of the secret.
         public var description: Swift.String?
+        /// The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see [Managed external secrets partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+        public var externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]?
+        /// The role that Secrets Manager assumes to call APIs required to perform the rotation. For more information about the required information, see [Managed external secrets partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+        public var externalSecretRotationRoleArn: Swift.String?
         /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with the Amazon Web Services managed key aws/secretsmanager, this field is omitted.
         public var kmsKeyId: Swift.String?
         /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
@@ -1136,12 +1175,16 @@ extension SecretsManagerClientTypes {
         public var secretVersionsToStages: [Swift.String: [Swift.String]]?
         /// The list of user-defined tags associated with the secret. To add tags to a secret, use [TagResource](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_TagResource.html). To remove tags, use [UntagResource](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_UntagResource.html).
         public var tags: [SecretsManagerClientTypes.Tag]?
+        /// The exact string that identifies the third-party partner that holds the external secret. For more information, see [Managed external secret partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+        public var type: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
             deletedDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]? = nil,
+            externalSecretRotationRoleArn: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             lastAccessedDate: Foundation.Date? = nil,
             lastChangedDate: Foundation.Date? = nil,
@@ -1154,12 +1197,15 @@ extension SecretsManagerClientTypes {
             rotationLambdaARN: Swift.String? = nil,
             rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
             secretVersionsToStages: [Swift.String: [Swift.String]]? = nil,
-            tags: [SecretsManagerClientTypes.Tag]? = nil
+            tags: [SecretsManagerClientTypes.Tag]? = nil,
+            type: Swift.String? = nil
         ) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
             self.description = description
+            self.externalSecretRotationMetadata = externalSecretRotationMetadata
+            self.externalSecretRotationRoleArn = externalSecretRotationRoleArn
             self.kmsKeyId = kmsKeyId
             self.lastAccessedDate = lastAccessedDate
             self.lastChangedDate = lastChangedDate
@@ -1173,6 +1219,7 @@ extension SecretsManagerClientTypes {
             self.rotationRules = rotationRules
             self.secretVersionsToStages = secretVersionsToStages
             self.tags = tags
+            self.type = type
         }
     }
 }
@@ -1348,7 +1395,7 @@ public struct PutSecretValueInput: Swift.Sendable {
     ///
     /// This value becomes the VersionId of the new version.
     public var clientRequestToken: Swift.String?
-    /// A unique identifier that indicates the source of the request. For cross-account rotation (when you rotate a secret in one account by using a Lambda rotation function in another account) and the Lambda rotation function assumes an IAM role to call Secrets Manager, Secrets Manager validates the identity with the rotation token. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html). Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
+    /// A unique identifier that indicates the source of the request. Required for secret rotations using an IAM assumed role or cross-account rotation, in which you rotate a secret in one account by using a Lambda rotation function in another account. In both cases, the rotation function assumes an IAM role to call Secrets Manager, and then Secrets Manager validates the identity using the token. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html) and [Rotation by Lambda functions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda). Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var rotationToken: Swift.String?
     /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretBinary: Foundation.Data?
@@ -1503,11 +1550,26 @@ public struct RestoreSecretOutput: Swift.Sendable {
 public struct RotateSecretInput: Swift.Sendable {
     /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
-    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
+    /// The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see [Using Secrets Manager managed external secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html)
+    public var externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]?
+    /// The Amazon Resource Name (ARN) of the role that allows Secrets Manager to rotate a secret held by a third-party partner. For more information, see [Security and permissions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-security.html).
+    public var externalSecretRotationRoleArn: Swift.String?
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. The default for RotateImmediately is true. If you don't specify this value, Secrets Manager rotates the secret immediately. If you set RotateImmediately to false, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. This test creates an AWSPENDING version of the secret and then removes it. When changing an existing rotation schedule and setting RotateImmediately to false:
+    ///
+    /// * If using AutomaticallyAfterDays or a ScheduleExpression with rate(), the previously scheduled rotation might still occur.
+    ///
+    /// * To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows.
+    ///
+    ///
+    /// Rotation is an asynchronous process. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html).
     public var rotateImmediately: Swift.Bool?
     /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation, omit this field. For more information, see [Managed rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_managed.html) in the Secrets Manager User Guide.
     public var rotationLambdaARN: Swift.String?
-    /// A structure that defines the rotation configuration for this secret.
+    /// A structure that defines the rotation configuration for this secret. When changing an existing rotation schedule and setting RotateImmediately to false:
+    ///
+    /// * If using AutomaticallyAfterDays or a ScheduleExpression with rate(), the previously scheduled rotation might still occur.
+    ///
+    /// * To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows.
     public var rotationRules: SecretsManagerClientTypes.RotationRulesType?
     /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
@@ -1515,12 +1577,16 @@ public struct RotateSecretInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]? = nil,
+        externalSecretRotationRoleArn: Swift.String? = nil,
         rotateImmediately: Swift.Bool? = false,
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         secretId: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.externalSecretRotationMetadata = externalSecretRotationMetadata
+        self.externalSecretRotationRoleArn = externalSecretRotationRoleArn
         self.rotateImmediately = rotateImmediately
         self.rotationLambdaARN = rotationLambdaARN
         self.rotationRules = rotationRules
@@ -1548,7 +1614,7 @@ public struct RotateSecretOutput: Swift.Sendable {
 }
 
 public struct StopReplicationToReplicaInput: Swift.Sendable {
-    /// The ARN of the primary secret.
+    /// The name of the secret or the replica ARN. The replica ARN is the same as the original primary secret ARN expect the Region is changed to the replica Region.
     /// This member is required.
     public var secretId: Swift.String?
 
@@ -1618,6 +1684,8 @@ public struct UpdateSecretInput: Swift.Sendable {
     public var secretId: Swift.String?
     /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretBinary or SecretString must have a value, but not both. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretString: Swift.String?
+    /// The exact string that identifies the third-party partner that holds the external secret. For more information, see [Managed external secret partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
+    public var type: Swift.String?
 
     public init(
         clientRequestToken: Swift.String? = nil,
@@ -1625,7 +1693,8 @@ public struct UpdateSecretInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         secretBinary: Foundation.Data? = nil,
         secretId: Swift.String? = nil,
-        secretString: Swift.String? = nil
+        secretString: Swift.String? = nil,
+        type: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
@@ -1633,12 +1702,13 @@ public struct UpdateSecretInput: Swift.Sendable {
         self.secretBinary = secretBinary
         self.secretId = secretId
         self.secretString = secretString
+        self.type = type
     }
 }
 
 extension UpdateSecretInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSecretInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), secretId: \(Swift.String(describing: secretId)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
+        "UpdateSecretInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), secretId: \(Swift.String(describing: secretId)), type: \(Swift.String(describing: type)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSecretOutput: Swift.Sendable {
@@ -1943,6 +2013,7 @@ extension CreateSecretInput {
         try writer["SecretBinary"].write(value.secretBinary)
         try writer["SecretString"].write(value.secretString)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SecretsManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -2083,6 +2154,8 @@ extension RotateSecretInput {
     static func write(value: RotateSecretInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["ExternalSecretRotationMetadata"].writeList(value.externalSecretRotationMetadata, memberWritingClosure: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExternalSecretRotationRoleArn"].write(value.externalSecretRotationRoleArn)
         try writer["RotateImmediately"].write(value.rotateImmediately)
         try writer["RotationLambdaARN"].write(value.rotationLambdaARN)
         try writer["RotationRules"].write(value.rotationRules, with: SecretsManagerClientTypes.RotationRulesType.write(value:to:))
@@ -2126,6 +2199,7 @@ extension UpdateSecretInput {
         try writer["SecretBinary"].write(value.secretBinary)
         try writer["SecretId"].write(value.secretId)
         try writer["SecretString"].write(value.secretString)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -2230,6 +2304,8 @@ extension DescribeSecretOutput {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletedDate = try reader["DeletedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
+        value.externalSecretRotationMetadata = try reader["ExternalSecretRotationMetadata"].readListIfPresent(memberReadingClosure: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.externalSecretRotationRoleArn = try reader["ExternalSecretRotationRoleArn"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.lastAccessedDate = try reader["LastAccessedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastChangedDate = try reader["LastChangedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2243,6 +2319,7 @@ extension DescribeSecretOutput {
         value.rotationLambdaARN = try reader["RotationLambdaARN"].readIfPresent()
         value.rotationRules = try reader["RotationRules"].readIfPresent(with: SecretsManagerClientTypes.RotationRulesType.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SecretsManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
         value.versionIdsToStages = try reader["VersionIdsToStages"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3096,6 +3173,23 @@ extension SecretsManagerClientTypes.RotationRulesType {
     }
 }
 
+extension SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
+
+    static func write(value: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecretsManagerClientTypes.ExternalSecretRotationMetadataItem()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension SecretsManagerClientTypes.Tag {
 
     static func write(value: SecretsManagerClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -3120,11 +3214,14 @@ extension SecretsManagerClientTypes.SecretListEntry {
         var value = SecretsManagerClientTypes.SecretListEntry()
         value.arn = try reader["ARN"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.rotationEnabled = try reader["RotationEnabled"].readIfPresent()
         value.rotationLambdaARN = try reader["RotationLambdaARN"].readIfPresent()
         value.rotationRules = try reader["RotationRules"].readIfPresent(with: SecretsManagerClientTypes.RotationRulesType.read(from:))
+        value.externalSecretRotationMetadata = try reader["ExternalSecretRotationMetadata"].readListIfPresent(memberReadingClosure: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.externalSecretRotationRoleArn = try reader["ExternalSecretRotationRoleArn"].readIfPresent()
         value.lastRotatedDate = try reader["LastRotatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastChangedDate = try reader["LastChangedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastAccessedDate = try reader["LastAccessedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

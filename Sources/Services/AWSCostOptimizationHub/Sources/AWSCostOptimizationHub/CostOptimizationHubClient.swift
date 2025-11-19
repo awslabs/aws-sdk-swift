@@ -514,6 +514,78 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEfficiencyMetrics` operation on the `CostOptimizationHub` service.
+    ///
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEfficiencyMetricsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEfficiencyMetricsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listEfficiencyMetrics(input: ListEfficiencyMetricsInput) async throws -> ListEfficiencyMetricsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEfficiencyMetrics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cost-optimization-hub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(ListEfficiencyMetricsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEfficiencyMetricsOutput>(ListEfficiencyMetricsOutput.httpOutput(from:), ListEfficiencyMetricsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEfficiencyMetricsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEfficiencyMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(xAmzTarget: "CostOptimizationHubService.ListEfficiencyMetrics"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEfficiencyMetricsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEfficiencyMetrics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHub` service.
     ///
     /// Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
@@ -732,7 +804,7 @@ extension CostOptimizationHubClient {
 
     /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHub` service.
     ///
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEnrollmentStatusInput`)
     ///

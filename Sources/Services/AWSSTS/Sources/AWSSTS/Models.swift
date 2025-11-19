@@ -716,7 +716,7 @@ public struct GetCallerIdentityOutput: Swift.Sendable {
     }
 }
 
-///
+/// The trade-in token provided in the request has expired and can no longer be exchanged for credentials. Request a new token and retry the operation.
 public struct ExpiredTradeInTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -740,7 +740,7 @@ public struct ExpiredTradeInTokenException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct GetDelegatedAccessTokenInput: Swift.Sendable {
-    ///
+    /// The token to exchange for temporary Amazon Web Services credentials. This token must be valid and unexpired at the time of the request.
     /// This member is required.
     public var tradeInToken: Swift.String?
 
@@ -757,11 +757,11 @@ extension GetDelegatedAccessTokenInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetDelegatedAccessTokenOutput: Swift.Sendable {
-    ///
+    /// The Amazon Resource Name (ARN) of the principal that was assumed when obtaining the delegated access token. This ARN identifies the IAM entity whose permissions are granted by the temporary credentials.
     public var assumedPrincipal: Swift.String?
     /// Amazon Web Services credentials for API authentication.
     public var credentials: STSClientTypes.Credentials?
-    ///
+    /// The percentage of the maximum policy size that is used by the session policy. The policy size is calculated as the sum of all the session policies and permission boundaries attached to the session. If the packed size exceeds 100%, the request fails.
     public var packedPolicySize: Swift.Int?
 
     public init(
@@ -875,6 +875,120 @@ public struct GetSessionTokenOutput: Swift.Sendable {
     }
 }
 
+/// The requested token payload size exceeds the maximum allowed size. Reduce the number of request tags included in the GetWebIdentityToken API call to reduce the token payload size.
+public struct JWTPayloadSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "JWTPayloadSizeExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The outbound web identity federation feature is not enabled for this account. To use this feature, you must first enable it through the Amazon Web Services Management Console or API.
+public struct OutboundWebIdentityFederationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OutboundWebIdentityFederationDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested token duration would extend the session beyond its original expiration time. You cannot use this operation to extend the lifetime of a session beyond what was granted when the session was originally created.
+public struct SessionDurationEscalationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SessionDurationEscalationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetWebIdentityTokenInput: Swift.Sendable {
+    /// The intended recipient of the web identity token. This value populates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external service should verify this claim to ensure the token was intended for their use.
+    /// This member is required.
+    public var audience: [Swift.String]?
+    /// The duration, in seconds, for which the JSON Web Token (JWT) will remain valid. The value can range from 60 seconds (1 minute) to 3600 seconds (1 hour). If not specified, the default duration is 300 seconds (5 minutes). The token is designed to be short-lived and should be used for proof of identity, then exchanged for credentials or short-lived tokens in the external service.
+    public var durationSeconds: Swift.Int?
+    /// The cryptographic algorithm to use for signing the JSON Web Token (JWT). Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with SHA-384).
+    /// This member is required.
+    public var signingAlgorithm: Swift.String?
+    /// An optional list of tags to include in the JSON Web Token (JWT). These tags are added as custom claims to the JWT and can be used by the downstream service for authorization decisions.
+    public var tags: [STSClientTypes.Tag]?
+
+    public init(
+        audience: [Swift.String]? = nil,
+        durationSeconds: Swift.Int? = nil,
+        signingAlgorithm: Swift.String? = nil,
+        tags: [STSClientTypes.Tag]? = nil
+    ) {
+        self.audience = audience
+        self.durationSeconds = durationSeconds
+        self.signingAlgorithm = signingAlgorithm
+        self.tags = tags
+    }
+}
+
+public struct GetWebIdentityTokenOutput: Swift.Sendable {
+    /// The date and time when the web identity token expires, in UTC. The expiration is determined by adding the DurationSeconds value to the time the token was issued. After this time, the token should no longer be considered valid.
+    public var expiration: Foundation.Date?
+    /// A signed JSON Web Token (JWT) that represents the caller's Amazon Web Services identity. The token contains standard JWT claims such as subject, audience, expiration time, and additional identity attributes added by STS as custom claims. You can also add your own custom claims to the token by passing tags as request parameters to the GetWebIdentityToken API. The token is signed using the specified signing algorithm and can be verified using the verification keys available at the issuer's JWKS endpoint.
+    public var webIdentityToken: Swift.String?
+
+    public init(
+        expiration: Foundation.Date? = nil,
+        webIdentityToken: Swift.String? = nil
+    ) {
+        self.expiration = expiration
+        self.webIdentityToken = webIdentityToken
+    }
+}
+
+extension GetWebIdentityTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetWebIdentityTokenOutput(expiration: \(Swift.String(describing: expiration)), webIdentityToken: \"CONTENT_REDACTED\")"}
+}
+
 extension AssumeRoleInput {
 
     static func urlPathProvider(_ value: AssumeRoleInput) -> Swift.String? {
@@ -941,6 +1055,13 @@ extension GetFederationTokenInput {
 extension GetSessionTokenInput {
 
     static func urlPathProvider(_ value: GetSessionTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetWebIdentityTokenInput {
+
+    static func urlPathProvider(_ value: GetWebIdentityTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1071,6 +1192,19 @@ extension GetSessionTokenInput {
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["TokenCode"].write(value.tokenCode)
         try writer["Action"].write("GetSessionToken")
+        try writer["Version"].write("2011-06-15")
+    }
+}
+
+extension GetWebIdentityTokenInput {
+
+    static func write(value: GetWebIdentityTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Audience"].writeList(value.audience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DurationSeconds"].write(value.durationSeconds)
+        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: STSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("GetWebIdentityToken")
         try writer["Version"].write("2011-06-15")
     }
 }
@@ -1219,6 +1353,19 @@ extension GetSessionTokenOutput {
     }
 }
 
+extension GetWebIdentityTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWebIdentityTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetWebIdentityTokenResult"]
+        var value = GetWebIdentityTokenOutput()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.webIdentityToken = try reader["WebIdentityToken"].readIfPresent()
+        return value
+    }
+}
+
 enum AssumeRoleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1339,6 +1486,7 @@ enum GetDelegatedAccessTokenOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTradeInTokenException": return try ExpiredTradeInTokenException.makeError(baseError: baseError)
+            case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1370,6 +1518,22 @@ enum GetSessionTokenOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetWebIdentityTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "JWTPayloadSizeExceededException": return try JWTPayloadSizeExceededException.makeError(baseError: baseError)
+            case "OutboundWebIdentityFederationDisabledException": return try OutboundWebIdentityFederationDisabledException.makeError(baseError: baseError)
+            case "SessionDurationEscalationException": return try SessionDurationEscalationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1484,6 +1648,45 @@ extension ExpiredTradeInTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTradeInTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTradeInTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension JWTPayloadSizeExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> JWTPayloadSizeExceededException {
+        let reader = baseError.errorBodyReader
+        var value = JWTPayloadSizeExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OutboundWebIdentityFederationDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OutboundWebIdentityFederationDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = OutboundWebIdentityFederationDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SessionDurationEscalationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SessionDurationEscalationException {
+        let reader = baseError.errorBodyReader
+        var value = SessionDurationEscalationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

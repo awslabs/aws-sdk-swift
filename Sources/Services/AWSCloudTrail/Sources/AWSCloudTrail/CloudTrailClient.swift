@@ -740,6 +740,7 @@ extension CloudTrailClient {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutput {
         let context = Smithy.ContextBuilder()
@@ -1211,7 +1212,7 @@ extension CloudTrailClient {
 
     /// Performs the `DeleteTrail` operation on the `CloudTrail` service.
     ///
-    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
+    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions. While deleting a CloudTrail trail is an irreversible action, CloudTrail does not delete log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail will stop logging of events in all Amazon Web Services Regions enabled in your Amazon Web Services account. Deleting a single-Region trail will stop logging of events in that Region only. It will not stop logging of events in other Regions even if the trails in those other Regions have identical names to the deleted trail. For information about account closure and deletion of CloudTrail trails, see [https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html).
     ///
     /// - Parameter input: The request that specifies the name of a trail to delete. (Type: `DeleteTrailInput`)
     ///
@@ -2246,7 +2247,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetInsightSelectors` operation on the `CloudTrail` service.
     ///
-    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail or event data store, and if it is, which Insights types are enabled. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException Specify either the EventDataStore parameter to get Insights event selectors for an event data store, or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights logging is enabled and which Insights types are configured with corresponding event categories. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException Specify either the EventDataStore parameter to get Insights event selectors for an event data store, or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetInsightSelectorsInput`)
     ///
@@ -3009,6 +3010,86 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListInsightsData` operation on the `CloudTrail` service.
+    ///
+    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events:
+    ///
+    /// * Event ID
+    ///
+    /// * Event name
+    ///
+    /// * Event source
+    ///
+    ///
+    /// All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListInsightsDataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListInsightsDataOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func listInsightsData(input: ListInsightsDataInput) async throws -> ListInsightsDataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listInsightsData")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListInsightsDataInput, ListInsightsDataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(ListInsightsDataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInsightsDataInput, ListInsightsDataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInsightsDataInput, ListInsightsDataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInsightsDataOutput>(ListInsightsDataOutput.httpOutput(from:), ListInsightsDataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInsightsDataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudTrail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInsightsDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(xAmzTarget: "CloudTrail_20131101.ListInsightsData"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListInsightsDataInput, ListInsightsDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInsightsDataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInsightsDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInsightsDataInput, ListInsightsDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInsightsDataInput, ListInsightsDataOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInsightsData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListInsightsMetricData` operation on the `CloudTrail` service.
     ///
     /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource, EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.
@@ -3020,7 +3101,11 @@ extension CloudTrailClient {
     /// * Data points with a period of 3600 seconds (1 hour) are available for 90 days.
     ///
     ///
-    /// Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents action.
+    /// To use ListInsightsMetricData operation, you must have the following permissions:
+    ///
+    /// * If ListInsightsMetricData is invoked with TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action and cloudtrail:ListInsightsData. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents and cloudtrail:ListInsightsData action on the specific trail.
+    ///
+    /// * If ListInsightsMetricData is invoked without TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action only. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents action.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInsightsMetricDataInput`)
     ///
@@ -3030,6 +3115,17 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
+    ///
+    /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+    ///
+    /// * Start with a letter or number, and end with a letter or number
+    ///
+    /// * Be between 3 and 128 characters
+    ///
+    /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
+    ///
+    /// * Not be in IP address format (for example, 192.168.5.4)
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func listInsightsMetricData(input: ListInsightsMetricDataInput) async throws -> ListInsightsMetricDataOutput {
@@ -3709,7 +3805,14 @@ extension CloudTrailClient {
 
     /// Performs the `PutInsightSelectors` operation on the `CloudTrail` service.
     ///
-    /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights. The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail to check whether the trail logs management events. You can call GetEventDataStore on an event data store to check whether the event data store logs management events. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight, and valid EventCategories are Management and Data. Insights on data events are not supported on event data stores. For event data stores, you can only enable Insights on management events. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights. The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors.
+    ///
+    /// * For Management events Insights: To log CloudTrail Insights on the API call rate, the trail or event data store must log write management events. To log CloudTrail Insights on the API error rate, the trail or event data store must log read or write management events.
+    ///
+    /// * For Data events Insights: To log CloudTrail Insights on the API call rate or API error rate, the trail must log read or write data events. Data events Insights are not supported on event data store.
+    ///
+    ///
+    /// To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail to check whether the trail logs management events. You can call GetEventDataStore on an event data store to check whether the event data store logs management events. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutInsightSelectorsInput`)
     ///
@@ -5012,6 +5115,7 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `CloudTrailAccessNotEnabledException` : This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `EventDataStoreAlreadyExistsException` : An event data store with that name already exists.
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreHasOngoingImportException` : This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
@@ -5038,6 +5142,7 @@ extension CloudTrailClient {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutput {
         let context = Smithy.ContextBuilder()

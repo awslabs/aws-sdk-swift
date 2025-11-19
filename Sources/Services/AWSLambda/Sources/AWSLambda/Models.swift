@@ -494,7 +494,7 @@ public struct AddPermissionInput: Swift.Sendable {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// Restricts the lambda:InvokeFunction action to function URL calls. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// Restricts the lambda:InvokeFunction action to function URL calls. When specified, this option prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
@@ -1329,11 +1329,11 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// The [ provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source. An event poller is a compute unit that provides approximately 5 MBps of throughput.
+    /// The [ provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source.
     public struct ProvisionedPollerConfig: Swift.Sendable {
-        /// The maximum number of event pollers this event source can scale up to.
+        /// The maximum number of event pollers this event source can scale up to. For Amazon SQS events source mappings, default is 200, and minimum value allowed is 2. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 200, and minimum value allowed is 1.
         public var maximumPollers: Swift.Int?
-        /// The minimum number of event pollers this event source can scale down to.
+        /// The minimum number of event pollers this event source can scale down to. For Amazon SQS events source mappings, default is 2, and minimum 2 required. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 1.
         public var minimumPollers: Swift.Int?
 
         public init(
@@ -1608,7 +1608,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -1749,7 +1749,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -1923,7 +1923,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -2071,7 +2071,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -2255,7 +2255,7 @@ extension LambdaClientTypes {
         public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+        /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
         public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
@@ -2423,7 +2423,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
@@ -2524,7 +2524,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -3178,6 +3178,48 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum TenantIsolationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case perTenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TenantIsolationMode] {
+            return [
+                .perTenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .perTenant: return "PER_TENANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specifies the tenant isolation mode configuration for a Lambda function. This allows you to configure specific tenant isolation strategies for your function invocations. Tenant isolation configuration cannot be modified after function creation.
+    public struct TenancyConfig: Swift.Sendable {
+        /// Tenant isolation mode allows for invocation to be sent to a corresponding execution environment dedicated to a specific tenant ID.
+        /// This member is required.
+        public var tenantIsolationMode: LambdaClientTypes.TenantIsolationMode?
+
+        public init(
+            tenantIsolationMode: LambdaClientTypes.TenantIsolationMode? = nil
+        ) {
+            self.tenantIsolationMode = tenantIsolationMode
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     public enum TracingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case passthrough
@@ -3309,6 +3351,8 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var snapStart: LambdaClientTypes.SnapStart?
     /// A list of [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to apply to the function.
     public var tags: [Swift.String: Swift.String]?
+    /// Configuration for multi-tenant applications that use Lambda functions. Defines tenant isolation settings and resource allocations. Required for functions supporting multiple tenants.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
     public var timeout: Swift.Int?
     /// Set Mode to Active to sample and trace a subset of incoming requests with [X-Ray](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html).
@@ -3338,6 +3382,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         runtime: LambdaClientTypes.Runtime? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
@@ -3363,6 +3408,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         self.runtime = runtime
         self.snapStart = snapStart
         self.tags = tags
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.vpcConfig = vpcConfig
@@ -3945,6 +3991,8 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var stateReason: Swift.String?
     /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
     public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time in seconds that Lambda allows a function to run before stopping it.
     public var timeout: Swift.Int?
     /// The function's X-Ray tracing configuration.
@@ -3987,6 +4035,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         state: LambdaClientTypes.State? = nil,
         stateReason: Swift.String? = nil,
         stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
@@ -4024,6 +4073,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         self.state = state
         self.stateReason = stateReason
         self.stateReasonCode = stateReasonCode
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.version = version
@@ -4442,6 +4492,8 @@ extension LambdaClientTypes {
         public var stateReason: Swift.String?
         /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
         public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+        /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+        public var tenancyConfig: LambdaClientTypes.TenancyConfig?
         /// The amount of time in seconds that Lambda allows a function to run before stopping it.
         public var timeout: Swift.Int?
         /// The function's X-Ray tracing configuration.
@@ -4484,6 +4536,7 @@ extension LambdaClientTypes {
             state: LambdaClientTypes.State? = nil,
             stateReason: Swift.String? = nil,
             stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+            tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
             timeout: Swift.Int? = nil,
             tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
             version: Swift.String? = nil,
@@ -4521,6 +4574,7 @@ extension LambdaClientTypes {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
+            self.tenancyConfig = tenancyConfig
             self.timeout = timeout
             self.tracingConfig = tracingConfig
             self.version = version
@@ -4758,6 +4812,8 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var stateReason: Swift.String?
     /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
     public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time in seconds that Lambda allows a function to run before stopping it.
     public var timeout: Swift.Int?
     /// The function's X-Ray tracing configuration.
@@ -4800,6 +4856,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         state: LambdaClientTypes.State? = nil,
         stateReason: Swift.String? = nil,
         stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
@@ -4837,6 +4894,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         self.state = state
         self.stateReason = stateReason
         self.stateReasonCode = stateReasonCode
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.version = version
@@ -5922,6 +5980,8 @@ public struct InvokeInput: Swift.Sendable {
     public var payload: Foundation.Data?
     /// Specify a version or alias to invoke a published version of the function.
     public var qualifier: Swift.String?
+    /// The identifier of the tenant in a multi-tenant Lambda function.
+    public var tenantId: Swift.String?
 
     public init(
         clientContext: Swift.String? = nil,
@@ -5929,7 +5989,8 @@ public struct InvokeInput: Swift.Sendable {
         invocationType: LambdaClientTypes.InvocationType? = nil,
         logType: LambdaClientTypes.LogType? = nil,
         payload: Foundation.Data? = nil,
-        qualifier: Swift.String? = nil
+        qualifier: Swift.String? = nil,
+        tenantId: Swift.String? = nil
     ) {
         self.clientContext = clientContext
         self.functionName = functionName
@@ -5937,12 +5998,13 @@ public struct InvokeInput: Swift.Sendable {
         self.logType = logType
         self.payload = payload
         self.qualifier = qualifier
+        self.tenantId = tenantId
     }
 }
 
 extension InvokeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), tenantId: \(Swift.String(describing: tenantId)), payload: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeOutput: Swift.Sendable {
@@ -6073,6 +6135,8 @@ public struct InvokeWithResponseStreamInput: Swift.Sendable {
     public var payload: Foundation.Data?
     /// The alias name.
     public var qualifier: Swift.String?
+    /// The identifier of the tenant in a multi-tenant Lambda function.
+    public var tenantId: Swift.String?
 
     public init(
         clientContext: Swift.String? = nil,
@@ -6080,7 +6144,8 @@ public struct InvokeWithResponseStreamInput: Swift.Sendable {
         invocationType: LambdaClientTypes.ResponseStreamingInvocationType? = nil,
         logType: LambdaClientTypes.LogType? = nil,
         payload: Foundation.Data? = nil,
-        qualifier: Swift.String? = nil
+        qualifier: Swift.String? = nil,
+        tenantId: Swift.String? = nil
     ) {
         self.clientContext = clientContext
         self.functionName = functionName
@@ -6088,12 +6153,13 @@ public struct InvokeWithResponseStreamInput: Swift.Sendable {
         self.logType = logType
         self.payload = payload
         self.qualifier = qualifier
+        self.tenantId = tenantId
     }
 }
 
 extension InvokeWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeWithResponseStreamInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeWithResponseStreamInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), tenantId: \(Swift.String(describing: tenantId)), payload: \"CONTENT_REDACTED\")"}
 }
 
 extension LambdaClientTypes {
@@ -6954,6 +7020,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var stateReason: Swift.String?
     /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
     public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time in seconds that Lambda allows a function to run before stopping it.
     public var timeout: Swift.Int?
     /// The function's X-Ray tracing configuration.
@@ -6996,6 +7064,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         state: LambdaClientTypes.State? = nil,
         stateReason: Swift.String? = nil,
         stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
@@ -7033,6 +7102,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         self.state = state
         self.stateReason = stateReason
         self.stateReasonCode = stateReasonCode
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.version = version
@@ -7221,6 +7291,8 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var stateReason: Swift.String?
     /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
     public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time in seconds that Lambda allows a function to run before stopping it.
     public var timeout: Swift.Int?
     /// The function's X-Ray tracing configuration.
@@ -7263,6 +7335,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         state: LambdaClientTypes.State? = nil,
         stateReason: Swift.String? = nil,
         stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
@@ -7300,6 +7373,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         self.state = state
         self.stateReason = stateReason
         self.stateReasonCode = stateReasonCode
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.version = version
@@ -7913,6 +7987,8 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var stateReason: Swift.String?
     /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
     public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The function's tenant isolation configuration settings. Determines whether the Lambda function runs on a shared or dedicated infrastructure per unique tenant.
+    public var tenancyConfig: LambdaClientTypes.TenancyConfig?
     /// The amount of time in seconds that Lambda allows a function to run before stopping it.
     public var timeout: Swift.Int?
     /// The function's X-Ray tracing configuration.
@@ -7955,6 +8031,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         state: LambdaClientTypes.State? = nil,
         stateReason: Swift.String? = nil,
         stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
@@ -7992,6 +8069,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         self.state = state
         self.stateReason = stateReason
         self.stateReasonCode = stateReasonCode
+        self.tenancyConfig = tenancyConfig
         self.timeout = timeout
         self.tracingConfig = tracingConfig
         self.version = version
@@ -9312,6 +9390,9 @@ extension InvokeInput {
         if let logType = value.logType {
             items.add(SmithyHTTPAPI.Header(name: "X-Amz-Log-Type", value: Swift.String(logType.rawValue)))
         }
+        if let tenantId = value.tenantId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Tenant-Id", value: Swift.String(tenantId)))
+        }
         return items
     }
 }
@@ -9360,6 +9441,9 @@ extension InvokeWithResponseStreamInput {
         }
         if let logType = value.logType {
             items.add(SmithyHTTPAPI.Header(name: "X-Amz-Log-Type", value: Swift.String(logType.rawValue)))
+        }
+        if let tenantId = value.tenantId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Tenant-Id", value: Swift.String(tenantId)))
         }
         return items
     }
@@ -10115,6 +10199,7 @@ extension CreateFunctionInput {
         try writer["Runtime"].write(value.runtime)
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TenancyConfig"].write(value.tenancyConfig, with: LambdaClientTypes.TenancyConfig.write(value:to:))
         try writer["Timeout"].write(value.timeout)
         try writer["TracingConfig"].write(value.tracingConfig, with: LambdaClientTypes.TracingConfig.write(value:to:))
         try writer["VpcConfig"].write(value.vpcConfig, with: LambdaClientTypes.VpcConfig.write(value:to:))
@@ -10482,6 +10567,7 @@ extension CreateFunctionOutput {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.timeout = try reader["Timeout"].readIfPresent()
         value.tracingConfig = try reader["TracingConfig"].readIfPresent(with: LambdaClientTypes.TracingConfigResponse.read(from:))
         value.version = try reader["Version"].readIfPresent()
@@ -10778,6 +10864,7 @@ extension GetFunctionConfigurationOutput {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.timeout = try reader["Timeout"].readIfPresent()
         value.tracingConfig = try reader["TracingConfig"].readIfPresent(with: LambdaClientTypes.TracingConfigResponse.read(from:))
         value.version = try reader["Version"].readIfPresent()
@@ -11198,6 +11285,7 @@ extension PublishVersionOutput {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.timeout = try reader["Timeout"].readIfPresent()
         value.tracingConfig = try reader["TracingConfig"].readIfPresent(with: LambdaClientTypes.TracingConfigResponse.read(from:))
         value.version = try reader["Version"].readIfPresent()
@@ -11429,6 +11517,7 @@ extension UpdateFunctionCodeOutput {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.timeout = try reader["Timeout"].readIfPresent()
         value.tracingConfig = try reader["TracingConfig"].readIfPresent(with: LambdaClientTypes.TracingConfigResponse.read(from:))
         value.version = try reader["Version"].readIfPresent()
@@ -11476,6 +11565,7 @@ extension UpdateFunctionConfigurationOutput {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.timeout = try reader["Timeout"].readIfPresent()
         value.tracingConfig = try reader["TracingConfig"].readIfPresent(with: LambdaClientTypes.TracingConfigResponse.read(from:))
         value.version = try reader["Version"].readIfPresent()
@@ -13892,6 +13982,21 @@ extension LambdaClientTypes.LoggingConfig {
     }
 }
 
+extension LambdaClientTypes.TenancyConfig {
+
+    static func write(value: LambdaClientTypes.TenancyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TenantIsolationMode"].write(value.tenantIsolationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TenancyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TenancyConfig()
+        value.tenantIsolationMode = try reader["TenantIsolationMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LambdaClientTypes.Cors {
 
     static func write(value: LambdaClientTypes.Cors?, to writer: SmithyJSON.Writer) throws {
@@ -13983,6 +14088,7 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.snapStart = try reader["SnapStart"].readIfPresent(with: LambdaClientTypes.SnapStartResponse.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.LoggingConfig.read(from:))
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         return value
     }
 }
