@@ -5832,6 +5832,193 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
     }
 }
 
+/// Indicates that the parameters in the current request do not match the parameters from a previous request with the same client token within the idempotency window.
+public struct IdempotentParameterMismatchError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotentParameterMismatch" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum RetryStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case retryWithGroupConfiguration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetryStrategy] {
+            return [
+                .none,
+                .retryWithGroupConfiguration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .retryWithGroupConfiguration: return "retry-with-group-configuration"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct LaunchInstancesInput: Swift.Sendable {
+    /// The name of the Auto Scaling group to launch instances into.
+    /// This member is required.
+    public var autoScalingGroupName: Swift.String?
+    /// A list of Availability Zone IDs where instances should be launched. Must match or be included in the group's AZ configuration. You cannot specify both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ groups, optional for single-AZ groups.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The Availability Zones for the instance launch. Must match or be included in the Auto Scaling group's Availability Zone configuration. Either AvailabilityZones or SubnetIds must be specified for groups with multiple Availability Zone configurations.
+    public var availabilityZones: [Swift.String]?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The number of instances to launch. Although this value can exceed 100 for instance weights, the actual instance count is limited to 100 instances per launch.
+    /// This member is required.
+    public var requestedCapacity: Swift.Int?
+    /// Specifies whether to retry asynchronously if the synchronous launch fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with group configuration).
+    public var retryStrategy: AutoScalingClientTypes.RetryStrategy?
+    /// The subnet IDs for the instance launch. Either AvailabilityZones or SubnetIds must be specified. If both are specified, the subnets must reside in the specified Availability Zones.
+    public var subnetIds: [Swift.String]?
+
+    public init(
+        autoScalingGroupName: Swift.String? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
+        availabilityZones: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        requestedCapacity: Swift.Int? = nil,
+        retryStrategy: AutoScalingClientTypes.RetryStrategy? = nil,
+        subnetIds: [Swift.String]? = nil
+    ) {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.availabilityZoneIds = availabilityZoneIds
+        self.availabilityZones = availabilityZones
+        self.clientToken = clientToken
+        self.requestedCapacity = requestedCapacity
+        self.retryStrategy = retryStrategy
+        self.subnetIds = subnetIds
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Contains details about errors encountered during instance launch attempts.
+    public struct LaunchInstancesError: Swift.Sendable {
+        /// The Availability Zone where the instance launch was attempted.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the launch error occurred.
+        public var availabilityZoneId: Swift.String?
+        /// The error code representing the type of error encountered (e.g., InsufficientInstanceCapacity).
+        public var errorCode: Swift.String?
+        /// A descriptive message providing details about the error encountered during the launch attempt.
+        public var errorMessage: Swift.String?
+        /// The instance type that failed to launch.
+        public var instanceType: Swift.String?
+        /// The market type (On-Demand or Spot) that encountered the launch error.
+        public var marketType: Swift.String?
+        /// The subnet ID where the instance launch was attempted.
+        public var subnetId: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            marketType: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Contains details about a collection of instances launched in the Auto Scaling group.
+    public struct InstanceCollection: Swift.Sendable {
+        /// The Availability Zone where the instances were launched.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instances in this collection were launched.
+        public var availabilityZoneId: Swift.String?
+        /// A list of instance IDs for the successfully launched instances.
+        public var instanceIds: [Swift.String]?
+        /// The instance type of the launched instances.
+        public var instanceType: Swift.String?
+        /// The market type for the instances (On-Demand or Spot).
+        public var marketType: Swift.String?
+        /// The ID of the subnet where the instances were launched.
+        public var subnetId: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            instanceIds: [Swift.String]? = nil,
+            instanceType: Swift.String? = nil,
+            marketType: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceIds = instanceIds
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+    }
+}
+
+public struct LaunchInstancesOutput: Swift.Sendable {
+    /// The name of the Auto Scaling group where the instances were launched.
+    public var autoScalingGroupName: Swift.String?
+    /// The idempotency token used for the request, either customer-specified or auto-generated.
+    public var clientToken: Swift.String?
+    /// A list of errors encountered during the launch attempt including details about failed instance launches with their corresponding error codes and messages.
+    public var errors: [AutoScalingClientTypes.LaunchInstancesError]?
+    /// A list of successfully launched instances including details such as instance type, Availability Zone, subnet, lifecycle state, and instance IDs.
+    public var instances: [AutoScalingClientTypes.InstanceCollection]?
+
+    public init(
+        autoScalingGroupName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        errors: [AutoScalingClientTypes.LaunchInstancesError]? = nil,
+        instances: [AutoScalingClientTypes.InstanceCollection]? = nil
+    ) {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.clientToken = clientToken
+        self.errors = errors
+        self.instances = instances
+    }
+}
+
 public struct PutLifecycleHookInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
@@ -6893,6 +7080,13 @@ extension GetPredictiveScalingForecastInput {
     }
 }
 
+extension LaunchInstancesInput {
+
+    static func urlPathProvider(_ value: LaunchInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutLifecycleHookInput {
 
     static func urlPathProvider(_ value: PutLifecycleHookInput) -> Swift.String? {
@@ -7617,6 +7811,22 @@ extension GetPredictiveScalingForecastInput {
         try writer["PolicyName"].write(value.policyName)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["Action"].write("GetPredictiveScalingForecast")
+        try writer["Version"].write("2011-01-01")
+    }
+}
+
+extension LaunchInstancesInput {
+
+    static func write(value: LaunchInstancesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["RequestedCapacity"].write(value.requestedCapacity)
+        try writer["RetryStrategy"].write(value.retryStrategy)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("LaunchInstances")
         try writer["Version"].write("2011-01-01")
     }
 }
@@ -8352,6 +8562,21 @@ extension GetPredictiveScalingForecastOutput {
         value.capacityForecast = try reader["CapacityForecast"].readIfPresent(with: AutoScalingClientTypes.CapacityForecast.read(from:))
         value.loadForecast = try reader["LoadForecast"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LoadForecast.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension LaunchInstancesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> LaunchInstancesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["LaunchInstancesResult"]
+        var value = LaunchInstancesOutput()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchInstancesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.InstanceCollection.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9222,6 +9447,21 @@ enum GetPredictiveScalingForecastOutputError {
     }
 }
 
+enum LaunchInstancesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IdempotentParameterMismatch": return try IdempotentParameterMismatchError.makeError(baseError: baseError)
+            case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutLifecycleHookOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9549,6 +9789,19 @@ extension InvalidNextToken {
         let reader = baseError.errorBodyReader
         var value = InvalidNextToken()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IdempotentParameterMismatchError {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IdempotentParameterMismatchError {
+        let reader = baseError.errorBodyReader
+        var value = IdempotentParameterMismatchError()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11004,6 +11257,37 @@ extension AutoScalingClientTypes.CapacityForecast {
         var value = AutoScalingClientTypes.CapacityForecast()
         value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceCollection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceCollection()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.LaunchInstancesError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchInstancesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.LaunchInstancesError()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }

@@ -11,6 +11,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension KafkaClient {
+    /// Paginate over `[DescribeTopicPartitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTopicPartitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTopicPartitionsOutput`
+    public func describeTopicPartitionsPaginated(input: DescribeTopicPartitionsInput) -> ClientRuntime.PaginatorSequence<DescribeTopicPartitionsInput, DescribeTopicPartitionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTopicPartitionsInput, DescribeTopicPartitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTopicPartitions(input:))
+    }
+}
+
+extension DescribeTopicPartitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeTopicPartitionsInput {
+        return DescribeTopicPartitionsInput(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            topicName: self.topicName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeTopicPartitionsInput, OperationStackOutput == DescribeTopicPartitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTopicPartitionsPaginated`
+    /// to access the nested member `[KafkaClientTypes.TopicPartitionInfo]`
+    /// - Returns: `[KafkaClientTypes.TopicPartitionInfo]`
+    public func partitions() async throws -> [KafkaClientTypes.TopicPartitionInfo] {
+        return try await self.asyncCompactMap { item in item.partitions }
+    }
+}
+extension KafkaClient {
     /// Paginate over `[ListClientVpcConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -348,6 +380,38 @@ extension PaginatorSequence where OperationStackInput == ListScramSecretsInput, 
     /// - Returns: `[Swift.String]`
     public func secretArnList() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.secretArnList }
+    }
+}
+extension KafkaClient {
+    /// Paginate over `[ListTopicsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTopicsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutput`
+    public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopics(input:))
+    }
+}
+
+extension ListTopicsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTopicsInput {
+        return ListTopicsInput(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            topicNameFilter: self.topicNameFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTopicsInput, OperationStackOutput == ListTopicsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTopicsPaginated`
+    /// to access the nested member `[KafkaClientTypes.TopicInfo]`
+    /// - Returns: `[KafkaClientTypes.TopicInfo]`
+    public func topics() async throws -> [KafkaClientTypes.TopicInfo] {
+        return try await self.asyncCompactMap { item in item.topics }
     }
 }
 extension KafkaClient {

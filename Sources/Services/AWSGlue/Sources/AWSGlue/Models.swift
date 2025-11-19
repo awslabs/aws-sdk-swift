@@ -12791,7 +12791,7 @@ extension GlueClientTypes {
     public struct IntegrationConfig: Swift.Sendable {
         /// Enables continuous synchronization for on-demand data extractions from SaaS applications to Amazon Web Services data services like Amazon Redshift and Amazon S3.
         public var continuousSync: Swift.Bool?
-        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
+        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days).
         public var refreshInterval: Swift.String?
         /// A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that can be used to customize the behavior of the ODB source during data integration operations.
         public var sourceProperties: [Swift.String: Swift.String]?
@@ -13063,16 +13063,20 @@ public struct CreateIntegrationResourcePropertyInput: Swift.Sendable {
     public var resourceArn: Swift.String?
     /// The resource properties associated with the integration source.
     public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
     /// The resource properties associated with the integration target.
     public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
 
     public init(
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
     ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
+        self.tags = tags
         self.targetProcessingProperties = targetProcessingProperties
     }
 }
@@ -13081,6 +13085,8 @@ public struct CreateIntegrationResourcePropertyOutput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     /// This member is required.
     public var resourceArn: Swift.String?
+    /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+    public var resourcePropertyArn: Swift.String?
     /// The resource properties associated with the integration source.
     public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
     /// The resource properties associated with the integration target.
@@ -13088,10 +13094,12 @@ public struct CreateIntegrationResourcePropertyOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil,
+        resourcePropertyArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
     ) {
         self.resourceArn = resourceArn
+        self.resourcePropertyArn = resourcePropertyArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
     }
@@ -15948,6 +15956,23 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
         self.tags = tags
         self.targetArn = targetArn
     }
+}
+
+public struct DeleteIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DeleteIntegrationResourcePropertyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteIntegrationTablePropertiesInput: Swift.Sendable {
@@ -20148,6 +20173,8 @@ public struct GetIntegrationResourcePropertyInput: Swift.Sendable {
 public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     public var resourceArn: Swift.String?
+    /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+    public var resourcePropertyArn: Swift.String?
     /// The resource properties associated with the integration source.
     public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
     /// The resource properties associated with the integration target.
@@ -20155,10 +20182,12 @@ public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil,
+        resourcePropertyArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
     ) {
         self.resourceArn = resourceArn
+        self.resourcePropertyArn = resourcePropertyArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
     }
@@ -24813,6 +24842,87 @@ public struct ListEntitiesOutput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    /// A filter for integration resource properties.
+    public struct IntegrationResourcePropertyFilter: Swift.Sendable {
+        /// The name of the filter. Supported filter keys are SourceArn and TargetArn.
+        public var name: Swift.String?
+        /// A list of filter values.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ListIntegrationResourcePropertiesInput: Swift.Sendable {
+    /// A list of filters, supported filter Key is SourceArn and TargetArn.
+    public var filters: [GlueClientTypes.IntegrationResourcePropertyFilter]?
+    /// This is the pagination token for next page, initial value is null.
+    public var marker: Swift.String?
+    /// This is total number of items to be evaluated.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [GlueClientTypes.IntegrationResourcePropertyFilter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure representing an integration resource property.
+    public struct IntegrationResourceProperty: Swift.Sendable {
+        /// The connection ARN of the source, or the database ARN of the target.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+        public var resourcePropertyArn: Swift.String?
+        /// The resource properties associated with the integration source.
+        public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+        /// The resource properties associated with the integration target.
+        public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            resourcePropertyArn: Swift.String? = nil,
+            sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+            targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.resourcePropertyArn = resourcePropertyArn
+            self.sourceProcessingProperties = sourceProcessingProperties
+            self.targetProcessingProperties = targetProcessingProperties
+        }
+    }
+}
+
+public struct ListIntegrationResourcePropertiesOutput: Swift.Sendable {
+    /// A list of integration resource property meeting the filter criteria.
+    public var integrationResourcePropertyList: [GlueClientTypes.IntegrationResourceProperty]?
+    /// This is the pagination token for the next page.
+    public var marker: Swift.String?
+
+    public init(
+        integrationResourcePropertyList: [GlueClientTypes.IntegrationResourceProperty]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.integrationResourcePropertyList = integrationResourcePropertyList
+        self.marker = marker
+    }
+}
+
 public struct ListJobsInput: Swift.Sendable {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -25367,7 +25477,7 @@ public struct ModifyIntegrationInput: Swift.Sendable {
     public var dataFilter: Swift.String?
     /// A description of the integration.
     public var description: Swift.String?
-    /// Properties associated with the integration.
+    /// The configuration settings for the integration. Currently, only the RefreshInterval can be modified.
     public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// The Amazon Resource Name (ARN) for the integration.
     /// This member is required.
@@ -25405,7 +25515,7 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the integration.
     /// This member is required.
     public var integrationArn: Swift.String?
-    /// Properties associated with the integration.
+    /// The updated configuration settings for the integration.
     public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// A unique name for an integration in Glue.
     /// This member is required.
@@ -27845,6 +27955,8 @@ public struct UpdateIntegrationResourcePropertyInput: Swift.Sendable {
 public struct UpdateIntegrationResourcePropertyOutput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     public var resourceArn: Swift.String?
+    /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+    public var resourcePropertyArn: Swift.String?
     /// The resource properties associated with the integration source.
     public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
     /// The resource properties associated with the integration target.
@@ -27852,10 +27964,12 @@ public struct UpdateIntegrationResourcePropertyOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil,
+        resourcePropertyArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
     ) {
         self.resourceArn = resourceArn
+        self.resourcePropertyArn = resourcePropertyArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
     }
@@ -30195,6 +30309,13 @@ extension DeleteIntegrationInput {
     }
 }
 
+extension DeleteIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteIntegrationTablePropertiesInput {
 
     static func urlPathProvider(_ value: DeleteIntegrationTablePropertiesInput) -> Swift.String? {
@@ -30996,6 +31117,13 @@ extension ListDevEndpointsInput {
 extension ListEntitiesInput {
 
     static func urlPathProvider(_ value: ListEntitiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListIntegrationResourcePropertiesInput {
+
+    static func urlPathProvider(_ value: ListIntegrationResourcePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -31913,6 +32041,7 @@ extension CreateIntegrationResourcePropertyInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["SourceProcessingProperties"].write(value.sourceProcessingProperties, with: GlueClientTypes.SourceProcessingProperties.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: GlueClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TargetProcessingProperties"].write(value.targetProcessingProperties, with: GlueClientTypes.TargetProcessingProperties.write(value:to:))
     }
 }
@@ -32262,6 +32391,14 @@ extension DeleteIntegrationInput {
     static func write(value: DeleteIntegrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+    }
+}
+
+extension DeleteIntegrationResourcePropertyInput {
+
+    static func write(value: DeleteIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
@@ -33410,6 +33547,16 @@ extension ListEntitiesInput {
         try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
         try writer["NextToken"].write(value.nextToken)
         try writer["ParentEntityName"].write(value.parentEntityName)
+    }
+}
+
+extension ListIntegrationResourcePropertiesInput {
+
+    static func write(value: ListIntegrationResourcePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.IntegrationResourcePropertyFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
     }
 }
 
@@ -34673,6 +34820,7 @@ extension CreateIntegrationResourcePropertyOutput {
         let reader = responseReader
         var value = CreateIntegrationResourcePropertyOutput()
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
         value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
         value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
         return value
@@ -34980,6 +35128,13 @@ extension DeleteIntegrationOutput {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension DeleteIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationResourcePropertyOutput {
+        return DeleteIntegrationResourcePropertyOutput()
     }
 }
 
@@ -35688,6 +35843,7 @@ extension GetIntegrationResourcePropertyOutput {
         let reader = responseReader
         var value = GetIntegrationResourcePropertyOutput()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
         value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
         value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
         return value
@@ -36504,6 +36660,19 @@ extension ListEntitiesOutput {
     }
 }
 
+extension ListIntegrationResourcePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIntegrationResourcePropertiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIntegrationResourcePropertiesOutput()
+        value.integrationResourcePropertyList = try reader["IntegrationResourcePropertyList"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationResourceProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsOutput {
@@ -37178,6 +37347,7 @@ extension UpdateIntegrationResourcePropertyOutput {
         let reader = responseReader
         var value = UpdateIntegrationResourcePropertyOutput()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
         value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
         value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
         return value
@@ -38544,6 +38714,26 @@ enum DeleteIntegrationOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "InvalidIntegrationStateFault": return try InvalidIntegrationStateFault.makeError(baseError: baseError)
             case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -40548,6 +40738,26 @@ enum ListEntitiesOutputError {
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListIntegrationResourcePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -49132,6 +49342,19 @@ extension GlueClientTypes.Entity {
     }
 }
 
+extension GlueClientTypes.IntegrationResourceProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationResourceProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationResourceProperty()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
 extension GlueClientTypes.RegistryListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryListItem {
@@ -49809,6 +50032,15 @@ extension GlueClientTypes.TimestampFilter {
         guard let value else { return }
         try writer["RecordedAfter"].writeTimestamp(value.recordedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["RecordedBefore"].writeTimestamp(value.recordedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.IntegrationResourcePropertyFilter {
+
+    static func write(value: GlueClientTypes.IntegrationResourcePropertyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

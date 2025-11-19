@@ -1233,7 +1233,7 @@ extension DeviceFarmClient {
 
     /// Performs the `DeleteProject` operation on the `DeviceFarm` service.
     ///
-    /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session. You cannot undo this operation.
     ///
     /// - Parameter input: Represents a request to the delete project operation. (Type: `DeleteProjectInput`)
     ///
@@ -1305,7 +1305,7 @@ extension DeviceFarmClient {
 
     /// Performs the `DeleteRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
-    /// Deletes a completed remote access session and its results.
+    /// Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active. You cannot undo this operation.
     ///
     /// - Parameter input: Represents the request to delete the specified remote access session. (Type: `DeleteRemoteAccessSessionInput`)
     ///
@@ -1377,7 +1377,7 @@ extension DeviceFarmClient {
 
     /// Performs the `DeleteRun` operation on the `DeviceFarm` service.
     ///
-    /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes the run, given the run ARN. You cannot delete a run if it is still active. You cannot undo this operation.
     ///
     /// - Parameter input: Represents a request to the delete run operation. (Type: `DeleteRunInput`)
     ///
@@ -1449,7 +1449,7 @@ extension DeviceFarmClient {
 
     /// Performs the `DeleteTestGridProject` operation on the `DeviceFarm` service.
     ///
-    /// Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
+    /// Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions. You cannot undo this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteTestGridProjectInput`)
     ///

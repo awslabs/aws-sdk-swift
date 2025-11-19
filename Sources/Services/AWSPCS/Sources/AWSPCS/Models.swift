@@ -26,17 +26,6 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-
-public struct TagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UntagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 /// You don't have permission to perform the action. Examples
 ///
 /// * The launch template instance profile doesn't pass iam:PassRole verification.
@@ -1206,6 +1195,51 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    public enum SlurmRestMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlurmRestMode] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
+    public struct SlurmRestRequest: Swift.Sendable {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
@@ -1214,15 +1248,19 @@ extension PCSClientTypes {
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.SlurmRestRequest?
 
         public init(
             accounting: PCSClientTypes.AccountingRequest? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
-            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.SlurmRestRequest? = nil
         ) {
             self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
     }
 }
@@ -1277,12 +1315,14 @@ extension PCSClientTypes {
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case slurmctld
         case slurmdbd
+        case slurmrestd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EndpointType] {
             return [
                 .slurmctld,
-                .slurmdbd
+                .slurmdbd,
+                .slurmrestd
             ]
         }
 
@@ -1295,6 +1335,7 @@ extension PCSClientTypes {
             switch self {
             case .slurmctld: return "SLURMCTLD"
             case .slurmdbd: return "SLURMDBD"
+            case .slurmrestd: return "SLURMRESTD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1432,27 +1473,87 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The JWT key stored in AWS Secrets Manager for Slurm REST API authentication.
+    public struct JwtKey: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the JWT key.
+        /// This member is required.
+        public var secretArn: Swift.String?
+        /// The version of the AWS Secrets Manager secret containing the JWT key.
+        /// This member is required.
+        public var secretVersion: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil,
+            secretVersion: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+            self.secretVersion = secretVersion
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The JWT authentication configuration for Slurm REST API access.
+    public struct JwtAuth: Swift.Sendable {
+        /// The JWT key for Slurm REST API authentication.
+        public var jwtKey: PCSClientTypes.JwtKey?
+
+        public init(
+            jwtKey: PCSClientTypes.JwtKey? = nil
+        ) {
+            self.jwtKey = jwtKey
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
+    public struct SlurmRest: Swift.Sendable {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfiguration: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public var accounting: PCSClientTypes.Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
+        /// The JWT authentication configuration for Slurm REST API access.
+        public var jwtAuth: PCSClientTypes.JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.SlurmRest?
 
         public init(
             accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
+            jwtAuth: PCSClientTypes.JwtAuth? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
-            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.SlurmRest? = nil
         ) {
             self.accounting = accounting
             self.authKey = authKey
+            self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
     }
 }
@@ -2162,6 +2263,21 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API.
+    public struct UpdateSlurmRestRequest: Swift.Sendable {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct UpdateClusterSlurmConfigurationRequest: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
@@ -2170,15 +2286,19 @@ extension PCSClientTypes {
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.UpdateSlurmRestRequest?
 
         public init(
             accounting: PCSClientTypes.UpdateAccountingRequest? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
-            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.UpdateSlurmRestRequest? = nil
         ) {
             self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
     }
 }
@@ -2254,6 +2374,11 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -2269,6 +2394,11 @@ public struct UntagResourceInput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CreateClusterInput {
@@ -3336,7 +3466,19 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
         value.scaleDownIdleTimeInSeconds = try reader["scaleDownIdleTimeInSeconds"].readIfPresent()
         value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authKey = try reader["authKey"].readIfPresent(with: PCSClientTypes.SlurmAuthKey.read(from:))
+        value.jwtAuth = try reader["jwtAuth"].readIfPresent(with: PCSClientTypes.JwtAuth.read(from:))
         value.accounting = try reader["accounting"].readIfPresent(with: PCSClientTypes.Accounting.read(from:))
+        value.slurmRest = try reader["slurmRest"].readIfPresent(with: PCSClientTypes.SlurmRest.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.SlurmRest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmRest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmRest()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3348,6 +3490,27 @@ extension PCSClientTypes.Accounting {
         var value = PCSClientTypes.Accounting()
         value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PCSClientTypes.JwtAuth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.JwtAuth()
+        value.jwtKey = try reader["jwtKey"].readIfPresent(with: PCSClientTypes.JwtKey.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.JwtKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.JwtKey()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3613,6 +3776,15 @@ extension PCSClientTypes.ClusterSlurmConfigurationRequest {
         try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.SlurmRestRequest.write(value:to:))
+    }
+}
+
+extension PCSClientTypes.SlurmRestRequest {
+
+    static func write(value: PCSClientTypes.SlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
     }
 }
 
@@ -3657,6 +3829,15 @@ extension PCSClientTypes.UpdateClusterSlurmConfigurationRequest {
         try writer["accounting"].write(value.accounting, with: PCSClientTypes.UpdateAccountingRequest.write(value:to:))
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.UpdateSlurmRestRequest.write(value:to:))
+    }
+}
+
+extension PCSClientTypes.UpdateSlurmRestRequest {
+
+    static func write(value: PCSClientTypes.UpdateSlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
     }
 }
 
