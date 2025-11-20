@@ -1164,6 +1164,40 @@ extension EMRClientTypes {
 
 extension EMRClientTypes {
 
+    /// The Amazon S3 configuration for monitoring log publishing. You can configure your step to send log information to Amazon S3. When it's specified, it takes precedence over the cluster's logging configuration. If you don't specify this configuration entirely, or omit individual fields, EMR falls back to cluster-level logging behavior.
+    public struct S3MonitoringConfiguration: Swift.Sendable {
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public var encryptionKeyArn: Swift.String?
+        /// The Amazon S3 destination URI for log publishing.
+        public var logUri: Swift.String?
+
+        public init(
+            encryptionKeyArn: Swift.String? = nil,
+            logUri: Swift.String? = nil
+        ) {
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logUri = logUri
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// Object that holds configuration properties for logging.
+    public struct StepMonitoringConfiguration: Swift.Sendable {
+        /// The Amazon S3 configuration for monitoring log publishing. You can configure your step to send log information to Amazon S3. When it's specified, it takes precedence over the cluster's logging configuration. If you don't specify this configuration entirely, or omit individual fields, EMR falls back to cluster-level logging behavior.
+        public var s3MonitoringConfiguration: EMRClientTypes.S3MonitoringConfiguration?
+
+        public init(
+            s3MonitoringConfiguration: EMRClientTypes.S3MonitoringConfiguration? = nil
+        ) {
+            self.s3MonitoringConfiguration = s3MonitoringConfiguration
+        }
+    }
+}
+
+extension EMRClientTypes {
+
     /// Specification for a cluster (job flow) step.
     public struct StepConfig: Swift.Sendable {
         /// The action to take when the step fails. Use one of the following values:
@@ -1185,15 +1219,19 @@ extension EMRClientTypes {
         /// The name of the step.
         /// This member is required.
         public var name: Swift.String?
+        /// Object that holds configuration properties for logging.
+        public var stepMonitoringConfiguration: EMRClientTypes.StepMonitoringConfiguration?
 
         public init(
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
             hadoopJarStep: EMRClientTypes.HadoopJarStepConfig? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            stepMonitoringConfiguration: EMRClientTypes.StepMonitoringConfiguration? = nil
         ) {
             self.actionOnFailure = actionOnFailure
             self.hadoopJarStep = hadoopJarStep
             self.name = name
+            self.stepMonitoringConfiguration = stepMonitoringConfiguration
         }
     }
 }
@@ -3918,10 +3956,14 @@ extension EMRClientTypes {
         public var actionOnFailure: EMRClientTypes.ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public var config: EMRClientTypes.HadoopStepConfig?
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public var encryptionKeyArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the runtime role for a step on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource. For example, arn:aws:IAM::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
         public var executionRoleArn: Swift.String?
         /// The identifier of the cluster step.
         public var id: Swift.String?
+        /// The Amazon S3 destination URI for log publishing.
+        public var logUri: Swift.String?
         /// The name of the cluster step.
         public var name: Swift.String?
         /// The current execution status details of the cluster step.
@@ -3930,15 +3972,19 @@ extension EMRClientTypes {
         public init(
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
             config: EMRClientTypes.HadoopStepConfig? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
             id: Swift.String? = nil,
+            logUri: Swift.String? = nil,
             name: Swift.String? = nil,
             status: EMRClientTypes.StepStatus? = nil
         ) {
             self.actionOnFailure = actionOnFailure
             self.config = config
+            self.encryptionKeyArn = encryptionKeyArn
             self.executionRoleArn = executionRoleArn
             self.id = id
+            self.logUri = logUri
             self.name = name
             self.status = status
         }
@@ -5403,8 +5449,12 @@ extension EMRClientTypes {
         public var actionOnFailure: EMRClientTypes.ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public var config: EMRClientTypes.HadoopStepConfig?
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public var encryptionKeyArn: Swift.String?
         /// The identifier of the cluster step.
         public var id: Swift.String?
+        /// The Amazon S3 destination URI for log publishing.
+        public var logUri: Swift.String?
         /// The name of the cluster step.
         public var name: Swift.String?
         /// The current execution status details of the cluster step.
@@ -5413,13 +5463,17 @@ extension EMRClientTypes {
         public init(
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
             config: EMRClientTypes.HadoopStepConfig? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             id: Swift.String? = nil,
+            logUri: Swift.String? = nil,
             name: Swift.String? = nil,
             status: EMRClientTypes.StepStatus? = nil
         ) {
             self.actionOnFailure = actionOnFailure
             self.config = config
+            self.encryptionKeyArn = encryptionKeyArn
             self.id = id
+            self.logUri = logUri
             self.name = name
             self.status = status
         }
@@ -10154,6 +10208,7 @@ extension EMRClientTypes.StepConfig {
         try writer["ActionOnFailure"].write(value.actionOnFailure)
         try writer["HadoopJarStep"].write(value.hadoopJarStep, with: EMRClientTypes.HadoopJarStepConfig.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["StepMonitoringConfiguration"].write(value.stepMonitoringConfiguration, with: EMRClientTypes.StepMonitoringConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.StepConfig {
@@ -10162,6 +10217,39 @@ extension EMRClientTypes.StepConfig {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.actionOnFailure = try reader["ActionOnFailure"].readIfPresent()
         value.hadoopJarStep = try reader["HadoopJarStep"].readIfPresent(with: EMRClientTypes.HadoopJarStepConfig.read(from:))
+        value.stepMonitoringConfiguration = try reader["StepMonitoringConfiguration"].readIfPresent(with: EMRClientTypes.StepMonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRClientTypes.StepMonitoringConfiguration {
+
+    static func write(value: EMRClientTypes.StepMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRClientTypes.S3MonitoringConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.StepMonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.StepMonitoringConfiguration()
+        value.s3MonitoringConfiguration = try reader["S3MonitoringConfiguration"].readIfPresent(with: EMRClientTypes.S3MonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRClientTypes.S3MonitoringConfiguration {
+
+    static func write(value: EMRClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
+        try writer["LogUri"].write(value.logUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.S3MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.S3MonitoringConfiguration()
+        value.logUri = try reader["LogUri"].readIfPresent()
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -10401,6 +10489,8 @@ extension EMRClientTypes.Step {
         value.actionOnFailure = try reader["ActionOnFailure"].readIfPresent()
         value.status = try reader["Status"].readIfPresent(with: EMRClientTypes.StepStatus.read(from:))
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.logUri = try reader["LogUri"].readIfPresent()
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -11279,6 +11369,8 @@ extension EMRClientTypes.StepSummary {
         value.config = try reader["Config"].readIfPresent(with: EMRClientTypes.HadoopStepConfig.read(from:))
         value.actionOnFailure = try reader["ActionOnFailure"].readIfPresent()
         value.status = try reader["Status"].readIfPresent(with: EMRClientTypes.StepStatus.read(from:))
+        value.logUri = try reader["LogUri"].readIfPresent()
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         return value
     }
 }

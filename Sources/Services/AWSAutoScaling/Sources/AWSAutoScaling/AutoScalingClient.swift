@@ -458,6 +458,7 @@ extension AutoScalingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InstanceRefreshInProgressFault` : The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
     public func attachLoadBalancerTargetGroups(input: AttachLoadBalancerTargetGroupsInput) async throws -> AttachLoadBalancerTargetGroupsOutput {
@@ -527,6 +528,7 @@ extension AutoScalingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InstanceRefreshInProgressFault` : The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
     public func attachLoadBalancers(input: AttachLoadBalancersInput) async throws -> AttachLoadBalancersOutput {
@@ -609,6 +611,7 @@ extension AutoScalingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InstanceRefreshInProgressFault` : The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
     public func attachTrafficSources(input: AttachTrafficSourcesInput) async throws -> AttachTrafficSourcesOutput {
@@ -4231,6 +4234,7 @@ extension AutoScalingClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InstanceRefreshInProgressFault` : The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     public func putWarmPool(input: PutWarmPoolInput) async throws -> PutWarmPoolOutput {

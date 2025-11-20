@@ -6057,6 +6057,7 @@ extension DatabaseMigrationClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidCertificateFault` : The certificate was not valid.
+    /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {

@@ -6762,13 +6762,17 @@ extension QuickSightClientTypes {
         public var color: Swift.String?
         /// The border visibility of a free-form layout element.
         public var visibility: QuickSightClientTypes.Visibility?
+        /// The border width of a free-form layout element.
+        public var width: Swift.String?
 
         public init(
             color: Swift.String? = nil,
-            visibility: QuickSightClientTypes.Visibility? = nil
+            visibility: QuickSightClientTypes.Visibility? = nil,
+            width: Swift.String? = nil
         ) {
             self.color = color
             self.visibility = visibility
+            self.width = width
         }
     }
 }
@@ -6877,6 +6881,8 @@ extension QuickSightClientTypes {
     public struct FreeFormLayoutElement: Swift.Sendable {
         /// The background style configuration of a free-form layout element.
         public var backgroundStyle: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle?
+        /// The border radius of a free-form layout element.
+        public var borderRadius: Swift.String?
         /// The border style configuration of a free-form layout element.
         public var borderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle?
         /// A unique identifier for an element within a free-form layout.
@@ -6890,6 +6896,8 @@ extension QuickSightClientTypes {
         public var height: Swift.String?
         /// The loading animation configuration of a free-form layout element.
         public var loadingAnimation: QuickSightClientTypes.LoadingAnimation?
+        /// The padding of a free-form layout element.
+        public var padding: Swift.String?
         /// The rendering rules that determine when an element should be displayed within a free-form layout.
         public var renderingRules: [QuickSightClientTypes.SheetElementRenderingRule]?
         /// The border style configuration of a free-form layout element. This border style is used when the element is selected.
@@ -6908,11 +6916,13 @@ extension QuickSightClientTypes {
 
         public init(
             backgroundStyle: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle? = nil,
+            borderRadius: Swift.String? = nil,
             borderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle? = nil,
             elementId: Swift.String? = nil,
             elementType: QuickSightClientTypes.LayoutElementType? = nil,
             height: Swift.String? = nil,
             loadingAnimation: QuickSightClientTypes.LoadingAnimation? = nil,
+            padding: Swift.String? = nil,
             renderingRules: [QuickSightClientTypes.SheetElementRenderingRule]? = nil,
             selectedBorderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil,
@@ -6921,11 +6931,13 @@ extension QuickSightClientTypes {
             yAxisLocation: Swift.String? = nil
         ) {
             self.backgroundStyle = backgroundStyle
+            self.borderRadius = borderRadius
             self.borderStyle = borderStyle
             self.elementId = elementId
             self.elementType = elementType
             self.height = height
             self.loadingAnimation = loadingAnimation
+            self.padding = padding
             self.renderingRules = renderingRules
             self.selectedBorderStyle = selectedBorderStyle
             self.visibility = visibility
@@ -6958,8 +6970,56 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The background style configuration of a grid layout element.
+    public struct GridLayoutElementBackgroundStyle: Swift.Sendable {
+        /// The background color of a grid layout element.
+        public var color: Swift.String?
+        /// The background visibility of a grid layout element.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            color: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        ) {
+            self.color = color
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The border style configuration of a grid layout element.
+    public struct GridLayoutElementBorderStyle: Swift.Sendable {
+        /// The border color of a grid layout element.
+        public var color: Swift.String?
+        /// The border visibility of a grid layout element.
+        public var visibility: QuickSightClientTypes.Visibility?
+        /// The border width of a grid layout element.
+        public var width: Swift.String?
+
+        public init(
+            color: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil,
+            width: Swift.String? = nil
+        ) {
+            self.color = color
+            self.visibility = visibility
+            self.width = width
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// An element within a grid layout.
     public struct GridLayoutElement: Swift.Sendable {
+        /// The background style configuration of a grid layout element.
+        public var backgroundStyle: QuickSightClientTypes.GridLayoutElementBackgroundStyle?
+        /// The border radius of a grid layout element.
+        public var borderRadius: Swift.String?
+        /// The border style configuration of a grid layout element.
+        public var borderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle?
         /// The column index for the upper left corner of an element.
         public var columnIndex: Swift.Int?
         /// The width of a grid element expressed as a number of grid columns.
@@ -6971,26 +7031,44 @@ extension QuickSightClientTypes {
         /// The type of element.
         /// This member is required.
         public var elementType: QuickSightClientTypes.LayoutElementType?
+        /// The configuration of loading animation in free-form layout.
+        public var loadingAnimation: QuickSightClientTypes.LoadingAnimation?
+        /// The padding of a grid layout element.
+        public var padding: Swift.String?
         /// The row index for the upper left corner of an element.
         public var rowIndex: Swift.Int?
         /// The height of a grid element expressed as a number of grid rows.
         /// This member is required.
         public var rowSpan: Swift.Int?
+        /// The border style configuration of a grid layout element. This border style is used when the element is selected.
+        public var selectedBorderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle?
 
         public init(
+            backgroundStyle: QuickSightClientTypes.GridLayoutElementBackgroundStyle? = nil,
+            borderRadius: Swift.String? = nil,
+            borderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle? = nil,
             columnIndex: Swift.Int? = nil,
             columnSpan: Swift.Int? = nil,
             elementId: Swift.String? = nil,
             elementType: QuickSightClientTypes.LayoutElementType? = nil,
+            loadingAnimation: QuickSightClientTypes.LoadingAnimation? = nil,
+            padding: Swift.String? = nil,
             rowIndex: Swift.Int? = nil,
-            rowSpan: Swift.Int? = nil
+            rowSpan: Swift.Int? = nil,
+            selectedBorderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle? = nil
         ) {
+            self.backgroundStyle = backgroundStyle
+            self.borderRadius = borderRadius
+            self.borderStyle = borderStyle
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
             self.elementId = elementId
             self.elementType = elementType
+            self.loadingAnimation = loadingAnimation
+            self.padding = padding
             self.rowIndex = rowIndex
             self.rowSpan = rowSpan
+            self.selectedBorderStyle = selectedBorderStyle
         }
     }
 }
@@ -25458,13 +25536,21 @@ extension QuickSightClientTypes {
 
     /// The display options for tile borders for visuals.
     public struct BorderStyle: Swift.Sendable {
+        /// The option to add color for tile borders for visuals.
+        public var color: Swift.String?
         /// The option to enable display of borders for visuals.
         public var show: Swift.Bool?
+        /// The option to set the width of tile borders for visuals.
+        public var width: Swift.String?
 
         public init(
-            show: Swift.Bool? = false
+            color: Swift.String? = nil,
+            show: Swift.Bool? = false,
+            width: Swift.String? = nil
         ) {
+            self.color = color
             self.show = show
+            self.width = width
         }
     }
 }
@@ -32115,15 +32201,46 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Display options related to tiles on a sheet.
-    public struct TileStyle: Swift.Sendable {
-        /// The border around a tile.
-        public var border: QuickSightClientTypes.BorderStyle?
+    /// The background configuration for sheets.
+    public struct SheetBackgroundStyle: Swift.Sendable {
+        /// The solid color background option for sheets.
+        public var color: Swift.String?
+        /// The gradient background option for sheets.
+        public var gradient: Swift.String?
 
         public init(
-            border: QuickSightClientTypes.BorderStyle? = nil
+            color: Swift.String? = nil,
+            gradient: Swift.String? = nil
         ) {
+            self.color = color
+            self.gradient = gradient
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Display options related to tiles on a sheet.
+    public struct TileStyle: Swift.Sendable {
+        /// The background color of a tile.
+        public var backgroundColor: Swift.String?
+        /// The border around a tile.
+        public var border: QuickSightClientTypes.BorderStyle?
+        /// The border radius of a tile.
+        public var borderRadius: Swift.String?
+        /// The padding of a tile.
+        public var padding: Swift.String?
+
+        public init(
+            backgroundColor: Swift.String? = nil,
+            border: QuickSightClientTypes.BorderStyle? = nil,
+            borderRadius: Swift.String? = nil,
+            padding: Swift.String? = nil
+        ) {
+            self.backgroundColor = backgroundColor
             self.border = border
+            self.borderRadius = borderRadius
+            self.padding = padding
         }
     }
 }
@@ -32181,15 +32298,19 @@ extension QuickSightClientTypes {
 
     /// The theme display options for sheets.
     public struct SheetStyle: Swift.Sendable {
+        /// The background for sheets.
+        public var background: QuickSightClientTypes.SheetBackgroundStyle?
         /// The display options for tiles.
         public var tile: QuickSightClientTypes.TileStyle?
         /// The layout options for tiles.
         public var tileLayout: QuickSightClientTypes.TileLayoutStyle?
 
         public init(
+            background: QuickSightClientTypes.SheetBackgroundStyle? = nil,
             tile: QuickSightClientTypes.TileStyle? = nil,
             tileLayout: QuickSightClientTypes.TileLayoutStyle? = nil
         ) {
+            self.background = background
             self.tile = tile
             self.tileLayout = tileLayout
         }
@@ -32213,15 +32334,115 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Determines the typography options.
-    public struct Typography: Swift.Sendable {
-        /// Determines the list of font families.
-        public var fontFamilies: [QuickSightClientTypes.Font]?
+    public enum TextTransform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capitalize
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TextTransform] {
+            return [
+                .capitalize
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capitalize: return "CAPITALIZE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configures the display properties of the visual sub-title.
+    public struct VisualSubtitleFontConfiguration: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of visual sub-title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+        /// Determines the text transformation of visual sub-title.
+        public var textTransform: QuickSightClientTypes.TextTransform?
 
         public init(
-            fontFamilies: [QuickSightClientTypes.Font]? = nil
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil,
+            textTransform: QuickSightClientTypes.TextTransform? = nil
         ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+            self.textTransform = textTransform
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configures the display properties of the visual title.
+    public struct VisualTitleFontConfiguration: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of visual title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+        /// Determines the text transformation of visual title.
+        public var textTransform: QuickSightClientTypes.TextTransform?
+
+        public init(
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil,
+            textTransform: QuickSightClientTypes.TextTransform? = nil
+        ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+            self.textTransform = textTransform
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Determines the typography options.
+    public struct Typography: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the list of font families.
+        public var fontFamilies: [QuickSightClientTypes.Font]?
+        /// Configures the display properties of the given text.
+        public var legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var legendValueFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the visual sub-title.
+        public var visualSubtitleFontConfiguration: QuickSightClientTypes.VisualSubtitleFontConfiguration?
+        /// Configures the display properties of the visual title.
+        public var visualTitleFontConfiguration: QuickSightClientTypes.VisualTitleFontConfiguration?
+
+        public init(
+            axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            fontFamilies: [QuickSightClientTypes.Font]? = nil,
+            legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            legendValueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            visualSubtitleFontConfiguration: QuickSightClientTypes.VisualSubtitleFontConfiguration? = nil,
+            visualTitleFontConfiguration: QuickSightClientTypes.VisualTitleFontConfiguration? = nil
+        ) {
+            self.axisLabelFontConfiguration = axisLabelFontConfiguration
+            self.axisTitleFontConfiguration = axisTitleFontConfiguration
+            self.dataLabelFontConfiguration = dataLabelFontConfiguration
             self.fontFamilies = fontFamilies
+            self.legendTitleFontConfiguration = legendTitleFontConfiguration
+            self.legendValueFontConfiguration = legendValueFontConfiguration
+            self.visualSubtitleFontConfiguration = visualSubtitleFontConfiguration
+            self.visualTitleFontConfiguration = visualTitleFontConfiguration
         }
     }
 }
@@ -63650,12 +63871,18 @@ extension QuickSightClientTypes.GridLayoutElement {
 
     static func write(value: QuickSightClientTypes.GridLayoutElement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BackgroundStyle"].write(value.backgroundStyle, with: QuickSightClientTypes.GridLayoutElementBackgroundStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
+        try writer["BorderStyle"].write(value.borderStyle, with: QuickSightClientTypes.GridLayoutElementBorderStyle.write(value:to:))
         try writer["ColumnIndex"].write(value.columnIndex)
         try writer["ColumnSpan"].write(value.columnSpan)
         try writer["ElementId"].write(value.elementId)
         try writer["ElementType"].write(value.elementType)
+        try writer["LoadingAnimation"].write(value.loadingAnimation, with: QuickSightClientTypes.LoadingAnimation.write(value:to:))
+        try writer["Padding"].write(value.padding)
         try writer["RowIndex"].write(value.rowIndex)
         try writer["RowSpan"].write(value.rowSpan)
+        try writer["SelectedBorderStyle"].write(value.selectedBorderStyle, with: QuickSightClientTypes.GridLayoutElementBorderStyle.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElement {
@@ -63667,6 +63894,63 @@ extension QuickSightClientTypes.GridLayoutElement {
         value.columnSpan = try reader["ColumnSpan"].readIfPresent() ?? 0
         value.rowIndex = try reader["RowIndex"].readIfPresent()
         value.rowSpan = try reader["RowSpan"].readIfPresent() ?? 0
+        value.borderStyle = try reader["BorderStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBorderStyle.read(from:))
+        value.selectedBorderStyle = try reader["SelectedBorderStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBorderStyle.read(from:))
+        value.backgroundStyle = try reader["BackgroundStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBackgroundStyle.read(from:))
+        value.loadingAnimation = try reader["LoadingAnimation"].readIfPresent(with: QuickSightClientTypes.LoadingAnimation.read(from:))
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LoadingAnimation {
+
+    static func write(value: QuickSightClientTypes.LoadingAnimation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LoadingAnimation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LoadingAnimation()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GridLayoutElementBackgroundStyle {
+
+    static func write(value: QuickSightClientTypes.GridLayoutElementBackgroundStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElementBackgroundStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GridLayoutElementBackgroundStyle()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GridLayoutElementBorderStyle {
+
+    static func write(value: QuickSightClientTypes.GridLayoutElementBorderStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Visibility"].write(value.visibility)
+        try writer["Width"].write(value.width)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElementBorderStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GridLayoutElementBorderStyle()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }
@@ -63797,11 +64081,13 @@ extension QuickSightClientTypes.FreeFormLayoutElement {
     static func write(value: QuickSightClientTypes.FreeFormLayoutElement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackgroundStyle"].write(value.backgroundStyle, with: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
         try writer["BorderStyle"].write(value.borderStyle, with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.write(value:to:))
         try writer["ElementId"].write(value.elementId)
         try writer["ElementType"].write(value.elementType)
         try writer["Height"].write(value.height)
         try writer["LoadingAnimation"].write(value.loadingAnimation, with: QuickSightClientTypes.LoadingAnimation.write(value:to:))
+        try writer["Padding"].write(value.padding)
         try writer["RenderingRules"].writeList(value.renderingRules, memberWritingClosure: QuickSightClientTypes.SheetElementRenderingRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SelectedBorderStyle"].write(value.selectedBorderStyle, with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.write(value:to:))
         try writer["Visibility"].write(value.visibility)
@@ -63825,21 +64111,8 @@ extension QuickSightClientTypes.FreeFormLayoutElement {
         value.selectedBorderStyle = try reader["SelectedBorderStyle"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.read(from:))
         value.backgroundStyle = try reader["BackgroundStyle"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle.read(from:))
         value.loadingAnimation = try reader["LoadingAnimation"].readIfPresent(with: QuickSightClientTypes.LoadingAnimation.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LoadingAnimation {
-
-    static func write(value: QuickSightClientTypes.LoadingAnimation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Visibility"].write(value.visibility)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LoadingAnimation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LoadingAnimation()
-        value.visibility = try reader["Visibility"].readIfPresent()
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
         return value
     }
 }
@@ -63867,6 +64140,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
         guard let value else { return }
         try writer["Color"].write(value.color)
         try writer["Visibility"].write(value.visibility)
+        try writer["Width"].write(value.width)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
@@ -63874,6 +64148,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
         var value = QuickSightClientTypes.FreeFormLayoutElementBorderStyle()
         value.visibility = try reader["Visibility"].readIfPresent()
         value.color = try reader["Color"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }
@@ -76595,13 +76870,65 @@ extension QuickSightClientTypes.Typography {
 
     static func write(value: QuickSightClientTypes.Typography?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AxisLabelFontConfiguration"].write(value.axisLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["AxisTitleFontConfiguration"].write(value.axisTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["DataLabelFontConfiguration"].write(value.dataLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["FontFamilies"].writeList(value.fontFamilies, memberWritingClosure: QuickSightClientTypes.Font.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LegendTitleFontConfiguration"].write(value.legendTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["LegendValueFontConfiguration"].write(value.legendValueFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["VisualSubtitleFontConfiguration"].write(value.visualSubtitleFontConfiguration, with: QuickSightClientTypes.VisualSubtitleFontConfiguration.write(value:to:))
+        try writer["VisualTitleFontConfiguration"].write(value.visualTitleFontConfiguration, with: QuickSightClientTypes.VisualTitleFontConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Typography {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Typography()
         value.fontFamilies = try reader["FontFamilies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Font.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.axisTitleFontConfiguration = try reader["AxisTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.axisLabelFontConfiguration = try reader["AxisLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.legendTitleFontConfiguration = try reader["LegendTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.legendValueFontConfiguration = try reader["LegendValueFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.dataLabelFontConfiguration = try reader["DataLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.visualTitleFontConfiguration = try reader["VisualTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualTitleFontConfiguration.read(from:))
+        value.visualSubtitleFontConfiguration = try reader["VisualSubtitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleFontConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualSubtitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualSubtitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+        try writer["TextTransform"].write(value.textTransform)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualSubtitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualSubtitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        value.textTransform = try reader["TextTransform"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualTitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualTitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+        try writer["TextTransform"].write(value.textTransform)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualTitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualTitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        value.textTransform = try reader["TextTransform"].readIfPresent()
         return value
     }
 }
@@ -76625,6 +76952,7 @@ extension QuickSightClientTypes.SheetStyle {
 
     static func write(value: QuickSightClientTypes.SheetStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Background"].write(value.background, with: QuickSightClientTypes.SheetBackgroundStyle.write(value:to:))
         try writer["Tile"].write(value.tile, with: QuickSightClientTypes.TileStyle.write(value:to:))
         try writer["TileLayout"].write(value.tileLayout, with: QuickSightClientTypes.TileLayoutStyle.write(value:to:))
     }
@@ -76634,6 +76962,24 @@ extension QuickSightClientTypes.SheetStyle {
         var value = QuickSightClientTypes.SheetStyle()
         value.tile = try reader["Tile"].readIfPresent(with: QuickSightClientTypes.TileStyle.read(from:))
         value.tileLayout = try reader["TileLayout"].readIfPresent(with: QuickSightClientTypes.TileLayoutStyle.read(from:))
+        value.background = try reader["Background"].readIfPresent(with: QuickSightClientTypes.SheetBackgroundStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetBackgroundStyle {
+
+    static func write(value: QuickSightClientTypes.SheetBackgroundStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Gradient"].write(value.gradient)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetBackgroundStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetBackgroundStyle()
+        value.color = try reader["Color"].readIfPresent()
+        value.gradient = try reader["Gradient"].readIfPresent()
         return value
     }
 }
@@ -76689,13 +77035,19 @@ extension QuickSightClientTypes.TileStyle {
 
     static func write(value: QuickSightClientTypes.TileStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BackgroundColor"].write(value.backgroundColor)
         try writer["Border"].write(value.border, with: QuickSightClientTypes.BorderStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
+        try writer["Padding"].write(value.padding)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TileStyle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TileStyle()
+        value.backgroundColor = try reader["BackgroundColor"].readIfPresent()
         value.border = try reader["Border"].readIfPresent(with: QuickSightClientTypes.BorderStyle.read(from:))
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
         return value
     }
 }
@@ -76704,13 +77056,17 @@ extension QuickSightClientTypes.BorderStyle {
 
     static func write(value: QuickSightClientTypes.BorderStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Color"].write(value.color)
         try writer["Show"].write(value.show)
+        try writer["Width"].write(value.width)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BorderStyle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BorderStyle()
+        value.color = try reader["Color"].readIfPresent()
         value.show = try reader["Show"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }

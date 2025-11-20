@@ -1922,7 +1922,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetEventConfiguration` operation on the `CloudTrail` service.
     ///
-    /// Retrieves the current event configuration settings for the specified event data store, including details about maximum event size and context key selectors configured for the event data store.
+    /// Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEventConfigurationInput`)
     ///
@@ -1938,8 +1938,20 @@ extension CloudTrailClient {
     /// - `InvalidEventDataStoreStatusException` : The event data store is not in a status that supports the operation.
     /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
+    ///
+    /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+    ///
+    /// * Start with a letter or number, and end with a letter or number
+    ///
+    /// * Be between 3 and 128 characters
+    ///
+    /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
+    ///
+    /// * Not be in IP address format (for example, 192.168.5.4)
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func getEventConfiguration(input: GetEventConfigurationInput) async throws -> GetEventConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -3601,7 +3613,7 @@ extension CloudTrailClient {
 
     /// Performs the `PutEventConfiguration` operation on the `CloudTrail` service.
     ///
-    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    /// Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutEventConfigurationInput`)
     ///
@@ -3619,12 +3631,25 @@ extension CloudTrailClient {
     /// - `InsufficientIAMAccessPermissionException` : The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
     /// - `InvalidEventDataStoreCategoryException` : This exception is thrown when event categories of specified event data stores are not valid.
     /// - `InvalidEventDataStoreStatusException` : The event data store is not in a status that supports the operation.
+    /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
     /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
+    ///
+    /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+    ///
+    /// * Start with a letter or number, and end with a letter or number
+    ///
+    /// * Be between 3 and 128 characters
+    ///
+    /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
+    ///
+    /// * Not be in IP address format (for example, 192.168.5.4)
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Organization event data stores](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
+    /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func putEventConfiguration(input: PutEventConfigurationInput) async throws -> PutEventConfigurationOutput {
         let context = Smithy.ContextBuilder()

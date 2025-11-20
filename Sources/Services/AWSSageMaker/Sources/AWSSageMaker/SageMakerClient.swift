@@ -851,6 +851,158 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchRebootClusterNodes` operation on the `SageMaker` service.
+    ///
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart.
+    ///
+    /// * Rebooting a node may cause temporary service interruption for workloads running on that node. Ensure your workloads can handle node restarts or use appropriate scheduling to minimize impact.
+    ///
+    /// * You can reboot up to 25 nodes in a single request.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchRebootClusterNodesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchRebootClusterNodesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func batchRebootClusterNodes(input: BatchRebootClusterNodesInput) async throws -> BatchRebootClusterNodesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchRebootClusterNodes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(BatchRebootClusterNodesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRebootClusterNodesOutput>(BatchRebootClusterNodesOutput.httpOutput(from:), BatchRebootClusterNodesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchRebootClusterNodesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchRebootClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(xAmzTarget: "SageMaker.BatchRebootClusterNodes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchRebootClusterNodesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchRebootClusterNodes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchReplaceClusterNodes` operation on the `SageMaker` service.
+    ///
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot.
+    ///
+    /// * Data Loss Warning: Replacing nodes destroys all instance volumes, including both root and secondary volumes. All data stored on these volumes will be permanently lost and cannot be recovered.
+    ///
+    /// * To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see [Use the backup script provided by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup).
+    ///
+    /// * If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html). For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
+    ///
+    /// * You can replace up to 25 nodes in a single request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchReplaceClusterNodesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchReplaceClusterNodesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func batchReplaceClusterNodes(input: BatchReplaceClusterNodesInput) async throws -> BatchReplaceClusterNodesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchReplaceClusterNodes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(BatchReplaceClusterNodesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchReplaceClusterNodesOutput>(BatchReplaceClusterNodesOutput.httpOutput(from:), BatchReplaceClusterNodesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchReplaceClusterNodesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchReplaceClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(xAmzTarget: "SageMaker.BatchReplaceClusterNodes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchReplaceClusterNodesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchReplaceClusterNodes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAction` operation on the `SageMaker` service.
     ///
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).

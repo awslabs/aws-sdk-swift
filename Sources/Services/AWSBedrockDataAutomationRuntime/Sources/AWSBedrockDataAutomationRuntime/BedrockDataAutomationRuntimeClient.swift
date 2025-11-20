@@ -442,6 +442,79 @@ extension BedrockDataAutomationRuntimeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `InvokeDataAutomation` operation on the `BedrockDataAutomationRuntime` service.
+    ///
+    /// Sync API: Invoke data automation.
+    ///
+    /// - Parameter input: Invoke Data Automation Request (Type: `InvokeDataAutomationInput`)
+    ///
+    /// - Returns: Invoke Data Automation Response (Type: `InvokeDataAutomationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception will be thrown when customer does not have access to API.
+    /// - `InternalServerException` : This exception is for any internal un-expected service errors.
+    /// - `ServiceUnavailableException` : This exception will be thrown when service is temporarily unavailable.
+    /// - `ThrottlingException` : This exception will be thrown when customer reached API TPS limit.
+    /// - `ValidationException` : This exception will be thrown when customer provided invalid parameters.
+    public func invokeDataAutomation(input: InvokeDataAutomationInput) async throws -> InvokeDataAutomationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "invokeDataAutomation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<InvokeDataAutomationInput, InvokeDataAutomationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(InvokeDataAutomationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeDataAutomationOutput>(InvokeDataAutomationOutput.httpOutput(from:), InvokeDataAutomationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InvokeDataAutomationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Data Automation Runtime", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeDataAutomationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(xAmzTarget: "AmazonBedrockKeystoneRuntimeService.InvokeDataAutomation"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InvokeDataAutomationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeDataAutomationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeDataAutomationInput, InvokeDataAutomationOutput>(serviceID: serviceName, version: BedrockDataAutomationRuntimeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockDataAutomationRuntime")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InvokeDataAutomation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `InvokeDataAutomationAsync` operation on the `BedrockDataAutomationRuntime` service.
     ///
     /// Async API: Invoke data automation.

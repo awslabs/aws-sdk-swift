@@ -500,7 +500,7 @@ extension LakeFormationClientTypes {
         public var dataLocation: LakeFormationClientTypes.DataLocationResource?
         /// The database for the resource. Unique to the Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database permissions to a principal.
         public var database: LakeFormationClientTypes.DatabaseResource?
-        /// The LF-tag key and values attached to a resource.
+        /// The LF-Tag key and values attached to a resource.
         public var lfTag: LakeFormationClientTypes.LFTagKeyResource?
         /// LF-Tag expression resource. A logical expression composed of one or more LF-Tag key:value pairs.
         public var lfTagExpression: LakeFormationClientTypes.LFTagExpressionResource?
@@ -1275,6 +1275,72 @@ extension LakeFormationClientTypes {
     }
 }
 
+extension LakeFormationClientTypes {
+
+    /// Authorization status for service integrations. Specify a value of ENABLED or DISABLED.
+    public enum ServiceAuthorization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceAuthorization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// Configuration for enabling trusted identity propagation with Redshift Connect.
+    public struct RedshiftConnect: Swift.Sendable {
+        /// The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED.
+        /// This member is required.
+        public var authorization: LakeFormationClientTypes.ServiceAuthorization?
+
+        public init(
+            authorization: LakeFormationClientTypes.ServiceAuthorization? = nil
+        ) {
+            self.authorization = authorization
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A union structure representing different Redshift integration scopes.
+    public enum RedshiftScopeUnion: Swift.Sendable {
+        /// Configuration for Redshift Connect integration.
+        case redshiftconnect(LakeFormationClientTypes.RedshiftConnect)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A union structure representing different service integration types.
+    public enum ServiceIntegrationUnion: Swift.Sendable {
+        /// Redshift service integration configuration.
+        case redshift([LakeFormationClientTypes.RedshiftScopeUnion])
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
@@ -1282,6 +1348,8 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -1289,11 +1357,13 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         instanceArn: Swift.String? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -1622,6 +1692,8 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
     public var instanceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the RAM share.
     public var resourceShare: Swift.String?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -1631,6 +1703,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         instanceArn: Swift.String? = nil,
         resourceShare: Swift.String? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.applicationArn = applicationArn
@@ -1638,6 +1711,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
         self.resourceShare = resourceShare
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -3176,7 +3250,7 @@ extension LakeFormationClientTypes {
 public struct ListPermissionsInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
-    /// Indicates that related permissions should be included in the results.
+    /// Indicates that related permissions should be included in the results when listing permissions on a table resource. Set the field to TRUE to show the cell filters on a table resource. Default is FALSE. The Principal parameter must not be specified when requesting cell filter information.
     public var includeRelated: Swift.String?
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
@@ -3950,6 +4024,8 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
     public var catalogId: Swift.String?
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation. If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -3957,11 +4033,13 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         applicationStatus: LakeFormationClientTypes.ApplicationStatus? = nil,
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.applicationStatus = applicationStatus
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -4665,6 +4743,7 @@ extension CreateLakeFormationIdentityCenterConfigurationInput {
         try writer["CatalogId"].write(value.catalogId)
         try writer["ExternalFiltering"].write(value.externalFiltering, with: LakeFormationClientTypes.ExternalFilteringConfiguration.write(value:to:))
         try writer["InstanceArn"].write(value.instanceArn)
+        try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ShareRecipients"].writeList(value.shareRecipients, memberWritingClosure: LakeFormationClientTypes.DataLakePrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5137,6 +5216,7 @@ extension UpdateLakeFormationIdentityCenterConfigurationInput {
         try writer["ApplicationStatus"].write(value.applicationStatus)
         try writer["CatalogId"].write(value.catalogId)
         try writer["ExternalFiltering"].write(value.externalFiltering, with: LakeFormationClientTypes.ExternalFilteringConfiguration.write(value:to:))
+        try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ShareRecipients"].writeList(value.shareRecipients, memberWritingClosure: LakeFormationClientTypes.DataLakePrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5368,6 +5448,7 @@ extension DescribeLakeFormationIdentityCenterConfigurationOutput {
         value.externalFiltering = try reader["ExternalFiltering"].readIfPresent(with: LakeFormationClientTypes.ExternalFilteringConfiguration.read(from:))
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.resourceShare = try reader["ResourceShare"].readIfPresent()
+        value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.shareRecipients = try reader["ShareRecipients"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.DataLakePrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7526,6 +7607,69 @@ extension LakeFormationClientTypes.ExternalFilteringConfiguration {
         var value = LakeFormationClientTypes.ExternalFilteringConfiguration()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.ServiceIntegrationUnion {
+
+    static func write(value: LakeFormationClientTypes.ServiceIntegrationUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshift(redshift):
+                try writer["Redshift"].writeList(redshift, memberWritingClosure: LakeFormationClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ServiceIntegrationUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Redshift":
+                return .redshift(try reader["Redshift"].readList(memberReadingClosure: LakeFormationClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.RedshiftScopeUnion {
+
+    static func write(value: LakeFormationClientTypes.RedshiftScopeUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshiftconnect(redshiftconnect):
+                try writer["RedshiftConnect"].write(redshiftconnect, with: LakeFormationClientTypes.RedshiftConnect.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RedshiftConnect":
+                return .redshiftconnect(try reader["RedshiftConnect"].read(with: LakeFormationClientTypes.RedshiftConnect.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.RedshiftConnect {
+
+    static func write(value: LakeFormationClientTypes.RedshiftConnect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftConnect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.RedshiftConnect()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

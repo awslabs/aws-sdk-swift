@@ -979,19 +979,314 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Mode for sensitive data detection
+    public enum SensitiveDataDetectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Only detect sensitive data without redaction
+        case detection
+        /// Detect and redact sensitive data
+        case detectionAndRedaction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SensitiveDataDetectionMode] {
+            return [
+                .detection,
+                .detectionAndRedaction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detection: return "DETECTION"
+            case .detectionAndRedaction: return "DETECTION_AND_REDACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Types of sensitive data detection scope
+    public enum SensitiveDataDetectionScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Custom PII detection
+        case custom
+        /// Standard PII detection
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SensitiveDataDetectionScopeType] {
+            return [
+                .custom,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Types of PII entities that can be detected, we will support every types that Guardrails can support
+    public enum PIIEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A physical address, such as '100 Main Street, Anytown, USA' or 'Suite #12, Building 123'
+        case address
+        /// An individual's age, including the quantity and unit of time
+        case age
+        /// All supported PII entity types
+        case all
+        /// A unique identifier associated with AWS secret access key
+        case awsAccessKey
+        /// A unique identifier associated with AWS access key for signing programmatic requests
+        case awsSecretKey
+        /// A Canadian Health Service Number - 10-digit unique identifier for healthcare benefits
+        case caHealthNumber
+        /// A Canadian Social Insurance Number (SIN) - nine-digit unique identifier
+        case caSocialInsuranceNumber
+        /// A three-digit card verification code (CVV) for VISA, MasterCard, and Discover cards, or four-digit for American Express
+        case creditDebitCardCvv
+        /// The expiration date for a credit or debit card
+        case creditDebitCardExpiry
+        /// The number for a credit or debit card
+        case creditDebitCardNumber
+        /// The number assigned to a driver's license
+        case driverId
+        /// An email address, such as marymajor@email.com
+        case email
+        /// An International Bank Account Number with specific formats for each country
+        case internationalBankAccountNumber
+        /// An IPv4 address, such as 198.51.100.0
+        case ipAddress
+        /// A license plate for a vehicle issued by the state or country where the vehicle is registered
+        case licensePlate
+        /// A media access control (MAC) address - unique identifier for network interface controller
+        case macAddress
+        /// An individual's name. Does not include titles such as Dr., Mr., Mrs., or Miss
+        case name
+        /// An alphanumeric string that is used as a password
+        case password
+        /// A phone number. Also includes fax and pager numbers
+        case phone
+        /// A four-digit personal identification number (PIN)
+        case pin
+        /// A SWIFT code - standard format of Bank Identifier Code (BIC)
+        case swiftCode
+        /// A UK National Health Service Number - 10-17 digit number
+        case ukNationalHealthServiceNumber
+        /// A UK National Insurance Number (NINO) for accessing National Insurance benefits
+        case ukNationalInsuranceNumber
+        /// A UK Unique Taxpayer Reference (UTR) - 10-digit number identifying taxpayer or business
+        case ukUniqueTaxpayerReferenceNumber
+        /// A web address, such as www.example.com
+        case url
+        /// A user name that identifies an account, such as a login name, screen name, nick name, or handle
+        case username
+        /// A US bank account number, typically 10 to 12 digits long
+        case usBankAccountNumber
+        /// A US bank account routing number, typically nine digits long
+        case usBankRoutingNumber
+        /// A US Individual Taxpayer Identification Number (ITIN)
+        case usIndividualTaxIdentificationNumber
+        /// A US passport number, ranging from six to nine alphanumeric characters
+        case usPassportNumber
+        /// A US Social Security Number (SSN) - nine-digit number for US citizens and residents
+        case usSocialSecurityNumber
+        /// A Vehicle Identification Number (VIN) that uniquely identifies a vehicle
+        case vehicleIdentificationNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PIIEntityType] {
+            return [
+                .address,
+                .age,
+                .all,
+                .awsAccessKey,
+                .awsSecretKey,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
+                .creditDebitCardCvv,
+                .creditDebitCardExpiry,
+                .creditDebitCardNumber,
+                .driverId,
+                .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
+                .name,
+                .password,
+                .phone,
+                .pin,
+                .swiftCode,
+                .ukNationalHealthServiceNumber,
+                .ukNationalInsuranceNumber,
+                .ukUniqueTaxpayerReferenceNumber,
+                .url,
+                .username,
+                .usBankAccountNumber,
+                .usBankRoutingNumber,
+                .usIndividualTaxIdentificationNumber,
+                .usPassportNumber,
+                .usSocialSecurityNumber,
+                .vehicleIdentificationNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .address: return "ADDRESS"
+            case .age: return "AGE"
+            case .all: return "ALL"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
+            case .creditDebitCardCvv: return "CREDIT_DEBIT_CARD_CVV"
+            case .creditDebitCardExpiry: return "CREDIT_DEBIT_CARD_EXPIRY"
+            case .creditDebitCardNumber: return "CREDIT_DEBIT_CARD_NUMBER"
+            case .driverId: return "DRIVER_ID"
+            case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
+            case .name: return "NAME"
+            case .password: return "PASSWORD"
+            case .phone: return "PHONE"
+            case .pin: return "PIN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .ukNationalHealthServiceNumber: return "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+            case .ukNationalInsuranceNumber: return "UK_NATIONAL_INSURANCE_NUMBER"
+            case .ukUniqueTaxpayerReferenceNumber: return "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usBankAccountNumber: return "US_BANK_ACCOUNT_NUMBER"
+            case .usBankRoutingNumber: return "US_BANK_ROUTING_NUMBER"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .usPassportNumber: return "US_PASSPORT_NUMBER"
+            case .usSocialSecurityNumber: return "US_SOCIAL_SECURITY_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Mode for redacting detected PII
+    public enum PIIRedactionMaskMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Replace with specific entity type marker, e.g. [NAME]/[SSN] etc.
+        case entityType
+        /// Replace with generic PII marker [PII]
+        case pii
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PIIRedactionMaskMode] {
+            return [
+                .entityType,
+                .pii
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityType: return "ENTITY_TYPE"
+            case .pii: return "PII"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for PII entities detection and redaction
+    public struct PIIEntitiesConfiguration: Swift.Sendable {
+        /// Types of PII entities to detect
+        public var piiEntityTypes: [BedrockDataAutomationClientTypes.PIIEntityType]?
+        /// Mode for redacting detected PII
+        public var redactionMaskMode: BedrockDataAutomationClientTypes.PIIRedactionMaskMode?
+
+        public init(
+            piiEntityTypes: [BedrockDataAutomationClientTypes.PIIEntityType]? = nil,
+            redactionMaskMode: BedrockDataAutomationClientTypes.PIIRedactionMaskMode? = nil
+        ) {
+            self.piiEntityTypes = piiEntityTypes
+            self.redactionMaskMode = redactionMaskMode
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for sensitive data detection and redaction
+    public struct SensitiveDataConfiguration: Swift.Sendable {
+        /// Mode for sensitive data detection
+        /// This member is required.
+        public var detectionMode: BedrockDataAutomationClientTypes.SensitiveDataDetectionMode?
+        /// Scope of detection - what types of sensitive data to detect
+        public var detectionScope: [BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType]?
+        /// Configuration for PII entities detection and redaction
+        public var piiEntitiesConfiguration: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration?
+
+        public init(
+            detectionMode: BedrockDataAutomationClientTypes.SensitiveDataDetectionMode? = nil,
+            detectionScope: [BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType]? = nil,
+            piiEntitiesConfiguration: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration? = nil
+        ) {
+            self.detectionMode = detectionMode
+            self.detectionScope = detectionScope
+            self.piiEntitiesConfiguration = piiEntitiesConfiguration
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// Override Configuration of Audio
     public struct AudioOverrideConfiguration: Swift.Sendable {
         /// Optional configuration for audio language settings
         public var languageConfiguration: BedrockDataAutomationClientTypes.AudioLanguageConfiguration?
         /// Configuration to enable/disable processing of modality
         public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+        /// Configuration for sensitive data detection and redaction
+        public var sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?
 
         public init(
             languageConfiguration: BedrockDataAutomationClientTypes.AudioLanguageConfiguration? = nil,
-            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil,
+            sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration? = nil
         ) {
             self.languageConfiguration = languageConfiguration
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
         }
     }
 }
@@ -1017,14 +1312,18 @@ extension BedrockDataAutomationClientTypes {
     public struct DocumentOverrideConfiguration: Swift.Sendable {
         /// Configuration to enable/disable processing of modality
         public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+        /// Configuration for sensitive data detection and redaction
+        public var sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?
         /// Configuration of Splitter
         public var splitter: BedrockDataAutomationClientTypes.SplitterConfiguration?
 
         public init(
             modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil,
+            sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration? = nil,
             splitter: BedrockDataAutomationClientTypes.SplitterConfiguration? = nil
         ) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
             self.splitter = splitter
         }
     }
@@ -1036,11 +1335,15 @@ extension BedrockDataAutomationClientTypes {
     public struct ImageOverrideConfiguration: Swift.Sendable {
         /// Configuration to enable/disable processing of modality
         public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+        /// Configuration for sensitive data detection and redaction
+        public var sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?
 
         public init(
-            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil,
+            sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration? = nil
         ) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
         }
     }
 }
@@ -1114,11 +1417,15 @@ extension BedrockDataAutomationClientTypes {
     public struct VideoOverrideConfiguration: Swift.Sendable {
         /// Configuration to enable/disable processing of modality
         public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+        /// Configuration for sensitive data detection and redaction
+        public var sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?
 
         public init(
-            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil,
+            sensitiveDataConfiguration: BedrockDataAutomationClientTypes.SensitiveDataConfiguration? = nil
         ) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
         }
     }
 }
@@ -1150,6 +1457,36 @@ extension BedrockDataAutomationClientTypes {
             self.image = image
             self.modalityRouting = modalityRouting
             self.video = video
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Type of the DataAutomationProject
+    public enum DataAutomationProjectType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case async
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataAutomationProjectType] {
+            return [
+                .async,
+                .sync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .async: return "ASYNC"
+            case .sync: return "SYNC"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1943,6 +2280,8 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
     public var projectName: Swift.String?
     /// Stage of the Project
     public var projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage?
+    /// Type of the DataAutomationProject
+    public var projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType?
     /// Standard output configuration
     /// This member is required.
     public var standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration?
@@ -1957,6 +2296,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
+        projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType? = nil,
         standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil,
         tags: [BedrockDataAutomationClientTypes.Tag]? = nil
     ) {
@@ -1967,6 +2307,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.projectStage = projectStage
+        self.projectType = projectType
         self.standardOutputConfiguration = standardOutputConfiguration
         self.tags = tags
     }
@@ -1974,7 +2315,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
 
 extension CreateDataAutomationProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), tags: \(Swift.String(describing: tags)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
+        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), tags: \(Swift.String(describing: tags)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockDataAutomationClientTypes {
@@ -2106,6 +2447,8 @@ extension BedrockDataAutomationClientTypes {
         public var projectName: Swift.String?
         /// Stage of the Project
         public var projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage?
+        /// Type of the DataAutomationProject
+        public var projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType?
         /// Standard output configuration
         public var standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration?
         /// Status of Data Automation Project
@@ -2123,6 +2466,7 @@ extension BedrockDataAutomationClientTypes {
             projectDescription: Swift.String? = nil,
             projectName: Swift.String? = nil,
             projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
+            projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType? = nil,
             standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil,
             status: BedrockDataAutomationClientTypes.DataAutomationProjectStatus? = nil
         ) {
@@ -2136,6 +2480,7 @@ extension BedrockDataAutomationClientTypes {
             self.projectDescription = projectDescription
             self.projectName = projectName
             self.projectStage = projectStage
+            self.projectType = projectType
             self.standardOutputConfiguration = standardOutputConfiguration
             self.status = status
         }
@@ -2144,7 +2489,7 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes.DataAutomationProject: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataAutomationProject(creationTime: \(Swift.String(describing: creationTime)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), status: \(Swift.String(describing: status)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
+        "DataAutomationProject(creationTime: \(Swift.String(describing: creationTime)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), status: \(Swift.String(describing: status)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
 }
 
 /// Get DataAutomationProject Response
@@ -2259,24 +2604,28 @@ extension BedrockDataAutomationClientTypes {
         public var projectName: Swift.String?
         /// Stage of the Project
         public var projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage?
+        /// Type of the DataAutomationProject
+        public var projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType?
 
         public init(
             creationTime: Foundation.Date? = nil,
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil,
-            projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil
+            projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
+            projectType: BedrockDataAutomationClientTypes.DataAutomationProjectType? = nil
         ) {
             self.creationTime = creationTime
             self.projectArn = projectArn
             self.projectName = projectName
             self.projectStage = projectStage
+            self.projectType = projectType
         }
     }
 }
 
 extension BedrockDataAutomationClientTypes.DataAutomationProjectSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataAutomationProjectSummary(creationTime: \(Swift.String(describing: creationTime)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), projectName: \"CONTENT_REDACTED\")"}
+        "DataAutomationProjectSummary(creationTime: \(Swift.String(describing: creationTime)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), projectName: \"CONTENT_REDACTED\")"}
 }
 
 /// List DataAutomationProject Response
@@ -2591,6 +2940,7 @@ extension CreateDataAutomationProjectInput {
         try writer["projectDescription"].write(value.projectDescription)
         try writer["projectName"].write(value.projectName)
         try writer["projectStage"].write(value.projectStage)
+        try writer["projectType"].write(value.projectType)
         try writer["standardOutputConfiguration"].write(value.standardOutputConfiguration, with: BedrockDataAutomationClientTypes.StandardOutputConfiguration.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -3227,6 +3577,7 @@ extension BedrockDataAutomationClientTypes.DataAutomationProject {
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.projectName = try reader["projectName"].readIfPresent() ?? ""
         value.projectStage = try reader["projectStage"].readIfPresent()
+        value.projectType = try reader["projectType"].readIfPresent()
         value.projectDescription = try reader["projectDescription"].readIfPresent()
         value.standardOutputConfiguration = try reader["standardOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.StandardOutputConfiguration.read(from:))
         value.customOutputConfiguration = try reader["customOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.read(from:))
@@ -3288,6 +3639,7 @@ extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
         guard let value else { return }
         try writer["languageConfiguration"].write(value.languageConfiguration, with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.write(value:to:))
         try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
@@ -3295,6 +3647,43 @@ extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
         var value = BedrockDataAutomationClientTypes.AudioOverrideConfiguration()
         value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
         value.languageConfiguration = try reader["languageConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["detectionMode"].write(value.detectionMode)
+        try writer["detectionScope"].writeList(value.detectionScope, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["piiEntitiesConfiguration"].write(value.piiEntitiesConfiguration, with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.SensitiveDataConfiguration()
+        value.detectionMode = try reader["detectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.detectionScope = try reader["detectionScope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.piiEntitiesConfiguration = try reader["piiEntitiesConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["piiEntityTypes"].writeList(value.piiEntityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redactionMaskMode"].write(value.redactionMaskMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.PIIEntitiesConfiguration()
+        value.piiEntityTypes = try reader["piiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.redactionMaskMode = try reader["redactionMaskMode"].readIfPresent()
         return value
     }
 }
@@ -3338,12 +3727,14 @@ extension BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
     static func write(value: BedrockDataAutomationClientTypes.VideoOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.VideoOverrideConfiguration()
         value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
         return value
     }
 }
@@ -3353,12 +3744,14 @@ extension BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
     static func write(value: BedrockDataAutomationClientTypes.ImageOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.ImageOverrideConfiguration()
         value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
         return value
     }
 }
@@ -3368,6 +3761,7 @@ extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
     static func write(value: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
         try writer["splitter"].write(value.splitter, with: BedrockDataAutomationClientTypes.SplitterConfiguration.write(value:to:))
     }
 
@@ -3376,6 +3770,7 @@ extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
         var value = BedrockDataAutomationClientTypes.DocumentOverrideConfiguration()
         value.splitter = try reader["splitter"].readIfPresent(with: BedrockDataAutomationClientTypes.SplitterConfiguration.read(from:))
         value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
         return value
     }
 }
@@ -3896,6 +4291,7 @@ extension BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
         var value = BedrockDataAutomationClientTypes.DataAutomationProjectSummary()
         value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
         value.projectStage = try reader["projectStage"].readIfPresent()
+        value.projectType = try reader["projectType"].readIfPresent()
         value.projectName = try reader["projectName"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
