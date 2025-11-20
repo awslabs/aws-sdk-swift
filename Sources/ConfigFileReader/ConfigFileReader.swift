@@ -64,41 +64,40 @@ public struct ConfigFileReader {
         
         var currentLineNumber: Int = 0
         var currentSection: ConfigFileSection?
-        var isCurrentSectionValid = true
+        var isCurrentSectionValid = false
         var sections: [String: ConfigFileSection] = [:]
         var currentProperty: String?
         var currentSubProperty: String?
-        let profileSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
-        let sessionSection = try! NSRegularExpression(pattern: "\\[\\s*sso-session\\s+(.+?)\\s*\\]", options: .caseInsensitive) // Regex pattern for "sso-session"
-        let servicesSection = try! NSRegularExpression(pattern: "\\[\\s*services\\s+(.+?)\\s*\\]", options: .caseInsensitive) // Regex pattern for "services"
+        let definedSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile", "default", "sso-services", and "services"
         
         for line in arrayData{
             currentLineNumber += 1
-            let blankLine = " "
+            let blankLine = "\t"
             guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && line != blankLine else{
                 continue
             }
             switch line{
-            case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+            case _ where definedSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 isCurrentSectionValid = true
                 // Extract the profile name using another regex or string manipulation
-                if let range = line.range(of: "\\[\\s*(?:default|profile\\s+(.+?))\\s*\\]", options: .regularExpression),
+                if let range = line.range(of: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
                     var sectionName = ""
-                    let profileName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces)) // Remove space and ']'
-                    if let range = profileName.range(of: "profile "){
-                        sectionName = String(profileName[range.upperBound...])
+                    let definedName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces)) // Remove space and ']'
+                    if let newRange = definedName.range(of: "profile|sso-session|services\\s+(.+?)"){
+                        sectionName = String(definedName[newRange.upperBound...])
                     } else{
-                        sectionName = profileName
+                        sectionName = definedName
                     }
                     if sectionName != currentSection?.name {
                         let section = ConfigFileSection(name: sectionName)
                         sections[sectionName] = section
                         currentSection = section
-                        print("Found new profile named: '\(sectionName)' on line number: '\(currentLineNumber)'") // For demonstration
+                        print("Found new section named: '\(sectionName)' on line number: '\(currentLineNumber)'") // For demonstration
+                        print("  The current section contains '\(currentSection!)'")
                         isCurrentSectionValid = true
                     } else {
-                        print("Found dulpicate section matching current profile on line number: '\(currentLineNumber)' current profile will remain unchanged: '\(sectionName)' ")
+                        print("Found dulpicate section matching current section on line number: '\(currentLineNumber)' current section will remain unchanged: '\(sectionName)' ")
                         currentProperty = nil
                         currentSubProperty = nil
                         isCurrentSectionValid = true
@@ -111,9 +110,10 @@ public struct ConfigFileReader {
                         sections[sectionName] = section
                         currentSection = section
                         print("A user profile was not configured, the \(sectionName) will be used")
+                        print("  The current section contains '\(currentSection!)'")
                         isCurrentSectionValid = true
                     } else {
-                        print("Found dulpicate section matching current profile on line number: '\(currentLineNumber)' current profile will remain unchanged: '\(sectionName)' ")
+                        print("Found dulpicate section matching current section on line number: '\(currentLineNumber)' current section will remain unchanged: '\(sectionName)' ")
                         currentProperty = nil
                         currentSubProperty = nil
                         isCurrentSectionValid = true
@@ -123,53 +123,9 @@ public struct ConfigFileReader {
                     print("Found invalid section: '\(line)' on line number: '\(currentLineNumber)'")
                     isCurrentSectionValid = false
                 }
-            case _ where sessionSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                if let range = line.range(of: "\\[\\s*sso-session\\s+(.+?)\\s*\\]", options: .regularExpression),
-                   let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    var sectionName = ""
-                    let sessionName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces))
-                    if let range = sessionName.range(of: "sso-session "){
-                        sectionName = String(sessionName[range.upperBound...])
-                    } else{
-                        sectionName = sessionName
-                    }
-                    if sectionName != currentSection?.name {
-                        let section = ConfigFileSection(name: sectionName)
-                        sections[sectionName] = section
-                        currentSection = section
-                        print("Found new session named: '\(sectionName)' on line number: '\(currentLineNumber)'")
-                    } else {
-                        print("Found dulpicate section matching current session on line number: '\(currentLineNumber)' current session will remain unchanged: '\(sectionName)' ")
-                        currentProperty = nil
-                        currentSubProperty = nil
-                        continue
-                    }
-                }
-            case _ where servicesSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                if let range = line.range(of: "\\[\\s*services\\s+(.+?)\\s*\\]", options: .regularExpression),
-                   let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    var sectionName = ""
-                    let serviceName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces))
-                    if let range = serviceName.range(of: "services "){
-                        sectionName = String(serviceName[range.upperBound...])
-                    } else{
-                        sectionName = serviceName
-                    }
-                    if sectionName != currentSection?.name {
-                        let section = ConfigFileSection(name: sectionName)
-                        sections[sectionName] = section
-                        currentSection = section
-                        print("Found new service named: '\(sectionName)' on line number: '\(currentLineNumber)'")
-                    } else {
-                        print("Found dulpicate section matching current service on line number: '\(currentLineNumber)' current service will remain unchanged: '\(sectionName)' ")
-                        currentProperty = nil
-                        currentSubProperty = nil
-                        continue
-                    }
-                }
             case _ where line.contains("="):
                 if !isCurrentSectionValid {
-                        print("Skipping line because previous section: '\(line)' was invalid")
+                        print("Skipping line because previous section was invalid")
                         continue // Skip this line and move to the next iteration
                     }
                 do {
@@ -250,20 +206,16 @@ public struct ConfigFileReader {
                 print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                 throw error.localizedDescription
             }
-            case _ where !line.contains("="):
+            case _ where !line.contains("=") && line.hasPrefix("\t") && line != blankLine:
                 if !isCurrentSectionValid {
-                        print("Skipping line because previous section: '\(line)' was invalid")
+                        print("Skipping line because previous section was invalid")
                         continue // Skip this line and move to the next iteration
                     }
                 do {
-                    guard !line.hasPrefix("[") && !line.hasSuffix("]") else{
-                        continue
-                    }
                     guard currentSection != nil else{
                         throw MyError("Expected a section definition")
                     }
                     if currentProperty != nil {
-                        
                         guard let currentKeyPropertyName = currentSection?.properties.keys.first else {
                             throw MyError("Property key did not have a name")
                         }
@@ -297,15 +249,17 @@ public struct ConfigFileReader {
             default:
                 print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
                 do{
-                    if line.hasPrefix("[") && !line.hasSuffix("]"){
-                        print("Local Error in Section Definition")
-                        throw MyError("Section definition must end with ']'")
+                    if line.hasPrefix("["){
+                        guard line.hasSuffix("]") else{
+                            print("Local Error in Section Definition")
+                            throw MyError("Section definition must end with ']'")
+                        }
+                        break
                     }
                 } catch let error as MyError{
                     print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                    throw error.localizedDescription
-                    }
-
+                    throw error
+                }
             }
         }
         return ConfigFile(sections: sections)
