@@ -1,5 +1,9 @@
 # ``AWSSDKForSwift``
 
+@Metadata {
+    @DisplayName("AWS SDK for Swift API Reference")
+}
+
 A pure-Swift SDK for accessing all published AWS services.
 
 ## Overview
