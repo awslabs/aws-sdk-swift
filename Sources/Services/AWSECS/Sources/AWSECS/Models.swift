@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension ECSClientTypes {
 
@@ -216,6 +217,35 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessType] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2054,6 +2084,435 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ECSClientTypes {
 
+    /// The network configuration for an Express service. By default, an Express service utilizes subnets and security groups associated with the default VPC.
+    public struct ExpressGatewayServiceNetworkConfiguration: Swift.Sendable {
+        /// The IDs of the security groups associated with the Express service.
+        public var securityGroups: [Swift.String]?
+        /// The IDs of the subnets associated with the Express service.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Specifies the Amazon CloudWatch Logs configuration for the Express service container.
+    public struct ExpressGatewayServiceAwsLogsConfiguration: Swift.Sendable {
+        /// The name of the CloudWatch Logs log group to send container logs to.
+        /// This member is required.
+        public var logGroup: Swift.String?
+        /// The prefix for the CloudWatch Logs log stream names. The default for an Express service is ecs.
+        /// This member is required.
+        public var logStreamPrefix: Swift.String?
+
+        public init(
+            logGroup: Swift.String? = nil,
+            logStreamPrefix: Swift.String? = nil
+        ) {
+            self.logGroup = logGroup
+            self.logStreamPrefix = logStreamPrefix
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The repository credentials for private registry authentication to pass to the container.
+    public struct ExpressGatewayRepositoryCredentials: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
+        public var credentialsParameter: Swift.String?
+
+        public init(
+            credentialsParameter: Swift.String? = nil
+        ) {
+            self.credentialsParameter = credentialsParameter
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
+    ///
+    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
+    ///
+    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
+    ///
+    ///
+    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct Secret: Swift.Sendable {
+        /// The name of the secret.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
+        /// This member is required.
+        public var valueFrom: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            valueFrom: Swift.String? = nil
+        ) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the configuration for the primary container in an Express service. This container receives traffic from the Application Load Balancer and runs your application code. The container configuration includes the container image, port mapping, logging settings, environment variables, and secrets. The container image is the only required parameter, with sensible defaults provided for other settings.
+    public struct ExpressGatewayContainer: Swift.Sendable {
+        /// The log configuration for the container.
+        public var awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?
+        /// The command that is passed to the container.
+        public var command: [Swift.String]?
+        /// The port number on the container that receives traffic from the load balancer. Default is 80.
+        public var containerPort: Swift.Int?
+        /// The environment variables to pass to the container.
+        public var environment: [ECSClientTypes.KeyValuePair]?
+        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. For Express services, the image typically contains a web application that listens on the specified container port. The image can be stored in Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+        /// This member is required.
+        public var image: Swift.String?
+        /// The configuration for repository credentials for private registry authentication.
+        public var repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials?
+        /// The secrets to pass to the container.
+        public var secrets: [ECSClientTypes.Secret]?
+
+        public init(
+            awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration? = nil,
+            command: [Swift.String]? = nil,
+            containerPort: Swift.Int? = nil,
+            environment: [ECSClientTypes.KeyValuePair]? = nil,
+            image: Swift.String? = nil,
+            repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials? = nil,
+            secrets: [ECSClientTypes.Secret]? = nil
+        ) {
+            self.awsLogsConfiguration = awsLogsConfiguration
+            self.command = command
+            self.containerPort = containerPort
+            self.environment = environment
+            self.image = image
+            self.repositoryCredentials = repositoryCredentials
+            self.secrets = secrets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceScalingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case averagecpuutilization
+        case averagememoryutilization
+        case requestcountpertarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceScalingMetric] {
+            return [
+                .averagecpuutilization,
+                .averagememoryutilization,
+                .requestcountpertarget
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .averagecpuutilization: return "AVERAGE_CPU"
+            case .averagememoryutilization: return "AVERAGE_MEMORY"
+            case .requestcountpertarget: return "REQUEST_COUNT_PER_TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the auto-scaling configuration for an Express service. This determines how the service automatically adjusts the number of running tasks based on demand metrics such as CPU utilization, memory utilization, or request count per target. Auto-scaling helps ensure your application can handle varying levels of traffic while optimizing costs by scaling down during low-demand periods. You can specify the minimum and maximum number of tasks, the scaling metric, and the target value for that metric.
+    public struct ExpressGatewayScalingTarget: Swift.Sendable {
+        /// The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization.
+        public var autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric?
+        /// The target value for the auto-scaling metric. The default value for an Express service is 60.
+        public var autoScalingTargetValue: Swift.Int?
+        /// The maximum number of tasks to run in the Express service.
+        public var maxTaskCount: Swift.Int?
+        /// The minimum number of tasks to run in the Express service.
+        public var minTaskCount: Swift.Int?
+
+        public init(
+            autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric? = nil,
+            autoScalingTargetValue: Swift.Int? = nil,
+            maxTaskCount: Swift.Int? = nil,
+            minTaskCount: Swift.Int? = nil
+        ) {
+            self.autoScalingMetric = autoScalingMetric
+            self.autoScalingTargetValue = autoScalingTargetValue
+            self.maxTaskCount = maxTaskCount
+            self.minTaskCount = minTaskCount
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
+    public var healthCheckPath: Swift.String?
+    /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
+    /// This member is required.
+    public var infrastructureRoleArn: Swift.String?
+    /// The amount of memory (in MiB) used by the task. This parameter determines the memory allocation for each task in the Express service. The default value for an express service is 512 MiB.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+    /// This member is required.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
+    public var serviceName: Swift.String?
+    /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
+    public var taskRoleArn: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        infrastructureRoleArn: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceName: Swift.String? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskRoleArn: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.infrastructureRoleArn = infrastructureRoleArn
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceName = serviceName
+        self.tags = tags
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The entry point into an Express service.
+    public struct IngressPathSummary: Swift.Sendable {
+        /// The type of access to the endpoint for the Express service.
+        /// This member is required.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The endpoint for access to the service.
+        /// This member is required.
+        public var endpoint: Swift.String?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            endpoint: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.endpoint = endpoint
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents a specific configuration revision of an Express service, containing all the settings and parameters for that revision.
+    public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
+        /// The CPU allocation for tasks in this service revision.
+        public var cpu: Swift.String?
+        /// The Unix timestamp for when this service revision was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the task execution role for the service revision.
+        public var executionRoleArn: Swift.String?
+        /// The health check path for this service revision.
+        public var healthCheckPath: Swift.String?
+        /// The entry point into this service revision.
+        public var ingressPaths: [ECSClientTypes.IngressPathSummary]?
+        /// The memory allocation for tasks in this service revision.
+        public var memory: Swift.String?
+        /// The network configuration for tasks in this service revision.
+        public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+        /// The primary container configuration for this service revision.
+        public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+        /// The auto-scaling configuration for this service revision.
+        public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+        /// The ARN of the service revision.
+        public var serviceRevisionArn: Swift.String?
+        /// The ARN of the task role for the service revision.
+        public var taskRoleArn: Swift.String?
+
+        public init(
+            cpu: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            healthCheckPath: Swift.String? = nil,
+            ingressPaths: [ECSClientTypes.IngressPathSummary]? = nil,
+            memory: Swift.String? = nil,
+            networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+            primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+            scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+            serviceRevisionArn: Swift.String? = nil,
+            taskRoleArn: Swift.String? = nil
+        ) {
+            self.cpu = cpu
+            self.createdAt = createdAt
+            self.executionRoleArn = executionRoleArn
+            self.healthCheckPath = healthCheckPath
+            self.ingressPaths = ingressPaths
+            self.memory = memory
+            self.networkConfiguration = networkConfiguration
+            self.primaryContainer = primaryContainer
+            self.scalingTarget = scalingTarget
+            self.serviceRevisionArn = serviceRevisionArn
+            self.taskRoleArn = taskRoleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draining
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceStatusCode] {
+            return [
+                .active,
+                .draining,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that defines the status of Express service creation and information about the status of the service.
+    public struct ExpressGatewayServiceStatus: Swift.Sendable {
+        /// The status of the Express service.
+        public var statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode?
+        /// Information about why the Express service is in the current status.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents an Express service, which provides a simplified way to deploy containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. An Express service automatically provisions and manages Application Load Balancers, target groups, security groups, and auto-scaling policies. Express services use a service revision architecture where each service can have multiple active configurations, enabling blue-green deployments and gradual rollouts. The service maintains a list of active configurations and manages the lifecycle of the underlying Amazon Web Services resources.
+    public struct ECSExpressGatewayService: Swift.Sendable {
+        /// The list of active service configurations for the Express service.
+        public var activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]?
+        /// The short name or full ARN of the cluster that hosts the Express service.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service was created.
+        public var createdAt: Foundation.Date?
+        /// The current deployment configuration for the Express service.
+        public var currentDeployment: Swift.String?
+        /// The ARN of the infrastructure role that manages Amazon Web Services resources for the Express service.
+        public var infrastructureRoleArn: Swift.String?
+        /// The ARN that identifies the Express service.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service.
+        public var serviceName: Swift.String?
+        /// The current status of the Express service.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The metadata applied to the Express service.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The Unix timestamp for when the Express service was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]? = nil,
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currentDeployment: Swift.String? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.activeConfigurations = activeConfigurations
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.currentDeployment = currentDeployment
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your Express service following the create operation.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
+extension ECSClientTypes {
+
     public enum AvailabilityZoneRebalancing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -2878,34 +3337,6 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
-    ///
-    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
-    ///
-    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
-    ///
-    ///
-    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct Secret: Swift.Sendable {
-        /// The name of the secret.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
-        /// This member is required.
-        public var valueFrom: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            valueFrom: Swift.String? = nil
-        ) {
-            self.name = name
-            self.valueFrom = valueFrom
-        }
-    }
-}
-
-extension ECSClientTypes {
-
     /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
     ///
     /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
@@ -3530,6 +3961,33 @@ public struct CreateServiceInput: Swift.Sendable {
 
 extension ECSClientTypes {
 
+    /// The summary of the current service revision configuration
+    public struct ServiceCurrentRevisionSummary: Swift.Sendable {
+        /// The ARN of the current service revision.
+        public var arn: Swift.String?
+        /// The number of pending tasks in the current service revision
+        public var pendingTaskCount: Swift.Int
+        /// The number of requested tasks in the current service revision
+        public var requestedTaskCount: Swift.Int
+        /// The number of running tasks of the current service revision
+        public var runningTaskCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            pendingTaskCount: Swift.Int = 0,
+            requestedTaskCount: Swift.Int = 0,
+            runningTaskCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.pendingTaskCount = pendingTaskCount
+            self.requestedTaskCount = requestedTaskCount
+            self.runningTaskCount = runningTaskCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The amount of ephemeral storage to allocate for the deployment.
     public struct DeploymentEphemeralStorage: Swift.Sendable {
         /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
@@ -3708,6 +4166,35 @@ extension ECSClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.message = message
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ResourceManagementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case ecs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceManagementType] {
+            return [
+                .customer,
+                .ecs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .ecs: return "ECS"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -3940,6 +4427,10 @@ extension ECSClientTypes {
         public var createdAt: Foundation.Date?
         /// The principal that created the service.
         public var createdBy: Swift.String?
+        /// The ARN of the current service deployment.
+        public var currentServiceDeployment: Swift.String?
+        /// The list of the service revisions.
+        public var currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
         public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
         /// The deployment controller type the service is using.
@@ -3974,6 +4465,8 @@ extension ECSClientTypes {
         public var platformVersion: Swift.String?
         /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated.
         public var propagateTags: ECSClientTypes.PropagateTags?
+        /// Identifies whether an ECS Service is an Express Service managed by ECS, or managed by the customer. The valid values are ECS and CUSTOMER
+        public var resourceManagementType: ECSClientTypes.ResourceManagementType?
         /// The ARN of the IAM role that's associated with the service. It allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public var roleArn: Swift.String?
         /// The number of tasks in the cluster that are in the RUNNING state.
@@ -4019,6 +4512,8 @@ extension ECSClientTypes {
             clusterArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
+            currentServiceDeployment: Swift.String? = nil,
+            currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]? = nil,
             deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
             deploymentController: ECSClientTypes.DeploymentController? = nil,
             deployments: [ECSClientTypes.Deployment]? = nil,
@@ -4036,6 +4531,7 @@ extension ECSClientTypes {
             platformFamily: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             propagateTags: ECSClientTypes.PropagateTags? = nil,
+            resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
             roleArn: Swift.String? = nil,
             runningCount: Swift.Int = 0,
             schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
@@ -4052,6 +4548,8 @@ extension ECSClientTypes {
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.currentServiceDeployment = currentServiceDeployment
+            self.currentServiceRevisions = currentServiceRevisions
             self.deploymentConfiguration = deploymentConfiguration
             self.deploymentController = deploymentController
             self.deployments = deployments
@@ -4069,6 +4567,7 @@ extension ECSClientTypes {
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion
             self.propagateTags = propagateTags
+            self.resourceManagementType = resourceManagementType
             self.roleArn = roleArn
             self.runningCount = runningCount
             self.schedulingStrategy = schedulingStrategy
@@ -4613,6 +5112,29 @@ public struct DeleteClusterOutput: Swift.Sendable {
         cluster: ECSClientTypes.Cluster? = nil
     ) {
         self.cluster = cluster
+    }
+}
+
+public struct DeleteExpressGatewayServiceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        serviceArn: Swift.String? = nil
+    ) {
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DeleteExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the deleted express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
     }
 }
 
@@ -7212,6 +7734,83 @@ public struct DescribeContainerInstancesOutput: Swift.Sendable {
     }
 }
 
+/// The specified resource wasn't found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceInclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceInclude] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeExpressGatewayServiceInput: Swift.Sendable {
+    /// Specifies additional information to include in the response. Valid values are TAGS to include resource tags associated with the Express service.
+    public var include: [ECSClientTypes.ExpressGatewayServiceInclude]?
+    /// The Amazon Resource Name (ARN) of the Express service to describe. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        include: [ECSClientTypes.ExpressGatewayServiceInclude]? = nil,
+        serviceArn: Swift.String? = nil
+    ) {
+        self.include = include
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DescribeExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the described express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
 public struct DescribeServiceDeploymentsInput: Swift.Sendable {
     /// The ARN of the service deployment. You can specify a maximum of 20 ARNs.
     /// This member is required.
@@ -7621,6 +8220,492 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum ManagedResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case deprovisioning
+        case failed
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedResourceStatus] {
+            return [
+                .active,
+                .deleted,
+                .deprovisioning,
+                .failed,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .deprovisioning: return "DEPROVISIONING"
+            case .failed: return "FAILED"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Auto Scaling policy created by Amazon ECS when you create an Express service.
+    public struct ManagedApplicationAutoScalingPolicy: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Application Auto Scaling policy associated with the Express service.
+        public var arn: Swift.String?
+        /// The metric used for auto scaling decisions. The available metrics are ECSServiceAverageCPUUtilization, ECSServiceAverageMemoryUtilization, and ALBRequestCOuntPerTarget.
+        /// This member is required.
+        public var metric: Swift.String?
+        /// The type of Application Auto Scaling policy associated with the Express service. Valid values are TargetTrackingScaling, StepScaling, and PredictiveScaling.
+        /// This member is required.
+        public var policyType: Swift.String?
+        /// The status of Application Auto Scaling policy creation.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the Application Auto Scaling policy is in the current status.
+        public var statusReason: Swift.String?
+        /// The target value for the auto scaling metric.
+        /// This member is required.
+        public var targetValue: Swift.Double
+        /// The Unix timestamp for when the Application Auto Scaling policy was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            metric: Swift.String? = nil,
+            policyType: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            targetValue: Swift.Double = 0.0,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.metric = metric
+            self.policyType = policyType
+            self.status = status
+            self.statusReason = statusReason
+            self.targetValue = targetValue
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents a scalable target.
+    public struct ManagedScalableTarget: Swift.Sendable {
+        /// The ARN of the scalable target.
+        public var arn: Swift.String?
+        /// The maximum value to scale to in response to a scale-out activity.
+        /// This member is required.
+        public var maxCapacity: Swift.Int
+        /// The minimum value to scale to in response to a scale-in activity.
+        /// This member is required.
+        public var minCapacity: Swift.Int
+        /// The status of the scalable target.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the scalable target is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the target was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            maxCapacity: Swift.Int = 0,
+            minCapacity: Swift.Int = 0,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The auto scaling configuration created by Amazon ECS for an Express service.
+    public struct ManagedAutoScaling: Swift.Sendable {
+        /// The policy used for auto scaling.
+        public var applicationAutoScalingPolicies: [ECSClientTypes.ManagedApplicationAutoScalingPolicy]?
+        /// Represents a scalable target.
+        public var scalableTarget: ECSClientTypes.ManagedScalableTarget?
+
+        public init(
+            applicationAutoScalingPolicies: [ECSClientTypes.ManagedApplicationAutoScalingPolicy]? = nil,
+            scalableTarget: ECSClientTypes.ManagedScalableTarget? = nil
+        ) {
+            self.applicationAutoScalingPolicies = applicationAutoScalingPolicies
+            self.scalableTarget = scalableTarget
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The ACM certificate associated with the HTTPS domain created for the Express service.
+    public struct ManagedCertificate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public var arn: Swift.String?
+        /// The fully qualified domain name (FQDN) that is secured with this ACM certificate.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The status of the ACM; certificate.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the ACM certificate is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the ACM certificate was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.domainName = domainName
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The listeners associated with the Express service's Application Load Balancer.
+    public struct ManagedListener: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer listener.
+        public var arn: Swift.String?
+        /// The status of the load balancer listener.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Informaion about why the load balancer listener is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when this listener was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Load Balancer associated with the Express service.
+    public struct ManagedLoadBalancer: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public var arn: Swift.String?
+        /// The scheme of the load balancer. By default, the scheme of the load balancer is internet-facing.
+        /// This member is required.
+        public var scheme: Swift.String?
+        /// The IDs of the security groups associated with the load balancer.
+        public var securityGroupIds: [Swift.String]?
+        /// The status of the load balancer.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the load balancer is in the current status.
+        public var statusReason: Swift.String?
+        /// The IDs of the subnets associated with the load balancer.
+        public var subnetIds: [Swift.String]?
+        /// The Unix timestamp for when this load balancer was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            scheme: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.scheme = scheme
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.statusReason = statusReason
+            self.subnetIds = subnetIds
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A security group associated with the Express service.
+    public struct ManagedSecurityGroup: Swift.Sendable {
+        /// The ARN of the security group.
+        public var arn: Swift.String?
+        /// The status of the security group.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the security group is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the security group was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The listener rule associated with the Express service's Application Load Balancer.
+    public struct ManagedListenerRule: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer listener rule.
+        public var arn: Swift.String?
+        /// The status of the load balancer listener rule.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the load balancer listener rule is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when this listener rule was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The target group associated with the Express service's Application Load Balancer. For more information about load balancer target groups, see [CreateTargetGroup](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) in the Elastic Load Balancing API Reference
+    public struct ManagedTargetGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the target group.
+        public var arn: Swift.String?
+        /// The destination for health checks on the targets.
+        /// This member is required.
+        public var healthCheckPath: Swift.String?
+        /// The port the load balancer uses when performing health checks on targets.
+        /// This member is required.
+        public var healthCheckPort: Swift.Int
+        /// The port on which the targets receive traffic.
+        /// This member is required.
+        public var port: Swift.Int
+        /// The status of the target group.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the target group is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the target group was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            healthCheckPath: Swift.String? = nil,
+            healthCheckPort: Swift.Int = 0,
+            port: Swift.Int = 0,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.port = port
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The entry point into the Express service.
+    public struct ManagedIngressPath: Swift.Sendable {
+        /// The type of access to the endpoint for the Express service.
+        /// This member is required.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The ACM certificate for the Express service's domain.
+        public var certificate: ECSClientTypes.ManagedCertificate?
+        /// The endpoint for access to the Express service.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The listeners associated with the Application Load Balancer.
+        public var listener: ECSClientTypes.ManagedListener?
+        /// The Application Load Balancer associated with the Express service.
+        public var loadBalancer: ECSClientTypes.ManagedLoadBalancer?
+        /// The security groups associated with the Application Load Balancer.
+        public var loadBalancerSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]?
+        /// The listener rules for the Application Load Balancer.
+        public var rule: ECSClientTypes.ManagedListenerRule?
+        /// The target groups associated with the Application Load Balancer.
+        public var targetGroups: [ECSClientTypes.ManagedTargetGroup]?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            certificate: ECSClientTypes.ManagedCertificate? = nil,
+            endpoint: Swift.String? = nil,
+            listener: ECSClientTypes.ManagedListener? = nil,
+            loadBalancer: ECSClientTypes.ManagedLoadBalancer? = nil,
+            loadBalancerSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]? = nil,
+            rule: ECSClientTypes.ManagedListenerRule? = nil,
+            targetGroups: [ECSClientTypes.ManagedTargetGroup]? = nil
+        ) {
+            self.accessType = accessType
+            self.certificate = certificate
+            self.endpoint = endpoint
+            self.listener = listener
+            self.loadBalancer = loadBalancer
+            self.loadBalancerSecurityGroups = loadBalancerSecurityGroups
+            self.rule = rule
+            self.targetGroups = targetGroups
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Cloudwatch Log Group created by Amazon ECS for an Express service.
+    public struct ManagedLogGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Cloudwatch Log Group associated with the Express service.
+        public var arn: Swift.String?
+        /// The name of the Cloudwatch Log Group associated with the Express service.
+        /// This member is required.
+        public var logGroupName: Swift.String?
+        /// The status of the Cloudwatch LogGroup.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the Cloudwatch LogGroup is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the Cloudwatch LogGroup was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.logGroupName = logGroupName
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The CloudWatch metric alarm associated with the Express service's scaling policy.
+    public struct ManagedMetricAlarm: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the CloudWatch metric alarm.
+        public var arn: Swift.String?
+        /// The status of the CloudWatch metric alarm.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the CloudWatch metric alarm is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the CloudWatch metric alarm was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents the Amazon Web Services resources managed by Amazon ECS for an Express service, including ingress paths, auto-scaling policies, metric alarms, and security groups.
+    public struct ECSManagedResources: Swift.Sendable {
+        /// The auto-scaling configuration and policies for the Express service.
+        public var autoScaling: ECSClientTypes.ManagedAutoScaling?
+        /// The ingress paths and endpoints for the Express service.
+        public var ingressPaths: [ECSClientTypes.ManagedIngressPath]?
+        /// The log groups managed by the Express service.
+        public var logGroups: [ECSClientTypes.ManagedLogGroup]?
+        /// The CloudWatch metric alarms associated with the Express service.
+        public var metricAlarms: [ECSClientTypes.ManagedMetricAlarm]?
+        /// The security groups managed by the Express service.
+        public var serviceSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]?
+
+        public init(
+            autoScaling: ECSClientTypes.ManagedAutoScaling? = nil,
+            ingressPaths: [ECSClientTypes.ManagedIngressPath]? = nil,
+            logGroups: [ECSClientTypes.ManagedLogGroup]? = nil,
+            metricAlarms: [ECSClientTypes.ManagedMetricAlarm]? = nil,
+            serviceSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]? = nil
+        ) {
+            self.autoScaling = autoScaling
+            self.ingressPaths = ingressPaths
+            self.logGroups = logGroups
+            self.metricAlarms = metricAlarms
+            self.serviceSecurityGroups = serviceSecurityGroups
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The resolved load balancer configuration for a service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
     public struct ServiceRevisionLoadBalancer: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
@@ -7665,6 +8750,8 @@ extension ECSClientTypes {
         public var containerImages: [ECSClientTypes.ContainerImage]?
         /// The time that the service revision was created. The format is yyyy-mm-dd HH:mm:ss.SSSSS.
         public var createdAt: Foundation.Date?
+        /// The resources created and managed by Amazon ECS when you create an Express service for Amazon ECS.
+        public var ecsManagedResources: ECSClientTypes.ECSManagedResources?
         /// The amount of ephemeral storage to allocate for the deployment.
         public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
         /// Indicates whether Runtime Monitoring is turned on.
@@ -7701,6 +8788,7 @@ extension ECSClientTypes {
             clusterArn: Swift.String? = nil,
             containerImages: [ECSClientTypes.ContainerImage]? = nil,
             createdAt: Foundation.Date? = nil,
+            ecsManagedResources: ECSClientTypes.ECSManagedResources? = nil,
             fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
             guardDutyEnabled: Swift.Bool = false,
             launchType: ECSClientTypes.LaunchType? = nil,
@@ -7721,6 +8809,7 @@ extension ECSClientTypes {
             self.clusterArn = clusterArn
             self.containerImages = containerImages
             self.createdAt = createdAt
+            self.ecsManagedResources = ecsManagedResources
             self.fargateEphemeralStorage = fargateEphemeralStorage
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
@@ -8805,30 +9894,6 @@ public struct ExecuteCommandOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct GetTaskProtectionInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
     /// This member is required.
@@ -9230,6 +10295,8 @@ public struct ListServicesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a ListServices request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
+    /// The resourceManagementType type to use when filtering the ListServices results.
+    public var resourceManagementType: ECSClientTypes.ResourceManagementType?
     /// The scheduling strategy to use when filtering the ListServices results.
     public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
 
@@ -9238,12 +10305,14 @@ public struct ListServicesInput: Swift.Sendable {
         launchType: ECSClientTypes.LaunchType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
         schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil
     ) {
         self.cluster = cluster
         self.launchType = launchType
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.resourceManagementType = resourceManagementType
         self.schedulingStrategy = schedulingStrategy
     }
 }
@@ -11102,6 +12171,100 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
+    /// The number of CPU units used by the task.
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container for Application Load Balancer health checks.
+    public var healthCheckPath: Swift.String?
+    /// The amount of memory (in MiB) used by the task.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. By default, the network configuration for an Express service uses the default VPC.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The Amazon Resource Name (ARN) of the Express service to update.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
+    public var taskRoleArn: Swift.String?
+
+    public init(
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceArn: Swift.String? = nil,
+        taskRoleArn: Swift.String? = nil
+    ) {
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceArn = serviceArn
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that describes an Express service to be updated.
+    public struct UpdatedExpressGatewayService: Swift.Sendable {
+        /// The cluster associated with the Express service that is being updated.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service that is being updated was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the Express service that is being updated.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service that is being updated.
+        public var serviceName: Swift.String?
+        /// The status of the Express service that is being updated.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The configuration to which the current Express service is being updated to.
+        public var targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration?
+        /// The Unix timestamp for when the Express service that is being updated was most recently updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.targetConfiguration = targetConfiguration
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct UpdateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your express gateway service following the update call.
+    public var service: ECSClientTypes.UpdatedExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.UpdatedExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
 public struct UpdateServiceInput: Swift.Sendable {
     /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
     ///
@@ -11361,6 +12524,13 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: CreateExpressGatewayServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateServiceInput {
 
     static func urlPathProvider(_ value: CreateServiceInput) -> Swift.String? {
@@ -11399,6 +12569,13 @@ extension DeleteCapacityProviderInput {
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: DeleteExpressGatewayServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11455,6 +12632,13 @@ extension DescribeClustersInput {
 extension DescribeContainerInstancesInput {
 
     static func urlPathProvider(_ value: DescribeContainerInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: DescribeExpressGatewayServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11739,6 +12923,13 @@ extension UpdateContainerInstancesStateInput {
     }
 }
 
+extension UpdateExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: UpdateExpressGatewayServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateServiceInput {
 
     static func urlPathProvider(_ value: UpdateServiceInput) -> Swift.String? {
@@ -11790,6 +12981,25 @@ extension CreateClusterInput {
         try writer["serviceConnectDefaults"].write(value.serviceConnectDefaults, with: ECSClientTypes.ClusterServiceConnectDefaultsRequest.write(value:to:))
         try writer["settings"].writeList(value.settings, memberWritingClosure: ECSClientTypes.ClusterSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateExpressGatewayServiceInput {
+
+    static func write(value: CreateExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cluster"].write(value.cluster)
+        try writer["cpu"].write(value.cpu)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["healthCheckPath"].write(value.healthCheckPath)
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["memory"].write(value.memory)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.write(value:to:))
+        try writer["primaryContainer"].write(value.primaryContainer, with: ECSClientTypes.ExpressGatewayContainer.write(value:to:))
+        try writer["scalingTarget"].write(value.scalingTarget, with: ECSClientTypes.ExpressGatewayScalingTarget.write(value:to:))
+        try writer["serviceName"].write(value.serviceName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskRoleArn"].write(value.taskRoleArn)
     }
 }
 
@@ -11881,6 +13091,14 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteExpressGatewayServiceInput {
+
+    static func write(value: DeleteExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceArn"].write(value.serviceArn)
+    }
+}
+
 extension DeleteServiceInput {
 
     static func write(value: DeleteServiceInput?, to writer: SmithyJSON.Writer) throws {
@@ -11956,6 +13174,15 @@ extension DescribeContainerInstancesInput {
         try writer["cluster"].write(value.cluster)
         try writer["containerInstances"].writeList(value.containerInstances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.ContainerInstanceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeExpressGatewayServiceInput {
+
+    static func write(value: DescribeExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.ExpressGatewayServiceInclude>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceArn"].write(value.serviceArn)
     }
 }
 
@@ -12113,6 +13340,7 @@ extension ListServicesInput {
         try writer["launchType"].write(value.launchType)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["resourceManagementType"].write(value.resourceManagementType)
         try writer["schedulingStrategy"].write(value.schedulingStrategy)
     }
 }
@@ -12427,6 +13655,22 @@ extension UpdateContainerInstancesStateInput {
     }
 }
 
+extension UpdateExpressGatewayServiceInput {
+
+    static func write(value: UpdateExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpu"].write(value.cpu)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["healthCheckPath"].write(value.healthCheckPath)
+        try writer["memory"].write(value.memory)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.write(value:to:))
+        try writer["primaryContainer"].write(value.primaryContainer, with: ECSClientTypes.ExpressGatewayContainer.write(value:to:))
+        try writer["scalingTarget"].write(value.scalingTarget, with: ECSClientTypes.ExpressGatewayScalingTarget.write(value:to:))
+        try writer["serviceArn"].write(value.serviceArn)
+        try writer["taskRoleArn"].write(value.taskRoleArn)
+    }
+}
+
 extension UpdateServiceInput {
 
     static func write(value: UpdateServiceInput?, to writer: SmithyJSON.Writer) throws {
@@ -12512,6 +13756,18 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
+        return value
+    }
+}
+
 extension CreateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceOutput {
@@ -12580,6 +13836,18 @@ extension DeleteClusterOutput {
         let reader = responseReader
         var value = DeleteClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: ECSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension DeleteExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
         return value
     }
 }
@@ -12681,6 +13949,18 @@ extension DescribeContainerInstancesOutput {
         var value = DescribeContainerInstancesOutput()
         value.containerInstances = try reader["containerInstances"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
         return value
     }
 }
@@ -13183,6 +14463,18 @@ extension UpdateContainerInstancesStateOutput {
     }
 }
 
+extension UpdateExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.UpdatedExpressGatewayService.read(from:))
+        return value
+    }
+}
+
 extension UpdateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceOutput {
@@ -13264,6 +14556,27 @@ enum CreateClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "PlatformTaskDefinitionIncompatibilityException": return try PlatformTaskDefinitionIncompatibilityException.makeError(baseError: baseError)
+            case "PlatformUnknownException": return try PlatformUnknownException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13382,6 +14695,27 @@ enum DeleteClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
+            case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13523,6 +14857,26 @@ enum DescribeContainerInstancesOutputError {
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14231,6 +15585,27 @@ enum UpdateContainerInstancesStateOutputError {
     }
 }
 
+enum UpdateExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
+            case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateServiceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14566,11 +15941,11 @@ extension TaskSetNotFoundException {
     }
 }
 
-extension TargetNotConnectedException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotConnectedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TargetNotConnectedException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14579,11 +15954,11 @@ extension TargetNotConnectedException {
     }
 }
 
-extension ResourceNotFoundException {
+extension TargetNotConnectedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotConnectedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = TargetNotConnectedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15238,6 +16613,181 @@ extension ECSClientTypes.ExecuteCommandLogConfiguration {
     }
 }
 
+extension ECSClientTypes.ECSExpressGatewayService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ECSExpressGatewayService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ECSExpressGatewayService()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceStatus.read(from:))
+        value.currentDeployment = try reader["currentDeployment"].readIfPresent()
+        value.activeConfigurations = try reader["activeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.ExpressGatewayServiceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ECSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceConfiguration()
+        value.serviceRevisionArn = try reader["serviceRevisionArn"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
+        value.cpu = try reader["cpu"].readIfPresent()
+        value.memory = try reader["memory"].readIfPresent()
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.read(from:))
+        value.healthCheckPath = try reader["healthCheckPath"].readIfPresent()
+        value.primaryContainer = try reader["primaryContainer"].readIfPresent(with: ECSClientTypes.ExpressGatewayContainer.read(from:))
+        value.scalingTarget = try reader["scalingTarget"].readIfPresent(with: ECSClientTypes.ExpressGatewayScalingTarget.read(from:))
+        value.ingressPaths = try reader["ingressPaths"].readListIfPresent(memberReadingClosure: ECSClientTypes.IngressPathSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.IngressPathSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.IngressPathSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.IngressPathSummary()
+        value.accessType = try reader["accessType"].readIfPresent() ?? .sdkUnknown("")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayScalingTarget {
+
+    static func write(value: ECSClientTypes.ExpressGatewayScalingTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoScalingMetric"].write(value.autoScalingMetric)
+        try writer["autoScalingTargetValue"].write(value.autoScalingTargetValue)
+        try writer["maxTaskCount"].write(value.maxTaskCount)
+        try writer["minTaskCount"].write(value.minTaskCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayScalingTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayScalingTarget()
+        value.minTaskCount = try reader["minTaskCount"].readIfPresent()
+        value.maxTaskCount = try reader["maxTaskCount"].readIfPresent()
+        value.autoScalingMetric = try reader["autoScalingMetric"].readIfPresent()
+        value.autoScalingTargetValue = try reader["autoScalingTargetValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayContainer {
+
+    static func write(value: ECSClientTypes.ExpressGatewayContainer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsLogsConfiguration"].write(value.awsLogsConfiguration, with: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration.write(value:to:))
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["containerPort"].write(value.containerPort)
+        try writer["environment"].writeList(value.environment, memberWritingClosure: ECSClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["image"].write(value.image)
+        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: ECSClientTypes.ExpressGatewayRepositoryCredentials.write(value:to:))
+        try writer["secrets"].writeList(value.secrets, memberWritingClosure: ECSClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayContainer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayContainer()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.containerPort = try reader["containerPort"].readIfPresent()
+        value.awsLogsConfiguration = try reader["awsLogsConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration.read(from:))
+        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: ECSClientTypes.ExpressGatewayRepositoryCredentials.read(from:))
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: ECSClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: ECSClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.Secret {
+
+    static func write(value: ECSClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["valueFrom"].write(value.valueFrom)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Secret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.Secret()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayRepositoryCredentials {
+
+    static func write(value: ECSClientTypes.ExpressGatewayRepositoryCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialsParameter"].write(value.credentialsParameter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayRepositoryCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayRepositoryCredentials()
+        value.credentialsParameter = try reader["credentialsParameter"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration {
+
+    static func write(value: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroup"].write(value.logGroup)
+        try writer["logStreamPrefix"].write(value.logStreamPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration()
+        value.logGroup = try reader["logGroup"].readIfPresent() ?? ""
+        value.logStreamPrefix = try reader["logStreamPrefix"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceNetworkConfiguration {
+
+    static func write(value: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceNetworkConfiguration()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 extension ECSClientTypes.Service {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Service {
@@ -15263,6 +16813,8 @@ extension ECSClientTypes.Service {
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.events = try reader["events"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currentServiceDeployment = try reader["currentServiceDeployment"].readIfPresent()
+        value.currentServiceRevisions = try reader["currentServiceRevisions"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceCurrentRevisionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placementConstraints = try reader["placementConstraints"].readListIfPresent(memberReadingClosure: ECSClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placementStrategy = try reader["placementStrategy"].readListIfPresent(memberReadingClosure: ECSClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.NetworkConfiguration.read(from:))
@@ -15275,6 +16827,7 @@ extension ECSClientTypes.Service {
         value.propagateTags = try reader["propagateTags"].readIfPresent()
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent() ?? false
         value.availabilityZoneRebalancing = try reader["availabilityZoneRebalancing"].readIfPresent()
+        value.resourceManagementType = try reader["resourceManagementType"].readIfPresent()
         return value
     }
 }
@@ -15358,6 +16911,19 @@ extension ECSClientTypes.PlacementConstraint {
         var value = ECSClientTypes.PlacementConstraint()
         value.type = try reader["type"].readIfPresent()
         value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceCurrentRevisionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceCurrentRevisionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceCurrentRevisionSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.requestedTaskCount = try reader["requestedTaskCount"].readIfPresent() ?? 0
+        value.runningTaskCount = try reader["runningTaskCount"].readIfPresent() ?? 0
+        value.pendingTaskCount = try reader["pendingTaskCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15570,23 +17136,6 @@ extension ECSClientTypes.LogConfiguration {
         value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
         value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: ECSClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ECSClientTypes.Secret {
-
-    static func write(value: ECSClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["valueFrom"].write(value.valueFrom)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Secret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECSClientTypes.Secret()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16889,6 +18438,192 @@ extension ECSClientTypes.ServiceRevision {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcLatticeConfigurations = try reader["vpcLatticeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.VpcLatticeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resolvedConfiguration = try reader["resolvedConfiguration"].readIfPresent(with: ECSClientTypes.ResolvedConfiguration.read(from:))
+        value.ecsManagedResources = try reader["ecsManagedResources"].readIfPresent(with: ECSClientTypes.ECSManagedResources.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ECSManagedResources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ECSManagedResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ECSManagedResources()
+        value.ingressPaths = try reader["ingressPaths"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedIngressPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScaling = try reader["autoScaling"].readIfPresent(with: ECSClientTypes.ManagedAutoScaling.read(from:))
+        value.metricAlarms = try reader["metricAlarms"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedMetricAlarm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceSecurityGroups = try reader["serviceSecurityGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logGroups = try reader["logGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedLogGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedLogGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedLogGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedLogGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedSecurityGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedSecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedSecurityGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedMetricAlarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedMetricAlarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedMetricAlarm()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedAutoScaling {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedAutoScaling {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedAutoScaling()
+        value.scalableTarget = try reader["scalableTarget"].readIfPresent(with: ECSClientTypes.ManagedScalableTarget.read(from:))
+        value.applicationAutoScalingPolicies = try reader["applicationAutoScalingPolicies"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedApplicationAutoScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedApplicationAutoScalingPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedApplicationAutoScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedApplicationAutoScalingPolicy()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyType = try reader["policyType"].readIfPresent() ?? ""
+        value.targetValue = try reader["targetValue"].readIfPresent() ?? 0
+        value.metric = try reader["metric"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedScalableTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedScalableTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedScalableTarget()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.minCapacity = try reader["minCapacity"].readIfPresent() ?? 0
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedIngressPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedIngressPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedIngressPath()
+        value.accessType = try reader["accessType"].readIfPresent() ?? .sdkUnknown("")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.loadBalancer = try reader["loadBalancer"].readIfPresent(with: ECSClientTypes.ManagedLoadBalancer.read(from:))
+        value.loadBalancerSecurityGroups = try reader["loadBalancerSecurityGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificate = try reader["certificate"].readIfPresent(with: ECSClientTypes.ManagedCertificate.read(from:))
+        value.listener = try reader["listener"].readIfPresent(with: ECSClientTypes.ManagedListener.read(from:))
+        value.rule = try reader["rule"].readIfPresent(with: ECSClientTypes.ManagedListenerRule.read(from:))
+        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedTargetGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedTargetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedTargetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedTargetGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.healthCheckPath = try reader["healthCheckPath"].readIfPresent() ?? ""
+        value.healthCheckPort = try reader["healthCheckPort"].readIfPresent() ?? 0
+        value.port = try reader["port"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedListenerRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedListenerRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedListenerRule()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedListener {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedListener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedListener()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedCertificate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedCertificate()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedLoadBalancer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedLoadBalancer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedLoadBalancer()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scheme = try reader["scheme"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17170,6 +18905,22 @@ extension ECSClientTypes.ServiceDeploymentBrief {
         value.targetServiceRevisionArn = try reader["targetServiceRevisionArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.UpdatedExpressGatewayService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.UpdatedExpressGatewayService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.UpdatedExpressGatewayService()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceStatus.read(from:))
+        value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

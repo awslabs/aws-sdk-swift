@@ -1432,7 +1432,7 @@ extension SecurityHubClient {
 
     /// Performs the `ConnectorRegistrationsV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to complete the authorization based on input parameters. This API is in preview release and subject to change.
+    /// Grants permission to complete the authorization based on input parameters. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `ConnectorRegistrationsV2Input`)
     ///
@@ -1869,7 +1869,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to create a connectorV2 based on input parameters. This API is in preview release and subject to change.
+    /// Grants permission to create a connectorV2 based on input parameters. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateConnectorV2Input`)
     ///
@@ -2174,7 +2174,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateTicketV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in preview release and subject to change.
+    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateTicketV2Input`)
     ///
@@ -2598,7 +2598,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to delete a connectorV2. This API is in preview release and subject to change.
+    /// Grants permission to delete a connectorV2. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConnectorV2Input`)
     ///
@@ -4640,7 +4640,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in preview release and subject to change.
+    /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConnectorV2Input`)
     ///
@@ -5051,6 +5051,77 @@ extension SecurityHubClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetFindingsTrendsV2` operation on the `SecurityHub` service.
+    ///
+    /// Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time. This API is in public preview and subject to change.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsTrendsV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetFindingsTrendsV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getFindingsTrendsV2(input: GetFindingsTrendsV2Input) async throws -> GetFindingsTrendsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFindingsTrendsV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(GetFindingsTrendsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFindingsTrendsV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsTrendsV2Output>(GetFindingsTrendsV2Output.httpOutput(from:), GetFindingsTrendsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsTrendsV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFindingsTrendsV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFindingsTrendsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFindingsTrendsV2")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5547,6 +5618,77 @@ extension SecurityHubClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcesStatisticsV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetResourcesTrendsV2` operation on the `SecurityHub` service.
+    ///
+    /// Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time. This API is in public preview and subject to change.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesTrendsV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetResourcesTrendsV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getResourcesTrendsV2(input: GetResourcesTrendsV2Input) async throws -> GetResourcesTrendsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourcesTrendsV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(GetResourcesTrendsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcesTrendsV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesTrendsV2Output>(GetResourcesTrendsV2Output.httpOutput(from:), GetResourcesTrendsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesTrendsV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcesTrendsV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesTrendsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcesTrendsV2")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6129,7 +6271,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListConnectorsV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in preview release and subject to change.
+    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListConnectorsV2Input`)
     ///
@@ -7325,7 +7467,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in preview release and subject to change.
+    /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConnectorV2Input`)
     ///

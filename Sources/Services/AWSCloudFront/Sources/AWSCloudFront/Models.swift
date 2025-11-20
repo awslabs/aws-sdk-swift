@@ -545,6 +545,115 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum IpamCidrStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advertised
+        case advertising
+        case deprovisioned
+        case deprovisioning
+        case failedadvertise
+        case faileddeprovision
+        case failedprovision
+        case failedwithdraw
+        case provisioned
+        case provisioning
+        case withdrawing
+        case withdrawn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamCidrStatus] {
+            return [
+                .advertised,
+                .advertising,
+                .deprovisioned,
+                .deprovisioning,
+                .failedadvertise,
+                .faileddeprovision,
+                .failedprovision,
+                .failedwithdraw,
+                .provisioned,
+                .provisioning,
+                .withdrawing,
+                .withdrawn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advertised: return "advertised"
+            case .advertising: return "advertising"
+            case .deprovisioned: return "deprovisioned"
+            case .deprovisioning: return "deprovisioning"
+            case .failedadvertise: return "failed-advertise"
+            case .faileddeprovision: return "failed-deprovision"
+            case .failedprovision: return "failed-provision"
+            case .failedwithdraw: return "failed-withdraw"
+            case .provisioned: return "provisioned"
+            case .provisioning: return "provisioning"
+            case .withdrawing: return "withdrawing"
+            case .withdrawn: return "withdrawn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Configuration for an IPAM CIDR that defines a specific IP address range, IPAM pool, and associated Anycast IP address.
+    public struct IpamCidrConfig: Swift.Sendable {
+        /// The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration.
+        public var anycastIp: Swift.String?
+        /// The CIDR that specifies the IP address range for this IPAM configuration.
+        /// This member is required.
+        public var cidr: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to.
+        /// This member is required.
+        public var ipamPoolArn: Swift.String?
+        /// The current status of the IPAM CIDR configuration.
+        public var status: CloudFrontClientTypes.IpamCidrStatus?
+
+        public init(
+            anycastIp: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            ipamPoolArn: Swift.String? = nil,
+            status: CloudFrontClientTypes.IpamCidrStatus? = nil
+        ) {
+            self.anycastIp = anycastIp
+            self.cidr = cidr
+            self.ipamPoolArn = ipamPoolArn
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The configuration IPAM settings that includes the quantity of CIDR configurations and the list of IPAM CIDR configurations.
+    public struct IpamConfig: Swift.Sendable {
+        /// A list of IPAM CIDR configurations that define the IP address ranges, IPAM pools, and associated Anycast IP addresses.
+        /// This member is required.
+        public var ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]?
+        /// The number of IPAM CIDR configurations in the IpamCidrConfigs list.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.ipamCidrConfigs = ipamCidrConfigs
+            self.quantity = quantity
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
     public struct AnycastIpList: Swift.Sendable {
         /// The static IP addresses that are allocated to the Anycast static IP list.
@@ -561,6 +670,8 @@ extension CloudFrontClientTypes {
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
+        /// The IPAM configuration for the Anycast static IP list, that contains the quantity and list of IPAM CIDR configurations.
+        public var ipamConfig: CloudFrontClientTypes.IpamConfig?
         /// The last time the Anycast static IP list was modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -577,6 +688,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
+            ipamConfig: CloudFrontClientTypes.IpamConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
@@ -586,6 +698,7 @@ extension CloudFrontClientTypes {
             self.id = id
             self.ipAddressType = ipAddressType
             self.ipCount = ipCount
+            self.ipamConfig = ipamConfig
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.status = status
@@ -610,6 +723,8 @@ extension CloudFrontClientTypes {
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
+        /// The IPAM configuration for the Anycast static IP list, that contains the quantity and list of IPAM CIDR configurations.
+        public var ipamConfig: CloudFrontClientTypes.IpamConfig?
         /// The last time the Anycast static IP list was modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -626,6 +741,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
+            ipamConfig: CloudFrontClientTypes.IpamConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
@@ -635,6 +751,7 @@ extension CloudFrontClientTypes {
             self.id = id
             self.ipAddressType = ipAddressType
             self.ipCount = ipCount
+            self.ipamConfig = ipamConfig
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.status = status
@@ -4920,15 +5037,17 @@ extension CloudFrontClientTypes {
 public struct CreateAnycastIpListInput: Swift.Sendable {
     /// The IP address type for the Anycast static IP list. You can specify one of the following options:
     ///
-    /// * ipv4 - Allocate a list of only IPv4 addresses
+    /// * ipv4 only
     ///
-    /// * ipv6 - Allocate a list of only IPv4 addresses
+    /// * ipv6 only
     ///
     /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
     public var ipAddressType: CloudFrontClientTypes.IpAddressType?
     /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     /// This member is required.
     public var ipCount: Swift.Int?
+    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for creating the Anycast static IP list.
+    public var ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]?
     /// Name of the Anycast static IP list.
     /// This member is required.
     public var name: Swift.String?
@@ -4938,11 +5057,13 @@ public struct CreateAnycastIpListInput: Swift.Sendable {
     public init(
         ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
         ipCount: Swift.Int? = nil,
+        ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]? = nil,
         name: Swift.String? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
     ) {
         self.ipAddressType = ipAddressType
         self.ipCount = ipCount
+        self.ipamCidrConfigs = ipamCidrConfigs
         self.name = name
         self.tags = tags
     }
@@ -14668,9 +14789,9 @@ public struct UpdateAnycastIpListInput: Swift.Sendable {
     public var ifMatch: Swift.String?
     /// The IP address type for the Anycast static IP list. You can specify one of the following options:
     ///
-    /// * ipv4 - Allocate a list of only IPv4 addresses
+    /// * ipv4 only
     ///
-    /// * ipv6 - Allocate a list of only IPv4 addresses
+    /// * ipv6 only
     ///
     /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
     public var ipAddressType: CloudFrontClientTypes.IpAddressType?
@@ -18087,6 +18208,7 @@ extension CreateAnycastIpListInput {
         guard let value else { return }
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["IpCount"].write(value.ipCount)
+        try writer["IpamCidrConfigs"].writeList(value.ipamCidrConfigs, memberWritingClosure: CloudFrontClientTypes.IpamCidrConfig.write(value:to:), memberNodeInfo: "IpamCidrConfig", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
@@ -26568,9 +26690,42 @@ extension CloudFrontClientTypes.AnycastIpList {
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
         value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
         value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamConfig {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamConfig()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.ipamCidrConfigs = try reader["IpamCidrConfigs"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.IpamCidrConfig.read(from:), memberNodeInfo: "IpamCidrConfig", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamCidrConfig {
+
+    static func write(value: CloudFrontClientTypes.IpamCidrConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIp"].write(value.anycastIp)
+        try writer["Cidr"].write(value.cidr)
+        try writer["IpamPoolArn"].write(value.ipamPoolArn)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamCidrConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamCidrConfig()
+        value.cidr = try reader["Cidr"].readIfPresent() ?? ""
+        value.ipamPoolArn = try reader["IpamPoolArn"].readIfPresent() ?? ""
+        value.anycastIp = try reader["AnycastIp"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -28172,6 +28327,7 @@ extension CloudFrontClientTypes.AnycastIpListSummary {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
         return value
     }
 }

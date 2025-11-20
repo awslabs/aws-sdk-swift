@@ -162,6 +162,11 @@ public struct DeletePublicAccessBlockOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutBucketAbacOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutBucketAccelerateConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -265,6 +270,50 @@ public struct UpdateBucketMetadataJournalTableConfigurationOutput: Swift.Sendabl
 public struct WriteGetObjectResponseOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension S3ClientTypes {
+
+    public enum BucketAbacStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BucketAbacStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see [Using tags with S3 general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html).
+    public struct AbacStatus: Swift.Sendable {
+        /// The ABAC status of the general purpose bucket.
+        public var status: S3ClientTypes.BucketAbacStatus?
+
+        public init(
+            status: S3ClientTypes.BucketAbacStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
 }
 
 extension S3ClientTypes {
@@ -4466,6 +4515,33 @@ public struct DeletePublicAccessBlockInput: Swift.Sendable {
     ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+public struct GetBucketAbacInput: Swift.Sendable {
+    /// The name of the general purpose bucket.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The Amazon Web Services account ID of the general purpose bucket's owner.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+public struct GetBucketAbacOutput: Swift.Sendable {
+    /// The ABAC status of the general purpose bucket.
+    public var abacStatus: S3ClientTypes.AbacStatus?
+
+    public init(
+        abacStatus: S3ClientTypes.AbacStatus? = nil
+    ) {
+        self.abacStatus = abacStatus
     }
 }
 
@@ -10672,6 +10748,35 @@ public struct ListPartsOutput: Swift.Sendable {
     }
 }
 
+public struct PutBucketAbacInput: Swift.Sendable {
+    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see [Using tags with S3 general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html).
+    /// This member is required.
+    public var abacStatus: S3ClientTypes.AbacStatus?
+    /// The name of the general purpose bucket.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The MD5 hash of the PutBucketAbac request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+    public var contentMD5: Swift.String?
+    /// The Amazon Web Services account ID of the general purpose bucket's owner.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        abacStatus: S3ClientTypes.AbacStatus? = nil,
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.abacStatus = abacStatus
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
 public struct PutBucketAccelerateConfigurationInput: Swift.Sendable {
     /// Container for setting the transfer acceleration state.
     /// This member is required.
@@ -14796,6 +14901,33 @@ extension DeletePublicAccessBlockInput {
     }
 }
 
+extension GetBucketAbacInput {
+
+    static func urlPathProvider(_ value: GetBucketAbacInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetBucketAbacInput {
+
+    static func headerProvider(_ value: GetBucketAbacInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension GetBucketAbacInput {
+
+    static func queryItemProvider(_ value: GetBucketAbacInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "abac", value: nil))
+        return items
+    }
+}
+
 extension GetBucketAccelerateConfigurationInput {
 
     static func urlPathProvider(_ value: GetBucketAccelerateConfigurationInput) -> Swift.String? {
@@ -16396,6 +16528,39 @@ extension ListPartsInput {
     }
 }
 
+extension PutBucketAbacInput {
+
+    static func urlPathProvider(_ value: PutBucketAbacInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutBucketAbacInput {
+
+    static func headerProvider(_ value: PutBucketAbacInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension PutBucketAbacInput {
+
+    static func queryItemProvider(_ value: PutBucketAbacInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "abac", value: nil))
+        return items
+    }
+}
+
 extension PutBucketAccelerateConfigurationInput {
 
     static func urlPathProvider(_ value: PutBucketAccelerateConfigurationInput) -> Swift.String? {
@@ -17963,6 +18128,14 @@ extension DeleteObjectsInput {
     }
 }
 
+extension PutBucketAbacInput {
+
+    static func write(value: PutBucketAbacInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AbacStatus"].write(value.abacStatus, with: S3ClientTypes.AbacStatus.write(value:to:))
+    }
+}
+
 extension PutBucketAccelerateConfigurationInput {
 
     static func write(value: PutBucketAccelerateConfigurationInput?, to writer: SmithyXML.Writer) throws {
@@ -18560,6 +18733,18 @@ extension DeletePublicAccessBlockOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePublicAccessBlockOutput {
         return DeletePublicAccessBlockOutput()
+    }
+}
+
+extension GetBucketAbacOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBucketAbacOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketAbacOutput()
+        value.abacStatus = try reader.readIfPresent(with: S3ClientTypes.AbacStatus.read(from:))
+        return value
     }
 }
 
@@ -19480,6 +19665,13 @@ extension ListPartsOutput {
     }
 }
 
+extension PutBucketAbacOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBucketAbacOutput {
+        return PutBucketAbacOutput()
+    }
+}
+
 extension PutBucketAccelerateConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBucketAccelerateConfigurationOutput {
@@ -20253,6 +20445,20 @@ enum DeletePublicAccessBlockOutputError {
     }
 }
 
+enum GetBucketAbacOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBucketAccelerateConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20864,6 +21070,20 @@ enum ListObjectVersionsOutputError {
 }
 
 enum ListPartsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutBucketAbacOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -21618,6 +21838,21 @@ extension S3ClientTypes.Error {
         value.versionId = try reader["VersionId"].readIfPresent()
         value.code = try reader["Code"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.AbacStatus {
+
+    static func write(value: S3ClientTypes.AbacStatus?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AbacStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AbacStatus()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }

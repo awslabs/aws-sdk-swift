@@ -6786,6 +6786,8 @@ extension ConnectClientTypes {
         /// Notification delivery method.
         /// This member is required.
         public var deliveryMethod: ConnectClientTypes.NotificationDeliveryType?
+        /// Recipients to exclude from notification.
+        public var exclusion: ConnectClientTypes.NotificationRecipientType?
         /// Notification recipient.
         /// This member is required.
         public var recipient: ConnectClientTypes.NotificationRecipientType?
@@ -6796,12 +6798,14 @@ extension ConnectClientTypes {
             content: Swift.String? = nil,
             contentType: ConnectClientTypes.NotificationContentType? = nil,
             deliveryMethod: ConnectClientTypes.NotificationDeliveryType? = nil,
+            exclusion: ConnectClientTypes.NotificationRecipientType? = nil,
             recipient: ConnectClientTypes.NotificationRecipientType? = nil,
             subject: Swift.String? = nil
         ) {
             self.content = content
             self.contentType = contentType
             self.deliveryMethod = deliveryMethod
+            self.exclusion = exclusion
             self.recipient = recipient
             self.subject = subject
         }
@@ -45795,6 +45799,7 @@ extension ConnectClientTypes.SendNotificationActionDefinition {
         try writer["Content"].write(value.content)
         try writer["ContentType"].write(value.contentType)
         try writer["DeliveryMethod"].write(value.deliveryMethod)
+        try writer["Exclusion"].write(value.exclusion, with: ConnectClientTypes.NotificationRecipientType.write(value:to:))
         try writer["Recipient"].write(value.recipient, with: ConnectClientTypes.NotificationRecipientType.write(value:to:))
         try writer["Subject"].write(value.subject)
     }
@@ -45807,6 +45812,7 @@ extension ConnectClientTypes.SendNotificationActionDefinition {
         value.content = try reader["Content"].readIfPresent() ?? ""
         value.contentType = try reader["ContentType"].readIfPresent() ?? .sdkUnknown("")
         value.recipient = try reader["Recipient"].readIfPresent(with: ConnectClientTypes.NotificationRecipientType.read(from:))
+        value.exclusion = try reader["Exclusion"].readIfPresent(with: ConnectClientTypes.NotificationRecipientType.read(from:))
         return value
     }
 }

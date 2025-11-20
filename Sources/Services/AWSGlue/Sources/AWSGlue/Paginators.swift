@@ -584,6 +584,7 @@ extension GetUserDefinedFunctionsInput: ClientRuntime.PaginateToken {
         return GetUserDefinedFunctionsInput(
             catalogId: self.catalogId,
             databaseName: self.databaseName,
+            functionType: self.functionType,
             maxResults: self.maxResults,
             nextToken: token,
             pattern: self.pattern

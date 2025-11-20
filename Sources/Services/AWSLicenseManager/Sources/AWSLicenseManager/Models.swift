@@ -344,6 +344,129 @@ extension LicenseManagerClientTypes {
 
 extension LicenseManagerClientTypes {
 
+    /// Matching rule statement.
+    public struct MatchingRuleStatement: Swift.Sendable {
+        /// Constraint.
+        /// This member is required.
+        public var constraint: Swift.String?
+        /// Key to match. The following keys and are supported when the RuleStatement type is Instance:
+        ///
+        /// * Platform - The name of the platform. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * EC2BillingProduct - The billing product code. Logical operators are EQUALS and NOT_EQUALS. Possible values are: windows-server-enterprise | windows-byol | rhel | rhel-byol | rhel-high-availability | ubuntu-pro | suse-linux | sql-server-standard | sql-server-enterprise.
+        ///
+        /// * MarketPlaceProductCode - The Marketplace product code. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * AMIId - The ID of the AMI. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * InstanceType - The instance type. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * InstanceId - The ID of the instance. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * HostId - The ID of the host. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * AccountId - The ID of the account. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        ///
+        /// The following keys and are supported when the RuleStatement type is License:
+        ///
+        /// * LicenseArn - The ARN of a Managed Entitlement License. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * ProductSKU - The productSKU of the license. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * Issuer - The issuer of the license. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * Beneficiary - The beneficiary of the license. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * LicenseStatus - The status of the license. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * HomeRegion - The home region of the license. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        ///
+        /// The following keys and are supported when the RuleStatement type is License Configuration:
+        ///
+        /// * LicenseConfigurationArn - The ARN of a self-managed license configuration. Logical operators are EQUALS and NOT_EQUALS.
+        ///
+        /// * AccountId - The account of the license configuration. Logical operators are EQUALS and NOT_EQUALS.
+        /// This member is required.
+        public var keyToMatch: Swift.String?
+        /// Value to match.
+        /// This member is required.
+        public var valueToMatch: [Swift.String]?
+
+        public init(
+            constraint: Swift.String? = nil,
+            keyToMatch: Swift.String? = nil,
+            valueToMatch: [Swift.String]? = nil
+        ) {
+            self.constraint = constraint
+            self.keyToMatch = keyToMatch
+            self.valueToMatch = valueToMatch
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Rule statement that uses a script to evaluate license asset conditions.
+    public struct ScriptRuleStatement: Swift.Sendable {
+        /// Key name to match against in the script rule evaluation.
+        /// This member is required.
+        public var keyToMatch: Swift.String?
+        /// Script code used to evaluate the rule condition.
+        /// This member is required.
+        public var script: Swift.String?
+
+        public init(
+            keyToMatch: Swift.String? = nil,
+            script: Swift.String? = nil
+        ) {
+            self.keyToMatch = keyToMatch
+            self.script = script
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// AND rule statement.
+    public struct AndRuleStatement: Swift.Sendable {
+        /// Matching rule statements.
+        public var matchingRuleStatements: [LicenseManagerClientTypes.MatchingRuleStatement]?
+        /// Script rule statements.
+        public var scriptRuleStatements: [LicenseManagerClientTypes.ScriptRuleStatement]?
+
+        public init(
+            matchingRuleStatements: [LicenseManagerClientTypes.MatchingRuleStatement]? = nil,
+            scriptRuleStatements: [LicenseManagerClientTypes.ScriptRuleStatement]? = nil
+        ) {
+            self.matchingRuleStatements = matchingRuleStatements
+            self.scriptRuleStatements = scriptRuleStatements
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Asset.
+    public struct Asset: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the asset.
+        public var assetArn: Swift.String?
+        /// Latest asset discovery time.
+        public var latestAssetDiscoveryTime: Foundation.Date?
+
+        public init(
+            assetArn: Swift.String? = nil,
+            latestAssetDiscoveryTime: Foundation.Date? = nil
+        ) {
+            self.assetArn = assetArn
+            self.latestAssetDiscoveryTime = latestAssetDiscoveryTime
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
     /// Describes automated discovery.
     public struct AutomatedDiscoveryInformation: Swift.Sendable {
         /// Time that automated discovery last ran.
@@ -1453,6 +1576,271 @@ public struct CreateLicenseOutput: Swift.Sendable {
 
 extension LicenseManagerClientTypes {
 
+    /// License asset group configuration.
+    public struct LicenseAssetGroupConfiguration: Swift.Sendable {
+        /// License Asset Group Configuration Usage dimension.
+        public var usageDimension: Swift.String?
+
+        public init(
+            usageDimension: Swift.String? = nil
+        ) {
+            self.usageDimension = usageDimension
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License asset group property.
+    public struct LicenseAssetGroupProperty: Swift.Sendable {
+        /// Property key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Property value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateLicenseAssetGroupInput: Swift.Sendable {
+    /// ARNs of associated license asset rulesets.
+    /// This member is required.
+    public var associatedLicenseAssetRulesetARNs: [Swift.String]?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// License asset group description.
+    public var description: Swift.String?
+    /// License asset group configurations.
+    /// This member is required.
+    public var licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]?
+    /// License asset group name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// License asset group properties.
+    public var properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]?
+    /// Tags to add to the license asset group.
+    public var tags: [LicenseManagerClientTypes.Tag]?
+
+    public init(
+        associatedLicenseAssetRulesetARNs: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]? = nil,
+        name: Swift.String? = nil,
+        properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]? = nil,
+        tags: [LicenseManagerClientTypes.Tag]? = nil
+    ) {
+        self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+        self.clientToken = clientToken
+        self.description = description
+        self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+        self.name = name
+        self.properties = properties
+        self.tags = tags
+    }
+}
+
+public struct CreateLicenseAssetGroupOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+    /// License asset group status.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        licenseAssetGroupArn: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+        self.status = status
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// OR rule statement.
+    public struct OrRuleStatement: Swift.Sendable {
+        /// Matching rule statements.
+        public var matchingRuleStatements: [LicenseManagerClientTypes.MatchingRuleStatement]?
+        /// Script rule statements.
+        public var scriptRuleStatements: [LicenseManagerClientTypes.ScriptRuleStatement]?
+
+        public init(
+            matchingRuleStatements: [LicenseManagerClientTypes.MatchingRuleStatement]? = nil,
+            scriptRuleStatements: [LicenseManagerClientTypes.ScriptRuleStatement]? = nil
+        ) {
+            self.matchingRuleStatements = matchingRuleStatements
+            self.scriptRuleStatements = scriptRuleStatements
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Instance rule statement.
+    public struct InstanceRuleStatement: Swift.Sendable {
+        /// AND rule statement.
+        public var andRuleStatement: LicenseManagerClientTypes.AndRuleStatement?
+        /// Matching rule statement.
+        public var matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement?
+        /// OR rule statement.
+        public var orRuleStatement: LicenseManagerClientTypes.OrRuleStatement?
+        /// Script rule statement.
+        public var scriptRuleStatement: LicenseManagerClientTypes.ScriptRuleStatement?
+
+        public init(
+            andRuleStatement: LicenseManagerClientTypes.AndRuleStatement? = nil,
+            matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement? = nil,
+            orRuleStatement: LicenseManagerClientTypes.OrRuleStatement? = nil,
+            scriptRuleStatement: LicenseManagerClientTypes.ScriptRuleStatement? = nil
+        ) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+            self.scriptRuleStatement = scriptRuleStatement
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License configuration rule statement.
+    public struct LicenseConfigurationRuleStatement: Swift.Sendable {
+        /// AND rule statement.
+        public var andRuleStatement: LicenseManagerClientTypes.AndRuleStatement?
+        /// Matching rule statement.
+        public var matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement?
+        /// OR rule statement.
+        public var orRuleStatement: LicenseManagerClientTypes.OrRuleStatement?
+
+        public init(
+            andRuleStatement: LicenseManagerClientTypes.AndRuleStatement? = nil,
+            matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement? = nil,
+            orRuleStatement: LicenseManagerClientTypes.OrRuleStatement? = nil
+        ) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License rule statement.
+    public struct LicenseRuleStatement: Swift.Sendable {
+        /// AND rule statement.
+        public var andRuleStatement: LicenseManagerClientTypes.AndRuleStatement?
+        /// Matching rule statement.
+        public var matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement?
+        /// OR rule statement.
+        public var orRuleStatement: LicenseManagerClientTypes.OrRuleStatement?
+
+        public init(
+            andRuleStatement: LicenseManagerClientTypes.AndRuleStatement? = nil,
+            matchingRuleStatement: LicenseManagerClientTypes.MatchingRuleStatement? = nil,
+            orRuleStatement: LicenseManagerClientTypes.OrRuleStatement? = nil
+        ) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Rule statement.
+    public struct RuleStatement: Swift.Sendable {
+        /// Instance rule statement.
+        public var instanceRuleStatement: LicenseManagerClientTypes.InstanceRuleStatement?
+        /// License configuration rule statement.
+        public var licenseConfigurationRuleStatement: LicenseManagerClientTypes.LicenseConfigurationRuleStatement?
+        /// License rule statement.
+        public var licenseRuleStatement: LicenseManagerClientTypes.LicenseRuleStatement?
+
+        public init(
+            instanceRuleStatement: LicenseManagerClientTypes.InstanceRuleStatement? = nil,
+            licenseConfigurationRuleStatement: LicenseManagerClientTypes.LicenseConfigurationRuleStatement? = nil,
+            licenseRuleStatement: LicenseManagerClientTypes.LicenseRuleStatement? = nil
+        ) {
+            self.instanceRuleStatement = instanceRuleStatement
+            self.licenseConfigurationRuleStatement = licenseConfigurationRuleStatement
+            self.licenseRuleStatement = licenseRuleStatement
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License asset rule.
+    public struct LicenseAssetRule: Swift.Sendable {
+        /// Rule statement.
+        /// This member is required.
+        public var ruleStatement: LicenseManagerClientTypes.RuleStatement?
+
+        public init(
+            ruleStatement: LicenseManagerClientTypes.RuleStatement? = nil
+        ) {
+            self.ruleStatement = ruleStatement
+        }
+    }
+}
+
+public struct CreateLicenseAssetRulesetInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// License asset ruleset description.
+    public var description: Swift.String?
+    /// License asset ruleset name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// License asset rules.
+    /// This member is required.
+    public var rules: [LicenseManagerClientTypes.LicenseAssetRule]?
+    /// Tags to add to the license asset ruleset.
+    public var tags: [LicenseManagerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rules: [LicenseManagerClientTypes.LicenseAssetRule]? = nil,
+        tags: [LicenseManagerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.rules = rules
+        self.tags = tags
+    }
+}
+
+public struct CreateLicenseAssetRulesetOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset ruleset.
+    /// This member is required.
+    public var licenseAssetRulesetArn: Swift.String?
+
+    public init(
+        licenseAssetRulesetArn: Swift.String? = nil
+    ) {
+        self.licenseAssetRulesetArn = licenseAssetRulesetArn
+    }
+}
+
+extension LicenseManagerClientTypes {
+
     public enum LicenseCountingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case core
         case instance
@@ -1567,6 +1955,8 @@ public struct CreateLicenseConfigurationInput: Swift.Sendable {
     /// Dimension used to track the license inventory.
     /// This member is required.
     public var licenseCountingType: LicenseManagerClientTypes.LicenseCountingType?
+    /// License configuration expiry.
+    public var licenseExpiry: Swift.Int?
     /// License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
     ///
     /// * Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores
@@ -1594,6 +1984,7 @@ public struct CreateLicenseConfigurationInput: Swift.Sendable {
         licenseCount: Swift.Int? = nil,
         licenseCountHardLimit: Swift.Bool? = nil,
         licenseCountingType: LicenseManagerClientTypes.LicenseCountingType? = nil,
+        licenseExpiry: Swift.Int? = nil,
         licenseRules: [Swift.String]? = nil,
         name: Swift.String? = nil,
         productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil,
@@ -1604,6 +1995,7 @@ public struct CreateLicenseConfigurationInput: Swift.Sendable {
         self.licenseCount = licenseCount
         self.licenseCountHardLimit = licenseCountHardLimit
         self.licenseCountingType = licenseCountingType
+        self.licenseExpiry = licenseExpiry
         self.licenseRules = licenseRules
         self.name = name
         self.productInformationList = productInformationList
@@ -1725,14 +2117,25 @@ extension LicenseManagerClientTypes {
 
     /// Details of the license configuration that this generator reports on.
     public struct ReportContext: Swift.Sendable {
+        /// Amazon Resource Names (ARNs) of the license asset groups to include in the report.
+        public var licenseAssetGroupArns: [Swift.String]?
         /// Amazon Resource Name (ARN) of the license configuration that this generator reports on.
-        /// This member is required.
         public var licenseConfigurationArns: [Swift.String]?
+        /// End date for the report data collection period.
+        public var reportEndDate: Foundation.Date?
+        /// Start date for the report data collection period.
+        public var reportStartDate: Foundation.Date?
 
         public init(
-            licenseConfigurationArns: [Swift.String]? = nil
+            licenseAssetGroupArns: [Swift.String]? = nil,
+            licenseConfigurationArns: [Swift.String]? = [],
+            reportEndDate: Foundation.Date? = nil,
+            reportStartDate: Foundation.Date? = nil
         ) {
+            self.licenseAssetGroupArns = licenseAssetGroupArns
             self.licenseConfigurationArns = licenseConfigurationArns
+            self.reportEndDate = reportEndDate
+            self.reportStartDate = reportStartDate
         }
     }
 }
@@ -1742,6 +2145,7 @@ extension LicenseManagerClientTypes {
     public enum ReportFrequencyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case day
         case month
+        case oneTime
         case week
         case sdkUnknown(Swift.String)
 
@@ -1749,6 +2153,7 @@ extension LicenseManagerClientTypes {
             return [
                 .day,
                 .month,
+                .oneTime,
                 .week
             ]
         }
@@ -1762,6 +2167,7 @@ extension LicenseManagerClientTypes {
             switch self {
             case .day: return "DAY"
             case .month: return "MONTH"
+            case .oneTime: return "ONE_TIME"
             case .week: return "WEEK"
             case let .sdkUnknown(s): return s
             }
@@ -1791,12 +2197,14 @@ extension LicenseManagerClientTypes {
 extension LicenseManagerClientTypes {
 
     public enum ReportType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case licenseAssetGroupUsageReport
         case licenseConfigurationSummaryReport
         case licenseConfigurationUsageReport
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReportType] {
             return [
+                .licenseAssetGroupUsageReport,
                 .licenseConfigurationSummaryReport,
                 .licenseConfigurationUsageReport
             ]
@@ -1809,6 +2217,7 @@ extension LicenseManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .licenseAssetGroupUsageReport: return "LicenseAssetGroupUsageReport"
             case .licenseConfigurationSummaryReport: return "LicenseConfigurationSummaryReport"
             case .licenseConfigurationUsageReport: return "LicenseConfigurationUsageReport"
             case let .sdkUnknown(s): return s
@@ -2131,6 +2540,86 @@ public struct DeleteLicenseOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteLicenseAssetGroupInput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+
+    public init(
+        licenseAssetGroupArn: Swift.String? = nil
+    ) {
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License asset group status. Allowed values are
+    ///
+    /// * ACTIVE
+    ///
+    /// * DISABLED
+    ///
+    /// * DELETED
+    public enum LicenseAssetGroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseAssetGroupStatus] {
+            return [
+                .active,
+                .deleted,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteLicenseAssetGroupOutput: Swift.Sendable {
+    /// License asset group status.
+    /// This member is required.
+    public var status: LicenseManagerClientTypes.LicenseAssetGroupStatus?
+
+    public init(
+        status: LicenseManagerClientTypes.LicenseAssetGroupStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct DeleteLicenseAssetRulesetInput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset ruleset.
+    /// This member is required.
+    public var licenseAssetRulesetArn: Swift.String?
+
+    public init(
+        licenseAssetRulesetArn: Swift.String? = nil
+    ) {
+        self.licenseAssetRulesetArn = licenseAssetRulesetArn
+    }
+}
+
+public struct DeleteLicenseAssetRulesetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteLicenseConfigurationInput: Swift.Sendable {
     /// ID of the license configuration.
     /// This member is required.
@@ -2448,6 +2937,139 @@ public struct GetLicenseOutput: Swift.Sendable {
     }
 }
 
+public struct GetLicenseAssetGroupInput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+
+    public init(
+        licenseAssetGroupArn: Swift.String? = nil
+    ) {
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License asset group.
+    public struct LicenseAssetGroup: Swift.Sendable {
+        /// ARNs of associated license asset rulesets.
+        /// This member is required.
+        public var associatedLicenseAssetRulesetARNs: [Swift.String]?
+        /// License asset group description.
+        public var description: Swift.String?
+        /// Latest resource discovery time.
+        public var latestResourceDiscoveryTime: Foundation.Date?
+        /// Latest usage analysis time.
+        public var latestUsageAnalysisTime: Foundation.Date?
+        /// Amazon Resource Name (ARN) of the license asset group.
+        /// This member is required.
+        public var licenseAssetGroupArn: Swift.String?
+        /// License asset group configurations.
+        public var licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]?
+        /// License asset group name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// License asset group properties.
+        public var properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]?
+        /// License asset group status.
+        /// This member is required.
+        public var status: LicenseManagerClientTypes.LicenseAssetGroupStatus?
+        /// License asset group status message.
+        public var statusMessage: Swift.String?
+
+        public init(
+            associatedLicenseAssetRulesetARNs: [Swift.String]? = nil,
+            description: Swift.String? = nil,
+            latestResourceDiscoveryTime: Foundation.Date? = nil,
+            latestUsageAnalysisTime: Foundation.Date? = nil,
+            licenseAssetGroupArn: Swift.String? = nil,
+            licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]? = nil,
+            name: Swift.String? = nil,
+            properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]? = nil,
+            status: LicenseManagerClientTypes.LicenseAssetGroupStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+            self.description = description
+            self.latestResourceDiscoveryTime = latestResourceDiscoveryTime
+            self.latestUsageAnalysisTime = latestUsageAnalysisTime
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+            self.name = name
+            self.properties = properties
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct GetLicenseAssetGroupOutput: Swift.Sendable {
+    /// License asset group.
+    /// This member is required.
+    public var licenseAssetGroup: LicenseManagerClientTypes.LicenseAssetGroup?
+
+    public init(
+        licenseAssetGroup: LicenseManagerClientTypes.LicenseAssetGroup? = nil
+    ) {
+        self.licenseAssetGroup = licenseAssetGroup
+    }
+}
+
+public struct GetLicenseAssetRulesetInput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset ruleset.
+    /// This member is required.
+    public var licenseAssetRulesetArn: Swift.String?
+
+    public init(
+        licenseAssetRulesetArn: Swift.String? = nil
+    ) {
+        self.licenseAssetRulesetArn = licenseAssetRulesetArn
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// License asset ruleset.
+    public struct LicenseAssetRuleset: Swift.Sendable {
+        /// License asset ruleset description.
+        public var description: Swift.String?
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        /// This member is required.
+        public var licenseAssetRulesetArn: Swift.String?
+        /// License asset ruleset name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// License asset rules.
+        /// This member is required.
+        public var rules: [LicenseManagerClientTypes.LicenseAssetRule]?
+
+        public init(
+            description: Swift.String? = nil,
+            licenseAssetRulesetArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            rules: [LicenseManagerClientTypes.LicenseAssetRule]? = nil
+        ) {
+            self.description = description
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+            self.name = name
+            self.rules = rules
+        }
+    }
+}
+
+public struct GetLicenseAssetRulesetOutput: Swift.Sendable {
+    /// License asset ruleset.
+    /// This member is required.
+    public var licenseAssetRuleset: LicenseManagerClientTypes.LicenseAssetRuleset?
+
+    public init(
+        licenseAssetRuleset: LicenseManagerClientTypes.LicenseAssetRuleset? = nil
+    ) {
+        self.licenseAssetRuleset = licenseAssetRuleset
+    }
+}
+
 public struct GetLicenseConfigurationInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
@@ -2557,6 +3179,8 @@ public struct GetLicenseConfigurationOutput: Swift.Sendable {
     public var licenseCountHardLimit: Swift.Bool?
     /// Dimension for which the licenses are counted.
     public var licenseCountingType: LicenseManagerClientTypes.LicenseCountingType?
+    /// License Expiry.
+    public var licenseExpiry: Swift.Int?
     /// License rules.
     public var licenseRules: [Swift.String]?
     /// Summaries of the managed resources.
@@ -2583,6 +3207,7 @@ public struct GetLicenseConfigurationOutput: Swift.Sendable {
         licenseCount: Swift.Int? = nil,
         licenseCountHardLimit: Swift.Bool? = nil,
         licenseCountingType: LicenseManagerClientTypes.LicenseCountingType? = nil,
+        licenseExpiry: Swift.Int? = nil,
         licenseRules: [Swift.String]? = nil,
         managedResourceSummaryList: [LicenseManagerClientTypes.ManagedResourceSummary]? = nil,
         name: Swift.String? = nil,
@@ -2601,6 +3226,7 @@ public struct GetLicenseConfigurationOutput: Swift.Sendable {
         self.licenseCount = licenseCount
         self.licenseCountHardLimit = licenseCountHardLimit
         self.licenseCountingType = licenseCountingType
+        self.licenseExpiry = licenseExpiry
         self.licenseRules = licenseRules
         self.managedResourceSummaryList = managedResourceSummaryList
         self.name = name
@@ -2892,7 +3518,75 @@ extension LicenseManagerClientTypes {
     }
 }
 
+extension LicenseManagerClientTypes {
+
+    /// Status information for cross-account discovery service.
+    public struct CrossAccountDiscoveryServiceStatus: Swift.Sendable {
+        /// Status message for cross-account discovery service.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Status information for a specific region.
+    public struct RegionStatus: Swift.Sendable {
+        /// Status value for the region.
+        public var status: Swift.String?
+
+        public init(
+            status: Swift.String? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Status information for cross-region discovery.
+    public struct CrossRegionDiscoveryStatus: Swift.Sendable {
+        /// Map of region status messages for cross-region discovery.
+        public var message: [Swift.String: LicenseManagerClientTypes.RegionStatus]?
+
+        public init(
+            message: [Swift.String: LicenseManagerClientTypes.RegionStatus]? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// Overall service status information for License Manager.
+    public struct ServiceStatus: Swift.Sendable {
+        /// Status of cross-account discovery service.
+        public var crossAccountDiscovery: LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus?
+        /// Status of cross-region discovery service.
+        public var crossRegionDiscovery: LicenseManagerClientTypes.CrossRegionDiscoveryStatus?
+
+        public init(
+            crossAccountDiscovery: LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus? = nil,
+            crossRegionDiscovery: LicenseManagerClientTypes.CrossRegionDiscoveryStatus? = nil
+        ) {
+            self.crossAccountDiscovery = crossAccountDiscovery
+            self.crossRegionDiscovery = crossRegionDiscovery
+        }
+    }
+}
+
 public struct GetServiceSettingsOutput: Swift.Sendable {
+    /// Cross region discovery home region.
+    public var crossRegionDiscoveryHomeRegion: Swift.String?
+    /// Cross region discovery source regions.
+    public var crossRegionDiscoverySourceRegions: [Swift.String]?
     /// Indicates whether cross-account discovery is enabled.
     public var enableCrossAccountsDiscovery: Swift.Bool?
     /// Amazon Resource Name (ARN) of the resource share. The License Manager management account provides member accounts with access to this share.
@@ -2901,21 +3595,69 @@ public struct GetServiceSettingsOutput: Swift.Sendable {
     public var organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration?
     /// Regional S3 bucket path for storing reports, license trail event data, discovery data, and so on.
     public var s3BucketArn: Swift.String?
+    /// Service status.
+    public var serviceStatus: LicenseManagerClientTypes.ServiceStatus?
     /// SNS topic configured to receive notifications from License Manager.
     public var snsTopicArn: Swift.String?
 
     public init(
+        crossRegionDiscoveryHomeRegion: Swift.String? = nil,
+        crossRegionDiscoverySourceRegions: [Swift.String]? = nil,
         enableCrossAccountsDiscovery: Swift.Bool? = nil,
         licenseManagerResourceShareArn: Swift.String? = nil,
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
         s3BucketArn: Swift.String? = nil,
+        serviceStatus: LicenseManagerClientTypes.ServiceStatus? = nil,
         snsTopicArn: Swift.String? = nil
     ) {
+        self.crossRegionDiscoveryHomeRegion = crossRegionDiscoveryHomeRegion
+        self.crossRegionDiscoverySourceRegions = crossRegionDiscoverySourceRegions
         self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
         self.licenseManagerResourceShareArn = licenseManagerResourceShareArn
         self.organizationConfiguration = organizationConfiguration
         self.s3BucketArn = s3BucketArn
+        self.serviceStatus = serviceStatus
         self.snsTopicArn = snsTopicArn
+    }
+}
+
+public struct ListAssetsForLicenseAssetGroupInput: Swift.Sendable {
+    /// Asset type. The possible values are Instance | License | LicenseConfiguration.
+    /// This member is required.
+    public var assetType: Swift.String?
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assetType: Swift.String? = nil,
+        licenseAssetGroupArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assetType = assetType
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAssetsForLicenseAssetGroupOutput: Swift.Sendable {
+    /// Assets.
+    public var assets: [LicenseManagerClientTypes.Asset]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assets: [LicenseManagerClientTypes.Asset]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assets = assets
+        self.nextToken = nextToken
     }
 }
 
@@ -3153,6 +3895,82 @@ public struct ListFailuresForLicenseConfigurationOperationsOutput: Swift.Sendabl
     }
 }
 
+public struct ListLicenseAssetGroupsInput: Swift.Sendable {
+    /// Filters to scope the results. Following filters are supported
+    ///
+    /// * LicenseAssetRulesetArn
+    public var filters: [LicenseManagerClientTypes.Filter]?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [LicenseManagerClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLicenseAssetGroupsOutput: Swift.Sendable {
+    /// License asset groups.
+    public var licenseAssetGroups: [LicenseManagerClientTypes.LicenseAssetGroup]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        licenseAssetGroups: [LicenseManagerClientTypes.LicenseAssetGroup]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.licenseAssetGroups = licenseAssetGroups
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLicenseAssetRulesetsInput: Swift.Sendable {
+    /// Filters to scope the results. Following filters are supported
+    ///
+    /// * Name
+    public var filters: [LicenseManagerClientTypes.Filter]?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Specifies whether to show License Manager managed license asset rulesets.
+    public var showAWSManagedLicenseAssetRulesets: Swift.Bool?
+
+    public init(
+        filters: [LicenseManagerClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        showAWSManagedLicenseAssetRulesets: Swift.Bool? = false
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.showAWSManagedLicenseAssetRulesets = showAWSManagedLicenseAssetRulesets
+    }
+}
+
+public struct ListLicenseAssetRulesetsOutput: Swift.Sendable {
+    /// License asset rulesets.
+    public var licenseAssetRulesets: [LicenseManagerClientTypes.LicenseAssetRuleset]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        licenseAssetRulesets: [LicenseManagerClientTypes.LicenseAssetRuleset]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.licenseAssetRulesets = licenseAssetRulesets
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListLicenseConfigurationsInput: Swift.Sendable {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
@@ -3206,6 +4024,8 @@ extension LicenseManagerClientTypes {
         public var licenseCountHardLimit: Swift.Bool?
         /// Dimension to use to track the license inventory.
         public var licenseCountingType: LicenseManagerClientTypes.LicenseCountingType?
+        /// License configuration expiry time in Unix timestamp format.
+        public var licenseExpiry: Swift.Int?
         /// License rules.
         public var licenseRules: [Swift.String]?
         /// Summaries for managed resources.
@@ -3230,6 +4050,7 @@ extension LicenseManagerClientTypes {
             licenseCount: Swift.Int? = nil,
             licenseCountHardLimit: Swift.Bool? = nil,
             licenseCountingType: LicenseManagerClientTypes.LicenseCountingType? = nil,
+            licenseExpiry: Swift.Int? = nil,
             licenseRules: [Swift.String]? = nil,
             managedResourceSummaryList: [LicenseManagerClientTypes.ManagedResourceSummary]? = nil,
             name: Swift.String? = nil,
@@ -3247,6 +4068,7 @@ extension LicenseManagerClientTypes {
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
+            self.licenseExpiry = licenseExpiry
             self.licenseRules = licenseRules
             self.managedResourceSummaryList = managedResourceSummaryList
             self.name = name
@@ -3259,6 +4081,44 @@ extension LicenseManagerClientTypes {
 
 public struct ListLicenseConfigurationsOutput: Swift.Sendable {
     /// Information about the license configurations.
+    public var licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.licenseConfigurations = licenseConfigurations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLicenseConfigurationsForOrganizationInput: Swift.Sendable {
+    /// Filters to scope the results.
+    public var filters: [LicenseManagerClientTypes.Filter]?
+    /// License configuration ARNs.
+    public var licenseConfigurationArns: [Swift.String]?
+    /// Maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [LicenseManagerClientTypes.Filter]? = nil,
+        licenseConfigurationArns: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.licenseConfigurationArns = licenseConfigurationArns
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLicenseConfigurationsForOrganizationOutput: Swift.Sendable {
+    /// License configurations.
     public var licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]?
     /// Token for the next set of results.
     public var nextToken: Swift.String?
@@ -3964,10 +4824,20 @@ extension LicenseManagerClientTypes {
 
     /// Details about a resource.
     public struct ResourceInventory: Swift.Sendable {
+        /// Amazon Machine Image (AMI) ID associated with the resource.
+        public var amiId: Swift.String?
+        /// Dedicated Host ID where the resource is running.
+        public var hostId: Swift.String?
+        /// EC2 instance type of the resource.
+        public var instanceType: Swift.String?
+        /// List of Marketplace product codes associated with the resource.
+        public var marketplaceProductCodes: [Swift.String]?
         /// Platform of the resource.
         public var platform: Swift.String?
         /// Platform version of the resource in the inventory.
         public var platformVersion: Swift.String?
+        /// Region where the resource is located.
+        public var region: Swift.String?
         /// Amazon Resource Name (ARN) of the resource.
         public var resourceArn: Swift.String?
         /// ID of the resource.
@@ -3976,21 +4846,35 @@ extension LicenseManagerClientTypes {
         public var resourceOwningAccountId: Swift.String?
         /// Type of resource.
         public var resourceType: LicenseManagerClientTypes.ResourceType?
+        /// Usage operation value that corresponds to the license type for billing purposes.
+        public var usageOperation: Swift.String?
 
         public init(
+            amiId: Swift.String? = nil,
+            hostId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            marketplaceProductCodes: [Swift.String]? = nil,
             platform: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
+            region: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceOwningAccountId: Swift.String? = nil,
-            resourceType: LicenseManagerClientTypes.ResourceType? = nil
+            resourceType: LicenseManagerClientTypes.ResourceType? = nil,
+            usageOperation: Swift.String? = nil
         ) {
+            self.amiId = amiId
+            self.hostId = hostId
+            self.instanceType = instanceType
+            self.marketplaceProductCodes = marketplaceProductCodes
             self.platform = platform
             self.platformVersion = platformVersion
+            self.region = region
             self.resourceArn = resourceArn
             self.resourceId = resourceId
             self.resourceOwningAccountId = resourceOwningAccountId
             self.resourceType = resourceType
+            self.usageOperation = usageOperation
         }
     }
 }
@@ -4275,6 +5159,107 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateLicenseAssetGroupInput: Swift.Sendable {
+    /// ARNs of associated license asset rulesets.
+    /// This member is required.
+    public var associatedLicenseAssetRulesetARNs: [Swift.String]?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// License asset group description.
+    public var description: Swift.String?
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+    /// License asset group configurations.
+    public var licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]?
+    /// License asset group name.
+    public var name: Swift.String?
+    /// License asset group properties.
+    public var properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]?
+    /// License asset group status. The possible values are ACTIVE | DISABLED.
+    public var status: LicenseManagerClientTypes.LicenseAssetGroupStatus?
+
+    public init(
+        associatedLicenseAssetRulesetARNs: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        licenseAssetGroupArn: Swift.String? = nil,
+        licenseAssetGroupConfigurations: [LicenseManagerClientTypes.LicenseAssetGroupConfiguration]? = nil,
+        name: Swift.String? = nil,
+        properties: [LicenseManagerClientTypes.LicenseAssetGroupProperty]? = nil,
+        status: LicenseManagerClientTypes.LicenseAssetGroupStatus? = nil
+    ) {
+        self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+        self.clientToken = clientToken
+        self.description = description
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+        self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+        self.name = name
+        self.properties = properties
+        self.status = status
+    }
+}
+
+public struct UpdateLicenseAssetGroupOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// This member is required.
+    public var licenseAssetGroupArn: Swift.String?
+    /// License asset group status.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        licenseAssetGroupArn: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.licenseAssetGroupArn = licenseAssetGroupArn
+        self.status = status
+    }
+}
+
+public struct UpdateLicenseAssetRulesetInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// License asset ruleset description.
+    public var description: Swift.String?
+    /// Amazon Resource Name (ARN) of the license asset ruleset.
+    /// This member is required.
+    public var licenseAssetRulesetArn: Swift.String?
+    /// License asset ruleset name.
+    public var name: Swift.String?
+    /// License asset rules.
+    /// This member is required.
+    public var rules: [LicenseManagerClientTypes.LicenseAssetRule]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        licenseAssetRulesetArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rules: [LicenseManagerClientTypes.LicenseAssetRule]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.licenseAssetRulesetArn = licenseAssetRulesetArn
+        self.name = name
+        self.rules = rules
+    }
+}
+
+public struct UpdateLicenseAssetRulesetOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the license asset ruleset.
+    /// This member is required.
+    public var licenseAssetRulesetArn: Swift.String?
+
+    public init(
+        licenseAssetRulesetArn: Swift.String? = nil
+    ) {
+        self.licenseAssetRulesetArn = licenseAssetRulesetArn
+    }
+}
+
 extension LicenseManagerClientTypes {
 
     public enum LicenseConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4318,6 +5303,8 @@ public struct UpdateLicenseConfigurationInput: Swift.Sendable {
     public var licenseCount: Swift.Int?
     /// New hard limit of the number of available licenses.
     public var licenseCountHardLimit: Swift.Bool?
+    /// License configuration expiry time.
+    public var licenseExpiry: Swift.Int?
     /// New license rule. The only rule that you can add after you create a license configuration is licenseAffinityToHost.
     public var licenseRules: [Swift.String]?
     /// New name of the license configuration.
@@ -4332,6 +5319,7 @@ public struct UpdateLicenseConfigurationInput: Swift.Sendable {
         licenseConfigurationStatus: LicenseManagerClientTypes.LicenseConfigurationStatus? = nil,
         licenseCount: Swift.Int? = nil,
         licenseCountHardLimit: Swift.Bool? = nil,
+        licenseExpiry: Swift.Int? = nil,
         licenseRules: [Swift.String]? = nil,
         name: Swift.String? = nil,
         productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil
@@ -4342,6 +5330,7 @@ public struct UpdateLicenseConfigurationInput: Swift.Sendable {
         self.licenseConfigurationStatus = licenseConfigurationStatus
         self.licenseCount = licenseCount
         self.licenseCountHardLimit = licenseCountHardLimit
+        self.licenseExpiry = licenseExpiry
         self.licenseRules = licenseRules
         self.name = name
         self.productInformationList = productInformationList
@@ -4477,6 +5466,8 @@ public struct UpdateLicenseSpecificationsForResourceOutput: Swift.Sendable {
 public struct UpdateServiceSettingsInput: Swift.Sendable {
     /// Activates cross-account discovery.
     public var enableCrossAccountsDiscovery: Swift.Bool?
+    /// Cross region discovery enabled source regions.
+    public var enabledDiscoverySourceRegions: [Swift.String]?
     /// Enables integration with Organizations for cross-account discovery.
     public var organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration?
     /// Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
@@ -4486,11 +5477,13 @@ public struct UpdateServiceSettingsInput: Swift.Sendable {
 
     public init(
         enableCrossAccountsDiscovery: Swift.Bool? = nil,
+        enabledDiscoverySourceRegions: [Swift.String]? = nil,
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
         s3BucketArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
     ) {
         self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
+        self.enabledDiscoverySourceRegions = enabledDiscoverySourceRegions
         self.organizationConfiguration = organizationConfiguration
         self.s3BucketArn = s3BucketArn
         self.snsTopicArn = snsTopicArn
@@ -4551,6 +5544,20 @@ extension CreateLicenseInput {
     }
 }
 
+extension CreateLicenseAssetGroupInput {
+
+    static func urlPathProvider(_ value: CreateLicenseAssetGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateLicenseAssetRulesetInput {
+
+    static func urlPathProvider(_ value: CreateLicenseAssetRulesetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateLicenseConfigurationInput {
 
     static func urlPathProvider(_ value: CreateLicenseConfigurationInput) -> Swift.String? {
@@ -4596,6 +5603,20 @@ extension DeleteGrantInput {
 extension DeleteLicenseInput {
 
     static func urlPathProvider(_ value: DeleteLicenseInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteLicenseAssetGroupInput {
+
+    static func urlPathProvider(_ value: DeleteLicenseAssetGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteLicenseAssetRulesetInput {
+
+    static func urlPathProvider(_ value: DeleteLicenseAssetRulesetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4649,6 +5670,20 @@ extension GetLicenseInput {
     }
 }
 
+extension GetLicenseAssetGroupInput {
+
+    static func urlPathProvider(_ value: GetLicenseAssetGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetLicenseAssetRulesetInput {
+
+    static func urlPathProvider(_ value: GetLicenseAssetRulesetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetLicenseConfigurationInput {
 
     static func urlPathProvider(_ value: GetLicenseConfigurationInput) -> Swift.String? {
@@ -4684,6 +5719,13 @@ extension GetServiceSettingsInput {
     }
 }
 
+extension ListAssetsForLicenseAssetGroupInput {
+
+    static func urlPathProvider(_ value: ListAssetsForLicenseAssetGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAssociationsForLicenseConfigurationInput {
 
     static func urlPathProvider(_ value: ListAssociationsForLicenseConfigurationInput) -> Swift.String? {
@@ -4705,9 +5747,30 @@ extension ListFailuresForLicenseConfigurationOperationsInput {
     }
 }
 
+extension ListLicenseAssetGroupsInput {
+
+    static func urlPathProvider(_ value: ListLicenseAssetGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListLicenseAssetRulesetsInput {
+
+    static func urlPathProvider(_ value: ListLicenseAssetRulesetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListLicenseConfigurationsInput {
 
     static func urlPathProvider(_ value: ListLicenseConfigurationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListLicenseConfigurationsForOrganizationInput {
+
+    static func urlPathProvider(_ value: ListLicenseConfigurationsForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4820,6 +5883,20 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLicenseAssetGroupInput {
+
+    static func urlPathProvider(_ value: UpdateLicenseAssetGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLicenseAssetRulesetInput {
+
+    static func urlPathProvider(_ value: UpdateLicenseAssetRulesetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4944,6 +6021,32 @@ extension CreateLicenseInput {
     }
 }
 
+extension CreateLicenseAssetGroupInput {
+
+    static func write(value: CreateLicenseAssetGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedLicenseAssetRulesetARNs"].writeList(value.associatedLicenseAssetRulesetARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["LicenseAssetGroupConfigurations"].writeList(value.licenseAssetGroupConfigurations, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetGroupConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Properties"].writeList(value.properties, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetGroupProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: LicenseManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateLicenseAssetRulesetInput {
+
+    static func write(value: CreateLicenseAssetRulesetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: LicenseManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateLicenseConfigurationInput {
 
     static func write(value: CreateLicenseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4953,6 +6056,7 @@ extension CreateLicenseConfigurationInput {
         try writer["LicenseCount"].write(value.licenseCount)
         try writer["LicenseCountHardLimit"].write(value.licenseCountHardLimit)
         try writer["LicenseCountingType"].write(value.licenseCountingType)
+        try writer["LicenseExpiry"].write(value.licenseExpiry)
         try writer["LicenseRules"].writeList(value.licenseRules, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["ProductInformationList"].writeList(value.productInformationList, memberWritingClosure: LicenseManagerClientTypes.ProductInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5034,6 +6138,22 @@ extension DeleteLicenseInput {
     }
 }
 
+extension DeleteLicenseAssetGroupInput {
+
+    static func write(value: DeleteLicenseAssetGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicenseAssetGroupArn"].write(value.licenseAssetGroupArn)
+    }
+}
+
+extension DeleteLicenseAssetRulesetInput {
+
+    static func write(value: DeleteLicenseAssetRulesetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicenseAssetRulesetArn"].write(value.licenseAssetRulesetArn)
+    }
+}
+
 extension DeleteLicenseConfigurationInput {
 
     static func write(value: DeleteLicenseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5094,6 +6214,22 @@ extension GetLicenseInput {
     }
 }
 
+extension GetLicenseAssetGroupInput {
+
+    static func write(value: GetLicenseAssetGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicenseAssetGroupArn"].write(value.licenseAssetGroupArn)
+    }
+}
+
+extension GetLicenseAssetRulesetInput {
+
+    static func write(value: GetLicenseAssetRulesetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicenseAssetRulesetArn"].write(value.licenseAssetRulesetArn)
+    }
+}
+
 extension GetLicenseConfigurationInput {
 
     static func write(value: GetLicenseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5134,6 +6270,17 @@ extension GetServiceSettingsInput {
     }
 }
 
+extension ListAssetsForLicenseAssetGroupInput {
+
+    static func write(value: ListAssetsForLicenseAssetGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetType"].write(value.assetType)
+        try writer["LicenseAssetGroupArn"].write(value.licenseAssetGroupArn)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListAssociationsForLicenseConfigurationInput {
 
     static func write(value: ListAssociationsForLicenseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5165,9 +6312,41 @@ extension ListFailuresForLicenseConfigurationOperationsInput {
     }
 }
 
+extension ListLicenseAssetGroupsInput {
+
+    static func write(value: ListLicenseAssetGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: LicenseManagerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListLicenseAssetRulesetsInput {
+
+    static func write(value: ListLicenseAssetRulesetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: LicenseManagerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ShowAWSManagedLicenseAssetRulesets"].write(value.showAWSManagedLicenseAssetRulesets)
+    }
+}
+
 extension ListLicenseConfigurationsInput {
 
     static func write(value: ListLicenseConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: LicenseManagerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LicenseConfigurationArns"].writeList(value.licenseConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListLicenseConfigurationsForOrganizationInput {
+
+    static func write(value: ListLicenseConfigurationsForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: LicenseManagerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LicenseConfigurationArns"].writeList(value.licenseConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5336,6 +6515,33 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateLicenseAssetGroupInput {
+
+    static func write(value: UpdateLicenseAssetGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedLicenseAssetRulesetARNs"].writeList(value.associatedLicenseAssetRulesetARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["LicenseAssetGroupArn"].write(value.licenseAssetGroupArn)
+        try writer["LicenseAssetGroupConfigurations"].writeList(value.licenseAssetGroupConfigurations, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetGroupConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Properties"].writeList(value.properties, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetGroupProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Status"].write(value.status)
+    }
+}
+
+extension UpdateLicenseAssetRulesetInput {
+
+    static func write(value: UpdateLicenseAssetRulesetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["LicenseAssetRulesetArn"].write(value.licenseAssetRulesetArn)
+        try writer["Name"].write(value.name)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: LicenseManagerClientTypes.LicenseAssetRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateLicenseConfigurationInput {
 
     static func write(value: UpdateLicenseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5346,6 +6552,7 @@ extension UpdateLicenseConfigurationInput {
         try writer["LicenseConfigurationStatus"].write(value.licenseConfigurationStatus)
         try writer["LicenseCount"].write(value.licenseCount)
         try writer["LicenseCountHardLimit"].write(value.licenseCountHardLimit)
+        try writer["LicenseExpiry"].write(value.licenseExpiry)
         try writer["LicenseRules"].writeList(value.licenseRules, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["ProductInformationList"].writeList(value.productInformationList, memberWritingClosure: LicenseManagerClientTypes.ProductInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5381,6 +6588,7 @@ extension UpdateServiceSettingsInput {
     static func write(value: UpdateServiceSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnableCrossAccountsDiscovery"].write(value.enableCrossAccountsDiscovery)
+        try writer["EnabledDiscoverySourceRegions"].writeList(value.enabledDiscoverySourceRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OrganizationConfiguration"].write(value.organizationConfiguration, with: LicenseManagerClientTypes.OrganizationConfiguration.write(value:to:))
         try writer["S3BucketArn"].write(value.s3BucketArn)
         try writer["SnsTopicArn"].write(value.snsTopicArn)
@@ -5488,6 +6696,31 @@ extension CreateLicenseOutput {
     }
 }
 
+extension CreateLicenseAssetGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLicenseAssetGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLicenseAssetGroupOutput()
+        value.licenseAssetGroupArn = try reader["LicenseAssetGroupArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateLicenseAssetRulesetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLicenseAssetRulesetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLicenseAssetRulesetOutput()
+        value.licenseAssetRulesetArn = try reader["LicenseAssetRulesetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateLicenseConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLicenseConfigurationOutput {
@@ -5579,6 +6812,25 @@ extension DeleteLicenseOutput {
     }
 }
 
+extension DeleteLicenseAssetGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLicenseAssetGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteLicenseAssetGroupOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteLicenseAssetRulesetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLicenseAssetRulesetOutput {
+        return DeleteLicenseAssetRulesetOutput()
+    }
+}
+
 extension DeleteLicenseConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLicenseConfigurationOutput {
@@ -5649,6 +6901,30 @@ extension GetLicenseOutput {
     }
 }
 
+extension GetLicenseAssetGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLicenseAssetGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLicenseAssetGroupOutput()
+        value.licenseAssetGroup = try reader["LicenseAssetGroup"].readIfPresent(with: LicenseManagerClientTypes.LicenseAssetGroup.read(from:))
+        return value
+    }
+}
+
+extension GetLicenseAssetRulesetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLicenseAssetRulesetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLicenseAssetRulesetOutput()
+        value.licenseAssetRuleset = try reader["LicenseAssetRuleset"].readIfPresent(with: LicenseManagerClientTypes.LicenseAssetRuleset.read(from:))
+        return value
+    }
+}
+
 extension GetLicenseConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLicenseConfigurationOutput {
@@ -5666,6 +6942,7 @@ extension GetLicenseConfigurationOutput {
         value.licenseCount = try reader["LicenseCount"].readIfPresent()
         value.licenseCountHardLimit = try reader["LicenseCountHardLimit"].readIfPresent()
         value.licenseCountingType = try reader["LicenseCountingType"].readIfPresent()
+        value.licenseExpiry = try reader["LicenseExpiry"].readIfPresent()
         value.licenseRules = try reader["LicenseRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.managedResourceSummaryList = try reader["ManagedResourceSummaryList"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ManagedResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
@@ -5728,11 +7005,27 @@ extension GetServiceSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetServiceSettingsOutput()
+        value.crossRegionDiscoveryHomeRegion = try reader["CrossRegionDiscoveryHomeRegion"].readIfPresent()
+        value.crossRegionDiscoverySourceRegions = try reader["CrossRegionDiscoverySourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableCrossAccountsDiscovery = try reader["EnableCrossAccountsDiscovery"].readIfPresent()
         value.licenseManagerResourceShareArn = try reader["LicenseManagerResourceShareArn"].readIfPresent()
         value.organizationConfiguration = try reader["OrganizationConfiguration"].readIfPresent(with: LicenseManagerClientTypes.OrganizationConfiguration.read(from:))
         value.s3BucketArn = try reader["S3BucketArn"].readIfPresent()
+        value.serviceStatus = try reader["ServiceStatus"].readIfPresent(with: LicenseManagerClientTypes.ServiceStatus.read(from:))
         value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssetsForLicenseAssetGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetsForLicenseAssetGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssetsForLicenseAssetGroupOutput()
+        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -5776,6 +7069,32 @@ extension ListFailuresForLicenseConfigurationOperationsOutput {
     }
 }
 
+extension ListLicenseAssetGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLicenseAssetGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLicenseAssetGroupsOutput()
+        value.licenseAssetGroups = try reader["LicenseAssetGroups"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseAssetGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLicenseAssetRulesetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLicenseAssetRulesetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLicenseAssetRulesetsOutput()
+        value.licenseAssetRulesets = try reader["LicenseAssetRulesets"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseAssetRuleset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListLicenseConfigurationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLicenseConfigurationsOutput {
@@ -5783,6 +7102,19 @@ extension ListLicenseConfigurationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLicenseConfigurationsOutput()
+        value.licenseConfigurations = try reader["LicenseConfigurations"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLicenseConfigurationsForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLicenseConfigurationsForOrganizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLicenseConfigurationsForOrganizationOutput()
         value.licenseConfigurations = try reader["LicenseConfigurations"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
@@ -5985,6 +7317,31 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateLicenseAssetGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLicenseAssetGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLicenseAssetGroupOutput()
+        value.licenseAssetGroupArn = try reader["LicenseAssetGroupArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateLicenseAssetRulesetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLicenseAssetRulesetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLicenseAssetRulesetOutput()
+        value.licenseAssetRulesetArn = try reader["LicenseAssetRulesetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension UpdateLicenseConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLicenseConfigurationOutput {
@@ -6161,6 +7518,44 @@ enum CreateLicenseOutputError {
     }
 }
 
+enum CreateLicenseAssetGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateLicenseAssetRulesetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateLicenseConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6296,6 +7691,44 @@ enum DeleteLicenseOutputError {
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "RedirectException": return try RedirectException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteLicenseAssetGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteLicenseAssetRulesetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6439,6 +7872,44 @@ enum GetLicenseOutputError {
     }
 }
 
+enum GetLicenseAssetGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetLicenseAssetRulesetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetLicenseConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6532,6 +8003,25 @@ enum GetServiceSettingsOutputError {
     }
 }
 
+enum ListAssetsForLicenseAssetGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAssociationsForLicenseConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6589,7 +8079,64 @@ enum ListFailuresForLicenseConfigurationOperationsOutputError {
     }
 }
 
+enum ListLicenseAssetGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLicenseAssetRulesetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListLicenseConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "FilterLimitExceeded": return try FilterLimitExceededException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLicenseConfigurationsForOrganizationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6815,6 +8362,7 @@ enum ListTagsForResourceOutputError {
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6890,6 +8438,7 @@ enum TagResourceOutputError {
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6908,6 +8457,45 @@ enum UntagResourceOutputError {
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLicenseAssetGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLicenseAssetRulesetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6985,9 +8573,11 @@ enum UpdateServiceSettingsOutputError {
         switch baseError.code {
             case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7418,6 +9008,233 @@ extension LicenseManagerClientTypes.IssuerDetails {
     }
 }
 
+extension LicenseManagerClientTypes.LicenseAssetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseAssetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseAssetGroup()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.licenseAssetGroupConfigurations = try reader["LicenseAssetGroupConfigurations"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseAssetGroupConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedLicenseAssetRulesetARNs = try reader["AssociatedLicenseAssetRulesetARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseAssetGroupProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.licenseAssetGroupArn = try reader["LicenseAssetGroupArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.latestUsageAnalysisTime = try reader["LatestUsageAnalysisTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestResourceDiscoveryTime = try reader["LatestResourceDiscoveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseAssetGroupProperty {
+
+    static func write(value: LicenseManagerClientTypes.LicenseAssetGroupProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseAssetGroupProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseAssetGroupProperty()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseAssetGroupConfiguration {
+
+    static func write(value: LicenseManagerClientTypes.LicenseAssetGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UsageDimension"].write(value.usageDimension)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseAssetGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseAssetGroupConfiguration()
+        value.usageDimension = try reader["UsageDimension"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseAssetRuleset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseAssetRuleset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseAssetRuleset()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.LicenseAssetRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.licenseAssetRulesetArn = try reader["LicenseAssetRulesetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseAssetRule {
+
+    static func write(value: LicenseManagerClientTypes.LicenseAssetRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleStatement"].write(value.ruleStatement, with: LicenseManagerClientTypes.RuleStatement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseAssetRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseAssetRule()
+        value.ruleStatement = try reader["RuleStatement"].readIfPresent(with: LicenseManagerClientTypes.RuleStatement.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.RuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.RuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceRuleStatement"].write(value.instanceRuleStatement, with: LicenseManagerClientTypes.InstanceRuleStatement.write(value:to:))
+        try writer["LicenseConfigurationRuleStatement"].write(value.licenseConfigurationRuleStatement, with: LicenseManagerClientTypes.LicenseConfigurationRuleStatement.write(value:to:))
+        try writer["LicenseRuleStatement"].write(value.licenseRuleStatement, with: LicenseManagerClientTypes.LicenseRuleStatement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.RuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.RuleStatement()
+        value.licenseConfigurationRuleStatement = try reader["LicenseConfigurationRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.LicenseConfigurationRuleStatement.read(from:))
+        value.licenseRuleStatement = try reader["LicenseRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.LicenseRuleStatement.read(from:))
+        value.instanceRuleStatement = try reader["InstanceRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.InstanceRuleStatement.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.InstanceRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.InstanceRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndRuleStatement"].write(value.andRuleStatement, with: LicenseManagerClientTypes.AndRuleStatement.write(value:to:))
+        try writer["MatchingRuleStatement"].write(value.matchingRuleStatement, with: LicenseManagerClientTypes.MatchingRuleStatement.write(value:to:))
+        try writer["OrRuleStatement"].write(value.orRuleStatement, with: LicenseManagerClientTypes.OrRuleStatement.write(value:to:))
+        try writer["ScriptRuleStatement"].write(value.scriptRuleStatement, with: LicenseManagerClientTypes.ScriptRuleStatement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.InstanceRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.InstanceRuleStatement()
+        value.andRuleStatement = try reader["AndRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.AndRuleStatement.read(from:))
+        value.orRuleStatement = try reader["OrRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.OrRuleStatement.read(from:))
+        value.matchingRuleStatement = try reader["MatchingRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.MatchingRuleStatement.read(from:))
+        value.scriptRuleStatement = try reader["ScriptRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.ScriptRuleStatement.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.ScriptRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.ScriptRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyToMatch"].write(value.keyToMatch)
+        try writer["Script"].write(value.script)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ScriptRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.ScriptRuleStatement()
+        value.keyToMatch = try reader["KeyToMatch"].readIfPresent() ?? ""
+        value.script = try reader["Script"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.MatchingRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.MatchingRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Constraint"].write(value.constraint)
+        try writer["KeyToMatch"].write(value.keyToMatch)
+        try writer["ValueToMatch"].writeList(value.valueToMatch, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.MatchingRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.MatchingRuleStatement()
+        value.keyToMatch = try reader["KeyToMatch"].readIfPresent() ?? ""
+        value.constraint = try reader["Constraint"].readIfPresent() ?? ""
+        value.valueToMatch = try reader["ValueToMatch"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.OrRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.OrRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchingRuleStatements"].writeList(value.matchingRuleStatements, memberWritingClosure: LicenseManagerClientTypes.MatchingRuleStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScriptRuleStatements"].writeList(value.scriptRuleStatements, memberWritingClosure: LicenseManagerClientTypes.ScriptRuleStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.OrRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.OrRuleStatement()
+        value.matchingRuleStatements = try reader["MatchingRuleStatements"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.MatchingRuleStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scriptRuleStatements = try reader["ScriptRuleStatements"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ScriptRuleStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.AndRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.AndRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchingRuleStatements"].writeList(value.matchingRuleStatements, memberWritingClosure: LicenseManagerClientTypes.MatchingRuleStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScriptRuleStatements"].writeList(value.scriptRuleStatements, memberWritingClosure: LicenseManagerClientTypes.ScriptRuleStatement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.AndRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.AndRuleStatement()
+        value.matchingRuleStatements = try reader["MatchingRuleStatements"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.MatchingRuleStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scriptRuleStatements = try reader["ScriptRuleStatements"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ScriptRuleStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.LicenseRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndRuleStatement"].write(value.andRuleStatement, with: LicenseManagerClientTypes.AndRuleStatement.write(value:to:))
+        try writer["MatchingRuleStatement"].write(value.matchingRuleStatement, with: LicenseManagerClientTypes.MatchingRuleStatement.write(value:to:))
+        try writer["OrRuleStatement"].write(value.orRuleStatement, with: LicenseManagerClientTypes.OrRuleStatement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseRuleStatement()
+        value.andRuleStatement = try reader["AndRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.AndRuleStatement.read(from:))
+        value.orRuleStatement = try reader["OrRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.OrRuleStatement.read(from:))
+        value.matchingRuleStatement = try reader["MatchingRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.MatchingRuleStatement.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.LicenseConfigurationRuleStatement {
+
+    static func write(value: LicenseManagerClientTypes.LicenseConfigurationRuleStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndRuleStatement"].write(value.andRuleStatement, with: LicenseManagerClientTypes.AndRuleStatement.write(value:to:))
+        try writer["MatchingRuleStatement"].write(value.matchingRuleStatement, with: LicenseManagerClientTypes.MatchingRuleStatement.write(value:to:))
+        try writer["OrRuleStatement"].write(value.orRuleStatement, with: LicenseManagerClientTypes.OrRuleStatement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.LicenseConfigurationRuleStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.LicenseConfigurationRuleStatement()
+        value.andRuleStatement = try reader["AndRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.AndRuleStatement.read(from:))
+        value.orRuleStatement = try reader["OrRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.OrRuleStatement.read(from:))
+        value.matchingRuleStatement = try reader["MatchingRuleStatement"].readIfPresent(with: LicenseManagerClientTypes.MatchingRuleStatement.read(from:))
+        return value
+    }
+}
+
 extension LicenseManagerClientTypes.ConsumedLicenseSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ConsumedLicenseSummary {
@@ -7591,13 +9408,19 @@ extension LicenseManagerClientTypes.ReportContext {
 
     static func write(value: LicenseManagerClientTypes.ReportContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["licenseAssetGroupArns"].writeList(value.licenseAssetGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["licenseConfigurationArns"].writeList(value.licenseConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["reportEndDate"].writeTimestamp(value.reportEndDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["reportStartDate"].writeTimestamp(value.reportStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ReportContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.ReportContext()
         value.licenseConfigurationArns = try reader["licenseConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.licenseAssetGroupArns = try reader["licenseAssetGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportStartDate = try reader["reportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.reportEndDate = try reader["reportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -7636,6 +9459,58 @@ extension LicenseManagerClientTypes.OrganizationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.OrganizationConfiguration()
         value.enableIntegration = try reader["EnableIntegration"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.ServiceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ServiceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.ServiceStatus()
+        value.crossAccountDiscovery = try reader["CrossAccountDiscovery"].readIfPresent(with: LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus.read(from:))
+        value.crossRegionDiscovery = try reader["CrossRegionDiscovery"].readIfPresent(with: LicenseManagerClientTypes.CrossRegionDiscoveryStatus.read(from:))
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.CrossRegionDiscoveryStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.CrossRegionDiscoveryStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.CrossRegionDiscoveryStatus()
+        value.message = try reader["Message"].readMapIfPresent(valueReadingClosure: LicenseManagerClientTypes.RegionStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.RegionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.RegionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.RegionStatus()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.CrossAccountDiscoveryServiceStatus()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.Asset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.Asset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.Asset()
+        value.assetArn = try reader["AssetArn"].readIfPresent()
+        value.latestAssetDiscoveryTime = try reader["LatestAssetDiscoveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -7692,6 +9567,7 @@ extension LicenseManagerClientTypes.LicenseConfiguration {
         value.managedResourceSummaryList = try reader["ManagedResourceSummaryList"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ManagedResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.productInformationList = try reader["ProductInformationList"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ProductInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.automatedDiscoveryInformation = try reader["AutomatedDiscoveryInformation"].readIfPresent(with: LicenseManagerClientTypes.AutomatedDiscoveryInformation.read(from:))
+        value.licenseExpiry = try reader["LicenseExpiry"].readIfPresent()
         return value
     }
 }
@@ -7778,6 +9654,12 @@ extension LicenseManagerClientTypes.ResourceInventory {
         value.platform = try reader["Platform"].readIfPresent()
         value.platformVersion = try reader["PlatformVersion"].readIfPresent()
         value.resourceOwningAccountId = try reader["ResourceOwningAccountId"].readIfPresent()
+        value.marketplaceProductCodes = try reader["MarketplaceProductCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.usageOperation = try reader["UsageOperation"].readIfPresent()
+        value.amiId = try reader["AmiId"].readIfPresent()
+        value.hostId = try reader["HostId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
         return value
     }
 }

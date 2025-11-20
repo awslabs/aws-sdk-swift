@@ -610,7 +610,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `DeleteGroupingConfiguration` operation on the `ApplicationSignals` service.
     ///
-    /// Deletes a grouping configuration that defines how services are grouped and organized in Application Signals. Once deleted, services will no longer be grouped according to the specified configuration rules. This operation is irreversible. After deletion, you must recreate the grouping configuration if you want to restore the same grouping behavior.
+    /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteGroupingConfigurationInput`)
     ///
@@ -881,7 +881,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `ListAuditFindings` operation on the `ApplicationSignals` service.
     ///
-    /// Retrieves a list of audit findings for Application Signals resources. Audit findings identify potential issues, misconfigurations, or compliance violations in your observability setup. You can filter findings by time range, auditor type, and target resources to focus on specific areas of concern. This operation supports pagination for large result sets.
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAuditFindingsInput`)
     ///
@@ -949,9 +949,79 @@ extension ApplicationSignalsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEntityEvents` operation on the `ApplicationSignals` service.
+    ///
+    /// Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEntityEventsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEntityEventsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func listEntityEvents(input: ListEntityEventsInput) async throws -> ListEntityEventsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEntityEvents")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntityEventsInput, ListEntityEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(ListEntityEventsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(ListEntityEventsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEntityEventsInput, ListEntityEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityEventsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityEventsOutput>(ListEntityEventsOutput.httpOutput(from:), ListEntityEventsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityEventsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntityEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListGroupingAttributeDefinitions` operation on the `ApplicationSignals` service.
     ///
-    /// Retrieves the available grouping attribute definitions that can be used to create grouping configurations. These definitions specify the attributes and rules available for organizing services. Use this operation to discover what grouping options are available before creating or updating grouping configurations.
+    /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListGroupingAttributeDefinitionsInput`)
     ///
@@ -1367,7 +1437,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `ListServiceStates` operation on the `ApplicationSignals` service.
     ///
-    /// Retrieves the current state information for services monitored by Application Signals. Service states include health status, recent change events, and other operational metadata. You can filter results by time range, AWS account, and service attributes to focus on specific services or time periods. This operation supports pagination and can include data from linked accounts.
+    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceStatesInput`)
     ///
@@ -1570,7 +1640,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `PutGroupingConfiguration` operation on the `ApplicationSignals` service.
     ///
-    /// Creates or updates a grouping configuration that defines how services are organized and grouped in Application Signals dashboards and service maps. Grouping configurations allow you to logically organize services based on attributes such as environment, team ownership, or business function, making it easier to monitor and manage related services together.
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutGroupingConfigurationInput`)
     ///
@@ -1657,7 +1727,7 @@ extension ApplicationSignalsClient {
     /// * autoscaling:DescribeAutoScalingGroups
     ///
     ///
-    /// After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
+    /// A service-linked CloudTrail event channel is created to process CloudTrail events and return change event information. This includes last deployment time, userName, eventName, and other event metadata. After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDiscoveryInput`)
     ///

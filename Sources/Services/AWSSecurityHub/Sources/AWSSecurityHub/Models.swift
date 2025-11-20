@@ -25491,6 +25491,78 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum FindingsTrendsStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case complianceControl
+        case complianceStatus
+        case cveId
+        case findingActivityName
+        case findingClass
+        case findingStatus
+        case findingType
+        case providerName
+        case region
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingsTrendsStringField] {
+            return [
+                .accountId,
+                .complianceControl,
+                .complianceStatus,
+                .cveId,
+                .findingActivityName,
+                .findingClass,
+                .findingStatus,
+                .findingType,
+                .providerName,
+                .region
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "account_id"
+            case .complianceControl: return "finding_control_id"
+            case .complianceStatus: return "finding_compliance_status"
+            case .cveId: return "finding_cve_ids"
+            case .findingActivityName: return "finding_activity_name"
+            case .findingClass: return "finding_class_name"
+            case .findingStatus: return "finding_status"
+            case .findingType: return "finding_types"
+            case .providerName: return "finding_provider"
+            case .region: return "region"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A filter for string-based fields in findings trend data.
+    public struct FindingsTrendsStringFilter: Swift.Sendable {
+        /// The name of the findings field to filter on.
+        public var fieldName: SecurityHubClientTypes.FindingsTrendsStringField?
+        /// A string filter for filtering Security Hub findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.FindingsTrendsStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
 public struct GetAdministratorAccountInput: Swift.Sendable {
 
     public init() { }
@@ -26162,6 +26234,147 @@ public struct GetFindingStatisticsV2Output: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum GranularityField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daily
+        case monthly
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GranularityField] {
+            return [
+                .daily,
+                .monthly,
+                .weekly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "Daily"
+            case .monthly: return "Monthly"
+            case .weekly: return "Weekly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains counts of findings grouped by severity level for trend analysis.
+    public struct SeverityTrendsCount: Swift.Sendable {
+        /// The count of findings with Critical severity level at this point in the trend timeline.
+        /// This member is required.
+        public var critical: Swift.Int?
+        /// The count of findings with Fatal severity level at this point in the trend timeline.
+        /// This member is required.
+        public var fatal: Swift.Int?
+        /// The count of findings with High severity level at this point in the trend timeline.
+        /// This member is required.
+        public var high: Swift.Int?
+        /// The count of findings with Informational severity level at this point in the trend timeline.
+        /// This member is required.
+        public var informational: Swift.Int?
+        /// The count of findings with Low severity level at this point in the trend timeline.
+        /// This member is required.
+        public var low: Swift.Int?
+        /// The count of findings with Medium severity level at this point in the trend timeline.
+        /// This member is required.
+        public var medium: Swift.Int?
+        /// The count of findings with severity levels not fitting into the standard categories at this point in the trend timeline.
+        /// This member is required.
+        public var other: Swift.Int?
+        /// The count of findings with Unknown severity level at this point in the trend timeline.
+        /// This member is required.
+        public var unknown: Swift.Int?
+
+        public init(
+            critical: Swift.Int? = nil,
+            fatal: Swift.Int? = nil,
+            high: Swift.Int? = nil,
+            informational: Swift.Int? = nil,
+            low: Swift.Int? = nil,
+            medium: Swift.Int? = nil,
+            other: Swift.Int? = nil,
+            unknown: Swift.Int? = nil
+        ) {
+            self.critical = critical
+            self.fatal = fatal
+            self.high = high
+            self.informational = informational
+            self.low = low
+            self.medium = medium
+            self.other = other
+            self.unknown = unknown
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the aggregated finding values for a specific point in the findings trend timeline.
+    public struct TrendsValues: Swift.Sendable {
+        /// The count of findings organized by severity level for this data point in the trend timeline.
+        /// This member is required.
+        public var severityTrends: SecurityHubClientTypes.SeverityTrendsCount?
+
+        public init(
+            severityTrends: SecurityHubClientTypes.SeverityTrendsCount? = nil
+        ) {
+            self.severityTrends = severityTrends
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the findings trend metrics data for a specific time point in the requested time period.
+    public struct TrendsMetricsResult: Swift.Sendable {
+        /// The timestamp for this data point in the findings trend metrics.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+        /// The finding trend metric values associated with this timestamp, including severity counts.
+        /// This member is required.
+        public var trendsValues: SecurityHubClientTypes.TrendsValues?
+
+        public init(
+            timestamp: Foundation.Date? = nil,
+            trendsValues: SecurityHubClientTypes.TrendsValues? = nil
+        ) {
+            self.timestamp = timestamp
+            self.trendsValues = trendsValues
+        }
+    }
+}
+
+public struct GetFindingsTrendsV2Output: Swift.Sendable {
+    /// The time interval granularity for the returned trend data.
+    /// This member is required.
+    public var granularity: SecurityHubClientTypes.GranularityField?
+    /// The token to use for retrieving the next page of results, if more trend data is available.
+    public var nextToken: Swift.String?
+    /// The collection of time-series trend metrics, including counts of findings by severity across the specified time period.
+    /// This member is required.
+    public var trendsMetrics: [SecurityHubClientTypes.TrendsMetricsResult]?
+
+    public init(
+        granularity: SecurityHubClientTypes.GranularityField? = nil,
+        nextToken: Swift.String? = nil,
+        trendsMetrics: [SecurityHubClientTypes.TrendsMetricsResult]? = nil
+    ) {
+        self.granularity = granularity
+        self.nextToken = nextToken
+        self.trendsMetrics = trendsMetrics
+    }
+}
+
 public struct GetFindingsV2Output: Swift.Sendable {
     /// An array of security findings returned by the operation.
     public var findings: [Smithy.Document]?
@@ -26708,6 +26921,134 @@ public struct GetResourcesStatisticsV2Output: Swift.Sendable {
         groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
     ) {
         self.groupByResults = groupByResults
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesTrendsStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case region
+        case resourceCategory
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesTrendsStringField] {
+            return [
+                .accountId,
+                .region,
+                .resourceCategory,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "account_id"
+            case .region: return "region"
+            case .resourceCategory: return "resource_category"
+            case .resourceType: return "resource_type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A filter for string-based fields in resources trend data, such as resource type or account ID.
+    public struct ResourcesTrendsStringFilter: Swift.Sendable {
+        /// The name of the resources field to filter on, such as resourceType, accountId, or region.
+        public var fieldName: SecurityHubClientTypes.ResourcesTrendsStringField?
+        /// A string filter for filtering Security Hub findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesTrendsStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains counts of resources for trend analysis.
+    public struct ResourcesCount: Swift.Sendable {
+        /// The total count of all resources for the given time interval.
+        /// This member is required.
+        public var allResources: Swift.Int?
+
+        public init(
+            allResources: Swift.Int? = nil
+        ) {
+            self.allResources = allResources
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the aggregated resource count values for a specific point in the resources trend timeline.
+    public struct ResourcesTrendsValues: Swift.Sendable {
+        /// The resource count statistics for this data point in the trend timeline.
+        /// This member is required.
+        public var resourcesCount: SecurityHubClientTypes.ResourcesCount?
+
+        public init(
+            resourcesCount: SecurityHubClientTypes.ResourcesCount? = nil
+        ) {
+            self.resourcesCount = resourcesCount
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the resource trend metrics data for a specific time point in the requested time period.
+    public struct ResourcesTrendsMetricsResult: Swift.Sendable {
+        /// The timestamp for this data point in the resources trend metrics.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+        /// The resource trend metric values associated with this timestamp, including resource counts.
+        /// This member is required.
+        public var trendsValues: SecurityHubClientTypes.ResourcesTrendsValues?
+
+        public init(
+            timestamp: Foundation.Date? = nil,
+            trendsValues: SecurityHubClientTypes.ResourcesTrendsValues? = nil
+        ) {
+            self.timestamp = timestamp
+            self.trendsValues = trendsValues
+        }
+    }
+}
+
+public struct GetResourcesTrendsV2Output: Swift.Sendable {
+    /// The time interval granularity for the returned trend data (such as DAILY or WEEKLY).
+    /// This member is required.
+    public var granularity: SecurityHubClientTypes.GranularityField?
+    /// The token to use for retrieving the next page of results, if more trend data is available.
+    public var nextToken: Swift.String?
+    /// The collection of time-series trend metrics, including counts of resources across the specified time period.
+    /// This member is required.
+    public var trendsMetrics: [SecurityHubClientTypes.ResourcesTrendsMetricsResult]?
+
+    public init(
+        granularity: SecurityHubClientTypes.GranularityField? = nil,
+        nextToken: Swift.String? = nil,
+        trendsMetrics: [SecurityHubClientTypes.ResourcesTrendsMetricsResult]? = nil
+    ) {
+        self.granularity = granularity
+        self.nextToken = nextToken
+        self.trendsMetrics = trendsMetrics
     }
 }
 
@@ -28165,6 +28506,29 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// A filter structure that contains a logical combination of string filters and nested composite filters for findings trend data.
+    public struct FindingsTrendsCompositeFilter: Swift.Sendable {
+        /// A list of nested composite filters that you can use to create complex filter conditions for findings trend data.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.FindingsTrendsCompositeFilter]?
+        /// The logical operator (AND, OR) to apply between the string filters and nested composite filters.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// A list of string filters that apply to findings trend data fields.
+        public var stringFilters: [SecurityHubClientTypes.FindingsTrendsStringFilter]?
+
+        public init(
+            nestedCompositeFilters: [SecurityHubClientTypes.FindingsTrendsCompositeFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.FindingsTrendsStringFilter]? = nil
+        ) {
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Enables the creation of criteria for Amazon Web Services resources in Security Hub.
     public struct ResourcesCompositeFilter: Swift.Sendable {
         /// Enables filtering based on date and timestamp field values.
@@ -28200,6 +28564,48 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// A filter structure that contains a logical combination of string filters and nested composite filters for resources trend data.
+    public struct ResourcesTrendsCompositeFilter: Swift.Sendable {
+        /// A list of nested composite filters that you can use to create complex filter conditions for resources trend data.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.ResourcesTrendsCompositeFilter]?
+        /// The logical operator (AND, OR) to apply between the string filters and nested composite filters.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// A list of string filters that apply to resources trend data fields.
+        public var stringFilters: [SecurityHubClientTypes.ResourcesTrendsStringFilter]?
+
+        public init(
+            nestedCompositeFilters: [SecurityHubClientTypes.ResourcesTrendsCompositeFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.ResourcesTrendsStringFilter]? = nil
+        ) {
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The structure that defines filters to apply to findings trend data queries.
+    public struct FindingsTrendsFilters: Swift.Sendable {
+        /// A list of composite filters to apply to the findings trend data.
+        public var compositeFilters: [SecurityHubClientTypes.FindingsTrendsCompositeFilter]?
+        /// The logical operator (AND, OR) to apply between multiple composite filters.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.FindingsTrendsCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Specifies the filtering criteria for security findings using OCSF.
     public struct OcsfFindingFilters: Swift.Sendable {
         /// Enables the creation of complex filtering conditions by combining filter criteria.
@@ -28228,6 +28634,25 @@ extension SecurityHubClientTypes {
 
         public init(
             compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The structure that defines filters to apply to resources trend data queries.
+    public struct ResourcesTrendsFilters: Swift.Sendable {
+        /// A list of composite filters to apply to the resources trend data.
+        public var compositeFilters: [SecurityHubClientTypes.ResourcesTrendsCompositeFilter]?
+        /// The logical operator (AND, OR) to apply between multiple composite filters.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.ResourcesTrendsCompositeFilter]? = nil,
             compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
         ) {
             self.compositeFilters = compositeFilters
@@ -28286,6 +28711,35 @@ extension SecurityHubClientTypes {
     }
 }
 
+public struct GetFindingsTrendsV2Input: Swift.Sendable {
+    /// The ending timestamp for the time period to analyze findings trends, in ISO 8601 format.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The filters to apply to the findings trend data.
+    public var filters: SecurityHubClientTypes.FindingsTrendsFilters?
+    /// The maximum number of trend data points to return in a single response.
+    public var maxResults: Swift.Int?
+    /// The token to use for paginating results. This value is returned in the response if more results are available.
+    public var nextToken: Swift.String?
+    /// The starting timestamp for the time period to analyze findings trends, in ISO 8601 format.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        filters: SecurityHubClientTypes.FindingsTrendsFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
 public struct GetFindingsV2Input: Swift.Sendable {
     /// The finding attributes used to define a condition to filter the returned OCSF findings. You can filter up to 10 composite filters. For each filter type inside of a composite filter, you can provide up to 20 filters.
     public var filters: SecurityHubClientTypes.OcsfFindingFilters?
@@ -28306,6 +28760,35 @@ public struct GetFindingsV2Input: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortCriteria = sortCriteria
+    }
+}
+
+public struct GetResourcesTrendsV2Input: Swift.Sendable {
+    /// The ending timestamp for the time period to analyze resources trends, in ISO 8601 format.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The filters to apply to the resources trend data.
+    public var filters: SecurityHubClientTypes.ResourcesTrendsFilters?
+    /// The maximum number of trend data points to return in a single response.
+    public var maxResults: Swift.Int?
+    /// The token to use for paginating results. This value is returned in the response if more results are available.
+    public var nextToken: Swift.String?
+    /// The starting timestamp for the time period to analyze resources trends, in ISO 8601 format.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        filters: SecurityHubClientTypes.ResourcesTrendsFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
     }
 }
 
@@ -29076,6 +29559,13 @@ extension GetFindingStatisticsV2Input {
     }
 }
 
+extension GetFindingsTrendsV2Input {
+
+    static func urlPathProvider(_ value: GetFindingsTrendsV2Input) -> Swift.String? {
+        return "/findingsTrendsv2"
+    }
+}
+
 extension GetFindingsV2Input {
 
     static func urlPathProvider(_ value: GetFindingsV2Input) -> Swift.String? {
@@ -29125,6 +29615,13 @@ extension GetResourcesStatisticsV2Input {
 
     static func urlPathProvider(_ value: GetResourcesStatisticsV2Input) -> Swift.String? {
         return "/resourcesv2/statistics"
+    }
+}
+
+extension GetResourcesTrendsV2Input {
+
+    static func urlPathProvider(_ value: GetResourcesTrendsV2Input) -> Swift.String? {
+        return "/resourcesTrendsv2"
     }
 }
 
@@ -30022,6 +30519,18 @@ extension GetFindingStatisticsV2Input {
     }
 }
 
+extension GetFindingsTrendsV2Input {
+
+    static func write(value: GetFindingsTrendsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.FindingsTrendsFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
 extension GetFindingsV2Input {
 
     static func write(value: GetFindingsV2Input?, to writer: SmithyJSON.Writer) throws {
@@ -30058,6 +30567,18 @@ extension GetResourcesStatisticsV2Input {
         try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.ResourceGroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxStatisticResults"].write(value.maxStatisticResults)
         try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension GetResourcesTrendsV2Input {
+
+    static func write(value: GetResourcesTrendsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.ResourcesTrendsFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 
@@ -31019,6 +31540,20 @@ extension GetFindingStatisticsV2Output {
     }
 }
 
+extension GetFindingsTrendsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingsTrendsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingsTrendsV2Output()
+        value.granularity = try reader["Granularity"].readIfPresent() ?? .sdkUnknown("")
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.trendsMetrics = try reader["TrendsMetrics"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.TrendsMetricsResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension GetFindingsV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingsV2Output {
@@ -31102,6 +31637,20 @@ extension GetResourcesStatisticsV2Output {
         let reader = responseReader
         var value = GetResourcesStatisticsV2Output()
         value.groupByResults = try reader["GroupByResults"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetResourcesTrendsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcesTrendsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcesTrendsV2Output()
+        value.granularity = try reader["Granularity"].readIfPresent() ?? .sdkUnknown("")
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.trendsMetrics = try reader["TrendsMetrics"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesTrendsMetricsResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -32648,6 +33197,23 @@ enum GetFindingStatisticsV2OutputError {
     }
 }
 
+enum GetFindingsTrendsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFindingsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32767,6 +33333,23 @@ enum GetResourcesStatisticsV2OutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcesTrendsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -48351,6 +48934,44 @@ extension SecurityHubClientTypes.GroupByValue {
     }
 }
 
+extension SecurityHubClientTypes.TrendsMetricsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.TrendsMetricsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.TrendsMetricsResult()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.trendsValues = try reader["TrendsValues"].readIfPresent(with: SecurityHubClientTypes.TrendsValues.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.TrendsValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.TrendsValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.TrendsValues()
+        value.severityTrends = try reader["SeverityTrends"].readIfPresent(with: SecurityHubClientTypes.SeverityTrendsCount.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.SeverityTrendsCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SeverityTrendsCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.SeverityTrendsCount()
+        value.unknown = try reader["Unknown"].readIfPresent() ?? 0
+        value.informational = try reader["Informational"].readIfPresent() ?? 0
+        value.low = try reader["Low"].readIfPresent() ?? 0
+        value.medium = try reader["Medium"].readIfPresent() ?? 0
+        value.high = try reader["High"].readIfPresent() ?? 0
+        value.critical = try reader["Critical"].readIfPresent() ?? 0
+        value.fatal = try reader["Fatal"].readIfPresent() ?? 0
+        value.other = try reader["Other"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.InsightResults {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResults {
@@ -48635,6 +49256,37 @@ extension SecurityHubClientTypes.Member {
         value.memberStatus = try reader["MemberStatus"].readIfPresent()
         value.invitedAt = try reader["InvitedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesTrendsMetricsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesTrendsMetricsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesTrendsMetricsResult()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.trendsValues = try reader["TrendsValues"].readIfPresent(with: SecurityHubClientTypes.ResourcesTrendsValues.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesTrendsValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesTrendsValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesTrendsValues()
+        value.resourcesCount = try reader["ResourcesCount"].readIfPresent(with: SecurityHubClientTypes.ResourcesCount.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesCount()
+        value.allResources = try reader["AllResources"].readIfPresent() ?? 0
         return value
     }
 }
@@ -49072,6 +49724,34 @@ extension SecurityHubClientTypes.GroupByRule {
     }
 }
 
+extension SecurityHubClientTypes.FindingsTrendsFilters {
+
+    static func write(value: SecurityHubClientTypes.FindingsTrendsFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.FindingsTrendsCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+}
+
+extension SecurityHubClientTypes.FindingsTrendsCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.FindingsTrendsCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.FindingsTrendsCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.FindingsTrendsStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.FindingsTrendsStringFilter {
+
+    static func write(value: SecurityHubClientTypes.FindingsTrendsStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+}
+
 extension SecurityHubClientTypes.ResourceGroupByRule {
 
     static func write(value: SecurityHubClientTypes.ResourceGroupByRule?, to writer: SmithyJSON.Writer) throws {
@@ -49133,6 +49813,34 @@ extension SecurityHubClientTypes.ResourcesDateFilter {
 extension SecurityHubClientTypes.ResourcesStringFilter {
 
     static func write(value: SecurityHubClientTypes.ResourcesStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesTrendsFilters {
+
+    static func write(value: SecurityHubClientTypes.ResourcesTrendsFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesTrendsCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesTrendsCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesTrendsCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesTrendsCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesTrendsStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesTrendsStringFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesTrendsStringFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
