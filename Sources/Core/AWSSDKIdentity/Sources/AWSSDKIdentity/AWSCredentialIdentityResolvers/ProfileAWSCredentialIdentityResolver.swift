@@ -247,7 +247,21 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             }
         }
 
-        // 6. External process credentials
+        // 6. Login (console) credentials
+        if profile.hasLogin() {
+            resolvers.append { identityProperties in
+                return try await LoginAWSCredentialIdentityResolver(
+                    profileName: profile.name,
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath,
+                    credentialFeatureIDs: credentialFeatureIDs + [
+                        CredentialFeatureID.CREDENTIALS_PROFILE_LOGIN.rawValue
+                    ]
+                ).getIdentity(identityProperties: identityProperties)
+            }
+        }
+
+        // 7. External process credentials
         if profile.hasExternalProcess() {
             resolvers.append { identityProperties in
                 let creds = try await ProcessAWSCredentialIdentityResolver(
@@ -328,6 +342,10 @@ private extension CRTFileBasedConfigurationSection {
     func hasSSO() -> Bool {
         val(for: "sso_account_id") != nil &&
         val(for: "sso_role_name") != nil
+    }
+
+    func hasLogin() -> Bool {
+        val(for: "login_session") != nil
     }
 
     func hasExternalProcess() -> Bool {

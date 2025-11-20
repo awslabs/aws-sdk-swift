@@ -112,6 +112,7 @@ struct PackageManifestBuilder {
             buildInternalAWSSSODependencies(),
             buildInternalAWSSSOOIDCDependencies(),
             buildInternalAWSCognitoIdentityDependencies(),
+            buildInternalAWSSignInDependencies(),
             "",
         ]
         return contents.joined(separator: .newline)
@@ -173,6 +174,10 @@ struct PackageManifestBuilder {
 
     private func buildInternalAWSCognitoIdentityDependencies() -> String {
         buildInternalClientDependencies(name: "AWSCognitoIdentity")
+    }
+
+    private func buildInternalAWSSignInDependencies() -> String {
+        buildInternalClientDependencies(name: "AWSSignin")
     }
 
     private func buildInternalClientDependencies(name: String) -> String {
