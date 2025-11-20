@@ -228,6 +228,7 @@ extension ListRuleGroupsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             scope: self.scope,
+            subscriptionStatus: self.subscriptionStatus,
             type: self.type
         )}
 }

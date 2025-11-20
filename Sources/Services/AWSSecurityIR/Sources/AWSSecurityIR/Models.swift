@@ -26,6 +26,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 ///
@@ -67,6 +69,7 @@ extension SecurityIRClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case apSouth1
         case apSouth2
@@ -106,6 +109,7 @@ extension SecurityIRClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .apSouth1,
                 .apSouth2,
@@ -151,6 +155,7 @@ extension SecurityIRClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .apSouth1: return "ap-south-1"
             case .apSouth2: return "ap-south-2"
@@ -1449,6 +1454,77 @@ public struct UpdateResolverTypeOutput: Swift.Sendable {
     }
 }
 
+extension SecurityIRClientTypes {
+
+    public enum CommunicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caseAcknowledged
+        case caseAttachmentUrlUploaded
+        case caseClosed
+        case caseCommentAdded
+        case caseCommentUpdated
+        case caseCreated
+        case casePendingCustomerActionReminder
+        case caseUpdated
+        case caseUpdatedToServiceManaged
+        case caseUpdateCaseStatus
+        case deregisterDelegatedAdministrator
+        case disableAwsServiceAccess
+        case membershipCancelled
+        case membershipCreated
+        case membershipUpdated
+        case registerDelegatedAdministrator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommunicationType] {
+            return [
+                .caseAcknowledged,
+                .caseAttachmentUrlUploaded,
+                .caseClosed,
+                .caseCommentAdded,
+                .caseCommentUpdated,
+                .caseCreated,
+                .casePendingCustomerActionReminder,
+                .caseUpdated,
+                .caseUpdatedToServiceManaged,
+                .caseUpdateCaseStatus,
+                .deregisterDelegatedAdministrator,
+                .disableAwsServiceAccess,
+                .membershipCancelled,
+                .membershipCreated,
+                .membershipUpdated,
+                .registerDelegatedAdministrator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .caseAcknowledged: return "Case Acknowledged"
+            case .caseAttachmentUrlUploaded: return "Case Attachment Url Uploaded"
+            case .caseClosed: return "Case Closed"
+            case .caseCommentAdded: return "Case Comment Added"
+            case .caseCommentUpdated: return "Case Comment Updated"
+            case .caseCreated: return "Case Created"
+            case .casePendingCustomerActionReminder: return "Case Pending Customer Action Reminder"
+            case .caseUpdated: return "Case Updated"
+            case .caseUpdatedToServiceManaged: return "Case Updated To Service Managed"
+            case .caseUpdateCaseStatus: return "Case Status Updated"
+            case .deregisterDelegatedAdministrator: return "Deregister Delegated Administrator"
+            case .disableAwsServiceAccess: return "Disable AWS Service Access"
+            case .membershipCancelled: return "Membership Cancelled"
+            case .membershipCreated: return "Membership Created"
+            case .membershipUpdated: return "Membership Updated"
+            case .registerDelegatedAdministrator: return "Register Delegated Administrator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 ///
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1489,6 +1565,8 @@ extension SecurityIRClientTypes {
     ///
     public struct IncidentResponder: Swift.Sendable {
         ///
+        public var communicationPreferences: [SecurityIRClientTypes.CommunicationType]?
+        ///
         /// This member is required.
         public var email: Swift.String?
         ///
@@ -1499,10 +1577,12 @@ extension SecurityIRClientTypes {
         public var name: Swift.String?
 
         public init(
+            communicationPreferences: [SecurityIRClientTypes.CommunicationType]? = nil,
             email: Swift.String? = nil,
             jobTitle: Swift.String? = nil,
             name: Swift.String? = nil
         ) {
+            self.communicationPreferences = communicationPreferences
             self.email = email
             self.jobTitle = jobTitle
             self.name = name
@@ -1512,7 +1592,7 @@ extension SecurityIRClientTypes {
 
 extension SecurityIRClientTypes.IncidentResponder: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IncidentResponder(email: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "IncidentResponder(communicationPreferences: \(Swift.String(describing: communicationPreferences)), email: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension SecurityIRClientTypes {
@@ -3512,6 +3592,7 @@ extension SecurityIRClientTypes.IncidentResponder {
 
     static func write(value: SecurityIRClientTypes.IncidentResponder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["communicationPreferences"].writeList(value.communicationPreferences, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityIRClientTypes.CommunicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["email"].write(value.email)
         try writer["jobTitle"].write(value.jobTitle)
         try writer["name"].write(value.name)
@@ -3523,6 +3604,7 @@ extension SecurityIRClientTypes.IncidentResponder {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.jobTitle = try reader["jobTitle"].readIfPresent() ?? ""
         value.email = try reader["email"].readIfPresent() ?? ""
+        value.communicationPreferences = try reader["communicationPreferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityIRClientTypes.CommunicationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

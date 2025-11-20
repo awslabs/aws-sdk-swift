@@ -47,7 +47,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
     }
 }
 
-/// The target of the operation is currently being modified by a different request. Try again later.
+/// The request failed because the target of the operation is currently being modified by a different request. Try again later.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -70,9 +70,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-/// The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+/// The request failed because performing the operation would violate a constraint. Some of the reasons in the following list might not apply to this specific operation.
 ///
-/// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+/// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and permissions](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-prereqs) in the Tagging Amazon Web Services resources and Tag Editor user guide.
 ///
 /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
 ///
@@ -122,17 +122,19 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// This error indicates one of the following:
+/// The request failed because of one of the following reasons:
 ///
-/// * A parameter is missing.
+/// * A required parameter is missing.
 ///
-/// * A malformed string was supplied for the request parameter.
+/// * A provided string parameter is malformed.
 ///
-/// * An out-of-range value was supplied for the request parameter.
+/// * An provided parameter value is out of range.
 ///
 /// * The target ID is invalid, unsupported, or doesn't exist.
 ///
-/// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+/// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+///
+/// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -155,7 +157,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The request was denied to limit the frequency of submitted requests.
+/// The request failed because it exceeded the allowed frequency of submitted requests.
 public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -323,7 +325,7 @@ public struct GetComplianceSummaryInput: Swift.Sendable {
     /// * For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     ///
     ///
-    /// You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
+    /// For the list of services whose resources you can tag using the Resource Groups Tagging API, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html). If an Amazon Web Services service isn't listed on that page, you might still be able to tag that service's resources by using that service's native tagging operations instead of using Resource Groups Tagging API operations. All tagged resources, whether the tagging used the Resource Groups Tagging API or not, are returned by the Get* operation. You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
     public var resourceTypeFilters: [Swift.String]?
     /// Specifies that you want the response to include information for only resources that have tags with the specified tag keys. If you use this parameter, the count of returned noncompliant resources includes only resources that have the specified tag keys.
     public var tagKeyFilters: [Swift.String]?
@@ -431,7 +433,7 @@ public struct GetComplianceSummaryOutput: Swift.Sendable {
     }
 }
 
-/// A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
+/// The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
 public struct PaginationTokenExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -480,21 +482,21 @@ public struct GetResourcesInput: Swift.Sendable {
     public var includeComplianceDetails: Swift.Bool?
     /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
     public var paginationToken: Swift.String?
-    /// Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and any of the pagination parameters (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you specify both, you get an Invalid Parameter exception. If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and the ResourceTypeFilters parameter in the same request. If you do, you get an Invalid Parameter exception. You can't specify both this parameter and the TagFilters parameter in the same request. If you do, you get an Invalid Parameter exception. You can't specify both this parameter and any of the pagination parameters (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you do, you get an Invalid Parameter exception. If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     public var resourceARNList: [Swift.String]?
-    /// Specifies the resource types that you want included in the response. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances. The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). For the list of services whose resources you can use in this parameter, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html). You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. For example, the following string would limit the response to only Amazon EC2 instances, Amazon S3 buckets, or any Audit Manager resource: ec2:instance,s3:bucket,auditmanager
+    /// Specifies the resource types that you want included in the response. The format of each resource type is service[:resourceType]. For example, specifying a service of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances. You can't specify both this parameter and the ResourceArnList parameter in the same request. If you do, you get an Invalid Parameter exception. The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). For the list of services whose resources you can tag using the Resource Groups Tagging API, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html). If an Amazon Web Services service isn't listed on that page, you might still be able to tag that service's resources by using that service's native tagging operations instead of using Resource Groups Tagging API operations. All tagged resources, whether the tagging used the Resource Groups Tagging API or not, are returned by the Get* operation. You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. For example, the following string would limit the response to only Amazon EC2 instances, Amazon S3 buckets, or any Audit Manager resource: ec2:instance,s3:bucket,auditmanager
     public var resourceTypeFilters: [Swift.String]?
     /// Specifies the maximum number of results to be returned in each page. A query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
     public var resourcesPerPage: Swift.Int?
-    /// Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have tags with the specified keys and, if included, the specified values. Each TagFilter must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values. Note the following when deciding how to use TagFilters:
+    /// Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have tags with the specified keys and, if included, the specified values. Each TagFilter must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values. You can't specify both this parameter and the ResourceArnList parameter in the same request. If you do, you get an Invalid Parameter exception. Note the following when deciding how to use TagFilters:
     ///
-    /// * If you don't specify a TagFilter, the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: "Tags": [].
+    /// * If you don't specify a TagFilter, the response includes all resources that are currently tagged or ever had a tag. Resources that were previously tagged, but do not currently have tags, are shown with an empty tag set, like this: "Tags": [].
     ///
     /// * If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.
     ///
     /// * If you specify a filter that contains more than one value for a key, the response returns resources that match any of the specified values for that key.
     ///
-    /// * If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value. For example, for the following filters: filter1= {keyA,{value1}}, filter2={keyB,{value2,value3,value4}}, filter3= {keyC}:
+    /// * If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value. For example, for the following filters: filter1= {key1,{value1}}, filter2={key2,{value2,value3,value4}}, filter3= {key3}:
     ///
     /// * GetResources({filter1}) returns resources tagged with key1=value1
     ///
@@ -644,8 +646,61 @@ public struct GetTagValuesOutput: Swift.Sendable {
     }
 }
 
+public struct ListRequiredTagsInput: Swift.Sendable {
+    /// The maximum number of required tags.
+    public var maxResults: Swift.Int?
+    /// A token for requesting another page of required tags if the NextToken response element indicates that more required tags are available. Use the value of the returned NextToken element in your request until the token comes back as null. Pass null if this is the first call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes {
+
+    /// Information that describes the required tags for a given resource type.
+    public struct RequiredTag: Swift.Sendable {
+        /// Describes the CloudFormation resource type assigned the required tag keys.
+        public var cloudFormationResourceTypes: [Swift.String]?
+        /// These tag keys are marked as required in the report_required_tag_for block of the effective tag policy.
+        public var reportingTagKeys: [Swift.String]?
+        /// Describes the resource type for the required tag keys.
+        public var resourceType: Swift.String?
+
+        public init(
+            cloudFormationResourceTypes: [Swift.String]? = nil,
+            reportingTagKeys: [Swift.String]? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.cloudFormationResourceTypes = cloudFormationResourceTypes
+            self.reportingTagKeys = reportingTagKeys
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct ListRequiredTagsOutput: Swift.Sendable {
+    /// A token for requesting another page of required tags if the NextToken response element indicates that more required tags are available. Use the value of the returned NextToken element in your request until the token comes back as null. Pass null if this is the first call.
+    public var nextToken: Swift.String?
+    /// The required tags.
+    public var requiredTags: [ResourceGroupsTaggingAPIClientTypes.RequiredTag]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requiredTags: [ResourceGroupsTaggingAPIClientTypes.RequiredTag]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requiredTags = requiredTags
+    }
+}
+
 public struct StartReportCreationInput: Swift.Sendable {
-    /// The name of the Amazon S3 bucket where the report will be stored; for example: awsexamplebucket For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
+    /// The name of the Amazon S3 bucket where the report will be stored; for example: amzn-s3-demo-bucket For more information on S3 bucket requirements, including an example bucket policy, see the example Amazon S3 bucket policy on this page.
     /// This member is required.
     public var s3Bucket: Swift.String?
 
@@ -752,6 +807,13 @@ extension GetTagValuesInput {
     }
 }
 
+extension ListRequiredTagsInput {
+
+    static func urlPathProvider(_ value: ListRequiredTagsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartReportCreationInput {
 
     static func urlPathProvider(_ value: StartReportCreationInput) -> Swift.String? {
@@ -824,6 +886,15 @@ extension GetTagValuesInput {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["PaginationToken"].write(value.paginationToken)
+    }
+}
+
+extension ListRequiredTagsInput {
+
+    static func write(value: ListRequiredTagsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -916,6 +987,19 @@ extension GetTagValuesOutput {
         var value = GetTagValuesOutput()
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRequiredTagsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRequiredTagsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRequiredTagsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requiredTags = try reader["RequiredTags"].readListIfPresent(memberReadingClosure: ResourceGroupsTaggingAPIClientTypes.RequiredTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1020,6 +1104,23 @@ enum GetTagKeysOutputError {
 }
 
 enum GetTagValuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "PaginationTokenExpiredException": return try PaginationTokenExpiredException.makeError(baseError: baseError)
+            case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRequiredTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1210,6 +1311,18 @@ extension ResourceGroupsTaggingAPIClientTypes.Tag {
         var value = ResourceGroupsTaggingAPIClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.RequiredTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.RequiredTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.RequiredTag()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.cloudFormationResourceTypes = try reader["CloudFormationResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportingTagKeys = try reader["ReportingTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

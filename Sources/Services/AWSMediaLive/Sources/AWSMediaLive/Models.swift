@@ -6953,6 +6953,78 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for RouterDestination
+    public struct RouterDestination: Swift.Sendable {
+        /// The Availability Zone (AZ) names of the AZs this destination is created in.
+        public var availabilityZoneName: Swift.String?
+        /// ARN of the output from MediaConnect Router currently connected to this input.
+        public var routerOutputArn: Swift.String?
+
+        public init(
+            availabilityZoneName: Swift.String? = nil,
+            routerOutputArn: Swift.String? = nil
+        ) {
+            self.availabilityZoneName = availabilityZoneName
+            self.routerOutputArn = routerOutputArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+    public enum RouterEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterEncryptionType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The settings for a MediaConnect Router Input.
+    public struct RouterInputSettings: Swift.Sendable {
+        /// MediaConnect Router destinations associated with the MediaLive Input.
+        public var destinations: [MediaLiveClientTypes.RouterDestination]?
+        /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+        public var encryptionType: MediaLiveClientTypes.RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public var secretArn: Swift.String?
+
+        public init(
+            destinations: [MediaLiveClientTypes.RouterDestination]? = nil,
+            encryptionType: MediaLiveClientTypes.RouterEncryptionType? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// The location of the SDP file for one of the SMPTE 2110 streams in a receiver group.
     public struct InputSdpLocation: Swift.Sendable {
         /// The index of the media stream in the SDP file for one SMPTE 2110 stream.
@@ -7190,6 +7262,7 @@ extension MediaLiveClientTypes {
         case awsCdi
         case inputDevice
         case mediaconnect
+        case mediaconnectRouter
         case mp4File
         case multicast
         case rtmpPull
@@ -7208,6 +7281,7 @@ extension MediaLiveClientTypes {
                 .awsCdi,
                 .inputDevice,
                 .mediaconnect,
+                .mediaconnectRouter,
                 .mp4File,
                 .multicast,
                 .rtmpPull,
@@ -7232,6 +7306,7 @@ extension MediaLiveClientTypes {
             case .awsCdi: return "AWS_CDI"
             case .inputDevice: return "INPUT_DEVICE"
             case .mediaconnect: return "MEDIACONNECT"
+            case .mediaconnectRouter: return "MEDIACONNECT_ROUTER"
             case .mp4File: return "MP4_FILE"
             case .multicast: return "MULTICAST"
             case .rtmpPull: return "RTMP_PULL"
@@ -7279,6 +7354,8 @@ extension MediaLiveClientTypes {
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public var roleArn: Swift.String?
+        /// Information about any MediaConnect router association with this input.
+        public var routerSettings: MediaLiveClientTypes.RouterInputSettings?
         /// SDI Sources for this Input.
         public var sdiSources: [Swift.String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
@@ -7310,6 +7387,7 @@ extension MediaLiveClientTypes {
             multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            routerSettings: MediaLiveClientTypes.RouterInputSettings? = nil,
             sdiSources: [Swift.String]? = nil,
             securityGroups: [Swift.String]? = nil,
             smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
@@ -7332,6 +7410,7 @@ extension MediaLiveClientTypes {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.routerSettings = routerSettings
             self.sdiSources = sdiSources
             self.securityGroups = securityGroups
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -13878,6 +13957,22 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for RouterDestinationSettings
+    public struct RouterDestinationSettings: Swift.Sendable {
+        /// Availability Zone for this MediaConnect Router destination.
+        /// This member is required.
+        public var availabilityZoneName: Swift.String?
+
+        public init(
+            availabilityZoneName: Swift.String? = nil
+        ) {
+            self.availabilityZoneName = availabilityZoneName
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Used in UpdateNetworkRequest.
     public struct RouteUpdateRequest: Swift.Sendable {
         /// A CIDR block for one Route.
@@ -15745,6 +15840,66 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Spatial Aq
+    public enum Av1SpatialAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1SpatialAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Temporal Aq
+    public enum Av1TemporalAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1TemporalAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Timecode Burnin Font Size
     public enum TimecodeBurninFontSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case extraSmall10
@@ -15899,6 +16054,10 @@ extension MediaLiveClientTypes {
         public var rateControlMode: MediaLiveClientTypes.Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public var sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect?
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. Enabled: MediaLive will determine the appropriate level of spatial AQ to apply. Disabled: No spatial AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var spatialAq: MediaLiveClientTypes.Av1SpatialAq?
+        /// Temporal AQ makes adjustments within each frame based on variations in content complexity over time. Enabled: MediaLive will determine the appropriate level of temporal AQ to apply. Disabled: No temporal AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var temporalAq: MediaLiveClientTypes.Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
 
@@ -15922,6 +16081,8 @@ extension MediaLiveClientTypes {
             qvbrQualityLevel: Swift.Int? = nil,
             rateControlMode: MediaLiveClientTypes.Av1RateControlMode? = nil,
             sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
+            spatialAq: MediaLiveClientTypes.Av1SpatialAq? = nil,
+            temporalAq: MediaLiveClientTypes.Av1TemporalAq? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
         ) {
             self.afdSignaling = afdSignaling
@@ -15943,6 +16104,8 @@ extension MediaLiveClientTypes {
             self.qvbrQualityLevel = qvbrQualityLevel
             self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.spatialAq = spatialAq
+            self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
         }
     }
@@ -17300,6 +17463,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hlg2020 Settings
+    public struct Hlg2020Settings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Color Space Settings
     public struct H265ColorSpaceSettings: Swift.Sendable {
         /// Passthrough applies no color space conversion to the output
@@ -17308,6 +17480,8 @@ extension MediaLiveClientTypes {
         public var dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings?
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
+        /// Hlg2020 Settings
+        public var hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings?
         /// Rec601 Settings
         public var rec601Settings: MediaLiveClientTypes.Rec601Settings?
         /// Rec709 Settings
@@ -17317,12 +17491,14 @@ extension MediaLiveClientTypes {
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings? = nil,
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
+            hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings? = nil,
             rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
             rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
         ) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.dolbyVision81Settings = dolbyVision81Settings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
         }
@@ -21001,6 +21177,29 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// This is the collection of settings that are used during the creation of a MediaConnect router input.
+    public struct RouterSettings: Swift.Sendable {
+        /// Destinations for the input from MediaConnect Router. Provide one for a single-pipeline input and two for a standard input.
+        public var destinations: [MediaLiveClientTypes.RouterDestinationSettings]?
+        /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+        public var encryptionType: MediaLiveClientTypes.RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public var secretArn: Swift.String?
+
+        public init(
+            destinations: [MediaLiveClientTypes.RouterDestinationSettings]? = nil,
+            encryptionType: MediaLiveClientTypes.RouterEncryptionType? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Configures the sources for this SRT input. For a single-pipeline input, include one srtCallerSource in the array. For a standard-pipeline input, include two srtCallerSource.
     public struct SrtSettingsRequest: Swift.Sendable {
         /// Placeholder documentation for __listOfSrtCallerSourceRequest
@@ -21054,6 +21253,8 @@ public struct CreateInputInput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// This is the collection of settings that are used during the creation of a MediaConnect router input.
+    public var routerSettings: MediaLiveClientTypes.RouterSettings?
     /// SDI Sources for this Input.
     public var sdiSources: [Swift.String]?
     /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
@@ -21079,6 +21280,7 @@ public struct CreateInputInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        routerSettings: MediaLiveClientTypes.RouterSettings? = nil,
         sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
@@ -21096,6 +21298,7 @@ public struct CreateInputInput: Swift.Sendable {
         self.name = name
         self.requestId = requestId
         self.roleArn = roleArn
+        self.routerSettings = routerSettings
         self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
@@ -23016,6 +23219,8 @@ public struct DescribeInputOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// Information about any MediaConnect router association with this input.
+    public var routerSettings: MediaLiveClientTypes.RouterInputSettings?
     /// SDI Sources for this Input.
     public var sdiSources: [Swift.String]?
     /// A list of IDs for all the Input Security Groups attached to the input.
@@ -23047,6 +23252,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        routerSettings: MediaLiveClientTypes.RouterInputSettings? = nil,
         sdiSources: [Swift.String]? = nil,
         securityGroups: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
@@ -23069,6 +23275,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
+        self.routerSettings = routerSettings
         self.sdiSources = sdiSources
         self.securityGroups = securityGroups
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -26616,6 +26823,21 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes {
+
+    /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This setting object can only by used by that service.
+    public struct SpecialRouterSettings: Swift.Sendable {
+        /// This is the arn of the MediaConnect Router resource being associated with the MediaLive Input.
+        public var routerArn: Swift.String?
+
+        public init(
+            routerArn: Swift.String? = nil
+        ) {
+            self.routerArn = routerArn
+        }
+    }
+}
+
 /// A request to update an input.
 public struct UpdateInputInput: Swift.Sendable {
     /// Destination settings for PUSH type inputs.
@@ -26641,6 +26863,8 @@ public struct UpdateInputInput: Swift.Sendable {
     public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
+    /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This setting object can only by used by that service.
+    public var specialRouterSettings: MediaLiveClientTypes.SpecialRouterSettings?
     /// The settings associated with an SRT input.
     public var srtSettings: MediaLiveClientTypes.SrtSettingsRequest?
 
@@ -26656,6 +26880,7 @@ public struct UpdateInputInput: Swift.Sendable {
         sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
+        specialRouterSettings: MediaLiveClientTypes.SpecialRouterSettings? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil
     ) {
         self.destinations = destinations
@@ -26669,6 +26894,7 @@ public struct UpdateInputInput: Swift.Sendable {
         self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
+        self.specialRouterSettings = specialRouterSettings
         self.srtSettings = srtSettings
     }
 }
@@ -29095,6 +29321,7 @@ extension CreateInputInput {
         try writer["name"].write(value.name)
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
+        try writer["routerSettings"].write(value.routerSettings, with: MediaLiveClientTypes.RouterSettings.write(value:to:))
         try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -29390,6 +29617,7 @@ extension UpdateInputInput {
         try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["specialRouterSettings"].write(value.specialRouterSettings, with: MediaLiveClientTypes.SpecialRouterSettings.write(value:to:))
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
     }
 }
@@ -30196,6 +30424,7 @@ extension DescribeInputOutput {
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
+        value.routerSettings = try reader["routerSettings"].readIfPresent(with: MediaLiveClientTypes.RouterInputSettings.read(from:))
         value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
@@ -35603,6 +35832,8 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["qvbrQualityLevel"].write(value.qvbrQualityLevel)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
+        try writer["spatialAq"].write(value.spatialAq)
+        try writer["temporalAq"].write(value.temporalAq)
         try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
     }
 
@@ -35629,6 +35860,8 @@ extension MediaLiveClientTypes.Av1Settings {
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.spatialAq = try reader["spatialAq"].readIfPresent()
+        value.temporalAq = try reader["temporalAq"].readIfPresent()
         return value
     }
 }
@@ -35929,6 +36162,7 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         try writer["colorSpacePassthroughSettings"].write(value.colorSpacePassthroughSettings, with: MediaLiveClientTypes.ColorSpacePassthroughSettings.write(value:to:))
         try writer["dolbyVision81Settings"].write(value.dolbyVision81Settings, with: MediaLiveClientTypes.DolbyVision81Settings.write(value:to:))
         try writer["hdr10Settings"].write(value.hdr10Settings, with: MediaLiveClientTypes.Hdr10Settings.write(value:to:))
+        try writer["hlg2020Settings"].write(value.hlg2020Settings, with: MediaLiveClientTypes.Hlg2020Settings.write(value:to:))
         try writer["rec601Settings"].write(value.rec601Settings, with: MediaLiveClientTypes.Rec601Settings.write(value:to:))
         try writer["rec709Settings"].write(value.rec709Settings, with: MediaLiveClientTypes.Rec709Settings.write(value:to:))
     }
@@ -35941,7 +36175,21 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         value.hdr10Settings = try reader["hdr10Settings"].readIfPresent(with: MediaLiveClientTypes.Hdr10Settings.read(from:))
         value.rec601Settings = try reader["rec601Settings"].readIfPresent(with: MediaLiveClientTypes.Rec601Settings.read(from:))
         value.rec709Settings = try reader["rec709Settings"].readIfPresent(with: MediaLiveClientTypes.Rec709Settings.read(from:))
+        value.hlg2020Settings = try reader["hlg2020Settings"].readIfPresent(with: MediaLiveClientTypes.Hlg2020Settings.read(from:))
         return value
+    }
+}
+
+extension MediaLiveClientTypes.Hlg2020Settings {
+
+    static func write(value: MediaLiveClientTypes.Hlg2020Settings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Hlg2020Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.Hlg2020Settings()
     }
 }
 
@@ -38749,6 +38997,30 @@ extension MediaLiveClientTypes.Input {
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
         value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routerSettings = try reader["routerSettings"].readIfPresent(with: MediaLiveClientTypes.RouterInputSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.RouterInputSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.RouterInputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.RouterInputSettings()
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.RouterDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.RouterDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.RouterDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.RouterDestination()
+        value.availabilityZoneName = try reader["availabilityZoneName"].readIfPresent()
+        value.routerOutputArn = try reader["routerOutputArn"].readIfPresent()
         return value
     }
 }
@@ -40004,6 +40276,24 @@ extension MediaLiveClientTypes.MulticastSourceCreateRequest {
     }
 }
 
+extension MediaLiveClientTypes.RouterSettings {
+
+    static func write(value: MediaLiveClientTypes.RouterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.RouterDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["secretArn"].write(value.secretArn)
+    }
+}
+
+extension MediaLiveClientTypes.RouterDestinationSettings {
+
+    static func write(value: MediaLiveClientTypes.RouterDestinationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZoneName"].write(value.availabilityZoneName)
+    }
+}
+
 extension MediaLiveClientTypes.InputWhitelistRuleCidr {
 
     static func write(value: MediaLiveClientTypes.InputWhitelistRuleCidr?, to writer: SmithyJSON.Writer) throws {
@@ -40089,6 +40379,14 @@ extension MediaLiveClientTypes.MulticastSourceUpdateRequest {
         guard let value else { return }
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
+    }
+}
+
+extension MediaLiveClientTypes.SpecialRouterSettings {
+
+    static func write(value: MediaLiveClientTypes.SpecialRouterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["routerArn"].write(value.routerArn)
     }
 }
 

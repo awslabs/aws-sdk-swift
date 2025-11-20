@@ -950,7 +950,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateAppBlock` operation on the `AppStream` service.
     ///
-    /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAppBlockInput`)
     ///
@@ -1037,7 +1037,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1170,7 +1170,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateApplication` operation on the `AppStream` service.
     ///
-    /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
@@ -1243,7 +1243,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDirectoryConfigInput`)
     ///
@@ -1317,7 +1317,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateEntitlement` operation on the `AppStream` service.
     ///
-    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEntitlementInput`)
     ///
@@ -1387,6 +1387,81 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateExportImageTask` operation on the `AppStream` service.
+    ///
+    /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateExportImageTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateExportImageTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
+    /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
+    /// - `InvalidRoleException` : The specified role is invalid.
+    /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func createExportImageTask(input: CreateExportImageTaskInput) async throws -> CreateExportImageTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createExportImageTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateExportImageTaskInput, CreateExportImageTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(CreateExportImageTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExportImageTaskOutput>(CreateExportImageTaskOutput.httpOutput(from:), CreateExportImageTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportImageTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(xAmzTarget: "PhotonAdminProxyService.CreateExportImageTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExportImageTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateExportImageTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateFleet` operation on the `AppStream` service.
     ///
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
@@ -1405,7 +1480,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1484,7 +1559,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1615,6 +1690,82 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateImportedImage` operation on the `AppStream` service.
+    ///
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateImportedImageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateImportedImageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The exception that is thrown when a dry run operation is requested. This indicates that the validation checks have been performed successfully, but no actual resources were created or modified.
+    /// - `IncompatibleImageException` : The image can't be updated because it's not compatible for updates.
+    /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
+    /// - `InvalidRoleException` : The specified role is invalid.
+    /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func createImportedImage(input: CreateImportedImageInput) async throws -> CreateImportedImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createImportedImage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateImportedImageInput, CreateImportedImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(CreateImportedImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImportedImageOutput>(CreateImportedImageOutput.httpOutput(from:), CreateImportedImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportedImageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImportedImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(xAmzTarget: "PhotonAdminProxyService.CreateImportedImage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateImportedImageInput, CreateImportedImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImportedImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImportedImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateImportedImage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateStack` operation on the `AppStream` service.
     ///
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
@@ -1693,7 +1844,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateStreamingURL` operation on the `AppStream` service.
     ///
-    /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
+    /// Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateStreamingURLInput`)
     ///
@@ -1839,7 +1990,7 @@ extension AppStreamClient {
 
     /// Performs the `CreateUpdatedImage` operation on the `AppStream` service.
     ///
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in [Administer Your WorkSpaces Applications Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateUpdatedImageInput`)
     ///
@@ -2273,7 +2424,7 @@ extension AppStreamClient {
 
     /// Performs the `DeleteDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryConfigInput`)
     ///
@@ -3402,7 +3553,7 @@ extension AppStreamClient {
 
     /// Performs the `DescribeDirectoryConfigs` operation on the `AppStream` service.
     ///
-    /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
+    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDirectoryConfigsInput`)
     ///
@@ -4312,7 +4463,7 @@ extension AppStreamClient {
 
     /// Performs the `DisableUser` operation on the `AppStream` service.
     ///
-    /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
+    /// Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
@@ -4739,7 +4890,7 @@ extension AppStreamClient {
 
     /// Performs the `EnableUser` operation on the `AppStream` service.
     ///
-    /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
+    /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableUserInput`)
     ///
@@ -4859,6 +5010,76 @@ extension AppStreamClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExpireSession")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetExportImageTask` operation on the `AppStream` service.
+    ///
+    /// Retrieves information about an export image task, including its current state, progress, and any error details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetExportImageTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetExportImageTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func getExportImageTask(input: GetExportImageTaskInput) async throws -> GetExportImageTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getExportImageTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetExportImageTaskInput, GetExportImageTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(GetExportImageTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportImageTaskOutput>(GetExportImageTaskOutput.httpOutput(from:), GetExportImageTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetExportImageTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(xAmzTarget: "PhotonAdminProxyService.GetExportImageTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetExportImageTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetExportImageTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5070,9 +5291,78 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListExportImageTasks` operation on the `AppStream` service.
+    ///
+    /// Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListExportImageTasksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListExportImageTasksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    public func listExportImageTasks(input: ListExportImageTasksInput) async throws -> ListExportImageTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listExportImageTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListExportImageTasksInput, ListExportImageTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(ListExportImageTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportImageTasksOutput>(ListExportImageTasksOutput.httpOutput(from:), ListExportImageTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExportImageTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExportImageTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(xAmzTarget: "PhotonAdminProxyService.ListExportImageTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExportImageTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExportImageTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExportImageTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `AppStream` service.
     ///
-    /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -5154,7 +5444,7 @@ extension AppStreamClient {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput {
@@ -5230,7 +5520,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startFleet(input: StartFleetInput) async throws -> StartFleetOutput {
@@ -5648,7 +5938,7 @@ extension AppStreamClient {
 
     /// Performs the `TagResource` operation on the `AppStream` service.
     ///
-    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -5719,7 +6009,7 @@ extension AppStreamClient {
 
     /// Performs the `UntagResource` operation on the `AppStream` service.
     ///
-    /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
@@ -5803,7 +6093,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -5937,7 +6227,7 @@ extension AppStreamClient {
 
     /// Performs the `UpdateDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDirectoryConfigInput`)
     ///
@@ -6106,7 +6396,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.

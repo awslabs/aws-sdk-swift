@@ -140,7 +140,7 @@ public struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
+/// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate) in the IAM User Guide.
 public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -221,7 +221,7 @@ extension STSClientTypes {
 public struct AssumeRoleInput: Swift.Sendable {
     /// The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see [Update the maximum session duration for a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration). By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
     public var durationSeconds: Swift.Int?
-    /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+    /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@:\/-
     public var externalId: Swift.String?
     /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
     public var policy: Swift.String?
@@ -232,10 +232,10 @@ public struct AssumeRoleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the role to assume.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds) to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more information, see [sts:RoleSessionName](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds) to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more information, see [sts:RoleSessionName](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@-
     /// This member is required.
     public var roleSessionName: Swift.String?
-    /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=/:,.@-
     public var serialNumber: Swift.String?
     /// The source identity specified by the principal that is calling the AssumeRole operation. The source identity value persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining) sessions. You can require users to specify a source identity when they assume a role. You do this by using the [sts:SourceIdentity](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity) condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
     public var sourceIdentity: Swift.String?
@@ -581,7 +581,7 @@ public struct AssumeRootInput: Swift.Sendable {
     /// The member account principal ARN or account ID.
     /// This member is required.
     public var targetPrincipal: Swift.String?
-    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions.
+    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions:
     ///
     /// * [IAMAuditRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials)
     ///
@@ -716,6 +716,65 @@ public struct GetCallerIdentityOutput: Swift.Sendable {
     }
 }
 
+/// The trade-in token provided in the request has expired and can no longer be exchanged for credentials. Request a new token and retry the operation.
+public struct ExpiredTradeInTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExpiredTradeInTokenException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetDelegatedAccessTokenInput: Swift.Sendable {
+    /// The token to exchange for temporary Amazon Web Services credentials. This token must be valid and unexpired at the time of the request.
+    /// This member is required.
+    public var tradeInToken: Swift.String?
+
+    public init(
+        tradeInToken: Swift.String? = nil
+    ) {
+        self.tradeInToken = tradeInToken
+    }
+}
+
+extension GetDelegatedAccessTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDelegatedAccessTokenInput(tradeInToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetDelegatedAccessTokenOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the principal that was assumed when obtaining the delegated access token. This ARN identifies the IAM entity whose permissions are granted by the temporary credentials.
+    public var assumedPrincipal: Swift.String?
+    /// Amazon Web Services credentials for API authentication.
+    public var credentials: STSClientTypes.Credentials?
+    /// The percentage of the maximum policy size that is used by the session policy. The policy size is calculated as the sum of all the session policies and permission boundaries attached to the session. If the packed size exceeds 100%, the request fails.
+    public var packedPolicySize: Swift.Int?
+
+    public init(
+        assumedPrincipal: Swift.String? = nil,
+        credentials: STSClientTypes.Credentials? = nil,
+        packedPolicySize: Swift.Int? = nil
+    ) {
+        self.assumedPrincipal = assumedPrincipal
+        self.credentials = credentials
+        self.packedPolicySize = packedPolicySize
+    }
+}
+
 public struct GetFederationTokenInput: Swift.Sendable {
     /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
     public var durationSeconds: Swift.Int?
@@ -816,6 +875,120 @@ public struct GetSessionTokenOutput: Swift.Sendable {
     }
 }
 
+/// The requested token payload size exceeds the maximum allowed size. Reduce the number of request tags included in the GetWebIdentityToken API call to reduce the token payload size.
+public struct JWTPayloadSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "JWTPayloadSizeExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The outbound web identity federation feature is not enabled for this account. To use this feature, you must first enable it through the Amazon Web Services Management Console or API.
+public struct OutboundWebIdentityFederationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OutboundWebIdentityFederationDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested token duration would extend the session beyond its original expiration time. You cannot use this operation to extend the lifetime of a session beyond what was granted when the session was originally created.
+public struct SessionDurationEscalationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SessionDurationEscalationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetWebIdentityTokenInput: Swift.Sendable {
+    /// The intended recipient of the web identity token. This value populates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external service should verify this claim to ensure the token was intended for their use.
+    /// This member is required.
+    public var audience: [Swift.String]?
+    /// The duration, in seconds, for which the JSON Web Token (JWT) will remain valid. The value can range from 60 seconds (1 minute) to 3600 seconds (1 hour). If not specified, the default duration is 300 seconds (5 minutes). The token is designed to be short-lived and should be used for proof of identity, then exchanged for credentials or short-lived tokens in the external service.
+    public var durationSeconds: Swift.Int?
+    /// The cryptographic algorithm to use for signing the JSON Web Token (JWT). Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with SHA-384).
+    /// This member is required.
+    public var signingAlgorithm: Swift.String?
+    /// An optional list of tags to include in the JSON Web Token (JWT). These tags are added as custom claims to the JWT and can be used by the downstream service for authorization decisions.
+    public var tags: [STSClientTypes.Tag]?
+
+    public init(
+        audience: [Swift.String]? = nil,
+        durationSeconds: Swift.Int? = nil,
+        signingAlgorithm: Swift.String? = nil,
+        tags: [STSClientTypes.Tag]? = nil
+    ) {
+        self.audience = audience
+        self.durationSeconds = durationSeconds
+        self.signingAlgorithm = signingAlgorithm
+        self.tags = tags
+    }
+}
+
+public struct GetWebIdentityTokenOutput: Swift.Sendable {
+    /// The date and time when the web identity token expires, in UTC. The expiration is determined by adding the DurationSeconds value to the time the token was issued. After this time, the token should no longer be considered valid.
+    public var expiration: Foundation.Date?
+    /// A signed JSON Web Token (JWT) that represents the caller's Amazon Web Services identity. The token contains standard JWT claims such as subject, audience, expiration time, and additional identity attributes added by STS as custom claims. You can also add your own custom claims to the token by passing tags as request parameters to the GetWebIdentityToken API. The token is signed using the specified signing algorithm and can be verified using the verification keys available at the issuer's JWKS endpoint.
+    public var webIdentityToken: Swift.String?
+
+    public init(
+        expiration: Foundation.Date? = nil,
+        webIdentityToken: Swift.String? = nil
+    ) {
+        self.expiration = expiration
+        self.webIdentityToken = webIdentityToken
+    }
+}
+
+extension GetWebIdentityTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetWebIdentityTokenOutput(expiration: \(Swift.String(describing: expiration)), webIdentityToken: \"CONTENT_REDACTED\")"}
+}
+
 extension AssumeRoleInput {
 
     static func urlPathProvider(_ value: AssumeRoleInput) -> Swift.String? {
@@ -865,6 +1038,13 @@ extension GetCallerIdentityInput {
     }
 }
 
+extension GetDelegatedAccessTokenInput {
+
+    static func urlPathProvider(_ value: GetDelegatedAccessTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetFederationTokenInput {
 
     static func urlPathProvider(_ value: GetFederationTokenInput) -> Swift.String? {
@@ -875,6 +1055,13 @@ extension GetFederationTokenInput {
 extension GetSessionTokenInput {
 
     static func urlPathProvider(_ value: GetSessionTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetWebIdentityTokenInput {
+
+    static func urlPathProvider(_ value: GetWebIdentityTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -973,6 +1160,16 @@ extension GetCallerIdentityInput {
     }
 }
 
+extension GetDelegatedAccessTokenInput {
+
+    static func write(value: GetDelegatedAccessTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TradeInToken"].write(value.tradeInToken)
+        try writer["Action"].write("GetDelegatedAccessToken")
+        try writer["Version"].write("2011-06-15")
+    }
+}
+
 extension GetFederationTokenInput {
 
     static func write(value: GetFederationTokenInput?, to writer: SmithyFormURL.Writer) throws {
@@ -995,6 +1192,19 @@ extension GetSessionTokenInput {
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["TokenCode"].write(value.tokenCode)
         try writer["Action"].write("GetSessionToken")
+        try writer["Version"].write("2011-06-15")
+    }
+}
+
+extension GetWebIdentityTokenInput {
+
+    static func write(value: GetWebIdentityTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Audience"].writeList(value.audience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DurationSeconds"].write(value.durationSeconds)
+        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: STSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("GetWebIdentityToken")
         try writer["Version"].write("2011-06-15")
     }
 }
@@ -1103,6 +1313,20 @@ extension GetCallerIdentityOutput {
     }
 }
 
+extension GetDelegatedAccessTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDelegatedAccessTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetDelegatedAccessTokenResult"]
+        var value = GetDelegatedAccessTokenOutput()
+        value.assumedPrincipal = try reader["AssumedPrincipal"].readIfPresent()
+        value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
+        value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
+        return value
+    }
+}
+
 extension GetFederationTokenOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFederationTokenOutput {
@@ -1125,6 +1349,19 @@ extension GetSessionTokenOutput {
         let reader = responseReader["GetSessionTokenResult"]
         var value = GetSessionTokenOutput()
         value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
+        return value
+    }
+}
+
+extension GetWebIdentityTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWebIdentityTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetWebIdentityTokenResult"]
+        var value = GetWebIdentityTokenOutput()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.webIdentityToken = try reader["WebIdentityToken"].readIfPresent()
         return value
     }
 }
@@ -1240,6 +1477,22 @@ enum GetCallerIdentityOutputError {
     }
 }
 
+enum GetDelegatedAccessTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ExpiredTradeInTokenException": return try ExpiredTradeInTokenException.makeError(baseError: baseError)
+            case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
+            case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFederationTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1265,6 +1518,22 @@ enum GetSessionTokenOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetWebIdentityTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "JWTPayloadSizeExceededException": return try JWTPayloadSizeExceededException.makeError(baseError: baseError)
+            case "OutboundWebIdentityFederationDisabledException": return try OutboundWebIdentityFederationDisabledException.makeError(baseError: baseError)
+            case "SessionDurationEscalationException": return try SessionDurationEscalationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1366,6 +1635,58 @@ extension InvalidAuthorizationMessageException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthorizationMessageException {
         let reader = baseError.errorBodyReader
         var value = InvalidAuthorizationMessageException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ExpiredTradeInTokenException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTradeInTokenException {
+        let reader = baseError.errorBodyReader
+        var value = ExpiredTradeInTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension JWTPayloadSizeExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> JWTPayloadSizeExceededException {
+        let reader = baseError.errorBodyReader
+        var value = JWTPayloadSizeExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OutboundWebIdentityFederationDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OutboundWebIdentityFederationDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = OutboundWebIdentityFederationDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SessionDurationEscalationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SessionDurationEscalationException {
+        let reader = baseError.errorBodyReader
+        var value = SessionDurationEscalationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

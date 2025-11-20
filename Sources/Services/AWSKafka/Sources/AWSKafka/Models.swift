@@ -866,6 +866,51 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters.
+    public enum RebalancingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case paused
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RebalancingStatus] {
+            return [
+                .active,
+                .paused
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .paused: return "PAUSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Specifies whether or not intelligent rebalancing is turned on for a newly created MSK Provisioned cluster with Express brokers. Intelligent rebalancing performs automatic partition balancing operations when you scale your clusters up or down. By default, intelligent rebalancing is ACTIVE for all new Express-based clusters.
+    public struct Rebalancing: Swift.Sendable {
+        /// Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters.
+        public var status: KafkaClientTypes.RebalancingStatus?
+
+        public init(
+            status: KafkaClientTypes.RebalancingStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Controls storage mode for various supported storage tiers.
     public enum StorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case local
@@ -918,6 +963,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+        /// Specifies whether or not intelligent rebalancing is turned on for a newly created MSK Provisioned cluster with Express brokers. Intelligent rebalancing performs automatic partition balancing operations when you scale your clusters up or down. By default, intelligent rebalancing is ACTIVE for all new Express-based clusters.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
@@ -935,6 +982,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil,
             zookeeperConnectString: Swift.String? = nil,
             zookeeperConnectStringTls: Swift.String? = nil
@@ -948,6 +996,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
@@ -1242,6 +1291,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// Settings for open monitoring using Prometheus.
         public var openMonitoring: KafkaClientTypes.OpenMonitoring?
+        /// Contains information about intelligent rebalancing for new MSK Provisioned clusters with Express brokers. By default, intelligent rebalancing status is ACTIVE.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public var state: KafkaClientTypes.ClusterState?
         public var stateInfo: KafkaClientTypes.StateInfo?
@@ -1269,6 +1320,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             state: KafkaClientTypes.ClusterState? = nil,
             stateInfo: KafkaClientTypes.StateInfo? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil,
@@ -1290,6 +1342,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.state = state
             self.stateInfo = stateInfo
             self.storageMode = storageMode
@@ -1421,6 +1474,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoring?
+        /// Describes the intelligent rebalancing configuration of an MSK Provisioned cluster with Express brokers.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
 
@@ -1437,6 +1492,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
         ) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
@@ -1451,6 +1507,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
     }
@@ -2415,6 +2472,64 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Includes identification info about the topic.
+    public struct TopicInfo: Swift.Sendable {
+        /// Number of out-of-sync replicas for a topic.
+        public var outOfSyncReplicaCount: Swift.Int?
+        /// Partition count for a topic.
+        public var partitionCount: Swift.Int?
+        /// Replication factor for a topic.
+        public var replicationFactor: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public var topicArn: Swift.String?
+        /// Name for a topic.
+        public var topicName: Swift.String?
+
+        public init(
+            outOfSyncReplicaCount: Swift.Int? = nil,
+            partitionCount: Swift.Int? = nil,
+            replicationFactor: Swift.Int? = nil,
+            topicArn: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        ) {
+            self.outOfSyncReplicaCount = outOfSyncReplicaCount
+            self.partitionCount = partitionCount
+            self.replicationFactor = replicationFactor
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Contains information about a topic partition.
+    public struct TopicPartitionInfo: Swift.Sendable {
+        /// The list of in-sync replica broker IDs for the partition.
+        public var isr: [Swift.Int]?
+        /// The leader broker ID for the partition.
+        public var leader: Swift.Int?
+        /// The partition ID.
+        public var partition: Swift.Int?
+        /// The list of replica broker IDs for the partition.
+        public var replicas: [Swift.Int]?
+
+        public init(
+            isr: [Swift.Int]? = nil,
+            leader: Swift.Int? = nil,
+            partition: Swift.Int? = nil,
+            replicas: [Swift.Int]? = nil
+        ) {
+            self.isr = isr
+            self.leader = leader
+            self.partition = partition
+            self.replicas = replicas
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Error info for scram secret associate/disassociate failure.
     public struct UnprocessedScramSecret: Swift.Sendable {
         /// Error code for associate/disassociate failure.
@@ -2938,6 +3053,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var numberOfBrokerNodes: Swift.Int?
     /// The settings for open monitoring.
     public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+    /// Specifies if intelligent rebalancing should be turned on for the new MSK Provisioned cluster with Express brokers. By default, intelligent rebalancing status is ACTIVE for all new clusters.
+    public var rebalancing: KafkaClientTypes.Rebalancing?
     /// This controls storage mode for supported storage tiers.
     public var storageMode: KafkaClientTypes.StorageMode?
     /// Create tags when creating the cluster.
@@ -2954,6 +3071,7 @@ public struct CreateClusterInput: Swift.Sendable {
         loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
         numberOfBrokerNodes: Swift.Int? = nil,
         openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+        rebalancing: KafkaClientTypes.Rebalancing? = nil,
         storageMode: KafkaClientTypes.StorageMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -2967,6 +3085,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.loggingInfo = loggingInfo
         self.numberOfBrokerNodes = numberOfBrokerNodes
         self.openMonitoring = openMonitoring
+        self.rebalancing = rebalancing
         self.storageMode = storageMode
         self.tags = tags
     }
@@ -3016,6 +3135,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+        /// Specifies if intelligent rebalancing is turned on for your MSK Provisioned cluster with Express brokers. For all new Express-based clusters that you create, intelligent rebalancing is turned on by default.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
 
@@ -3029,6 +3150,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
         ) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
@@ -3040,6 +3162,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
     }
@@ -3700,6 +3823,130 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Kafka topic name that uniquely identifies the topic.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicName = topicName
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The state of a topic request.
+    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTopicOutput: Swift.Sendable {
+    /// Topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The partition count of the topic.
+    public var partitionCount: Swift.Int?
+    /// The replication factor of the topic.
+    public var replicationFactor: Swift.Int?
+    /// The status of the topic.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The Kafka topic name of the topic.
+    public var topicName: Swift.String?
+
+    public init(
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        replicationFactor: Swift.Int? = nil,
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.replicationFactor = replicationFactor
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
+    }
+}
+
+public struct DescribeTopicPartitionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// The Kafka topic name that uniquely identifies the topic.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.topicName = topicName
+    }
+}
+
+public struct DescribeTopicPartitionsOutput: Swift.Sendable {
+    /// The paginated results marker. When the result of a DescribeTopicPartitions operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// The list of partition information for the topic.
+    public var partitions: [KafkaClientTypes.TopicPartitionInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        partitions: [KafkaClientTypes.TopicPartitionInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.partitions = partitions
+    }
+}
+
 public struct DescribeVpcConnectionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
     /// This member is required.
@@ -4260,6 +4507,45 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListTopicsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// Returns topics starting with given name.
+    public var topicNameFilter: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        topicNameFilter: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.topicNameFilter = topicNameFilter
+    }
+}
+
+public struct ListTopicsOutput: Swift.Sendable {
+    /// The paginated results marker. When the result of a ListTopics operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// List containing topics info.
+    public var topics: [KafkaClientTypes.TopicInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        topics: [KafkaClientTypes.TopicInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.topics = topics
+    }
+}
+
 public struct ListVpcConnectionsInput: Swift.Sendable {
     /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
     public var maxResults: Swift.Int?
@@ -4726,6 +5012,43 @@ public struct UpdateMonitoringOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateRebalancingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The current version of the cluster.
+    /// This member is required.
+    public var currentVersion: Swift.String?
+    /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers.
+    /// This member is required.
+    public var rebalancing: KafkaClientTypes.Rebalancing?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        currentVersion: Swift.String? = nil,
+        rebalancing: KafkaClientTypes.Rebalancing? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.currentVersion = currentVersion
+        self.rebalancing = rebalancing
+    }
+}
+
+public struct UpdateRebalancingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster whose intelligent rebalancing status you've updated.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster operation.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.clusterOperationArn = clusterOperationArn
+    }
+}
+
 extension KafkaClientTypes {
 
     /// Details for updating the topic replication of a replicator.
@@ -5100,6 +5423,48 @@ extension DescribeReplicatorInput {
     }
 }
 
+extension DescribeTopicInput {
+
+    static func urlPathProvider(_ value: DescribeTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTopicPartitionsInput {
+
+    static func urlPathProvider(_ value: DescribeTopicPartitionsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())/partitions"
+    }
+}
+
+extension DescribeTopicPartitionsInput {
+
+    static func queryItemProvider(_ value: DescribeTopicPartitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeVpcConnectionInput {
 
     static func urlPathProvider(_ value: DescribeVpcConnectionInput) -> Swift.String? {
@@ -5446,6 +5811,36 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTopicsInput {
+
+    static func urlPathProvider(_ value: ListTopicsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics"
+    }
+}
+
+extension ListTopicsInput {
+
+    static func queryItemProvider(_ value: ListTopicsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let topicNameFilter = value.topicNameFilter {
+            let topicNameFilterQueryItem = Smithy.URIQueryItem(name: "topicNameFilter".urlPercentEncoding(), value: Swift.String(topicNameFilter).urlPercentEncoding())
+            items.append(topicNameFilterQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListVpcConnectionsInput {
 
     static func urlPathProvider(_ value: ListVpcConnectionsInput) -> Swift.String? {
@@ -5615,6 +6010,16 @@ extension UpdateMonitoringInput {
     }
 }
 
+extension UpdateRebalancingInput {
+
+    static func urlPathProvider(_ value: UpdateRebalancingInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/rebalancing"
+    }
+}
+
 extension UpdateReplicationInfoInput {
 
     static func urlPathProvider(_ value: UpdateReplicationInfoInput) -> Swift.String? {
@@ -5675,6 +6080,7 @@ extension CreateClusterInput {
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
         try writer["storageMode"].write(value.storageMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5833,6 +6239,15 @@ extension UpdateMonitoringInput {
         try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+    }
+}
+
+extension UpdateRebalancingInput {
+
+    static func write(value: UpdateRebalancingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["currentVersion"].write(value.currentVersion)
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
     }
 }
 
@@ -6138,6 +6553,36 @@ extension DescribeReplicatorOutput {
     }
 }
 
+extension DescribeTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicOutput()
+        value.configs = try reader["configs"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeTopicPartitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicPartitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicPartitionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.partitions = try reader["partitions"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicPartitionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeVpcConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeVpcConnectionOutput {
@@ -6359,6 +6804,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTopicsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTopicsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTopicsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListVpcConnectionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcConnectionsOutput {
@@ -6516,6 +6974,19 @@ extension UpdateMonitoringOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMonitoringOutput()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateRebalancingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRebalancingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRebalancingOutput()
         value.clusterArn = try reader["clusterArn"].readIfPresent()
         value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
         return value
@@ -6921,6 +7392,42 @@ enum DescribeReplicatorOutputError {
     }
 }
 
+enum DescribeTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTopicPartitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7211,6 +7718,24 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTopicsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListVpcConnectionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7466,6 +7991,26 @@ enum UpdateMonitoringOutputError {
     }
 }
 
+enum UpdateRebalancingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateReplicationInfoOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7669,6 +8214,7 @@ extension KafkaClientTypes.ClusterInfo {
         var value = KafkaClientTypes.ClusterInfo()
         value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
         value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
         value.clusterArn = try reader["clusterArn"].readIfPresent()
         value.clusterName = try reader["clusterName"].readIfPresent()
@@ -7989,6 +8535,21 @@ extension KafkaClientTypes.Scram {
     }
 }
 
+extension KafkaClientTypes.Rebalancing {
+
+    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Rebalancing()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.BrokerNodeGroupInfo {
 
     static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
@@ -8254,6 +8815,7 @@ extension KafkaClientTypes.MutableClusterInfo {
         value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
         value.storageMode = try reader["storageMode"].readIfPresent()
         value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         return value
     }
 }
@@ -8476,6 +9038,7 @@ extension KafkaClientTypes.Provisioned {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Provisioned()
         value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
         value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
@@ -8700,6 +9263,19 @@ extension KafkaClientTypes.ReplicationStateInfo {
     }
 }
 
+extension KafkaClientTypes.TopicPartitionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicPartitionInfo()
+        value.partition = try reader["partition"].readIfPresent()
+        value.leader = try reader["leader"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension KafkaClientTypes.CompatibleKafkaVersion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
@@ -8863,6 +9439,20 @@ extension KafkaClientTypes.KafkaClusterSummary {
     }
 }
 
+extension KafkaClientTypes.TopicInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicInfo()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.VpcConnection {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
@@ -8891,6 +9481,7 @@ extension KafkaClientTypes.ProvisionedRequest {
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
         try writer["storageMode"].write(value.storageMode)
     }
 }

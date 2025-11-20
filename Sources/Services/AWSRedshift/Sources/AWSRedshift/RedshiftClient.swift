@@ -7408,6 +7408,77 @@ extension RedshiftClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIdentityCenterAuthToken` operation on the `Redshift` service.
+    ///
+    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token contains the caller's Amazon Web Services IAM Identity Center identity information and is valid for a limited time period. This API is exclusively for use with Amazon Web Services IAM Identity Center enhanced credentials. If the caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will return an error.
+    ///
+    /// - Parameter input: The request parameters for GetIdentityCenterAuthToken. (Type: `GetIdentityCenterAuthTokenInput`)
+    ///
+    /// - Returns: The response from GetIdentityCenterAuthToken containing the encrypted authentication token and expiration time. (Type: `GetIdentityCenterAuthTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `RedshiftInvalidParameterFault` : The request contains one or more invalid parameters. This error occurs when required parameters are missing, parameter values are outside acceptable ranges, or parameter formats are incorrect.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func getIdentityCenterAuthToken(input: GetIdentityCenterAuthTokenInput) async throws -> GetIdentityCenterAuthTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityCenterAuthToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenOutput.httpOutput(from:), GetIdentityCenterAuthTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityCenterAuthTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityCenterAuthTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityCenterAuthTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(serviceID: serviceName, version: RedshiftClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Redshift")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityCenterAuthToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetReservedNodeExchangeConfigurationOptions` operation on the `Redshift` service.
     ///
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.

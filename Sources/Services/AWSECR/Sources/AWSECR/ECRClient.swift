@@ -1392,6 +1392,79 @@ extension ECRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeregisterPullTimeUpdateExclusion` operation on the `ECR` service.
+    ///
+    /// Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeregisterPullTimeUpdateExclusionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeregisterPullTimeUpdateExclusionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExclusionNotFoundException` : The specified pull time update exclusion was not found.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func deregisterPullTimeUpdateExclusion(input: DeregisterPullTimeUpdateExclusionInput) async throws -> DeregisterPullTimeUpdateExclusionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deregisterPullTimeUpdateExclusion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(DeregisterPullTimeUpdateExclusionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterPullTimeUpdateExclusionOutput>(DeregisterPullTimeUpdateExclusionOutput.httpOutput(from:), DeregisterPullTimeUpdateExclusionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterPullTimeUpdateExclusionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterPullTimeUpdateExclusionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(xAmzTarget: "AmazonEC2ContainerRegistry_V20150921.DeregisterPullTimeUpdateExclusion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterPullTimeUpdateExclusionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterPullTimeUpdateExclusion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeImageReplicationStatus` operation on the `ECR` service.
     ///
     /// Returns the replication status for a specified image.
@@ -2544,6 +2617,78 @@ extension ECRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListImageReferrers` operation on the `ECR` service.
+    ///
+    /// Lists the artifacts associated with a specified subject image.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListImageReferrersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListImageReferrersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func listImageReferrers(input: ListImageReferrersInput) async throws -> ListImageReferrersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listImageReferrers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListImageReferrersInput, ListImageReferrersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(ListImageReferrersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImageReferrersOutput>(ListImageReferrersOutput.httpOutput(from:), ListImageReferrersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListImageReferrersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImageReferrersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(xAmzTarget: "AmazonEC2ContainerRegistry_V20150921.ListImageReferrers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListImageReferrersInput, ListImageReferrersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImageReferrersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImageReferrersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListImageReferrers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListImages` operation on the `ECR` service.
     ///
     /// Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a [BatchDeleteImage] operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
@@ -2603,6 +2748,78 @@ extension ECRClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListImages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPullTimeUpdateExclusions` operation on the `ECR` service.
+    ///
+    /// Lists the IAM principals that are excluded from having their image pull times recorded.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPullTimeUpdateExclusionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPullTimeUpdateExclusionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func listPullTimeUpdateExclusions(input: ListPullTimeUpdateExclusionsInput) async throws -> ListPullTimeUpdateExclusionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPullTimeUpdateExclusions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(ListPullTimeUpdateExclusionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPullTimeUpdateExclusionsOutput>(ListPullTimeUpdateExclusionsOutput.httpOutput(from:), ListPullTimeUpdateExclusionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPullTimeUpdateExclusionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPullTimeUpdateExclusionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(xAmzTarget: "AmazonEC2ContainerRegistry_V20150921.ListPullTimeUpdateExclusions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPullTimeUpdateExclusionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPullTimeUpdateExclusionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPullTimeUpdateExclusions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3133,6 +3350,7 @@ extension ECRClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BlockedByOrganizationPolicyException` : The operation did not succeed because the account is managed by a organization policy.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
@@ -3264,6 +3482,79 @@ extension ECRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RegisterPullTimeUpdateExclusion` operation on the `ECR` service.
+    ///
+    /// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RegisterPullTimeUpdateExclusionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RegisterPullTimeUpdateExclusionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExclusionAlreadyExistsException` : The specified pull time update exclusion already exists for the registry.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func registerPullTimeUpdateExclusion(input: RegisterPullTimeUpdateExclusionInput) async throws -> RegisterPullTimeUpdateExclusionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerPullTimeUpdateExclusion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(RegisterPullTimeUpdateExclusionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterPullTimeUpdateExclusionOutput>(RegisterPullTimeUpdateExclusionOutput.httpOutput(from:), RegisterPullTimeUpdateExclusionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterPullTimeUpdateExclusionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterPullTimeUpdateExclusionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(xAmzTarget: "AmazonEC2ContainerRegistry_V20150921.RegisterPullTimeUpdateExclusion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterPullTimeUpdateExclusionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterPullTimeUpdateExclusion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SetRepositoryPolicy` operation on the `ECR` service.
     ///
     /// Applies a repository policy to the specified repository to control access permissions. For more information, see [Amazon ECR Repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
@@ -3346,6 +3637,7 @@ extension ECRClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ImageArchivedException` : The specified image is archived and cannot be scanned.
     /// - `ImageNotFoundException` : The image requested does not exist in the specified repository.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
@@ -3618,6 +3910,80 @@ extension ECRClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateImageStorageClass` operation on the `ECR` service.
+    ///
+    /// Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageStorageClassInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateImageStorageClassOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ImageNotFoundException` : The image requested does not exist in the specified repository.
+    /// - `ImageStorageClassUpdateNotSupportedException` : The requested image storage class update is not supported.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func updateImageStorageClass(input: UpdateImageStorageClassInput) async throws -> UpdateImageStorageClassOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateImageStorageClass")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateImageStorageClassInput, UpdateImageStorageClassOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(UpdateImageStorageClassInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImageStorageClassOutput>(UpdateImageStorageClassOutput.httpOutput(from:), UpdateImageStorageClassOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImageStorageClassOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateImageStorageClassOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(xAmzTarget: "AmazonEC2ContainerRegistry_V20150921.UpdateImageStorageClass"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateImageStorageClassInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateImageStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateImageStorageClass")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -3427,6 +3427,52 @@ extension WAFV2ClientTypes {
     }
 }
 
+extension WAFV2ClientTypes {
+
+    /// A WAF feature that is not supported by the CloudFront pricing plan associated with the web ACL.
+    public struct DisallowedFeature: Swift.Sendable {
+        /// The name of the disallowed WAF feature.
+        public var feature: Swift.String?
+        /// The name of the CloudFront pricing plan required to use the WAF feature.
+        public var requiredPricingPlan: Swift.String?
+
+        public init(
+            feature: Swift.String? = nil,
+            requiredPricingPlan: Swift.String? = nil
+        ) {
+            self.feature = feature
+            self.requiredPricingPlan = requiredPricingPlan
+        }
+    }
+}
+
+/// The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
+public struct WAFFeatureNotIncludedInPricingPlanException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The names of the disallowed WAF features.
+        public internal(set) var disallowedFeatures: [WAFV2ClientTypes.DisallowedFeature]? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFFeatureNotIncludedInPricingPlanException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        disallowedFeatures: [WAFV2ClientTypes.DisallowedFeature]? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.disallowedFeatures = disallowedFeatures
+        self.properties.message = message
+    }
+}
+
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
 public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4981,12 +5027,14 @@ public struct DeleteIPSetOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum LogScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatchTelemetryRuleManaged
         case customer
         case securityLake
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogScope] {
             return [
+                .cloudwatchTelemetryRuleManaged,
                 .customer,
                 .securityLake
             ]
@@ -4999,6 +5047,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cloudwatchTelemetryRuleManaged: return "CLOUDWATCH_TELEMETRY_RULE_MANAGED"
             case .customer: return "CUSTOMER"
             case .securityLake: return "SECURITY_LAKE"
             case let .sdkUnknown(s): return s
@@ -5034,7 +5083,7 @@ extension WAFV2ClientTypes {
 }
 
 public struct DeleteLoggingConfigurationInput: Swift.Sendable {
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
     public var logType: WAFV2ClientTypes.LogType?
@@ -5621,7 +5670,7 @@ public struct GetIPSetOutput: Swift.Sendable {
 }
 
 public struct GetLoggingConfigurationInput: Swift.Sendable {
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
     public var logType: WAFV2ClientTypes.LogType?
@@ -5794,7 +5843,7 @@ extension WAFV2ClientTypes {
         /// The logging destination configuration that you want to associate with the web ACL. You can associate one logging destination to a web ACL.
         /// This member is required.
         public var logDestinationConfigs: [Swift.String]?
-        /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+        /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
         public var logScope: WAFV2ClientTypes.LogScope?
         /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
         public var logType: WAFV2ClientTypes.LogType?
@@ -6778,7 +6827,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
 public struct ListLoggingConfigurationsInput: Swift.Sendable {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
@@ -10158,6 +10207,7 @@ enum AssociateWebACLOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -10951,6 +11001,7 @@ enum PutLoggingConfigurationOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -11130,6 +11181,7 @@ enum UpdateWebACLOutputError {
             case "WAFConfigurationWarningException": return try WAFConfigurationWarningException.makeError(baseError: baseError)
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
             case "WAFExpiredManagedRuleGroupVersionException": return try WAFExpiredManagedRuleGroupVersionException.makeError(baseError: baseError)
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -11141,6 +11193,20 @@ enum UpdateWebACLOutputError {
             case "WAFUnavailableEntityException": return try WAFUnavailableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension WAFFeatureNotIncludedInPricingPlanException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFFeatureNotIncludedInPricingPlanException {
+        let reader = baseError.errorBodyReader
+        var value = WAFFeatureNotIncludedInPricingPlanException()
+        value.properties.disallowedFeatures = try reader["DisallowedFeatures"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DisallowedFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
@@ -13724,6 +13790,17 @@ extension WAFV2ClientTypes.TagInfoForResource {
         var value = WAFV2ClientTypes.TagInfoForResource()
         value.resourceARN = try reader["ResourceARN"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DisallowedFeature {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DisallowedFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DisallowedFeature()
+        value.feature = try reader["Feature"].readIfPresent()
+        value.requiredPricingPlan = try reader["RequiredPricingPlan"].readIfPresent()
         return value
     }
 }

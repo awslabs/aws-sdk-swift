@@ -379,26 +379,28 @@ extension ResourceGroupsTaggingAPIClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    /// - `ConstraintViolationException` : The request failed because performing the operation would violate a constraint. Some of the reasons in the following list might not apply to this specific operation.
     ///
-    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and permissions](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-prereqs) in the Tagging Amazon Web Services resources and Tag Editor user guide.
     ///
     /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
     ///
     /// * You must have a tag policy attached to the organization root, an OU, or an account.
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -467,26 +469,28 @@ extension ResourceGroupsTaggingAPIClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    /// - `ConstraintViolationException` : The request failed because performing the operation would violate a constraint. Some of the reasons in the following list might not apply to this specific operation.
     ///
-    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and permissions](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-prereqs) in the Tagging Amazon Web Services resources and Tag Editor user guide.
     ///
     /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
     ///
     /// * You must have a tag policy attached to the organization root, an OU, or an account.
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -553,7 +557,7 @@ extension ResourceGroupsTaggingAPIClient {
     /// * Information about compliance with the account's effective tag policy. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the Organizations User Guide.
     ///
     ///
-    /// This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
+    /// This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned. GetResources does not return untagged resources. To find untagged resources in your account, use Amazon Web Services Resource Explorer with a query that uses tag:none. For more information, see [ Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesInput`)
     ///
@@ -563,19 +567,21 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -645,19 +651,21 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -727,19 +735,21 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -797,9 +807,93 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRequiredTags` operation on the `ResourceGroupsTaggingAPI` service.
+    ///
+    /// Lists the required tags for supported resource types in an Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRequiredTagsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRequiredTagsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
+    ///
+    /// * A required parameter is missing.
+    ///
+    /// * A provided string parameter is malformed.
+    ///
+    /// * An provided parameter value is out of range.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
+    public func listRequiredTags(input: ListRequiredTagsInput) async throws -> ListRequiredTagsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRequiredTags")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "tagging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRequiredTagsInput, ListRequiredTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(ListRequiredTagsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRequiredTagsOutput>(ListRequiredTagsOutput.httpOutput(from:), ListRequiredTagsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRequiredTagsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Groups Tagging API", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRequiredTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(xAmzTarget: "ResourceGroupsTaggingAPI_20170126.ListRequiredTags"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRequiredTagsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRequiredTagsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(serviceID: serviceName, version: ResourceGroupsTaggingAPIClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceGroupsTaggingAPI")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRequiredTags")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartReportCreation` operation on the `ResourceGroupsTaggingAPI` service.
     ///
-    /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv You can call this operation only from the organization's management account and from the us-east-1 Region.
+    /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv For more information about evaluating resource compliance with tag policies, including the required permissions, review [Permissions for evaluating organization-wide compliance](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-permissions-org) in the Tagging Amazon Web Services Resources and Tag Editor user guide. You can call this operation only from the organization's management account and from the us-east-1 Region. If the account associated with the identity used to call StartReportCreation is different from the account that owns the Amazon S3 bucket, there must be a bucket policy attached to the bucket to provide access. For more information, review [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services Resources and Tag Editor user guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartReportCreationInput`)
     ///
@@ -808,27 +902,29 @@ extension ResourceGroupsTaggingAPIClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
-    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    /// - `ConcurrentModificationException` : The request failed because the target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : The request failed because performing the operation would violate a constraint. Some of the reasons in the following list might not apply to this specific operation.
     ///
-    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and permissions](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-prereqs) in the Tagging Amazon Web Services resources and Tag Editor user guide.
     ///
     /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
     ///
     /// * You must have a tag policy attached to the organization root, an OU, or an account.
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -898,12 +994,17 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// * To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the documentation for each service.
     ///
+    /// * When you use the [Amazon Web Services Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/overview.html) to update tags for Amazon Web Services CloudFormation stack sets, Amazon Web Services calls the [Amazon Web Services CloudFormation ]UpdateStack(https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html) operation. This operation may initiate additional resource property updates in addition to the desired tag updates. To avoid unexpected resource updates, Amazon Web Services recommends that you only apply or update tags to your CloudFormation stack sets using Amazon Web Services CloudFormation.
+    ///
     ///
     /// Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. Minimum permissions In addition to the tag:TagResources permission required by this operation, you must also have the tagging permission defined by the service that created the resource. For example, to tag an Amazon EC2 instance using the TagResources operation, you must have both of the following permissions:
     ///
-    /// * tag:TagResource
+    /// * tag:TagResources
     ///
     /// * ec2:CreateTags
+    ///
+    ///
+    /// In addition, some services might have specific requirements for tagging some types of resources. For example, to tag an Amazon S3 bucket, you must also have the s3:GetBucketTagging permission. If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourcesInput`)
     ///
@@ -913,18 +1014,20 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -993,9 +1096,12 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Minimum permissions In addition to the tag:UntagResources permission required by this operation, you must also have the remove tags permission defined by the service that created the resource. For example, to remove the tags from an Amazon EC2 instance using the UntagResources operation, you must have both of the following permissions:
     ///
-    /// * tag:UntagResource
+    /// * tag:UntagResources
     ///
     /// * ec2:DeleteTags
+    ///
+    ///
+    /// In addition, some services might have specific requirements for untagging some types of resources. For example, to untag Amazon Web Services Glue Connection, you must also have the glue:GetConnection permission. If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourcesInput`)
     ///
@@ -1005,18 +1111,20 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
-    /// - `InvalidParameterException` : This error indicates one of the following:
+    /// - `InvalidParameterException` : The request failed because of one of the following reasons:
     ///
-    /// * A parameter is missing.
+    /// * A required parameter is missing.
     ///
-    /// * A malformed string was supplied for the request parameter.
+    /// * A provided string parameter is malformed.
     ///
-    /// * An out-of-range value was supplied for the request parameter.
+    /// * An provided parameter value is out of range.
     ///
     /// * The target ID is invalid, unsupported, or doesn't exist.
     ///
-    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
-    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy) in the Tagging Amazon Web Services resources and Tag Editor user guide.
+    ///
+    /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
+    /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

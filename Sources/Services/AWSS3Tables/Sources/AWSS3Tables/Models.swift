@@ -39,6 +39,11 @@ public struct DeleteTableBucketEncryptionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteTableBucketMetricsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTableBucketOutput: Swift.Sendable {
 
     public init() { }
@@ -65,6 +70,11 @@ public struct PutTableBucketEncryptionOutput: Swift.Sendable {
 }
 
 public struct PutTableBucketMaintenanceConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutTableBucketMetricsConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -581,6 +591,18 @@ public struct DeleteTableBucketEncryptionInput: Swift.Sendable {
     }
 }
 
+public struct DeleteTableBucketMetricsConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
 public struct DeleteTableBucketPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
@@ -1030,6 +1052,34 @@ public struct GetTableBucketMaintenanceConfigurationOutput: Swift.Sendable {
         tableBucketARN: Swift.String? = nil
     ) {
         self.configuration = configuration
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableBucketMetricsConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableBucketMetricsConfigurationOutput: Swift.Sendable {
+    /// The unique identifier of the metrics configuration.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.id = id
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -1783,6 +1833,18 @@ public struct PutTableBucketMaintenanceConfigurationInput: Swift.Sendable {
     }
 }
 
+public struct PutTableBucketMetricsConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
 public struct PutTableBucketPolicyInput: Swift.Sendable {
     /// The JSON that defines the policy.
     /// This member is required.
@@ -2092,6 +2154,16 @@ extension DeleteTableBucketEncryptionInput {
     }
 }
 
+extension DeleteTableBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteTableBucketMetricsConfigurationInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/metrics"
+    }
+}
+
 extension DeleteTableBucketPolicyInput {
 
     static func urlPathProvider(_ value: DeleteTableBucketPolicyInput) -> Swift.String? {
@@ -2189,6 +2261,16 @@ extension GetTableBucketMaintenanceConfigurationInput {
             return nil
         }
         return "/buckets/\(tableBucketARN.urlPercentEncoding())/maintenance"
+    }
+}
+
+extension GetTableBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetTableBucketMetricsConfigurationInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/metrics"
     }
 }
 
@@ -2407,6 +2489,16 @@ extension PutTableBucketMaintenanceConfigurationInput {
             return nil
         }
         return "/buckets/\(tableBucketARN.urlPercentEncoding())/maintenance/\(type.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension PutTableBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutTableBucketMetricsConfigurationInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/metrics"
     }
 }
 
@@ -2686,6 +2778,13 @@ extension DeleteTableBucketEncryptionOutput {
     }
 }
 
+extension DeleteTableBucketMetricsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableBucketMetricsConfigurationOutput {
+        return DeleteTableBucketMetricsConfigurationOutput()
+    }
+}
+
 extension DeleteTableBucketPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableBucketPolicyOutput {
@@ -2781,6 +2880,19 @@ extension GetTableBucketMaintenanceConfigurationOutput {
         let reader = responseReader
         var value = GetTableBucketMaintenanceConfigurationOutput()
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: S3TablesClientTypes.TableBucketMaintenanceConfigurationValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.tableBucketARN = try reader["tableBucketARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableBucketMetricsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketMetricsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableBucketMetricsConfigurationOutput()
+        value.id = try reader["id"].readIfPresent()
         value.tableBucketARN = try reader["tableBucketARN"].readIfPresent() ?? ""
         return value
     }
@@ -2924,6 +3036,13 @@ extension PutTableBucketMaintenanceConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketMaintenanceConfigurationOutput {
         return PutTableBucketMaintenanceConfigurationOutput()
+    }
+}
+
+extension PutTableBucketMetricsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketMetricsConfigurationOutput {
+        return PutTableBucketMetricsConfigurationOutput()
     }
 }
 
@@ -3118,6 +3237,25 @@ enum DeleteTableBucketEncryptionOutputError {
     }
 }
 
+enum DeleteTableBucketMetricsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTableBucketPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3236,6 +3374,25 @@ enum GetTableBucketEncryptionOutputError {
 }
 
 enum GetTableBucketMaintenanceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableBucketMetricsConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3466,6 +3623,25 @@ enum PutTableBucketEncryptionOutputError {
 }
 
 enum PutTableBucketMaintenanceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTableBucketMetricsConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

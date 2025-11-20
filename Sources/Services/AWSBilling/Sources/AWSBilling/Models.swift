@@ -631,6 +631,8 @@ extension BillingClientTypes {
 
     public enum BillingViewType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case billingGroup
+        case billingTransfer
+        case billingTransferShowback
         case custom
         case primary
         case sdkUnknown(Swift.String)
@@ -638,6 +640,8 @@ extension BillingClientTypes {
         public static var allCases: [BillingViewType] {
             return [
                 .billingGroup,
+                .billingTransfer,
+                .billingTransferShowback,
                 .custom,
                 .primary
             ]
@@ -651,6 +655,8 @@ extension BillingClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .billingGroup: return "BILLING_GROUP"
+            case .billingTransfer: return "BILLING_TRANSFER"
+            case .billingTransferShowback: return "BILLING_TRANSFER_SHOWBACK"
             case .custom: return "CUSTOM"
             case .primary: return "PRIMARY"
             case let .sdkUnknown(s): return s
@@ -868,6 +874,53 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+extension BillingClientTypes {
+
+    public enum SearchOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case startsWith
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchOption] {
+            return [
+                .startsWith
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .startsWith: return "STARTS_WITH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A structure that defines how to search for string values. You can specify a search option and the value to search for.
+    public struct StringSearch: Swift.Sendable {
+        /// The type of search operation to perform on the string value. Determines how the search value is matched against the target field.
+        /// This member is required.
+        public var searchOption: BillingClientTypes.SearchOption?
+        /// The string value to use in the search operation. This value is compared against the target field using the specified search option.
+        /// This member is required.
+        public var searchValue: Swift.String?
+
+        public init(
+            searchOption: BillingClientTypes.SearchOption? = nil,
+            searchValue: Swift.String? = nil
+        ) {
+            self.searchOption = searchOption
+            self.searchValue = searchValue
+        }
+    }
+}
+
 public struct ListBillingViewsInput: Swift.Sendable {
     /// The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conductor is active. The time range must be within one calendar month.
     public var activeTimeRange: BillingClientTypes.ActiveTimeRange?
@@ -877,6 +930,8 @@ public struct ListBillingViewsInput: Swift.Sendable {
     public var billingViewTypes: [BillingClientTypes.BillingViewType]?
     /// The maximum number of billing views to retrieve. Default is 100.
     public var maxResults: Swift.Int?
+    /// Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option provided.
+    public var names: [BillingClientTypes.StringSearch]?
     /// The pagination token that is used on subsequent calls to list billing views.
     public var nextToken: Swift.String?
     /// The list of owners of the billing view.
@@ -889,6 +944,7 @@ public struct ListBillingViewsInput: Swift.Sendable {
         arns: [Swift.String]? = nil,
         billingViewTypes: [BillingClientTypes.BillingViewType]? = nil,
         maxResults: Swift.Int? = nil,
+        names: [BillingClientTypes.StringSearch]? = nil,
         nextToken: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         sourceAccountId: Swift.String? = nil
@@ -897,6 +953,7 @@ public struct ListBillingViewsInput: Swift.Sendable {
         self.arns = arns
         self.billingViewTypes = billingViewTypes
         self.maxResults = maxResults
+        self.names = names
         self.nextToken = nextToken
         self.ownerAccountId = ownerAccountId
         self.sourceAccountId = sourceAccountId
@@ -1259,6 +1316,7 @@ extension ListBillingViewsInput {
         try writer["arns"].writeList(value.arns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["billingViewTypes"].writeList(value.billingViewTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BillingClientTypes.BillingViewType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
+        try writer["names"].writeList(value.names, memberWritingClosure: BillingClientTypes.StringSearch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccountId"].write(value.ownerAccountId)
         try writer["sourceAccountId"].write(value.sourceAccountId)
@@ -1944,6 +2002,15 @@ extension BillingClientTypes.ActiveTimeRange {
         guard let value else { return }
         try writer["activeAfterInclusive"].writeTimestamp(value.activeAfterInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["activeBeforeInclusive"].writeTimestamp(value.activeBeforeInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension BillingClientTypes.StringSearch {
+
+    static func write(value: BillingClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["searchOption"].write(value.searchOption)
+        try writer["searchValue"].write(value.searchValue)
     }
 }
 

@@ -368,6 +368,76 @@ extension IAMClient {
 }
 
 extension IAMClient {
+    /// Performs the `AcceptDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html) API has to be explicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent to the partner.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AcceptDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AcceptDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func acceptDelegationRequest(input: AcceptDelegationRequestInput) async throws -> AcceptDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AcceptDelegationRequestInput, AcceptDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>(AcceptDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptDelegationRequestOutput>(AcceptDelegationRequestOutput.httpOutput(from:), AcceptDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptDelegationRequestInput, AcceptDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptDelegationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AddClientIDToOpenIDConnectProvider` operation on the `IAM` service.
     ///
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
@@ -570,6 +640,77 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddUserToGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AssociateDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request. If the partner that created the delegation request has not specified the owner account during creation, any caller from any account can call the AssociateDelegationRequest API for the delegation request. Once this API call is successful, the ARN of the current calling identity will be stored as the ownerId and the Amazon Web Services account ID of the current calling identity will be stored as the ownerAccount of the request. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func associateDelegationRequest(input: AssociateDelegationRequestInput) async throws -> AssociateDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateDelegationRequestInput, AssociateDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>(AssociateDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDelegationRequestOutput>(AssociateDelegationRequestOutput.httpOutput(from:), AssociateDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateDelegationRequestInput, AssociateDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDelegationRequest")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1001,6 +1142,78 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAccountAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Creates an IAM delegation request for temporary access delegation. This API is not available for general use. In order to use this API, a caller first need to go through an onboarding process described in the [partner onboarding documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `EntityAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func createDelegationRequest(input: CreateDelegationRequestInput) async throws -> CreateDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDelegationRequestInput, CreateDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(CreateDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDelegationRequestOutput>(CreateDelegationRequestOutput.httpOutput(from:), CreateDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDelegationRequest")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3978,6 +4191,74 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableOutboundWebIdentityFederation` operation on the `IAM` service.
+    ///
+    /// Disables the outbound identity federation feature for your Amazon Web Services account. When disabled, IAM principals in the account cannot use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation does not affect tokens that were issued before the feature was disabled.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisableOutboundWebIdentityFederationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisableOutboundWebIdentityFederationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureDisabledException` : The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+    public func disableOutboundWebIdentityFederation(input: DisableOutboundWebIdentityFederationInput) async throws -> DisableOutboundWebIdentityFederationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableOutboundWebIdentityFederation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(DisableOutboundWebIdentityFederationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOutboundWebIdentityFederationOutput>(DisableOutboundWebIdentityFederationOutput.httpOutput(from:), DisableOutboundWebIdentityFederationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableOutboundWebIdentityFederationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableOutboundWebIdentityFederationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableOutboundWebIdentityFederationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableOutboundWebIdentityFederation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableMFADevice` operation on the `IAM` service.
     ///
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
@@ -4192,6 +4473,74 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOrganizationsRootSessions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableOutboundWebIdentityFederation` operation on the `IAM` service.
+    ///
+    /// Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account can use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for secure authentication with external services. This operation also generates a unique issuer URL for your Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableOutboundWebIdentityFederationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableOutboundWebIdentityFederationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureEnabledException` : The request failed because outbound identity federation is already enabled for your Amazon Web Services account. You cannot enable the feature multiple times. To fetch the current configuration (including the unique issuer URL), use the GetOutboundWebIdentityFederationInfo operation.
+    public func enableOutboundWebIdentityFederation(input: EnableOutboundWebIdentityFederationInput) async throws -> EnableOutboundWebIdentityFederationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableOutboundWebIdentityFederation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(EnableOutboundWebIdentityFederationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOutboundWebIdentityFederationOutput>(EnableOutboundWebIdentityFederationOutput.httpOutput(from:), EnableOutboundWebIdentityFederationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableOutboundWebIdentityFederationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableOutboundWebIdentityFederationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableOutboundWebIdentityFederationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOutboundWebIdentityFederation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4915,6 +5264,75 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func getDelegationRequest(input: GetDelegationRequestInput) async throws -> GetDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDelegationRequestInput, GetDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>(GetDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDelegationRequestOutput>(GetDelegationRequestOutput.httpOutput(from:), GetDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDelegationRequestInput, GetDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDelegationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetGroup` operation on the `IAM` service.
     ///
     /// Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
@@ -5041,6 +5459,76 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGroupPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetHumanReadableSummary` operation on the `IAM` service.
+    ///
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrieve a summary of that request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, read [default permissions granted to delegation requests]. These rules are identical to [GetDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html) API behavior, such that a party who has permissions to call [GetDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html) for a given delegation request will always be able to retrieve the human readable summary for that request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetHumanReadableSummaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetHumanReadableSummaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func getHumanReadableSummary(input: GetHumanReadableSummaryInput) async throws -> GetHumanReadableSummaryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getHumanReadableSummary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>(GetHumanReadableSummaryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHumanReadableSummaryOutput>(GetHumanReadableSummaryOutput.httpOutput(from:), GetHumanReadableSummaryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetHumanReadableSummaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetHumanReadableSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetHumanReadableSummaryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHumanReadableSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHumanReadableSummaryInput, GetHumanReadableSummaryOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHumanReadableSummary")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5386,6 +5874,74 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOrganizationsAccessReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetOutboundWebIdentityFederationInfo` operation on the `IAM` service.
+    ///
+    /// Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetOutboundWebIdentityFederationInfoInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetOutboundWebIdentityFederationInfoOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureDisabledException` : The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+    public func getOutboundWebIdentityFederationInfo(input: GetOutboundWebIdentityFederationInfoInput) async throws -> GetOutboundWebIdentityFederationInfoOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getOutboundWebIdentityFederationInfo")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(GetOutboundWebIdentityFederationInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutboundWebIdentityFederationInfoOutput>(GetOutboundWebIdentityFederationInfoOutput.httpOutput(from:), GetOutboundWebIdentityFederationInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetOutboundWebIdentityFederationInfoOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutboundWebIdentityFederationInfoOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetOutboundWebIdentityFederationInfoInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOutboundWebIdentityFederationInfo")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6583,6 +7139,76 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAttachedUserPolicies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDelegationRequests` operation on the `IAM` service.
+    ///
+    /// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a specific account, it will not be part of the ListDelegationRequests output for that account. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDelegationRequestsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDelegationRequestsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func listDelegationRequests(input: ListDelegationRequestsInput) async throws -> ListDelegationRequestsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDelegationRequests")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDelegationRequestsInput, ListDelegationRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>(ListDelegationRequestsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDelegationRequestsOutput>(ListDelegationRequestsOutput.httpOutput(from:), ListDelegationRequestsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegationRequestsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDelegationRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListDelegationRequestsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDelegationRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegationRequestsInput, ListDelegationRequestsOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDelegationRequests")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -9040,6 +9666,77 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RejectDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RejectDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RejectDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func rejectDelegationRequest(input: RejectDelegationRequestInput) async throws -> RejectDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rejectDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RejectDelegationRequestInput, RejectDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>(RejectDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectDelegationRequestOutput>(RejectDelegationRequestOutput.httpOutput(from:), RejectDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RejectDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RejectDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectDelegationRequestInput, RejectDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectDelegationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RemoveClientIDFromOpenIDConnectProvider` operation on the `IAM` service.
     ///
     /// Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
@@ -9380,6 +10077,77 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResyncMFADevice")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendDelegationToken` operation on the `IAM` service.
+    ///
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendDelegationTokenInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendDelegationTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func sendDelegationToken(input: SendDelegationTokenInput) async throws -> SendDelegationTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDelegationToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendDelegationTokenInput, SendDelegationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>(SendDelegationTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDelegationTokenOutput>(SendDelegationTokenOutput.httpOutput(from:), SendDelegationTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendDelegationTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDelegationTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: SendDelegationTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDelegationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDelegationTokenInput, SendDelegationTokenOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDelegationToken")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -11114,6 +11882,77 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAssumeRolePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateDelegationRequest` operation on the `IAM` service.
+    ///
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see [ Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func updateDelegationRequest(input: UpdateDelegationRequestInput) async throws -> UpdateDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDelegationRequestInput, UpdateDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>(UpdateDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDelegationRequestOutput>(UpdateDelegationRequestOutput.httpOutput(from:), UpdateDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDelegationRequestInput, UpdateDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDelegationRequest")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

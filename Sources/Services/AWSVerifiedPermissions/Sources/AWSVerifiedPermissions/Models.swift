@@ -3384,19 +3384,19 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension VerifiedPermissionsClientTypes {
 
-    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public indirect enum AttributeValue: Swift.Sendable {
-        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
+        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
-        /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
+        /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: {"entityIdentifier": { "entityId": "alice", "entityType": "User"} }
         case entityidentifier(VerifiedPermissionsClientTypes.EntityIdentifier)
-        /// An attribute value of [Long](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#long) type. Example: {"long": 0}
+        /// An attribute value of [Long](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-long) type. Example: {"long": 0}
         case long(Swift.Int)
-        /// An attribute value of [String](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#string) type. Example: {"string": "abc"}
+        /// An attribute value of [String](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-string) type. Example: {"string": "abc"}
         case string(Swift.String)
-        /// An attribute value of [Set](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#set) type. Example: {"set": [ {} ] }
+        /// An attribute value of [Set](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set) type. Example: {"set": [ {} ] }
         case `set`([VerifiedPermissionsClientTypes.AttributeValue])
-        /// An attribute value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
+        /// An attribute value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-record) type. Example: {"record": { "keyName": {} } }
         case record([Swift.String: VerifiedPermissionsClientTypes.AttributeValue])
         /// An attribute value of [ipaddr](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-ipaddr) type. Example: {"ip": "192.168.1.100"}
         case ipaddr(Swift.String)
@@ -3412,6 +3412,34 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes {
 
+    /// The value of an entity's Cedar tag. This data type is used as a member of the [EntityItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityItem.html) structure that forms the body of the Entities request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html), and [BatchIsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html) operations.
+    public indirect enum CedarTagValue: Swift.Sendable {
+        /// A Cedar tag value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool) type. Example: {"boolean": false}
+        case boolean(Swift.Bool)
+        /// A Cedar tag value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: {"entityIdentifier": { "entityId": "alice", "entityType": "User"} }
+        case entityidentifier(VerifiedPermissionsClientTypes.EntityIdentifier)
+        /// A Cedar tag value of [Long](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-long) type. Example: {"long": 0}
+        case long(Swift.Int)
+        /// A Cedar tag value of [String](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-string) type. Example: {"string": "abc"}
+        case string(Swift.String)
+        /// A Cedar tag value of [Set](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set) type. Example: {"set": [ { "string": "abc" } ] }
+        case `set`([VerifiedPermissionsClientTypes.CedarTagValue])
+        /// A Cedar tag value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-record) type. Example: {"record": { "keyName": {} } }
+        case record([Swift.String: VerifiedPermissionsClientTypes.CedarTagValue])
+        /// A Cedar tag value of [ipaddr](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-ipaddr) type. Example: {"ip": "10.50.0.0/24"}
+        case ipaddr(Swift.String)
+        /// A Cedar tag value of [decimal](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-decimal) type. Example: {"decimal": "-2.0"}
+        case decimal(Swift.String)
+        /// A Cedar tag value of [datetime](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-datetime) type. Example: {"datetime": "2025-11-04T11:35:00.000+0100"}
+        case datetime(Swift.String)
+        /// A Cedar tag value of [duration](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-duration) type. Example: {"duration": "-1d12h"}
+        case duration(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. If you're passing context as part of the request, exactly one instance of context must be passed. If you don't want to pass context, omit the context parameter from your request rather than sending context {}. Example: "context":{"contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
     public indirect enum ContextDefinition: Swift.Sendable {
         /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
@@ -3419,30 +3447,6 @@ extension VerifiedPermissionsClientTypes {
         /// A Cedar JSON string representation of the context needed to successfully evaluate an authorization request. Example: {"cedarJson":"{\"<KeyName1>\": true, \"<KeyName2>\": 1234}" }
         case cedarjson(Swift.String)
         case sdkUnknown(Swift.String)
-    }
-}
-
-extension VerifiedPermissionsClientTypes {
-
-    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "identifier": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
-    public struct EntityItem: Swift.Sendable {
-        /// A list of attributes for the entity.
-        public var attributes: [Swift.String: VerifiedPermissionsClientTypes.AttributeValue]?
-        /// The identifier of the entity.
-        /// This member is required.
-        public var identifier: VerifiedPermissionsClientTypes.EntityIdentifier?
-        /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request. A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
-        public var parents: [VerifiedPermissionsClientTypes.EntityIdentifier]?
-
-        public init(
-            attributes: [Swift.String: VerifiedPermissionsClientTypes.AttributeValue]? = nil,
-            identifier: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
-            parents: [VerifiedPermissionsClientTypes.EntityIdentifier]? = nil
-        ) {
-            self.attributes = attributes
-            self.identifier = identifier
-            self.parents = parents
-        }
     }
 }
 
@@ -3570,13 +3574,29 @@ extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem: S
 
 extension VerifiedPermissionsClientTypes {
 
-    /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public indirect enum EntitiesDefinition: Swift.Sendable {
-        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities. If you include multiple entities with the same identifier, only the last one is processed in the request.
-        case entitylist([VerifiedPermissionsClientTypes.EntityItem])
-        /// A Cedar JSON string representation of the entities needed to successfully evaluate an authorization request. Example: {"cedarJson": "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}
-        case cedarjson(Swift.String)
-        case sdkUnknown(Swift.String)
+    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "identifier": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
+    public struct EntityItem: Swift.Sendable {
+        /// A list of attributes for the entity.
+        public var attributes: [Swift.String: VerifiedPermissionsClientTypes.AttributeValue]?
+        /// The identifier of the entity.
+        /// This member is required.
+        public var identifier: VerifiedPermissionsClientTypes.EntityIdentifier?
+        /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request. A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
+        public var parents: [VerifiedPermissionsClientTypes.EntityIdentifier]?
+        /// A list of cedar tags for the entity.
+        public var tags: [Swift.String: VerifiedPermissionsClientTypes.CedarTagValue]?
+
+        public init(
+            attributes: [Swift.String: VerifiedPermissionsClientTypes.AttributeValue]? = nil,
+            identifier: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
+            parents: [VerifiedPermissionsClientTypes.EntityIdentifier]? = nil,
+            tags: [Swift.String: VerifiedPermissionsClientTypes.CedarTagValue]? = nil
+        ) {
+            self.attributes = attributes
+            self.identifier = identifier
+            self.parents = parents
+            self.tags = tags
+        }
     }
 }
 
@@ -3605,6 +3625,18 @@ public struct BatchIsAuthorizedWithTokenOutput: Swift.Sendable {
     ) {
         self.principal = principal
         self.results = results
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    public indirect enum EntitiesDefinition: Swift.Sendable {
+        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities. If you include multiple entities with the same identifier, only the last one is processed in the request.
+        case entitylist([VerifiedPermissionsClientTypes.EntityItem])
+        /// A Cedar JSON string representation of the entities needed to successfully evaluate an authorization request. Example: {"cedarJson": "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}
+        case cedarjson(Swift.String)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -5948,6 +5980,38 @@ extension VerifiedPermissionsClientTypes.EntityItem {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["identifier"].write(value.identifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
         try writer["parents"].writeList(value.parents, memberWritingClosure: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CedarTagValue {
+
+    static func write(value: VerifiedPermissionsClientTypes.CedarTagValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .boolean(boolean):
+                try writer["boolean"].write(boolean)
+            case let .datetime(datetime):
+                try writer["datetime"].write(datetime)
+            case let .decimal(decimal):
+                try writer["decimal"].write(decimal)
+            case let .duration(duration):
+                try writer["duration"].write(duration)
+            case let .entityidentifier(entityidentifier):
+                try writer["entityIdentifier"].write(entityidentifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+            case let .ipaddr(ipaddr):
+                try writer["ipaddr"].write(ipaddr)
+            case let .long(long):
+                try writer["long"].write(long)
+            case let .record(record):
+                try writer["record"].writeMap(record, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .`set`(`set`):
+                try writer["set"].writeList(`set`, memberWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .string(string):
+                try writer["string"].write(string)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 

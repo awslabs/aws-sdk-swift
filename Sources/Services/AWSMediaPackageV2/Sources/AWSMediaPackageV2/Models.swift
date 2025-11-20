@@ -815,7 +815,7 @@ extension MediaPackageV2ClientTypes {
 
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive.
     public struct InputSwitchConfiguration: Swift.Sendable {
-        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
+        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF.
         public var mqcsInputSwitching: Swift.Bool?
         /// For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal.
         public var preferredInput: Swift.Int?
@@ -1804,6 +1804,8 @@ extension MediaPackageV2ClientTypes {
     public struct ScteHls: Swift.Sendable {
         /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:
         ///
+        /// * SCTE35_ENHANCED - Generate industry-standard CUE tag ad markers in HLS manifests based on SCTE-35 input messages from the input stream.
+        ///
         /// * DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see [SCTE-35 Ad Marker EXT-X-DATERANGE](http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html).
         public var adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls?
 
@@ -2399,15 +2401,55 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum ScteInSegments: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScteInSegments] {
+            return [
+                .all,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
     public struct Scte: Swift.Sendable {
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public var scteFilter: [MediaPackageV2ClientTypes.ScteFilter]?
+        /// Controls whether SCTE-35 messages are included in segment files.
+        ///
+        /// * None – SCTE-35 messages are not included in segments (default)
+        ///
+        /// * All – SCTE-35 messages are embedded in segment data
+        ///
+        ///
+        /// For DASH manifests, when set to All, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
+        public var scteInSegments: MediaPackageV2ClientTypes.ScteInSegments?
 
         public init(
-            scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil
+            scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil,
+            scteInSegments: MediaPackageV2ClientTypes.ScteInSegments? = nil
         ) {
             self.scteFilter = scteFilter
+            self.scteInSegments = scteInSegments
         }
     }
 }
@@ -6482,12 +6524,14 @@ extension MediaPackageV2ClientTypes.Scte {
     static func write(value: MediaPackageV2ClientTypes.Scte?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ScteFilter"].writeList(value.scteFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScteInSegments"].write(value.scteInSegments)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Scte {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.Scte()
         value.scteFilter = try reader["ScteFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scteInSegments = try reader["ScteInSegments"].readIfPresent()
         return value
     }
 }

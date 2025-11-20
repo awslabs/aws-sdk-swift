@@ -565,12 +565,16 @@ extension InvoicingClientTypes {
 
     /// This is used to categorize the invoice unit. Values are Amazon Web Services account IDs. Currently, the only supported rule is LINKED_ACCOUNT.
     public struct InvoiceUnitRule: Swift.Sendable {
+        /// A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        public var billSourceAccounts: [Swift.String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public var linkedAccounts: [Swift.String]?
 
         public init(
+            billSourceAccounts: [Swift.String]? = nil,
             linkedAccounts: [Swift.String]? = nil
         ) {
+            self.billSourceAccounts = billSourceAccounts
             self.linkedAccounts = linkedAccounts
         }
     }
@@ -709,6 +713,8 @@ extension InvoicingClientTypes {
     public struct Filters: Swift.Sendable {
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public var accounts: [Swift.String]?
+        /// A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        public var billSourceAccounts: [Swift.String]?
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public var invoiceReceivers: [Swift.String]?
         /// An optional input to the list API. You can specify a list of invoice unit names inside filters to return invoice units that match only the specified invoice unit names. If multiple names are provided, the result is an OR condition (match any) of the specified invoice unit names.
@@ -716,13 +722,84 @@ extension InvoicingClientTypes {
 
         public init(
             accounts: [Swift.String]? = nil,
+            billSourceAccounts: [Swift.String]? = nil,
             invoiceReceivers: [Swift.String]? = nil,
             names: [Swift.String]? = nil
         ) {
             self.accounts = accounts
+            self.billSourceAccounts = billSourceAccounts
             self.invoiceReceivers = invoiceReceivers
             self.names = names
         }
+    }
+}
+
+public struct GetInvoicePDFInput: Swift.Sendable {
+    /// Your unique invoice ID.
+    /// This member is required.
+    public var invoiceId: Swift.String?
+
+    public init(
+        invoiceId: Swift.String? = nil
+    ) {
+        self.invoiceId = invoiceId
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Supplemental document associated with the invoice.
+    public struct SupplementalDocument: Swift.Sendable {
+        /// The pre-signed URL to download invoice supplemental document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of invoice supplemental document.
+        public var documentUrlExpirationDate: Foundation.Date?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Invoice document data.
+    public struct InvoicePDF: Swift.Sendable {
+        /// The pre-signed URL to download the invoice document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of the invoice document.
+        public var documentUrlExpirationDate: Foundation.Date?
+        /// Your unique invoice ID.
+        public var invoiceId: Swift.String?
+        /// List of supplemental documents associated with the invoice.
+        public var supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil,
+            invoiceId: Swift.String? = nil,
+            supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+            self.invoiceId = invoiceId
+            self.supplementalDocuments = supplementalDocuments
+        }
+    }
+}
+
+public struct GetInvoicePDFOutput: Swift.Sendable {
+    /// The invoice document and supplemental documents associated with the invoice.
+    public var invoicePDF: InvoicingClientTypes.InvoicePDF?
+
+    public init(
+        invoicePDF: InvoicingClientTypes.InvoicePDF? = nil
+    ) {
+        self.invoicePDF = invoicePDF
     }
 }
 
@@ -1233,6 +1310,13 @@ extension DeleteInvoiceUnitInput {
     }
 }
 
+extension GetInvoicePDFInput {
+
+    static func urlPathProvider(_ value: GetInvoicePDFInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInvoiceUnitInput {
 
     static func urlPathProvider(_ value: GetInvoiceUnitInput) -> Swift.String? {
@@ -1308,6 +1392,14 @@ extension DeleteInvoiceUnitInput {
     static func write(value: DeleteInvoiceUnitInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InvoiceUnitArn"].write(value.invoiceUnitArn)
+    }
+}
+
+extension GetInvoicePDFInput {
+
+    static func write(value: GetInvoicePDFInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvoiceId"].write(value.invoiceId)
     }
 }
 
@@ -1411,6 +1503,18 @@ extension DeleteInvoiceUnitOutput {
         let reader = responseReader
         var value = DeleteInvoiceUnitOutput()
         value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GetInvoicePDFOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvoicePDFOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvoicePDFOutput()
+        value.invoicePDF = try reader["InvoicePDF"].readIfPresent(with: InvoicingClientTypes.InvoicePDF.read(from:))
         return value
     }
 }
@@ -1533,6 +1637,24 @@ enum CreateInvoiceUnitOutputError {
 }
 
 enum DeleteInvoiceUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInvoicePDFOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1796,10 +1918,35 @@ extension InvoicingClientTypes.ReceiverAddress {
     }
 }
 
+extension InvoicingClientTypes.InvoicePDF {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoicePDF {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoicePDF()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.supplementalDocuments = try reader["SupplementalDocuments"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.SupplementalDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InvoicingClientTypes.SupplementalDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.SupplementalDocument()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension InvoicingClientTypes.InvoiceUnitRule {
 
     static func write(value: InvoicingClientTypes.InvoiceUnitRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LinkedAccounts"].writeList(value.linkedAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -1807,6 +1954,7 @@ extension InvoicingClientTypes.InvoiceUnitRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InvoicingClientTypes.InvoiceUnitRule()
         value.linkedAccounts = try reader["LinkedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billSourceAccounts = try reader["BillSourceAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2044,6 +2192,7 @@ extension InvoicingClientTypes.Filters {
     static func write(value: InvoicingClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InvoiceReceivers"].writeList(value.invoiceReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

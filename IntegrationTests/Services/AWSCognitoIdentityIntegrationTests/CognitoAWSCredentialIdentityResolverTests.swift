@@ -95,16 +95,31 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
             region: "us-east-1" // different from cognito pool region
         )
         let cognitoStsClient = STSClient(config: cognitoStsConfig)
-        let response = try await cognitoStsClient.getCallerIdentity(
-            input: GetCallerIdentityInput()
-        )
 
-        let account = try XCTUnwrap(response.account)
-        let userId = try XCTUnwrap(response.userId)
-        let arn = try XCTUnwrap(response.arn)
+        // Retry to handle IAM eventual consistency
+        var lastError: Error?
+        let totalRetries = 5
+        for attempt in 0..<totalRetries {
+            do {
+                let response = try await cognitoStsClient.getCallerIdentity(
+                    input: GetCallerIdentityInput()
+                )
 
-        XCTAssertNotEqual(account, "")
-        XCTAssertNotEqual(userId, "")
-        XCTAssertTrue(arn.contains(roleName))
+                let account = try XCTUnwrap(response.account)
+                let userId = try XCTUnwrap(response.userId)
+                let arn = try XCTUnwrap(response.arn)
+
+                XCTAssertNotEqual(account, "")
+                XCTAssertNotEqual(userId, "")
+                XCTAssertTrue(arn.contains(roleName))
+                return
+            } catch {
+                lastError = error
+                if attempt < (totalRetries-1) {
+                    try await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+                }
+            }
+        }
+        throw lastError!
     }
 }

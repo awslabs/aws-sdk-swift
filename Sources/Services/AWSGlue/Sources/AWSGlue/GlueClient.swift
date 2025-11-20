@@ -5220,6 +5220,81 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteIntegrationResourceProperty` operation on the `Glue` service.
+    ///
+    /// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationResourcePropertyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationResourcePropertyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServerException` : An internal server error occurred.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : A value could not be validated.
+    public func deleteIntegrationResourceProperty(input: DeleteIntegrationResourcePropertyInput) async throws -> DeleteIntegrationResourcePropertyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIntegrationResourceProperty")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(DeleteIntegrationResourcePropertyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationResourcePropertyOutput>(DeleteIntegrationResourcePropertyOutput.httpOutput(from:), DeleteIntegrationResourcePropertyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationResourcePropertyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIntegrationResourcePropertyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(xAmzTarget: "AWSGlue.DeleteIntegrationResourceProperty"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIntegrationResourcePropertyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIntegrationResourcePropertyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIntegrationResourcePropertyInput, DeleteIntegrationResourcePropertyOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIntegrationResourceProperty")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteIntegrationTableProperties` operation on the `Glue` service.
     ///
     /// Deletes the table properties that have been created for the tables that need to be replicated.
@@ -13551,6 +13626,81 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListIntegrationResourceProperties` operation on the `Glue` service.
+    ///
+    /// List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationResourcePropertiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIntegrationResourcePropertiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServerException` : An internal server error occurred.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : A value could not be validated.
+    public func listIntegrationResourceProperties(input: ListIntegrationResourcePropertiesInput) async throws -> ListIntegrationResourcePropertiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIntegrationResourceProperties")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(ListIntegrationResourcePropertiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegrationResourcePropertiesOutput>(ListIntegrationResourcePropertiesOutput.httpOutput(from:), ListIntegrationResourcePropertiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationResourcePropertiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIntegrationResourcePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(xAmzTarget: "AWSGlue.ListIntegrationResourceProperties"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIntegrationResourcePropertiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationResourcePropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegrationResourcePropertiesInput, ListIntegrationResourcePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIntegrationResourceProperties")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

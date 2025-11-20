@@ -545,6 +545,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMWAA](../../../../../swift/api/awsmwaa/latest)
 
+[AWSMWAAServerless](../../../../../swift/api/awsmwaaserverless/latest)
+
 [AWSMachineLearning](../../../../../swift/api/awsmachinelearning/latest)
 
 [AWSMacie2](../../../../../swift/api/awsmacie2/latest)
@@ -646,6 +648,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
+
+[AWSPartnerCentralChannel](../../../../../swift/api/awspartnercentralchannel/latest)
 
 [AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
@@ -814,6 +818,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSShield](../../../../../swift/api/awsshield/latest)
 
 [AWSSigner](../../../../../swift/api/awssigner/latest)
+
+[AWSSignin](../../../../../swift/api/awssignin/latest)
 
 [AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
 

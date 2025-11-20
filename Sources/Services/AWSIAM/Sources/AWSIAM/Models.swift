@@ -29,6 +29,11 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct AcceptDelegationRequestOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct AddClientIDToOpenIDConnectProviderOutput: Swift.Sendable {
 
     public init() { }
@@ -40,6 +45,11 @@ public struct AddRoleToInstanceProfileOutput: Swift.Sendable {
 }
 
 public struct AddUserToGroupOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct AssociateDelegationRequestOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -204,7 +214,22 @@ public struct DetachUserPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisableOutboundWebIdentityFederationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableOutboundWebIdentityFederationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableMFADeviceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableOutboundWebIdentityFederationInput: Swift.Sendable {
 
     public init() { }
 }
@@ -225,6 +250,11 @@ public struct GetAccountSummaryInput: Swift.Sendable {
 }
 
 public struct GetCredentialReportInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetOutboundWebIdentityFederationInfoInput: Swift.Sendable {
 
     public init() { }
 }
@@ -254,6 +284,11 @@ public struct PutUserPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RejectDelegationRequestOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct RemoveClientIDFromOpenIDConnectProviderOutput: Swift.Sendable {
 
     public init() { }
@@ -270,6 +305,11 @@ public struct RemoveUserFromGroupOutput: Swift.Sendable {
 }
 
 public struct ResyncMFADeviceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct SendDelegationTokenOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -379,6 +419,11 @@ public struct UpdateAssumeRolePolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateDelegationRequestOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateGroupOutput: Swift.Sendable {
 
     public init() { }
@@ -417,6 +462,87 @@ public struct UpdateSSHPublicKeyOutput: Swift.Sendable {
 public struct UpdateUserOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModification" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchEntity" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request processing has failed because of an unknown error, exception or failure.
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceFailure" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AcceptDelegationRequestInput: Swift.Sendable {
+    /// The unique identifier of the delegation request to accept.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.delegationRequestId = delegationRequestId
+    }
 }
 
 extension IAMClientTypes {
@@ -653,29 +779,6 @@ public struct AccountNotManagementOrDelegatedAdministratorException: ClientRunti
     }
 }
 
-/// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModification" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -709,52 +812,6 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "LimitExceeded" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NoSuchEntity" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request processing has failed because of an unknown error, exception or failure.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceFailure" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -923,6 +980,18 @@ extension IAMClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct AssociateDelegationRequestInput: Swift.Sendable {
+    /// The unique identifier of the delegation request to associate.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.delegationRequestId = delegationRequestId
     }
 }
 
@@ -1188,6 +1257,140 @@ public struct CreateAccountAliasInput: Swift.Sendable {
         accountAlias: Swift.String? = nil
     ) {
         self.accountAlias = accountAlias
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum PolicyParameterTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyParameterTypeEnum] {
+            return [
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .string: return "string"
+            case .stringList: return "stringList"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about a policy parameter used to customize delegated permissions.
+    public struct PolicyParameter: Swift.Sendable {
+        /// The name of the policy parameter.
+        public var name: Swift.String?
+        /// The data type of the policy parameter value.
+        public var type: IAMClientTypes.PolicyParameterTypeEnum?
+        /// The allowed values for the policy parameter.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            type: IAMClientTypes.PolicyParameterTypeEnum? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about the permissions being delegated in a delegation request.
+    public struct DelegationPermission: Swift.Sendable {
+        /// A list of policy parameters that define the scope and constraints of the delegated permissions.
+        public var parameters: [IAMClientTypes.PolicyParameter]?
+        /// This ARN maps to a pre-registered policy content for this partner. See the [partner onboarding documentation] to understand how to create a delegation template.
+        public var policyTemplateArn: Swift.String?
+
+        public init(
+            parameters: [IAMClientTypes.PolicyParameter]? = nil,
+            policyTemplateArn: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.policyTemplateArn = policyTemplateArn
+        }
+    }
+}
+
+public struct CreateDelegationRequestInput: Swift.Sendable {
+    /// A description of the delegation request.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The notification channel for updates about the delegation request. At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a resource policy granting SNS:Publish permission to the IAM service principal (iam.amazonaws.com). See [partner onboarding documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html) for more details.
+    /// This member is required.
+    public var notificationChannel: Swift.String?
+    /// Specifies whether the delegation token should only be sent by the owner. This flag prevents any party other than the owner from calling SendDelegationToken API for this delegation request. This behavior becomes useful when the delegation request owner needs to be present for subsequent partner interactions, but the delegation request was sent to a more privileged user for approval due to the owner lacking sufficient delegation permissions.
+    public var onlySendByOwner: Swift.Bool?
+    /// The Amazon Web Services account ID this delegation request is targeted to. If the account ID is not known, this parameter can be omitted, resulting in a request that can be associated by any account. If the account ID passed, then the created delegation request can only be associated with an identity of that target account.
+    public var ownerAccountId: Swift.String?
+    /// The permissions to be delegated in this delegation request.
+    /// This member is required.
+    public var permissions: IAMClientTypes.DelegationPermission?
+    /// The URL to redirect to after the delegation request is processed. This URL is used by the IAM console to show a link to the customer to re-load the partner workflow.
+    public var redirectUrl: Swift.String?
+    /// A message explaining the reason for the delegation request. Requesters can utilize this field to add a custom note to the delegation request. This field is different from the description such that this is to be utilized for a custom messaging on a case-by-case basis. For example, if the current delegation request is in response to a previous request being rejected, this explanation can be added to the request via this field.
+    public var requestMessage: Swift.String?
+    /// The workflow ID associated with the requestor. This is the unique identifier on the partner side that can be used to track the progress of the request. IAM maintains a uniqueness check on this workflow id for each request - if a workflow id for an existing request is passed, this API call will fail.
+    /// This member is required.
+    public var requestorWorkflowId: Swift.String?
+    /// The duration for which the delegated session should remain active, in seconds. The active time window for the session starts when the customer calls the [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html) API.
+    /// This member is required.
+    public var sessionDuration: Swift.Int?
+
+    public init(
+        description: Swift.String? = nil,
+        notificationChannel: Swift.String? = nil,
+        onlySendByOwner: Swift.Bool? = false,
+        ownerAccountId: Swift.String? = nil,
+        permissions: IAMClientTypes.DelegationPermission? = nil,
+        redirectUrl: Swift.String? = nil,
+        requestMessage: Swift.String? = nil,
+        requestorWorkflowId: Swift.String? = nil,
+        sessionDuration: Swift.Int? = nil
+    ) {
+        self.description = description
+        self.notificationChannel = notificationChannel
+        self.onlySendByOwner = onlySendByOwner
+        self.ownerAccountId = ownerAccountId
+        self.permissions = permissions
+        self.redirectUrl = redirectUrl
+        self.requestMessage = requestMessage
+        self.requestorWorkflowId = requestorWorkflowId
+        self.sessionDuration = sessionDuration
+    }
+}
+
+public struct CreateDelegationRequestOutput: Swift.Sendable {
+    /// A deep link URL to the Amazon Web Services Management Console for managing the delegation request. For a console based workflow, partners should redirect the customer to this URL. If the customer is not logged in to any Amazon Web Services account, the Amazon Web Services workflow will automatically direct the customer to log in and then display the delegation request approval page.
+    public var consoleDeepLink: Swift.String?
+    /// The unique identifier for the created delegation request.
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        consoleDeepLink: Swift.String? = nil,
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.consoleDeepLink = consoleDeepLink
+        self.delegationRequestId = delegationRequestId
     }
 }
 
@@ -2735,6 +2938,29 @@ public struct DisableOrganizationsRootSessionsOutput: Swift.Sendable {
     }
 }
 
+/// The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+public struct FeatureDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureDisabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request was rejected because the authentication code was not recognized. The error message describes the specific error.
 public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2845,6 +3071,40 @@ public struct EnableOrganizationsRootSessionsOutput: Swift.Sendable {
     ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
+    }
+}
+
+/// The request failed because outbound identity federation is already enabled for your Amazon Web Services account. You cannot enable the feature multiple times. To fetch the current configuration (including the unique issuer URL), use the GetOutboundWebIdentityFederationInfo operation.
+public struct FeatureEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureEnabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct EnableOutboundWebIdentityFederationOutput: Swift.Sendable {
+    /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints at /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary for token verification.
+    public var issuerIdentifier: Swift.String?
+
+    public init(
+        issuerIdentifier: Swift.String? = nil
+    ) {
+        self.issuerIdentifier = issuerIdentifier
     }
 }
 
@@ -3697,6 +3957,248 @@ public struct GetCredentialReportOutput: Swift.Sendable {
     }
 }
 
+public struct GetDelegationRequestInput: Swift.Sendable {
+    /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a permission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckResult response attributes for further details.
+    public var delegationPermissionCheck: Swift.Bool?
+    /// The unique identifier of the delegation request to retrieve.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        delegationPermissionCheck: Swift.Bool? = false,
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.delegationPermissionCheck = delegationPermissionCheck
+        self.delegationRequestId = delegationRequestId
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum StateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case assigned
+        case expired
+        case finalized
+        case pendingApproval
+        case rejected
+        case unassigned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StateType] {
+            return [
+                .accepted,
+                .assigned,
+                .expired,
+                .finalized,
+                .pendingApproval,
+                .rejected,
+                .unassigned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .assigned: return "ASSIGNED"
+            case .expired: return "EXPIRED"
+            case .finalized: return "FINALIZED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case .unassigned: return "UNASSIGNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about a delegation request, including its status, permissions, and associated metadata.
+    public struct DelegationRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var approverId: Swift.String?
+        /// Creation date (timestamp) of this delegation request.
+        public var createDate: Foundation.Date?
+        /// The unique identifier for the delegation request.
+        public var delegationRequestId: Swift.String?
+        /// Description of the delegation request. This is a message that is provided by the Amazon Web Services partner that filed the delegation request.
+        public var description: Swift.String?
+        /// Notes added to this delegation request, if this request was updated via the [UpdateDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateDelegationRequest.html) API.
+        public var notes: Swift.String?
+        /// A flag indicating whether the [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html) must be called by the owner of this delegation request. This is set by the requesting partner.
+        public var onlySendByOwner: Swift.Bool
+        /// Amazon Web Services account ID of the owner of the delegation request.
+        public var ownerAccountId: Swift.String?
+        /// ARN of the owner of this delegation request.
+        public var ownerId: Swift.String?
+        /// JSON content of the associated permission policy of this delegation request.
+        public var permissionPolicy: Swift.String?
+        /// Contains information about the permissions being delegated in a delegation request.
+        public var permissions: IAMClientTypes.DelegationPermission?
+        /// A URL to be redirected to once the delegation request is approved. Partners provide this URL when creating the delegation request.
+        public var redirectUrl: Swift.String?
+        /// Reasons for rejecting this delegation request, if this request was rejected. See also [RejectDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_RejectDelegationRequest.html) API documentation.
+        public var rejectionReason: Swift.String?
+        /// A custom message that is added to the delegation request by the partner. This element is different from the Description element such that this is a request specific message injected by the partner. The Description is typically a generic explanation of what the delegation request is targeted to do.
+        public var requestMessage: Swift.String?
+        /// Identity of the requestor of this delegation request. This will be an Amazon Web Services account ID.
+        public var requestorId: Swift.String?
+        /// A friendly name of the requestor.
+        public var requestorName: Swift.String?
+        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See [Permissions boundaries for IAM entities] for more details about IAM permission boundaries.
+        public var rolePermissionRestrictionArns: [Swift.String]?
+        /// The life-time of the requested session credential.
+        public var sessionDuration: Swift.Int?
+        /// The state of this delegation request. See the [Understanding the Request Lifecycle] for an explanation of how these states are transitioned.
+        public var state: IAMClientTypes.StateType?
+        /// Last updated timestamp of the request.
+        public var updatedTime: Foundation.Date?
+
+        public init(
+            approverId: Swift.String? = nil,
+            createDate: Foundation.Date? = nil,
+            delegationRequestId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            notes: Swift.String? = nil,
+            onlySendByOwner: Swift.Bool = false,
+            ownerAccountId: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            permissionPolicy: Swift.String? = nil,
+            permissions: IAMClientTypes.DelegationPermission? = nil,
+            redirectUrl: Swift.String? = nil,
+            rejectionReason: Swift.String? = nil,
+            requestMessage: Swift.String? = nil,
+            requestorId: Swift.String? = nil,
+            requestorName: Swift.String? = nil,
+            rolePermissionRestrictionArns: [Swift.String]? = nil,
+            sessionDuration: Swift.Int? = nil,
+            state: IAMClientTypes.StateType? = nil,
+            updatedTime: Foundation.Date? = nil
+        ) {
+            self.approverId = approverId
+            self.createDate = createDate
+            self.delegationRequestId = delegationRequestId
+            self.description = description
+            self.notes = notes
+            self.onlySendByOwner = onlySendByOwner
+            self.ownerAccountId = ownerAccountId
+            self.ownerId = ownerId
+            self.permissionPolicy = permissionPolicy
+            self.permissions = permissions
+            self.redirectUrl = redirectUrl
+            self.rejectionReason = rejectionReason
+            self.requestMessage = requestMessage
+            self.requestorId = requestorId
+            self.requestorName = requestorName
+            self.rolePermissionRestrictionArns = rolePermissionRestrictionArns
+            self.sessionDuration = sessionDuration
+            self.state = state
+            self.updatedTime = updatedTime
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum PermissionCheckResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowed
+        case denied
+        case unsure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionCheckResultType] {
+            return [
+                .allowed,
+                .denied,
+                .unsure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "ALLOWED"
+            case .denied: return "DENIED"
+            case .unsure: return "UNSURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum PermissionCheckStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionCheckStatusType] {
+            return [
+                .complete,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDelegationRequestOutput: Swift.Sendable {
+    /// The delegation request object containing all details about the request.
+    public var delegationRequest: IAMClientTypes.DelegationRequest?
+    /// The result of the permission check, indicating whether the caller has sufficient permissions to cover the requested permissions. This is an approximate result.
+    ///
+    /// * ALLOWED : The caller has sufficient permissions cover all the requested permissions.
+    ///
+    /// * DENIED : The caller does not have sufficient permissions to cover all the requested permissions.
+    ///
+    /// * UNSURE : It is not possible to determine whether the caller has all the permissions needed. This output is most likely for cases when the caller has permissions with conditions.
+    public var permissionCheckResult: IAMClientTypes.PermissionCheckResultType?
+    /// The status of the permission check for the delegation request. This value indicates the status of the process to check whether the caller has sufficient permissions to cover the requested actions in the delegation request. Since this is an asynchronous process, there are three potential values:
+    ///
+    /// * IN_PROGRESS : The permission check process has started.
+    ///
+    /// * COMPLETED : The permission check process has completed. The PermissionCheckResult will include the result.
+    ///
+    /// * FAILED : The permission check process has failed.
+    public var permissionCheckStatus: IAMClientTypes.PermissionCheckStatusType?
+
+    public init(
+        delegationRequest: IAMClientTypes.DelegationRequest? = nil,
+        permissionCheckResult: IAMClientTypes.PermissionCheckResultType? = nil,
+        permissionCheckStatus: IAMClientTypes.PermissionCheckStatusType? = nil
+    ) {
+        self.delegationRequest = delegationRequest
+        self.permissionCheckResult = permissionCheckResult
+        self.permissionCheckStatus = permissionCheckStatus
+    }
+}
+
 public struct GetGroupInput: Swift.Sendable {
     /// The name of the group. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
@@ -3780,6 +4282,76 @@ public struct GetGroupPolicyOutput: Swift.Sendable {
         self.groupName = groupName
         self.policyDocument = policyDocument
         self.policyName = policyName
+    }
+}
+
+public struct GetHumanReadableSummaryInput: Swift.Sendable {
+    /// Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// A string representing the locale to use for the summary generation. The supported locale strings are based on the [ Supported languages of the Amazon Web Services Management Console ].
+    public var locale: Swift.String?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        locale: Swift.String? = nil
+    ) {
+        self.entityArn = entityArn
+        self.locale = locale
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum SummaryStateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case notAvailable
+        case notSupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryStateType] {
+            return [
+                .available,
+                .failed,
+                .notAvailable,
+                .notSupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case .notSupported: return "NOT_SUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetHumanReadableSummaryOutput: Swift.Sendable {
+    /// The locale that this response was generated for. This maps to the input locale.
+    public var locale: Swift.String?
+    /// Summary content in the specified locale. Summary content is non-empty only if the SummaryState is AVAILABLE.
+    public var summaryContent: Swift.String?
+    /// State of summary generation. This generation process is asynchronous and this attribute indicates the state of the generation process.
+    public var summaryState: IAMClientTypes.SummaryStateType?
+
+    public init(
+        locale: Swift.String? = nil,
+        summaryContent: Swift.String? = nil,
+        summaryState: IAMClientTypes.SummaryStateType? = nil
+    ) {
+        self.locale = locale
+        self.summaryContent = summaryContent
+        self.summaryState = summaryState
     }
 }
 
@@ -4066,6 +4638,21 @@ public struct GetOrganizationsAccessReportOutput: Swift.Sendable {
         self.marker = marker
         self.numberOfServicesAccessible = numberOfServicesAccessible
         self.numberOfServicesNotAccessed = numberOfServicesNotAccessed
+    }
+}
+
+public struct GetOutboundWebIdentityFederationInfoOutput: Swift.Sendable {
+    /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints at /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary for token verification.
+    public var issuerIdentifier: Swift.String?
+    /// Indicates whether outbound identity federation is currently enabled for your Amazon Web Services account. When true, IAM principals in the account can call the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services.
+    public var jwtVendingEnabled: Swift.Bool
+
+    public init(
+        issuerIdentifier: Swift.String? = nil,
+        jwtVendingEnabled: Swift.Bool = false
+    ) {
+        self.issuerIdentifier = issuerIdentifier
+        self.jwtVendingEnabled = jwtVendingEnabled
     }
 }
 
@@ -5123,6 +5710,44 @@ public struct ListAttachedUserPoliciesOutput: Swift.Sendable {
         marker: Swift.String? = nil
     ) {
         self.attachedPolicies = attachedPolicies
+        self.isTruncated = isTruncated
+        self.marker = marker
+    }
+}
+
+public struct ListDelegationRequestsInput: Swift.Sendable {
+    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+    public var marker: Swift.String?
+    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM may return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+    public var maxItems: Swift.Int?
+    /// The owner ID to filter delegation requests by.
+    public var ownerId: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        ownerId: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.ownerId = ownerId
+    }
+}
+
+public struct ListDelegationRequestsOutput: Swift.Sendable {
+    /// A list of delegation requests that match the specified criteria.
+    public var delegationRequests: [IAMClientTypes.DelegationRequest]?
+    /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items.
+    public var isTruncated: Swift.Bool
+    /// When isTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+    public var marker: Swift.String?
+
+    public init(
+        delegationRequests: [IAMClientTypes.DelegationRequest]? = nil,
+        isTruncated: Swift.Bool = false,
+        marker: Swift.String? = nil
+    ) {
+        self.delegationRequests = delegationRequests
         self.isTruncated = isTruncated
         self.marker = marker
     }
@@ -6800,6 +7425,22 @@ public struct PutUserPolicyInput: Swift.Sendable {
     }
 }
 
+public struct RejectDelegationRequestInput: Swift.Sendable {
+    /// The unique identifier of the delegation request to reject.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+    /// Optional notes explaining the reason for rejecting the delegation request.
+    public var notes: Swift.String?
+
+    public init(
+        delegationRequestId: Swift.String? = nil,
+        notes: Swift.String? = nil
+    ) {
+        self.delegationRequestId = delegationRequestId
+        self.notes = notes
+    }
+}
+
 public struct RemoveClientIDFromOpenIDConnectProviderInput: Swift.Sendable {
     /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     /// This member is required.
@@ -6902,6 +7543,18 @@ public struct ResyncMFADeviceInput: Swift.Sendable {
         self.authenticationCode2 = authenticationCode2
         self.serialNumber = serialNumber
         self.userName = userName
+    }
+}
+
+public struct SendDelegationTokenInput: Swift.Sendable {
+    /// The unique identifier of the delegation request for which to send the token.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.delegationRequestId = delegationRequestId
     }
 }
 
@@ -7873,6 +8526,22 @@ public struct UpdateAssumeRolePolicyInput: Swift.Sendable {
     }
 }
 
+public struct UpdateDelegationRequestInput: Swift.Sendable {
+    /// The unique identifier of the delegation request to update.
+    /// This member is required.
+    public var delegationRequestId: Swift.String?
+    /// Additional notes or comments to add to the delegation request.
+    public var notes: Swift.String?
+
+    public init(
+        delegationRequestId: Swift.String? = nil,
+        notes: Swift.String? = nil
+    ) {
+        self.delegationRequestId = delegationRequestId
+        self.notes = notes
+    }
+}
+
 public struct UpdateGroupInput: Swift.Sendable {
     /// Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
@@ -8427,6 +9096,13 @@ public struct UploadSSHPublicKeyOutput: Swift.Sendable {
     }
 }
 
+extension AcceptDelegationRequestInput {
+
+    static func urlPathProvider(_ value: AcceptDelegationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AddClientIDToOpenIDConnectProviderInput {
 
     static func urlPathProvider(_ value: AddClientIDToOpenIDConnectProviderInput) -> Swift.String? {
@@ -8444,6 +9120,13 @@ extension AddRoleToInstanceProfileInput {
 extension AddUserToGroupInput {
 
     static func urlPathProvider(_ value: AddUserToGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension AssociateDelegationRequestInput {
+
+    static func urlPathProvider(_ value: AssociateDelegationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8486,6 +9169,13 @@ extension CreateAccessKeyInput {
 extension CreateAccountAliasInput {
 
     static func urlPathProvider(_ value: CreateAccountAliasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateDelegationRequestInput {
+
+    static func urlPathProvider(_ value: CreateDelegationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8777,6 +9467,13 @@ extension DisableOrganizationsRootSessionsInput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationInput {
+
+    static func urlPathProvider(_ value: DisableOutboundWebIdentityFederationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func urlPathProvider(_ value: EnableMFADeviceInput) -> Swift.String? {
@@ -8794,6 +9491,13 @@ extension EnableOrganizationsRootCredentialsManagementInput {
 extension EnableOrganizationsRootSessionsInput {
 
     static func urlPathProvider(_ value: EnableOrganizationsRootSessionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableOutboundWebIdentityFederationInput {
+
+    static func urlPathProvider(_ value: EnableOutboundWebIdentityFederationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8868,6 +9572,13 @@ extension GetCredentialReportInput {
     }
 }
 
+extension GetDelegationRequestInput {
+
+    static func urlPathProvider(_ value: GetDelegationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetGroupInput {
 
     static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
@@ -8878,6 +9589,13 @@ extension GetGroupInput {
 extension GetGroupPolicyInput {
 
     static func urlPathProvider(_ value: GetGroupPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetHumanReadableSummaryInput {
+
+    static func urlPathProvider(_ value: GetHumanReadableSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8913,6 +9631,13 @@ extension GetOpenIDConnectProviderInput {
 extension GetOrganizationsAccessReportInput {
 
     static func urlPathProvider(_ value: GetOrganizationsAccessReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoInput {
+
+    static func urlPathProvider(_ value: GetOutboundWebIdentityFederationInfoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9032,6 +9757,13 @@ extension ListAttachedRolePoliciesInput {
 extension ListAttachedUserPoliciesInput {
 
     static func urlPathProvider(_ value: ListAttachedUserPoliciesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDelegationRequestsInput {
+
+    static func urlPathProvider(_ value: ListDelegationRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9281,6 +10013,13 @@ extension PutUserPolicyInput {
     }
 }
 
+extension RejectDelegationRequestInput {
+
+    static func urlPathProvider(_ value: RejectDelegationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension RemoveClientIDFromOpenIDConnectProviderInput {
 
     static func urlPathProvider(_ value: RemoveClientIDFromOpenIDConnectProviderInput) -> Swift.String? {
@@ -9312,6 +10051,13 @@ extension ResetServiceSpecificCredentialInput {
 extension ResyncMFADeviceInput {
 
     static func urlPathProvider(_ value: ResyncMFADeviceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SendDelegationTokenInput {
+
+    static func urlPathProvider(_ value: SendDelegationTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9477,6 +10223,13 @@ extension UpdateAssumeRolePolicyInput {
     }
 }
 
+extension UpdateDelegationRequestInput {
+
+    static func urlPathProvider(_ value: UpdateDelegationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateGroupInput {
 
     static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
@@ -9575,6 +10328,16 @@ extension UploadSSHPublicKeyInput {
     }
 }
 
+extension AcceptDelegationRequestInput {
+
+    static func write(value: AcceptDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Action"].write("AcceptDelegationRequest")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension AddClientIDToOpenIDConnectProviderInput {
 
     static func write(value: AddClientIDToOpenIDConnectProviderInput?, to writer: SmithyFormURL.Writer) throws {
@@ -9604,6 +10367,16 @@ extension AddUserToGroupInput {
         try writer["GroupName"].write(value.groupName)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("AddUserToGroup")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension AssociateDelegationRequestInput {
+
+    static func write(value: AssociateDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Action"].write("AssociateDelegationRequest")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -9668,6 +10441,24 @@ extension CreateAccountAliasInput {
         guard let value else { return }
         try writer["AccountAlias"].write(value.accountAlias)
         try writer["Action"].write("CreateAccountAlias")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension CreateDelegationRequestInput {
+
+    static func write(value: CreateDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["NotificationChannel"].write(value.notificationChannel)
+        try writer["OnlySendByOwner"].write(value.onlySendByOwner)
+        try writer["OwnerAccountId"].write(value.ownerAccountId)
+        try writer["Permissions"].write(value.permissions, with: IAMClientTypes.DelegationPermission.write(value:to:))
+        try writer["RedirectUrl"].write(value.redirectUrl)
+        try writer["RequestMessage"].write(value.requestMessage)
+        try writer["RequestorWorkflowId"].write(value.requestorWorkflowId)
+        try writer["SessionDuration"].write(value.sessionDuration)
+        try writer["Action"].write("CreateDelegationRequest")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10127,6 +10918,16 @@ extension DisableOrganizationsRootSessionsInput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationInput {
+
+    static func write(value: DisableOutboundWebIdentityFederationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("DisableOutboundWebIdentityFederation")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func write(value: EnableMFADeviceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -10156,6 +10957,16 @@ extension EnableOrganizationsRootSessionsInput {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
         try writer["Action"].write("EnableOrganizationsRootSessions")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension EnableOutboundWebIdentityFederationInput {
+
+    static func write(value: EnableOutboundWebIdentityFederationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("EnableOutboundWebIdentityFederation")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10265,6 +11076,17 @@ extension GetCredentialReportInput {
     }
 }
 
+extension GetDelegationRequestInput {
+
+    static func write(value: GetDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationPermissionCheck"].write(value.delegationPermissionCheck)
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Action"].write("GetDelegationRequest")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension GetGroupInput {
 
     static func write(value: GetGroupInput?, to writer: SmithyFormURL.Writer) throws {
@@ -10284,6 +11106,17 @@ extension GetGroupPolicyInput {
         try writer["GroupName"].write(value.groupName)
         try writer["PolicyName"].write(value.policyName)
         try writer["Action"].write("GetGroupPolicy")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension GetHumanReadableSummaryInput {
+
+    static func write(value: GetHumanReadableSummaryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["EntityArn"].write(value.entityArn)
+        try writer["Locale"].write(value.locale)
+        try writer["Action"].write("GetHumanReadableSummary")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10338,6 +11171,16 @@ extension GetOrganizationsAccessReportInput {
         try writer["MaxItems"].write(value.maxItems)
         try writer["SortKey"].write(value.sortKey)
         try writer["Action"].write("GetOrganizationsAccessReport")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoInput {
+
+    static func write(value: GetOutboundWebIdentityFederationInfoInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("GetOutboundWebIdentityFederationInfo")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10530,6 +11373,18 @@ extension ListAttachedUserPoliciesInput {
         try writer["PathPrefix"].write(value.pathPrefix)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("ListAttachedUserPolicies")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension ListDelegationRequestsInput {
+
+    static func write(value: ListDelegationRequestsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+        try writer["OwnerId"].write(value.ownerId)
+        try writer["Action"].write("ListDelegationRequests")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10954,6 +11809,17 @@ extension PutUserPolicyInput {
     }
 }
 
+extension RejectDelegationRequestInput {
+
+    static func write(value: RejectDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Notes"].write(value.notes)
+        try writer["Action"].write("RejectDelegationRequest")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension RemoveClientIDFromOpenIDConnectProviderInput {
 
     static func write(value: RemoveClientIDFromOpenIDConnectProviderInput?, to writer: SmithyFormURL.Writer) throws {
@@ -11007,6 +11873,16 @@ extension ResyncMFADeviceInput {
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("ResyncMFADevice")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension SendDelegationTokenInput {
+
+    static func write(value: SendDelegationTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Action"].write("SendDelegationToken")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11290,6 +12166,17 @@ extension UpdateAssumeRolePolicyInput {
     }
 }
 
+extension UpdateDelegationRequestInput {
+
+    static func write(value: UpdateDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DelegationRequestId"].write(value.delegationRequestId)
+        try writer["Notes"].write(value.notes)
+        try writer["Action"].write("UpdateDelegationRequest")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension UpdateGroupInput {
 
     static func write(value: UpdateGroupInput?, to writer: SmithyFormURL.Writer) throws {
@@ -11459,6 +12346,13 @@ extension UploadSSHPublicKeyInput {
     }
 }
 
+extension AcceptDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptDelegationRequestOutput {
+        return AcceptDelegationRequestOutput()
+    }
+}
+
 extension AddClientIDToOpenIDConnectProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddClientIDToOpenIDConnectProviderOutput {
@@ -11477,6 +12371,13 @@ extension AddUserToGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddUserToGroupOutput {
         return AddUserToGroupOutput()
+    }
+}
+
+extension AssociateDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDelegationRequestOutput {
+        return AssociateDelegationRequestOutput()
     }
 }
 
@@ -11524,6 +12425,19 @@ extension CreateAccountAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAccountAliasOutput {
         return CreateAccountAliasOutput()
+    }
+}
+
+extension CreateDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDelegationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CreateDelegationRequestResult"]
+        var value = CreateDelegationRequestOutput()
+        value.consoleDeepLink = try reader["ConsoleDeepLink"].readIfPresent()
+        value.delegationRequestId = try reader["DelegationRequestId"].readIfPresent()
+        return value
     }
 }
 
@@ -11893,6 +12807,13 @@ extension DisableOrganizationsRootSessionsOutput {
     }
 }
 
+extension DisableOutboundWebIdentityFederationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableOutboundWebIdentityFederationOutput {
+        return DisableOutboundWebIdentityFederationOutput()
+    }
+}
+
 extension EnableMFADeviceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableMFADeviceOutput {
@@ -11922,6 +12843,18 @@ extension EnableOrganizationsRootSessionsOutput {
         var value = EnableOrganizationsRootSessionsOutput()
         value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
+    }
+}
+
+extension EnableOutboundWebIdentityFederationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableOutboundWebIdentityFederationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["EnableOutboundWebIdentityFederationResult"]
+        var value = EnableOutboundWebIdentityFederationOutput()
+        value.issuerIdentifier = try reader["IssuerIdentifier"].readIfPresent()
         return value
     }
 }
@@ -12055,6 +12988,20 @@ extension GetCredentialReportOutput {
     }
 }
 
+extension GetDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDelegationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetDelegationRequestResult"]
+        var value = GetDelegationRequestOutput()
+        value.delegationRequest = try reader["DelegationRequest"].readIfPresent(with: IAMClientTypes.DelegationRequest.read(from:))
+        value.permissionCheckResult = try reader["PermissionCheckResult"].readIfPresent()
+        value.permissionCheckStatus = try reader["PermissionCheckStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension GetGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetGroupOutput {
@@ -12080,6 +13027,20 @@ extension GetGroupPolicyOutput {
         value.groupName = try reader["GroupName"].readIfPresent() ?? ""
         value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
         value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetHumanReadableSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHumanReadableSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetHumanReadableSummaryResult"]
+        var value = GetHumanReadableSummaryOutput()
+        value.locale = try reader["Locale"].readIfPresent()
+        value.summaryContent = try reader["SummaryContent"].readIfPresent()
+        value.summaryState = try reader["SummaryState"].readIfPresent()
         return value
     }
 }
@@ -12155,6 +13116,19 @@ extension GetOrganizationsAccessReportOutput {
         value.marker = try reader["Marker"].readIfPresent()
         value.numberOfServicesAccessible = try reader["NumberOfServicesAccessible"].readIfPresent()
         value.numberOfServicesNotAccessed = try reader["NumberOfServicesNotAccessed"].readIfPresent()
+        return value
+    }
+}
+
+extension GetOutboundWebIdentityFederationInfoOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOutboundWebIdentityFederationInfoOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetOutboundWebIdentityFederationInfoResult"]
+        var value = GetOutboundWebIdentityFederationInfoOutput()
+        value.issuerIdentifier = try reader["IssuerIdentifier"].readIfPresent()
+        value.jwtVendingEnabled = try reader["JwtVendingEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -12393,6 +13367,20 @@ extension ListAttachedUserPoliciesOutput {
         value.attachedPolicies = try reader["AttachedPolicies"].readListIfPresent(memberReadingClosure: IAMClientTypes.AttachedPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDelegationRequestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDelegationRequestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ListDelegationRequestsResult"]
+        var value = ListDelegationRequestsOutput()
+        value.delegationRequests = try reader["DelegationRequests"].readListIfPresent(memberReadingClosure: IAMClientTypes.DelegationRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        value.isTruncated = try reader["isTruncated"].readIfPresent() ?? false
         return value
     }
 }
@@ -12849,6 +13837,13 @@ extension PutUserPolicyOutput {
     }
 }
 
+extension RejectDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectDelegationRequestOutput {
+        return RejectDelegationRequestOutput()
+    }
+}
+
 extension RemoveClientIDFromOpenIDConnectProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput {
@@ -12886,6 +13881,13 @@ extension ResyncMFADeviceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResyncMFADeviceOutput {
         return ResyncMFADeviceOutput()
+    }
+}
+
+extension SendDelegationTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDelegationTokenOutput {
+        return SendDelegationTokenOutput()
     }
 }
 
@@ -13064,6 +14066,13 @@ extension UpdateAssumeRolePolicyOutput {
     }
 }
 
+extension UpdateDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDelegationRequestOutput {
+        return UpdateDelegationRequestOutput()
+    }
+}
+
 extension UpdateGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateGroupOutput {
@@ -13188,6 +14197,22 @@ extension UploadSSHPublicKeyOutput {
     }
 }
 
+enum AcceptDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AddClientIDToOpenIDConnectProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13233,6 +14258,23 @@ enum AddUserToGroupOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13340,6 +14382,24 @@ enum CreateAccountAliasOutputError {
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14049,6 +15109,20 @@ enum DisableOrganizationsRootSessionsOutputError {
     }
 }
 
+enum DisableOutboundWebIdentityFederationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableMFADeviceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14100,6 +15174,20 @@ enum EnableOrganizationsRootSessionsOutputError {
             case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableOutboundWebIdentityFederationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureEnabled": return try FeatureEnabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14251,6 +15339,21 @@ enum GetCredentialReportOutputError {
     }
 }
 
+enum GetDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14274,6 +15377,22 @@ enum GetGroupPolicyOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetHumanReadableSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14351,6 +15470,20 @@ enum GetOrganizationsAccessReportOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetOutboundWebIdentityFederationInfoOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureDisabled": return try FeatureDisabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14602,6 +15735,22 @@ enum ListAttachedRolePoliciesOutputError {
 }
 
 enum ListAttachedUserPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDelegationRequestsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15151,6 +16300,23 @@ enum PutUserPolicyOutputError {
     }
 }
 
+enum RejectDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveClientIDFromOpenIDConnectProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15226,6 +16392,23 @@ enum ResyncMFADeviceOutputError {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidAuthenticationCode": return try InvalidAuthenticationCodeException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendDelegationTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15625,6 +16808,23 @@ enum UpdateAssumeRolePolicyOutputError {
     }
 }
 
+enum UpdateDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15881,32 +17081,6 @@ extension ConcurrentModificationException {
     }
 }
 
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NoSuchEntityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NoSuchEntityException {
@@ -15925,6 +17099,32 @@ extension ServiceFailureException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16115,6 +17315,19 @@ extension ServiceAccessNotEnabledException {
     }
 }
 
+extension FeatureDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = FeatureDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidAuthenticationCodeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthenticationCodeException {
@@ -16134,6 +17347,19 @@ extension CallerIsNotManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = CallerIsNotManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FeatureEnabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FeatureEnabledException {
+        let reader = baseError.errorBodyReader
+        var value = FeatureEnabledException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16623,6 +17849,70 @@ extension IAMClientTypes.PasswordPolicy {
         value.maxPasswordAge = try reader["MaxPasswordAge"].readIfPresent()
         value.passwordReusePrevention = try reader["PasswordReusePrevention"].readIfPresent()
         value.hardExpiry = try reader["HardExpiry"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.DelegationRequest {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DelegationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.DelegationRequest()
+        value.delegationRequestId = try reader["DelegationRequestId"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.requestMessage = try reader["RequestMessage"].readIfPresent()
+        value.permissions = try reader["Permissions"].readIfPresent(with: IAMClientTypes.DelegationPermission.read(from:))
+        value.permissionPolicy = try reader["PermissionPolicy"].readIfPresent()
+        value.rolePermissionRestrictionArns = try reader["RolePermissionRestrictionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.approverId = try reader["ApproverId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.requestorId = try reader["RequestorId"].readIfPresent()
+        value.requestorName = try reader["RequestorName"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sessionDuration = try reader["SessionDuration"].readIfPresent()
+        value.redirectUrl = try reader["RedirectUrl"].readIfPresent()
+        value.notes = try reader["Notes"].readIfPresent()
+        value.rejectionReason = try reader["RejectionReason"].readIfPresent()
+        value.onlySendByOwner = try reader["OnlySendByOwner"].readIfPresent() ?? false
+        value.updatedTime = try reader["UpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IAMClientTypes.DelegationPermission {
+
+    static func write(value: IAMClientTypes.DelegationPermission?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: IAMClientTypes.PolicyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyTemplateArn"].write(value.policyTemplateArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.DelegationPermission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.DelegationPermission()
+        value.policyTemplateArn = try reader["PolicyTemplateArn"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: IAMClientTypes.PolicyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IAMClientTypes.PolicyParameter {
+
+    static func write(value: IAMClientTypes.PolicyParameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.PolicyParameter()
+        value.name = try reader["Name"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }

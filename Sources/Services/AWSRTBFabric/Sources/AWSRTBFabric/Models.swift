@@ -786,6 +786,9 @@ public struct CreateInboundExternalLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// Describes the settings for a link log.
+    /// This member is required.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// A map of the key-value pairs of the tag or tags to assign to the resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -793,11 +796,13 @@ public struct CreateInboundExternalLinkInput: Swift.Sendable {
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
         clientToken: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.attributes = attributes
         self.clientToken = clientToken
         self.gatewayId = gatewayId
+        self.logSettings = logSettings
         self.tags = tags
     }
 }
@@ -921,12 +926,17 @@ public struct CreateLinkOutput: Swift.Sendable {
 }
 
 public struct CreateOutboundExternalLinkInput: Swift.Sendable {
+    /// Describes the attributes of a link.
+    public var attributes: RTBFabricClientTypes.LinkAttributes?
     /// The unique client token.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
+    /// Describes the settings for a link log.
+    /// This member is required.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The public endpoint of the link.
     /// This member is required.
     public var publicEndpoint: Swift.String?
@@ -934,13 +944,17 @@ public struct CreateOutboundExternalLinkInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        attributes: RTBFabricClientTypes.LinkAttributes? = nil,
         clientToken: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         publicEndpoint: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.attributes = attributes
         self.clientToken = clientToken
         self.gatewayId = gatewayId
+        self.logSettings = logSettings
         self.publicEndpoint = publicEndpoint
         self.tags = tags
     }
@@ -1831,6 +1845,8 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// Describes the settings for a link log.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The configuration of pending flow modules.
     public var pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The status of the request.
@@ -1848,6 +1864,7 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1859,6 +1876,7 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.logSettings = logSettings
         self.pendingFlowModules = pendingFlowModules
         self.status = status
         self.tags = tags
@@ -1892,6 +1910,8 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// Describes the settings for a link log.
+    public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The public endpoint for the link.
     /// This member is required.
     public var publicEndpoint: Swift.String?
@@ -1907,6 +1927,7 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         publicEndpoint: Swift.String? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1915,6 +1936,7 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.logSettings = logSettings
         self.publicEndpoint = publicEndpoint
         self.status = status
         self.tags = tags
@@ -2681,6 +2703,7 @@ extension CreateInboundExternalLinkInput {
         guard let value else { return }
         try writer["attributes"].write(value.attributes, with: RTBFabricClientTypes.LinkAttributes.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2701,7 +2724,9 @@ extension CreateOutboundExternalLinkInput {
 
     static func write(value: CreateOutboundExternalLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["attributes"].write(value.attributes, with: RTBFabricClientTypes.LinkAttributes.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
         try writer["publicEndpoint"].write(value.publicEndpoint)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -2963,6 +2988,7 @@ extension GetInboundExternalLinkOutput {
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3004,6 +3030,7 @@ extension GetOutboundExternalLinkOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.publicEndpoint = try reader["publicEndpoint"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
