@@ -836,6 +836,98 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountEnforced
+        case organizationEnforced
+        case request
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOrigin] {
+            return [
+                .accountEnforced,
+                .organizationEnforced,
+                .request
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountEnforced: return "ACCOUNT_ENFORCED"
+            case .organizationEnforced: return "ORGANIZATION_ENFORCED"
+            case .request: return "REQUEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailOwnership: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crossAccount
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOwnership] {
+            return [
+                .crossAccount,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crossAccount: return "CROSS_ACCOUNT"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Details about the specific guardrail that was applied during this assessment, including its identifier, version, ARN, origin, and ownership information.
+    public struct AppliedGuardrailDetails: Swift.Sendable {
+        /// The ARN of the guardrail that was applied.
+        public var guardrailArn: Swift.String?
+        /// The unique ID of the guardrail that was applied.
+        public var guardrailId: Swift.String?
+        /// The origin of how the guardrail was applied. This can be either requested at the API level or enforced at the account or organization level as a default guardrail.
+        public var guardrailOrigin: [BedrockRuntimeClientTypes.GuardrailOrigin]?
+        /// The ownership type of the guardrail, indicating whether it is owned by the requesting account or is a cross-account guardrail shared from another AWS account.
+        public var guardrailOwnership: BedrockRuntimeClientTypes.GuardrailOwnership?
+        /// The version of the guardrail that was applied.
+        public var guardrailVersion: Swift.String?
+
+        public init(
+            guardrailArn: Swift.String? = nil,
+            guardrailId: Swift.String? = nil,
+            guardrailOrigin: [BedrockRuntimeClientTypes.GuardrailOrigin]? = nil,
+            guardrailOwnership: BedrockRuntimeClientTypes.GuardrailOwnership? = nil,
+            guardrailVersion: Swift.String? = nil
+        ) {
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailOrigin = guardrailOrigin
+            self.guardrailOwnership = guardrailOwnership
+            self.guardrailVersion = guardrailVersion
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// References a specific automated reasoning policy rule that was applied during evaluation.
     public struct GuardrailAutomatedReasoningRule: Swift.Sendable {
         /// The unique identifier of the automated reasoning rule.
@@ -2082,6 +2174,8 @@ extension BedrockRuntimeClientTypes {
 
     /// A behavior assessment of the guardrail policies used in a call to the Converse API.
     public struct GuardrailAssessment: Swift.Sendable {
+        /// Details about the specific guardrail that was applied during this assessment, including its identifier, version, ARN, origin, and ownership information.
+        public var appliedGuardrailDetails: BedrockRuntimeClientTypes.AppliedGuardrailDetails?
         /// The automated reasoning policy assessment results, including logical validation findings for the input content.
         public var automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment?
         /// The content policy.
@@ -2098,6 +2192,7 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment?
 
         public init(
+            appliedGuardrailDetails: BedrockRuntimeClientTypes.AppliedGuardrailDetails? = nil,
             automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment? = nil,
             contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
             contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment? = nil,
@@ -2106,6 +2201,7 @@ extension BedrockRuntimeClientTypes {
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
         ) {
+            self.appliedGuardrailDetails = appliedGuardrailDetails
             self.automatedReasoningPolicy = automatedReasoningPolicy
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
@@ -2281,17 +2377,15 @@ extension BedrockRuntimeClientTypes {
     /// Configuration information for a guardrail that you use with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) operation.
     public struct GuardrailConfiguration: Swift.Sendable {
         /// The identifier for the guardrail.
-        /// This member is required.
         public var guardrailIdentifier: Swift.String?
         /// The version of the guardrail.
-        /// This member is required.
         public var guardrailVersion: Swift.String?
         /// The trace behavior for the guardrail.
         public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
 
         public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
+            guardrailIdentifier: Swift.String? = "",
+            guardrailVersion: Swift.String? = "",
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         ) {
             self.guardrailIdentifier = guardrailIdentifier
@@ -3875,10 +3969,8 @@ extension BedrockRuntimeClientTypes {
     /// Configuration information for a guardrail that you use with the [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) action.
     public struct GuardrailStreamConfiguration: Swift.Sendable {
         /// The identifier for the guardrail.
-        /// This member is required.
         public var guardrailIdentifier: Swift.String?
         /// The version of the guardrail.
-        /// This member is required.
         public var guardrailVersion: Swift.String?
         /// The processing mode. The processing mode. For more information, see Configure streaming response behavior in the Amazon Bedrock User Guide.
         public var streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode?
@@ -3886,8 +3978,8 @@ extension BedrockRuntimeClientTypes {
         public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
 
         public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
+            guardrailIdentifier: Swift.String? = "",
+            guardrailVersion: Swift.String? = "",
             streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode? = .sync,
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         ) {
@@ -5823,6 +5915,21 @@ extension BedrockRuntimeClientTypes.GuardrailAssessment {
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment.read(from:))
         value.automatedReasoningPolicy = try reader["automatedReasoningPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment.read(from:))
         value.invocationMetrics = try reader["invocationMetrics"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailInvocationMetrics.read(from:))
+        value.appliedGuardrailDetails = try reader["appliedGuardrailDetails"].readIfPresent(with: BedrockRuntimeClientTypes.AppliedGuardrailDetails.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.AppliedGuardrailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.AppliedGuardrailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.AppliedGuardrailDetails()
+        value.guardrailId = try reader["guardrailId"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
+        value.guardrailOrigin = try reader["guardrailOrigin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockRuntimeClientTypes.GuardrailOrigin>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.guardrailOwnership = try reader["guardrailOwnership"].readIfPresent()
         return value
     }
 }

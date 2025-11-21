@@ -626,15 +626,19 @@ extension CloudFormationClientTypes {
 
     /// Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see [Enable or disable automatic deployments for StackSets in Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide.
     public struct AutoDeployment: Swift.Sendable {
+        /// A list of StackSet ARNs that this StackSet depends on for auto-deployment operations. When auto-deployment is triggered, operations will be sequenced to ensure all dependencies complete successfully before this StackSet's operation begins.
+        public var dependsOn: [Swift.String]?
         /// If set to true, StackSets automatically deploys additional stack instances to Organizations accounts that are added to a target organization or organizational unit (OU) in the specified Regions. If an account is removed from a target organization or OU, StackSets deletes stack instances from the account in the specified Regions.
         public var enabled: Swift.Bool?
         /// If set to true, stack resources are retained when an account is removed from a target organization or OU. If set to false, stack resources are deleted. Specify only if Enabled is set to True.
         public var retainStacksOnAccountRemoval: Swift.Bool?
 
         public init(
+            dependsOn: [Swift.String]? = nil,
             enabled: Swift.Bool? = nil,
             retainStacksOnAccountRemoval: Swift.Bool? = nil
         ) {
+            self.dependsOn = dependsOn
             self.enabled = enabled
             self.retainStacksOnAccountRemoval = retainStacksOnAccountRemoval
         }
@@ -10848,7 +10852,7 @@ public struct SignalResourceInput: Swift.Sendable {
     /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
     /// This member is required.
     public var status: CloudFormationClientTypes.ResourceSignalStatus?
-    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     /// This member is required.
     public var uniqueId: Swift.String?
 
@@ -16797,6 +16801,7 @@ extension CloudFormationClientTypes.AutoDeployment {
 
     static func write(value: CloudFormationClientTypes.AutoDeployment?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Enabled"].write(value.enabled)
         try writer["RetainStacksOnAccountRemoval"].write(value.retainStacksOnAccountRemoval)
     }
@@ -16806,6 +16811,7 @@ extension CloudFormationClientTypes.AutoDeployment {
         var value = CloudFormationClientTypes.AutoDeployment()
         value.enabled = try reader["Enabled"].readIfPresent()
         value.retainStacksOnAccountRemoval = try reader["RetainStacksOnAccountRemoval"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

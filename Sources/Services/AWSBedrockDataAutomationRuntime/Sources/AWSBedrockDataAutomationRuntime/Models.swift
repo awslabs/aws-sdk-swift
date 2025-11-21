@@ -15,6 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+@_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -212,6 +213,12 @@ public struct GetDataAutomationStatusOutput: Swift.Sendable {
     public var errorMessage: Swift.String?
     /// Error Type.
     public var errorType: Swift.String?
+    /// Job completion time.
+    public var jobCompletionTime: Foundation.Date?
+    /// Job duration in seconds.
+    public var jobDurationInSeconds: Swift.Int?
+    /// Job Submission time.
+    public var jobSubmissionTime: Foundation.Date?
     /// Output configuration.
     public var outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?
     /// Job Status.
@@ -220,11 +227,17 @@ public struct GetDataAutomationStatusOutput: Swift.Sendable {
     public init(
         errorMessage: Swift.String? = nil,
         errorType: Swift.String? = nil,
+        jobCompletionTime: Foundation.Date? = nil,
+        jobDurationInSeconds: Swift.Int? = nil,
+        jobSubmissionTime: Foundation.Date? = nil,
         outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil,
         status: BedrockDataAutomationRuntimeClientTypes.AutomationJobStatus? = nil
     ) {
         self.errorMessage = errorMessage
         self.errorType = errorType
+        self.jobCompletionTime = jobCompletionTime
+        self.jobDurationInSeconds = jobDurationInSeconds
+        self.jobSubmissionTime = jobSubmissionTime
         self.outputConfiguration = outputConfiguration
         self.status = status
     }
@@ -930,6 +943,9 @@ extension GetDataAutomationStatusOutput {
         var value = GetDataAutomationStatusOutput()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorType = try reader["errorType"].readIfPresent()
+        value.jobCompletionTime = try reader["jobCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobDurationInSeconds = try reader["jobDurationInSeconds"].readIfPresent()
+        value.jobSubmissionTime = try reader["jobSubmissionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent()
         return value

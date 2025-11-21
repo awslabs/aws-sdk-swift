@@ -5947,13 +5947,17 @@ extension QConnectClientTypes {
 
     public enum ChannelSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case email
+        case push
         case sms
+        case whatsapp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChannelSubtype] {
             return [
                 .email,
-                .sms
+                .push,
+                .sms,
+                .whatsapp
             ]
         }
 
@@ -5965,7 +5969,9 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .email: return "EMAIL"
+            case .push: return "PUSH"
             case .sms: return "SMS"
+            case .whatsapp: return "WHATSAPP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7445,6 +7451,289 @@ extension QConnectClientTypes.EmailMessageTemplateContent: Swift.CustomDebugStri
 
 extension QConnectClientTypes {
 
+    public enum PushMessageAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deepLink
+        case openApp
+        case url
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PushMessageAction] {
+            return [
+                .deepLink,
+                .openApp,
+                .url
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepLink: return "DEEP_LINK"
+            case .openApp: return "OPEN_APP"
+            case .url: return "URL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The content of the push message template that applies to ADM (Amazon Device Messaging) notification service.
+    public struct PushADMMessageTemplateContent: Swift.Sendable {
+        /// The action to occur if a recipient taps a push notification that is based on the message template. Valid values are:
+        ///
+        /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
+        ///
+        /// * DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform.
+        ///
+        /// * URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
+        public var action: QConnectClientTypes.PushMessageAction?
+        /// The message body to use in a push notification that is based on the message template.
+        public var body: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the large icon image to display in the content view of a push notification that's based on the message template.
+        public var imageIconUrl: Swift.String?
+        /// The URL of an image to display in a push notification that's based on the message template.
+        public var imageUrl: Swift.String?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var smallImageIconUrl: Swift.String?
+        /// The sound to play when a recipient receives a push notification that's based on the message template. You can use the default stream or specify the file name of a sound resource that's bundled in your app. On an Android platform, the sound file must reside in /res/raw/.
+        public var sound: Swift.String?
+        /// The title to use in a push notification that's based on the message template. This title appears above the notification message on a recipient's device.
+        public var title: Swift.String?
+        /// The URL to open in a recipient's default mobile browser, if a recipient taps a push notification that's based on the message template and the value of the action property is URL.
+        public var url: Swift.String?
+
+        public init(
+            action: QConnectClientTypes.PushMessageAction? = nil,
+            body: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            imageIconUrl: Swift.String? = nil,
+            imageUrl: Swift.String? = nil,
+            rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            smallImageIconUrl: Swift.String? = nil,
+            sound: Swift.String? = nil,
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.action = action
+            self.body = body
+            self.imageIconUrl = imageIconUrl
+            self.imageUrl = imageUrl
+            self.rawContent = rawContent
+            self.smallImageIconUrl = smallImageIconUrl
+            self.sound = sound
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension QConnectClientTypes.PushADMMessageTemplateContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PushADMMessageTemplateContent(action: \(Swift.String(describing: action)), body: \(Swift.String(describing: body)), rawContent: \(Swift.String(describing: rawContent)), imageIconUrl: \"CONTENT_REDACTED\", imageUrl: \"CONTENT_REDACTED\", smallImageIconUrl: \"CONTENT_REDACTED\", sound: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// The content of the push message template that applies to APNS (Apple Push Notification service) notification service.
+    public struct PushAPNSMessageTemplateContent: Swift.Sendable {
+        /// The action to occur if a recipient taps a push notification that is based on the message template. Valid values are:
+        ///
+        /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
+        ///
+        /// * DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the iOS platform.
+        ///
+        /// * URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
+        public var action: QConnectClientTypes.PushMessageAction?
+        /// The message body to use in a push notification that is based on the message template.
+        public var body: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of an image or video to display in push notifications that are based on the message template.
+        public var mediaUrl: Swift.String?
+        /// The raw, JSON-formatted string to use as the payload for a push notification that's based on the message template. If specified, this value overrides all other content for the message template.
+        public var rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The key for the sound to play when the recipient receives a push notification that's based on the message template. The value for this key is the name of a sound file in your app's main bundle or the Library/Sounds folder in your app's data container. If the sound file can't be found or you specify default for the value, the system plays the default alert sound.
+        public var sound: Swift.String?
+        /// The title to use in a push notification that's based on the message template. This title appears above the notification message on a recipient's device.
+        public var title: Swift.String?
+        /// The URL to open in a recipient's default mobile browser, if a recipient taps a push notification that's based on the message template and the value of the action property is URL.
+        public var url: Swift.String?
+
+        public init(
+            action: QConnectClientTypes.PushMessageAction? = nil,
+            body: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            mediaUrl: Swift.String? = nil,
+            rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            sound: Swift.String? = nil,
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.action = action
+            self.body = body
+            self.mediaUrl = mediaUrl
+            self.rawContent = rawContent
+            self.sound = sound
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension QConnectClientTypes.PushAPNSMessageTemplateContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PushAPNSMessageTemplateContent(action: \(Swift.String(describing: action)), body: \(Swift.String(describing: body)), rawContent: \(Swift.String(describing: rawContent)), mediaUrl: \"CONTENT_REDACTED\", sound: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// The content of the push message template that applies to Baidu notification service.
+    public struct PushBaiduMessageTemplateContent: Swift.Sendable {
+        /// The action to occur if a recipient taps a push notification that is based on the message template. Valid values are:
+        ///
+        /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
+        ///
+        /// * DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform.
+        ///
+        /// * URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
+        public var action: QConnectClientTypes.PushMessageAction?
+        /// The message body to use in a push notification that is based on the message template.
+        public var body: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the large icon image to display in the content view of a push notification that's based on the message template.
+        public var imageIconUrl: Swift.String?
+        /// The URL of an image to display in a push notification that's based on the message template.
+        public var imageUrl: Swift.String?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var smallImageIconUrl: Swift.String?
+        /// The sound to play when a recipient receives a push notification that's based on the message template. You can use the default stream or specify the file name of a sound resource that's bundled in your app. On an Android platform, the sound file must reside in /res/raw/.
+        public var sound: Swift.String?
+        /// The title to use in a push notification that's based on the message template. This title appears above the notification message on a recipient's device.
+        public var title: Swift.String?
+        /// The URL to open in a recipient's default mobile browser, if a recipient taps a push notification that's based on the message template and the value of the action property is URL.
+        public var url: Swift.String?
+
+        public init(
+            action: QConnectClientTypes.PushMessageAction? = nil,
+            body: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            imageIconUrl: Swift.String? = nil,
+            imageUrl: Swift.String? = nil,
+            rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            smallImageIconUrl: Swift.String? = nil,
+            sound: Swift.String? = nil,
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.action = action
+            self.body = body
+            self.imageIconUrl = imageIconUrl
+            self.imageUrl = imageUrl
+            self.rawContent = rawContent
+            self.smallImageIconUrl = smallImageIconUrl
+            self.sound = sound
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension QConnectClientTypes.PushBaiduMessageTemplateContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PushBaiduMessageTemplateContent(action: \(Swift.String(describing: action)), body: \(Swift.String(describing: body)), rawContent: \(Swift.String(describing: rawContent)), imageIconUrl: \"CONTENT_REDACTED\", imageUrl: \"CONTENT_REDACTED\", smallImageIconUrl: \"CONTENT_REDACTED\", sound: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// The content of the push message template that applies to FCM (Firebase Cloud Messaging) notification service.
+    public struct PushFCMMessageTemplateContent: Swift.Sendable {
+        /// The action to occur if a recipient taps a push notification that is based on the message template. Valid values are:
+        ///
+        /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
+        ///
+        /// * DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform.
+        ///
+        /// * URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
+        public var action: QConnectClientTypes.PushMessageAction?
+        /// The message body to use in a push notification that is based on the message template.
+        public var body: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the large icon image to display in the content view of a push notification that's based on the message template.
+        public var imageIconUrl: Swift.String?
+        /// The URL of an image to display in a push notification that's based on the message template.
+        public var imageUrl: Swift.String?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider?
+        /// The URL of the small icon image to display in the status bar and the content view of a push notification that's based on the message template.
+        public var smallImageIconUrl: Swift.String?
+        /// The sound to play when a recipient receives a push notification that's based on the message template. You can use the default stream or specify the file name of a sound resource that's bundled in your app. On an Android platform, the sound file must reside in /res/raw/.
+        public var sound: Swift.String?
+        /// The title to use in a push notification that's based on the message template. This title appears above the notification message on a recipient's device.
+        public var title: Swift.String?
+        /// The URL to open in a recipient's default mobile browser, if a recipient taps a push notification that's based on the message template and the value of the action property is URL.
+        public var url: Swift.String?
+
+        public init(
+            action: QConnectClientTypes.PushMessageAction? = nil,
+            body: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            imageIconUrl: Swift.String? = nil,
+            imageUrl: Swift.String? = nil,
+            rawContent: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
+            smallImageIconUrl: Swift.String? = nil,
+            sound: Swift.String? = nil,
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.action = action
+            self.body = body
+            self.imageIconUrl = imageIconUrl
+            self.imageUrl = imageUrl
+            self.rawContent = rawContent
+            self.smallImageIconUrl = smallImageIconUrl
+            self.sound = sound
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension QConnectClientTypes.PushFCMMessageTemplateContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PushFCMMessageTemplateContent(action: \(Swift.String(describing: action)), body: \(Swift.String(describing: body)), rawContent: \(Swift.String(describing: rawContent)), imageIconUrl: \"CONTENT_REDACTED\", imageUrl: \"CONTENT_REDACTED\", smallImageIconUrl: \"CONTENT_REDACTED\", sound: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// The content of the message template that applies to the push channel subtype.
+    public struct PushMessageTemplateContent: Swift.Sendable {
+        /// The content of the message template that applies to ADM (Amazon Device Messaging) notification service.
+        public var adm: QConnectClientTypes.PushADMMessageTemplateContent?
+        /// The content of the message template that applies to APNS(Apple Push Notification service) notification service.
+        public var apns: QConnectClientTypes.PushAPNSMessageTemplateContent?
+        /// The content of the message template that applies to Baidu notification service.
+        public var baidu: QConnectClientTypes.PushBaiduMessageTemplateContent?
+        /// The content of the message template that applies to FCM (Firebase Cloud Messaging) notification service.
+        public var fcm: QConnectClientTypes.PushFCMMessageTemplateContent?
+
+        public init(
+            adm: QConnectClientTypes.PushADMMessageTemplateContent? = nil,
+            apns: QConnectClientTypes.PushAPNSMessageTemplateContent? = nil,
+            baidu: QConnectClientTypes.PushBaiduMessageTemplateContent? = nil,
+            fcm: QConnectClientTypes.PushFCMMessageTemplateContent? = nil
+        ) {
+            self.adm = adm
+            self.apns = apns
+            self.baidu = baidu
+            self.fcm = fcm
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The body to use in SMS messages.
     public struct SMSMessageTemplateContentBody: Swift.Sendable {
         /// The message body to use in SMS messages.
@@ -7475,12 +7764,31 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// The content of the message template that applies to the WHATSAPP channel subtype.
+    public struct WhatsAppMessageTemplateContent: Swift.Sendable {
+        /// The data.
+        public var data: Swift.String?
+
+        public init(
+            data: Swift.String? = nil
+        ) {
+            self.data = data
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The container of message template content.
     public enum MessageTemplateContentProvider: Swift.Sendable {
         /// The content of the message template that applies to the email channel subtype.
         case email(QConnectClientTypes.EmailMessageTemplateContent)
         /// The content of the message template that applies to the SMS channel subtype.
         case sms(QConnectClientTypes.SMSMessageTemplateContent)
+        /// The content of the message template that applies to the WHATSAPP channel subtype.
+        case whatsapp(QConnectClientTypes.WhatsAppMessageTemplateContent)
+        /// The content of the message template that applies to the push channel subtype.
+        case push(QConnectClientTypes.PushMessageTemplateContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7841,6 +8149,41 @@ extension QConnectClientTypes.GroupingConfiguration: Swift.CustomDebugStringConv
         "GroupingConfiguration(criteria: \"CONTENT_REDACTED\", values: \"CONTENT_REDACTED\")"}
 }
 
+extension QConnectClientTypes {
+
+    /// Configuration information about the external data source.
+    public struct WhatsAppMessageTemplateSourceConfiguration: Swift.Sendable {
+        /// The ID of the End User Messaging WhatsApp Business Account to associate with this template.
+        /// This member is required.
+        public var businessAccountId: Swift.String?
+        /// The list of component mapping from WhatsApp template parameters to Message Template attributes.
+        public var components: [Swift.String]?
+        /// The WhatsApp template ID.
+        /// This member is required.
+        public var templateId: Swift.String?
+
+        public init(
+            businessAccountId: Swift.String? = nil,
+            components: [Swift.String]? = nil,
+            templateId: Swift.String? = nil
+        ) {
+            self.businessAccountId = businessAccountId
+            self.components = components
+            self.templateId = templateId
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The container of message template source configuration.
+    public enum MessageTemplateSourceConfiguration: Swift.Sendable {
+        /// The sourceConfiguration of the message template that applies to the WHATSAPP channel subtype.
+        case whatsapp(QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateMessageTemplateInput: Swift.Sendable {
     /// The channel subtype this message template applies to.
     /// This member is required.
@@ -7848,7 +8191,6 @@ public struct CreateMessageTemplateInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The content of the message template.
-    /// This member is required.
     public var content: QConnectClientTypes.MessageTemplateContentProvider?
     /// An object that specifies the default values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template. The corresponding value defines the default value for that variable.
     public var defaultAttributes: QConnectClientTypes.MessageTemplateAttributes?
@@ -7862,8 +8204,9 @@ public struct CreateMessageTemplateInput: Swift.Sendable {
     /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
     public var language: Swift.String?
     /// The name of the message template.
-    /// This member is required.
     public var name: Swift.String?
+    /// The source configuration of the message template. Only set this argument for WHATSAPP channel subtype.
+    public var sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -7877,6 +8220,7 @@ public struct CreateMessageTemplateInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         language: Swift.String? = nil,
         name: Swift.String? = nil,
+        sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.channelSubtype = channelSubtype
@@ -7888,6 +8232,7 @@ public struct CreateMessageTemplateInput: Swift.Sendable {
         self.knowledgeBaseId = knowledgeBaseId
         self.language = language
         self.name = name
+        self.sourceConfiguration = sourceConfiguration
         self.tags = tags
     }
 }
@@ -7929,15 +8274,104 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    public enum WhatsAppSourceConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalid
+        case rejected
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WhatsAppSourceConfigurationStatus] {
+            return [
+                .invalid,
+                .rejected,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "INVALID"
+            case .rejected: return "REJECTED"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Configuration information about the external data source.
+    public struct WhatsAppMessageTemplateSourceConfigurationSummary: Swift.Sendable {
+        /// The ID of the End User Messaging WhatsApp Business Account to associate with this template.
+        /// This member is required.
+        public var businessAccountId: Swift.String?
+        /// The list of component mapping from WhatsApp template parameters to Message Template attributes.
+        public var components: [Swift.String]?
+        /// The language of the WhatsApp template.
+        public var language: Swift.String?
+        /// The name of the WhatsApp template.
+        public var name: Swift.String?
+        /// The status of the message template.
+        public var status: QConnectClientTypes.WhatsAppSourceConfigurationStatus?
+        /// The status reason of the message template.
+        public var statusReason: Swift.String?
+        /// The ID of WhatsApp template.
+        /// This member is required.
+        public var templateId: Swift.String?
+
+        public init(
+            businessAccountId: Swift.String? = nil,
+            components: [Swift.String]? = nil,
+            language: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: QConnectClientTypes.WhatsAppSourceConfigurationStatus? = nil,
+            statusReason: Swift.String? = nil,
+            templateId: Swift.String? = nil
+        ) {
+            self.businessAccountId = businessAccountId
+            self.components = components
+            self.language = language
+            self.name = name
+            self.status = status
+            self.statusReason = statusReason
+            self.templateId = templateId
+        }
+    }
+}
+
+extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WhatsAppMessageTemplateSourceConfigurationSummary(businessAccountId: \(Swift.String(describing: businessAccountId)), components: \(Swift.String(describing: components)), language: \(Swift.String(describing: language)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), templateId: \(Swift.String(describing: templateId)), statusReason: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// The container of message template source configuration summary.
+    public enum MessageTemplateSourceConfigurationSummary: Swift.Sendable {
+        /// The sourceConfiguration summary of the message template that applies to the WHATSAPP channel subtype.
+        case whatsapp(QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The data of a message template.
     public struct MessageTemplateData: Swift.Sendable {
         /// The types of attributes that the message template contains.
         public var attributeTypes: [QConnectClientTypes.MessageTemplateAttributeType]?
+        /// The channel of the message template.
+        public var channel: Swift.String?
         /// The channel subtype this message template applies to.
         /// This member is required.
         public var channelSubtype: QConnectClientTypes.ChannelSubtype?
         /// The content of the message template.
-        /// This member is required.
         public var content: QConnectClientTypes.MessageTemplateContentProvider?
         /// The timestamp when the message template was created.
         /// This member is required.
@@ -7974,11 +8408,14 @@ extension QConnectClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var name: Swift.String?
+        /// The source configuration summary of the message template.
+        public var sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
             attributeTypes: [QConnectClientTypes.MessageTemplateAttributeType]? = nil,
+            channel: Swift.String? = nil,
             channelSubtype: QConnectClientTypes.ChannelSubtype? = nil,
             content: QConnectClientTypes.MessageTemplateContentProvider? = nil,
             createdTime: Foundation.Date? = nil,
@@ -7994,9 +8431,11 @@ extension QConnectClientTypes {
             messageTemplateContentSha256: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
+            sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.attributeTypes = attributeTypes
+            self.channel = channel
             self.channelSubtype = channelSubtype
             self.content = content
             self.createdTime = createdTime
@@ -8012,9 +8451,15 @@ extension QConnectClientTypes {
             self.messageTemplateContentSha256 = messageTemplateContentSha256
             self.messageTemplateId = messageTemplateId
             self.name = name
+            self.sourceConfigurationSummary = sourceConfigurationSummary
             self.tags = tags
         }
     }
+}
+
+extension QConnectClientTypes.MessageTemplateData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MessageTemplateData(attributeTypes: \(Swift.String(describing: attributeTypes)), channelSubtype: \(Swift.String(describing: channelSubtype)), content: \(Swift.String(describing: content)), createdTime: \(Swift.String(describing: createdTime)), defaultAttributes: \(Swift.String(describing: defaultAttributes)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), messageTemplateArn: \(Swift.String(describing: messageTemplateArn)), messageTemplateContentSha256: \(Swift.String(describing: messageTemplateContentSha256)), messageTemplateId: \(Swift.String(describing: messageTemplateId)), name: \(Swift.String(describing: name)), sourceConfigurationSummary: \(Swift.String(describing: sourceConfigurationSummary)), tags: \(Swift.String(describing: tags)), channel: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMessageTemplateOutput: Swift.Sendable {
@@ -8155,11 +8600,12 @@ extension QConnectClientTypes {
         public var attachments: [QConnectClientTypes.MessageTemplateAttachment]?
         /// The types of attributes contain the message template.
         public var attributeTypes: [QConnectClientTypes.MessageTemplateAttributeType]?
+        /// The channel of the message template.
+        public var channel: Swift.String?
         /// The channel subtype this message template applies to.
         /// This member is required.
         public var channelSubtype: QConnectClientTypes.ChannelSubtype?
         /// The content of the message template.
-        /// This member is required.
         public var content: QConnectClientTypes.MessageTemplateContentProvider?
         /// The timestamp when the message template was created.
         /// This member is required.
@@ -8198,6 +8644,8 @@ extension QConnectClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var name: Swift.String?
+        /// The source configuration summary of the message template.
+        public var sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
         /// The version number of the message template version.
@@ -8206,6 +8654,7 @@ extension QConnectClientTypes {
         public init(
             attachments: [QConnectClientTypes.MessageTemplateAttachment]? = nil,
             attributeTypes: [QConnectClientTypes.MessageTemplateAttributeType]? = nil,
+            channel: Swift.String? = nil,
             channelSubtype: QConnectClientTypes.ChannelSubtype? = nil,
             content: QConnectClientTypes.MessageTemplateContentProvider? = nil,
             createdTime: Foundation.Date? = nil,
@@ -8222,11 +8671,13 @@ extension QConnectClientTypes {
             messageTemplateContentSha256: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
+            sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int? = nil
         ) {
             self.attachments = attachments
             self.attributeTypes = attributeTypes
+            self.channel = channel
             self.channelSubtype = channelSubtype
             self.content = content
             self.createdTime = createdTime
@@ -8243,10 +8694,16 @@ extension QConnectClientTypes {
             self.messageTemplateContentSha256 = messageTemplateContentSha256
             self.messageTemplateId = messageTemplateId
             self.name = name
+            self.sourceConfigurationSummary = sourceConfigurationSummary
             self.tags = tags
             self.versionNumber = versionNumber
         }
     }
+}
+
+extension QConnectClientTypes.ExtendedMessageTemplateData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExtendedMessageTemplateData(attachments: \(Swift.String(describing: attachments)), attributeTypes: \(Swift.String(describing: attributeTypes)), channelSubtype: \(Swift.String(describing: channelSubtype)), content: \(Swift.String(describing: content)), createdTime: \(Swift.String(describing: createdTime)), defaultAttributes: \(Swift.String(describing: defaultAttributes)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), messageTemplateArn: \(Swift.String(describing: messageTemplateArn)), messageTemplateContentSha256: \(Swift.String(describing: messageTemplateContentSha256)), messageTemplateId: \(Swift.String(describing: messageTemplateId)), name: \(Swift.String(describing: name)), sourceConfigurationSummary: \(Swift.String(describing: sourceConfigurationSummary)), tags: \(Swift.String(describing: tags)), versionNumber: \(Swift.String(describing: versionNumber)), channel: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMessageTemplateVersionOutput: Swift.Sendable {
@@ -9190,6 +9647,8 @@ extension QConnectClientTypes {
     public struct MessageTemplateSummary: Swift.Sendable {
         /// The version number of the message template version that is activated.
         public var activeVersionNumber: Swift.Int?
+        /// The channel this message template applies to.
+        public var channel: Swift.String?
         /// The channel subtype this message template applies to.
         /// This member is required.
         public var channelSubtype: QConnectClientTypes.ChannelSubtype?
@@ -9219,11 +9678,14 @@ extension QConnectClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var name: Swift.String?
+        /// The container of message template source configuration.
+        public var sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
             activeVersionNumber: Swift.Int? = nil,
+            channel: Swift.String? = nil,
             channelSubtype: QConnectClientTypes.ChannelSubtype? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -9234,9 +9696,11 @@ extension QConnectClientTypes {
             messageTemplateArn: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
+            sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.activeVersionNumber = activeVersionNumber
+            self.channel = channel
             self.channelSubtype = channelSubtype
             self.createdTime = createdTime
             self.description = description
@@ -9247,9 +9711,15 @@ extension QConnectClientTypes {
             self.messageTemplateArn = messageTemplateArn
             self.messageTemplateId = messageTemplateId
             self.name = name
+            self.sourceConfiguration = sourceConfiguration
             self.tags = tags
         }
     }
+}
+
+extension QConnectClientTypes.MessageTemplateSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MessageTemplateSummary(activeVersionNumber: \(Swift.String(describing: activeVersionNumber)), channelSubtype: \(Swift.String(describing: channelSubtype)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), messageTemplateArn: \(Swift.String(describing: messageTemplateArn)), messageTemplateId: \(Swift.String(describing: messageTemplateId)), name: \(Swift.String(describing: name)), sourceConfiguration: \(Swift.String(describing: sourceConfiguration)), tags: \(Swift.String(describing: tags)), channel: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListMessageTemplatesOutput: Swift.Sendable {
@@ -9297,6 +9767,8 @@ extension QConnectClientTypes {
 
     /// The summary of the message template version.
     public struct MessageTemplateVersionSummary: Swift.Sendable {
+        /// The channel of the message template.
+        public var channel: Swift.String?
         /// The channel subtype this message template applies to.
         /// This member is required.
         public var channelSubtype: QConnectClientTypes.ChannelSubtype?
@@ -9323,6 +9795,7 @@ extension QConnectClientTypes {
         public var versionNumber: Swift.Int?
 
         public init(
+            channel: Swift.String? = nil,
             channelSubtype: QConnectClientTypes.ChannelSubtype? = nil,
             isActive: Swift.Bool? = nil,
             knowledgeBaseArn: Swift.String? = nil,
@@ -9332,6 +9805,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
         ) {
+            self.channel = channel
             self.channelSubtype = channelSubtype
             self.isActive = isActive
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -9342,6 +9816,11 @@ extension QConnectClientTypes {
             self.versionNumber = versionNumber
         }
     }
+}
+
+extension QConnectClientTypes.MessageTemplateVersionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MessageTemplateVersionSummary(channelSubtype: \(Swift.String(describing: channelSubtype)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), messageTemplateArn: \(Swift.String(describing: messageTemplateArn)), messageTemplateId: \(Swift.String(describing: messageTemplateId)), name: \(Swift.String(describing: name)), versionNumber: \(Swift.String(describing: versionNumber)), channel: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListMessageTemplateVersionsOutput: Swift.Sendable {
@@ -9388,23 +9867,26 @@ public struct RenderMessageTemplateOutput: Swift.Sendable {
     /// The attribute keys that are not resolved.
     public var attributesNotInterpolated: [Swift.String]?
     /// The content of the message template.
-    /// This member is required.
     public var content: QConnectClientTypes.MessageTemplateContentProvider?
+    /// The source configuration of the message template.
+    public var sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary?
 
     public init(
         attachments: [QConnectClientTypes.MessageTemplateAttachment]? = nil,
         attributesNotInterpolated: [Swift.String]? = nil,
-        content: QConnectClientTypes.MessageTemplateContentProvider? = nil
+        content: QConnectClientTypes.MessageTemplateContentProvider? = nil,
+        sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary? = nil
     ) {
         self.attachments = attachments
         self.attributesNotInterpolated = attributesNotInterpolated
         self.content = content
+        self.sourceConfigurationSummary = sourceConfigurationSummary
     }
 }
 
 extension RenderMessageTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RenderMessageTemplateOutput(attachments: \(Swift.String(describing: attachments)), content: \(Swift.String(describing: content)), attributesNotInterpolated: \"CONTENT_REDACTED\")"}
+        "RenderMessageTemplateOutput(attachments: \(Swift.String(describing: attachments)), content: \(Swift.String(describing: content)), sourceConfigurationSummary: \(Swift.String(describing: sourceConfigurationSummary)), attributesNotInterpolated: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMessageTemplateInput: Swift.Sendable {
@@ -9420,19 +9902,23 @@ public struct UpdateMessageTemplateInput: Swift.Sendable {
     /// The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
     /// This member is required.
     public var messageTemplateId: Swift.String?
+    /// The source configuration of the message template. Only set this argument for WHATSAPP channel subtype.
+    public var sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration?
 
     public init(
         content: QConnectClientTypes.MessageTemplateContentProvider? = nil,
         defaultAttributes: QConnectClientTypes.MessageTemplateAttributes? = nil,
         knowledgeBaseId: Swift.String? = nil,
         language: Swift.String? = nil,
-        messageTemplateId: Swift.String? = nil
+        messageTemplateId: Swift.String? = nil,
+        sourceConfiguration: QConnectClientTypes.MessageTemplateSourceConfiguration? = nil
     ) {
         self.content = content
         self.defaultAttributes = defaultAttributes
         self.knowledgeBaseId = knowledgeBaseId
         self.language = language
         self.messageTemplateId = messageTemplateId
+        self.sourceConfiguration = sourceConfiguration
     }
 }
 
@@ -10053,6 +10539,8 @@ extension QConnectClientTypes {
 
     /// The result of message template search.
     public struct MessageTemplateSearchResultData: Swift.Sendable {
+        /// The channel of the message template.
+        public var channel: Swift.String?
         /// The channel subtype this message template applies to.
         /// This member is required.
         public var channelSubtype: QConnectClientTypes.ChannelSubtype?
@@ -10088,12 +10576,15 @@ extension QConnectClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var name: Swift.String?
+        /// The source configuration summary of the message template.
+        public var sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
         /// The version number of the message template version.
         public var versionNumber: Swift.Int?
 
         public init(
+            channel: Swift.String? = nil,
             channelSubtype: QConnectClientTypes.ChannelSubtype? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -10107,9 +10598,11 @@ extension QConnectClientTypes {
             messageTemplateArn: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
+            sourceConfigurationSummary: QConnectClientTypes.MessageTemplateSourceConfigurationSummary? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int? = nil
         ) {
+            self.channel = channel
             self.channelSubtype = channelSubtype
             self.createdTime = createdTime
             self.description = description
@@ -10123,10 +10616,16 @@ extension QConnectClientTypes {
             self.messageTemplateArn = messageTemplateArn
             self.messageTemplateId = messageTemplateId
             self.name = name
+            self.sourceConfigurationSummary = sourceConfigurationSummary
             self.tags = tags
             self.versionNumber = versionNumber
         }
     }
+}
+
+extension QConnectClientTypes.MessageTemplateSearchResultData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MessageTemplateSearchResultData(channelSubtype: \(Swift.String(describing: channelSubtype)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), messageTemplateArn: \(Swift.String(describing: messageTemplateArn)), messageTemplateId: \(Swift.String(describing: messageTemplateId)), name: \(Swift.String(describing: name)), sourceConfigurationSummary: \(Swift.String(describing: sourceConfigurationSummary)), tags: \(Swift.String(describing: tags)), versionNumber: \(Swift.String(describing: versionNumber)), channel: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchMessageTemplatesOutput: Swift.Sendable {
@@ -12616,6 +13115,7 @@ extension CreateMessageTemplateInput {
         try writer["groupingConfiguration"].write(value.groupingConfiguration, with: QConnectClientTypes.GroupingConfiguration.write(value:to:))
         try writer["language"].write(value.language)
         try writer["name"].write(value.name)
+        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: QConnectClientTypes.MessageTemplateSourceConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -12870,6 +13370,7 @@ extension UpdateMessageTemplateInput {
         try writer["content"].write(value.content, with: QConnectClientTypes.MessageTemplateContentProvider.write(value:to:))
         try writer["defaultAttributes"].write(value.defaultAttributes, with: QConnectClientTypes.MessageTemplateAttributes.write(value:to:))
         try writer["language"].write(value.language)
+        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: QConnectClientTypes.MessageTemplateSourceConfiguration.write(value:to:))
     }
 }
 
@@ -13724,6 +14225,7 @@ extension RenderMessageTemplateOutput {
         value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: QConnectClientTypes.MessageTemplateAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attributesNotInterpolated = try reader["attributesNotInterpolated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
         return value
     }
 }
@@ -16875,6 +17377,7 @@ extension QConnectClientTypes.MessageTemplateData {
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -16882,6 +17385,7 @@ extension QConnectClientTypes.MessageTemplateData {
         value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.language = try reader["language"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
         value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
         value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -17109,6 +17613,36 @@ extension QConnectClientTypes.GroupingConfiguration {
     }
 }
 
+extension QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "whatsApp":
+                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary()
+        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 extension QConnectClientTypes.MessageTemplateContentProvider {
 
     static func write(value: QConnectClientTypes.MessageTemplateContentProvider?, to writer: SmithyJSON.Writer) throws {
@@ -17116,8 +17650,12 @@ extension QConnectClientTypes.MessageTemplateContentProvider {
         switch value {
             case let .email(email):
                 try writer["email"].write(email, with: QConnectClientTypes.EmailMessageTemplateContent.write(value:to:))
+            case let .push(push):
+                try writer["push"].write(push, with: QConnectClientTypes.PushMessageTemplateContent.write(value:to:))
             case let .sms(sms):
                 try writer["sms"].write(sms, with: QConnectClientTypes.SMSMessageTemplateContent.write(value:to:))
+            case let .whatsapp(whatsapp):
+                try writer["whatsApp"].write(whatsapp, with: QConnectClientTypes.WhatsAppMessageTemplateContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -17131,9 +17669,193 @@ extension QConnectClientTypes.MessageTemplateContentProvider {
                 return .email(try reader["email"].read(with: QConnectClientTypes.EmailMessageTemplateContent.read(from:)))
             case "sms":
                 return .sms(try reader["sms"].read(with: QConnectClientTypes.SMSMessageTemplateContent.read(from:)))
+            case "whatsApp":
+                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateContent.read(from:)))
+            case "push":
+                return .push(try reader["push"].read(with: QConnectClientTypes.PushMessageTemplateContent.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.PushMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["adm"].write(value.adm, with: QConnectClientTypes.PushADMMessageTemplateContent.write(value:to:))
+        try writer["apns"].write(value.apns, with: QConnectClientTypes.PushAPNSMessageTemplateContent.write(value:to:))
+        try writer["baidu"].write(value.baidu, with: QConnectClientTypes.PushBaiduMessageTemplateContent.write(value:to:))
+        try writer["fcm"].write(value.fcm, with: QConnectClientTypes.PushFCMMessageTemplateContent.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.PushMessageTemplateContent()
+        value.adm = try reader["adm"].readIfPresent(with: QConnectClientTypes.PushADMMessageTemplateContent.read(from:))
+        value.apns = try reader["apns"].readIfPresent(with: QConnectClientTypes.PushAPNSMessageTemplateContent.read(from:))
+        value.fcm = try reader["fcm"].readIfPresent(with: QConnectClientTypes.PushFCMMessageTemplateContent.read(from:))
+        value.baidu = try reader["baidu"].readIfPresent(with: QConnectClientTypes.PushBaiduMessageTemplateContent.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.PushBaiduMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushBaiduMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["imageIconUrl"].write(value.imageIconUrl)
+        try writer["imageUrl"].write(value.imageUrl)
+        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["smallImageIconUrl"].write(value.smallImageIconUrl)
+        try writer["sound"].write(value.sound)
+        try writer["title"].write(value.title)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushBaiduMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.PushBaiduMessageTemplateContent()
+        value.title = try reader["title"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.sound = try reader["sound"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.imageUrl = try reader["imageUrl"].readIfPresent()
+        value.imageIconUrl = try reader["imageIconUrl"].readIfPresent()
+        value.smallImageIconUrl = try reader["smallImageIconUrl"].readIfPresent()
+        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateBodyContentProvider {
+
+    static func write(value: QConnectClientTypes.MessageTemplateBodyContentProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .content(content):
+                try writer["content"].write(content)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateBodyContentProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "content":
+                return .content(try reader["content"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.PushFCMMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushFCMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["imageIconUrl"].write(value.imageIconUrl)
+        try writer["imageUrl"].write(value.imageUrl)
+        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["smallImageIconUrl"].write(value.smallImageIconUrl)
+        try writer["sound"].write(value.sound)
+        try writer["title"].write(value.title)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushFCMMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.PushFCMMessageTemplateContent()
+        value.title = try reader["title"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.sound = try reader["sound"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.imageUrl = try reader["imageUrl"].readIfPresent()
+        value.imageIconUrl = try reader["imageIconUrl"].readIfPresent()
+        value.smallImageIconUrl = try reader["smallImageIconUrl"].readIfPresent()
+        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.PushAPNSMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushAPNSMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["mediaUrl"].write(value.mediaUrl)
+        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["sound"].write(value.sound)
+        try writer["title"].write(value.title)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushAPNSMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.PushAPNSMessageTemplateContent()
+        value.title = try reader["title"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.sound = try reader["sound"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.mediaUrl = try reader["mediaUrl"].readIfPresent()
+        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.PushADMMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushADMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["imageIconUrl"].write(value.imageIconUrl)
+        try writer["imageUrl"].write(value.imageUrl)
+        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["smallImageIconUrl"].write(value.smallImageIconUrl)
+        try writer["sound"].write(value.sound)
+        try writer["title"].write(value.title)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushADMMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.PushADMMessageTemplateContent()
+        value.title = try reader["title"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.sound = try reader["sound"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.imageUrl = try reader["imageUrl"].readIfPresent()
+        value.imageIconUrl = try reader["imageIconUrl"].readIfPresent()
+        value.smallImageIconUrl = try reader["smallImageIconUrl"].readIfPresent()
+        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.WhatsAppMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateContent()
+        value.data = try reader["data"].readIfPresent()
+        return value
     }
 }
 
@@ -17164,30 +17886,6 @@ extension QConnectClientTypes.SMSMessageTemplateContentBody {
         var value = QConnectClientTypes.SMSMessageTemplateContentBody()
         value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
         return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateBodyContentProvider {
-
-    static func write(value: QConnectClientTypes.MessageTemplateBodyContentProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .content(content):
-                try writer["content"].write(content)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateBodyContentProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "content":
-                return .content(try reader["content"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -17269,6 +17967,7 @@ extension QConnectClientTypes.ExtendedMessageTemplateData {
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -17276,6 +17975,7 @@ extension QConnectClientTypes.ExtendedMessageTemplateData {
         value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.language = try reader["language"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
         value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
         value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -18066,13 +18766,58 @@ extension QConnectClientTypes.MessageTemplateSummary {
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfiguration.read(from:))
         value.activeVersionNumber = try reader["activeVersionNumber"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateSourceConfiguration {
+
+    static func write(value: QConnectClientTypes.MessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .whatsapp(whatsapp):
+                try writer["whatsApp"].write(whatsapp, with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "whatsApp":
+                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
+
+    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["businessAccountId"].write(value.businessAccountId)
+        try writer["components"].writeList(value.components, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["templateId"].write(value.templateId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration()
+        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18087,6 +18832,7 @@ extension QConnectClientTypes.MessageTemplateVersionSummary {
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.isActive = try reader["isActive"].readIfPresent() ?? false
         value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
@@ -18191,6 +18937,7 @@ extension QConnectClientTypes.MessageTemplateSearchResultData {
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -18198,6 +18945,7 @@ extension QConnectClientTypes.MessageTemplateSearchResultData {
         value.isActive = try reader["isActive"].readIfPresent()
         value.versionNumber = try reader["versionNumber"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
         value.language = try reader["language"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

@@ -41231,6 +41231,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// An object that provides information about the configuration of a chat agent.
+    public struct RegisteredUserQuickChatEmbeddingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The feature configurations of an embedded Amazon Quick Sight console.
     public struct RegisteredUserConsoleFeatureConfigurations: Swift.Sendable {
         /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
@@ -41307,6 +41316,8 @@ extension QuickSightClientTypes {
         public var generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration?
         /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon Quick Sight User Guide.
         public var qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration?
+        /// The configuration details for embedding the Quick chat agent.
+        public var quickChat: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration?
         /// The configuration details for providing each Amazon Quick Sight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see [Customizing Access to the Amazon Quick Sight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html) in the Amazon Quick Suite User Guide. Use [GenerateEmbedUrlForRegisteredUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html) where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon Quick Sight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use the [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:
         ///
         /// * [Embedding the Full Functionality of the Amazon Quick Sight Console for Authenticated Users](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-full-console-for-authenticated-users.html)
@@ -41322,12 +41333,14 @@ extension QuickSightClientTypes {
             dashboardVisual: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration? = nil,
             generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration? = nil,
+            quickChat: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration? = nil,
             quickSightConsole: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil
         ) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
             self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
+            self.quickChat = quickChat
             self.quickSightConsole = quickSightConsole
         }
     }
@@ -79085,7 +79098,16 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration {
         try writer["DashboardVisual"].write(value.dashboardVisual, with: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration.write(value:to:))
         try writer["GenerativeQnA"].write(value.generativeQnA, with: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration.write(value:to:))
         try writer["QSearchBar"].write(value.qSearchBar, with: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration.write(value:to:))
+        try writer["QuickChat"].write(value.quickChat, with: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration.write(value:to:))
         try writer["QuickSightConsole"].write(value.quickSightConsole, with: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration.write(value:to:))
+    }
+}
+
+extension QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration {
+
+    static func write(value: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 

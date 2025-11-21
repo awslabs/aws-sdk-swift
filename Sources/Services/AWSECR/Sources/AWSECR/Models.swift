@@ -2030,6 +2030,140 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
     }
 }
 
+/// The specified signing configuration was not found. This occurs when attempting to retrieve or delete a signing configuration that does not exist.
+public struct SigningConfigurationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SigningConfigurationNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSigningConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension ECRClientTypes {
+
+    /// The type of filter to use when determining which repositories should have their images automatically signed.
+    public enum SigningRepositoryFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wildcardMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SigningRepositoryFilterType] {
+            return [
+                .wildcardMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wildcardMatch: return "WILDCARD_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// A repository filter used to determine which repositories have their images automatically signed on push. Each filter consists of a filter type and filter value.
+    public struct SigningRepositoryFilter: Swift.Sendable {
+        /// The filter value used to match repository names. When using WILDCARD_MATCH, the * character matches any sequence of characters. Examples:
+        ///
+        /// * myapp/* - Matches all repositories starting with myapp/
+        ///
+        /// * */production - Matches all repositories ending with /production
+        ///
+        /// * *prod* - Matches all repositories containing prod
+        /// This member is required.
+        public var filter: Swift.String?
+        /// The type of filter to apply. Currently, only WILDCARD_MATCH is supported, which uses wildcard patterns to match repository names.
+        /// This member is required.
+        public var filterType: ECRClientTypes.SigningRepositoryFilterType?
+
+        public init(
+            filter: Swift.String? = nil,
+            filterType: ECRClientTypes.SigningRepositoryFilterType? = nil
+        ) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// A signing rule that specifies a signing profile and optional repository filters. When an image is pushed to a matching repository, a signing job is created using the specified profile.
+    public struct SigningRule: Swift.Sendable {
+        /// A list of repository filters that determine which repositories have their images signed on push. If no filters are specified, all images pushed to the registry are signed using the rule's signing profile. Maximum of 100 filters per rule.
+        public var repositoryFilters: [ECRClientTypes.SigningRepositoryFilter]?
+        /// The ARN of the Amazon Web Services Signer signing profile to use for signing images that match this rule. For more information about signing profiles, see [Signing profiles](https://docs.aws.amazon.com/signer/latest/developerguide/signing-profiles.html) in the Amazon Web Services Signer Developer Guide.
+        /// This member is required.
+        public var signingProfileArn: Swift.String?
+
+        public init(
+            repositoryFilters: [ECRClientTypes.SigningRepositoryFilter]? = nil,
+            signingProfileArn: Swift.String? = nil
+        ) {
+            self.repositoryFilters = repositoryFilters
+            self.signingProfileArn = signingProfileArn
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The signing configuration for a registry, which specifies rules for automatically signing images when pushed.
+    public struct SigningConfiguration: Swift.Sendable {
+        /// A list of signing rules. Each rule defines a signing profile and optional repository filters that determine which images are automatically signed. Maximum of 10 rules.
+        /// This member is required.
+        public var rules: [ECRClientTypes.SigningRule]?
+
+        public init(
+            rules: [ECRClientTypes.SigningRule]? = nil
+        ) {
+            self.rules = rules
+        }
+    }
+}
+
+public struct DeleteSigningConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The registry's deleted signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        registryId: Swift.String? = nil,
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.registryId = registryId
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
 /// The specified pull time update exclusion was not found.
 public struct ExclusionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3131,6 +3265,116 @@ public struct DescribeImageScanFindingsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeImageSigningStatusInput: Swift.Sendable {
+    /// An object containing identifying information for an image.
+    /// This member is required.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The name of the repository that contains the image.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil
+    ) {
+        self.imageId = imageId
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The image signing status. Possible values include IN_PROGRESS, COMPLETE, and FAILED.
+    public enum SigningStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SigningStatus] {
+            return [
+                .complete,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The signing status for an image. Each status corresponds to a signing profile.
+    public struct ImageSigningStatus: Swift.Sendable {
+        /// The failure code, which is only present if status is FAILED.
+        public var failureCode: Swift.String?
+        /// A description of why signing the image failed. This field is only present if status is FAILED.
+        public var failureReason: Swift.String?
+        /// The ARN of the Amazon Web Services Signer signing profile used to sign the image.
+        public var signingProfileArn: Swift.String?
+        /// The image's signing status. Possible values are:
+        ///
+        /// * IN_PROGRESS - Signing is currently in progress.
+        ///
+        /// * COMPLETE - The signature was successfully generated.
+        ///
+        /// * FAILED - Signing failed. See failureCode and failureReason for details.
+        public var status: ECRClientTypes.SigningStatus?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            signingProfileArn: Swift.String? = nil,
+            status: ECRClientTypes.SigningStatus? = nil
+        ) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.signingProfileArn = signingProfileArn
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeImageSigningStatusOutput: Swift.Sendable {
+    /// An object with identifying information for the image.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The name of the repository.
+    public var repositoryName: Swift.String?
+    /// A list of signing statuses for the specified image. Each status corresponds to a signing profile.
+    public var signingStatuses: [ECRClientTypes.ImageSigningStatus]?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        signingStatuses: [ECRClientTypes.ImageSigningStatus]? = nil
+    ) {
+        self.imageId = imageId
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+        self.signingStatuses = signingStatuses
+    }
+}
+
 public struct DescribePullThroughCacheRulesInput: Swift.Sendable {
     /// The Amazon ECR repository prefixes associated with the pull through cache rules to return. If no repository prefix value is specified, all pull through cache rules are returned.
     public var ecrRepositoryPrefixes: [Swift.String]?
@@ -4095,6 +4339,26 @@ public struct GetRepositoryPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetSigningConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetSigningConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The registry's signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        registryId: Swift.String? = nil,
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.registryId = registryId
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
 public struct InitiateLayerUploadInput: Swift.Sendable {
     /// The Amazon Web Services account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -4822,6 +5086,29 @@ public struct PutReplicationConfigurationOutput: Swift.Sendable {
         replicationConfiguration: ECRClientTypes.ReplicationConfiguration? = nil
     ) {
         self.replicationConfiguration = replicationConfiguration
+    }
+}
+
+public struct PutSigningConfigurationInput: Swift.Sendable {
+    /// The signing configuration to assign to the registry.
+    /// This member is required.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
+public struct PutSigningConfigurationOutput: Swift.Sendable {
+    /// The registry's updated signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.signingConfiguration = signingConfiguration
     }
 }
 
@@ -5590,6 +5877,13 @@ extension DeleteRepositoryPolicyInput {
     }
 }
 
+extension DeleteSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSigningConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeregisterPullTimeUpdateExclusionInput {
 
     static func urlPathProvider(_ value: DeregisterPullTimeUpdateExclusionInput) -> Swift.String? {
@@ -5614,6 +5908,13 @@ extension DescribeImagesInput {
 extension DescribeImageScanFindingsInput {
 
     static func urlPathProvider(_ value: DescribeImageScanFindingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeImageSigningStatusInput {
+
+    static func urlPathProvider(_ value: DescribeImageSigningStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5698,6 +5999,13 @@ extension GetRegistryScanningConfigurationInput {
 extension GetRepositoryPolicyInput {
 
     static func urlPathProvider(_ value: GetRepositoryPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: GetSigningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5789,6 +6097,13 @@ extension PutRegistryScanningConfigurationInput {
 extension PutReplicationConfigurationInput {
 
     static func urlPathProvider(_ value: PutReplicationConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: PutSigningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6018,6 +6333,14 @@ extension DeleteRepositoryPolicyInput {
     }
 }
 
+extension DeleteSigningConfigurationInput {
+
+    static func write(value: DeleteSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension DeregisterPullTimeUpdateExclusionInput {
 
     static func write(value: DeregisterPullTimeUpdateExclusionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6056,6 +6379,16 @@ extension DescribeImageScanFindingsInput {
         try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["registryId"].write(value.registryId)
+        try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension DescribeImageSigningStatusInput {
+
+    static func write(value: DescribeImageSigningStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
     }
@@ -6171,6 +6504,14 @@ extension GetRepositoryPolicyInput {
         guard let value else { return }
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension GetSigningConfigurationInput {
+
+    static func write(value: GetSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -6300,6 +6641,14 @@ extension PutReplicationConfigurationInput {
     static func write(value: PutReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["replicationConfiguration"].write(value.replicationConfiguration, with: ECRClientTypes.ReplicationConfiguration.write(value:to:))
+    }
+}
+
+extension PutSigningConfigurationInput {
+
+    static func write(value: PutSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["signingConfiguration"].write(value.signingConfiguration, with: ECRClientTypes.SigningConfiguration.write(value:to:))
     }
 }
 
@@ -6617,6 +6966,19 @@ extension DeleteRepositoryPolicyOutput {
     }
 }
 
+extension DeleteSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSigningConfigurationOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
+        return value
+    }
+}
+
 extension DeregisterPullTimeUpdateExclusionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterPullTimeUpdateExclusionOutput {
@@ -6669,6 +7031,21 @@ extension DescribeImageScanFindingsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeImageSigningStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeImageSigningStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeImageSigningStatusOutput()
+        value.imageId = try reader["imageId"].readIfPresent(with: ECRClientTypes.ImageIdentifier.read(from:))
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.signingStatuses = try reader["signingStatuses"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageSigningStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6833,6 +7210,19 @@ extension GetRepositoryPolicyOutput {
         value.policyText = try reader["policyText"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSigningConfigurationOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
         return value
     }
 }
@@ -7002,6 +7392,18 @@ extension PutReplicationConfigurationOutput {
         let reader = responseReader
         var value = PutReplicationConfigurationOutput()
         value.replicationConfiguration = try reader["replicationConfiguration"].readIfPresent(with: ECRClientTypes.ReplicationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension PutSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutSigningConfigurationOutput()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
         return value
     }
 }
@@ -7409,6 +7811,22 @@ enum DeleteRepositoryPolicyOutputError {
     }
 }
 
+enum DeleteSigningConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "SigningConfigurationNotFoundException": return try SigningConfigurationNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeregisterPullTimeUpdateExclusionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7474,6 +7892,24 @@ enum DescribeImageScanFindingsOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ScanNotFoundException": return try ScanNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeImageSigningStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ImageNotFoundException": return try ImageNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7677,6 +8113,23 @@ enum GetRepositoryPolicyOutputError {
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "RepositoryPolicyNotFoundException": return try RepositoryPolicyNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSigningConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "SigningConfigurationNotFoundException": return try SigningConfigurationNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7889,6 +8342,22 @@ enum PutRegistryScanningConfigurationOutputError {
 }
 
 enum PutReplicationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutSigningConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8459,6 +8928,19 @@ extension RepositoryPolicyNotFoundException {
     }
 }
 
+extension SigningConfigurationNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SigningConfigurationNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SigningConfigurationNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ExclusionNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExclusionNotFoundException {
@@ -8930,6 +9412,55 @@ extension ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
     }
 }
 
+extension ECRClientTypes.SigningConfiguration {
+
+    static func write(value: ECRClientTypes.SigningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rules"].writeList(value.rules, memberWritingClosure: ECRClientTypes.SigningRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningConfiguration()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ECRClientTypes.SigningRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ECRClientTypes.SigningRule {
+
+    static func write(value: ECRClientTypes.SigningRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["repositoryFilters"].writeList(value.repositoryFilters, memberWritingClosure: ECRClientTypes.SigningRepositoryFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["signingProfileArn"].write(value.signingProfileArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningRule()
+        value.signingProfileArn = try reader["signingProfileArn"].readIfPresent() ?? ""
+        value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.SigningRepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECRClientTypes.SigningRepositoryFilter {
+
+    static func write(value: ECRClientTypes.SigningRepositoryFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter)
+        try writer["filterType"].write(value.filterType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningRepositoryFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningRepositoryFilter()
+        value.filter = try reader["filter"].readIfPresent() ?? ""
+        value.filterType = try reader["filterType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ECRClientTypes.ImageReplicationStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageReplicationStatus {
@@ -9199,6 +9730,19 @@ extension ECRClientTypes.Attribute {
         var value = ECRClientTypes.Attribute()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRClientTypes.ImageSigningStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageSigningStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.ImageSigningStatus()
+        value.signingProfileArn = try reader["signingProfileArn"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }

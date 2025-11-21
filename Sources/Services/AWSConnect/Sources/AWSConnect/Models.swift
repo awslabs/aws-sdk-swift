@@ -4195,6 +4195,21 @@ public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWS
     }
 }
 
+extension ConnectClientTypes {
+
+    /// The external invocation configuration for the flow module
+    public struct ExternalInvocationConfiguration: Swift.Sendable {
+        /// Enable external invocation.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
 public struct CreateContactFlowModuleInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -4203,12 +4218,16 @@ public struct CreateContactFlowModuleInput: Swift.Sendable {
     public var content: Swift.String?
     /// The description of the flow module.
     public var description: Swift.String?
+    /// The external invocation configuration for the flow module.
+    public var externalInvocationConfiguration: ConnectClientTypes.ExternalInvocationConfiguration?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow module.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration settings for the flow module.
+    public var settings: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4216,15 +4235,19 @@ public struct CreateContactFlowModuleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         content: Swift.String? = nil,
         description: Swift.String? = nil,
+        externalInvocationConfiguration: ConnectClientTypes.ExternalInvocationConfiguration? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        settings: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.content = content
         self.description = description
+        self.externalInvocationConfiguration = externalInvocationConfiguration
         self.instanceId = instanceId
         self.name = name
+        self.settings = settings
         self.tags = tags
     }
 }
@@ -4241,6 +4264,92 @@ public struct CreateContactFlowModuleOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.id = id
+    }
+}
+
+public struct CreateContactFlowModuleAliasInput: Swift.Sendable {
+    /// The name of the alias.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The version of the flow module.
+    /// This member is required.
+    public var contactFlowModuleVersion: Swift.Int?
+    /// The description of the alias.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        contactFlowModuleId: Swift.String? = nil,
+        contactFlowModuleVersion: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+        self.contactFlowModuleId = contactFlowModuleId
+        self.contactFlowModuleVersion = contactFlowModuleVersion
+        self.description = description
+        self.instanceId = instanceId
+    }
+}
+
+public struct CreateContactFlowModuleAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow module.
+    public var contactFlowModuleArn: Swift.String?
+    /// The identifier of the alias.
+    public var id: Swift.String?
+
+    public init(
+        contactFlowModuleArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.contactFlowModuleArn = contactFlowModuleArn
+        self.id = id
+    }
+}
+
+public struct CreateContactFlowModuleVersionInput: Swift.Sendable {
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The description of the flow module version.
+    public var description: Swift.String?
+    /// Indicates the checksum value of the flow module content.
+    public var flowModuleContentSha256: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowModuleId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        flowModuleContentSha256: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFlowModuleId = contactFlowModuleId
+        self.description = description
+        self.flowModuleContentSha256 = flowModuleContentSha256
+        self.instanceId = instanceId
+    }
+}
+
+public struct CreateContactFlowModuleVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow module.
+    public var contactFlowModuleArn: Swift.String?
+    /// The version of the flow module.
+    public var version: Swift.Int?
+
+    public init(
+        contactFlowModuleArn: Swift.String? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.contactFlowModuleArn = contactFlowModuleArn
+        self.version = version
     }
 }
 
@@ -8522,6 +8631,60 @@ public struct DeleteContactFlowModuleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteContactFlowModuleAliasInput: Swift.Sendable {
+    /// The identifier of the alias.
+    /// This member is required.
+    public var aliasId: Swift.String?
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        aliasId: Swift.String? = nil,
+        contactFlowModuleId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.aliasId = aliasId
+        self.contactFlowModuleId = contactFlowModuleId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactFlowModuleAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteContactFlowModuleVersionInput: Swift.Sendable {
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The version of the flow module to delete.
+    /// This member is required.
+    public var contactFlowModuleVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowModuleId: Swift.String? = nil,
+        contactFlowModuleVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFlowModuleId = contactFlowModuleId
+        self.contactFlowModuleVersion = contactFlowModuleVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactFlowModuleVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteContactFlowVersionInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
@@ -10683,35 +10846,55 @@ extension ConnectClientTypes {
         public var content: Swift.String?
         /// The description of the flow module.
         public var description: Swift.String?
+        /// The external invocation configuration for the flow module
+        public var externalInvocationConfiguration: ConnectClientTypes.ExternalInvocationConfiguration?
+        /// Hash of the module content for integrity verification.
+        public var flowModuleContentSha256: Swift.String?
         /// The identifier of the flow module.
         public var id: Swift.String?
         /// The name of the flow module.
         public var name: Swift.String?
+        /// The configuration settings for the flow module.
+        public var settings: Swift.String?
         /// The type of flow module.
         public var state: ConnectClientTypes.ContactFlowModuleState?
         /// The status of the flow module.
         public var status: ConnectClientTypes.ContactFlowModuleStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
+        /// The version of the flow module.
+        public var version: Swift.Int?
+        /// Description of the version.
+        public var versionDescription: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             content: Swift.String? = nil,
             description: Swift.String? = nil,
+            externalInvocationConfiguration: ConnectClientTypes.ExternalInvocationConfiguration? = nil,
+            flowModuleContentSha256: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            settings: Swift.String? = nil,
             state: ConnectClientTypes.ContactFlowModuleState? = nil,
             status: ConnectClientTypes.ContactFlowModuleStatus? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            version: Swift.Int? = nil,
+            versionDescription: Swift.String? = nil
         ) {
             self.arn = arn
             self.content = content
             self.description = description
+            self.externalInvocationConfiguration = externalInvocationConfiguration
+            self.flowModuleContentSha256 = flowModuleContentSha256
             self.id = id
             self.name = name
+            self.settings = settings
             self.state = state
             self.status = status
             self.tags = tags
+            self.version = version
+            self.versionDescription = versionDescription
         }
     }
 }
@@ -10724,6 +10907,82 @@ public struct DescribeContactFlowModuleOutput: Swift.Sendable {
         contactFlowModule: ConnectClientTypes.ContactFlowModule? = nil
     ) {
         self.contactFlowModule = contactFlowModule
+    }
+}
+
+public struct DescribeContactFlowModuleAliasInput: Swift.Sendable {
+    /// The identifier of the alias.
+    /// This member is required.
+    public var aliasId: Swift.String?
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        aliasId: Swift.String? = nil,
+        contactFlowModuleId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.aliasId = aliasId
+        self.contactFlowModuleId = contactFlowModuleId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about an alias.
+    public struct ContactFlowModuleAliasInfo: Swift.Sendable {
+        /// The identifier of the alias.
+        public var aliasId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the flow module.
+        public var contactFlowModuleArn: Swift.String?
+        /// The identifier of the flow module.
+        public var contactFlowModuleId: Swift.String?
+        /// The description of the alias.
+        public var description: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the alias.
+        public var name: Swift.String?
+        /// The version of the flow module.
+        public var version: Swift.Int?
+
+        public init(
+            aliasId: Swift.String? = nil,
+            contactFlowModuleArn: Swift.String? = nil,
+            contactFlowModuleId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.aliasId = aliasId
+            self.contactFlowModuleArn = contactFlowModuleArn
+            self.contactFlowModuleId = contactFlowModuleId
+            self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.version = version
+        }
+    }
+}
+
+public struct DescribeContactFlowModuleAliasOutput: Swift.Sendable {
+    /// Information about the flow module alias.
+    public var contactFlowModuleAlias: ConnectClientTypes.ContactFlowModuleAliasInfo?
+
+    public init(
+        contactFlowModuleAlias: ConnectClientTypes.ContactFlowModuleAliasInfo? = nil
+    ) {
+        self.contactFlowModuleAlias = contactFlowModuleAlias
     }
 }
 
@@ -16364,6 +16623,81 @@ public struct ListContactEvaluationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListContactFlowModuleAliasesInput: Swift.Sendable {
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactFlowModuleId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactFlowModuleId = contactFlowModuleId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about an alias.
+    public struct ContactFlowModuleAliasSummary: Swift.Sendable {
+        /// The description of the alias.
+        public var aliasDescription: Swift.String?
+        /// The identifier of the alias.
+        public var aliasId: Swift.String?
+        /// The name of the alias.
+        public var aliasName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the flow module alias.
+        public var arn: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The version of the flow module.
+        public var version: Swift.Int?
+
+        public init(
+            aliasDescription: Swift.String? = nil,
+            aliasId: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.aliasDescription = aliasDescription
+            self.aliasId = aliasId
+            self.aliasName = aliasName
+            self.arn = arn
+            self.lastModifiedTime = lastModifiedTime
+            self.version = version
+        }
+    }
+}
+
+public struct ListContactFlowModuleAliasesOutput: Swift.Sendable {
+    /// Information about the flow module aliases.
+    public var contactFlowModuleAliasSummaryList: [ConnectClientTypes.ContactFlowModuleAliasSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactFlowModuleAliasSummaryList: [ConnectClientTypes.ContactFlowModuleAliasSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactFlowModuleAliasSummaryList = contactFlowModuleAliasSummaryList
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListContactFlowModulesInput: Swift.Sendable {
     /// The state of the flow module.
     public var contactFlowModuleState: ConnectClientTypes.ContactFlowModuleState?
@@ -16426,6 +16760,69 @@ public struct ListContactFlowModulesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.contactFlowModulesSummaryList = contactFlowModulesSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContactFlowModuleVersionsInput: Swift.Sendable {
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactFlowModuleId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactFlowModuleId = contactFlowModuleId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a version.
+    public struct ContactFlowModuleVersionSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the flow module version.
+        public var arn: Swift.String?
+        /// The version of the flow module.
+        public var version: Swift.Int?
+        /// The description of the flow module version.
+        public var versionDescription: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            version: Swift.Int? = nil,
+            versionDescription: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.version = version
+            self.versionDescription = versionDescription
+        }
+    }
+}
+
+public struct ListContactFlowModuleVersionsOutput: Swift.Sendable {
+    /// Information about the flow module versions.
+    public var contactFlowModuleVersionSummaryList: [ConnectClientTypes.ContactFlowModuleVersionSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactFlowModuleVersionSummaryList: [ConnectClientTypes.ContactFlowModuleVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactFlowModuleVersionSummaryList = contactFlowModuleVersionSummaryList
         self.nextToken = nextToken
     }
 }
@@ -24634,25 +25031,90 @@ public struct UpdateContactFlowMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Request processing failed because dependent condition failed.
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateContactFlowModuleAliasInput: Swift.Sendable {
+    /// The identifier of the alias.
+    /// This member is required.
+    public var aliasId: Swift.String?
+    /// The identifier of the flow module.
+    /// This member is required.
+    public var contactFlowModuleId: Swift.String?
+    /// The version of the flow module.
+    public var contactFlowModuleVersion: Swift.Int?
+    /// The description of the alias.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the alias.
+    public var name: Swift.String?
+
+    public init(
+        aliasId: Swift.String? = nil,
+        contactFlowModuleId: Swift.String? = nil,
+        contactFlowModuleVersion: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.aliasId = aliasId
+        self.contactFlowModuleId = contactFlowModuleId
+        self.contactFlowModuleVersion = contactFlowModuleVersion
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+public struct UpdateContactFlowModuleAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateContactFlowModuleContentInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
     /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
-    /// This member is required.
     public var content: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// Serialized JSON string of the flow module Settings schema.
+    public var settings: Swift.String?
 
     public init(
         contactFlowModuleId: Swift.String? = nil,
         content: Swift.String? = nil,
-        instanceId: Swift.String? = nil
+        instanceId: Swift.String? = nil,
+        settings: Swift.String? = nil
     ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.content = content
         self.instanceId = instanceId
+        self.settings = settings
     }
 }
 
@@ -24873,29 +25335,6 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
         self.instanceId = instanceId
         self.name = name
         self.timeZone = timeZone
-    }
-}
-
-/// Request processing failed because dependent condition failed.
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -28658,6 +29097,32 @@ extension CreateContactFlowModuleInput {
     }
 }
 
+extension CreateContactFlowModuleAliasInput {
+
+    static func urlPathProvider(_ value: CreateContactFlowModuleAliasInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/alias"
+    }
+}
+
+extension CreateContactFlowModuleVersionInput {
+
+    static func urlPathProvider(_ value: CreateContactFlowModuleVersionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/version"
+    }
+}
+
 extension CreateContactFlowVersionInput {
 
     static func urlPathProvider(_ value: CreateContactFlowVersionInput) -> Swift.String? {
@@ -28990,6 +29455,38 @@ extension DeleteContactFlowModuleInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteContactFlowModuleAliasInput {
+
+    static func urlPathProvider(_ value: DeleteContactFlowModuleAliasInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        guard let aliasId = value.aliasId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/alias/\(aliasId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteContactFlowModuleVersionInput {
+
+    static func urlPathProvider(_ value: DeleteContactFlowModuleVersionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        guard let contactFlowModuleVersion = value.contactFlowModuleVersion else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/version/\(contactFlowModuleVersion)"
     }
 }
 
@@ -29411,6 +29908,22 @@ extension DescribeContactFlowModuleInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeContactFlowModuleAliasInput {
+
+    static func urlPathProvider(_ value: DescribeContactFlowModuleAliasInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        guard let aliasId = value.aliasId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/alias/\(aliasId.urlPercentEncoding())"
     }
 }
 
@@ -30439,6 +30952,35 @@ extension ListContactEvaluationsInput {
     }
 }
 
+extension ListContactFlowModuleAliasesInput {
+
+    static func urlPathProvider(_ value: ListContactFlowModuleAliasesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/aliases"
+    }
+}
+
+extension ListContactFlowModuleAliasesInput {
+
+    static func queryItemProvider(_ value: ListContactFlowModuleAliasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListContactFlowModulesInput {
 
     static func urlPathProvider(_ value: ListContactFlowModulesInput) -> Swift.String? {
@@ -30464,6 +31006,35 @@ extension ListContactFlowModulesInput {
         if let contactFlowModuleState = value.contactFlowModuleState {
             let contactFlowModuleStateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(contactFlowModuleState.rawValue).urlPercentEncoding())
             items.append(contactFlowModuleStateQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListContactFlowModuleVersionsInput {
+
+    static func urlPathProvider(_ value: ListContactFlowModuleVersionsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListContactFlowModuleVersionsInput {
+
+    static func queryItemProvider(_ value: ListContactFlowModuleVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -32119,6 +32690,22 @@ extension UpdateContactFlowMetadataInput {
     }
 }
 
+extension UpdateContactFlowModuleAliasInput {
+
+    static func urlPathProvider(_ value: UpdateContactFlowModuleAliasInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowModuleId = value.contactFlowModuleId else {
+            return nil
+        }
+        guard let aliasId = value.aliasId else {
+            return nil
+        }
+        return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/alias/\(aliasId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateContactFlowModuleContentInput {
 
     static func urlPathProvider(_ value: UpdateContactFlowModuleContentInput) -> Swift.String? {
@@ -32945,8 +33532,29 @@ extension CreateContactFlowModuleInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["Content"].write(value.content)
         try writer["Description"].write(value.description)
+        try writer["ExternalInvocationConfiguration"].write(value.externalInvocationConfiguration, with: ConnectClientTypes.ExternalInvocationConfiguration.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["Settings"].write(value.settings)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateContactFlowModuleAliasInput {
+
+    static func write(value: CreateContactFlowModuleAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AliasName"].write(value.aliasName)
+        try writer["ContactFlowModuleVersion"].write(value.contactFlowModuleVersion)
+        try writer["Description"].write(value.description)
+    }
+}
+
+extension CreateContactFlowModuleVersionInput {
+
+    static func write(value: CreateContactFlowModuleVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["FlowModuleContentSha256"].write(value.flowModuleContentSha256)
     }
 }
 
@@ -34121,11 +34729,22 @@ extension UpdateContactFlowMetadataInput {
     }
 }
 
+extension UpdateContactFlowModuleAliasInput {
+
+    static func write(value: UpdateContactFlowModuleAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactFlowModuleVersion"].write(value.contactFlowModuleVersion)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateContactFlowModuleContentInput {
 
     static func write(value: UpdateContactFlowModuleContentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Content"].write(value.content)
+        try writer["Settings"].write(value.settings)
     }
 }
 
@@ -34813,6 +35432,32 @@ extension CreateContactFlowModuleOutput {
     }
 }
 
+extension CreateContactFlowModuleAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactFlowModuleAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateContactFlowModuleAliasOutput()
+        value.contactFlowModuleArn = try reader["ContactFlowModuleArn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateContactFlowModuleVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactFlowModuleVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateContactFlowModuleVersionOutput()
+        value.contactFlowModuleArn = try reader["ContactFlowModuleArn"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateContactFlowVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactFlowVersionOutput {
@@ -35170,6 +35815,20 @@ extension DeleteContactFlowModuleOutput {
     }
 }
 
+extension DeleteContactFlowModuleAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowModuleAliasOutput {
+        return DeleteContactFlowModuleAliasOutput()
+    }
+}
+
+extension DeleteContactFlowModuleVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowModuleVersionOutput {
+        return DeleteContactFlowModuleVersionOutput()
+    }
+}
+
 extension DeleteContactFlowVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowVersionOutput {
@@ -35407,6 +36066,18 @@ extension DescribeContactFlowModuleOutput {
         let reader = responseReader
         var value = DescribeContactFlowModuleOutput()
         value.contactFlowModule = try reader["ContactFlowModule"].readIfPresent(with: ConnectClientTypes.ContactFlowModule.read(from:))
+        return value
+    }
+}
+
+extension DescribeContactFlowModuleAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeContactFlowModuleAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeContactFlowModuleAliasOutput()
+        value.contactFlowModuleAlias = try reader["ContactFlowModuleAlias"].readIfPresent(with: ConnectClientTypes.ContactFlowModuleAliasInfo.read(from:))
         return value
     }
 }
@@ -36094,6 +36765,19 @@ extension ListContactEvaluationsOutput {
     }
 }
 
+extension ListContactFlowModuleAliasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContactFlowModuleAliasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContactFlowModuleAliasesOutput()
+        value.contactFlowModuleAliasSummaryList = try reader["ContactFlowModuleAliasSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactFlowModuleAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListContactFlowModulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContactFlowModulesOutput {
@@ -36102,6 +36786,19 @@ extension ListContactFlowModulesOutput {
         let reader = responseReader
         var value = ListContactFlowModulesOutput()
         value.contactFlowModulesSummaryList = try reader["ContactFlowModulesSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactFlowModuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListContactFlowModuleVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContactFlowModuleVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContactFlowModuleVersionsOutput()
+        value.contactFlowModuleVersionSummaryList = try reader["ContactFlowModuleVersionSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactFlowModuleVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -37296,6 +37993,13 @@ extension UpdateContactFlowMetadataOutput {
     }
 }
 
+extension UpdateContactFlowModuleAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactFlowModuleAliasOutput {
+        return UpdateContactFlowModuleAliasOutput()
+    }
+}
+
 extension UpdateContactFlowModuleContentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactFlowModuleContentOutput {
@@ -38190,6 +38894,47 @@ enum CreateContactFlowModuleOutputError {
     }
 }
 
+enum CreateContactFlowModuleAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateContactFlowModuleVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateContactFlowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38777,6 +39522,44 @@ enum DeleteContactFlowModuleOutputError {
     }
 }
 
+enum DeleteContactFlowModuleAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteContactFlowModuleVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteContactFlowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -39292,6 +40075,25 @@ enum DescribeContactFlowOutputError {
 }
 
 enum DescribeContactFlowModuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeContactFlowModuleAliasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -40357,7 +41159,45 @@ enum ListContactEvaluationsOutputError {
     }
 }
 
+enum ListContactFlowModuleAliasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListContactFlowModulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContactFlowModuleVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -42169,6 +43009,27 @@ enum UpdateContactFlowMetadataOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateContactFlowModuleAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
             case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -44963,6 +45824,43 @@ extension ConnectClientTypes.ContactFlowModule {
         value.state = try reader["State"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.flowModuleContentSha256 = try reader["FlowModuleContentSha256"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.versionDescription = try reader["VersionDescription"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent()
+        value.externalInvocationConfiguration = try reader["ExternalInvocationConfiguration"].readIfPresent(with: ConnectClientTypes.ExternalInvocationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExternalInvocationConfiguration {
+
+    static func write(value: ConnectClientTypes.ExternalInvocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExternalInvocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExternalInvocationConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactFlowModuleAliasInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactFlowModuleAliasInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactFlowModuleAliasInfo()
+        value.contactFlowModuleId = try reader["ContactFlowModuleId"].readIfPresent()
+        value.contactFlowModuleArn = try reader["ContactFlowModuleArn"].readIfPresent()
+        value.aliasId = try reader["AliasId"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -46856,6 +47754,21 @@ extension ConnectClientTypes.EvaluationAcknowledgementSummary {
     }
 }
 
+extension ConnectClientTypes.ContactFlowModuleAliasSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactFlowModuleAliasSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactFlowModuleAliasSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.aliasId = try reader["AliasId"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.aliasName = try reader["AliasName"].readIfPresent()
+        value.aliasDescription = try reader["AliasDescription"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension ConnectClientTypes.ContactFlowModuleSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactFlowModuleSummary {
@@ -46865,6 +47778,18 @@ extension ConnectClientTypes.ContactFlowModuleSummary {
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactFlowModuleVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactFlowModuleVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactFlowModuleVersionSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.versionDescription = try reader["VersionDescription"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }

@@ -2082,6 +2082,8 @@ extension APIGatewayClientTypes {
         public var httpMethod: Swift.String?
         /// Specifies the integration's responses.
         public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
+        /// The ALB or NLB listener to send the request to.
+        public var integrationTarget: Swift.String?
         /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
         public var passthroughBehavior: Swift.String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -2108,6 +2110,7 @@ extension APIGatewayClientTypes {
             credentials: Swift.String? = nil,
             httpMethod: Swift.String? = nil,
             integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]? = nil,
+            integrationTarget: Swift.String? = nil,
             passthroughBehavior: Swift.String? = nil,
             requestParameters: [Swift.String: Swift.String]? = nil,
             requestTemplates: [Swift.String: Swift.String]? = nil,
@@ -2125,6 +2128,7 @@ extension APIGatewayClientTypes {
             self.credentials = credentials
             self.httpMethod = httpMethod
             self.integrationResponses = integrationResponses
+            self.integrationTarget = integrationTarget
             self.passthroughBehavior = passthroughBehavior
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
@@ -4875,6 +4879,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
+    /// The ALB or NLB listener to send the request to.
+    public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
     /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -4901,6 +4907,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         credentials: Swift.String? = nil,
         httpMethod: Swift.String? = nil,
         integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]? = nil,
+        integrationTarget: Swift.String? = nil,
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
@@ -4918,6 +4925,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.credentials = credentials
         self.httpMethod = httpMethod
         self.integrationResponses = integrationResponses
+        self.integrationTarget = integrationTarget
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
@@ -6809,6 +6817,8 @@ public struct PutIntegrationInput: Swift.Sendable {
     public var httpMethod: Swift.String?
     /// The HTTP method for the integration.
     public var integrationHttpMethod: Swift.String?
+    /// The ALB or NLB listener to send the request to.
+    public var integrationTarget: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
     public var passthroughBehavior: Swift.String?
     /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -6842,6 +6852,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         credentials: Swift.String? = nil,
         httpMethod: Swift.String? = nil,
         integrationHttpMethod: Swift.String? = nil,
+        integrationTarget: Swift.String? = nil,
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
@@ -6861,6 +6872,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         self.credentials = credentials
         self.httpMethod = httpMethod
         self.integrationHttpMethod = integrationHttpMethod
+        self.integrationTarget = integrationTarget
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
@@ -6892,6 +6904,8 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
+    /// The ALB or NLB listener to send the request to.
+    public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
     /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -6918,6 +6932,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         credentials: Swift.String? = nil,
         httpMethod: Swift.String? = nil,
         integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]? = nil,
+        integrationTarget: Swift.String? = nil,
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
@@ -6935,6 +6950,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         self.credentials = credentials
         self.httpMethod = httpMethod
         self.integrationResponses = integrationResponses
+        self.integrationTarget = integrationTarget
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
@@ -8182,6 +8198,8 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
+    /// The ALB or NLB listener to send the request to.
+    public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
     /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -8208,6 +8226,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         credentials: Swift.String? = nil,
         httpMethod: Swift.String? = nil,
         integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]? = nil,
+        integrationTarget: Swift.String? = nil,
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
@@ -8225,6 +8244,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         self.credentials = credentials
         self.httpMethod = httpMethod
         self.integrationResponses = integrationResponses
+        self.integrationTarget = integrationTarget
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
@@ -11326,6 +11346,7 @@ extension PutIntegrationInput {
         try writer["contentHandling"].write(value.contentHandling)
         try writer["credentials"].write(value.credentials)
         try writer["httpMethod"].write(value.integrationHttpMethod)
+        try writer["integrationTarget"].write(value.integrationTarget)
         try writer["passthroughBehavior"].write(value.passthroughBehavior)
         try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["requestTemplates"].writeMap(value.requestTemplates, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12429,6 +12450,7 @@ extension GetIntegrationOutput {
         value.credentials = try reader["credentials"].readIfPresent()
         value.httpMethod = try reader["httpMethod"].readIfPresent()
         value.integrationResponses = try reader["integrationResponses"].readMapIfPresent(valueReadingClosure: APIGatewayClientTypes.IntegrationResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.integrationTarget = try reader["integrationTarget"].readIfPresent()
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12927,6 +12949,7 @@ extension PutIntegrationOutput {
         value.credentials = try reader["credentials"].readIfPresent()
         value.httpMethod = try reader["httpMethod"].readIfPresent()
         value.integrationResponses = try reader["integrationResponses"].readMapIfPresent(valueReadingClosure: APIGatewayClientTypes.IntegrationResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.integrationTarget = try reader["integrationTarget"].readIfPresent()
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13272,6 +13295,7 @@ extension UpdateIntegrationOutput {
         value.credentials = try reader["credentials"].readIfPresent()
         value.httpMethod = try reader["httpMethod"].readIfPresent()
         value.integrationResponses = try reader["integrationResponses"].readMapIfPresent(valueReadingClosure: APIGatewayClientTypes.IntegrationResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.integrationTarget = try reader["integrationTarget"].readIfPresent()
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -15939,6 +15963,7 @@ extension APIGatewayClientTypes.Integration {
         value.integrationResponses = try reader["integrationResponses"].readMapIfPresent(valueReadingClosure: APIGatewayClientTypes.IntegrationResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: APIGatewayClientTypes.TlsConfig.read(from:))
         value.responseTransferMode = try reader["responseTransferMode"].readIfPresent()
+        value.integrationTarget = try reader["integrationTarget"].readIfPresent()
         return value
     }
 }

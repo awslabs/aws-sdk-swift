@@ -4989,6 +4989,38 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum UpgradeRolloutOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case first
+        case last
+        case second
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpgradeRolloutOrder] {
+            return [
+                .first,
+                .last,
+                .second
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .first: return "first"
+            case .last: return "last"
+            case .second: return "second"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster. For an Amazon Aurora DB cluster, this data type is used as a response element in the operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster, ModifyDBCluster, PromoteReadReplicaDBCluster, RestoreDBClusterFromS3, RestoreDBClusterFromSnapshot, RestoreDBClusterToPointInTime, StartDBCluster, and StopDBCluster. For a Multi-AZ DB cluster, this data type is used as a response element in the operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster, ModifyDBCluster, RebootDBCluster, RestoreDBClusterFromSnapshot, and RestoreDBClusterToPointInTime. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     public struct DBCluster: Swift.Sendable {
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
@@ -5166,6 +5198,14 @@ extension RDSClientTypes {
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
+        /// This data type represents the order in which the clusters are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -5253,6 +5293,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
@@ -5338,6 +5379,7 @@ extension RDSClientTypes {
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -6991,6 +7033,14 @@ extension RDSClientTypes {
         public var tdeCredentialArn: Swift.String?
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for RDS for Db2 and RDS for SQL Server DB instances that were created with a time zone specified.
         public var timezone: Swift.String?
+        /// This data type represents the order in which the instances are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of Amazon EC2 VPC security groups that the DB instance belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -7081,6 +7131,7 @@ extension RDSClientTypes {
             tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
@@ -7169,6 +7220,7 @@ extension RDSClientTypes {
             self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -33147,6 +33199,7 @@ extension RDSClientTypes.DBCluster {
         value.dbClusterOptionGroupMemberships = try reader["DBClusterOptionGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterOptionGroupStatus.read(from:), memberNodeInfo: "DBClusterOptionGroup", isFlattened: false)
         value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.replicationSourceIdentifier = try reader["ReplicationSourceIdentifier"].readIfPresent()
         value.readReplicaIdentifiers = try reader["ReadReplicaIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterStatusInfo.read(from:), memberNodeInfo: "DBClusterStatusInfo", isFlattened: false)
@@ -33410,6 +33463,7 @@ extension RDSClientTypes.DBInstance {
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
         value.dbSubnetGroup = try reader["DBSubnetGroup"].readIfPresent(with: RDSClientTypes.DBSubnetGroup.read(from:))
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.PendingModifiedValues.read(from:))
         value.latestRestorableTime = try reader["LatestRestorableTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.multiAZ = try reader["MultiAZ"].readIfPresent()

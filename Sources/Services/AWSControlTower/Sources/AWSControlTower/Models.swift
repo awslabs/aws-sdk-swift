@@ -1886,7 +1886,6 @@ extension ControlTowerClientTypes {
 
 public struct CreateLandingZoneInput: Swift.Sendable {
     /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
-    /// This member is required.
     public var manifest: Smithy.Document?
     /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement.
     public var remediationTypes: [ControlTowerClientTypes.RemediationType]?
@@ -2170,7 +2169,6 @@ public struct UpdateLandingZoneInput: Swift.Sendable {
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
     /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch). The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
-    /// This member is required.
     public var manifest: Smithy.Document?
     /// Specifies the types of remediation actions to apply when updating the landing zone configuration.
     public var remediationTypes: [ControlTowerClientTypes.RemediationType]?
@@ -3865,12 +3863,12 @@ extension ControlTowerClientTypes.LandingZoneDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneDetail()
         value.version = try reader["version"].readIfPresent() ?? ""
-        value.manifest = try reader["manifest"].readIfPresent() ?? [:]
         value.remediationTypes = try reader["remediationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ControlTowerClientTypes.RemediationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["arn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.latestAvailableVersion = try reader["latestAvailableVersion"].readIfPresent()
         value.driftStatus = try reader["driftStatus"].readIfPresent(with: ControlTowerClientTypes.LandingZoneDriftStatusSummary.read(from:))
+        value.manifest = try reader["manifest"].readIfPresent() ?? [:]
         return value
     }
 }
