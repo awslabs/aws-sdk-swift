@@ -105,23 +105,16 @@ struct PrepareRelease {
             return
         }
 
-        guard let type = try BuildRequestReader().getFeaturesFromFile().type, type != .preview else {
-            // If the `build-request.json` is present, it contains a type, and the
-            // type is `PREVIEW`, create the empty release manifest and stop here.
-            // Running the PrepareRelease command on a preview build can cause
-            // build failure.
-            log("build-request.json is of type PREVIEW.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
-        }
         let newVersion = try createNewVersion(previousVersion)
+
+        // Determine the build type.  For known types that don't require publishing,
+        // add the -nonrelease modifier to the tag
+        let buildType = try BuildRequestReader().getFeaturesFromFile().type
+        let modifier = [BuildType.preview, .dryRun, .pullRequest].contains(buildType) ? "-nonrelease" : ""
 
         try stageFiles()
         try commitChanges(newVersion)
-        try tagVersion(newVersion)
+        try tagVersion(version: newVersion, modifier: modifier)
         try generateReleaseManifest(
             newVersion: newVersion,
             previousVersion: previousVersion
@@ -244,8 +237,8 @@ struct PrepareRelease {
     /// Tags the repository with the provided version
     ///
     /// - Parameter newVersion: The version to use for the tag
-    func tagVersion(_ newVersion: Version) throws {
-        try _run(Process.git.tag(newVersion, "Release \(newVersion)"))
+    func tagVersion(version: Version, modifier: String) throws {
+        try _run(Process.git.tag(version, modifier, "Release \(version)"))
     }
     
     /// Run git status

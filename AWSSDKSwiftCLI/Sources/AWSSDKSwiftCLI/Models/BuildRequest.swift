@@ -34,7 +34,7 @@ struct BuildRequest: Decodable {
     let features: [Feature]?
 }
 
-enum BuildType: Decodable, RawRepresentable {
+enum BuildType: Decodable, RawRepresentable, Equatable {
     typealias RawValue = String
 
     case release
