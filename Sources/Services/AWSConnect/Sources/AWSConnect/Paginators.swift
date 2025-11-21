@@ -273,6 +273,38 @@ extension PaginatorSequence where OperationStackInput == ListContactEvaluationsI
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListContactFlowModuleAliasesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactFlowModuleAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowModuleAliasesOutput`
+    public func listContactFlowModuleAliasesPaginated(input: ListContactFlowModuleAliasesInput) -> ClientRuntime.PaginatorSequence<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlowModuleAliases(input:))
+    }
+}
+
+extension ListContactFlowModuleAliasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContactFlowModuleAliasesInput {
+        return ListContactFlowModuleAliasesInput(
+            contactFlowModuleId: self.contactFlowModuleId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContactFlowModuleAliasesInput, OperationStackOutput == ListContactFlowModuleAliasesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContactFlowModuleAliasesPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlowModuleAliasSummary]`
+    /// - Returns: `[ConnectClientTypes.ContactFlowModuleAliasSummary]`
+    public func contactFlowModuleAliasSummaryList() async throws -> [ConnectClientTypes.ContactFlowModuleAliasSummary] {
+        return try await self.asyncCompactMap { item in item.contactFlowModuleAliasSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListContactFlowModulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -302,6 +334,38 @@ extension PaginatorSequence where OperationStackInput == ListContactFlowModulesI
     /// - Returns: `[ConnectClientTypes.ContactFlowModuleSummary]`
     public func contactFlowModulesSummaryList() async throws -> [ConnectClientTypes.ContactFlowModuleSummary] {
         return try await self.asyncCompactMap { item in item.contactFlowModulesSummaryList }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[ListContactFlowModuleVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactFlowModuleVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowModuleVersionsOutput`
+    public func listContactFlowModuleVersionsPaginated(input: ListContactFlowModuleVersionsInput) -> ClientRuntime.PaginatorSequence<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlowModuleVersions(input:))
+    }
+}
+
+extension ListContactFlowModuleVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContactFlowModuleVersionsInput {
+        return ListContactFlowModuleVersionsInput(
+            contactFlowModuleId: self.contactFlowModuleId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContactFlowModuleVersionsInput, OperationStackOutput == ListContactFlowModuleVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContactFlowModuleVersionsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlowModuleVersionSummary]`
+    /// - Returns: `[ConnectClientTypes.ContactFlowModuleVersionSummary]`
+    public func contactFlowModuleVersionSummaryList() async throws -> [ConnectClientTypes.ContactFlowModuleVersionSummary] {
+        return try await self.asyncCompactMap { item in item.contactFlowModuleVersionSummaryList }
     }
 }
 extension ConnectClient {

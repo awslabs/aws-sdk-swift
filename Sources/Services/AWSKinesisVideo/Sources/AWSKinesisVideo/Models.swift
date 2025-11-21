@@ -210,7 +210,7 @@ extension KinesisVideoClientTypes {
 
     /// A structure that contains the configuration for the SINGLE_MASTER channel type.
     public struct SingleMasterConfiguration: Swift.Sendable {
-        /// The period of time a signaling channel retains undelivered messages before they are discarded.
+        /// The period of time (in seconds) a signaling channel retains undelivered messages before they are discarded. Use to update this value.
         public var messageTtlSeconds: Swift.Int?
 
         public init(
@@ -520,7 +520,7 @@ public struct CreateSignalingChannelInput: Swift.Sendable {
     public var channelName: Swift.String?
     /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type.
     public var channelType: KinesisVideoClientTypes.ChannelType?
-    /// A structure containing the configuration for the SINGLE_MASTER channel type.
+    /// A structure containing the configuration for the SINGLE_MASTER channel type. The default configuration for the channel message's time to live is 60 seconds (1 minute).
     public var singleMasterConfiguration: KinesisVideoClientTypes.SingleMasterConfiguration?
     /// A set of tags (key-value pairs) that you want to associate with this channel.
     public var tags: [KinesisVideoClientTypes.Tag]?
@@ -595,18 +595,69 @@ public struct InvalidDeviceException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+extension KinesisVideoClientTypes {
+
+    public enum DefaultStorageTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hot
+        case warm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultStorageTier] {
+            return [
+                .hot,
+                .warm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hot: return "HOT"
+            case .warm: return "WARM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisVideoClientTypes {
+
+    /// The configuration for stream storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization.
+    public struct StreamStorageConfiguration: Swift.Sendable {
+        /// The default storage tier for the stream data. This setting determines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers:
+        ///
+        /// * HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data.
+        ///
+        /// * WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously.
+        /// This member is required.
+        public var defaultStorageTier: KinesisVideoClientTypes.DefaultStorageTier?
+
+        public init(
+            defaultStorageTier: KinesisVideoClientTypes.DefaultStorageTier? = nil
+        ) {
+            self.defaultStorageTier = defaultStorageTier
+        }
+    }
+}
+
 public struct CreateStreamInput: Swift.Sendable {
-    /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
+    /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. The minimum is 1 hour. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
     public var dataRetentionInHours: Swift.Int?
-    /// The name of the device that is writing to the stream. In the current implementation, Kinesis Video Streams does not use this name.
+    /// The name of the device that is writing to the stream. In the current implementation, Kinesis Video Streams doesn't use this name.
     public var deviceName: Swift.String?
-    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (Amazon Web Services/kinesisvideo) is used. For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
+    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used. For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
     public var kmsKeyId: Swift.String?
     /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml). If you choose to specify the MediaType, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2) for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
     public var mediaType: Swift.String?
     /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
     /// This member is required.
     public var streamName: Swift.String?
+    /// The configuration for the stream's storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization. If not specified, the stream will use the default storage configuration with HOT tier for optimal performance.
+    public var streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration?
     /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
     public var tags: [Swift.String: Swift.String]?
 
@@ -616,6 +667,7 @@ public struct CreateStreamInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         mediaType: Swift.String? = nil,
         streamName: Swift.String? = nil,
+        streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.dataRetentionInHours = dataRetentionInHours
@@ -623,6 +675,7 @@ public struct CreateStreamInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.mediaType = mediaType
         self.streamName = streamName
+        self.streamStorageConfiguration = streamStorageConfiguration
         self.tags = tags
     }
 }
@@ -1077,7 +1130,7 @@ extension KinesisVideoClientTypes {
         /// The total duration to record the media. If the ScheduleExpression attribute is provided, then the DurationInSeconds attribute should also be specified.
         /// This member is required.
         public var durationInSeconds: Swift.Int?
-        /// The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig, then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the [ Cron Trigger Tutorial ](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html) page to understand the valid expressions and its use.
+        /// The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig, then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the [ Cron Trigger Tutorial ](https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html) page to understand the valid expressions and its use.
         /// This member is required.
         public var scheduleExpression: Swift.String?
 
@@ -1093,7 +1146,7 @@ extension KinesisVideoClientTypes {
 
 extension KinesisVideoClientTypes {
 
-    /// The recorder configuration consists of the local MediaSourceConfig details that are used as credentials to accesss the local media files streamed on the camera.
+    /// The recorder configuration consists of the local MediaSourceConfig details that are used as credentials to access the local media files streamed on the camera.
     public struct RecorderConfig: Swift.Sendable {
         /// The configuration details that consist of the credentials required (MediaUriSecretArn and MediaUriType) to access the media files streamed to the camera.
         /// This member is required.
@@ -1587,7 +1640,7 @@ extension KinesisVideoClientTypes {
 
 extension KinesisVideoClientTypes {
 
-    /// The structure that contains the notification information for the KVS images delivery. If this parameter is null, the configuration will be deleted from the stream.
+    /// Use this API to configure Amazon Simple Notification Service (Amazon SNS) notifications for when fragments become available in a stream. If this parameter is null, the configuration will be deleted from the stream. See [Notifications in Kinesis Video Streams](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/notifications.html) for more information.
     public struct NotificationConfiguration: Swift.Sendable {
         /// The destination information required to deliver a notification to a customer.
         /// This member is required.
@@ -1713,6 +1766,40 @@ public struct DescribeStreamOutput: Swift.Sendable {
         streamInfo: KinesisVideoClientTypes.StreamInfo? = nil
     ) {
         self.streamInfo = streamInfo
+    }
+}
+
+public struct DescribeStreamStorageConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the stream for which you want to retrieve the storage configuration.
+    public var streamARN: Swift.String?
+    /// The name of the stream for which you want to retrieve the storage configuration.
+    public var streamName: Swift.String?
+
+    public init(
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil
+    ) {
+        self.streamARN = streamARN
+        self.streamName = streamName
+    }
+}
+
+public struct DescribeStreamStorageConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the stream.
+    public var streamARN: Swift.String?
+    /// The name of the stream.
+    public var streamName: Swift.String?
+    /// The current storage configuration for the stream, including the default storage tier and other storage-related settings.
+    public var streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration?
+
+    public init(
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration? = nil
+    ) {
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.streamStorageConfiguration = streamStorageConfiguration
     }
 }
 
@@ -2374,7 +2461,7 @@ public struct UpdateSignalingChannelInput: Swift.Sendable {
     /// The current version of the signaling channel that you want to update.
     /// This member is required.
     public var currentVersion: Swift.String?
-    /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update.
+    /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parameter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type.
     public var singleMasterConfiguration: KinesisVideoClientTypes.SingleMasterConfiguration?
 
     public init(
@@ -2422,6 +2509,36 @@ public struct UpdateStreamInput: Swift.Sendable {
 }
 
 public struct UpdateStreamOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateStreamStorageConfigurationInput: Swift.Sendable {
+    /// The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API.
+    /// This member is required.
+    public var currentVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the stream for which you want to update the storage configuration.
+    public var streamARN: Swift.String?
+    /// The name of the stream for which you want to update the storage configuration.
+    public var streamName: Swift.String?
+    /// The new storage configuration for the stream. This includes the default storage tier that determines how stream data is stored and accessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements.
+    /// This member is required.
+    public var streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration?
+
+    public init(
+        currentVersion: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        streamStorageConfiguration: KinesisVideoClientTypes.StreamStorageConfiguration? = nil
+    ) {
+        self.currentVersion = currentVersion
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.streamStorageConfiguration = streamStorageConfiguration
+    }
+}
+
+public struct UpdateStreamStorageConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2507,6 +2624,13 @@ extension DescribeStreamInput {
 
     static func urlPathProvider(_ value: DescribeStreamInput) -> Swift.String? {
         return "/describeStream"
+    }
+}
+
+extension DescribeStreamStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeStreamStorageConfigurationInput) -> Swift.String? {
+        return "/describeStreamStorageConfiguration"
     }
 }
 
@@ -2636,6 +2760,13 @@ extension UpdateStreamInput {
     }
 }
 
+extension UpdateStreamStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateStreamStorageConfigurationInput) -> Swift.String? {
+        return "/updateStreamStorageConfiguration"
+    }
+}
+
 extension CreateSignalingChannelInput {
 
     static func write(value: CreateSignalingChannelInput?, to writer: SmithyJSON.Writer) throws {
@@ -2656,6 +2787,7 @@ extension CreateStreamInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MediaType"].write(value.mediaType)
         try writer["StreamName"].write(value.streamName)
+        try writer["StreamStorageConfiguration"].write(value.streamStorageConfiguration, with: KinesisVideoClientTypes.StreamStorageConfiguration.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2746,6 +2878,15 @@ extension DescribeSignalingChannelInput {
 extension DescribeStreamInput {
 
     static func write(value: DescribeStreamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamName"].write(value.streamName)
+    }
+}
+
+extension DescribeStreamStorageConfigurationInput {
+
+    static func write(value: DescribeStreamStorageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
         try writer["StreamName"].write(value.streamName)
@@ -2931,6 +3072,17 @@ extension UpdateStreamInput {
     }
 }
 
+extension UpdateStreamStorageConfigurationInput {
+
+    static func write(value: UpdateStreamStorageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CurrentVersion"].write(value.currentVersion)
+        try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamName"].write(value.streamName)
+        try writer["StreamStorageConfiguration"].write(value.streamStorageConfiguration, with: KinesisVideoClientTypes.StreamStorageConfiguration.write(value:to:))
+    }
+}
+
 extension CreateSignalingChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSignalingChannelOutput {
@@ -3064,6 +3216,20 @@ extension DescribeStreamOutput {
         let reader = responseReader
         var value = DescribeStreamOutput()
         value.streamInfo = try reader["StreamInfo"].readIfPresent(with: KinesisVideoClientTypes.StreamInfo.read(from:))
+        return value
+    }
+}
+
+extension DescribeStreamStorageConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStreamStorageConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeStreamStorageConfigurationOutput()
+        value.streamARN = try reader["StreamARN"].readIfPresent()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.streamStorageConfiguration = try reader["StreamStorageConfiguration"].readIfPresent(with: KinesisVideoClientTypes.StreamStorageConfiguration.read(from:))
         return value
     }
 }
@@ -3242,6 +3408,13 @@ extension UpdateStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStreamOutput {
         return UpdateStreamOutput()
+    }
+}
+
+extension UpdateStreamStorageConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStreamStorageConfigurationOutput {
+        return UpdateStreamStorageConfigurationOutput()
     }
 }
 
@@ -3454,6 +3627,23 @@ enum DescribeStreamOutputError {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeStreamStorageConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3774,6 +3964,25 @@ enum UpdateStreamOutputError {
             case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "VersionMismatchException": return try VersionMismatchException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateStreamStorageConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientLimitExceededException": return try ClientLimitExceededException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "VersionMismatchException": return try VersionMismatchException.makeError(baseError: baseError)
@@ -4288,6 +4497,21 @@ extension KinesisVideoClientTypes.StreamInfo {
         value.status = try reader["Status"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataRetentionInHours = try reader["DataRetentionInHours"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.StreamStorageConfiguration {
+
+    static func write(value: KinesisVideoClientTypes.StreamStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultStorageTier"].write(value.defaultStorageTier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.StreamStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.StreamStorageConfiguration()
+        value.defaultStorageTier = try reader["DefaultStorageTier"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

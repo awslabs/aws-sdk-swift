@@ -75,3 +75,33 @@ extension PaginatorSequence where OperationStackInput == ListInvoiceUnitsInput, 
         return try await self.asyncCompactMap { item in item.invoiceUnits }
     }
 }
+extension InvoicingClient {
+    /// Paginate over `[ListProcurementPortalPreferencesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProcurementPortalPreferencesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProcurementPortalPreferencesOutput`
+    public func listProcurementPortalPreferencesPaginated(input: ListProcurementPortalPreferencesInput) -> ClientRuntime.PaginatorSequence<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProcurementPortalPreferences(input:))
+    }
+}
+
+extension ListProcurementPortalPreferencesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProcurementPortalPreferencesInput {
+        return ListProcurementPortalPreferencesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProcurementPortalPreferencesInput, OperationStackOutput == ListProcurementPortalPreferencesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProcurementPortalPreferencesPaginated`
+    /// to access the nested member `[InvoicingClientTypes.ProcurementPortalPreferenceSummary]`
+    /// - Returns: `[InvoicingClientTypes.ProcurementPortalPreferenceSummary]`
+    public func procurementPortalPreferences() async throws -> [InvoicingClientTypes.ProcurementPortalPreferenceSummary] {
+        return try await self.asyncCompactMap { item in item.procurementPortalPreferences }
+    }
+}

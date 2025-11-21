@@ -4083,6 +4083,12 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.
         ///
+        /// * health_check_logs.s3.enabled - Indicates whether health check logs are enabled. The value is true or false. The default is false.
+        ///
+        /// * health_check_logs.s3.bucket - The name of the S3 bucket for the health check logs. This attribute is required if health check logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.
+        ///
+        /// * health_check_logs.s3.prefix - The prefix for the location in the S3 bucket for the health check logs.
+        ///
         /// * routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.
         ///
         /// * routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.

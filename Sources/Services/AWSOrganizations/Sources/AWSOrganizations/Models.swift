@@ -2225,6 +2225,7 @@ extension OrganizationsClientTypes {
         case securityhubPolicy
         case serviceControlPolicy
         case tagPolicy
+        case upgradeRolloutPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PolicyType] {
@@ -2237,7 +2238,8 @@ extension OrganizationsClientTypes {
                 .resourceControlPolicy,
                 .securityhubPolicy,
                 .serviceControlPolicy,
-                .tagPolicy
+                .tagPolicy,
+                .upgradeRolloutPolicy
             ]
         }
 
@@ -2257,6 +2259,7 @@ extension OrganizationsClientTypes {
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
+            case .upgradeRolloutPolicy: return "UPGRADE_ROLLOUT_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2540,6 +2543,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
@@ -2895,6 +2900,7 @@ extension OrganizationsClientTypes {
         case inspectorPolicy
         case securityhubPolicy
         case tagPolicy
+        case upgradeRolloutPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EffectivePolicyType] {
@@ -2905,7 +2911,8 @@ extension OrganizationsClientTypes {
                 .declarativePolicyEc2,
                 .inspectorPolicy,
                 .securityhubPolicy,
-                .tagPolicy
+                .tagPolicy,
+                .upgradeRolloutPolicy
             ]
         }
 
@@ -2923,6 +2930,7 @@ extension OrganizationsClientTypes {
             case .inspectorPolicy: return "INSPECTOR_POLICY"
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .tagPolicy: return "TAG_POLICY"
+            case .upgradeRolloutPolicy: return "UPGRADE_ROLLOUT_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2943,6 +2951,8 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
@@ -3408,6 +3418,8 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
@@ -3520,6 +3532,8 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
@@ -3720,6 +3734,8 @@ public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
@@ -3753,6 +3769,8 @@ public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
@@ -4109,6 +4127,8 @@ public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
@@ -4177,6 +4197,8 @@ public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
@@ -4501,6 +4523,8 @@ public struct ListPoliciesInput: Swift.Sendable {
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
@@ -4553,6 +4577,8 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
     /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
     /// This member is required.
