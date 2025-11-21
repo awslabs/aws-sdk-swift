@@ -58,53 +58,67 @@ struct PrepareRelease {
         case awslabs = "awslabs"
         case smithyLang = "smithy-lang"
     }
-    
+
     /// The repository type to prepare the release
     /// This dictates which files are staged for commit
     let repoType: Repo
 
     /// The GitHub org that the repo belongs to
     let repoOrg: Org
-    
+
     /// The path to the package repository
     let repoPath: String
-    
+
     let sourceCodeArtifactId: String
-    
+
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
+
     /// Returns true if the repository has changes given the current branch and the version to compare, otherwise returns false
     let diffChecker: DiffChecker
-    
+
     /// Prepares a release for the specified repository.
     /// If the repository doesn't have any changes, then this does nothing.
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
-        
+
         let previousVersion = try getPreviousVersion()
         guard try repoHasChanges(previousVersion) else {
-            /// If repo has no changes, create an empty release-manifest.json file.
-            /// Empty manifest file makes GitHubReleasePublisher be no-op.
-            /// The manifest file is required regardless of whether there should
-            /// be a release or not.
+            // If repo has no changes, create an empty release-manifest.json file.
+            // Empty manifest file makes GitHubReleasePublisher be no-op.
+            // The manifest file is required regardless of whether there should
+            // be a release or not.
             log("Repo has no changes to publish.")
             log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
-            /// Return without creating new commit or tag in local repos.
-            /// This makes GitPublisher be no-op.
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
             return
         }
-        guard FeaturesReader.buildRequestAndMappingExist() else {
-            /// If the build request or mapping input files
-            /// don't exist, create an empty release-manifest.json file.
+        guard BuildRequestReader.buildRequestAndMappingExist() else {
+            // If the build request or mapping input files
+            // don't exist, create an empty release-manifest.json file.
             log("build-request.json and/or feature-service-id.json don't exist.")
             log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
-            /// Return without creating new commit or tag in local repos.
-            /// This makes GitPublisher be no-op.
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
+            return
+        }
+
+        guard let type = try BuildRequestReader().getFeaturesFromFile().type, type != .preview else {
+            // If the `build-request.json` is present, it contains a type, and the
+            // type is `PREVIEW`, create the empty release manifest and stop here.
+            // Running the PrepareRelease command on a preview build can cause
+            // build failure.
+            log("build-request.json is of type PREVIEW.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
             return
         }
         let newVersion = try createNewVersion(previousVersion)
-        
+
         try stageFiles()
         try commitChanges(newVersion)
         try tagVersion(newVersion)
@@ -114,7 +128,7 @@ struct PrepareRelease {
         )
         try gitStatus()
     }
-    
+
     // MARK: - Helpers
 
     /// Creates an empty release-manifest.json file.
@@ -251,7 +265,7 @@ struct PrepareRelease {
         previousVersion: Version
     ) throws {
         let commits = try Process.git.listOfCommitsBetween("HEAD", "\(previousVersion)")
-        let featuresReader = FeaturesReader()
+        let buildRequestReader = BuildRequestReader()
 
         let releaseNotes = try ReleaseNotesBuilder(
             previousVersion: previousVersion,
@@ -259,8 +273,8 @@ struct PrepareRelease {
             repoOrg: repoOrg,
             repoType: repoType,
             commits: commits,
-            features: featuresReader.getFeaturesFromFile(),
-            featuresIDToServiceName: featuresReader.getFeaturesIDToServiceNameDictFromFile()
+            buildRequest: buildRequestReader.getFeaturesFromFile(),
+            featuresIDToServiceName: buildRequestReader.getFeaturesIDToServiceNameDictFromFile()
         ).build()
         
         let manifest = ReleaseManifest(

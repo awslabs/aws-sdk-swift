@@ -45,7 +45,7 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
-        createBuildRequestAndMapping()
+        createBuildRequestAndMapping(type: .release)
 
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
         try! subject.run()
@@ -79,7 +79,7 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
-        createBuildRequestAndMapping()
+        createBuildRequestAndMapping(type: .release)
 
         let subject = PrepareRelease.mock(diffChecker: { _,_ in false })
         try! subject.run()
@@ -211,10 +211,38 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertTrue(command.hasSuffix("git add Package.version Package.version.next"))
     }
 
+    // MARK: preview build early exit
+
+    func test_prepareRelease_earlyExitForPreview() throws {
+        var commands: [String] = []
+        let runner = ProcessRunner {
+            commands.append($0.commandString)
+        }
+        ProcessRunner.testRunner = runner
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.2.4")
+        createPackageVersion(previousVersion)
+        createNextPackageVersion(newVersion)
+
+        createBuildRequestAndMapping(type: .preview)
+
+        let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
+        try! subject.run()
+
+        // Check that versions are unchanged
+        let versionFromFile = try! Version.fromFile("Package.version")
+        XCTAssertEqual(versionFromFile, previousVersion)
+
+        let futureVersionFromFile = try! Version.fromFile("Package.version.next")
+        XCTAssertEqual(futureVersionFromFile, newVersion)
+
+        // Check that no Git commands were issued
+        XCTAssertEqual(commands.count, 0)
+    }
     // MARK: - Private methods
 
-    private func createBuildRequestAndMapping() {
-        let buildRequest = "{\"features\":[]}"
+    private func createBuildRequestAndMapping(type: BuildType) {
+        let buildRequest = "{\"type\":\"\(type.rawValue)\",\"features\":[]}"
         FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
 
         let mapping = "{}"
