@@ -15,7 +15,7 @@ struct ReleaseNotesBuilder {
     let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
     let commits: [String]
-    let features: Features
+    let buildRequest: BuildRequest
     let featuresIDToServiceName: [String: String]
 
     // MARK: - Build
@@ -42,14 +42,14 @@ struct ReleaseNotesBuilder {
     }
 
     func buildServiceChangeSection() throws -> [String] {
-        return buildServiceFeatureSection(features, featuresIDToServiceName) + buildServiceDocSection(features, featuresIDToServiceName)
+        return buildServiceFeatureSection(buildRequest, featuresIDToServiceName) + buildServiceDocSection(buildRequest, featuresIDToServiceName)
     }
 
     private func buildServiceFeatureSection(
-        _ features: Features,
+        _ buildRequest: BuildRequest,
         _ mapping: [String: String]
     ) -> [String] {
-        let formattedFeatures = (features.features ?? [])
+        let formattedFeatures = (buildRequest.features ?? [])
             .filter { $0.featureMetadata.trebuchet.featureType == "NEW_FEATURE" }
             .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
@@ -60,10 +60,10 @@ struct ReleaseNotesBuilder {
     }
 
     private func buildServiceDocSection(
-        _ features: Features,
+        _ buildRequest: BuildRequest,
         _ mapping: [String: String]
     ) -> [String] {
-        let formattedDocUpdates = (features.features ?? [])
+        let formattedDocUpdates = (buildRequest.features ?? [])
             .filter { $0.featureMetadata.trebuchet.featureType == "DOC_UPDATE" }
             .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
