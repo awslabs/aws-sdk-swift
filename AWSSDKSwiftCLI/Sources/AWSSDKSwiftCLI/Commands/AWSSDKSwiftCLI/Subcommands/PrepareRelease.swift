@@ -109,7 +109,7 @@ struct PrepareRelease {
 
         // Determine the build type.  For known types that don't require publishing,
         // add the -nonrelease modifier to the tag
-        let buildType = try BuildRequestReader().getFeaturesFromFile().type
+        let buildType = try BuildRequestReader().getFeaturesFromFile().buildType
         let modifier = [BuildType.preview, .dryRun, .pullRequest].contains(buildType) ? "-nonrelease" : ""
 
         try stageFiles()

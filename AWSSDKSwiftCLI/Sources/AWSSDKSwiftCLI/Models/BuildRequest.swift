@@ -30,7 +30,7 @@ struct BuildRequestReader {
 }
 
 struct BuildRequest: Decodable {
-    let type: BuildType?
+    let buildType: BuildType?
     let features: [Feature]?
 }
 

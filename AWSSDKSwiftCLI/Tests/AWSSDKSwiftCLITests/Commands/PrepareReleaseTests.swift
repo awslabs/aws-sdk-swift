@@ -252,7 +252,7 @@ class PrepareReleaseTests: CLITestCase {
     // MARK: - Private methods
 
     private func createBuildRequestAndMapping(type: BuildType) {
-        let buildRequest = "{\"type\":\"\(type.rawValue)\",\"features\":[]}"
+        let buildRequest = "{\"buildType\":\"\(type.rawValue)\",\"features\":[]}"
         FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
 
         let mapping = "{}"
