@@ -3532,7 +3532,7 @@ public struct DescribeTaskOutput: Swift.Sendable {
     public var sourceLocationArn: Swift.String?
     /// The ARNs of the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) that DataSync created for your source location.
     public var sourceNetworkInterfaceArns: [Swift.String]?
-    /// The status of your task. For information about what each status means, see [Task statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-creation-statuses).
+    /// The status of your task. For information about what each status means, see [Task statuses](https://docs.aws.amazon.com/datasync/latest/userguide/create-task-how-to.html#understand-task-creation-statuses).
     public var status: DataSyncClientTypes.TaskStatus?
     /// The ARN of your task.
     public var taskArn: Swift.String?
@@ -4184,7 +4184,7 @@ extension DataSyncClientTypes {
 
     /// Represents a single entry in a list of DataSync task executions that's returned with the [ListTaskExecutions](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html) operation.
     public struct TaskExecutionListEntry: Swift.Sendable {
-        /// The status of a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-execution-statuses).
+        /// The status of a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
         public var status: DataSyncClientTypes.TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of a task execution.
         public var taskExecutionArn: Swift.String?

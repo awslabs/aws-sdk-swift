@@ -4088,6 +4088,7 @@ extension NetworkFirewallClient {
     /// * You tried to update a property with a value that isn't among the available types.
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallAnalysisSettings(input: UpdateFirewallAnalysisSettingsInput) async throws -> UpdateFirewallAnalysisSettingsOutput {

@@ -1253,6 +1253,7 @@ extension EKSClientTypes {
         case nodeRepairEnabled
         case platformVersion
         case podIdentityAssociations
+        case previousTier
         case publicAccessCidrs
         case releaseVersion
         case remoteNetworkConfig
@@ -1263,6 +1264,7 @@ extension EKSClientTypes {
         case subnets
         case taintsToAdd
         case taintsToRemove
+        case updatedTier
         case updateStrategy
         case upgradePolicy
         case version
@@ -1295,6 +1297,7 @@ extension EKSClientTypes {
                 .nodeRepairEnabled,
                 .platformVersion,
                 .podIdentityAssociations,
+                .previousTier,
                 .publicAccessCidrs,
                 .releaseVersion,
                 .remoteNetworkConfig,
@@ -1305,6 +1308,7 @@ extension EKSClientTypes {
                 .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
+                .updatedTier,
                 .updateStrategy,
                 .upgradePolicy,
                 .version,
@@ -1343,6 +1347,7 @@ extension EKSClientTypes {
             case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
             case .podIdentityAssociations: return "PodIdentityAssociations"
+            case .previousTier: return "PreviousTier"
             case .publicAccessCidrs: return "PublicAccessCidrs"
             case .releaseVersion: return "ReleaseVersion"
             case .remoteNetworkConfig: return "RemoteNetworkConfig"
@@ -1353,6 +1358,7 @@ extension EKSClientTypes {
             case .subnets: return "Subnets"
             case .taintsToAdd: return "TaintsToAdd"
             case .taintsToRemove: return "TaintsToRemove"
+            case .updatedTier: return "UpdatedTier"
             case .updateStrategy: return "UpdateStrategy"
             case .upgradePolicy: return "UpgradePolicy"
             case .version: return "Version"
@@ -1426,6 +1432,7 @@ extension EKSClientTypes {
         case associateIdentityProviderConfig
         case autoModeUpdate
         case configUpdate
+        case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
@@ -1445,6 +1452,7 @@ extension EKSClientTypes {
                 .associateIdentityProviderConfig,
                 .autoModeUpdate,
                 .configUpdate,
+                .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
@@ -1470,6 +1478,7 @@ extension EKSClientTypes {
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
             case .autoModeUpdate: return "AutoModeUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
@@ -1619,9 +1628,9 @@ public struct AssociateIdentityProviderConfigOutput: Swift.Sendable {
 
 extension EKSClientTypes {
 
-    /// An Auto Scaling group that is associated with an Amazon EKS managed node group.
+    /// An Amazon EC2 Auto Scaling group that is associated with an Amazon EKS managed node group.
     public struct AutoScalingGroup: Swift.Sendable {
-        /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
+        /// The name of the Amazon EC2 Auto Scaling group associated with an Amazon EKS managed node group.
         public var name: Swift.String?
 
         public init(
@@ -1915,6 +1924,56 @@ extension EKSClientTypes {
             self.enabled = enabled
             self.nodePools = nodePools
             self.nodeRoleArn = nodeRoleArn
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum ProvisionedControlPlaneTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case standard
+        case tier2xl
+        case tier4xl
+        case tierXl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProvisionedControlPlaneTier] {
+            return [
+                .standard,
+                .tier2xl,
+                .tier4xl,
+                .tierXl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "standard"
+            case .tier2xl: return "tier-2xl"
+            case .tier4xl: return "tier-4xl"
+            case .tierXl: return "tier-xl"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public struct ControlPlaneScalingConfig: Swift.Sendable {
+        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, or tier-4xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public var tier: EKSClientTypes.ProvisionedControlPlaneTier?
+
+        public init(
+            tier: EKSClientTypes.ProvisionedControlPlaneTier? = nil
+        ) {
+            self.tier = tier
         }
     }
 }
@@ -2333,6 +2392,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
     /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster cannot be deleted unless deletion protection is first disabled. This helps prevent accidental cluster deletion. Default value is false.
     public var deletionProtection: Swift.Bool?
     /// The encryption configuration for the cluster.
@@ -2370,6 +2431,7 @@ public struct CreateClusterInput: Swift.Sendable {
         bootstrapSelfManagedAddons: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
@@ -2389,6 +2451,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
         self.encryptionConfig = encryptionConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
@@ -2850,6 +2913,8 @@ extension EKSClientTypes {
         public var computeConfig: EKSClientTypes.ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public var connectorConfig: EKSClientTypes.ConnectorConfigResponse?
+        /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
         /// The Unix epoch timestamp at object creation.
         public var createdAt: Foundation.Date?
         /// The current deletion protection setting for the cluster. When true, deletion protection is enabled and the cluster cannot be deleted until protection is disabled. When false, the cluster can be deleted normally. This setting only applies to clusters in an active state.
@@ -2900,6 +2965,7 @@ extension EKSClientTypes {
             clientRequestToken: Swift.String? = nil,
             computeConfig: EKSClientTypes.ComputeConfigResponse? = nil,
             connectorConfig: EKSClientTypes.ConnectorConfigResponse? = nil,
+            controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
             createdAt: Foundation.Date? = nil,
             deletionProtection: Swift.Bool? = nil,
             encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
@@ -2928,6 +2994,7 @@ extension EKSClientTypes {
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
+            self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.createdAt = createdAt
             self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
@@ -3565,7 +3632,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// An object representing the scaling configuration details for the Auto Scaling group that is associated with your node group. When creating a node group, you must specify all or none of the properties. When updating a node group, you can specify any or none of the properties.
+    /// An object representing the scaling configuration details for the Amazon EC2 Auto Scaling group that is associated with your node group. When creating a node group, you must specify all or none of the properties. When updating a node group, you can specify any or none of the properties.
     public struct NodegroupScalingConfig: Swift.Sendable {
         /// The current number of nodes that the managed node group should maintain. If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler#kubernetes-autoscaler), you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down. Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value. When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the desiredSize parameter is altered by the Cluster Autoscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public var desiredSize: Swift.Int?
@@ -3919,9 +3986,9 @@ extension EKSClientTypes {
         ///
         /// * AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.
         ///
-        /// * AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.
+        /// * AsgInstanceLaunchFailures: Your Amazon EC2 Auto Scaling group is experiencing failures while attempting to launch instances.
         ///
-        /// * AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.
+        /// * AutoScalingGroupNotFound: We couldn't find the Amazon EC2 Auto Scaling group associated with the managed node group. You may be able to recreate an Amazon EC2 Auto Scaling group with the same settings to recover.
         ///
         /// * ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
         ///
@@ -6549,6 +6616,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
     /// Specifies whether to enable or disable deletion protection for the cluster. When enabled (true), the cluster cannot be deleted until deletion protection is explicitly disabled. When disabled (false), the cluster can be deleted normally.
     public var deletionProtection: Swift.Bool?
     /// The Kubernetes network configuration for the cluster.
@@ -6573,6 +6642,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
@@ -6586,6 +6656,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.accessConfig = accessConfig
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
@@ -6809,7 +6880,7 @@ public struct UpdateNodegroupVersionInput: Swift.Sendable {
     public var nodegroupName: Swift.String?
     /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var releaseVersion: Swift.String?
-    /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The Kubernetes version to update to. If no version is specified, then the node group will be updated to match the cluster's current Kubernetes version, and the latest available AMI for that version will be used. You can also specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var version: Swift.String?
 
     public init(
@@ -7933,6 +8004,7 @@ extension CreateClusterInput {
         try writer["bootstrapSelfManagedAddons"].write(value.bootstrapSelfManagedAddons)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
@@ -8092,6 +8164,7 @@ extension UpdateClusterConfigInput {
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.UpdateAccessConfigRequest.write(value:to:))
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
@@ -10328,6 +10401,22 @@ extension EKSClientTypes.Cluster {
         value.computeConfig = try reader["computeConfig"].readIfPresent(with: EKSClientTypes.ComputeConfigResponse.read(from:))
         value.storageConfig = try reader["storageConfig"].readIfPresent(with: EKSClientTypes.StorageConfigResponse.read(from:))
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
+        value.controlPlaneScalingConfig = try reader["controlPlaneScalingConfig"].readIfPresent(with: EKSClientTypes.ControlPlaneScalingConfig.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ControlPlaneScalingConfig {
+
+    static func write(value: EKSClientTypes.ControlPlaneScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tier"].write(value.tier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneScalingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ControlPlaneScalingConfig()
+        value.tier = try reader["tier"].readIfPresent()
         return value
     }
 }

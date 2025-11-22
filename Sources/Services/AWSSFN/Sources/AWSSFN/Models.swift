@@ -3371,7 +3371,7 @@ extension SFNClientTypes {
         public var taskSucceededEventDetails: SFNClientTypes.TaskSucceededEventDetails?
         /// Contains details about a task that timed out.
         public var taskTimedOutEventDetails: SFNClientTypes.TaskTimedOutEventDetails?
-        /// The date and time the event occurred.
+        /// The date and time the event occurred, expressed in seconds and fractional milliseconds since the Unix epoch, which is defined as January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC).
         /// This member is required.
         public var timestamp: Foundation.Date?
         /// The type of the event.
@@ -4577,8 +4577,135 @@ extension SFNClientTypes {
     }
 }
 
+extension SFNClientTypes {
+
+    /// A JSON object that contains a mocked error.
+    public struct MockErrorOutput: Swift.Sendable {
+        /// A string containing the cause of the exception thrown when executing the state's logic.
+        public var cause: Swift.String?
+        /// A string denoting the error code of the exception thrown when invoking the tested state. This field is required if mock.errorOutput is specified.
+        public var error: Swift.String?
+
+        public init(
+            cause: Swift.String? = nil,
+            error: Swift.String? = nil
+        ) {
+            self.cause = cause
+            self.error = error
+        }
+    }
+}
+
+extension SFNClientTypes.MockErrorOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MockErrorOutput(cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\")"}
+}
+
+extension SFNClientTypes {
+
+    public enum MockResponseValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case present
+        case strict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MockResponseValidationMode] {
+            return [
+                .none,
+                .present,
+                .strict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .present: return "PRESENT"
+            case .strict: return "STRICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SFNClientTypes {
+
+    /// A JSON object that contains a mocked result or errorOutput.
+    public struct MockInput: Swift.Sendable {
+        /// The mocked error output when calling TestState. When specified, the mocked response is returned as a JSON object that contains an error and cause field.
+        public var errorOutput: SFNClientTypes.MockErrorOutput?
+        /// Determines the level of strictness when validating mocked results against their respective API models. Values include:
+        ///
+        /// * STRICT: All required fields must be present, and all present fields must conform to the API's schema.
+        ///
+        /// * PRESENT: All present fields must conform to the API's schema.
+        ///
+        /// * NONE: No validation is performed.
+        ///
+        ///
+        /// If no value is specified, the default value is STRICT.
+        public var fieldValidationMode: SFNClientTypes.MockResponseValidationMode?
+        /// A JSON string containing the mocked result of the state invocation.
+        public var result: Swift.String?
+
+        public init(
+            errorOutput: SFNClientTypes.MockErrorOutput? = nil,
+            fieldValidationMode: SFNClientTypes.MockResponseValidationMode? = nil,
+            result: Swift.String? = nil
+        ) {
+            self.errorOutput = errorOutput
+            self.fieldValidationMode = fieldValidationMode
+            self.result = result
+        }
+    }
+}
+
+extension SFNClientTypes.MockInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MockInput(errorOutput: \(Swift.String(describing: errorOutput)), fieldValidationMode: \(Swift.String(describing: fieldValidationMode)), result: \"CONTENT_REDACTED\")"}
+}
+
+extension SFNClientTypes {
+
+    /// Contains configurations for the tested state.
+    public struct TestStateConfiguration: Swift.Sendable {
+        /// The name of the state from which an error originates when an error is mocked for a Map or Parallel state.
+        public var errorCausedByState: Swift.String?
+        /// The data read by ItemReader in Distributed Map states as found in its original source.
+        public var mapItemReaderData: Swift.String?
+        /// The number of Map state iterations that failed during the Map state invocation.
+        public var mapIterationFailureCount: Swift.Int?
+        /// The number of retry attempts that have occurred for the state's Retry that applies to the mocked error.
+        public var retrierRetryCount: Swift.Int?
+
+        public init(
+            errorCausedByState: Swift.String? = nil,
+            mapItemReaderData: Swift.String? = nil,
+            mapIterationFailureCount: Swift.Int? = nil,
+            retrierRetryCount: Swift.Int? = nil
+        ) {
+            self.errorCausedByState = errorCausedByState
+            self.mapItemReaderData = mapItemReaderData
+            self.mapIterationFailureCount = mapIterationFailureCount
+            self.retrierRetryCount = retrierRetryCount
+        }
+    }
+}
+
+extension SFNClientTypes.TestStateConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TestStateConfiguration(mapIterationFailureCount: \(Swift.String(describing: mapIterationFailureCount)), retrierRetryCount: \(Swift.String(describing: retrierRetryCount)), errorCausedByState: \"CONTENT_REDACTED\", mapItemReaderData: \"CONTENT_REDACTED\")"}
+}
+
 public struct TestStateInput: Swift.Sendable {
-    /// The [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL) definition of the state.
+    /// A JSON string representing a valid Context object for the state under test. This field may only be specified if a mock is specified in the same request.
+    public var context: Swift.String?
+    /// The [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL) definition of the state or state machine.
     /// This member is required.
     public var definition: Swift.String?
     /// A string that contains the JSON input data for the state.
@@ -4594,33 +4721,75 @@ public struct TestStateInput: Swift.Sendable {
     ///
     /// Each of these levels also provide information about the status of the state execution and the next state to transition to.
     public var inspectionLevel: SFNClientTypes.InspectionLevel?
+    /// Defines a mocked result or error for the state under test. A mock can only be specified for Task, Map, or Parallel states. If it is specified for another state type, an exception will be thrown.
+    public var mock: SFNClientTypes.MockInput?
     /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions). Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
     public var revealSecrets: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
     public var roleArn: Swift.String?
+    /// Contains configurations for the state under test.
+    public var stateConfiguration: SFNClientTypes.TestStateConfiguration?
+    /// Denotes the particular state within a state machine definition to be tested. If this field is specified, the definition must contain a fully-formed state machine definition.
+    public var stateName: Swift.String?
     /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
     public var variables: Swift.String?
 
     public init(
+        context: Swift.String? = nil,
         definition: Swift.String? = nil,
         input: Swift.String? = nil,
         inspectionLevel: SFNClientTypes.InspectionLevel? = nil,
+        mock: SFNClientTypes.MockInput? = nil,
         revealSecrets: Swift.Bool? = false,
         roleArn: Swift.String? = nil,
+        stateConfiguration: SFNClientTypes.TestStateConfiguration? = nil,
+        stateName: Swift.String? = nil,
         variables: Swift.String? = nil
     ) {
+        self.context = context
         self.definition = definition
         self.input = input
         self.inspectionLevel = inspectionLevel
+        self.mock = mock
         self.revealSecrets = revealSecrets
         self.roleArn = roleArn
+        self.stateConfiguration = stateConfiguration
+        self.stateName = stateName
         self.variables = variables
     }
 }
 
 extension TestStateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TestStateInput(inspectionLevel: \(Swift.String(describing: inspectionLevel)), revealSecrets: \(Swift.String(describing: revealSecrets)), roleArn: \(Swift.String(describing: roleArn)), definition: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", variables: \"CONTENT_REDACTED\")"}
+        "TestStateInput(inspectionLevel: \(Swift.String(describing: inspectionLevel)), mock: \(Swift.String(describing: mock)), revealSecrets: \(Swift.String(describing: revealSecrets)), roleArn: \(Swift.String(describing: roleArn)), stateConfiguration: \(Swift.String(describing: stateConfiguration)), context: \"CONTENT_REDACTED\", definition: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", stateName: \"CONTENT_REDACTED\", variables: \"CONTENT_REDACTED\")"}
+}
+
+extension SFNClientTypes {
+
+    /// An object containing data about a handled exception in the tested state.
+    public struct InspectionErrorDetails: Swift.Sendable {
+        /// The array index of the Catch which handled the exception.
+        public var catchIndex: Swift.Int?
+        /// The duration in seconds of the backoff for a retry on a failed state invocation.
+        public var retryBackoffIntervalSeconds: Swift.Int?
+        /// The array index of the Retry which handled the exception.
+        public var retryIndex: Swift.Int?
+
+        public init(
+            catchIndex: Swift.Int? = nil,
+            retryBackoffIntervalSeconds: Swift.Int? = nil,
+            retryIndex: Swift.Int? = nil
+        ) {
+            self.catchIndex = catchIndex
+            self.retryBackoffIntervalSeconds = retryBackoffIntervalSeconds
+            self.retryIndex = retryIndex
+        }
+    }
+}
+
+extension SFNClientTypes.InspectionErrorDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InspectionErrorDetails(catchIndex: \"CONTENT_REDACTED\", retryBackoffIntervalSeconds: \"CONTENT_REDACTED\", retryIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -4693,44 +4862,76 @@ extension SFNClientTypes {
         public var afterArguments: Swift.String?
         /// The input after Step Functions applies the [InputPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath) filter. Not populated when QueryLanguage is JSONata.
         public var afterInputPath: Swift.String?
+        /// The effective input after the ItemBatcher filter is applied in a Map state.
+        public var afterItemBatcher: Swift.String?
+        /// An array containing the inputs for each Map iteration, transformed by the ItemSelector specified in a Map state.
+        public var afterItemSelector: Swift.String?
+        /// The effective input after the ItemsPath filter is applied. Not populated when the QueryLanguage is JSONata.
+        public var afterItemsPath: Swift.String?
+        /// The effective input after the ItemsPointer filter is applied in a Map state.
+        public var afterItemsPointer: Swift.String?
         /// The effective input after Step Functions applies the [Parameters](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters) filter. Not populated when QueryLanguage is JSONata.
         public var afterParameters: Swift.String?
         /// The effective result combined with the raw state input after Step Functions applies the [ResultPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html) filter. Not populated when QueryLanguage is JSONata.
         public var afterResultPath: Swift.String?
         /// The effective result after Step Functions applies the [ResultSelector](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector) filter. Not populated when QueryLanguage is JSONata.
         public var afterResultSelector: Swift.String?
+        /// An object containing data about a handled exception in the tested state.
+        public var errorDetails: SFNClientTypes.InspectionErrorDetails?
         /// The raw state input.
         public var input: Swift.String?
+        /// The max concurrency of the Map state.
+        public var maxConcurrency: Swift.Int?
         /// The raw HTTP request that is sent when you test an HTTP Task.
         public var request: SFNClientTypes.InspectionDataRequest?
         /// The raw HTTP response that is returned when you test an HTTP Task.
         public var response: SFNClientTypes.InspectionDataResponse?
         /// The state's raw result.
         public var result: Swift.String?
+        /// The tolerated failure threshold for a Map state as defined in number of Map state iterations.
+        public var toleratedFailureCount: Swift.Int?
+        /// The tolerated failure threshold for a Map state as defined in percentage of Map state iterations.
+        public var toleratedFailurePercentage: Swift.Float?
         /// JSON string that contains the set of workflow variables after execution of the state. The set will include variables assigned in the state and variables set up as test state input.
         public var variables: Swift.String?
 
         public init(
             afterArguments: Swift.String? = nil,
             afterInputPath: Swift.String? = nil,
+            afterItemBatcher: Swift.String? = nil,
+            afterItemSelector: Swift.String? = nil,
+            afterItemsPath: Swift.String? = nil,
+            afterItemsPointer: Swift.String? = nil,
             afterParameters: Swift.String? = nil,
             afterResultPath: Swift.String? = nil,
             afterResultSelector: Swift.String? = nil,
+            errorDetails: SFNClientTypes.InspectionErrorDetails? = nil,
             input: Swift.String? = nil,
+            maxConcurrency: Swift.Int? = nil,
             request: SFNClientTypes.InspectionDataRequest? = nil,
             response: SFNClientTypes.InspectionDataResponse? = nil,
             result: Swift.String? = nil,
+            toleratedFailureCount: Swift.Int? = nil,
+            toleratedFailurePercentage: Swift.Float? = nil,
             variables: Swift.String? = nil
         ) {
             self.afterArguments = afterArguments
             self.afterInputPath = afterInputPath
+            self.afterItemBatcher = afterItemBatcher
+            self.afterItemSelector = afterItemSelector
+            self.afterItemsPath = afterItemsPath
+            self.afterItemsPointer = afterItemsPointer
             self.afterParameters = afterParameters
             self.afterResultPath = afterResultPath
             self.afterResultSelector = afterResultSelector
+            self.errorDetails = errorDetails
             self.input = input
+            self.maxConcurrency = maxConcurrency
             self.request = request
             self.response = response
             self.result = result
+            self.toleratedFailureCount = toleratedFailureCount
+            self.toleratedFailurePercentage = toleratedFailurePercentage
             self.variables = variables
         }
     }
@@ -5693,11 +5894,15 @@ extension TestStateInput {
 
     static func write(value: TestStateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["context"].write(value.context)
         try writer["definition"].write(value.definition)
         try writer["input"].write(value.input)
         try writer["inspectionLevel"].write(value.inspectionLevel)
+        try writer["mock"].write(value.mock, with: SFNClientTypes.MockInput.write(value:to:))
         try writer["revealSecrets"].write(value.revealSecrets)
         try writer["roleArn"].write(value.roleArn)
+        try writer["stateConfiguration"].write(value.stateConfiguration, with: SFNClientTypes.TestStateConfiguration.write(value:to:))
+        try writer["stateName"].write(value.stateName)
         try writer["variables"].write(value.variables)
     }
 }
@@ -8097,6 +8302,26 @@ extension SFNClientTypes.InspectionData {
         value.request = try reader["request"].readIfPresent(with: SFNClientTypes.InspectionDataRequest.read(from:))
         value.response = try reader["response"].readIfPresent(with: SFNClientTypes.InspectionDataResponse.read(from:))
         value.variables = try reader["variables"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readIfPresent(with: SFNClientTypes.InspectionErrorDetails.read(from:))
+        value.afterItemsPath = try reader["afterItemsPath"].readIfPresent()
+        value.afterItemSelector = try reader["afterItemSelector"].readIfPresent()
+        value.afterItemBatcher = try reader["afterItemBatcher"].readIfPresent()
+        value.afterItemsPointer = try reader["afterItemsPointer"].readIfPresent()
+        value.toleratedFailureCount = try reader["toleratedFailureCount"].readIfPresent()
+        value.toleratedFailurePercentage = try reader["toleratedFailurePercentage"].readIfPresent()
+        value.maxConcurrency = try reader["maxConcurrency"].readIfPresent()
+        return value
+    }
+}
+
+extension SFNClientTypes.InspectionErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.InspectionErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.InspectionErrorDetails()
+        value.catchIndex = try reader["catchIndex"].readIfPresent()
+        value.retryIndex = try reader["retryIndex"].readIfPresent()
+        value.retryBackoffIntervalSeconds = try reader["retryBackoffIntervalSeconds"].readIfPresent()
         return value
     }
 }
@@ -8139,6 +8364,36 @@ extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
         value.message = try reader["message"].readIfPresent() ?? ""
         value.location = try reader["location"].readIfPresent()
         return value
+    }
+}
+
+extension SFNClientTypes.MockInput {
+
+    static func write(value: SFNClientTypes.MockInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorOutput"].write(value.errorOutput, with: SFNClientTypes.MockErrorOutput.write(value:to:))
+        try writer["fieldValidationMode"].write(value.fieldValidationMode)
+        try writer["result"].write(value.result)
+    }
+}
+
+extension SFNClientTypes.MockErrorOutput {
+
+    static func write(value: SFNClientTypes.MockErrorOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cause"].write(value.cause)
+        try writer["error"].write(value.error)
+    }
+}
+
+extension SFNClientTypes.TestStateConfiguration {
+
+    static func write(value: SFNClientTypes.TestStateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errorCausedByState"].write(value.errorCausedByState)
+        try writer["mapItemReaderData"].write(value.mapItemReaderData)
+        try writer["mapIterationFailureCount"].write(value.mapIterationFailureCount)
+        try writer["retrierRetryCount"].write(value.retrierRetryCount)
     }
 }
 

@@ -902,6 +902,154 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateLicenseAssetGroup` operation on the `LicenseManager` service.
+    ///
+    /// Creates a license asset group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseAssetGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateLicenseAssetGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func createLicenseAssetGroup(input: CreateLicenseAssetGroupInput) async throws -> CreateLicenseAssetGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createLicenseAssetGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(CreateLicenseAssetGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseAssetGroupOutput>(CreateLicenseAssetGroupOutput.httpOutput(from:), CreateLicenseAssetGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseAssetGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(xAmzTarget: "AWSLicenseManager.CreateLicenseAssetGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseAssetGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLicenseAssetGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateLicenseAssetRuleset` operation on the `LicenseManager` service.
+    ///
+    /// Creates a license asset ruleset.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseAssetRulesetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateLicenseAssetRulesetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func createLicenseAssetRuleset(input: CreateLicenseAssetRulesetInput) async throws -> CreateLicenseAssetRulesetOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createLicenseAssetRuleset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(CreateLicenseAssetRulesetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseAssetRulesetOutput>(CreateLicenseAssetRulesetOutput.httpOutput(from:), CreateLicenseAssetRulesetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseAssetRulesetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(xAmzTarget: "AWSLicenseManager.CreateLicenseAssetRuleset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseAssetRulesetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLicenseAssetRuleset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
@@ -1417,6 +1565,154 @@ extension LicenseManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLicense")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteLicenseAssetGroup` operation on the `LicenseManager` service.
+    ///
+    /// Deletes a license asset group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseAssetGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseAssetGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func deleteLicenseAssetGroup(input: DeleteLicenseAssetGroupInput) async throws -> DeleteLicenseAssetGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteLicenseAssetGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(DeleteLicenseAssetGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseAssetGroupOutput>(DeleteLicenseAssetGroupOutput.httpOutput(from:), DeleteLicenseAssetGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseAssetGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(xAmzTarget: "AWSLicenseManager.DeleteLicenseAssetGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseAssetGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLicenseAssetGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteLicenseAssetRuleset` operation on the `LicenseManager` service.
+    ///
+    /// Deletes a license asset ruleset.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseAssetRulesetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseAssetRulesetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func deleteLicenseAssetRuleset(input: DeleteLicenseAssetRulesetInput) async throws -> DeleteLicenseAssetRulesetOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteLicenseAssetRuleset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(DeleteLicenseAssetRulesetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseAssetRulesetOutput>(DeleteLicenseAssetRulesetOutput.httpOutput(from:), DeleteLicenseAssetRulesetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseAssetRulesetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(xAmzTarget: "AWSLicenseManager.DeleteLicenseAssetRuleset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseAssetRulesetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLicenseAssetRuleset")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1950,6 +2246,154 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetLicenseAssetGroup` operation on the `LicenseManager` service.
+    ///
+    /// Gets a license asset group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseAssetGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetLicenseAssetGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func getLicenseAssetGroup(input: GetLicenseAssetGroupInput) async throws -> GetLicenseAssetGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getLicenseAssetGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(GetLicenseAssetGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseAssetGroupOutput>(GetLicenseAssetGroupOutput.httpOutput(from:), GetLicenseAssetGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseAssetGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(xAmzTarget: "AWSLicenseManager.GetLicenseAssetGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseAssetGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLicenseAssetGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetLicenseAssetRuleset` operation on the `LicenseManager` service.
+    ///
+    /// Gets a license asset ruleset.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseAssetRulesetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetLicenseAssetRulesetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func getLicenseAssetRuleset(input: GetLicenseAssetRulesetInput) async throws -> GetLicenseAssetRulesetOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getLicenseAssetRuleset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(GetLicenseAssetRulesetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseAssetRulesetOutput>(GetLicenseAssetRulesetOutput.httpOutput(from:), GetLicenseAssetRulesetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseAssetRulesetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(xAmzTarget: "AWSLicenseManager.GetLicenseAssetRuleset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseAssetRulesetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLicenseAssetRuleset")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Gets detailed information about the specified license configuration.
@@ -2318,6 +2762,80 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAssetsForLicenseAssetGroup` operation on the `LicenseManager` service.
+    ///
+    /// Lists assets for a license asset group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAssetsForLicenseAssetGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAssetsForLicenseAssetGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func listAssetsForLicenseAssetGroup(input: ListAssetsForLicenseAssetGroupInput) async throws -> ListAssetsForLicenseAssetGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAssetsForLicenseAssetGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(ListAssetsForLicenseAssetGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetsForLicenseAssetGroupOutput>(ListAssetsForLicenseAssetGroupOutput.httpOutput(from:), ListAssetsForLicenseAssetGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetsForLicenseAssetGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssetsForLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(xAmzTarget: "AWSLicenseManager.ListAssetsForLicenseAssetGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAssetsForLicenseAssetGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssetsForLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAssetsForLicenseAssetGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAssociationsForLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
@@ -2540,6 +3058,154 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListLicenseAssetGroups` operation on the `LicenseManager` service.
+    ///
+    /// Lists license asset groups.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseAssetGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListLicenseAssetGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func listLicenseAssetGroups(input: ListLicenseAssetGroupsInput) async throws -> ListLicenseAssetGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listLicenseAssetGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(ListLicenseAssetGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseAssetGroupsOutput>(ListLicenseAssetGroupsOutput.httpOutput(from:), ListLicenseAssetGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseAssetGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseAssetGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(xAmzTarget: "AWSLicenseManager.ListLicenseAssetGroups"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseAssetGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseAssetGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListLicenseAssetGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListLicenseAssetRulesets` operation on the `LicenseManager` service.
+    ///
+    /// Lists license asset rulesets.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseAssetRulesetsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListLicenseAssetRulesetsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func listLicenseAssetRulesets(input: ListLicenseAssetRulesetsInput) async throws -> ListLicenseAssetRulesetsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listLicenseAssetRulesets")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(ListLicenseAssetRulesetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseAssetRulesetsOutput>(ListLicenseAssetRulesetsOutput.httpOutput(from:), ListLicenseAssetRulesetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseAssetRulesetsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseAssetRulesetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(xAmzTarget: "AWSLicenseManager.ListLicenseAssetRulesets"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseAssetRulesetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseAssetRulesetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListLicenseAssetRulesets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListLicenseConfigurations` operation on the `LicenseManager` service.
     ///
     /// Lists the license configurations for your account.
@@ -2602,6 +3268,80 @@ extension LicenseManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListLicenseConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListLicenseConfigurationsForOrganization` operation on the `LicenseManager` service.
+    ///
+    /// Lists license configurations for an organization.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseConfigurationsForOrganizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListLicenseConfigurationsForOrganizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `FilterLimitExceededException` : The request uses too many filters or too many filter values.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    public func listLicenseConfigurationsForOrganization(input: ListLicenseConfigurationsForOrganizationInput) async throws -> ListLicenseConfigurationsForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listLicenseConfigurationsForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(ListLicenseConfigurationsForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConfigurationsForOrganizationOutput>(ListLicenseConfigurationsForOrganizationOutput.httpOutput(from:), ListLicenseConfigurationsForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseConfigurationsForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseConfigurationsForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(xAmzTarget: "AWSLicenseManager.ListLicenseConfigurationsForOrganization"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseConfigurationsForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseConfigurationsForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListLicenseConfigurationsForOrganization")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3374,6 +4114,7 @@ extension LicenseManagerClient {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3677,6 +4418,7 @@ extension LicenseManagerClient {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3750,6 +4492,7 @@ extension LicenseManagerClient {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3795,6 +4538,154 @@ extension LicenseManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateLicenseAssetGroup` operation on the `LicenseManager` service.
+    ///
+    /// Updates a license asset group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseAssetGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseAssetGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func updateLicenseAssetGroup(input: UpdateLicenseAssetGroupInput) async throws -> UpdateLicenseAssetGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLicenseAssetGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(UpdateLicenseAssetGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseAssetGroupOutput>(UpdateLicenseAssetGroupOutput.httpOutput(from:), UpdateLicenseAssetGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLicenseAssetGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(xAmzTarget: "AWSLicenseManager.UpdateLicenseAssetGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseAssetGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLicenseAssetGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateLicenseAssetRuleset` operation on the `LicenseManager` service.
+    ///
+    /// Updates a license asset ruleset.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseAssetRulesetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseAssetRulesetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
+    public func updateLicenseAssetRuleset(input: UpdateLicenseAssetRulesetInput) async throws -> UpdateLicenseAssetRulesetOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLicenseAssetRuleset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(UpdateLicenseAssetRulesetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseAssetRulesetOutput>(UpdateLicenseAssetRulesetOutput.httpOutput(from:), UpdateLicenseAssetRulesetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLicenseAssetRulesetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("License Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(xAmzTarget: "AWSLicenseManager.UpdateLicenseAssetRuleset"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseAssetRulesetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(serviceID: serviceName, version: LicenseManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LicenseManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLicenseAssetRuleset")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4047,9 +4938,11 @@ extension LicenseManagerClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access to resource denied.
     /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

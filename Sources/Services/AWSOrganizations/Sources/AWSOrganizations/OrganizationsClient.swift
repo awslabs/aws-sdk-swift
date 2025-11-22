@@ -371,14 +371,21 @@ extension OrganizationsClient {
 extension OrganizationsClient {
     /// Performs the `AcceptHandshake` operation on the `Organizations` service.
     ///
-    /// Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request. You can only call this operation by the following principals when they also have the relevant IAM permissions:
+    /// Accepts a handshake by sending an ACCEPTED response to the sender. You can view accepted handshakes in API responses for 30 days before they are deleted. Only the management account can accept the following handshakes:
     ///
-    /// * Invitation to join or Approve all features request handshakes: only a principal from the member account. The user who calls the API for an invitation to join must have the organizations:AcceptHandshake permission. If you enabled all features in the organization, the user must also have the iam:CreateServiceLinkedRole permission so that Organizations can create the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide.
+    /// * Enable all features final confirmation (APPROVE_ALL_FEATURES)
     ///
-    /// * Enable all features final confirmation handshake: only a principal from the management account. For more information about invitations, see [Inviting an Amazon Web Services account to join your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html) in the Organizations User Guide. For more information about requests to enable all features in the organization, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
+    /// * Billing transfer (TRANSFER_RESPONSIBILITY)
     ///
     ///
-    /// After you accept a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
+    /// For more information, see [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) and [Responding to a billing transfer invitation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_transfer_billing-respond-invitation.html) in the Organizations User Guide. Only a member account can accept the following handshakes:
+    ///
+    /// * Invitation to join (INVITE)
+    ///
+    /// * Approve all features request (ENABLE_ALL_FEATURES)
+    ///
+    ///
+    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptHandshakeInput`)
     ///
@@ -391,6 +398,102 @@ extension OrganizationsClient {
     /// - `AccessDeniedForDependencyException` : The operation that you attempted requires you to have the iam:CreateServiceLinkedRole for organizations.amazonaws.com permission so that Organizations can create the required service-linked role. You don't have that permission.
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `HandshakeAlreadyInStateException` : The specified handshake is already in the requested state. For example, you can't accept a handshake that was already accepted.
     /// - `HandshakeConstraintViolationException` : The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
     ///
@@ -402,26 +505,42 @@ extension OrganizationsClient {
     ///
     /// * INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join an organization while it's in the process of enabling all features. You can resume inviting accounts after you finalize the process when all accounts have agreed to the change.
     ///
+    /// * LEGACY_PERMISSIONS_STILL_IN_USE: Your organization must migrate to use the new IAM fine-grained actions for billing, cost management, and accounts.
+    ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
-    ///
     /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    ///
+    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
+    ///
+    /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `HandshakeNotFoundException` : We can't find a handshake with the HandshakeId that you specified.
     /// - `InvalidHandshakeTransitionException` : You can't perform the operation on the handshake in its current state. For example, you can't cancel a handshake that was already accepted or accept a handshake that was already declined.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -443,6 +562,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -463,9 +584,20 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func acceptHandshake(input: AcceptHandshakeInput) async throws -> AcceptHandshakeOutput {
@@ -545,8 +677,12 @@ extension OrganizationsClient {
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
     ///
-    /// This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    ///
+    /// You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `AttachPolicyInput`)
     ///
@@ -568,6 +704,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -588,7 +726,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -626,6 +764,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -637,17 +783,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyAttachmentException` : The selected policy is already attached to the specified target.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -669,6 +829,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -689,9 +851,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyChangesInProgressException` : Changes to the effective policy are in progress, and its contents can't be returned. Try the operation again later.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
     /// - `PolicyTypeNotEnabledException` : The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
@@ -758,7 +930,7 @@ extension OrganizationsClient {
 
     /// Performs the `CancelHandshake` operation on the `Organizations` service.
     ///
-    /// Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED. This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use [DeclineHandshake] instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
+    /// Cancels a [Handshake]. Only the account that sent a handshake can call this operation. The recipient of the handshake can't cancel it, but can use [DeclineHandshake] to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelHandshakeInput`)
     ///
@@ -774,13 +946,21 @@ extension OrganizationsClient {
     /// - `InvalidHandshakeTransitionException` : You can't perform the operation on the handshake in its current state. For example, you can't cancel a handshake that was already accepted or accept a handshake that was already declined.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -802,6 +982,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -822,9 +1004,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func cancelHandshake(input: CancelHandshakeInput) async throws -> CancelHandshakeOutput {
@@ -924,6 +1116,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -944,7 +1138,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -982,6 +1176,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -993,16 +1195,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1024,6 +1240,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -1044,9 +1262,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -1116,7 +1344,7 @@ extension OrganizationsClient {
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration) in the Organizations User Guide.
     ///
     ///
-    /// The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. This operation can be called only from the organization's management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
+    /// The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. You can only call this operation from the management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
     ///
     /// * When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -1149,6 +1377,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -1169,7 +1399,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -1207,6 +1437,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -1218,17 +1456,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `FinalizingOrganizationException` : Organizations couldn't perform the operation because your organization hasn't finished initializing. This can take up to an hour. Try again later. If after one hour you continue to receive this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1250,6 +1502,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -1270,9 +1524,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -1393,6 +1657,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -1413,7 +1679,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -1451,6 +1717,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -1462,17 +1736,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `FinalizingOrganizationException` : Organizations couldn't perform the operation because your organization hasn't finished initializing. This can take up to an hour. Try again later. If after one hour you continue to receive this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1494,6 +1782,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -1514,9 +1804,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -1602,6 +1902,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -1622,7 +1924,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -1660,6 +1962,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -1671,16 +1981,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1702,6 +2026,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -1722,9 +2048,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput {
@@ -1786,7 +2122,7 @@ extension OrganizationsClient {
 
     /// Performs the `CreateOrganizationalUnit` operation on the `Organizations` service.
     ///
-    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see [Managing organizational units (OUs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
+    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see [Managing organizational units (OUs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOrganizationalUnitInput`)
     ///
@@ -1808,6 +2144,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -1828,7 +2166,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -1866,6 +2204,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -1877,17 +2223,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicateOrganizationalUnitException` : An OU with the same name already exists.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1909,6 +2269,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -1929,9 +2291,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -1994,7 +2366,7 @@ extension OrganizationsClient {
 
     /// Performs the `CreatePolicy` operation on the `Organizations` service.
     ///
-    /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html). If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html). If the request includes tags, then the requester must have the organizations:TagResource permission. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePolicyInput`)
     ///
@@ -2016,6 +2388,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -2036,7 +2410,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -2074,6 +2448,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -2085,17 +2467,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyException` : A policy with the same name already exists.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2117,6 +2513,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -2137,9 +2535,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `MalformedPolicyDocumentException` : The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     /// - `PolicyTypeNotAvailableForOrganizationException` : You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
@@ -2204,7 +2612,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeclineHandshake` operation on the `Organizations` service.
     ///
-    /// Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use [CancelHandshake] instead. The originator can't reactivate a declined request, but can reinitiate the process with a new handshake request. After you decline a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
+    /// Declines a [Handshake]. Only the account that receives a handshake can call this operation. The sender of the handshake can use [CancelHandshake] to cancel if the handshake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeclineHandshakeInput`)
     ///
@@ -2220,13 +2628,21 @@ extension OrganizationsClient {
     /// - `InvalidHandshakeTransitionException` : You can't perform the operation on the handshake in its current state. For example, you can't cancel a handshake that was already accepted or accept a handshake that was already declined.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2248,6 +2664,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -2268,9 +2686,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func declineHandshake(input: DeclineHandshakeInput) async throws -> DeclineHandshakeOutput {
@@ -2344,15 +2772,119 @@ extension OrganizationsClient {
     /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2374,6 +2906,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -2394,9 +2928,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `OrganizationNotEmptyException` : The organization isn't empty. To delete an organization, you must first remove all accounts except the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -2459,7 +3003,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeleteOrganizationalUnit` operation on the `Organizations` service.
     ///
-    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. This operation can be called only from the organization's management account.
+    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationalUnitInput`)
     ///
@@ -2473,13 +3017,21 @@ extension OrganizationsClient {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2501,6 +3053,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -2521,9 +3075,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `OrganizationalUnitNotEmptyException` : The specified OU is not empty. Move all accounts to another root or to other OUs, remove all child OUs, and try the operation again.
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
@@ -2587,7 +3151,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeletePolicy` operation on the `Organizations` service.
     ///
-    /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
@@ -2601,13 +3165,21 @@ extension OrganizationsClient {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2629,6 +3201,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -2649,9 +3223,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyInUseException` : The policy is attached to one or more entities. You must detach it from all roots, OUs, and accounts before performing this operation.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
@@ -2716,7 +3300,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeleteResourcePolicy` operation on the `Organizations` service.
     ///
-    /// Deletes the resource policy from your organization. This operation can be called only from the organization's management account.
+    /// Deletes the resource policy from your organization. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
@@ -2738,6 +3322,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -2758,7 +3344,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -2796,6 +3382,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -2806,6 +3400,12 @@ extension OrganizationsClient {
     ///
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `ResourcePolicyNotFoundException` : We can't find a resource policy request with the parameter that you specified.
@@ -2871,7 +3471,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeregisterDelegatedAdministrator` operation on the `Organizations` service.
     ///
-    /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeregisterDelegatedAdministratorInput`)
     ///
@@ -2895,6 +3495,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -2915,7 +3517,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -2953,6 +3555,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -2964,16 +3574,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2995,6 +3619,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3015,9 +3641,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -3080,7 +3716,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeAccount` operation on the `Organizations` service.
     ///
-    /// Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves Organizations-related information about the specified account. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAccountInput`)
     ///
@@ -3094,13 +3730,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3122,6 +3766,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3142,9 +3788,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput {
@@ -3206,7 +3862,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeCreateAccountStatus` operation on the `Organizations` service.
     ///
-    /// Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeCreateAccountStatusInput`)
     ///
@@ -3220,13 +3876,21 @@ extension OrganizationsClient {
     /// - `CreateAccountStatusNotFoundException` : We can't find an create account request with the CreateAccountRequestId that you specified.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3248,6 +3912,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3268,9 +3934,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -3333,7 +4009,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeEffectivePolicy` operation on the `Organizations` service.
     ///
-    /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see [Understanding management policy inheritance](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) in the Organizations User Guide. This operation can be called from any account in the organization.
+    /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see [Understanding management policy inheritance](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) in the Organizations User Guide. You can call this operation from any account in a organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeEffectivePolicyInput`)
     ///
@@ -3353,6 +4029,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -3374,7 +4052,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -3412,6 +4090,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -3423,17 +4109,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3455,6 +4155,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3475,9 +4177,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -3541,7 +4253,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeHandshake` operation on the `Organizations` service.
     ///
-    /// Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original [InviteAccountToOrganization] operation that generated the handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days after they change to that state. They're then deleted and no longer accessible. This operation can be called from any account in the organization.
+    /// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED, DECLINED, or CANCELED handshakes in API Responses for 30 days before they are deleted. You can call this operation from any account in a organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeHandshakeInput`)
     ///
@@ -3555,13 +4267,21 @@ extension OrganizationsClient {
     /// - `HandshakeNotFoundException` : We can't find a handshake with the HandshakeId that you specified.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3583,6 +4303,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3603,9 +4325,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func describeHandshake(input: DescribeHandshakeInput) async throws -> DescribeHandshakeOutput {
@@ -3667,7 +4399,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeOrganization` operation on the `Organizations` service.
     ///
-    /// Retrieves information about the organization that the user's account belongs to. This operation can be called from any account in the organization. Even if a policy type is shown as available in the organization, you can disable it separately at the root level with [DisablePolicyType]. Use [ListRoots] to see the status of policy types for a specified root.
+    /// Retrieves information about the organization that the user's account belongs to. You can call this operation from any account in a organization. Even if a policy type is shown as available in the organization, you can disable it separately at the root level with [DisablePolicyType]. Use [ListRoots] to see the status of policy types for a specified root.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationInput`)
     ///
@@ -3740,7 +4472,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeOrganizationalUnit` operation on the `Organizations` service.
     ///
-    /// Retrieves information about an organizational unit (OU). This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationalUnitInput`)
     ///
@@ -3753,13 +4485,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3781,6 +4521,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3801,9 +4543,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -3866,7 +4618,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribePolicy` operation on the `Organizations` service.
     ///
-    /// Retrieves information about a policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves information about a policy. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribePolicyInput`)
     ///
@@ -3879,13 +4631,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3907,6 +4667,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -3927,9 +4689,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -3993,7 +4765,7 @@ extension OrganizationsClient {
 
     /// Performs the `DescribeResourcePolicy` operation on the `Organizations` service.
     ///
-    /// Retrieves information about a resource policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves information about a resource policy. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
@@ -4013,6 +4785,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -4034,7 +4808,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -4072,6 +4846,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -4082,6 +4864,12 @@ extension OrganizationsClient {
     ///
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `ResourcePolicyNotFoundException` : We can't find a resource policy request with the parameter that you specified.
@@ -4145,9 +4933,156 @@ extension OrganizationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeResponsibilityTransfer` operation on the `Organizations` service.
+    ///
+    /// Returns details for a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeResponsibilityTransferInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeResponsibilityTransferOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `ResponsibilityTransferNotFoundException` : We can't find a transfer that you specified.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func describeResponsibilityTransfer(input: DescribeResponsibilityTransferInput) async throws -> DescribeResponsibilityTransferOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeResponsibilityTransfer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(DescribeResponsibilityTransferInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResponsibilityTransferOutput>(DescribeResponsibilityTransferOutput.httpOutput(from:), DescribeResponsibilityTransferOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResponsibilityTransferOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResponsibilityTransferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeResponsibilityTransfer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResponsibilityTransferInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeResponsibilityTransfer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DetachPolicy` operation on the `Organizations` service.
     ///
-    /// Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "[allow list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_allowlist)". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "[deny list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist)". This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "[allow list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_allowlist)". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "[deny list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist)". You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `DetachPolicyInput`)
     ///
@@ -4169,6 +5104,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -4189,7 +5126,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -4227,6 +5164,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -4238,16 +5183,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4269,6 +5228,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -4289,9 +5250,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyChangesInProgressException` : Changes to the effective policy are in progress, and its contents can't be returned. Try the operation again later.
     /// - `PolicyNotAttachedException` : The policy isn't attached to the specified target in the specified root.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
@@ -4367,7 +5338,7 @@ extension OrganizationsClient {
     /// * Some services detect this and clean up any remaining data or resources related to the integration, while other services stop accessing the organization but leave any historical data and configuration in place to support a possible re-enabling of the integration.
     ///
     ///
-    /// Using the other service's console or commands to disable the integration ensures that the other service is aware that it can clean up any resources that are required only for the integration. How the service cleans up its resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. After you perform the DisableAWSServiceAccess operation, the specified service can no longer perform operations in your organization's accounts For more information about integrating other services with Organizations, including the list of services that work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Using the other service's console or commands to disable the integration ensures that the other service is aware that it can clean up any resources that are required only for the integration. How the service cleans up its resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. After you perform the DisableAWSServiceAccess operation, the specified service can no longer perform operations in your organization's accounts For more information about integrating other services with Organizations, including the list of services that work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableAWSServiceAccessInput`)
     ///
@@ -4389,6 +5360,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -4409,7 +5382,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -4447,6 +5420,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -4458,16 +5439,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4489,6 +5484,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -4509,9 +5506,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -4574,7 +5581,7 @@ extension OrganizationsClient {
 
     /// Performs the `DisablePolicyType` operation on the `Organizations` service.
     ///
-    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use [ListRoots].
+    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. You can only call this operation from the management account or a member account that is a delegated administrator. To view the status of available policy types in the organization, use [ListRoots].
     ///
     /// - Parameter input: [no documentation found] (Type: `DisablePolicyTypeInput`)
     ///
@@ -4596,6 +5603,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -4616,7 +5625,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -4654,6 +5663,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -4665,16 +5682,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4696,6 +5727,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -4716,9 +5749,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyChangesInProgressException` : Changes to the effective policy are in progress, and its contents can't be returned. Try the operation again later.
     /// - `PolicyTypeNotEnabledException` : The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
     /// - `RootNotFoundException` : We can't find a root with the RootId that you specified.
@@ -4784,7 +5827,7 @@ extension OrganizationsClient {
 
     /// Performs the `EnableAWSServiceAccess` operation on the `Organizations` service.
     ///
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization, create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. For more information about enabling services to integrate with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization, create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. For more information about enabling services to integrate with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableAWSServiceAccessInput`)
     ///
@@ -4806,6 +5849,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -4826,7 +5871,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -4864,6 +5909,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -4875,16 +5928,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4906,6 +5973,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -4926,9 +5995,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -4991,7 +6070,7 @@ extension OrganizationsClient {
 
     /// Performs the `EnableAllFeatures` operation on the `Organizations` service.
     ///
-    /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide. This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake. After you enable all features, you can separately enable or disable individual policy types in a root using [EnablePolicyType] and [DisablePolicyType]. To see the status of policy types in a root, use [ListRoots]. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. This operation can be called only from the organization's management account.
+    /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide. This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake. After you enable all features, you can separately enable or disable individual policy types in a root using [EnablePolicyType] and [DisablePolicyType]. To see the status of policy types in a root, use [ListRoots]. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableAllFeaturesInput`)
     ///
@@ -5013,6 +6092,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -5033,7 +6114,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -5071,6 +6152,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -5081,6 +6170,12 @@ extension OrganizationsClient {
     ///
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `HandshakeConstraintViolationException` : The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
@@ -5093,24 +6188,40 @@ extension OrganizationsClient {
     ///
     /// * INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join an organization while it's in the process of enabling all features. You can resume inviting accounts after you finalize the process when all accounts have agreed to the change.
     ///
+    /// * LEGACY_PERMISSIONS_STILL_IN_USE: Your organization must migrate to use the new IAM fine-grained actions for billing, cost management, and accounts.
+    ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
-    ///
     /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    ///
+    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
+    ///
+    /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5132,6 +6243,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -5152,9 +6265,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func enableAllFeatures(input: EnableAllFeaturesInput) async throws -> EnableAllFeaturesOutput {
@@ -5216,7 +6339,7 @@ extension OrganizationsClient {
 
     /// Performs the `EnablePolicyType` operation on the `Organizations` service.
     ///
-    /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [ListRoots].
+    /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. You can only call this operation from the management account or a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [ListRoots].
     ///
     /// - Parameter input: [no documentation found] (Type: `EnablePolicyTypeInput`)
     ///
@@ -5238,6 +6361,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -5258,7 +6383,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -5296,6 +6421,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -5307,16 +6440,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5338,6 +6485,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -5358,9 +6507,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyChangesInProgressException` : Changes to the effective policy are in progress, and its contents can't be returned. Try the operation again later.
     /// - `PolicyTypeAlreadyEnabledException` : The specified policy type is already enabled in the specified root.
     /// - `PolicyTypeNotAvailableForOrganizationException` : You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
@@ -5427,7 +6586,7 @@ extension OrganizationsClient {
 
     /// Performs the `InviteAccountToOrganization` operation on the `Organizations` service.
     ///
-    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a [Handshake] whose details are in the response. If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/). If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
+    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a [Handshake] whose details are in the response. If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/). If the request includes tags, then the requester must have the organizations:TagResource permission. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `InviteAccountToOrganizationInput`)
     ///
@@ -5450,6 +6609,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -5470,7 +6631,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -5508,6 +6669,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -5518,6 +6687,12 @@ extension OrganizationsClient {
     ///
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicateHandshakeException` : A handshake with the same action and target already exists. For example, if you invited an account to join your organization, the invited account might already have a pending invitation from this organization. If you intend to resend an invitation to an account, ensure that existing handshakes that might be considered duplicates are canceled or declined.
@@ -5532,24 +6707,40 @@ extension OrganizationsClient {
     ///
     /// * INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join an organization while it's in the process of enabling all features. You can resume inviting accounts after you finalize the process when all accounts have agreed to the change.
     ///
+    /// * LEGACY_PERMISSIONS_STILL_IN_USE: Your organization must migrate to use the new IAM fine-grained actions for billing, cost management, and accounts.
+    ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
-    ///
     /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    ///
+    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
+    ///
+    /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5571,6 +6762,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -5591,9 +6784,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func inviteAccountToOrganization(input: InviteAccountToOrganizationInput) async throws -> InviteAccountToOrganizationOutput {
@@ -5653,9 +6856,280 @@ extension OrganizationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `InviteOrganizationToTransferResponsibility` operation on the `Organizations` service.
+    ///
+    /// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a [Handshake] whose details are in the response. You can only call this operation from the management account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `InviteOrganizationToTransferResponsibilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `InviteOrganizationToTransferResponsibilityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
+    /// - `DuplicateHandshakeException` : A handshake with the same action and target already exists. For example, if you invited an account to join your organization, the invited account might already have a pending invitation from this organization. If you intend to resend an invitation to an account, ensure that existing handshakes that might be considered duplicates are canceled or declined.
+    /// - `HandshakeConstraintViolationException` : The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. Note that deleted and closed accounts still count toward your limit. If you get this exception immediately after creating the organization, wait one hour and try again. If after an hour it continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account is already a member of an organization.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join an organization while it's in the process of enabling all features. You can resume inviting accounts after you finalize the process when all accounts have agreed to the change.
+    ///
+    /// * LEGACY_PERMISSIONS_STILL_IN_USE: Your organization must migrate to use the new IAM fine-grained actions for billing, cost management, and accounts.
+    ///
+    /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
+    ///
+    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    ///
+    /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
+    ///
+    /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
+    ///
+    /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
+    ///
+    /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func inviteOrganizationToTransferResponsibility(input: InviteOrganizationToTransferResponsibilityInput) async throws -> InviteOrganizationToTransferResponsibilityOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "inviteOrganizationToTransferResponsibility")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(InviteOrganizationToTransferResponsibilityInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteOrganizationToTransferResponsibilityOutput>(InviteOrganizationToTransferResponsibilityOutput.httpOutput(from:), InviteOrganizationToTransferResponsibilityOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InviteOrganizationToTransferResponsibilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InviteOrganizationToTransferResponsibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(xAmzTarget: "AWSOrganizationsV20161128.InviteOrganizationToTransferResponsibility"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InviteOrganizationToTransferResponsibilityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InviteOrganizationToTransferResponsibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InviteOrganizationToTransferResponsibility")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `LeaveOrganization` operation on the `Organizations` service.
     ///
-    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. This operation can be called only from a member account in the organization.
+    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. You can only call from operation from a member account.
     ///
     /// * The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.
     ///
@@ -5699,6 +7173,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -5719,7 +7195,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -5757,6 +7233,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -5768,16 +7252,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5799,6 +7297,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -5819,9 +7319,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -5884,7 +7394,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListAWSServiceAccessForOrganization` operation on the `Organizations` service.
     ///
-    /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAWSServiceAccessForOrganizationInput`)
     ///
@@ -5904,6 +7414,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -5925,7 +7437,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -5963,6 +7475,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -5974,16 +7494,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6005,6 +7539,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6025,9 +7561,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -6090,7 +7636,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListAccounts` operation on the `Organizations` service.
     ///
-    /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the [ListAccountsForParent] operation instead. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the [ListAccountsForParent] operation instead. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAccountsInput`)
     ///
@@ -6103,13 +7649,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6131,6 +7685,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6151,9 +7707,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput {
@@ -6215,7 +7781,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListAccountsForParent` operation on the `Organizations` service.
     ///
-    /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the [ListAccounts] operation. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the [ListAccounts] operation. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAccountsForParentInput`)
     ///
@@ -6228,13 +7794,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6256,6 +7830,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6276,9 +7852,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -6341,7 +7927,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListAccountsWithInvalidEffectivePolicy` operation on the `Organizations` service.
     ///
-    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html) that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html) that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAccountsWithInvalidEffectivePolicyInput`)
     ///
@@ -6361,6 +7947,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -6382,7 +7970,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -6420,6 +8008,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -6431,17 +8027,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6463,6 +8073,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6483,9 +8095,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -6548,7 +8170,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListChildren` operation on the `Organizations` service.
     ///
-    /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with [ListParents] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with [ListParents] enables you to traverse the tree structure that makes up this root. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListChildrenInput`)
     ///
@@ -6561,13 +8183,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6589,6 +8219,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6609,9 +8241,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -6674,7 +8316,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListCreateAccountStatus` operation on the `Organizations` service.
     ///
-    /// Lists the account creation requests that match the specified status that is currently being tracked for the organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists the account creation requests that match the specified status that is currently being tracked for the organization. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCreateAccountStatusInput`)
     ///
@@ -6687,13 +8329,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6715,6 +8365,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6735,9 +8387,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -6800,7 +8462,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListDelegatedAdministrators` operation on the `Organizations` service.
     ///
-    /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDelegatedAdministratorsInput`)
     ///
@@ -6820,6 +8482,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -6841,7 +8505,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -6879,6 +8543,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -6890,16 +8562,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6921,6 +8607,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -6941,9 +8629,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -7006,7 +8704,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListDelegatedServicesForAccount` operation on the `Organizations` service.
     ///
-    /// List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// List the Amazon Web Services services for which the specified account is a delegated administrator. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDelegatedServicesForAccountInput`)
     ///
@@ -7029,6 +8727,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -7049,7 +8749,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -7087,6 +8787,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -7098,16 +8806,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7129,6 +8851,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7149,9 +8873,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -7214,7 +8948,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListEffectivePolicyValidationErrors` operation on the `Organizations` service.
     ///
-    /// Lists all the validation errors on an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html) for a specified account and policy type. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists all the validation errors on an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html) for a specified account and policy type. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEffectivePolicyValidationErrorsInput`)
     ///
@@ -7236,6 +8970,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -7256,7 +8992,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -7294,6 +9030,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -7305,17 +9049,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7337,6 +9095,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7357,9 +9117,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -7422,7 +9192,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListHandshakesForAccount` operation on the `Organizations` service.
     ///
-    /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called from any account in the organization.
+    /// Lists the recent handshakes that you have received. You can view CANCELED, ACCEPTED, DECLINED, or EXPIRED handshakes in API responses for 30 days before they are deleted. You can call this operation from any account in a organization. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListHandshakesForAccountInput`)
     ///
@@ -7435,13 +9205,21 @@ extension OrganizationsClient {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7463,6 +9241,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7483,9 +9263,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func listHandshakesForAccount(input: ListHandshakesForAccountInput) async throws -> ListHandshakesForAccountOutput {
@@ -7547,7 +9337,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListHandshakesForOrganization` operation on the `Organizations` service.
     ///
-    /// Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists the recent handshakes that you have sent. You can view CANCELED, ACCEPTED, DECLINED, or EXPIRED handshakes in API responses for 30 days before they are deleted. You can only call this operation from the management account or a member account that is a delegated administrator. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListHandshakesForOrganizationInput`)
     ///
@@ -7561,13 +9351,21 @@ extension OrganizationsClient {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7589,6 +9387,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7609,9 +9409,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func listHandshakesForOrganization(input: ListHandshakesForOrganizationInput) async throws -> ListHandshakesForOrganizationOutput {
@@ -7671,28 +9481,132 @@ extension OrganizationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrganizationalUnitsForParent` operation on the `Organizations` service.
+    /// Performs the `ListInboundResponsibilityTransfers` operation on the `Organizations` service.
     ///
-    /// Lists the organizational units (OUs) in a parent organizational unit or root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists transfers that allow you to manage the specified responsibilities for another organization. This operation returns both transfer invitations and transfers. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListOrganizationalUnitsForParentInput`)
+    /// - Parameter input: [no documentation found] (Type: `ListInboundResponsibilityTransfersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListOrganizationalUnitsForParentOutput`)
+    /// - Returns: [no documentation found] (Type: `ListInboundResponsibilityTransfersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7714,6 +9628,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7734,9 +9650,166 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `ResponsibilityTransferNotFoundException` : We can't find a transfer that you specified.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func listInboundResponsibilityTransfers(input: ListInboundResponsibilityTransfersInput) async throws -> ListInboundResponsibilityTransfersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listInboundResponsibilityTransfers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(ListInboundResponsibilityTransfersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInboundResponsibilityTransfersOutput>(ListInboundResponsibilityTransfersOutput.httpOutput(from:), ListInboundResponsibilityTransfersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInboundResponsibilityTransfersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInboundResponsibilityTransfersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListInboundResponsibilityTransfers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInboundResponsibilityTransfersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInboundResponsibilityTransfers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListOrganizationalUnitsForParent` operation on the `Organizations` service.
+    ///
+    /// Lists the organizational units (OUs) in a parent organizational unit or root. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationalUnitsForParentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOrganizationalUnitsForParentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -7797,29 +9870,132 @@ extension OrganizationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListParents` operation on the `Organizations` service.
+    /// Performs the `ListOutboundResponsibilityTransfers` operation on the `Organizations` service.
     ///
-    /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with [ListChildren] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. In the current release, a child can have only a single parent.
+    /// Lists transfers that allow an account outside your organization to manage the specified responsibilities for your organization. This operation returns both transfer invitations and transfers. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListParentsInput`)
+    /// - Parameter input: [no documentation found] (Type: `ListOutboundResponsibilityTransfersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListParentsOutput`)
+    /// - Returns: [no documentation found] (Type: `ListOutboundResponsibilityTransfersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
-    /// - `ChildNotFoundException` : We can't find an organizational unit (OU) or Amazon Web Services account with the ChildId that you specified.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7841,6 +10017,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7861,9 +10039,166 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func listOutboundResponsibilityTransfers(input: ListOutboundResponsibilityTransfersInput) async throws -> ListOutboundResponsibilityTransfersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOutboundResponsibilityTransfers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(ListOutboundResponsibilityTransfersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutboundResponsibilityTransfersOutput>(ListOutboundResponsibilityTransfersOutput.httpOutput(from:), ListOutboundResponsibilityTransfersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOutboundResponsibilityTransfersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOutboundResponsibilityTransfersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListOutboundResponsibilityTransfers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOutboundResponsibilityTransfersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOutboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOutboundResponsibilityTransfers")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListParents` operation on the `Organizations` service.
+    ///
+    /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with [ListChildren] enables you to traverse the tree structure that makes up this root. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator. In the current release, a child can have only a single parent.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListParentsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListParentsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `ChildNotFoundException` : We can't find an organizational unit (OU) or Amazon Web Services account with the ChildId that you specified.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func listParents(input: ListParentsInput) async throws -> ListParentsOutput {
@@ -7925,7 +10260,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListPolicies` operation on the `Organizations` service.
     ///
-    /// Retrieves the list of all policies in an organization of a specified type. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Retrieves the list of all policies in an organization of a specified type. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
@@ -7938,13 +10273,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7966,6 +10309,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -7986,9 +10331,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -8051,7 +10406,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListPoliciesForTarget` operation on the `Organizations` service.
     ///
-    /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPoliciesForTargetInput`)
     ///
@@ -8064,13 +10419,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8092,6 +10455,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8112,9 +10477,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -8178,7 +10553,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListRoots` operation on the `Organizations` service.
     ///
-    /// Lists the roots that are defined in the current organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use [DescribeOrganization].
+    /// Lists the roots that are defined in the current organization. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator. Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use [DescribeOrganization].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRootsInput`)
     ///
@@ -8191,13 +10566,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8219,6 +10602,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8239,9 +10624,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     public func listRoots(input: ListRootsInput) async throws -> ListRootsOutput {
@@ -8314,7 +10709,7 @@ extension OrganizationsClient {
     /// * Policy (any type)
     ///
     ///
-    /// This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -8327,13 +10722,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8355,6 +10758,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8375,9 +10780,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -8440,7 +10855,7 @@ extension OrganizationsClient {
 
     /// Performs the `ListTargetsForPolicy` operation on the `Organizations` service.
     ///
-    /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to. When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have retrieved all available results. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTargetsForPolicyInput`)
     ///
@@ -8453,13 +10868,21 @@ extension OrganizationsClient {
     /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8481,6 +10904,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8501,9 +10926,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -8567,7 +11002,7 @@ extension OrganizationsClient {
 
     /// Performs the `MoveAccount` operation on the `Organizations` service.
     ///
-    /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. This operation can be called only from the organization's management account.
+    /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `MoveAccountInput`)
     ///
@@ -8584,13 +11019,21 @@ extension OrganizationsClient {
     /// - `DuplicateAccountException` : That account is already present in the specified destination.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8612,6 +11055,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8632,9 +11077,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `SourceParentNotFoundException` : We can't find a source root or OU with the ParentId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -8697,7 +11152,7 @@ extension OrganizationsClient {
 
     /// Performs the `PutResourcePolicy` operation on the `Organizations` service.
     ///
-    /// Creates or updates a resource policy. This operation can be called only from the organization's management account..
+    /// Creates or updates a resource policy. You can only call this operation from the management account..
     ///
     /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
@@ -8719,6 +11174,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -8739,7 +11196,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -8777,6 +11234,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -8788,16 +11253,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8819,6 +11298,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -8839,9 +11320,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -8904,7 +11395,7 @@ extension OrganizationsClient {
 
     /// Performs the `RegisterDelegatedAdministrator` operation on the `Organizations` service.
     ///
-    /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `RegisterDelegatedAdministratorInput`)
     ///
@@ -8928,6 +11419,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -8948,7 +11441,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -8986,6 +11479,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -8997,16 +11498,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9028,6 +11543,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -9048,9 +11565,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
@@ -9113,7 +11640,7 @@ extension OrganizationsClient {
 
     /// Performs the `RemoveAccountFromOrganization` operation on the `Organizations` service.
     ///
-    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. This operation can be called only from the organization's management account. Member accounts can remove themselves with [LeaveOrganization] instead.
+    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with [LeaveOrganization] instead.
     ///
     /// * You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -9142,6 +11669,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -9162,7 +11691,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -9200,6 +11729,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -9211,16 +11748,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9242,6 +11793,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -9262,9 +11815,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -9338,7 +11901,7 @@ extension OrganizationsClient {
     /// * Policy (any type)
     ///
     ///
-    /// This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -9360,6 +11923,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -9380,7 +11945,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -9418,6 +11983,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -9429,16 +12002,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9460,6 +12047,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -9480,9 +12069,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -9543,24 +12142,13 @@ extension OrganizationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `Organizations` service.
+    /// Performs the `TerminateResponsibilityTransfer` operation on the `Organizations` service.
     ///
-    /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.
+    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
     ///
-    /// * Amazon Web Services account
+    /// - Parameter input: [no documentation found] (Type: `TerminateResponsibilityTransferInput`)
     ///
-    /// * Organization root
-    ///
-    /// * Organizational unit (OU)
-    ///
-    /// * Policy (any type)
-    ///
-    ///
-    /// This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
-    ///
-    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
-    ///
-    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    /// - Returns: [no documentation found] (Type: `TerminateResponsibilityTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9577,6 +12165,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
@@ -9598,7 +12188,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -9636,6 +12226,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -9647,16 +12245,30 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9678,6 +12290,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -9698,9 +12312,276 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `InvalidResponsibilityTransferTransitionException` : The responsibility transfer can't transition to the requested state because it's not in a valid state for this operation.
+    /// - `ResponsibilityTransferAlreadyInStatusException` : The responsibility transfer is already in the status that you specified.
+    /// - `ResponsibilityTransferNotFoundException` : We can't find a transfer that you specified.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func terminateResponsibilityTransfer(input: TerminateResponsibilityTransferInput) async throws -> TerminateResponsibilityTransferOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "terminateResponsibilityTransfer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(TerminateResponsibilityTransferInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateResponsibilityTransferOutput>(TerminateResponsibilityTransferOutput.httpOutput(from:), TerminateResponsibilityTransferOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TerminateResponsibilityTransferOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateResponsibilityTransferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(xAmzTarget: "AWSOrganizationsV20161128.TerminateResponsibilityTransfer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateResponsibilityTransferInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TerminateResponsibilityTransfer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `Organizations` service.
+    ///
+    /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.
+    ///
+    /// * Amazon Web Services account
+    ///
+    /// * Organization root
+    ///
+    /// * Organizational unit (OU)
+    ///
+    /// * Policy (any type)
+    ///
+    ///
+    /// You can only call this operation from the management account or a member account that is a delegated administrator.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -9763,7 +12644,7 @@ extension OrganizationsClient {
 
     /// Performs the `UpdateOrganizationalUnit` operation on the `Organizations` service.
     ///
-    /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. This operation can be called only from the organization's management account.
+    /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. You can only call this operation from the management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationalUnitInput`)
     ///
@@ -9778,13 +12659,21 @@ extension OrganizationsClient {
     /// - `DuplicateOrganizationalUnitException` : An OU with the same name already exists.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9806,6 +12695,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -9826,9 +12717,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
@@ -9891,7 +12792,7 @@ extension OrganizationsClient {
 
     /// Performs the `UpdatePolicy` operation on the `Organizations` service.
     ///
-    /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's management account or by a member account that is a delegated administrator.
+    /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a member account that is a delegated administrator.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdatePolicyInput`)
     ///
@@ -9913,6 +12814,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     ///
     /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
@@ -9933,7 +12836,7 @@ extension OrganizationsClient {
     ///
     /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
     ///
-    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
     ///
     /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
     ///
@@ -9971,6 +12874,14 @@ extension OrganizationsClient {
     ///
     /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
     ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
     /// * SERVICE_ACCESS_NOT_ENABLED:
     ///
     /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
@@ -9982,17 +12893,31 @@ extension OrganizationsClient {
     ///
     /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
     ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyException` : A policy with the same name already exists.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
     ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
     /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
     /// * INPUT_REQUIRED: You must include a value for all required parameters.
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10014,6 +12939,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
     ///
     /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -10034,9 +12961,19 @@ extension OrganizationsClient {
     ///
     /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
     /// - `MalformedPolicyDocumentException` : The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     /// - `PolicyChangesInProgressException` : Changes to the effective policy are in progress, and its contents can't be returned. Try the operation again later.
     /// - `PolicyNotFoundException` : We can't find a policy with the PolicyId that you specified.
@@ -10088,6 +13025,249 @@ extension OrganizationsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateResponsibilityTransfer` operation on the `Organizations` service.
+    ///
+    /// Updates a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. You can update the name assigned to a transfer.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateResponsibilityTransferInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateResponsibilityTransferOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `AWSOrganizationsNotInUseException` : Your account isn't a member of an organization. To make this request, you must use the credentials of an account that belongs to an organization.
+    /// - `ConstraintViolationException` : Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+    ///
+    /// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+    ///
+    /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+    ///
+    /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+    ///
+    /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    ///
+    /// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+    ///
+    /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+    ///
+    /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+    ///
+    /// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+    ///
+    /// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+    ///
+    /// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+    ///
+    /// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+    ///
+    /// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+    ///
+    /// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+    ///
+    /// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+    ///
+    /// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+    ///
+    /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+    ///
+    /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+    ///
+    /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+    ///
+    /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    /// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+    ///
+    /// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+    ///
+    /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+    ///
+    /// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+    ///
+    /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+    ///
+    /// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+    ///
+    /// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+    ///
+    /// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+    ///
+    /// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+    ///
+    /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+    ///
+    /// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+    ///
+    /// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+    ///
+    /// * SERVICE_ACCESS_NOT_ENABLED:
+    ///
+    /// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    /// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+    ///
+    ///
+    ///
+    ///
+    /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+    ///
+    /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+    ///
+    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    ///
+    /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
+    /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+    ///
+    /// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+    ///
+    /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+    ///
+    /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+    ///
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    ///
+    /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
+    ///
+    /// * INPUT_REQUIRED: You must include a value for all required parameters.
+    ///
+    /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+    ///
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    ///
+    /// * INVALID_ENUM: You specified an invalid value.
+    ///
+    /// * INVALID_ENUM_POLICY_TYPE: You specified an invalid policy type string.
+    ///
+    /// * INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+    ///
+    /// * INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one invalid value.
+    ///
+    /// * INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response to a previous call of the operation.
+    ///
+    /// * INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization, or email) as a party.
+    ///
+    /// * INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+    ///
+    /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
+    ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
+    /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
+    ///
+    /// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+    ///
+    /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
+    ///
+    /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
+    ///
+    /// * INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t add, edit, or delete system tag keys because they're reserved for Amazon Web Services use. System tags don’t count against your tags per resource limit.
+    ///
+    /// * MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+    ///
+    /// * MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+    ///
+    /// * MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than allowed.
+    ///
+    /// * MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+    ///
+    /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
+    ///
+    /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+    ///
+    /// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+    ///
+    /// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+    ///
+    /// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+    ///
+    /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
+    ///
+    /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+    ///
+    /// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
+    /// - `ResponsibilityTransferNotFoundException` : We can't find a transfer that you specified.
+    /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
+    /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
+    /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
+    public func updateResponsibilityTransfer(input: UpdateResponsibilityTransferInput) async throws -> UpdateResponsibilityTransferOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateResponsibilityTransfer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "organizations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(UpdateResponsibilityTransferInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResponsibilityTransferOutput>(UpdateResponsibilityTransferOutput.httpOutput(from:), UpdateResponsibilityTransferOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResponsibilityTransferOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResponsibilityTransferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(xAmzTarget: "AWSOrganizationsV20161128.UpdateResponsibilityTransfer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResponsibilityTransferInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateResponsibilityTransfer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

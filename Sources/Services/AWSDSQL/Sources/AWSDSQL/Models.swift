@@ -753,13 +753,17 @@ public struct GetVpcEndpointServiceNameInput: Swift.Sendable {
 }
 
 public struct GetVpcEndpointServiceNameOutput: Swift.Sendable {
+    /// The VPC connection endpoint for the cluster.
+    public var clusterVpcEndpoint: Swift.String?
     /// The VPC endpoint service name.
     /// This member is required.
     public var serviceName: Swift.String?
 
     public init(
+        clusterVpcEndpoint: Swift.String? = nil,
         serviceName: Swift.String? = nil
     ) {
+        self.clusterVpcEndpoint = clusterVpcEndpoint
         self.serviceName = serviceName
     }
 }
@@ -1274,6 +1278,7 @@ extension GetVpcEndpointServiceNameOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetVpcEndpointServiceNameOutput()
+        value.clusterVpcEndpoint = try reader["clusterVpcEndpoint"].readIfPresent()
         value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         return value
     }

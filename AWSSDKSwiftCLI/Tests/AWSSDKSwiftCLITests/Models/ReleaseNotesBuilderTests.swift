@@ -208,8 +208,8 @@ class ReleaseNotesBuilderTests: CLITestCase {
             repoType: .awsSdkSwift,
             commits: testCommits,
             // Parameterize behavior of FeaturesReader with paths used to create JSON test files
-            features: FeaturesReader().getFeaturesFromFile(),
-            featuresIDToServiceName: FeaturesReader().getFeaturesIDToServiceNameDictFromFile()
+            buildRequest: BuildRequestReader().getFeaturesFromFile(),
+            featuresIDToServiceName: BuildRequestReader().getFeaturesIDToServiceNameDictFromFile()
         )
     }
 }
