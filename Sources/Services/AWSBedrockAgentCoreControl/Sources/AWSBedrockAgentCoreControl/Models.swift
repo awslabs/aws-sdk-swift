@@ -27,6 +27,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// This exception is thrown when a request is denied per access permissions
@@ -2642,12 +2644,14 @@ extension BedrockAgentCoreControlClientTypes {
     public enum AuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsIam
         case customJwt
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthorizerType] {
             return [
                 .awsIam,
-                .customJwt
+                .customJwt,
+                .none
             ]
         }
 
@@ -2660,6 +2664,7 @@ extension BedrockAgentCoreControlClientTypes {
             switch self {
             case .awsIam: return "AWS_IAM"
             case .customJwt: return "CUSTOM_JWT"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2688,6 +2693,102 @@ extension BedrockAgentCoreControlClientTypes {
             case .debug: return "DEBUG"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The input configuration of the interceptor.
+    public struct InterceptorInputConfiguration: Swift.Sendable {
+        /// Indicates whether to pass request headers as input into the interceptor. When set to true, request headers will be passed.
+        /// This member is required.
+        public var passRequestHeaders: Swift.Bool?
+
+        public init(
+            passRequestHeaders: Swift.Bool? = nil
+        ) {
+            self.passRequestHeaders = passRequestHeaders
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum GatewayInterceptionPoint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case request
+        case response
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayInterceptionPoint] {
+            return [
+                .request,
+                .response
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .request: return "REQUEST"
+            case .response: return "RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The lambda configuration for the interceptor
+    public struct LambdaInterceptorConfiguration: Swift.Sendable {
+        /// The arn of the lambda function to be invoked for the interceptor.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The interceptor configuration.
+    public enum InterceptorConfiguration: Swift.Sendable {
+        /// The details of the lambda function used for the interceptor.
+        case lambda(BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for an interceptor on a gateway. This structure defines settings for an interceptor that will be invoked during the invocation of the gateway.
+    public struct GatewayInterceptorConfiguration: Swift.Sendable {
+        /// The configuration for the input of the interceptor. This field specifies how the input to the interceptor is constructed
+        public var inputConfiguration: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration?
+        /// The supported points of interception. This field specifies which points during the gateway invocation to invoke the interceptor
+        /// This member is required.
+        public var interceptionPoints: [BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint]?
+        /// The infrastructure settings of an interceptor configuration. This structure defines how the interceptor can be invoked.
+        /// This member is required.
+        public var interceptor: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?
+
+        public init(
+            inputConfiguration: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration? = nil,
+            interceptionPoints: [BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint]? = nil,
+            interceptor: BedrockAgentCoreControlClientTypes.InterceptorConfiguration? = nil
+        ) {
+            self.inputConfiguration = inputConfiguration
+            self.interceptionPoints = interceptionPoints
+            self.interceptor = interceptor
         }
     }
 }
@@ -2785,6 +2886,8 @@ public struct CreateGatewayInput: Swift.Sendable {
     /// * CUSTOM_JWT - Authorize with a bearer token.
     ///
     /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    ///
+    /// * NONE - No authorization
     /// This member is required.
     public var authorizerType: BedrockAgentCoreControlClientTypes.AuthorizerType?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
@@ -2797,6 +2900,8 @@ public struct CreateGatewayInput: Swift.Sendable {
     ///
     /// * If the value is omitted, a generic error message is returned to the end user.
     public var exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel?
+    /// A list of configuration settings for a gateway interceptor. Gateway interceptors allow custom code to be invoked during gateway invocations.
+    public var interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]?
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt data associated with the gateway.
     public var kmsKeyArn: Swift.String?
     /// The name of the gateway. The name must be unique within your account.
@@ -2819,6 +2924,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
+        interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
@@ -2831,6 +2937,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.exceptionLevel = exceptionLevel
+        self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.protocolConfiguration = protocolConfiguration
@@ -2842,7 +2949,7 @@ public struct CreateGatewayInput: Swift.Sendable {
 
 extension CreateGatewayInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2911,6 +3018,8 @@ public struct CreateGatewayOutput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// The URL endpoint for the created gateway.
     public var gatewayUrl: Swift.String?
+    /// The list of interceptor configurations for the created gateway.
+    public var interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]?
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt data associated with the gateway.
     public var kmsKeyArn: Swift.String?
     /// The name of the gateway.
@@ -2943,6 +3052,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         gatewayUrl: Swift.String? = nil,
+        interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
@@ -2961,6 +3071,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
         self.gatewayUrl = gatewayUrl
+        self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.protocolConfiguration = protocolConfiguration
@@ -2975,7 +3086,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
 
 extension CreateGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteGatewayInput: Swift.Sendable {
@@ -3048,6 +3159,8 @@ public struct GetGatewayOutput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// An endpoint for invoking gateway.
     public var gatewayUrl: Swift.String?
+    /// The interceptors configured on the gateway.
+    public var interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]?
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the gateway.
     public var kmsKeyArn: Swift.String?
     /// The name of the gateway.
@@ -3080,6 +3193,7 @@ public struct GetGatewayOutput: Swift.Sendable {
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         gatewayUrl: Swift.String? = nil,
+        interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
@@ -3098,6 +3212,7 @@ public struct GetGatewayOutput: Swift.Sendable {
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
         self.gatewayUrl = gatewayUrl
+        self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.protocolConfiguration = protocolConfiguration
@@ -3112,7 +3227,7 @@ public struct GetGatewayOutput: Swift.Sendable {
 
 extension GetGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGatewaysInput: Swift.Sendable {
@@ -3218,6 +3333,8 @@ public struct UpdateGatewayInput: Swift.Sendable {
     /// The identifier of the gateway to update.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
+    /// The updated interceptor configurations for the gateway.
+    public var interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]?
     /// The updated ARN of the KMS key used to encrypt the gateway.
     public var kmsKeyArn: Swift.String?
     /// The name of the gateway. This name must be the same as the one when the gateway was created.
@@ -3238,6 +3355,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
         description: Swift.String? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         gatewayIdentifier: Swift.String? = nil,
+        interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
@@ -3249,6 +3367,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
         self.description = description
         self.exceptionLevel = exceptionLevel
         self.gatewayIdentifier = gatewayIdentifier
+        self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.protocolConfiguration = protocolConfiguration
@@ -3259,7 +3378,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
 
 extension UpdateGatewayInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayOutput: Swift.Sendable {
@@ -3287,6 +3406,8 @@ public struct UpdateGatewayOutput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// An endpoint for invoking the updated gateway.
     public var gatewayUrl: Swift.String?
+    /// The updated interceptor configurations for the gateway.
+    public var interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]?
     /// The updated ARN of the KMS key used to encrypt the gateway.
     public var kmsKeyArn: Swift.String?
     /// The name of the gateway.
@@ -3319,6 +3440,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         gatewayUrl: Swift.String? = nil,
+        interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
@@ -3337,6 +3459,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
         self.gatewayUrl = gatewayUrl
+        self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.protocolConfiguration = protocolConfiguration
@@ -3351,7 +3474,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
 
 extension UpdateGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -7819,6 +7942,7 @@ extension CreateGatewayInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["exceptionLevel"].write(value.exceptionLevel)
+        try writer["interceptorConfigurations"].writeList(value.interceptorConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.write(value:to:))
@@ -8037,6 +8161,7 @@ extension UpdateGatewayInput {
         try writer["authorizerType"].write(value.authorizerType)
         try writer["description"].write(value.description)
         try writer["exceptionLevel"].write(value.exceptionLevel)
+        try writer["interceptorConfigurations"].writeList(value.interceptorConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.write(value:to:))
@@ -8181,6 +8306,7 @@ extension CreateGatewayOutput {
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayUrl = try reader["gatewayUrl"].readIfPresent()
+        value.interceptorConfigurations = try reader["interceptorConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.read(from:))
@@ -8501,6 +8627,7 @@ extension GetGatewayOutput {
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayUrl = try reader["gatewayUrl"].readIfPresent()
+        value.interceptorConfigurations = try reader["interceptorConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.read(from:))
@@ -8859,6 +8986,7 @@ extension UpdateGatewayOutput {
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayUrl = try reader["gatewayUrl"].readIfPresent()
+        value.interceptorConfigurations = try reader["interceptorConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.read(from:))
@@ -10278,6 +10406,79 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         value.discoveryUrl = try reader["discoveryUrl"].readIfPresent() ?? ""
         value.allowedAudience = try reader["allowedAudience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedClients = try reader["allowedClients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.write(value:to:))
+        try writer["interceptionPoints"].writeList(value.interceptionPoints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["interceptor"].write(value.interceptor, with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration()
+        value.interceptor = try reader["interceptor"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.read(from:))
+        value.interceptionPoints = try reader["interceptionPoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["passRequestHeaders"].write(value.passRequestHeaders)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration()
+        value.passRequestHeaders = try reader["passRequestHeaders"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambda":
+                return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }

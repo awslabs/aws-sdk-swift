@@ -4389,6 +4389,22 @@ extension CreateEndpointInput: Swift.CustomDebugStringConvertible {
 
 extension DatabaseMigrationClientTypes {
 
+    /// Provides information that defines a Lakehouse endpoint. This endpoint type is used for zero-ETL integrations with Lakehouse data warehouses.
+    public struct LakehouseSettings: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lakehouse resource that serves as the target for this endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     /// Describes an endpoint of a database instance in response to operations such as the following:
     ///
     /// * CreateEndpoint
@@ -4429,12 +4445,16 @@ extension DatabaseMigrationClientTypes {
         public var gcpMySQLSettings: DatabaseMigrationClientTypes.GcpMySQLSettings?
         /// The settings for the IBM Db2 LUW source endpoint. For more information, see the IBMDb2Settings structure.
         public var ibmDb2Settings: DatabaseMigrationClientTypes.IBMDb2Settings?
+        /// Indicates whether the endpoint is read-only. When set to true, this endpoint is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only endpoints through their associated zero-ETL integration.
+        public var isReadOnly: Swift.Bool?
         /// The settings for the Apache Kafka target endpoint. For more information, see the KafkaSettings structure.
         public var kafkaSettings: DatabaseMigrationClientTypes.KafkaSettings?
         /// The settings for the Amazon Kinesis target endpoint. For more information, see the KinesisSettings structure.
         public var kinesisSettings: DatabaseMigrationClientTypes.KinesisSettings?
         /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
+        /// Settings in JSON format for the target Lakehouse endpoint. This parameter applies to endpoints that are automatically created by DMS for a Lakehouse data warehouse as part of a zero-ETL integration.
+        public var lakehouseSettings: DatabaseMigrationClientTypes.LakehouseSettings?
         /// The settings for the Microsoft SQL Server source and target endpoint. For more information, see the MicrosoftSQLServerSettings structure.
         public var microsoftSQLServerSettings: DatabaseMigrationClientTypes.MicrosoftSQLServerSettings?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
@@ -4487,9 +4507,11 @@ extension DatabaseMigrationClientTypes {
             extraConnectionAttributes: Swift.String? = nil,
             gcpMySQLSettings: DatabaseMigrationClientTypes.GcpMySQLSettings? = nil,
             ibmDb2Settings: DatabaseMigrationClientTypes.IBMDb2Settings? = nil,
+            isReadOnly: Swift.Bool? = nil,
             kafkaSettings: DatabaseMigrationClientTypes.KafkaSettings? = nil,
             kinesisSettings: DatabaseMigrationClientTypes.KinesisSettings? = nil,
             kmsKeyId: Swift.String? = nil,
+            lakehouseSettings: DatabaseMigrationClientTypes.LakehouseSettings? = nil,
             microsoftSQLServerSettings: DatabaseMigrationClientTypes.MicrosoftSQLServerSettings? = nil,
             mongoDbSettings: DatabaseMigrationClientTypes.MongoDbSettings? = nil,
             mySQLSettings: DatabaseMigrationClientTypes.MySQLSettings? = nil,
@@ -4524,9 +4546,11 @@ extension DatabaseMigrationClientTypes {
             self.extraConnectionAttributes = extraConnectionAttributes
             self.gcpMySQLSettings = gcpMySQLSettings
             self.ibmDb2Settings = ibmDb2Settings
+            self.isReadOnly = isReadOnly
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
+            self.lakehouseSettings = lakehouseSettings
             self.microsoftSQLServerSettings = microsoftSQLServerSettings
             self.mongoDbSettings = mongoDbSettings
             self.mySQLSettings = mySQLSettings
@@ -5336,6 +5360,8 @@ extension DatabaseMigrationClientTypes {
     public struct ReplicationConfig: Swift.Sendable {
         /// Configuration parameters for provisioning an DMS serverless replication.
         public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+        /// Indicates whether the replication configuration is read-only. When set to true, this replication configuration is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only replication configurations through their associated zero-ETL integration.
+        public var isReadOnly: Swift.Bool?
         /// The Amazon Resource Name (ARN) of this DMS Serverless replication configuration.
         public var replicationConfigArn: Swift.String?
         /// The time the serverless replication config was created.
@@ -5359,6 +5385,7 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             computeConfig: DatabaseMigrationClientTypes.ComputeConfig? = nil,
+            isReadOnly: Swift.Bool? = nil,
             replicationConfigArn: Swift.String? = nil,
             replicationConfigCreateTime: Foundation.Date? = nil,
             replicationConfigIdentifier: Swift.String? = nil,
@@ -5371,6 +5398,7 @@ extension DatabaseMigrationClientTypes {
             targetEndpointArn: Swift.String? = nil
         ) {
             self.computeConfig = computeConfig
+            self.isReadOnly = isReadOnly
             self.replicationConfigArn = replicationConfigArn
             self.replicationConfigCreateTime = replicationConfigCreateTime
             self.replicationConfigIdentifier = replicationConfigIdentifier
@@ -5628,6 +5656,8 @@ extension DatabaseMigrationClientTypes {
 
     /// Describes a subnet group in response to a request by the DescribeReplicationSubnetGroups operation.
     public struct ReplicationSubnetGroup: Swift.Sendable {
+        /// Indicates whether the replication subnet group is read-only. When set to true, this subnet group is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only subnet groups through their associated zero-ETL integration.
+        public var isReadOnly: Swift.Bool?
         /// A description for the replication subnet group.
         public var replicationSubnetGroupDescription: Swift.String?
         /// The identifier of the replication instance subnet group.
@@ -5642,6 +5672,7 @@ extension DatabaseMigrationClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            isReadOnly: Swift.Bool? = nil,
             replicationSubnetGroupDescription: Swift.String? = nil,
             replicationSubnetGroupIdentifier: Swift.String? = nil,
             subnetGroupStatus: Swift.String? = nil,
@@ -5649,6 +5680,7 @@ extension DatabaseMigrationClientTypes {
             supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.isReadOnly = isReadOnly
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.subnetGroupStatus = subnetGroupStatus
@@ -6195,6 +6227,8 @@ extension DatabaseMigrationClientTypes {
         public var certificateWallet: Foundation.Data?
         /// The key length of the cryptographic algorithm being used.
         public var keyLength: Swift.Int?
+        /// An KMS key identifier that is used to encrypt the certificate. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        public var kmsKeyId: Swift.String?
         /// The signing algorithm for the certificate.
         public var signingAlgorithm: Swift.String?
         /// The beginning date that the certificate is valid.
@@ -6210,6 +6244,7 @@ extension DatabaseMigrationClientTypes {
             certificatePem: Swift.String? = nil,
             certificateWallet: Foundation.Data? = nil,
             keyLength: Swift.Int? = nil,
+            kmsKeyId: Swift.String? = nil,
             signingAlgorithm: Swift.String? = nil,
             validFromDate: Foundation.Date? = nil,
             validToDate: Foundation.Date? = nil
@@ -6221,6 +6256,7 @@ extension DatabaseMigrationClientTypes {
             self.certificatePem = certificatePem
             self.certificateWallet = certificateWallet
             self.keyLength = keyLength
+            self.kmsKeyId = kmsKeyId
             self.signingAlgorithm = signingAlgorithm
             self.validFromDate = validFromDate
             self.validToDate = validToDate
@@ -9383,6 +9419,8 @@ extension DatabaseMigrationClientTypes {
         public var cdcStopPosition: Swift.String?
         /// Error and other information about why a serverless replication failed.
         public var failureMessages: [Swift.String]?
+        /// Indicates whether the serverless replication is read-only. When set to true, this replication is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only replications through their associated zero-ETL integration.
+        public var isReadOnly: Swift.Bool?
         /// The status output of premigration assessment in describe-replications.
         public var premigrationAssessmentStatuses: [DatabaseMigrationClientTypes.PremigrationAssessmentStatus]?
         /// Information about provisioning resources for an DMS serverless replication.
@@ -9449,6 +9487,7 @@ extension DatabaseMigrationClientTypes {
             cdcStartTime: Foundation.Date? = nil,
             cdcStopPosition: Swift.String? = nil,
             failureMessages: [Swift.String]? = nil,
+            isReadOnly: Swift.Bool? = nil,
             premigrationAssessmentStatuses: [DatabaseMigrationClientTypes.PremigrationAssessmentStatus]? = nil,
             provisionData: DatabaseMigrationClientTypes.ProvisionData? = nil,
             recoveryCheckpoint: Swift.String? = nil,
@@ -9470,6 +9509,7 @@ extension DatabaseMigrationClientTypes {
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
             self.failureMessages = failureMessages
+            self.isReadOnly = isReadOnly
             self.premigrationAssessmentStatuses = premigrationAssessmentStatuses
             self.provisionData = provisionData
             self.recoveryCheckpoint = recoveryCheckpoint
@@ -10212,6 +10252,8 @@ public struct ImportCertificateInput: Swift.Sendable {
     public var certificatePem: Swift.String?
     /// The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
     public var certificateWallet: Foundation.Data?
+    /// An KMS key identifier that is used to encrypt the certificate. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    public var kmsKeyId: Swift.String?
     /// The tags associated with the certificate.
     public var tags: [DatabaseMigrationClientTypes.Tag]?
 
@@ -10219,18 +10261,20 @@ public struct ImportCertificateInput: Swift.Sendable {
         certificateIdentifier: Swift.String? = nil,
         certificatePem: Swift.String? = nil,
         certificateWallet: Foundation.Data? = nil,
+        kmsKeyId: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
     ) {
         self.certificateIdentifier = certificateIdentifier
         self.certificatePem = certificatePem
         self.certificateWallet = certificateWallet
+        self.kmsKeyId = kmsKeyId
         self.tags = tags
     }
 }
 
 extension ImportCertificateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ImportCertificateInput(certificateIdentifier: \(Swift.String(describing: certificateIdentifier)), certificateWallet: \(Swift.String(describing: certificateWallet)), tags: \(Swift.String(describing: tags)), certificatePem: \"CONTENT_REDACTED\")"}
+        "ImportCertificateInput(certificateIdentifier: \(Swift.String(describing: certificateIdentifier)), certificateWallet: \(Swift.String(describing: certificateWallet)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), tags: \(Swift.String(describing: tags)), certificatePem: \"CONTENT_REDACTED\")"}
 }
 
 public struct ImportCertificateOutput: Swift.Sendable {
@@ -13681,6 +13725,7 @@ extension ImportCertificateInput {
         try writer["CertificateIdentifier"].write(value.certificateIdentifier)
         try writer["CertificatePem"].write(value.certificatePem)
         try writer["CertificateWallet"].write(value.certificateWallet)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DatabaseMigrationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -16844,6 +16889,7 @@ enum ImportCertificateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCertificateFault": return try InvalidCertificateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
             case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -18498,6 +18544,7 @@ extension DatabaseMigrationClientTypes.Endpoint {
         value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
         value.externalTableDefinition = try reader["ExternalTableDefinition"].readIfPresent()
         value.externalId = try reader["ExternalId"].readIfPresent()
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         value.dynamoDbSettings = try reader["DynamoDbSettings"].readIfPresent(with: DatabaseMigrationClientTypes.DynamoDbSettings.read(from:))
         value.s3Settings = try reader["S3Settings"].readIfPresent(with: DatabaseMigrationClientTypes.S3Settings.read(from:))
         value.dmsTransferSettings = try reader["DmsTransferSettings"].readIfPresent(with: DatabaseMigrationClientTypes.DmsTransferSettings.read(from:))
@@ -18517,6 +18564,17 @@ extension DatabaseMigrationClientTypes.Endpoint {
         value.redisSettings = try reader["RedisSettings"].readIfPresent(with: DatabaseMigrationClientTypes.RedisSettings.read(from:))
         value.gcpMySQLSettings = try reader["GcpMySQLSettings"].readIfPresent(with: DatabaseMigrationClientTypes.GcpMySQLSettings.read(from:))
         value.timestreamSettings = try reader["TimestreamSettings"].readIfPresent(with: DatabaseMigrationClientTypes.TimestreamSettings.read(from:))
+        value.lakehouseSettings = try reader["LakehouseSettings"].readIfPresent(with: DatabaseMigrationClientTypes.LakehouseSettings.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.LakehouseSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.LakehouseSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.LakehouseSettings()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19472,6 +19530,7 @@ extension DatabaseMigrationClientTypes.ReplicationConfig {
         value.tableMappings = try reader["TableMappings"].readIfPresent()
         value.replicationConfigCreateTime = try reader["ReplicationConfigCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.replicationConfigUpdateTime = try reader["ReplicationConfigUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         return value
     }
 }
@@ -19586,6 +19645,7 @@ extension DatabaseMigrationClientTypes.ReplicationSubnetGroup {
         value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         return value
     }
 }
@@ -19686,6 +19746,7 @@ extension DatabaseMigrationClientTypes.Certificate {
         value.validToDate = try reader["ValidToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
         value.keyLength = try reader["KeyLength"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
 }
@@ -20145,6 +20206,7 @@ extension DatabaseMigrationClientTypes.Replication {
         value.replicationUpdateTime = try reader["ReplicationUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.replicationLastStopTime = try reader["ReplicationLastStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.replicationDeprovisionTime = try reader["ReplicationDeprovisionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent()
         return value
     }
 }

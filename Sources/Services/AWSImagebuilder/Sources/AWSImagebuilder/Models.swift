@@ -27,6 +27,29 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 
+/// You do not have permissions to perform the requested operation.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension ImagebuilderClientTypes {
 
     /// Includes counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified filter.
@@ -537,7 +560,7 @@ public struct CancelImageCreationInput: Swift.Sendable {
 public struct CancelImageCreationOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
-    /// The ARN of the image whose creation this request canceled.
+    /// The Amazon Resource Name (ARN) of the image whose creation this request canceled.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -1432,6 +1455,29 @@ extension ImagebuilderClientTypes {
     }
 }
 
+/// The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You have specified two or more mutually exclusive parameters. Review the error message for details.
 public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1511,6 +1557,8 @@ public struct CreateComponentInput: Swift.Sendable {
     public var data: Swift.String?
     /// Describes the contents of the component.
     public var description: Swift.String?
+    /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+    public var dryRun: Swift.Bool?
     /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the component.
@@ -1534,6 +1582,7 @@ public struct CreateComponentInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         platform: ImagebuilderClientTypes.Platform? = nil,
@@ -1546,6 +1595,7 @@ public struct CreateComponentInput: Swift.Sendable {
         self.clientToken = clientToken
         self.data = data
         self.description = description
+        self.dryRun = dryRun
         self.kmsKeyId = kmsKeyId
         self.name = name
         self.platform = platform
@@ -1556,21 +1606,52 @@ public struct CreateComponentInput: Swift.Sendable {
     }
 }
 
+extension ImagebuilderClientTypes {
+
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public struct LatestVersionReferences: Swift.Sendable {
+        /// The latest version Amazon Resource Name (ARN) with the same major version of the Image Builder resource.
+        public var latestMajorVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) with the same minor version of the Image Builder resource.
+        public var latestMinorVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) with the same patch version of the Image Builder resource.
+        public var latestPatchVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) of the Image Builder resource.
+        public var latestVersionArn: Swift.String?
+
+        public init(
+            latestMajorVersionArn: Swift.String? = nil,
+            latestMinorVersionArn: Swift.String? = nil,
+            latestPatchVersionArn: Swift.String? = nil,
+            latestVersionArn: Swift.String? = nil
+        ) {
+            self.latestMajorVersionArn = latestMajorVersionArn
+            self.latestMinorVersionArn = latestMinorVersionArn
+            self.latestPatchVersionArn = latestPatchVersionArn
+            self.latestVersionArn = latestVersionArn
+        }
+    }
+}
+
 public struct CreateComponentOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the component that the request created.
     public var componentBuildVersionArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         componentBuildVersionArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.componentBuildVersionArn = componentBuildVersionArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -1680,16 +1761,20 @@ public struct CreateContainerRecipeOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Returns the Amazon Resource Name (ARN) of the container recipe that the request created.
     public var containerRecipeArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         containerRecipeArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -2214,16 +2299,20 @@ public struct CreateImageOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image that the request created.
     public var imageBuildVersionArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -2500,16 +2589,20 @@ public struct CreateImageRecipeOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that was created by this request.
     public var imageRecipeArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.imageRecipeArn = imageRecipeArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -3190,6 +3283,8 @@ public struct CreateWorkflowInput: Swift.Sendable {
     public var data: Swift.String?
     /// Describes the workflow.
     public var description: Swift.String?
+    /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+    public var dryRun: Swift.Bool?
     /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the workflow to create.
@@ -3211,6 +3306,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         semanticVersion: Swift.String? = nil,
@@ -3222,6 +3318,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         self.clientToken = clientToken
         self.data = data
         self.description = description
+        self.dryRun = dryRun
         self.kmsKeyId = kmsKeyId
         self.name = name
         self.semanticVersion = semanticVersion
@@ -3234,14 +3331,18 @@ public struct CreateWorkflowInput: Swift.Sendable {
 public struct CreateWorkflowOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
     public var workflowBuildVersionArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         workflowBuildVersionArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.latestVersionReferences = latestVersionReferences
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
 }
@@ -3363,7 +3464,7 @@ public struct DeleteComponentInput: Swift.Sendable {
 }
 
 public struct DeleteComponentOutput: Swift.Sendable {
-    /// The ARN of the component build version that this request deleted.
+    /// The Amazon Resource Name (ARN) of the component build version that this request deleted.
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -3444,7 +3545,7 @@ public struct DeleteImageInput: Swift.Sendable {
 }
 
 public struct DeleteImageOutput: Swift.Sendable {
-    /// The ARN of the Image Builder image resource that this request deleted.
+    /// The Amazon Resource Name (ARN) of the Image Builder image resource that this request deleted.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -3552,7 +3653,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
 }
 
 public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the lifecycle policy that was deleted.
+    /// The Amazon Resource Name (ARN) of the lifecycle policy that was deleted.
     public var lifecyclePolicyArn: Swift.String?
 
     public init(
@@ -3575,13 +3676,109 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 }
 
 public struct DeleteWorkflowOutput: Swift.Sendable {
-    /// The ARN of the workflow resource that this request deleted.
+    /// The Amazon Resource Name (ARN) of the workflow resource that this request deleted.
     public var workflowBuildVersionArn: Swift.String?
 
     public init(
         workflowBuildVersionArn: Swift.String? = nil
     ) {
         self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+/// At least one of the resources referenced by your request does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You have attempted too many requests for the specific operation.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DistributeImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+    /// This member is required.
+    public var distributionConfigurationArn: Swift.String?
+    /// The IAM role to use for the distribution.
+    /// This member is required.
+    public var executionRole: Swift.String?
+    /// The logging configuration for the distribution.
+    public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
+    /// The source image Amazon Resource Name (ARN) to distribute.
+    /// This member is required.
+    public var sourceImage: Swift.String?
+    /// The tags to apply to the distributed image.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        distributionConfigurationArn: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
+        sourceImage: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.distributionConfigurationArn = distributionConfigurationArn
+        self.executionRole = executionRole
+        self.loggingConfiguration = loggingConfiguration
+        self.sourceImage = sourceImage
+        self.tags = tags
+    }
+}
+
+public struct DistributeImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image to be distributed.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
 
@@ -3702,38 +3899,19 @@ public struct GetComponentInput: Swift.Sendable {
 public struct GetComponentOutput: Swift.Sendable {
     /// The component object specified in the request.
     public var component: ImagebuilderClientTypes.Component?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         component: ImagebuilderClientTypes.Component? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.component = component
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
-    }
-}
-
-/// At least one of the resources referenced by your request does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -3779,14 +3957,18 @@ public struct GetContainerRecipeInput: Swift.Sendable {
 public struct GetContainerRecipeOutput: Swift.Sendable {
     /// The container recipe object that is returned.
     public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         containerRecipe: ImagebuilderClientTypes.ContainerRecipe? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.containerRecipe = containerRecipe
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -4297,14 +4479,18 @@ extension ImagebuilderClientTypes {
 public struct GetImageOutput: Swift.Sendable {
     /// The image object.
     public var image: ImagebuilderClientTypes.Image?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         image: ImagebuilderClientTypes.Image? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.image = image
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -4495,14 +4681,18 @@ public struct GetImageRecipeInput: Swift.Sendable {
 public struct GetImageRecipeOutput: Swift.Sendable {
     /// The image recipe object.
     public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.imageRecipe = imageRecipe
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -4768,7 +4958,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct GetLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the image lifecycle policy resource that was returned.
+    /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was returned.
     public var lifecyclePolicy: ImagebuilderClientTypes.LifecyclePolicy?
 
     public init(
@@ -4997,12 +5187,16 @@ extension ImagebuilderClientTypes {
 }
 
 public struct GetWorkflowOutput: Swift.Sendable {
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The workflow resource specified in the request.
     public var workflow: ImagebuilderClientTypes.Workflow?
 
     public init(
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         workflow: ImagebuilderClientTypes.Workflow? = nil
     ) {
+        self.latestVersionReferences = latestVersionReferences
         self.workflow = workflow
     }
 }
@@ -7190,7 +7384,7 @@ extension ImagebuilderClientTypes {
         public var startTime: Swift.String?
         /// Uniquely identifies the workflow step that ran for the associated image build version.
         public var stepExecutionId: Swift.String?
-        /// The ARN of the workflow resource that ran.
+        /// The Amazon Resource Name (ARN) of the workflow resource that ran.
         public var workflowBuildVersionArn: Swift.String?
         /// Uniquely identifies the runtime instance of the workflow that contains the workflow step that ran for the associated image build version.
         public var workflowExecutionId: Swift.String?
@@ -7345,6 +7539,8 @@ extension ImagebuilderClientTypes {
         public var message: Swift.String?
         /// The name of the test group that included the test workflow resource at runtime.
         public var parallelGroup: Swift.String?
+        /// Indicates retry status for this runtime instance of the workflow.
+        public var retried: Swift.Bool?
         /// The timestamp when the runtime instance of this workflow started.
         public var startTime: Swift.String?
         /// The current runtime status for this workflow.
@@ -7368,6 +7564,7 @@ extension ImagebuilderClientTypes {
             endTime: Swift.String? = nil,
             message: Swift.String? = nil,
             parallelGroup: Swift.String? = nil,
+            retried: Swift.Bool? = nil,
             startTime: Swift.String? = nil,
             status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
             totalStepCount: Swift.Int = 0,
@@ -7381,6 +7578,7 @@ extension ImagebuilderClientTypes {
             self.endTime = endTime
             self.message = message
             self.parallelGroup = parallelGroup
+            self.retried = retried
             self.startTime = startTime
             self.status = status
             self.totalStepCount = totalStepCount
@@ -7395,7 +7593,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct ListWorkflowExecutionsOutput: Swift.Sendable {
-    /// The resource ARN of the image build version for which you requested a list of workflow runtime details.
+    /// The resource Amazon Resource Name (ARN) of the image build version for which you requested a list of workflow runtime details.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
     public var message: Swift.String?
@@ -7578,7 +7776,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
-    /// The image build version resource ARN that's associated with the specified runtime instance of the workflow.
+    /// The image build version resource Amazon Resource Name (ARN) that's associated with the specified runtime instance of the workflow.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
     public var message: Swift.String?
@@ -7588,7 +7786,7 @@ public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
     public var requestId: Swift.String?
     /// Contains an array of runtime details that represents each step in this runtime instance of the workflow.
     public var steps: [ImagebuilderClientTypes.WorkflowStepMetadata]?
-    /// The build version ARN for the Image Builder workflow resource that defines the steps for this runtime instance of the workflow.
+    /// The build version Amazon Resource Name (ARN) for the Image Builder workflow resource that defines the steps for this runtime instance of the workflow.
     public var workflowBuildVersionArn: Swift.String?
     /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
     public var workflowExecutionId: Swift.String?
@@ -7760,6 +7958,38 @@ public struct PutImageRecipePolicyOutput: Swift.Sendable {
     ) {
         self.imageRecipeArn = imageRecipeArn
         self.requestId = requestId
+    }
+}
+
+public struct RetryImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The source image Amazon Resource Name (ARN) to retry.
+    /// This member is required.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+    }
+}
+
+public struct RetryImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The ARN of the image to be retried.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
 
@@ -7980,7 +8210,7 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
     public var executionRole: Swift.String?
     /// A list of image resources to update state for.
     public var includeResources: ImagebuilderClientTypes.ResourceStateUpdateIncludeResources?
-    /// The ARN of the Image Builder resource that is updated. The state update might also impact associated resources.
+    /// The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also impact associated resources.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Indicates the lifecycle action to take for this request.
@@ -8011,7 +8241,7 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
 public struct StartResourceStateUpdateOutput: Swift.Sendable {
     /// Identifies the lifecycle runtime instance that started the resource state update.
     public var lifecycleExecutionId: Swift.String?
-    /// The requested ARN of the Image Builder resource for the asynchronous update.
+    /// The requested Amazon Resource Name (ARN) of the Image Builder resource for the asynchronous update.
     public var resourceArn: Swift.String?
 
     public init(
@@ -8336,7 +8566,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Sendable {
 }
 
 public struct UpdateLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the image lifecycle policy resource that was updated.
+    /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was updated.
     public var lifecyclePolicyArn: Swift.String?
 
     public init(
@@ -8609,6 +8839,13 @@ extension DeleteWorkflowInput {
         let workflowBuildVersionArnQueryItem = Smithy.URIQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
         items.append(workflowBuildVersionArnQueryItem)
         return items
+    }
+}
+
+extension DistributeImageInput {
+
+    static func urlPathProvider(_ value: DistributeImageInput) -> Swift.String? {
+        return "/DistributeImage"
     }
 }
 
@@ -9161,6 +9398,13 @@ extension PutImageRecipePolicyInput {
     }
 }
 
+extension RetryImageInput {
+
+    static func urlPathProvider(_ value: RetryImageInput) -> Swift.String? {
+        return "/RetryImage"
+    }
+}
+
 extension SendWorkflowStepActionInput {
 
     static func urlPathProvider(_ value: SendWorkflowStepActionInput) -> Swift.String? {
@@ -9272,6 +9516,7 @@ extension CreateComponentInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["data"].write(value.data)
         try writer["description"].write(value.description)
+        try writer["dryRun"].write(value.dryRun)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["platform"].write(value.platform)
@@ -9423,12 +9668,26 @@ extension CreateWorkflowInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["data"].write(value.data)
         try writer["description"].write(value.description)
+        try writer["dryRun"].write(value.dryRun)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["semanticVersion"].write(value.semanticVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["uri"].write(value.uri)
+    }
+}
+
+extension DistributeImageInput {
+
+    static func write(value: DistributeImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["distributionConfigurationArn"].write(value.distributionConfigurationArn)
+        try writer["executionRole"].write(value.executionRole)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.ImageLoggingConfiguration.write(value:to:))
+        try writer["sourceImage"].write(value.sourceImage)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9751,6 +10010,15 @@ extension PutImageRecipePolicyInput {
     }
 }
 
+extension RetryImageInput {
+
+    static func write(value: RetryImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["imageBuildVersionArn"].write(value.imageBuildVersionArn)
+    }
+}
+
 extension SendWorkflowStepActionInput {
 
     static func write(value: SendWorkflowStepActionInput?, to writer: SmithyJSON.Writer) throws {
@@ -9899,6 +10167,7 @@ extension CreateComponentOutput {
         var value = CreateComponentOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.componentBuildVersionArn = try reader["componentBuildVersionArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9913,6 +10182,7 @@ extension CreateContainerRecipeOutput {
         var value = CreateContainerRecipeOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.containerRecipeArn = try reader["containerRecipeArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9941,6 +10211,7 @@ extension CreateImageOutput {
         var value = CreateImageOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9969,6 +10240,7 @@ extension CreateImageRecipeOutput {
         var value = CreateImageRecipeOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.imageRecipeArn = try reader["imageRecipeArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10009,6 +10281,7 @@ extension CreateWorkflowOutput {
         let reader = responseReader
         var value = CreateWorkflowOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.workflowBuildVersionArn = try reader["workflowBuildVersionArn"].readIfPresent()
         return value
     }
@@ -10129,6 +10402,19 @@ extension DeleteWorkflowOutput {
     }
 }
 
+extension DistributeImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DistributeImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DistributeImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetComponentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetComponentOutput {
@@ -10137,6 +10423,7 @@ extension GetComponentOutput {
         let reader = responseReader
         var value = GetComponentOutput()
         value.component = try reader["component"].readIfPresent(with: ImagebuilderClientTypes.Component.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10163,6 +10450,7 @@ extension GetContainerRecipeOutput {
         let reader = responseReader
         var value = GetContainerRecipeOutput()
         value.containerRecipe = try reader["containerRecipe"].readIfPresent(with: ImagebuilderClientTypes.ContainerRecipe.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10202,6 +10490,7 @@ extension GetImageOutput {
         let reader = responseReader
         var value = GetImageOutput()
         value.image = try reader["image"].readIfPresent(with: ImagebuilderClientTypes.Image.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10241,6 +10530,7 @@ extension GetImageRecipeOutput {
         let reader = responseReader
         var value = GetImageRecipeOutput()
         value.imageRecipe = try reader["imageRecipe"].readIfPresent(with: ImagebuilderClientTypes.ImageRecipe.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10317,6 +10607,7 @@ extension GetWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetWorkflowOutput()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.workflow = try reader["workflow"].readIfPresent(with: ImagebuilderClientTypes.Workflow.read(from:))
         return value
     }
@@ -10777,6 +11068,19 @@ extension PutImageRecipePolicyOutput {
     }
 }
 
+extension RetryImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RetryImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RetryImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        return value
+    }
+}
+
 extension SendWorkflowStepActionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWorkflowStepActionOutput {
@@ -10938,6 +11242,7 @@ enum CreateComponentOutputError {
         switch baseError.code {
             case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DryRunOperationException": return try DryRunOperationException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11125,6 +11430,7 @@ enum CreateWorkflowOutputError {
         switch baseError.code {
             case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DryRunOperationException": return try DryRunOperationException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11314,6 +11620,31 @@ enum DeleteWorkflowOutputError {
             case "ResourceDependencyException": return try ResourceDependencyException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DistributeImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12219,6 +12550,27 @@ enum PutImageRecipePolicyOutputError {
     }
 }
 
+enum RetryImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendWorkflowStepActionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12508,6 +12860,19 @@ extension ServiceUnavailableException {
     }
 }
 
+extension DryRunOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DryRunOperationException {
+        let reader = baseError.errorBodyReader
+        var value = DryRunOperationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterCombinationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterCombinationException {
@@ -12573,11 +12938,37 @@ extension ResourceDependencyException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12621,6 +13012,19 @@ extension InvalidParameterValueException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.LatestVersionReferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LatestVersionReferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.LatestVersionReferences()
+        value.latestVersionArn = try reader["latestVersionArn"].readIfPresent()
+        value.latestMajorVersionArn = try reader["latestMajorVersionArn"].readIfPresent()
+        value.latestMinorVersionArn = try reader["latestMinorVersionArn"].readIfPresent()
+        value.latestPatchVersionArn = try reader["latestPatchVersionArn"].readIfPresent()
         return value
     }
 }
@@ -14255,6 +14659,7 @@ extension ImagebuilderClientTypes.WorkflowExecutionMetadata {
         value.startTime = try reader["startTime"].readIfPresent()
         value.endTime = try reader["endTime"].readIfPresent()
         value.parallelGroup = try reader["parallelGroup"].readIfPresent()
+        value.retried = try reader["retried"].readIfPresent()
         return value
     }
 }

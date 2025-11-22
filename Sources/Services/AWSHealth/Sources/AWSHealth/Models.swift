@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
@@ -132,7 +133,7 @@ extension HealthClientTypes {
         public var eventArn: Swift.String?
         /// The most recent time that the entity was updated.
         public var lastUpdatedTime: Foundation.Date?
-        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
+        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, and RESOLVED.
         public var statusCode: HealthClientTypes.EntityStatusCode?
         /// A map of entity tags attached to the affected entity. Currently, the tags property isn't supported.
         public var tags: [Swift.String: Swift.String]?
@@ -623,6 +624,38 @@ extension HealthClientTypes {
 
 extension HealthClientTypes {
 
+    public enum EventActionability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionMayBeRequired
+        case actionRequired
+        case informational
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventActionability] {
+            return [
+                .actionMayBeRequired,
+                .actionRequired,
+                .informational
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionMayBeRequired: return "ACTION_MAY_BE_REQUIRED"
+            case .actionRequired: return "ACTION_REQUIRED"
+            case .informational: return "INFORMATIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
     public enum EventStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case closed
         case `open`
@@ -690,8 +723,42 @@ extension HealthClientTypes {
 
 extension HealthClientTypes {
 
+    public enum EventPersona: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billing
+        case operations
+        case security
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventPersona] {
+            return [
+                .billing,
+                .operations,
+                .security
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billing: return "BILLING"
+            case .operations: return "OPERATIONS"
+            case .security: return "SECURITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
     /// The values to use to filter results from the [DescribeEvents](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html) and [DescribeEventAggregates](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html) operations.
     public struct EventFilter: Swift.Sendable {
+        /// A list of actionability values to filter events. Use this to filter events based on whether they require action (ACTION_REQUIRED), may require action (ACTION_MAY_BE_REQUIRED) or are informational (INFORMATIONAL).
+        public var actionabilities: [HealthClientTypes.EventActionability]?
         /// A list of Amazon Web Services Availability Zones.
         public var availabilityZones: [Swift.String]?
         /// A list of dates and times that the event ended.
@@ -710,6 +777,8 @@ extension HealthClientTypes {
         public var eventTypeCodes: [Swift.String]?
         /// A list of dates and times that the event was last updated.
         public var lastUpdatedTimes: [HealthClientTypes.DateTimeRange]?
+        /// A list of persona values to filter events. Use this to filter events based on their target audience: OPERATIONS, SECURITY, or BILLING.
+        public var personas: [HealthClientTypes.EventPersona]?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
@@ -720,6 +789,7 @@ extension HealthClientTypes {
         public var tags: [[Swift.String: Swift.String]]?
 
         public init(
+            actionabilities: [HealthClientTypes.EventActionability]? = nil,
             availabilityZones: [Swift.String]? = nil,
             endTimes: [HealthClientTypes.DateTimeRange]? = nil,
             entityArns: [Swift.String]? = nil,
@@ -729,11 +799,13 @@ extension HealthClientTypes {
             eventTypeCategories: [HealthClientTypes.EventTypeCategory]? = nil,
             eventTypeCodes: [Swift.String]? = nil,
             lastUpdatedTimes: [HealthClientTypes.DateTimeRange]? = nil,
+            personas: [HealthClientTypes.EventPersona]? = nil,
             regions: [Swift.String]? = nil,
             services: [Swift.String]? = nil,
             startTimes: [HealthClientTypes.DateTimeRange]? = nil,
             tags: [[Swift.String: Swift.String]]? = nil
         ) {
+            self.actionabilities = actionabilities
             self.availabilityZones = availabilityZones
             self.endTimes = endTimes
             self.entityArns = entityArns
@@ -743,6 +815,7 @@ extension HealthClientTypes {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.lastUpdatedTimes = lastUpdatedTimes
+            self.personas = personas
             self.regions = regions
             self.services = services
             self.startTimes = startTimes
@@ -859,6 +932,8 @@ extension HealthClientTypes {
     ///
     /// You can determine if an event is public or account-specific by using the eventScopeCode parameter. For more information, see [eventScopeCode](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode).
     public struct Event: Swift.Sendable {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required. Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public var actionability: HealthClientTypes.EventActionability?
         /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public var arn: Swift.String?
         /// The Amazon Web Services Availability Zone of the event. For example, us-east-1a.
@@ -879,6 +954,8 @@ extension HealthClientTypes {
         public var eventTypeCode: Swift.String?
         /// The most recent date and time that the event was updated.
         public var lastUpdatedTime: Foundation.Date?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public var personas: [HealthClientTypes.EventPersona]?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
         /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
@@ -889,6 +966,7 @@ extension HealthClientTypes {
         public var statusCode: HealthClientTypes.EventStatusCode?
 
         public init(
+            actionability: HealthClientTypes.EventActionability? = nil,
             arn: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
@@ -896,11 +974,13 @@ extension HealthClientTypes {
             eventTypeCategory: HealthClientTypes.EventTypeCategory? = nil,
             eventTypeCode: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            personas: [HealthClientTypes.EventPersona]? = nil,
             region: Swift.String? = nil,
             service: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
         ) {
+            self.actionability = actionability
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
@@ -908,6 +988,7 @@ extension HealthClientTypes {
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.region = region
             self.service = service
             self.startTime = startTime
@@ -1109,6 +1190,8 @@ extension HealthClientTypes {
 
     /// The values to filter results from the [DescribeEventsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html) operation.
     public struct OrganizationEventFilter: Swift.Sendable {
+        /// A list of actionability values to filter events. Use this to filter events based on whether they require action (ACTION_REQUIRED), may require action (ACTION_MAY_BE_REQUIRED) or are informational (INFORMATIONAL).
+        public var actionabilities: [HealthClientTypes.EventActionability]?
         /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities.
         public var awsAccountIds: [Swift.String]?
         /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
@@ -1125,6 +1208,8 @@ extension HealthClientTypes {
         public var eventTypeCodes: [Swift.String]?
         /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
         public var lastUpdatedTime: HealthClientTypes.DateTimeRange?
+        /// A list of persona values to filter events. Use this to filter events based on their target audience: OPERATIONS, SECURITY, or BILLING.
+        public var personas: [HealthClientTypes.EventPersona]?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
@@ -1133,6 +1218,7 @@ extension HealthClientTypes {
         public var startTime: HealthClientTypes.DateTimeRange?
 
         public init(
+            actionabilities: [HealthClientTypes.EventActionability]? = nil,
             awsAccountIds: [Swift.String]? = nil,
             endTime: HealthClientTypes.DateTimeRange? = nil,
             entityArns: [Swift.String]? = nil,
@@ -1141,10 +1227,12 @@ extension HealthClientTypes {
             eventTypeCategories: [HealthClientTypes.EventTypeCategory]? = nil,
             eventTypeCodes: [Swift.String]? = nil,
             lastUpdatedTime: HealthClientTypes.DateTimeRange? = nil,
+            personas: [HealthClientTypes.EventPersona]? = nil,
             regions: [Swift.String]? = nil,
             services: [Swift.String]? = nil,
             startTime: HealthClientTypes.DateTimeRange? = nil
         ) {
+            self.actionabilities = actionabilities
             self.awsAccountIds = awsAccountIds
             self.endTime = endTime
             self.entityArns = entityArns
@@ -1153,6 +1241,7 @@ extension HealthClientTypes {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.regions = regions
             self.services = services
             self.startTime = startTime
@@ -1187,6 +1276,8 @@ extension HealthClientTypes {
 
     /// Summary information about an event, returned by the [DescribeEventsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html) operation.
     public struct OrganizationEvent: Swift.Sendable {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required. Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public var actionability: HealthClientTypes.EventActionability?
         /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public var arn: Swift.String?
         /// The date and time that the event ended.
@@ -1205,6 +1296,8 @@ extension HealthClientTypes {
         public var eventTypeCode: Swift.String?
         /// The most recent date and time that the event was updated.
         public var lastUpdatedTime: Foundation.Date?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public var personas: [HealthClientTypes.EventPersona]?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
         /// The Amazon Web Services service that is affected by the event, such as EC2 and RDS.
@@ -1215,23 +1308,27 @@ extension HealthClientTypes {
         public var statusCode: HealthClientTypes.EventStatusCode?
 
         public init(
+            actionability: HealthClientTypes.EventActionability? = nil,
             arn: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
             eventScopeCode: HealthClientTypes.EventScopeCode? = nil,
             eventTypeCategory: HealthClientTypes.EventTypeCategory? = nil,
             eventTypeCode: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            personas: [HealthClientTypes.EventPersona]? = nil,
             region: Swift.String? = nil,
             service: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
         ) {
+            self.actionability = actionability
             self.arn = arn
             self.endTime = endTime
             self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.region = region
             self.service = service
             self.startTime = startTime
@@ -1257,22 +1354,94 @@ public struct DescribeEventsForOrganizationOutput: Swift.Sendable {
 
 extension HealthClientTypes {
 
+    public enum EventTypeActionability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionMayBeRequired
+        case actionRequired
+        case informational
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventTypeActionability] {
+            return [
+                .actionMayBeRequired,
+                .actionRequired,
+                .informational
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionMayBeRequired: return "ACTION_MAY_BE_REQUIRED"
+            case .actionRequired: return "ACTION_REQUIRED"
+            case .informational: return "INFORMATIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    public enum EventTypePersona: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billing
+        case operations
+        case security
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventTypePersona] {
+            return [
+                .billing,
+                .operations,
+                .security
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billing: return "BILLING"
+            case .operations: return "OPERATIONS"
+            case .security: return "SECURITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
     /// The values to use to filter results from the [DescribeEventTypes](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventTypes.html) operation.
     public struct EventTypeFilter: Swift.Sendable {
+        /// A list of actionability values to filter event types. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL.
+        public var actionabilities: [HealthClientTypes.EventTypeActionability]?
         /// A list of event type category codes. Possible values are issue, accountNotification, or scheduledChange. Currently, the investigation value isn't supported at this time.
         public var eventTypeCategories: [HealthClientTypes.EventTypeCategory]?
         /// A list of event type codes.
         public var eventTypeCodes: [Swift.String]?
+        /// A list of persona classifications to filter event types. Possible values are OPERATIONS, SECURITY, and BILLING.
+        public var personas: [HealthClientTypes.EventTypePersona]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
 
         public init(
+            actionabilities: [HealthClientTypes.EventTypeActionability]? = nil,
             eventTypeCategories: [HealthClientTypes.EventTypeCategory]? = nil,
             eventTypeCodes: [Swift.String]? = nil,
+            personas: [HealthClientTypes.EventTypePersona]? = nil,
             services: [Swift.String]? = nil
         ) {
+            self.actionabilities = actionabilities
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
+            self.personas = personas
             self.services = services
         }
     }
@@ -1305,20 +1474,28 @@ extension HealthClientTypes {
 
     /// Contains the metadata about a type of event that is reported by Health. The EventType shows the category, service, and the event type code of the event. For example, an issue might be the category, EC2 the service, and AWS_EC2_SYSTEM_MAINTENANCE_EVENT the event type code. You can use the [DescribeEventTypes](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventTypes.html) API operation to return this information about an event. You can also use the Amazon CloudWatch Events console to create a rule so that you can get notified or take action when Health delivers a specific event to your Amazon Web Services account. For more information, see [Monitor for Health events with Amazon CloudWatch Events](https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html) in the Health User Guide.
     public struct EventType: Swift.Sendable {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required. Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public var actionability: HealthClientTypes.EventTypeActionability?
         /// A list of event type category codes. Possible values are issue, accountNotification, or scheduledChange. Currently, the investigation value isn't supported at this time.
         public var category: HealthClientTypes.EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public var code: Swift.String?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public var personas: [HealthClientTypes.EventTypePersona]?
         /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
 
         public init(
+            actionability: HealthClientTypes.EventTypeActionability? = nil,
             category: HealthClientTypes.EventTypeCategory? = nil,
             code: Swift.String? = nil,
+            personas: [HealthClientTypes.EventTypePersona]? = nil,
             service: Swift.String? = nil
         ) {
+            self.actionability = actionability
             self.category = category
             self.code = code
+            self.personas = personas
             self.service = service
         }
     }
@@ -2130,6 +2307,8 @@ extension HealthClientTypes.Event {
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusCode = try reader["statusCode"].readIfPresent()
         value.eventScopeCode = try reader["eventScopeCode"].readIfPresent()
+        value.actionability = try reader["actionability"].readIfPresent()
+        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventPersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2187,6 +2366,8 @@ extension HealthClientTypes.OrganizationEvent {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusCode = try reader["statusCode"].readIfPresent()
+        value.actionability = try reader["actionability"].readIfPresent()
+        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventPersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2199,6 +2380,8 @@ extension HealthClientTypes.EventType {
         value.service = try reader["service"].readIfPresent()
         value.code = try reader["code"].readIfPresent()
         value.category = try reader["category"].readIfPresent()
+        value.actionability = try reader["actionability"].readIfPresent()
+        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventTypePersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2248,6 +2431,7 @@ extension HealthClientTypes.EventFilter {
 
     static func write(value: HealthClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["endTimes"].writeList(value.endTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2257,6 +2441,7 @@ extension HealthClientTypes.EventFilter {
         try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lastUpdatedTimes"].writeList(value.lastUpdatedTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventPersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["startTimes"].writeList(value.startTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2268,6 +2453,7 @@ extension HealthClientTypes.OrganizationEventFilter {
 
     static func write(value: HealthClientTypes.OrganizationEventFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["awsAccountIds"].writeList(value.awsAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["endTime"].write(value.endTime, with: HealthClientTypes.DateTimeRange.write(value:to:))
         try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2276,6 +2462,7 @@ extension HealthClientTypes.OrganizationEventFilter {
         try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lastUpdatedTime"].write(value.lastUpdatedTime, with: HealthClientTypes.DateTimeRange.write(value:to:))
+        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventPersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["startTime"].write(value.startTime, with: HealthClientTypes.DateTimeRange.write(value:to:))
@@ -2286,8 +2473,10 @@ extension HealthClientTypes.EventTypeFilter {
 
     static func write(value: HealthClientTypes.EventTypeFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypePersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

@@ -92,15 +92,18 @@ extension BillingconductorClientTypes {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
         /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
-        /// This member is required.
         public var linkedAccountIds: [Swift.String]?
+        /// The Amazon Resource Name (ARN) that identifies the transfer relationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required.
+        public var responsibilityTransferArn: Swift.String?
 
         public init(
             autoAssociate: Swift.Bool? = nil,
-            linkedAccountIds: [Swift.String]? = nil
+            linkedAccountIds: [Swift.String]? = [],
+            responsibilityTransferArn: Swift.String? = nil
         ) {
             self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
+            self.responsibilityTransferArn = responsibilityTransferArn
         }
     }
 }
@@ -349,6 +352,7 @@ extension BillingconductorClientTypes {
         case illegalAccounts
         case illegalAccountId
         case illegalBillingEntity
+        case illegalBillingGroupType
         case illegalBillingPeriod
         case illegalBillingPeriodRange
         case illegalChargeDetails
@@ -417,6 +421,7 @@ extension BillingconductorClientTypes {
                 .illegalAccounts,
                 .illegalAccountId,
                 .illegalBillingEntity,
+                .illegalBillingGroupType,
                 .illegalBillingPeriod,
                 .illegalBillingPeriodRange,
                 .illegalChargeDetails,
@@ -491,6 +496,7 @@ extension BillingconductorClientTypes {
             case .illegalAccounts: return "ILLEGAL_ACCOUNTS"
             case .illegalAccountId: return "ILLEGAL_ACCOUNT_ID"
             case .illegalBillingEntity: return "ILLEGAL_BILLING_ENTITY"
+            case .illegalBillingGroupType: return "ILLEGAL_BILLING_GROUP_TYPE"
             case .illegalBillingPeriod: return "ILLEGAL_BILLING_PERIOD"
             case .illegalBillingPeriodRange: return "ILLEGAL_BILLING_PERIOD_RANGE"
             case .illegalChargeDetails: return "ILLEGAL_CHARGE_DETAILS"
@@ -855,14 +861,92 @@ public struct DisassociateAccountsOutput: Swift.Sendable {
 
 extension BillingconductorClientTypes {
 
+    public enum BillingGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case standard
+        case transferBilling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingGroupType] {
+            return [
+                .standard,
+                .transferBilling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "STANDARD"
+            case .transferBilling: return "TRANSFER_BILLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
+    public enum SearchOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case startsWith
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchOption] {
+            return [
+                .startsWith
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .startsWith: return "STARTS_WITH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
+    /// A structure that defines string search parameters.
+    public struct StringSearch: Swift.Sendable {
+        /// The search option to be applied when performing the string search.
+        /// This member is required.
+        public var searchOption: BillingconductorClientTypes.SearchOption?
+        /// The value to search for within the specified string field.
+        /// This member is required.
+        public var searchValue: Swift.String?
+
+        public init(
+            searchOption: BillingconductorClientTypes.SearchOption? = nil,
+            searchValue: Swift.String? = nil
+        ) {
+            self.searchOption = searchOption
+            self.searchValue = searchValue
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
     public enum BillingGroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case pending
         case primaryAccountMissing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BillingGroupStatus] {
             return [
                 .active,
+                .pending,
                 .primaryAccountMissing
             ]
         }
@@ -875,6 +959,7 @@ extension BillingconductorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .pending: return "PENDING"
             case .primaryAccountMissing: return "PRIMARY_ACCOUNT_MISSING"
             case let .sdkUnknown(s): return s
             }
@@ -890,20 +975,36 @@ extension BillingconductorClientTypes {
         public var arns: [Swift.String]?
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
+        /// Filter billing groups by their type.
+        public var billingGroupTypes: [BillingconductorClientTypes.BillingGroupType]?
+        /// Filter billing groups by their names.
+        public var names: [BillingconductorClientTypes.StringSearch]?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public var pricingPlan: Swift.String?
+        /// A list of primary account IDs to filter the billing groups.
+        public var primaryAccountIds: [Swift.String]?
+        /// Filter billing groups by their responsibility transfer ARNs.
+        public var responsibilityTransferArns: [Swift.String]?
         /// A list of billing groups to retrieve their current status for a specific time range
         public var statuses: [BillingconductorClientTypes.BillingGroupStatus]?
 
         public init(
             arns: [Swift.String]? = nil,
             autoAssociate: Swift.Bool? = nil,
+            billingGroupTypes: [BillingconductorClientTypes.BillingGroupType]? = nil,
+            names: [BillingconductorClientTypes.StringSearch]? = nil,
             pricingPlan: Swift.String? = nil,
+            primaryAccountIds: [Swift.String]? = nil,
+            responsibilityTransferArns: [Swift.String]? = nil,
             statuses: [BillingconductorClientTypes.BillingGroupStatus]? = nil
         ) {
             self.arns = arns
             self.autoAssociate = autoAssociate
+            self.billingGroupTypes = billingGroupTypes
+            self.names = names
             self.pricingPlan = pricingPlan
+            self.primaryAccountIds = primaryAccountIds
+            self.responsibilityTransferArns = responsibilityTransferArns
             self.statuses = statuses
         }
     }
@@ -938,11 +1039,15 @@ extension BillingconductorClientTypes {
     public struct ListBillingGroupAccountGrouping: Swift.Sendable {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
+        /// The Amazon Resource Name (ARN) that identifies the transfer relationship for the billing group.
+        public var responsibilityTransferArn: Swift.String?
 
         public init(
-            autoAssociate: Swift.Bool? = nil
+            autoAssociate: Swift.Bool? = nil,
+            responsibilityTransferArn: Swift.String? = nil
         ) {
             self.autoAssociate = autoAssociate
+            self.responsibilityTransferArn = responsibilityTransferArn
         }
     }
 }
@@ -955,6 +1060,8 @@ extension BillingconductorClientTypes {
         public var accountGrouping: BillingconductorClientTypes.ListBillingGroupAccountGrouping?
         /// The Amazon Resource Number (ARN) that can be used to uniquely identify the billing group.
         public var arn: Swift.String?
+        /// The type of billing group.
+        public var billingGroupType: BillingconductorClientTypes.BillingGroupType?
         /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
         public var computationPreference: BillingconductorClientTypes.ComputationPreference?
         /// The time when the billing group was created.
@@ -977,6 +1084,7 @@ extension BillingconductorClientTypes {
         public init(
             accountGrouping: BillingconductorClientTypes.ListBillingGroupAccountGrouping? = nil,
             arn: Swift.String? = nil,
+            billingGroupType: BillingconductorClientTypes.BillingGroupType? = nil,
             computationPreference: BillingconductorClientTypes.ComputationPreference? = nil,
             creationTime: Swift.Int = 0,
             description: Swift.String? = nil,
@@ -989,6 +1097,7 @@ extension BillingconductorClientTypes {
         ) {
             self.accountGrouping = accountGrouping
             self.arn = arn
+            self.billingGroupType = billingGroupType
             self.computationPreference = computationPreference
             self.creationTime = creationTime
             self.description = description
@@ -1004,7 +1113,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.BillingGroupListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BillingGroupListElement(accountGrouping: \(Swift.String(describing: accountGrouping)), arn: \(Swift.String(describing: arn)), computationPreference: \(Swift.String(describing: computationPreference)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "BillingGroupListElement(accountGrouping: \(Swift.String(describing: accountGrouping)), arn: \(Swift.String(describing: arn)), billingGroupType: \(Swift.String(describing: billingGroupType)), computationPreference: \(Swift.String(describing: computationPreference)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBillingGroupsOutput: Swift.Sendable {
@@ -1028,11 +1137,15 @@ extension BillingconductorClientTypes {
     public struct UpdateBillingGroupAccountGrouping: Swift.Sendable {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
+        /// The Amazon Resource Name (ARN) that identifies the transfer relationship. Note: Modifications to the ResponsibilityTransferArn are not permitted for existing billing groups.
+        public var responsibilityTransferArn: Swift.String?
 
         public init(
-            autoAssociate: Swift.Bool? = nil
+            autoAssociate: Swift.Bool? = nil,
+            responsibilityTransferArn: Swift.String? = nil
         ) {
             self.autoAssociate = autoAssociate
+            self.responsibilityTransferArn = responsibilityTransferArn
         }
     }
 }
@@ -1333,7 +1446,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes {
 
-    /// A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plan discounts, you can update LineItemFilter to exclude it.
+    /// A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plans discounts, you can update LineItemFilter to exclude it.
     public struct LineItemFilter: Swift.Sendable {
         /// The attribute of the line item filter. This specifies what attribute that you can filter on.
         /// This member is required.
@@ -1341,7 +1454,7 @@ extension BillingconductorClientTypes {
         /// The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost.
         /// This member is required.
         public var matchOption: BillingconductorClientTypes.MatchOption?
-        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plan discounts.
+        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plans discounts.
         /// This member is required.
         public var values: [BillingconductorClientTypes.LineItemFilterValue]?
 
@@ -1463,9 +1576,9 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes {
 
-    /// The presentation configuration of the custom line item
+    /// An object that defines how custom line item charges are presented in the bill, containing specifications for service presentation.
     public struct PresentationObject: Swift.Sendable {
-        /// This defines the service of where the custom line item is presented
+        /// The service under which the custom line item charges will be presented. Must be a string between 1 and 128 characters matching the pattern "^[a-zA-Z0-9]+$".
         /// This member is required.
         public var service: Swift.String?
 
@@ -1490,7 +1603,7 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
     public var chargeDetails: BillingconductorClientTypes.CustomLineItemChargeDetails?
     /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public var clientToken: Swift.String?
-    /// The display settings of the custom line item
+    /// Specifies how the custom line item charges are computed.
     public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
     /// The description of the custom line item. This is shown on the Bills page in association with the charge value.
     /// This member is required.
@@ -1498,7 +1611,7 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
     /// The name of the custom line item.
     /// This member is required.
     public var name: Swift.String?
-    /// The presentation configuration of the custom line item
+    /// Details controlling how the custom line item charges are presented in the bill. Contains specifications for which service the charges will be shown under.
     public var presentationDetails: BillingconductorClientTypes.PresentationObject?
     /// A map that contains tag keys and tag values that are attached to a custom line item.
     public var tags: [Swift.String: Swift.String]?
@@ -1729,7 +1842,7 @@ extension BillingconductorClientTypes {
         public var billingGroupArn: Swift.String?
         /// A ListCustomLineItemChargeDetails that describes the charge details of a custom line item.
         public var chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails?
-        /// The display settings of the custom line item
+        /// The computation rule that determines how the custom line item charges are computed and reflected in the bill.
         public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
         /// The time created.
         public var creationTime: Swift.Int
@@ -1741,7 +1854,7 @@ extension BillingconductorClientTypes {
         public var lastModifiedTime: Swift.Int
         /// The custom line item's name.
         public var name: Swift.String?
-        /// The presentation configuration of the custom line item
+        /// Configuration details specifying how the custom line item charges are presented, including which service the charges are shown under.
         public var presentationDetails: BillingconductorClientTypes.PresentationObject?
         /// The product code that's associated with the custom line item.
         public var productCode: Swift.String?
@@ -1870,7 +1983,7 @@ extension BillingconductorClientTypes {
         public var billingGroupArn: Swift.String?
         /// A representation of the charge details of a custom line item.
         public var chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails?
-        /// The display settings of the custom line item
+        /// The computation rule for a specific version of a custom line item, determining how charges are computed and reflected in the bill.
         public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
         /// The time when the custom line item version was created.
         public var creationTime: Swift.Int
@@ -1884,7 +1997,7 @@ extension BillingconductorClientTypes {
         public var lastModifiedTime: Swift.Int
         /// The name of the custom line item.
         public var name: Swift.String?
-        /// The presentation configuration of the custom line item
+        /// Presentation configuration for a specific version of a custom line item, specifying how charges are displayed in the bill.
         public var presentationDetails: BillingconductorClientTypes.PresentationObject?
         /// The product code that’s associated with the custom line item.
         public var productCode: Swift.String?
@@ -5216,6 +5329,7 @@ extension BillingconductorClientTypes.BillingGroupListElement {
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.accountGrouping = try reader["AccountGrouping"].readIfPresent(with: BillingconductorClientTypes.ListBillingGroupAccountGrouping.read(from:))
+        value.billingGroupType = try reader["BillingGroupType"].readIfPresent()
         return value
     }
 }
@@ -5226,6 +5340,7 @@ extension BillingconductorClientTypes.ListBillingGroupAccountGrouping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListBillingGroupAccountGrouping()
         value.autoAssociate = try reader["AutoAssociate"].readIfPresent()
+        value.responsibilityTransferArn = try reader["ResponsibilityTransferArn"].readIfPresent()
         return value
     }
 }
@@ -5434,12 +5549,14 @@ extension BillingconductorClientTypes.UpdateBillingGroupAccountGrouping {
     static func write(value: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AutoAssociate"].write(value.autoAssociate)
+        try writer["ResponsibilityTransferArn"].write(value.responsibilityTransferArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.UpdateBillingGroupAccountGrouping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.UpdateBillingGroupAccountGrouping()
         value.autoAssociate = try reader["AutoAssociate"].readIfPresent()
+        value.responsibilityTransferArn = try reader["ResponsibilityTransferArn"].readIfPresent()
         return value
     }
 }
@@ -5500,6 +5617,7 @@ extension BillingconductorClientTypes.AccountGrouping {
         guard let value else { return }
         try writer["AutoAssociate"].write(value.autoAssociate)
         try writer["LinkedAccountIds"].writeList(value.linkedAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResponsibilityTransferArn"].write(value.responsibilityTransferArn)
     }
 }
 
@@ -5580,8 +5698,21 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter {
         guard let value else { return }
         try writer["Arns"].writeList(value.arns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AutoAssociate"].write(value.autoAssociate)
+        try writer["BillingGroupTypes"].writeList(value.billingGroupTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BillingconductorClientTypes.BillingGroupType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Names"].writeList(value.names, memberWritingClosure: BillingconductorClientTypes.StringSearch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PricingPlan"].write(value.pricingPlan)
+        try writer["PrimaryAccountIds"].writeList(value.primaryAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResponsibilityTransferArns"].writeList(value.responsibilityTransferArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BillingconductorClientTypes.BillingGroupStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BillingconductorClientTypes.StringSearch {
+
+    static func write(value: BillingconductorClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SearchOption"].write(value.searchOption)
+        try writer["SearchValue"].write(value.searchValue)
     }
 }
 

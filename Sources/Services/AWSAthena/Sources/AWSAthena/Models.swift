@@ -17,6 +17,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -607,6 +609,8 @@ extension AthenaClientTypes {
         public var dataManifestLocation: Swift.String?
         /// The number of bytes in the data that was queried.
         public var dataScannedInBytes: Swift.Int?
+        /// The number of Data Processing Units (DPUs) that Athena used to run the query.
+        public var dpuCount: Swift.Double?
         /// The number of milliseconds that the query took to execute.
         public var engineExecutionTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to plan the query processing flow. This includes the time spent retrieving table partitions from the data source. Note that because the query engine performs the query planning, query planning time is a subset of engine processing time.
@@ -625,6 +629,7 @@ extension AthenaClientTypes {
         public init(
             dataManifestLocation: Swift.String? = nil,
             dataScannedInBytes: Swift.Int? = nil,
+            dpuCount: Swift.Double? = nil,
             engineExecutionTimeInMillis: Swift.Int? = nil,
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
@@ -635,6 +640,7 @@ extension AthenaClientTypes {
         ) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
+            self.dpuCount = dpuCount
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
@@ -719,7 +725,7 @@ extension AthenaClientTypes {
         public var athenaError: AthenaClientTypes.AthenaError?
         /// The date and time that the query completed.
         public var completionDateTime: Foundation.Date?
-        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from RUNNING or FAILED to QUEUED.
+        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. For queries that experience certain transient errors, the state transitions from RUNNING back to QUEUED. The FAILED state is always terminal with no automatic retry.
         public var state: AthenaClientTypes.QueryExecutionState?
         /// Further detail about the status of the query.
         public var stateChangeReason: Swift.String?
@@ -764,7 +770,7 @@ extension AthenaClientTypes {
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public var resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
         public var statementType: AthenaClientTypes.StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public var statistics: AthenaClientTypes.QueryExecutionStatistics?
@@ -1481,6 +1487,60 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
+    /// A classification refers to a set of specific configurations.
+    public struct Classification: Swift.Sendable {
+        /// The name of the configuration classification.
+        public var name: Swift.String?
+        /// A set of properties specified within a configuration classification.
+        public var properties: [Swift.String: Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            properties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.name = name
+            self.properties = properties
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+    public struct EngineConfiguration: Swift.Sendable {
+        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
+        public var additionalConfigs: [Swift.String: Swift.String]?
+        /// The configuration classifications that can be specified for the engine.
+        public var classifications: [AthenaClientTypes.Classification]?
+        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1.
+        public var coordinatorDpuSize: Swift.Int?
+        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1.
+        public var defaultExecutorDpuSize: Swift.Int?
+        /// The maximum number of DPUs that can run concurrently.
+        public var maxConcurrentDpus: Swift.Int?
+        /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
+        public var sparkProperties: [Swift.String: Swift.String]?
+
+        public init(
+            additionalConfigs: [Swift.String: Swift.String]? = nil,
+            classifications: [AthenaClientTypes.Classification]? = nil,
+            coordinatorDpuSize: Swift.Int? = nil,
+            defaultExecutorDpuSize: Swift.Int? = nil,
+            maxConcurrentDpus: Swift.Int? = 20,
+            sparkProperties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.additionalConfigs = additionalConfigs
+            self.classifications = classifications
+            self.coordinatorDpuSize = coordinatorDpuSize
+            self.defaultExecutorDpuSize = defaultExecutorDpuSize
+            self.maxConcurrentDpus = maxConcurrentDpus
+            self.sparkProperties = sparkProperties
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
     /// Specifies whether the workgroup is IAM Identity Center supported.
     public struct IdentityCenterConfiguration: Swift.Sendable {
         /// Specifies whether the workgroup is IAM Identity Center supported.
@@ -1500,6 +1560,101 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
+    /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+    public struct CloudWatchLoggingConfiguration: Swift.Sendable {
+        /// Enables CloudWatch logging.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The name of the log group in Amazon CloudWatch Logs where you want to publish your logs.
+        public var logGroup: Swift.String?
+        /// Prefix for the CloudWatch log stream name.
+        public var logStreamNamePrefix: Swift.String?
+        /// The types of logs that you want to publish to CloudWatch.
+        public var logTypes: [Swift.String: [Swift.String]]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            logGroup: Swift.String? = nil,
+            logStreamNamePrefix: Swift.String? = nil,
+            logTypes: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// Configuration settings for delivering logs to Amazon S3 buckets.
+    public struct ManagedLoggingConfiguration: Swift.Sendable {
+        /// Enables mamanged log persistence.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The KMS key ARN to encrypt the logs stored in managed log persistence.
+        public var kmsKey: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            kmsKey: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.kmsKey = kmsKey
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// Configuration settings for delivering logs to Amazon S3 buckets.
+    public struct S3LoggingConfiguration: Swift.Sendable {
+        /// Enables S3 log delivery.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public var kmsKey: Swift.String?
+        /// The Amazon S3 destination URI for log publishing.
+        public var logLocation: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            kmsKey: Swift.String? = nil,
+            logLocation: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.kmsKey = kmsKey
+            self.logLocation = logLocation
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+    public struct MonitoringConfiguration: Swift.Sendable {
+        /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+        public var cloudWatchLoggingConfiguration: AthenaClientTypes.CloudWatchLoggingConfiguration?
+        /// Configuration settings for managed log persistence.
+        public var managedLoggingConfiguration: AthenaClientTypes.ManagedLoggingConfiguration?
+        /// Configuration settings for delivering logs to Amazon S3 buckets.
+        public var s3LoggingConfiguration: AthenaClientTypes.S3LoggingConfiguration?
+
+        public init(
+            cloudWatchLoggingConfiguration: AthenaClientTypes.CloudWatchLoggingConfiguration? = nil,
+            managedLoggingConfiguration: AthenaClientTypes.ManagedLoggingConfiguration? = nil,
+            s3LoggingConfiguration: AthenaClientTypes.S3LoggingConfiguration? = nil
+        ) {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
+            self.managedLoggingConfiguration = managedLoggingConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
     /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query and calculation results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public struct WorkGroupConfiguration: Swift.Sendable {
         /// Specifies a user defined JSON string that is passed to the notebook engine.
@@ -1510,8 +1665,10 @@ extension AthenaClientTypes {
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
-        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
+        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. This property is not required for Apache Spark enabled workgroups. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
+        /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+        public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and IAM Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and IAM Identity Center enabled workgroups. The property is required for IAM Identity Center enabled workgroups.
@@ -1520,6 +1677,8 @@ extension AthenaClientTypes {
         public var identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration?
         /// The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
         public var managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration?
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+        public var monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -1535,10 +1694,12 @@ extension AthenaClientTypes {
             customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
             enableMinimumEncryptionConfiguration: Swift.Bool? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
+            engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
             identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration? = nil,
             managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration? = nil,
+            monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
@@ -1549,10 +1710,12 @@ extension AthenaClientTypes {
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineConfiguration = engineConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.identityCenterConfiguration = identityCenterConfiguration
             self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
+            self.monitoringConfiguration = monitoringConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -2742,6 +2905,30 @@ extension AthenaClientTypes {
     }
 }
 
+public struct GetResourceDashboardInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) for a session.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    ) {
+        self.resourceARN = resourceARN
+    }
+}
+
+public struct GetResourceDashboardOutput: Swift.Sendable {
+    /// The Live UI/Persistence UI url for a session.
+    /// This member is required.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    ) {
+        self.url = url
+    }
+}
+
 public struct GetSessionInput: Swift.Sendable {
     /// The session ID.
     /// This member is required.
@@ -2756,38 +2943,6 @@ public struct GetSessionInput: Swift.Sendable {
 
 extension AthenaClientTypes {
 
-    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
-    public struct EngineConfiguration: Swift.Sendable {
-        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
-        public var additionalConfigs: [Swift.String: Swift.String]?
-        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1.
-        public var coordinatorDpuSize: Swift.Int?
-        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1.
-        public var defaultExecutorDpuSize: Swift.Int?
-        /// The maximum number of DPUs that can run concurrently.
-        /// This member is required.
-        public var maxConcurrentDpus: Swift.Int?
-        /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
-        public var sparkProperties: [Swift.String: Swift.String]?
-
-        public init(
-            additionalConfigs: [Swift.String: Swift.String]? = nil,
-            coordinatorDpuSize: Swift.Int? = nil,
-            defaultExecutorDpuSize: Swift.Int? = nil,
-            maxConcurrentDpus: Swift.Int? = nil,
-            sparkProperties: [Swift.String: Swift.String]? = nil
-        ) {
-            self.additionalConfigs = additionalConfigs
-            self.coordinatorDpuSize = coordinatorDpuSize
-            self.defaultExecutorDpuSize = defaultExecutorDpuSize
-            self.maxConcurrentDpus = maxConcurrentDpus
-            self.sparkProperties = sparkProperties
-        }
-    }
-}
-
-extension AthenaClientTypes {
-
     /// Contains session configuration information.
     public struct SessionConfiguration: Swift.Sendable {
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
@@ -2796,6 +2951,8 @@ extension AthenaClientTypes {
         public var executionRole: Swift.String?
         /// The idle timeout in seconds for the session.
         public var idleTimeoutSeconds: Swift.Int?
+        /// The idle timeout in seconds for the session.
+        public var sessionIdleTimeoutInMinutes: Swift.Int?
         /// The Amazon S3 location that stores information for the notebook.
         public var workingDirectory: Swift.String?
 
@@ -2803,11 +2960,13 @@ extension AthenaClientTypes {
             encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration? = nil,
             executionRole: Swift.String? = nil,
             idleTimeoutSeconds: Swift.Int? = nil,
+            sessionIdleTimeoutInMinutes: Swift.Int? = nil,
             workingDirectory: Swift.String? = nil
         ) {
             self.encryptionConfiguration = encryptionConfiguration
             self.executionRole = executionRole
             self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
             self.workingDirectory = workingDirectory
         }
     }
@@ -2917,6 +3076,8 @@ public struct GetSessionOutput: Swift.Sendable {
     public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
     /// The engine version used by the session (for example, PySpark engine version 3). You can get a list of engine versions by calling [ListEngineVersions].
     public var engineVersion: Swift.String?
+    /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+    public var monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration?
     /// The notebook version.
     public var notebookVersion: Swift.String?
     /// Contains the workgroup configuration information used by the session.
@@ -2934,6 +3095,7 @@ public struct GetSessionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
         engineVersion: Swift.String? = nil,
+        monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration? = nil,
         notebookVersion: Swift.String? = nil,
         sessionConfiguration: AthenaClientTypes.SessionConfiguration? = nil,
         sessionId: Swift.String? = nil,
@@ -2944,12 +3106,47 @@ public struct GetSessionOutput: Swift.Sendable {
         self.description = description
         self.engineConfiguration = engineConfiguration
         self.engineVersion = engineVersion
+        self.monitoringConfiguration = monitoringConfiguration
         self.notebookVersion = notebookVersion
         self.sessionConfiguration = sessionConfiguration
         self.sessionId = sessionId
         self.statistics = statistics
         self.status = status
         self.workGroup = workGroup
+    }
+}
+
+public struct GetSessionEndpointInput: Swift.Sendable {
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+    }
+}
+
+public struct GetSessionEndpointOutput: Swift.Sendable {
+    /// Authentication token for the connection
+    /// This member is required.
+    public var authToken: Swift.String?
+    /// Expiration time of the auth token.
+    /// This member is required.
+    public var authTokenExpirationTime: Foundation.Date?
+    /// The endpoint for connecting to the session.
+    /// This member is required.
+    public var endpointUrl: Swift.String?
+
+    public init(
+        authToken: Swift.String? = nil,
+        authTokenExpirationTime: Foundation.Date? = nil,
+        endpointUrl: Swift.String? = nil
+    ) {
+        self.authToken = authToken
+        self.authTokenExpirationTime = authTokenExpirationTime
+        self.endpointUrl = endpointUrl
     }
 }
 
@@ -4204,6 +4401,8 @@ public struct StartCalculationExecutionOutput: Swift.Sendable {
 public struct StartQueryExecutionInput: Swift.Sendable {
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
+    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+    public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     public var executionParameters: [Swift.String]?
     /// The database within which the query executes.
@@ -4220,6 +4419,7 @@ public struct StartQueryExecutionInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
         executionParameters: [Swift.String]? = nil,
         queryExecutionContext: AthenaClientTypes.QueryExecutionContext? = nil,
         queryString: Swift.String? = nil,
@@ -4228,6 +4428,7 @@ public struct StartQueryExecutionInput: Swift.Sendable {
         workGroup: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.engineConfiguration = engineConfiguration
         self.executionParameters = executionParameters
         self.queryExecutionContext = queryExecutionContext
         self.queryString = queryString
@@ -4274,32 +4475,48 @@ public struct SessionAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 public struct StartSessionInput: Swift.Sendable {
     /// A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
+    /// Copies the tags from the Workgroup to the Session when.
+    public var copyWorkGroupTags: Swift.Bool?
     /// The session description.
     public var description: Swift.String?
     /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
     /// This member is required.
     public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
+    /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
+    public var executionRole: Swift.String?
+    /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+    public var monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration?
     /// The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See [EngineConfiguration$AdditionalConfigs].
     public var notebookVersion: Swift.String?
     /// The idle timeout in minutes for the session.
     public var sessionIdleTimeoutInMinutes: Swift.Int?
+    /// A list of comma separated tags to add to the session that is created.
+    public var tags: [AthenaClientTypes.Tag]?
     /// The workgroup to which the session belongs.
     /// This member is required.
     public var workGroup: Swift.String?
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        copyWorkGroupTags: Swift.Bool? = nil,
         description: Swift.String? = nil,
         engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
+        executionRole: Swift.String? = nil,
+        monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration? = nil,
         notebookVersion: Swift.String? = nil,
         sessionIdleTimeoutInMinutes: Swift.Int? = nil,
+        tags: [AthenaClientTypes.Tag]? = nil,
         workGroup: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.copyWorkGroupTags = copyWorkGroupTags
         self.description = description
         self.engineConfiguration = engineConfiguration
+        self.executionRole = executionRole
+        self.monitoringConfiguration = monitoringConfiguration
         self.notebookVersion = notebookVersion
         self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+        self.tags = tags
         self.workGroup = workGroup
     }
 }
@@ -4689,12 +4906,16 @@ extension AthenaClientTypes {
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
+        /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+        public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// Updates configuration information for managed query results in the workgroup.
         public var managedQueryResultsConfigurationUpdates: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates?
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+        public var monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4714,9 +4935,11 @@ extension AthenaClientTypes {
             customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
             enableMinimumEncryptionConfiguration: Swift.Bool? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
+            engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
             managedQueryResultsConfigurationUpdates: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates? = nil,
+            monitoringConfiguration: AthenaClientTypes.MonitoringConfiguration? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             removeBytesScannedCutoffPerQuery: Swift.Bool? = nil,
@@ -4729,9 +4952,11 @@ extension AthenaClientTypes {
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineConfiguration = engineConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.managedQueryResultsConfigurationUpdates = managedQueryResultsConfigurationUpdates
+            self.monitoringConfiguration = monitoringConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
@@ -5096,9 +5321,23 @@ extension GetQueryRuntimeStatisticsInput {
     }
 }
 
+extension GetResourceDashboardInput {
+
+    static func urlPathProvider(_ value: GetResourceDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetSessionInput {
 
     static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetSessionEndpointInput {
+
+    static func urlPathProvider(_ value: GetSessionEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5633,9 +5872,25 @@ extension GetQueryRuntimeStatisticsInput {
     }
 }
 
+extension GetResourceDashboardInput {
+
+    static func write(value: GetResourceDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
 extension GetSessionInput {
 
     static func write(value: GetSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SessionId"].write(value.sessionId)
+    }
+}
+
+extension GetSessionEndpointInput {
+
+    static func write(value: GetSessionEndpointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SessionId"].write(value.sessionId)
     }
@@ -5871,6 +6126,7 @@ extension StartQueryExecutionInput {
     static func write(value: StartQueryExecutionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["EngineConfiguration"].write(value.engineConfiguration, with: AthenaClientTypes.EngineConfiguration.write(value:to:))
         try writer["ExecutionParameters"].writeList(value.executionParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueryExecutionContext"].write(value.queryExecutionContext, with: AthenaClientTypes.QueryExecutionContext.write(value:to:))
         try writer["QueryString"].write(value.queryString)
@@ -5885,10 +6141,14 @@ extension StartSessionInput {
     static func write(value: StartSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["CopyWorkGroupTags"].write(value.copyWorkGroupTags)
         try writer["Description"].write(value.description)
         try writer["EngineConfiguration"].write(value.engineConfiguration, with: AthenaClientTypes.EngineConfiguration.write(value:to:))
+        try writer["ExecutionRole"].write(value.executionRole)
+        try writer["MonitoringConfiguration"].write(value.monitoringConfiguration, with: AthenaClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["NotebookVersion"].write(value.notebookVersion)
         try writer["SessionIdleTimeoutInMinutes"].write(value.sessionIdleTimeoutInMinutes)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: AthenaClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WorkGroup"].write(value.workGroup)
     }
 }
@@ -6352,6 +6612,18 @@ extension GetQueryRuntimeStatisticsOutput {
     }
 }
 
+extension GetResourceDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceDashboardOutput()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
@@ -6362,12 +6634,27 @@ extension GetSessionOutput {
         value.description = try reader["Description"].readIfPresent()
         value.engineConfiguration = try reader["EngineConfiguration"].readIfPresent(with: AthenaClientTypes.EngineConfiguration.read(from:))
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.monitoringConfiguration = try reader["MonitoringConfiguration"].readIfPresent(with: AthenaClientTypes.MonitoringConfiguration.read(from:))
         value.notebookVersion = try reader["NotebookVersion"].readIfPresent()
         value.sessionConfiguration = try reader["SessionConfiguration"].readIfPresent(with: AthenaClientTypes.SessionConfiguration.read(from:))
         value.sessionId = try reader["SessionId"].readIfPresent()
         value.statistics = try reader["Statistics"].readIfPresent(with: AthenaClientTypes.SessionStatistics.read(from:))
         value.status = try reader["Status"].readIfPresent(with: AthenaClientTypes.SessionStatus.read(from:))
         value.workGroup = try reader["WorkGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSessionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionEndpointOutput()
+        value.authToken = try reader["AuthToken"].readIfPresent() ?? ""
+        value.authTokenExpirationTime = try reader["AuthTokenExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointUrl = try reader["EndpointUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7246,7 +7533,39 @@ enum GetQueryRuntimeStatisticsOutputError {
     }
 }
 
+enum GetResourceDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8033,6 +8352,7 @@ extension AthenaClientTypes.QueryExecutionStatistics {
         value.queryPlanningTimeInMillis = try reader["QueryPlanningTimeInMillis"].readIfPresent()
         value.serviceProcessingTimeInMillis = try reader["ServiceProcessingTimeInMillis"].readIfPresent()
         value.resultReuseInformation = try reader["ResultReuseInformation"].readIfPresent(with: AthenaClientTypes.ResultReuseInformation.read(from:))
+        value.dpuCount = try reader["DpuCount"].readIfPresent()
         return value
     }
 }
@@ -8491,6 +8811,7 @@ extension AthenaClientTypes.EngineConfiguration {
     static func write(value: AthenaClientTypes.EngineConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdditionalConfigs"].writeMap(value.additionalConfigs, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Classifications"].writeList(value.classifications, memberWritingClosure: AthenaClientTypes.Classification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CoordinatorDpuSize"].write(value.coordinatorDpuSize)
         try writer["DefaultExecutorDpuSize"].write(value.defaultExecutorDpuSize)
         try writer["MaxConcurrentDpus"].write(value.maxConcurrentDpus)
@@ -8501,10 +8822,104 @@ extension AthenaClientTypes.EngineConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.EngineConfiguration()
         value.coordinatorDpuSize = try reader["CoordinatorDpuSize"].readIfPresent()
-        value.maxConcurrentDpus = try reader["MaxConcurrentDpus"].readIfPresent() ?? 0
+        value.maxConcurrentDpus = try reader["MaxConcurrentDpus"].readIfPresent() ?? 20
         value.defaultExecutorDpuSize = try reader["DefaultExecutorDpuSize"].readIfPresent()
         value.additionalConfigs = try reader["AdditionalConfigs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.classifications = try reader["Classifications"].readListIfPresent(memberReadingClosure: AthenaClientTypes.Classification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AthenaClientTypes.Classification {
+
+    static func write(value: AthenaClientTypes.Classification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Classification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.Classification()
+        value.name = try reader["Name"].readIfPresent()
+        value.properties = try reader["Properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AthenaClientTypes.MonitoringConfiguration {
+
+    static func write(value: AthenaClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLoggingConfiguration"].write(value.cloudWatchLoggingConfiguration, with: AthenaClientTypes.CloudWatchLoggingConfiguration.write(value:to:))
+        try writer["ManagedLoggingConfiguration"].write(value.managedLoggingConfiguration, with: AthenaClientTypes.ManagedLoggingConfiguration.write(value:to:))
+        try writer["S3LoggingConfiguration"].write(value.s3LoggingConfiguration, with: AthenaClientTypes.S3LoggingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.MonitoringConfiguration()
+        value.cloudWatchLoggingConfiguration = try reader["CloudWatchLoggingConfiguration"].readIfPresent(with: AthenaClientTypes.CloudWatchLoggingConfiguration.read(from:))
+        value.managedLoggingConfiguration = try reader["ManagedLoggingConfiguration"].readIfPresent(with: AthenaClientTypes.ManagedLoggingConfiguration.read(from:))
+        value.s3LoggingConfiguration = try reader["S3LoggingConfiguration"].readIfPresent(with: AthenaClientTypes.S3LoggingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AthenaClientTypes.S3LoggingConfiguration {
+
+    static func write(value: AthenaClientTypes.S3LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["KmsKey"].write(value.kmsKey)
+        try writer["LogLocation"].write(value.logLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.S3LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.S3LoggingConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.logLocation = try reader["LogLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension AthenaClientTypes.ManagedLoggingConfiguration {
+
+    static func write(value: AthenaClientTypes.ManagedLoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ManagedLoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.ManagedLoggingConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        return value
+    }
+}
+
+extension AthenaClientTypes.CloudWatchLoggingConfiguration {
+
+    static func write(value: AthenaClientTypes.CloudWatchLoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["LogGroup"].write(value.logGroup)
+        try writer["LogStreamNamePrefix"].write(value.logStreamNamePrefix)
+        try writer["LogTypes"].writeMap(value.logTypes, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CloudWatchLoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.CloudWatchLoggingConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        value.logStreamNamePrefix = try reader["LogStreamNamePrefix"].readIfPresent()
+        value.logTypes = try reader["LogTypes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8517,6 +8932,7 @@ extension AthenaClientTypes.SessionConfiguration {
         value.executionRole = try reader["ExecutionRole"].readIfPresent()
         value.workingDirectory = try reader["WorkingDirectory"].readIfPresent()
         value.idleTimeoutSeconds = try reader["IdleTimeoutSeconds"].readIfPresent()
+        value.sessionIdleTimeoutInMinutes = try reader["SessionIdleTimeoutInMinutes"].readIfPresent()
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AthenaClientTypes.EncryptionConfiguration.read(from:))
         return value
     }
@@ -8599,10 +9015,12 @@ extension AthenaClientTypes.WorkGroupConfiguration {
         try writer["CustomerContentEncryptionConfiguration"].write(value.customerContentEncryptionConfiguration, with: AthenaClientTypes.CustomerContentEncryptionConfiguration.write(value:to:))
         try writer["EnableMinimumEncryptionConfiguration"].write(value.enableMinimumEncryptionConfiguration)
         try writer["EnforceWorkGroupConfiguration"].write(value.enforceWorkGroupConfiguration)
+        try writer["EngineConfiguration"].write(value.engineConfiguration, with: AthenaClientTypes.EngineConfiguration.write(value:to:))
         try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
         try writer["ExecutionRole"].write(value.executionRole)
         try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: AthenaClientTypes.IdentityCenterConfiguration.write(value:to:))
         try writer["ManagedQueryResultsConfiguration"].write(value.managedQueryResultsConfiguration, with: AthenaClientTypes.ManagedQueryResultsConfiguration.write(value:to:))
+        try writer["MonitoringConfiguration"].write(value.monitoringConfiguration, with: AthenaClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["PublishCloudWatchMetricsEnabled"].write(value.publishCloudWatchMetricsEnabled)
         try writer["QueryResultsS3AccessGrantsConfiguration"].write(value.queryResultsS3AccessGrantsConfiguration, with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.write(value:to:))
         try writer["RequesterPaysEnabled"].write(value.requesterPaysEnabled)
@@ -8621,6 +9039,8 @@ extension AthenaClientTypes.WorkGroupConfiguration {
         value.engineVersion = try reader["EngineVersion"].readIfPresent(with: AthenaClientTypes.EngineVersion.read(from:))
         value.additionalConfiguration = try reader["AdditionalConfiguration"].readIfPresent()
         value.executionRole = try reader["ExecutionRole"].readIfPresent()
+        value.monitoringConfiguration = try reader["MonitoringConfiguration"].readIfPresent(with: AthenaClientTypes.MonitoringConfiguration.read(from:))
+        value.engineConfiguration = try reader["EngineConfiguration"].readIfPresent(with: AthenaClientTypes.EngineConfiguration.read(from:))
         value.customerContentEncryptionConfiguration = try reader["CustomerContentEncryptionConfiguration"].readIfPresent(with: AthenaClientTypes.CustomerContentEncryptionConfiguration.read(from:))
         value.enableMinimumEncryptionConfiguration = try reader["EnableMinimumEncryptionConfiguration"].readIfPresent()
         value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: AthenaClientTypes.IdentityCenterConfiguration.read(from:))
@@ -8806,9 +9226,11 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates {
         try writer["CustomerContentEncryptionConfiguration"].write(value.customerContentEncryptionConfiguration, with: AthenaClientTypes.CustomerContentEncryptionConfiguration.write(value:to:))
         try writer["EnableMinimumEncryptionConfiguration"].write(value.enableMinimumEncryptionConfiguration)
         try writer["EnforceWorkGroupConfiguration"].write(value.enforceWorkGroupConfiguration)
+        try writer["EngineConfiguration"].write(value.engineConfiguration, with: AthenaClientTypes.EngineConfiguration.write(value:to:))
         try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
         try writer["ExecutionRole"].write(value.executionRole)
         try writer["ManagedQueryResultsConfigurationUpdates"].write(value.managedQueryResultsConfigurationUpdates, with: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates.write(value:to:))
+        try writer["MonitoringConfiguration"].write(value.monitoringConfiguration, with: AthenaClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["PublishCloudWatchMetricsEnabled"].write(value.publishCloudWatchMetricsEnabled)
         try writer["QueryResultsS3AccessGrantsConfiguration"].write(value.queryResultsS3AccessGrantsConfiguration, with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.write(value:to:))
         try writer["RemoveBytesScannedCutoffPerQuery"].write(value.removeBytesScannedCutoffPerQuery)

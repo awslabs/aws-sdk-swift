@@ -162,6 +162,7 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
             launchType: self.launchType,
             maxResults: self.maxResults,
             nextToken: token,
+            resourceManagementType: self.resourceManagementType,
             schedulingStrategy: self.schedulingStrategy
         )}
 }

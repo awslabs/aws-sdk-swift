@@ -2259,7 +2259,7 @@ extension KMSClientTypes {
         public var cloudHsmClusterId: Swift.String?
         /// The date and time when the KMS key was created.
         public var creationDate: Foundation.Date?
-        /// Identifies the current key material. This value is present for symmetric encryption keys with AWS_KMS origin and single-Region, symmetric encryption keys with EXTERNAL origin. These KMS keys support automatic or on-demand key rotation and can have multiple key materials associated with them. KMS uses the current key material for both encryption and decryption, and the non-current key material for decryption operations only.
+        /// Identifies the current key material. This value is present for symmetric encryption keys with AWS_KMS or EXTERNAL origin. These KMS keys support automatic or on-demand key rotation and can have multiple key materials associated with them. KMS uses the current key material for both encryption and decryption, and the non-current key material for decryption operations only.
         public var currentKeyMaterialId: Swift.String?
         /// A unique identifier for the [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html) that contains the KMS key. This field is present only when the KMS key is created in a custom key store.
         public var customKeyStoreId: Swift.String?
@@ -4058,7 +4058,7 @@ public struct ImportKeyMaterialInput: Swift.Sendable {
     /// The import token that you received in the response to a previous [GetParametersForImport] request. It must be from the same response that contained the public key that you used to encrypt the key material.
     /// This member is required.
     public var importToken: Foundation.Data?
-    /// Indicates whether the key material being imported is previously associated with this KMS key or not. This parameter is optional and only usable with symmetric encryption keys. If no key material has ever been imported into the KMS key, and this parameter is omitted, the parameter defaults to NEW_KEY_MATERIAL. After the first key material is imported, if this parameter is omitted then the parameter defaults to EXISTING_KEY_MATERIAL.
+    /// Indicates whether the key material being imported is previously associated with this KMS key or not. This parameter is optional and only usable with symmetric encryption keys. If no key material has ever been imported into the KMS key, and this parameter is omitted, the parameter defaults to NEW_KEY_MATERIAL. After the first key material is imported, if this parameter is omitted then the parameter defaults to EXISTING_KEY_MATERIAL. For multi-Region keys, you must first import new key material into the primary Region key. You should use the NEW_KEY_MATERIAL import type when importing key material into the primary Region key. Then, you can import the same key material into the replica Region key. The import type for the replica Region key should be EXISTING_KEY_MATERIAL.
     public var importType: KMSClientTypes.ImportType?
     /// The identifier of the KMS key that will be associated with the imported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding [GetParametersForImport] request. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport. The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, including a [multi-Region key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example:
     ///
@@ -4227,6 +4227,7 @@ extension KMSClientTypes {
     public enum KeyMaterialState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case current
         case nonCurrent
+        case pendingMultiRegionImportAndRotation
         case pendingRotation
         case sdkUnknown(Swift.String)
 
@@ -4234,6 +4235,7 @@ extension KMSClientTypes {
             return [
                 .current,
                 .nonCurrent,
+                .pendingMultiRegionImportAndRotation,
                 .pendingRotation
             ]
         }
@@ -4247,6 +4249,7 @@ extension KMSClientTypes {
             switch self {
             case .current: return "CURRENT"
             case .nonCurrent: return "NON_CURRENT"
+            case .pendingMultiRegionImportAndRotation: return "PENDING_MULTI_REGION_IMPORT_AND_ROTATION"
             case .pendingRotation: return "PENDING_ROTATION"
             case let .sdkUnknown(s): return s
             }
@@ -4519,7 +4522,7 @@ extension KMSClientTypes {
         public var keyMaterialDescription: Swift.String?
         /// Unique identifier of the key material.
         public var keyMaterialId: Swift.String?
-        /// There are three possible values for this field: CURRENT, NON_CURRENT and PENDING_ROTATION. KMS uses CURRENT key material for both encryption and decryption and NON_CURRENT key material only for decryption. PENDING_ROTATION identifies key material that has been imported for on-demand key rotation but the rotation hasn't completed. Key material in PENDING_ROTATION is not permanently associated with the KMS key. You can delete this key material and import different key material in its place. The PENDING_ROTATION value is only used in symmetric encryption keys with imported key material. The other values, CURRENT and NON_CURRENT, are used for all KMS keys that support automatic or on-demand key rotation.
+        /// There are four possible values for this field: CURRENT, NON_CURRENT, PENDING_MULTI_REGION_IMPORT_AND_ROTATION and PENDING_ROTATION. KMS uses CURRENT key material for both encryption and decryption and NON_CURRENT key material only for decryption. PENDING_ROTATION identifies key material that has been imported for on-demand key rotation but the rotation hasn't completed. The key material state PENDING_MULTI_REGION_IMPORT_AND_ROTATION is unique to multi-region, symmetric encryption keys with imported key material. It indicates key material that has been imported into the primary Region key but not all of the replica Region keys. When this key material is imported in to all of the replica Region keys, the key material state will change to PENDING_ROTATION. Key material in PENDING_MULTI_REGION_IMPORT_AND_ROTATION or PENDING_ROTATION state is not permanently associated with the KMS key. You can delete this key material and import different key material in its place. The PENDING_MULTI_REGION_IMPORT_AND_ROTATION and PENDING_ROTATION values are only used in symmetric encryption keys with imported key material. The other values, CURRENT and NON_CURRENT, are used for all KMS keys that support automatic or on-demand key rotation.
         public var keyMaterialState: KMSClientTypes.KeyMaterialState?
         /// Date and time that the key material rotation completed. Formatted as Unix time. This field is not present for the first key material or an imported key material in PENDING_ROTATION state.
         public var rotationDate: Foundation.Date?

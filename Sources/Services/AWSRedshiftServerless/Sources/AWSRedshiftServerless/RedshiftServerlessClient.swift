@@ -386,7 +386,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -460,7 +460,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -534,7 +534,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -606,7 +606,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -681,7 +681,7 @@ extension RedshiftServerlessClient {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createReservation(input: CreateReservationInput) async throws -> CreateReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -754,7 +754,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -828,7 +828,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -902,7 +902,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createSnapshotCopyConfiguration(input: CreateSnapshotCopyConfigurationInput) async throws -> CreateSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -975,7 +975,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1059,7 +1059,7 @@ extension RedshiftServerlessClient {
     /// - `Ipv6CidrBlockNotFoundException` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1133,7 +1133,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1205,7 +1205,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1277,7 +1277,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1348,7 +1348,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1419,7 +1419,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1491,7 +1491,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1564,7 +1564,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSnapshotCopyConfiguration(input: DeleteSnapshotCopyConfigurationInput) async throws -> DeleteSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1636,7 +1636,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1708,7 +1708,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteWorkgroup(input: DeleteWorkgroupInput) async throws -> DeleteWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1779,7 +1779,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1853,7 +1853,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1925,7 +1925,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getEndpointAccess(input: GetEndpointAccessInput) async throws -> GetEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1996,7 +1996,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2068,7 +2068,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getRecoveryPoint(input: GetRecoveryPointInput) async throws -> GetRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2140,7 +2140,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getReservation(input: GetReservationInput) async throws -> GetReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2212,7 +2212,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getReservationOffering(input: GetReservationOfferingInput) async throws -> GetReservationOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2283,7 +2283,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2354,7 +2354,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getScheduledAction(input: GetScheduledActionInput) async throws -> GetScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2425,7 +2425,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2495,7 +2495,7 @@ extension RedshiftServerlessClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2569,7 +2569,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getTrack(input: GetTrackInput) async throws -> GetTrackOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2641,7 +2641,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2712,7 +2712,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2785,7 +2785,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2857,7 +2857,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listEndpointAccess(input: ListEndpointAccessInput) async throws -> ListEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2997,7 +2997,7 @@ extension RedshiftServerlessClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3067,7 +3067,7 @@ extension RedshiftServerlessClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3138,7 +3138,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listReservationOfferings(input: ListReservationOfferingsInput) async throws -> ListReservationOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3209,7 +3209,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3281,7 +3281,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3354,7 +3354,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listSnapshotCopyConfigurations(input: ListSnapshotCopyConfigurationsInput) async throws -> ListSnapshotCopyConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3425,7 +3425,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3496,7 +3496,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3568,7 +3568,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3641,7 +3641,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTracks(input: ListTracksInput) async throws -> ListTracksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3714,7 +3714,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listUsageLimits(input: ListUsageLimitsInput) async throws -> ListUsageLimitsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3784,7 +3784,7 @@ extension RedshiftServerlessClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkgroups(input: ListWorkgroupsInput) async throws -> ListWorkgroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3857,7 +3857,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3929,7 +3929,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4002,7 +4002,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4074,7 +4074,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreTableFromRecoveryPoint(input: RestoreTableFromRecoveryPointInput) async throws -> RestoreTableFromRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4146,7 +4146,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4219,7 +4219,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4291,7 +4291,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4365,7 +4365,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4438,7 +4438,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4496,6 +4496,79 @@ extension RedshiftServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateLakehouseConfiguration` operation on the `RedshiftServerless` service.
+    ///
+    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLakehouseConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLakehouseConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateLakehouseConfiguration(input: UpdateLakehouseConfigurationInput) async throws -> UpdateLakehouseConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLakehouseConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift-serverless")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(UpdateLakehouseConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLakehouseConfigurationOutput>(UpdateLakehouseConfigurationOutput.httpOutput(from:), UpdateLakehouseConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLakehouseConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLakehouseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(xAmzTarget: "RedshiftServerless.UpdateLakehouseConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLakehouseConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(serviceID: serviceName, version: RedshiftServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLakehouseConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateNamespace` operation on the `RedshiftServerless` service.
     ///
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
@@ -4510,7 +4583,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4582,7 +4655,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4654,7 +4727,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4727,7 +4800,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSnapshotCopyConfiguration(input: UpdateSnapshotCopyConfigurationInput) async throws -> UpdateSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4799,7 +4872,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4882,7 +4955,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `Ipv6CidrBlockNotFoundException` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkgroup(input: UpdateWorkgroupInput) async throws -> UpdateWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

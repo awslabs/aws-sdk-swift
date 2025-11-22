@@ -442,6 +442,80 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateIamRoleToResource` operation on the `Odb` service.
+    ///
+    /// Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateIamRoleToResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateIamRoleToResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func associateIamRoleToResource(input: AssociateIamRoleToResourceInput) async throws -> AssociateIamRoleToResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateIamRoleToResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(AssociateIamRoleToResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIamRoleToResourceOutput>(AssociateIamRoleToResourceOutput.httpOutput(from:), AssociateIamRoleToResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIamRoleToResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateIamRoleToResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(xAmzTarget: "Odb.AssociateIamRoleToResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateIamRoleToResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateIamRoleToResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateIamRoleToResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCloudAutonomousVmCluster` operation on the `Odb` service.
     ///
     /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
@@ -1173,6 +1247,80 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOdbPeeringConnection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateIamRoleFromResource` operation on the `Odb` service.
+    ///
+    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIamRoleFromResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateIamRoleFromResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func disassociateIamRoleFromResource(input: DisassociateIamRoleFromResourceInput) async throws -> DisassociateIamRoleFromResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateIamRoleFromResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(DisassociateIamRoleFromResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIamRoleFromResourceOutput>(DisassociateIamRoleFromResourceOutput.httpOutput(from:), DisassociateIamRoleFromResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIamRoleFromResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateIamRoleFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(xAmzTarget: "Odb.DisassociateIamRoleFromResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateIamRoleFromResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateIamRoleFromResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIamRoleFromResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

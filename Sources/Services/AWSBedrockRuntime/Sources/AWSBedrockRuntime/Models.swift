@@ -836,6 +836,98 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountEnforced
+        case organizationEnforced
+        case request
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOrigin] {
+            return [
+                .accountEnforced,
+                .organizationEnforced,
+                .request
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountEnforced: return "ACCOUNT_ENFORCED"
+            case .organizationEnforced: return "ORGANIZATION_ENFORCED"
+            case .request: return "REQUEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailOwnership: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crossAccount
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOwnership] {
+            return [
+                .crossAccount,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crossAccount: return "CROSS_ACCOUNT"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Details about the specific guardrail that was applied during this assessment, including its identifier, version, ARN, origin, and ownership information.
+    public struct AppliedGuardrailDetails: Swift.Sendable {
+        /// The ARN of the guardrail that was applied.
+        public var guardrailArn: Swift.String?
+        /// The unique ID of the guardrail that was applied.
+        public var guardrailId: Swift.String?
+        /// The origin of how the guardrail was applied. This can be either requested at the API level or enforced at the account or organization level as a default guardrail.
+        public var guardrailOrigin: [BedrockRuntimeClientTypes.GuardrailOrigin]?
+        /// The ownership type of the guardrail, indicating whether it is owned by the requesting account or is a cross-account guardrail shared from another AWS account.
+        public var guardrailOwnership: BedrockRuntimeClientTypes.GuardrailOwnership?
+        /// The version of the guardrail that was applied.
+        public var guardrailVersion: Swift.String?
+
+        public init(
+            guardrailArn: Swift.String? = nil,
+            guardrailId: Swift.String? = nil,
+            guardrailOrigin: [BedrockRuntimeClientTypes.GuardrailOrigin]? = nil,
+            guardrailOwnership: BedrockRuntimeClientTypes.GuardrailOwnership? = nil,
+            guardrailVersion: Swift.String? = nil
+        ) {
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailOrigin = guardrailOrigin
+            self.guardrailOwnership = guardrailOwnership
+            self.guardrailVersion = guardrailVersion
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// References a specific automated reasoning policy rule that was applied during evaluation.
     public struct GuardrailAutomatedReasoningRule: Swift.Sendable {
         /// The unique identifier of the automated reasoning rule.
@@ -2082,6 +2174,8 @@ extension BedrockRuntimeClientTypes {
 
     /// A behavior assessment of the guardrail policies used in a call to the Converse API.
     public struct GuardrailAssessment: Swift.Sendable {
+        /// Details about the specific guardrail that was applied during this assessment, including its identifier, version, ARN, origin, and ownership information.
+        public var appliedGuardrailDetails: BedrockRuntimeClientTypes.AppliedGuardrailDetails?
         /// The automated reasoning policy assessment results, including logical validation findings for the input content.
         public var automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment?
         /// The content policy.
@@ -2098,6 +2192,7 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment?
 
         public init(
+            appliedGuardrailDetails: BedrockRuntimeClientTypes.AppliedGuardrailDetails? = nil,
             automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment? = nil,
             contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
             contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment? = nil,
@@ -2106,6 +2201,7 @@ extension BedrockRuntimeClientTypes {
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
         ) {
+            self.appliedGuardrailDetails = appliedGuardrailDetails
             self.automatedReasoningPolicy = automatedReasoningPolicy
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
@@ -2281,17 +2377,15 @@ extension BedrockRuntimeClientTypes {
     /// Configuration information for a guardrail that you use with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) operation.
     public struct GuardrailConfiguration: Swift.Sendable {
         /// The identifier for the guardrail.
-        /// This member is required.
         public var guardrailIdentifier: Swift.String?
         /// The version of the guardrail.
-        /// This member is required.
         public var guardrailVersion: Swift.String?
         /// The trace behavior for the guardrail.
         public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
 
         public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
+            guardrailIdentifier: Swift.String? = "",
+            guardrailVersion: Swift.String? = "",
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         ) {
             self.guardrailIdentifier = guardrailIdentifier
@@ -2441,6 +2535,29 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Specifies a search result location within the content array, providing positioning information for cited content using search result index and block positions.
+    public struct SearchResultLocation: Swift.Sendable {
+        /// The ending position in the content array where the cited content ends.
+        public var end: Swift.Int?
+        /// The index of the search result content block where the cited content is found.
+        public var searchResultIndex: Swift.Int?
+        /// The starting position in the content array where the cited content begins.
+        public var start: Swift.Int?
+
+        public init(
+            end: Swift.Int? = nil,
+            searchResultIndex: Swift.Int? = nil,
+            start: Swift.Int? = nil
+        ) {
+            self.end = end
+            self.searchResultIndex = searchResultIndex
+            self.start = start
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Provides the URL and domain information for the website that was cited when performing a web search.
     public struct WebLocation: Swift.Sendable {
         /// The domain that was cited when performing a web search.
@@ -2470,6 +2587,8 @@ extension BedrockRuntimeClientTypes {
         case documentpage(BedrockRuntimeClientTypes.DocumentPageLocation)
         /// The chunk-level location within the document where the cited content is found, typically used for documents that have been segmented into logical chunks.
         case documentchunk(BedrockRuntimeClientTypes.DocumentChunkLocation)
+        /// The search result location where the cited content is found, including the search result index and block positions within the content array.
+        case searchresultlocation(BedrockRuntimeClientTypes.SearchResultLocation)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2490,6 +2609,8 @@ extension BedrockRuntimeClientTypes {
     public struct Citation: Swift.Sendable {
         /// The precise location within the source document where the cited content can be found, including character positions, page numbers, or chunk identifiers.
         public var location: BedrockRuntimeClientTypes.CitationLocation?
+        /// The source from the original search result that provided the cited content.
+        public var source: Swift.String?
         /// The specific content from the source document that was referenced or cited in the generated response.
         public var sourceContent: [BedrockRuntimeClientTypes.CitationSourceContent]?
         /// The title or identifier of the source document being cited.
@@ -2497,10 +2618,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             location: BedrockRuntimeClientTypes.CitationLocation? = nil,
+            source: Swift.String? = nil,
             sourceContent: [BedrockRuntimeClientTypes.CitationSourceContent]? = nil,
             title: Swift.String? = nil
         ) {
             self.location = location
+            self.source = source
             self.sourceContent = sourceContent
             self.title = title
         }
@@ -2932,6 +3055,52 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A block within a search result that contains the content.
+    public struct SearchResultContentBlock: Swift.Sendable {
+        /// The actual text content
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A search result block that enables natural citations with proper source attribution for retrieved content. This field is only supported by Anthropic Claude Opus 4.1, Opus 4, Sonnet 4.5, Sonnet 4, Sonnet 3.7, and 3.5 Haiku models.
+    public struct SearchResultBlock: Swift.Sendable {
+        /// Configuration setting for citations
+        public var citations: BedrockRuntimeClientTypes.CitationsConfig?
+        /// An array of search result content block.
+        /// This member is required.
+        public var content: [BedrockRuntimeClientTypes.SearchResultContentBlock]?
+        /// The source URL or identifier for the content.
+        /// This member is required.
+        public var source: Swift.String?
+        /// A descriptive title for the search result.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            citations: BedrockRuntimeClientTypes.CitationsConfig? = nil,
+            content: [BedrockRuntimeClientTypes.SearchResultContentBlock]? = nil,
+            source: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.citations = citations
+            self.content = content
+            self.source = source
+            self.title = title
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum VideoFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case flv
         case mkv
@@ -3027,6 +3196,8 @@ extension BedrockRuntimeClientTypes {
         case document(BedrockRuntimeClientTypes.DocumentBlock)
         /// A tool result that is video.
         case video(BedrockRuntimeClientTypes.VideoBlock)
+        /// A tool result that is a search result.
+        case searchresult(BedrockRuntimeClientTypes.SearchResultBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3169,6 +3340,8 @@ extension BedrockRuntimeClientTypes {
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlock)
         /// A content block that contains both generated text and associated citation information, providing traceability between the response and source documents.
         case citationscontent(BedrockRuntimeClientTypes.CitationsContentBlock)
+        /// Search result to include in the message.
+        case searchresult(BedrockRuntimeClientTypes.SearchResultBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3796,10 +3969,8 @@ extension BedrockRuntimeClientTypes {
     /// Configuration information for a guardrail that you use with the [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) action.
     public struct GuardrailStreamConfiguration: Swift.Sendable {
         /// The identifier for the guardrail.
-        /// This member is required.
         public var guardrailIdentifier: Swift.String?
         /// The version of the guardrail.
-        /// This member is required.
         public var guardrailVersion: Swift.String?
         /// The processing mode. The processing mode. For more information, see Configure streaming response behavior in the Amazon Bedrock User Guide.
         public var streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode?
@@ -3807,8 +3978,8 @@ extension BedrockRuntimeClientTypes {
         public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
 
         public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
+            guardrailIdentifier: Swift.String? = "",
+            guardrailVersion: Swift.String? = "",
             streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode? = .sync,
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         ) {
@@ -3915,6 +4086,8 @@ extension BedrockRuntimeClientTypes {
     public struct CitationsDelta: Swift.Sendable {
         /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
         public var location: BedrockRuntimeClientTypes.CitationLocation?
+        /// The source from the original search result that provided the cited content.
+        public var source: Swift.String?
         /// The specific content from the source document that was referenced or cited in the generated response.
         public var sourceContent: [BedrockRuntimeClientTypes.CitationSourceContentDelta]?
         /// The title or identifier of the source document being cited.
@@ -3922,10 +4095,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             location: BedrockRuntimeClientTypes.CitationLocation? = nil,
+            source: Swift.String? = nil,
             sourceContent: [BedrockRuntimeClientTypes.CitationSourceContentDelta]? = nil,
             title: Swift.String? = nil
         ) {
             self.location = location
+            self.source = source
             self.sourceContent = sourceContent
             self.title = title
         }
@@ -5740,6 +5915,21 @@ extension BedrockRuntimeClientTypes.GuardrailAssessment {
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment.read(from:))
         value.automatedReasoningPolicy = try reader["automatedReasoningPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment.read(from:))
         value.invocationMetrics = try reader["invocationMetrics"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailInvocationMetrics.read(from:))
+        value.appliedGuardrailDetails = try reader["appliedGuardrailDetails"].readIfPresent(with: BedrockRuntimeClientTypes.AppliedGuardrailDetails.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.AppliedGuardrailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.AppliedGuardrailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.AppliedGuardrailDetails()
+        value.guardrailId = try reader["guardrailId"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
+        value.guardrailOrigin = try reader["guardrailOrigin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockRuntimeClientTypes.GuardrailOrigin>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.guardrailOwnership = try reader["guardrailOwnership"].readIfPresent()
         return value
     }
 }
@@ -6173,6 +6363,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 try writer["image"].write(image, with: BedrockRuntimeClientTypes.ImageBlock.write(value:to:))
             case let .reasoningcontent(reasoningcontent):
                 try writer["reasoningContent"].write(reasoningcontent, with: BedrockRuntimeClientTypes.ReasoningContentBlock.write(value:to:))
+            case let .searchresult(searchresult):
+                try writer["searchResult"].write(searchresult, with: BedrockRuntimeClientTypes.SearchResultBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
             case let .toolresult(toolresult):
@@ -6210,9 +6402,62 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlock.read(from:)))
             case "citationsContent":
                 return .citationscontent(try reader["citationsContent"].read(with: BedrockRuntimeClientTypes.CitationsContentBlock.read(from:)))
+            case "searchResult":
+                return .searchresult(try reader["searchResult"].read(with: BedrockRuntimeClientTypes.SearchResultBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.SearchResultBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.SearchResultBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["citations"].write(value.citations, with: BedrockRuntimeClientTypes.CitationsConfig.write(value:to:))
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.SearchResultContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["source"].write(value.source)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.SearchResultBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.SearchResultBlock()
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.SearchResultContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.citations = try reader["citations"].readIfPresent(with: BedrockRuntimeClientTypes.CitationsConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationsConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CitationsConfig()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.SearchResultContentBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.SearchResultContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.SearchResultContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.SearchResultContentBlock()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -6238,6 +6483,7 @@ extension BedrockRuntimeClientTypes.Citation {
     static func write(value: BedrockRuntimeClientTypes.Citation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["location"].write(value.location, with: BedrockRuntimeClientTypes.CitationLocation.write(value:to:))
+        try writer["source"].write(value.source)
         try writer["sourceContent"].writeList(value.sourceContent, memberWritingClosure: BedrockRuntimeClientTypes.CitationSourceContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["title"].write(value.title)
     }
@@ -6246,6 +6492,7 @@ extension BedrockRuntimeClientTypes.Citation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.Citation()
         value.title = try reader["title"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
         value.sourceContent = try reader["sourceContent"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CitationSourceContent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.location = try reader["location"].readIfPresent(with: BedrockRuntimeClientTypes.CitationLocation.read(from:))
         return value
@@ -6263,6 +6510,8 @@ extension BedrockRuntimeClientTypes.CitationLocation {
                 try writer["documentChunk"].write(documentchunk, with: BedrockRuntimeClientTypes.DocumentChunkLocation.write(value:to:))
             case let .documentpage(documentpage):
                 try writer["documentPage"].write(documentpage, with: BedrockRuntimeClientTypes.DocumentPageLocation.write(value:to:))
+            case let .searchresultlocation(searchresultlocation):
+                try writer["searchResultLocation"].write(searchresultlocation, with: BedrockRuntimeClientTypes.SearchResultLocation.write(value:to:))
             case let .web(web):
                 try writer["web"].write(web, with: BedrockRuntimeClientTypes.WebLocation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -6282,9 +6531,30 @@ extension BedrockRuntimeClientTypes.CitationLocation {
                 return .documentpage(try reader["documentPage"].read(with: BedrockRuntimeClientTypes.DocumentPageLocation.read(from:)))
             case "documentChunk":
                 return .documentchunk(try reader["documentChunk"].read(with: BedrockRuntimeClientTypes.DocumentChunkLocation.read(from:)))
+            case "searchResultLocation":
+                return .searchresultlocation(try reader["searchResultLocation"].read(with: BedrockRuntimeClientTypes.SearchResultLocation.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.SearchResultLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.SearchResultLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["end"].write(value.end)
+        try writer["searchResultIndex"].write(value.searchResultIndex)
+        try writer["start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.SearchResultLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.SearchResultLocation()
+        value.searchResultIndex = try reader["searchResultIndex"].readIfPresent()
+        value.start = try reader["start"].readIfPresent()
+        value.end = try reader["end"].readIfPresent()
+        return value
     }
 }
 
@@ -6588,6 +6858,8 @@ extension BedrockRuntimeClientTypes.ToolResultContentBlock {
                 try writer["image"].write(image, with: BedrockRuntimeClientTypes.ImageBlock.write(value:to:))
             case let .json(json):
                 try writer["json"].write(json)
+            case let .searchresult(searchresult):
+                try writer["searchResult"].write(searchresult, with: BedrockRuntimeClientTypes.SearchResultBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
             case let .video(video):
@@ -6611,6 +6883,8 @@ extension BedrockRuntimeClientTypes.ToolResultContentBlock {
                 return .document(try reader["document"].read(with: BedrockRuntimeClientTypes.DocumentBlock.read(from:)))
             case "video":
                 return .video(try reader["video"].read(with: BedrockRuntimeClientTypes.VideoBlock.read(from:)))
+            case "searchResult":
+                return .searchresult(try reader["searchResult"].read(with: BedrockRuntimeClientTypes.SearchResultBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -6698,21 +6972,6 @@ extension BedrockRuntimeClientTypes.DocumentBlock {
         value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.DocumentSource.read(from:))
         value.context = try reader["context"].readIfPresent()
         value.citations = try reader["citations"].readIfPresent(with: BedrockRuntimeClientTypes.CitationsConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.CitationsConfig {
-
-    static func write(value: BedrockRuntimeClientTypes.CitationsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.CitationsConfig()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -7078,6 +7337,7 @@ extension BedrockRuntimeClientTypes.CitationsDelta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.CitationsDelta()
         value.title = try reader["title"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
         value.sourceContent = try reader["sourceContent"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CitationSourceContentDelta.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.location = try reader["location"].readIfPresent(with: BedrockRuntimeClientTypes.CitationLocation.read(from:))
         return value

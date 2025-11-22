@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct DeleteAccessLogSettingsOutput: Swift.Sendable {
@@ -80,6 +81,31 @@ public struct DeleteModelOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeletePortalOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeletePortalProductOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeletePortalProductSharingPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteProductPageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteProductRestEndpointPageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteRouteOutput: Swift.Sendable {
 
     public init() { }
@@ -106,6 +132,11 @@ public struct DeleteRoutingRuleOutput: Swift.Sendable {
 }
 
 public struct DeleteStageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisablePortalOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1052,6 +1083,595 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes {
 
+    /// Represents a portal product.
+    public struct PortalProductSummary: Swift.Sendable {
+        /// The description.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The display name of a portal product.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The timestamp when the portal product was last modified.
+        /// This member is required.
+        public var lastModified: Foundation.Date?
+        /// The ARN of a portal product.
+        /// This member is required.
+        public var portalProductArn: Swift.String?
+        /// The portal product identifier.
+        /// This member is required.
+        public var portalProductId: Swift.String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            lastModified: Foundation.Date? = nil,
+            portalProductArn: Swift.String? = nil,
+            portalProductId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.description = description
+            self.displayName = displayName
+            self.lastModified = lastModified
+            self.portalProductArn = portalProductArn
+            self.portalProductId = portalProductId
+            self.tags = tags
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The configuration for using Amazon Cognito user pools to control access to your portal.
+    public struct CognitoConfig: Swift.Sendable {
+        /// The app client ID.
+        /// This member is required.
+        public var appClientId: Swift.String?
+        /// The user pool ARN.
+        /// This member is required.
+        public var userPoolArn: Swift.String?
+        /// The user pool domain.
+        /// This member is required.
+        public var userPoolDomain: Swift.String?
+
+        public init(
+            appClientId: Swift.String? = nil,
+            userPoolArn: Swift.String? = nil,
+            userPoolDomain: Swift.String? = nil
+        ) {
+            self.appClientId = appClientId
+            self.userPoolArn = userPoolArn
+            self.userPoolDomain = userPoolDomain
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The none option.
+    public struct None: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents an authorization configuration for a portal.
+    public struct Authorization: Swift.Sendable {
+        /// The Amazon Cognito configuration.
+        public var cognitoConfig: ApiGatewayV2ClientTypes.CognitoConfig?
+        /// Provide no authorization for your portal. This makes your portal publicly accesible on the web.
+        public var `none`: ApiGatewayV2ClientTypes.None?
+
+        public init(
+            cognitoConfig: ApiGatewayV2ClientTypes.CognitoConfig? = nil,
+            `none`: ApiGatewayV2ClientTypes.None? = nil
+        ) {
+            self.cognitoConfig = cognitoConfig
+            self.`none` = `none`
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents an endpoint configuration.
+    public struct EndpointConfigurationResponse: Swift.Sendable {
+        /// The ARN of the ACM certificate.
+        public var certificateArn: Swift.String?
+        /// The domain name.
+        public var domainName: Swift.String?
+        /// The portal default domain name. This domain name is generated and managed by API Gateway.
+        /// This member is required.
+        public var portalDefaultDomainName: Swift.String?
+        /// The portal domain hosted zone identifier.
+        /// This member is required.
+        public var portalDomainHostedZoneId: Swift.String?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            portalDefaultDomainName: Swift.String? = nil,
+            portalDomainHostedZoneId: Swift.String? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
+            self.portalDefaultDomainName = portalDefaultDomainName
+            self.portalDomainHostedZoneId = portalDomainHostedZoneId
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents custom colors for a published portal.
+    public struct CustomColors: Swift.Sendable {
+        /// Represents the accent color.
+        /// This member is required.
+        public var accentColor: Swift.String?
+        /// Represents the background color.
+        /// This member is required.
+        public var backgroundColor: Swift.String?
+        /// The errorValidationColor.
+        /// This member is required.
+        public var errorValidationColor: Swift.String?
+        /// Represents the header color.
+        /// This member is required.
+        public var headerColor: Swift.String?
+        /// Represents the navigation color.
+        /// This member is required.
+        public var navigationColor: Swift.String?
+        /// Represents the text color.
+        /// This member is required.
+        public var textColor: Swift.String?
+
+        public init(
+            accentColor: Swift.String? = nil,
+            backgroundColor: Swift.String? = nil,
+            errorValidationColor: Swift.String? = nil,
+            headerColor: Swift.String? = nil,
+            navigationColor: Swift.String? = nil,
+            textColor: Swift.String? = nil
+        ) {
+            self.accentColor = accentColor
+            self.backgroundColor = backgroundColor
+            self.errorValidationColor = errorValidationColor
+            self.headerColor = headerColor
+            self.navigationColor = navigationColor
+            self.textColor = textColor
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Defines the theme for a portal.
+    public struct PortalTheme: Swift.Sendable {
+        /// Defines custom color values.
+        /// This member is required.
+        public var customColors: ApiGatewayV2ClientTypes.CustomColors?
+        /// The timestamp when the logo was last uploaded.
+        public var logoLastUploaded: Foundation.Date?
+
+        public init(
+            customColors: ApiGatewayV2ClientTypes.CustomColors? = nil,
+            logoLastUploaded: Foundation.Date? = nil
+        ) {
+            self.customColors = customColors
+            self.logoLastUploaded = logoLastUploaded
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+    public struct PortalContent: Swift.Sendable {
+        /// A description of the portal.
+        public var description: Swift.String?
+        /// The display name for the portal.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The theme for the portal.
+        /// This member is required.
+        public var theme: ApiGatewayV2ClientTypes.PortalTheme?
+
+        public init(
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            theme: ApiGatewayV2ClientTypes.PortalTheme? = nil
+        ) {
+            self.description = description
+            self.displayName = displayName
+            self.theme = theme
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents the preview status.
+    public enum PreviewStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case previewFailed
+        case previewInProgress
+        case previewReady
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreviewStatus] {
+            return [
+                .previewFailed,
+                .previewInProgress,
+                .previewReady
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .previewFailed: return "PREVIEW_FAILED"
+            case .previewInProgress: return "PREVIEW_IN_PROGRESS"
+            case .previewReady: return "PREVIEW_READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a StatusException.
+    public struct StatusException: Swift.Sendable {
+        /// The exception.
+        public var exception: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            exception: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.exception = exception
+            self.message = message
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Contains the preview status and preview URL.
+    public struct Preview: Swift.Sendable {
+        /// The status of the preview.
+        /// This member is required.
+        public var previewStatus: ApiGatewayV2ClientTypes.PreviewStatus?
+        /// The URL of the preview.
+        public var previewUrl: Swift.String?
+        /// The status exception information.
+        public var statusException: ApiGatewayV2ClientTypes.StatusException?
+
+        public init(
+            previewStatus: ApiGatewayV2ClientTypes.PreviewStatus? = nil,
+            previewUrl: Swift.String? = nil,
+            statusException: ApiGatewayV2ClientTypes.StatusException? = nil
+        ) {
+            self.previewStatus = previewStatus
+            self.previewUrl = previewUrl
+            self.statusException = statusException
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a publish status.
+    public enum PublishStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case published
+        case publishFailed
+        case publishInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublishStatus] {
+            return [
+                .disabled,
+                .published,
+                .publishFailed,
+                .publishInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .published: return "PUBLISHED"
+            case .publishFailed: return "PUBLISH_FAILED"
+            case .publishInProgress: return "PUBLISH_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a portal summary.
+    public struct PortalSummary: Swift.Sendable {
+        /// The authorization of the portal.
+        /// This member is required.
+        public var authorization: ApiGatewayV2ClientTypes.Authorization?
+        /// The endpoint configuration of the portal.
+        /// This member is required.
+        public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse?
+        /// The ARNs of the portal products included in the portal.
+        /// This member is required.
+        public var includedPortalProductArns: [Swift.String]?
+        /// The timestamp when the portal was last modified.
+        /// This member is required.
+        public var lastModified: Foundation.Date?
+        /// The timestamp when the portal was last published.
+        public var lastPublished: Foundation.Date?
+        /// The description of the portal the last time it was published.
+        public var lastPublishedDescription: Swift.String?
+        /// The ARN of the portal.
+        /// This member is required.
+        public var portalArn: Swift.String?
+        /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+        /// This member is required.
+        public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+        /// The portal identifier.
+        /// This member is required.
+        public var portalId: Swift.String?
+        /// Represents the preview endpoint and the any possible error messages during preview generation.
+        public var preview: ApiGatewayV2ClientTypes.Preview?
+        /// The publish status.
+        public var publishStatus: ApiGatewayV2ClientTypes.PublishStatus?
+        /// The CloudWatch RUM app monitor name.
+        public var rumAppMonitorName: Swift.String?
+        /// The status exception information.
+        public var statusException: ApiGatewayV2ClientTypes.StatusException?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+            endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse? = nil,
+            includedPortalProductArns: [Swift.String]? = nil,
+            lastModified: Foundation.Date? = nil,
+            lastPublished: Foundation.Date? = nil,
+            lastPublishedDescription: Swift.String? = nil,
+            portalArn: Swift.String? = nil,
+            portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+            portalId: Swift.String? = nil,
+            preview: ApiGatewayV2ClientTypes.Preview? = nil,
+            publishStatus: ApiGatewayV2ClientTypes.PublishStatus? = nil,
+            rumAppMonitorName: Swift.String? = nil,
+            statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.lastModified = lastModified
+            self.lastPublished = lastPublished
+            self.lastPublishedDescription = lastPublishedDescription
+            self.portalArn = portalArn
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.preview = preview
+            self.publishStatus = publishStatus
+            self.rumAppMonitorName = rumAppMonitorName
+            self.statusException = statusException
+            self.tags = tags
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a product page summary without listing any page content.
+    public struct ProductPageSummaryNoBody: Swift.Sendable {
+        /// The timestamp when the product page was last modified.
+        /// This member is required.
+        public var lastModified: Foundation.Date?
+        /// The page title.
+        /// This member is required.
+        public var pageTitle: Swift.String?
+        /// The ARN of the product page.
+        /// This member is required.
+        public var productPageArn: Swift.String?
+        /// The product page identifier.
+        /// This member is required.
+        public var productPageId: Swift.String?
+
+        public init(
+            lastModified: Foundation.Date? = nil,
+            pageTitle: Swift.String? = nil,
+            productPageArn: Swift.String? = nil,
+            productPageId: Swift.String? = nil
+        ) {
+            self.lastModified = lastModified
+            self.pageTitle = pageTitle
+            self.productPageArn = productPageArn
+            self.productPageId = productPageId
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The identifier parts of a product REST endpoint.
+    public struct IdentifierParts: Swift.Sendable {
+        /// The method of the product REST endpoint.
+        /// This member is required.
+        public var method: Swift.String?
+        /// The path of the product REST endpoint.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The REST API ID of the product REST endpoint.
+        /// This member is required.
+        public var restApiId: Swift.String?
+        /// The stage of the product REST endpoint.
+        /// This member is required.
+        public var stage: Swift.String?
+
+        public init(
+            method: Swift.String? = nil,
+            path: Swift.String? = nil,
+            restApiId: Swift.String? = nil,
+            stage: Swift.String? = nil
+        ) {
+            self.method = method
+            self.path = path
+            self.restApiId = restApiId
+            self.stage = stage
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The REST API endpoint identifier.
+    public struct RestEndpointIdentifier: Swift.Sendable {
+        /// The identifier parts of the REST endpoint identifier.
+        public var identifierParts: ApiGatewayV2ClientTypes.IdentifierParts?
+
+        public init(
+            identifierParts: ApiGatewayV2ClientTypes.IdentifierParts? = nil
+        ) {
+            self.identifierParts = identifierParts
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The status.
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .available,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents the try it state for a product REST endpoint page.
+    public enum TryItState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TryItState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// A summary of a product REST endpoint page, without providing the page content.
+    public struct ProductRestEndpointPageSummaryNoBody: Swift.Sendable {
+        /// The endpoint of the product REST endpoint page.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The timestamp when the product REST endpoint page was last modified.
+        /// This member is required.
+        public var lastModified: Foundation.Date?
+        /// The operation name of the product REST endpoint.
+        public var operationName: Swift.String?
+        /// The ARN of the product REST endpoint page.
+        /// This member is required.
+        public var productRestEndpointPageArn: Swift.String?
+        /// The product REST endpoint page identifier.
+        /// This member is required.
+        public var productRestEndpointPageId: Swift.String?
+        /// The REST endpoint identifier.
+        /// This member is required.
+        public var restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier?
+        /// The status.
+        /// This member is required.
+        public var status: ApiGatewayV2ClientTypes.Status?
+        /// The status exception information.
+        public var statusException: ApiGatewayV2ClientTypes.StatusException?
+        /// The try it state of a product REST endpoint page.
+        /// This member is required.
+        public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            lastModified: Foundation.Date? = nil,
+            operationName: Swift.String? = nil,
+            productRestEndpointPageArn: Swift.String? = nil,
+            productRestEndpointPageId: Swift.String? = nil,
+            restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier? = nil,
+            status: ApiGatewayV2ClientTypes.Status? = nil,
+            statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+            tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+        ) {
+            self.endpoint = endpoint
+            self.lastModified = lastModified
+            self.operationName = operationName
+            self.productRestEndpointPageArn = productRestEndpointPageArn
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.status = status
+            self.statusException = statusException
+            self.tryItState = tryItState
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
     /// The authorization type. For WebSocket APIs, valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer. For HTTP APIs, valid values are NONE for open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer.
     public enum AuthorizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsIam
@@ -1343,6 +1963,27 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes {
 
+    /// Contains the section name and list of product REST endpoints for a product.
+    public struct Section: Swift.Sendable {
+        /// The ARNs of the product REST endpoint pages in a portal product.
+        /// This member is required.
+        public var productRestEndpointPageArns: [Swift.String]?
+        /// The section name.
+        /// This member is required.
+        public var sectionName: Swift.String?
+
+        public init(
+            productRestEndpointPageArns: [Swift.String]? = nil,
+            sectionName: Swift.String? = nil
+        ) {
+            self.productRestEndpointPageArns = productRestEndpointPageArns
+            self.sectionName = sectionName
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
     /// Settings for logging access in a stage.
     public struct AccessLogSettings: Swift.Sendable {
         /// The ARN of the CloudWatch Logs log group to receive access logs.
@@ -1628,6 +2269,27 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a domain name and certificate for a portal.
+    public struct ACMManaged: Swift.Sendable {
+        /// The certificate ARN.
+        /// This member is required.
+        public var certificateArn: Swift.String?
+        /// The domain name.
+        /// This member is required.
+        public var domainName: Swift.String?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            domainName: Swift.String? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
+        }
     }
 }
 
@@ -2479,6 +3141,395 @@ public struct CreateModelOutput: Swift.Sendable {
     }
 }
 
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents an endpoint configuration.
+    public struct EndpointConfigurationRequest: Swift.Sendable {
+        /// Represents a domain name and certificate for a portal.
+        public var acmManaged: ApiGatewayV2ClientTypes.ACMManaged?
+        /// Use the default portal domain name that is generated and managed by API Gateway.
+        public var `none`: ApiGatewayV2ClientTypes.None?
+
+        public init(
+            acmManaged: ApiGatewayV2ClientTypes.ACMManaged? = nil,
+            `none`: ApiGatewayV2ClientTypes.None? = nil
+        ) {
+            self.acmManaged = acmManaged
+            self.`none` = `none`
+        }
+    }
+}
+
+/// The request body for the post operation.
+public struct CreatePortalInput: Swift.Sendable {
+    /// The authentication configuration for the portal.
+    /// This member is required.
+    public var authorization: ApiGatewayV2ClientTypes.Authorization?
+    /// The domain configuration for the portal. Use a default domain provided by API Gateway or provide a fully-qualified domain name that you own.
+    /// This member is required.
+    public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationRequest?
+    /// The ARNs of the portal products included in the portal.
+    public var includedPortalProductArns: [Swift.String]?
+    /// The URI for the portal logo image that is displayed in the portal header.
+    public var logoUri: Swift.String?
+    /// The content of the portal.
+    /// This member is required.
+    public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+    /// The name of the Amazon CloudWatch RUM app monitor for the portal.
+    public var rumAppMonitorName: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+        endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationRequest? = nil,
+        includedPortalProductArns: [Swift.String]? = nil,
+        logoUri: Swift.String? = nil,
+        portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+        rumAppMonitorName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.authorization = authorization
+        self.endpointConfiguration = endpointConfiguration
+        self.includedPortalProductArns = includedPortalProductArns
+        self.logoUri = logoUri
+        self.portalContent = portalContent
+        self.rumAppMonitorName = rumAppMonitorName
+        self.tags = tags
+    }
+}
+
+public struct CreatePortalOutput: Swift.Sendable {
+    /// The authorization for the portal. Supports Cognito-based user authentication or no authentication.
+    public var authorization: ApiGatewayV2ClientTypes.Authorization?
+    /// The endpoint configuration.
+    public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse?
+    /// The ARNs of the portal products included in the portal.
+    public var includedPortalProductArns: [Swift.String]?
+    /// The timestamp when the portal configuration was last modified.
+    public var lastModified: Foundation.Date?
+    /// The timestamp when the portal was last published.
+    public var lastPublished: Foundation.Date?
+    /// A user-written description of the changes made in the last published version of the portal.
+    public var lastPublishedDescription: Swift.String?
+    /// The ARN of the portal.
+    public var portalArn: Swift.String?
+    /// The name, description, and theme for the portal.
+    public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+    /// The portal identifier.
+    public var portalId: Swift.String?
+    /// The current publishing status of the portal.
+    public var publishStatus: ApiGatewayV2ClientTypes.PublishStatus?
+    /// The name of the Amazon CloudWatch RUM app monitor.
+    public var rumAppMonitorName: Swift.String?
+    /// Error information for failed portal operations. Contains details about any issues encountered during portal creation or publishing.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+        endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse? = nil,
+        includedPortalProductArns: [Swift.String]? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastPublished: Foundation.Date? = nil,
+        lastPublishedDescription: Swift.String? = nil,
+        portalArn: Swift.String? = nil,
+        portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+        portalId: Swift.String? = nil,
+        publishStatus: ApiGatewayV2ClientTypes.PublishStatus? = nil,
+        rumAppMonitorName: Swift.String? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.authorization = authorization
+        self.endpointConfiguration = endpointConfiguration
+        self.includedPortalProductArns = includedPortalProductArns
+        self.lastModified = lastModified
+        self.lastPublished = lastPublished
+        self.lastPublishedDescription = lastPublishedDescription
+        self.portalArn = portalArn
+        self.portalContent = portalContent
+        self.portalId = portalId
+        self.publishStatus = publishStatus
+        self.rumAppMonitorName = rumAppMonitorName
+        self.statusException = statusException
+        self.tags = tags
+    }
+}
+
+/// The request body for the post operation.
+public struct CreatePortalProductInput: Swift.Sendable {
+    /// A description of the portal product.
+    public var description: Swift.String?
+    /// The name of the portal product as it appears in a published portal.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.tags = tags
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The display order.
+    public struct DisplayOrder: Swift.Sendable {
+        /// Represents a list of sections which include section name and list of product REST endpoints for a product.
+        public var contents: [ApiGatewayV2ClientTypes.Section]?
+        /// The ARN of the overview page.
+        public var overviewPageArn: Swift.String?
+        /// The product page ARNs.
+        public var productPageArns: [Swift.String]?
+
+        public init(
+            contents: [ApiGatewayV2ClientTypes.Section]? = nil,
+            overviewPageArn: Swift.String? = nil,
+            productPageArns: [Swift.String]? = nil
+        ) {
+            self.contents = contents
+            self.overviewPageArn = overviewPageArn
+            self.productPageArns = productPageArns
+        }
+    }
+}
+
+public struct CreatePortalProductOutput: Swift.Sendable {
+    /// A description of the portal product.
+    public var description: Swift.String?
+    /// The display name for the portal product.
+    public var displayName: Swift.String?
+    /// The visual ordering of the product pages and product REST endpoint pages in a published portal.
+    public var displayOrder: ApiGatewayV2ClientTypes.DisplayOrder?
+    /// The timestamp when the portal product was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the portal product.
+    public var portalProductArn: Swift.String?
+    /// The portal product identifier.
+    public var portalProductId: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        displayOrder: ApiGatewayV2ClientTypes.DisplayOrder? = nil,
+        lastModified: Foundation.Date? = nil,
+        portalProductArn: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.displayOrder = displayOrder
+        self.lastModified = lastModified
+        self.portalProductArn = portalProductArn
+        self.portalProductId = portalProductId
+        self.tags = tags
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The content of the product page.
+    public struct DisplayContent: Swift.Sendable {
+        /// The body.
+        /// This member is required.
+        public var body: Swift.String?
+        /// The title.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.body = body
+            self.title = title
+        }
+    }
+}
+
+/// The request body for the post operation.
+public struct CreateProductPageInput: Swift.Sendable {
+    /// The content of the product page.
+    /// This member is required.
+    public var displayContent: ApiGatewayV2ClientTypes.DisplayContent?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.DisplayContent? = nil,
+        portalProductId: Swift.String? = nil
+    ) {
+        self.displayContent = displayContent
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct CreateProductPageOutput: Swift.Sendable {
+    /// The content of the product page.
+    public var displayContent: ApiGatewayV2ClientTypes.DisplayContent?
+    /// The timestamp when the product page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product page.
+    public var productPageArn: Swift.String?
+    /// The product page identifier.
+    public var productPageId: Swift.String?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.DisplayContent? = nil,
+        lastModified: Foundation.Date? = nil,
+        productPageArn: Swift.String? = nil,
+        productPageId: Swift.String? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productPageArn = productPageArn
+        self.productPageId = productPageId
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Contains any values that override the default configuration generated from API Gateway.
+    public struct DisplayContentOverrides: Swift.Sendable {
+        /// By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value.
+        public var body: Swift.String?
+        /// The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value.
+        public var endpoint: Swift.String?
+        /// The operation name of the product REST endpoint.
+        public var operationName: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            operationName: Swift.String? = nil
+        ) {
+            self.body = body
+            self.endpoint = endpoint
+            self.operationName = operationName
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents the endpoint display content.
+    public struct EndpointDisplayContent: Swift.Sendable {
+        /// If your product REST endpoint contains no overrides, the none object is returned.
+        public var `none`: ApiGatewayV2ClientTypes.None?
+        /// The overrides for endpoint display content.
+        public var overrides: ApiGatewayV2ClientTypes.DisplayContentOverrides?
+
+        public init(
+            `none`: ApiGatewayV2ClientTypes.None? = nil,
+            overrides: ApiGatewayV2ClientTypes.DisplayContentOverrides? = nil
+        ) {
+            self.`none` = `none`
+            self.overrides = overrides
+        }
+    }
+}
+
+/// The request body for the post operation.
+public struct CreateProductRestEndpointPageInput: Swift.Sendable {
+    /// The content of the product REST endpoint page.
+    public var displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContent?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The REST endpoint identifier.
+    /// This member is required.
+    public var restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier?
+    /// The try it state of the product REST endpoint page.
+    public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContent? = nil,
+        portalProductId: Swift.String? = nil,
+        restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier? = nil,
+        tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+    ) {
+        self.displayContent = displayContent
+        self.portalProductId = portalProductId
+        self.restEndpointIdentifier = restEndpointIdentifier
+        self.tryItState = tryItState
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The product REST endpoint page.
+    public struct EndpointDisplayContentResponse: Swift.Sendable {
+        /// The API documentation.
+        public var body: Swift.String?
+        /// The URL to invoke your REST API.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The operation name.
+        public var operationName: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            operationName: Swift.String? = nil
+        ) {
+            self.body = body
+            self.endpoint = endpoint
+            self.operationName = operationName
+        }
+    }
+}
+
+public struct CreateProductRestEndpointPageOutput: Swift.Sendable {
+    /// The display content.
+    public var displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse?
+    /// The timestamp when the product REST endpoint page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product REST endpoint page.
+    public var productRestEndpointPageArn: Swift.String?
+    /// The product REST endpoint page identifier.
+    public var productRestEndpointPageId: Swift.String?
+    /// The REST endpoint identifier.
+    public var restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier?
+    /// The status.
+    public var status: ApiGatewayV2ClientTypes.Status?
+    /// The status exception information.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The try it state.
+    public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse? = nil,
+        lastModified: Foundation.Date? = nil,
+        productRestEndpointPageArn: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil,
+        restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier? = nil,
+        status: ApiGatewayV2ClientTypes.Status? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productRestEndpointPageArn = productRestEndpointPageArn
+        self.productRestEndpointPageId = productRestEndpointPageId
+        self.restEndpointIdentifier = restEndpointIdentifier
+        self.status = status
+        self.statusException = statusException
+        self.tryItState = tryItState
+    }
+}
+
 /// Creates a new Route resource to represent a route.
 public struct CreateRouteInput: Swift.Sendable {
     /// The API identifier.
@@ -3062,6 +4113,76 @@ public struct DeleteModelInput: Swift.Sendable {
     }
 }
 
+public struct DeletePortalInput: Swift.Sendable {
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil
+    ) {
+        self.portalId = portalId
+    }
+}
+
+public struct DeletePortalProductInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct DeletePortalProductSharingPolicyInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct DeleteProductPageInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var productPageId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil,
+        productPageId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+        self.productPageId = productPageId
+    }
+}
+
+public struct DeleteProductRestEndpointPageInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The product REST endpoint identifier.
+    /// This member is required.
+    public var productRestEndpointPageId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+        self.productRestEndpointPageId = productRestEndpointPageId
+    }
+}
+
 public struct DeleteRouteInput: Swift.Sendable {
     /// The API identifier.
     /// This member is required.
@@ -3198,6 +4319,18 @@ public struct DeleteVpcLinkInput: Swift.Sendable {
 public struct DeleteVpcLinkOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DisablePortalInput: Swift.Sendable {
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil
+    ) {
+        self.portalId = portalId
+    }
 }
 
 public struct ExportApiInput: Swift.Sendable {
@@ -3640,7 +4773,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var apiMappingSelectionExpression: Swift.String?
     /// The name of the DomainName resource.
     public var domainName: Swift.String?
-    /// Represents an Amazon Resource Name (ARN).
+    /// The ARN of the DomainName resource.
     public var domainNameArn: Swift.String?
     /// The domain name configurations.
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
@@ -4036,6 +5169,271 @@ public struct GetModelTemplateOutput: Swift.Sendable {
         value: Swift.String? = nil
     ) {
         self.value = value
+    }
+}
+
+public struct GetPortalInput: Swift.Sendable {
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil
+    ) {
+        self.portalId = portalId
+    }
+}
+
+public struct GetPortalOutput: Swift.Sendable {
+    /// The authorization for the portal.
+    public var authorization: ApiGatewayV2ClientTypes.Authorization?
+    /// The endpoint configuration.
+    public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse?
+    /// The ARNs of the portal products included in the portal.
+    public var includedPortalProductArns: [Swift.String]?
+    /// The timestamp when the portal was last modified.
+    public var lastModified: Foundation.Date?
+    /// The timestamp when the portal was last published.
+    public var lastPublished: Foundation.Date?
+    /// The publish description used when the portal was last published.
+    public var lastPublishedDescription: Swift.String?
+    /// The ARN of the portal.
+    public var portalArn: Swift.String?
+    /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+    public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+    /// The portal identifier.
+    public var portalId: Swift.String?
+    /// Represents the preview endpoint and the any possible error messages during preview generation.
+    public var preview: ApiGatewayV2ClientTypes.Preview?
+    /// The publish status of a portal.
+    public var publishStatus: ApiGatewayV2ClientTypes.PublishStatus?
+    /// The CloudWatch RUM app monitor name.
+    public var rumAppMonitorName: Swift.String?
+    /// The status exception information.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+        endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse? = nil,
+        includedPortalProductArns: [Swift.String]? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastPublished: Foundation.Date? = nil,
+        lastPublishedDescription: Swift.String? = nil,
+        portalArn: Swift.String? = nil,
+        portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+        portalId: Swift.String? = nil,
+        preview: ApiGatewayV2ClientTypes.Preview? = nil,
+        publishStatus: ApiGatewayV2ClientTypes.PublishStatus? = nil,
+        rumAppMonitorName: Swift.String? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.authorization = authorization
+        self.endpointConfiguration = endpointConfiguration
+        self.includedPortalProductArns = includedPortalProductArns
+        self.lastModified = lastModified
+        self.lastPublished = lastPublished
+        self.lastPublishedDescription = lastPublishedDescription
+        self.portalArn = portalArn
+        self.portalContent = portalContent
+        self.portalId = portalId
+        self.preview = preview
+        self.publishStatus = publishStatus
+        self.rumAppMonitorName = rumAppMonitorName
+        self.statusException = statusException
+        self.tags = tags
+    }
+}
+
+public struct GetPortalProductInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The account ID of the resource owner of the portal product.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+public struct GetPortalProductOutput: Swift.Sendable {
+    /// The description of a portal product.
+    public var description: Swift.String?
+    /// The display name.
+    public var displayName: Swift.String?
+    /// The display order.
+    public var displayOrder: ApiGatewayV2ClientTypes.DisplayOrder?
+    /// The timestamp when the portal product was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the portal product.
+    public var portalProductArn: Swift.String?
+    /// The portal product identifier.
+    public var portalProductId: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        displayOrder: ApiGatewayV2ClientTypes.DisplayOrder? = nil,
+        lastModified: Foundation.Date? = nil,
+        portalProductArn: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.displayOrder = displayOrder
+        self.lastModified = lastModified
+        self.portalProductArn = portalProductArn
+        self.portalProductId = portalProductId
+        self.tags = tags
+    }
+}
+
+public struct GetPortalProductSharingPolicyInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct GetPortalProductSharingPolicyOutput: Swift.Sendable {
+    /// The product sharing policy.
+    public var policyDocument: Swift.String?
+    /// The portal product identifier.
+    public var portalProductId: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        portalProductId: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct GetProductPageInput: Swift.Sendable {
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var productPageId: Swift.String?
+    /// The account ID of the resource owner of the portal product.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        portalProductId: Swift.String? = nil,
+        productPageId: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.portalProductId = portalProductId
+        self.productPageId = productPageId
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+public struct GetProductPageOutput: Swift.Sendable {
+    /// The content of the product page.
+    public var displayContent: ApiGatewayV2ClientTypes.DisplayContent?
+    /// The timestamp when the product page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product page.
+    public var productPageArn: Swift.String?
+    /// The product page identifier.
+    public var productPageId: Swift.String?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.DisplayContent? = nil,
+        lastModified: Foundation.Date? = nil,
+        productPageArn: Swift.String? = nil,
+        productPageId: Swift.String? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productPageArn = productPageArn
+        self.productPageId = productPageId
+    }
+}
+
+public struct GetProductRestEndpointPageInput: Swift.Sendable {
+    /// The query parameter to include raw display content.
+    public var includeRawDisplayContent: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The product REST endpoint identifier.
+    /// This member is required.
+    public var productRestEndpointPageId: Swift.String?
+    /// The account ID of the resource owner of the portal product.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        includeRawDisplayContent: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.includeRawDisplayContent = includeRawDisplayContent
+        self.portalProductId = portalProductId
+        self.productRestEndpointPageId = productRestEndpointPageId
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+public struct GetProductRestEndpointPageOutput: Swift.Sendable {
+    /// The content of the product REST endpoint page.
+    public var displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse?
+    /// The timestamp when the product REST endpoint page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product REST endpoint page.
+    public var productRestEndpointPageArn: Swift.String?
+    /// The product REST endpoint page identifier.
+    public var productRestEndpointPageId: Swift.String?
+    /// The raw display content of the product REST endpoint page.
+    public var rawDisplayContent: Swift.String?
+    /// The REST endpoint identifier.
+    public var restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier?
+    /// The status of the product REST endpoint page.
+    public var status: ApiGatewayV2ClientTypes.Status?
+    /// The status exception information.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The try it state.
+    public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse? = nil,
+        lastModified: Foundation.Date? = nil,
+        productRestEndpointPageArn: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil,
+        rawDisplayContent: Swift.String? = nil,
+        restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier? = nil,
+        status: ApiGatewayV2ClientTypes.Status? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productRestEndpointPageArn = productRestEndpointPageArn
+        self.productRestEndpointPageId = productRestEndpointPageId
+        self.rawDisplayContent = rawDisplayContent
+        self.restEndpointIdentifier = restEndpointIdentifier
+        self.status = status
+        self.statusException = statusException
+        self.tryItState = tryItState
     }
 }
 
@@ -4606,6 +6004,148 @@ public struct ImportApiOutput: Swift.Sendable {
     }
 }
 
+public struct ListPortalProductsInput: Swift.Sendable {
+    /// The maximum number of elements to be returned for this resource.
+    public var maxResults: Swift.String?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+    /// The resource owner of the portal product.
+    public var resourceOwner: Swift.String?
+
+    public init(
+        maxResults: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resourceOwner: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceOwner = resourceOwner
+    }
+}
+
+public struct ListPortalProductsOutput: Swift.Sendable {
+    /// The elements from this collection.
+    public var items: [ApiGatewayV2ClientTypes.PortalProductSummary]?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [ApiGatewayV2ClientTypes.PortalProductSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListPortalsInput: Swift.Sendable {
+    /// The maximum number of elements to be returned for this resource.
+    public var maxResults: Swift.String?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListPortalsOutput: Swift.Sendable {
+    /// The elements from this collection.
+    public var items: [ApiGatewayV2ClientTypes.PortalSummary]?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [ApiGatewayV2ClientTypes.PortalSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListProductPagesInput: Swift.Sendable {
+    /// The maximum number of elements to be returned for this resource.
+    public var maxResults: Swift.String?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The account ID of the resource owner of the portal product.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        maxResults: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.portalProductId = portalProductId
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+public struct ListProductPagesOutput: Swift.Sendable {
+    /// The elements from this collection.
+    public var items: [ApiGatewayV2ClientTypes.ProductPageSummaryNoBody]?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [ApiGatewayV2ClientTypes.ProductPageSummaryNoBody]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListProductRestEndpointPagesInput: Swift.Sendable {
+    /// The maximum number of elements to be returned for this resource.
+    public var maxResults: Swift.String?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The account ID of the resource owner of the portal product.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        maxResults: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.portalProductId = portalProductId
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+public struct ListProductRestEndpointPagesOutput: Swift.Sendable {
+    /// The elements from this collection.
+    public var items: [ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody]?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListRoutingRulesInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
@@ -4643,6 +6183,68 @@ public struct ListRoutingRulesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.routingRules = routingRules
     }
+}
+
+public struct PreviewPortalInput: Swift.Sendable {
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil
+    ) {
+        self.portalId = portalId
+    }
+}
+
+public struct PreviewPortalOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The request body for the post operation.
+public struct PublishPortalInput: Swift.Sendable {
+    /// The description of the portal. When the portal is published, this description becomes the last published description.
+    public var description: Swift.String?
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        portalId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.portalId = portalId
+    }
+}
+
+public struct PublishPortalOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The request body for the put operation.
+public struct PutPortalProductSharingPolicyInput: Swift.Sendable {
+    /// The product sharing policy.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        portalProductId: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct PutPortalProductSharingPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct PutRoutingRuleInput: Swift.Sendable {
@@ -5247,7 +6849,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var apiMappingSelectionExpression: Swift.String?
     /// The name of the DomainName resource.
     public var domainName: Swift.String?
-    /// Represents an Amazon Resource Name (ARN).
+    /// The ARN of the DomainName resource.
     public var domainNameArn: Swift.String?
     /// The domain name configurations.
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
@@ -5582,6 +7184,276 @@ public struct UpdateModelOutput: Swift.Sendable {
         self.modelId = modelId
         self.name = name
         self.schema = schema
+    }
+}
+
+/// The request body for the patch operation.
+public struct UpdatePortalInput: Swift.Sendable {
+    /// The authorization of the portal.
+    public var authorization: ApiGatewayV2ClientTypes.Authorization?
+    /// Represents an endpoint configuration.
+    public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationRequest?
+    /// The ARNs of the portal products included in the portal.
+    public var includedPortalProductArns: [Swift.String]?
+    /// The logo URI.
+    public var logoUri: Swift.String?
+    /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+    public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+    /// The portal identifier.
+    /// This member is required.
+    public var portalId: Swift.String?
+    /// The CloudWatch RUM app monitor name.
+    public var rumAppMonitorName: Swift.String?
+
+    public init(
+        authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+        endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationRequest? = nil,
+        includedPortalProductArns: [Swift.String]? = nil,
+        logoUri: Swift.String? = nil,
+        portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+        portalId: Swift.String? = nil,
+        rumAppMonitorName: Swift.String? = nil
+    ) {
+        self.authorization = authorization
+        self.endpointConfiguration = endpointConfiguration
+        self.includedPortalProductArns = includedPortalProductArns
+        self.logoUri = logoUri
+        self.portalContent = portalContent
+        self.portalId = portalId
+        self.rumAppMonitorName = rumAppMonitorName
+    }
+}
+
+public struct UpdatePortalOutput: Swift.Sendable {
+    /// The authorization for the portal.
+    public var authorization: ApiGatewayV2ClientTypes.Authorization?
+    /// The endpoint configuration.
+    public var endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse?
+    /// The ARNs of the portal products included in the portal.
+    public var includedPortalProductArns: [Swift.String]?
+    /// The timestamp when the portal was last modified.
+    public var lastModified: Foundation.Date?
+    /// The timestamp when the portal was last published.
+    public var lastPublished: Foundation.Date?
+    /// The description associated with the last time the portal was published.
+    public var lastPublishedDescription: Swift.String?
+    /// The ARN of the portal.
+    public var portalArn: Swift.String?
+    /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+    public var portalContent: ApiGatewayV2ClientTypes.PortalContent?
+    /// The portal identifier.
+    public var portalId: Swift.String?
+    /// Represents the preview endpoint and the any possible error messages during preview generation.
+    public var preview: ApiGatewayV2ClientTypes.Preview?
+    /// The publishStatus.
+    public var publishStatus: ApiGatewayV2ClientTypes.PublishStatus?
+    /// The CloudWatch RUM app monitor name.
+    public var rumAppMonitorName: Swift.String?
+    /// The status exception information.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        authorization: ApiGatewayV2ClientTypes.Authorization? = nil,
+        endpointConfiguration: ApiGatewayV2ClientTypes.EndpointConfigurationResponse? = nil,
+        includedPortalProductArns: [Swift.String]? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastPublished: Foundation.Date? = nil,
+        lastPublishedDescription: Swift.String? = nil,
+        portalArn: Swift.String? = nil,
+        portalContent: ApiGatewayV2ClientTypes.PortalContent? = nil,
+        portalId: Swift.String? = nil,
+        preview: ApiGatewayV2ClientTypes.Preview? = nil,
+        publishStatus: ApiGatewayV2ClientTypes.PublishStatus? = nil,
+        rumAppMonitorName: Swift.String? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.authorization = authorization
+        self.endpointConfiguration = endpointConfiguration
+        self.includedPortalProductArns = includedPortalProductArns
+        self.lastModified = lastModified
+        self.lastPublished = lastPublished
+        self.lastPublishedDescription = lastPublishedDescription
+        self.portalArn = portalArn
+        self.portalContent = portalContent
+        self.portalId = portalId
+        self.preview = preview
+        self.publishStatus = publishStatus
+        self.rumAppMonitorName = rumAppMonitorName
+        self.statusException = statusException
+        self.tags = tags
+    }
+}
+
+/// The request body for the patch operation.
+public struct UpdatePortalProductInput: Swift.Sendable {
+    /// The description.
+    public var description: Swift.String?
+    /// The displayName.
+    public var displayName: Swift.String?
+    /// The display order.
+    public var displayOrder: ApiGatewayV2ClientTypes.DisplayOrder?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        displayOrder: ApiGatewayV2ClientTypes.DisplayOrder? = nil,
+        portalProductId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.displayOrder = displayOrder
+        self.portalProductId = portalProductId
+    }
+}
+
+public struct UpdatePortalProductOutput: Swift.Sendable {
+    /// The description of the portal product.
+    public var description: Swift.String?
+    /// The display name of a portal product.
+    public var displayName: Swift.String?
+    /// The display order that the portal products will appear in a portal.
+    public var displayOrder: ApiGatewayV2ClientTypes.DisplayOrder?
+    /// The timestamp when the portal product was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the portal product.
+    public var portalProductArn: Swift.String?
+    /// The portal product identifier.
+    public var portalProductId: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        displayOrder: ApiGatewayV2ClientTypes.DisplayOrder? = nil,
+        lastModified: Foundation.Date? = nil,
+        portalProductArn: Swift.String? = nil,
+        portalProductId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.displayOrder = displayOrder
+        self.lastModified = lastModified
+        self.portalProductArn = portalProductArn
+        self.portalProductId = portalProductId
+        self.tags = tags
+    }
+}
+
+/// The request body for the patch operation.
+public struct UpdateProductPageInput: Swift.Sendable {
+    /// The content of the product page.
+    public var displayContent: ApiGatewayV2ClientTypes.DisplayContent?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The portal product identifier.
+    /// This member is required.
+    public var productPageId: Swift.String?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.DisplayContent? = nil,
+        portalProductId: Swift.String? = nil,
+        productPageId: Swift.String? = nil
+    ) {
+        self.displayContent = displayContent
+        self.portalProductId = portalProductId
+        self.productPageId = productPageId
+    }
+}
+
+public struct UpdateProductPageOutput: Swift.Sendable {
+    /// The content of the product page.
+    public var displayContent: ApiGatewayV2ClientTypes.DisplayContent?
+    /// The timestamp when the product page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product page.
+    public var productPageArn: Swift.String?
+    /// The product page identifier.
+    public var productPageId: Swift.String?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.DisplayContent? = nil,
+        lastModified: Foundation.Date? = nil,
+        productPageArn: Swift.String? = nil,
+        productPageId: Swift.String? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productPageArn = productPageArn
+        self.productPageId = productPageId
+    }
+}
+
+/// The request body for the patch operation.
+public struct UpdateProductRestEndpointPageInput: Swift.Sendable {
+    /// The display content.
+    public var displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContent?
+    /// The portal product identifier.
+    /// This member is required.
+    public var portalProductId: Swift.String?
+    /// The product REST endpoint identifier.
+    /// This member is required.
+    public var productRestEndpointPageId: Swift.String?
+    /// The try it state of a product REST endpoint page.
+    public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContent? = nil,
+        portalProductId: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil,
+        tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+    ) {
+        self.displayContent = displayContent
+        self.portalProductId = portalProductId
+        self.productRestEndpointPageId = productRestEndpointPageId
+        self.tryItState = tryItState
+    }
+}
+
+public struct UpdateProductRestEndpointPageOutput: Swift.Sendable {
+    /// The content of the product REST endpoint page.
+    public var displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse?
+    /// The timestamp when the product REST endpoint page was last modified.
+    public var lastModified: Foundation.Date?
+    /// The ARN of the product REST endpoint page.
+    public var productRestEndpointPageArn: Swift.String?
+    /// The product REST endpoint page identifier.
+    public var productRestEndpointPageId: Swift.String?
+    /// The REST endpoint identifier.
+    public var restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier?
+    /// The status.
+    public var status: ApiGatewayV2ClientTypes.Status?
+    /// The status exception information.
+    public var statusException: ApiGatewayV2ClientTypes.StatusException?
+    /// The try it state of a product REST endpoint page.
+    public var tryItState: ApiGatewayV2ClientTypes.TryItState?
+
+    public init(
+        displayContent: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse? = nil,
+        lastModified: Foundation.Date? = nil,
+        productRestEndpointPageArn: Swift.String? = nil,
+        productRestEndpointPageId: Swift.String? = nil,
+        restEndpointIdentifier: ApiGatewayV2ClientTypes.RestEndpointIdentifier? = nil,
+        status: ApiGatewayV2ClientTypes.Status? = nil,
+        statusException: ApiGatewayV2ClientTypes.StatusException? = nil,
+        tryItState: ApiGatewayV2ClientTypes.TryItState? = nil
+    ) {
+        self.displayContent = displayContent
+        self.lastModified = lastModified
+        self.productRestEndpointPageArn = productRestEndpointPageArn
+        self.productRestEndpointPageId = productRestEndpointPageId
+        self.restEndpointIdentifier = restEndpointIdentifier
+        self.status = status
+        self.statusException = statusException
+        self.tryItState = tryItState
     }
 }
 
@@ -6022,6 +7894,40 @@ extension CreateModelInput {
     }
 }
 
+extension CreatePortalInput {
+
+    static func urlPathProvider(_ value: CreatePortalInput) -> Swift.String? {
+        return "/v2/portals"
+    }
+}
+
+extension CreatePortalProductInput {
+
+    static func urlPathProvider(_ value: CreatePortalProductInput) -> Swift.String? {
+        return "/v2/portalproducts"
+    }
+}
+
+extension CreateProductPageInput {
+
+    static func urlPathProvider(_ value: CreateProductPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productpages"
+    }
+}
+
+extension CreateProductRestEndpointPageInput {
+
+    static func urlPathProvider(_ value: CreateProductRestEndpointPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productrestendpointpages"
+    }
+}
+
 extension CreateRouteInput {
 
     static func urlPathProvider(_ value: CreateRouteInput) -> Swift.String? {
@@ -6208,6 +8114,62 @@ extension DeleteModelInput {
     }
 }
 
+extension DeletePortalInput {
+
+    static func urlPathProvider(_ value: DeletePortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePortalProductInput {
+
+    static func urlPathProvider(_ value: DeletePortalProductInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePortalProductSharingPolicyInput {
+
+    static func urlPathProvider(_ value: DeletePortalProductSharingPolicyInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/sharingpolicy"
+    }
+}
+
+extension DeleteProductPageInput {
+
+    static func urlPathProvider(_ value: DeleteProductPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productPageId = value.productPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productpages/\(productPageId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteProductRestEndpointPageInput {
+
+    static func urlPathProvider(_ value: DeleteProductRestEndpointPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productRestEndpointPageId = value.productRestEndpointPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productrestendpointpages/\(productRestEndpointPageId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteRouteInput {
 
     static func urlPathProvider(_ value: DeleteRouteInput) -> Swift.String? {
@@ -6314,6 +8276,16 @@ extension DeleteVpcLinkInput {
             return nil
         }
         return "/v2/vpclinks/\(vpcLinkId.urlPercentEncoding())"
+    }
+}
+
+extension DisablePortalInput {
+
+    static func urlPathProvider(_ value: DisablePortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())/publish"
     }
 }
 
@@ -6675,6 +8647,102 @@ extension GetModelTemplateInput {
     }
 }
 
+extension GetPortalInput {
+
+    static func urlPathProvider(_ value: GetPortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())"
+    }
+}
+
+extension GetPortalProductInput {
+
+    static func urlPathProvider(_ value: GetPortalProductInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())"
+    }
+}
+
+extension GetPortalProductInput {
+
+    static func queryItemProvider(_ value: GetPortalProductInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetPortalProductSharingPolicyInput {
+
+    static func urlPathProvider(_ value: GetPortalProductSharingPolicyInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/sharingpolicy"
+    }
+}
+
+extension GetProductPageInput {
+
+    static func urlPathProvider(_ value: GetProductPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productPageId = value.productPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productpages/\(productPageId.urlPercentEncoding())"
+    }
+}
+
+extension GetProductPageInput {
+
+    static func queryItemProvider(_ value: GetProductPageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetProductRestEndpointPageInput {
+
+    static func urlPathProvider(_ value: GetProductRestEndpointPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productRestEndpointPageId = value.productRestEndpointPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productrestendpointpages/\(productRestEndpointPageId.urlPercentEncoding())"
+    }
+}
+
+extension GetProductRestEndpointPageInput {
+
+    static func queryItemProvider(_ value: GetProductRestEndpointPageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        if let includeRawDisplayContent = value.includeRawDisplayContent {
+            let includeRawDisplayContentQueryItem = Smithy.URIQueryItem(name: "includeRawDisplayContent".urlPercentEncoding(), value: Swift.String(includeRawDisplayContent).urlPercentEncoding())
+            items.append(includeRawDisplayContentQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetRouteInput {
 
     static func urlPathProvider(_ value: GetRouteInput) -> Swift.String? {
@@ -6889,6 +8957,116 @@ extension ImportApiInput {
     }
 }
 
+extension ListPortalProductsInput {
+
+    static func urlPathProvider(_ value: ListPortalProductsInput) -> Swift.String? {
+        return "/v2/portalproducts"
+    }
+}
+
+extension ListPortalProductsInput {
+
+    static func queryItemProvider(_ value: ListPortalProductsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let resourceOwner = value.resourceOwner {
+            let resourceOwnerQueryItem = Smithy.URIQueryItem(name: "resourceOwner".urlPercentEncoding(), value: Swift.String(resourceOwner).urlPercentEncoding())
+            items.append(resourceOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPortalsInput {
+
+    static func urlPathProvider(_ value: ListPortalsInput) -> Swift.String? {
+        return "/v2/portals"
+    }
+}
+
+extension ListPortalsInput {
+
+    static func queryItemProvider(_ value: ListPortalsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListProductPagesInput {
+
+    static func urlPathProvider(_ value: ListProductPagesInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productpages"
+    }
+}
+
+extension ListProductPagesInput {
+
+    static func queryItemProvider(_ value: ListProductPagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListProductRestEndpointPagesInput {
+
+    static func urlPathProvider(_ value: ListProductRestEndpointPagesInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productrestendpointpages"
+    }
+}
+
+extension ListProductRestEndpointPagesInput {
+
+    static func queryItemProvider(_ value: ListProductRestEndpointPagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRoutingRulesInput {
 
     static func urlPathProvider(_ value: ListRoutingRulesInput) -> Swift.String? {
@@ -6916,6 +9094,36 @@ extension ListRoutingRulesInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension PreviewPortalInput {
+
+    static func urlPathProvider(_ value: PreviewPortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())/preview"
+    }
+}
+
+extension PublishPortalInput {
+
+    static func urlPathProvider(_ value: PublishPortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())/publish"
+    }
+}
+
+extension PutPortalProductSharingPolicyInput {
+
+    static func urlPathProvider(_ value: PutPortalProductSharingPolicyInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/sharingpolicy"
     }
 }
 
@@ -7120,6 +9328,52 @@ extension UpdateModelInput {
     }
 }
 
+extension UpdatePortalInput {
+
+    static func urlPathProvider(_ value: UpdatePortalInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/v2/portals/\(portalId.urlPercentEncoding())"
+    }
+}
+
+extension UpdatePortalProductInput {
+
+    static func urlPathProvider(_ value: UpdatePortalProductInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateProductPageInput {
+
+    static func urlPathProvider(_ value: UpdateProductPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productPageId = value.productPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productpages/\(productPageId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateProductRestEndpointPageInput {
+
+    static func urlPathProvider(_ value: UpdateProductRestEndpointPageInput) -> Swift.String? {
+        guard let portalProductId = value.portalProductId else {
+            return nil
+        }
+        guard let productRestEndpointPageId = value.productRestEndpointPageId else {
+            return nil
+        }
+        return "/v2/portalproducts/\(portalProductId.urlPercentEncoding())/productrestendpointpages/\(productRestEndpointPageId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateRouteInput {
 
     static func urlPathProvider(_ value: UpdateRouteInput) -> Swift.String? {
@@ -7288,6 +9542,48 @@ extension CreateModelInput {
     }
 }
 
+extension CreatePortalInput {
+
+    static func write(value: CreatePortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorization"].write(value.authorization, with: ApiGatewayV2ClientTypes.Authorization.write(value:to:))
+        try writer["endpointConfiguration"].write(value.endpointConfiguration, with: ApiGatewayV2ClientTypes.EndpointConfigurationRequest.write(value:to:))
+        try writer["includedPortalProductArns"].writeList(value.includedPortalProductArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logoUri"].write(value.logoUri)
+        try writer["portalContent"].write(value.portalContent, with: ApiGatewayV2ClientTypes.PortalContent.write(value:to:))
+        try writer["rumAppMonitorName"].write(value.rumAppMonitorName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreatePortalProductInput {
+
+    static func write(value: CreatePortalProductInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateProductPageInput {
+
+    static func write(value: CreateProductPageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayContent"].write(value.displayContent, with: ApiGatewayV2ClientTypes.DisplayContent.write(value:to:))
+    }
+}
+
+extension CreateProductRestEndpointPageInput {
+
+    static func write(value: CreateProductRestEndpointPageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayContent"].write(value.displayContent, with: ApiGatewayV2ClientTypes.EndpointDisplayContent.write(value:to:))
+        try writer["restEndpointIdentifier"].write(value.restEndpointIdentifier, with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.write(value:to:))
+        try writer["tryItState"].write(value.tryItState)
+    }
+}
+
 extension CreateRouteInput {
 
     static func write(value: CreateRouteInput?, to writer: SmithyJSON.Writer) throws {
@@ -7360,6 +9656,22 @@ extension ImportApiInput {
     static func write(value: ImportApiInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["body"].write(value.body)
+    }
+}
+
+extension PublishPortalInput {
+
+    static func write(value: PublishPortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+    }
+}
+
+extension PutPortalProductSharingPolicyInput {
+
+    static func write(value: PutPortalProductSharingPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyDocument"].write(value.policyDocument)
     }
 }
 
@@ -7497,6 +9809,46 @@ extension UpdateModelInput {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["schema"].write(value.schema)
+    }
+}
+
+extension UpdatePortalInput {
+
+    static func write(value: UpdatePortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorization"].write(value.authorization, with: ApiGatewayV2ClientTypes.Authorization.write(value:to:))
+        try writer["endpointConfiguration"].write(value.endpointConfiguration, with: ApiGatewayV2ClientTypes.EndpointConfigurationRequest.write(value:to:))
+        try writer["includedPortalProductArns"].writeList(value.includedPortalProductArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logoUri"].write(value.logoUri)
+        try writer["portalContent"].write(value.portalContent, with: ApiGatewayV2ClientTypes.PortalContent.write(value:to:))
+        try writer["rumAppMonitorName"].write(value.rumAppMonitorName)
+    }
+}
+
+extension UpdatePortalProductInput {
+
+    static func write(value: UpdatePortalProductInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["displayOrder"].write(value.displayOrder, with: ApiGatewayV2ClientTypes.DisplayOrder.write(value:to:))
+    }
+}
+
+extension UpdateProductPageInput {
+
+    static func write(value: UpdateProductPageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayContent"].write(value.displayContent, with: ApiGatewayV2ClientTypes.DisplayContent.write(value:to:))
+    }
+}
+
+extension UpdateProductRestEndpointPageInput {
+
+    static func write(value: UpdateProductRestEndpointPageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayContent"].write(value.displayContent, with: ApiGatewayV2ClientTypes.EndpointDisplayContent.write(value:to:))
+        try writer["tryItState"].write(value.tryItState)
     }
 }
 
@@ -7716,6 +10068,82 @@ extension CreateModelOutput {
     }
 }
 
+extension CreatePortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePortalOutput()
+        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
+        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
+        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
+        value.portalId = try reader["portalId"].readIfPresent()
+        value.publishStatus = try reader["publishStatus"].readIfPresent()
+        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreatePortalProductOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePortalProductOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePortalProductOutput()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.displayOrder = try reader["displayOrder"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayOrder.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.portalProductArn = try reader["portalProductArn"].readIfPresent()
+        value.portalProductId = try reader["portalProductId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateProductPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProductPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProductPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayContent.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productPageArn = try reader["productPageArn"].readIfPresent()
+        value.productPageId = try reader["productPageId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateProductRestEndpointPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProductRestEndpointPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProductRestEndpointPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent()
+        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent()
+        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tryItState = try reader["tryItState"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateRouteOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRouteOutput {
@@ -7887,6 +10315,41 @@ extension DeleteModelOutput {
     }
 }
 
+extension DeletePortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePortalOutput {
+        return DeletePortalOutput()
+    }
+}
+
+extension DeletePortalProductOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePortalProductOutput {
+        return DeletePortalProductOutput()
+    }
+}
+
+extension DeletePortalProductSharingPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePortalProductSharingPolicyOutput {
+        return DeletePortalProductSharingPolicyOutput()
+    }
+}
+
+extension DeleteProductPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProductPageOutput {
+        return DeleteProductPageOutput()
+    }
+}
+
+extension DeleteProductRestEndpointPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProductRestEndpointPageOutput {
+        return DeleteProductRestEndpointPageOutput()
+    }
+}
+
 extension DeleteRouteOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRouteOutput {
@@ -7933,6 +10396,13 @@ extension DeleteVpcLinkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcLinkOutput {
         return DeleteVpcLinkOutput()
+    }
+}
+
+extension DisablePortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisablePortalOutput {
+        return DisablePortalOutput()
     }
 }
 
@@ -8232,6 +10702,97 @@ extension GetModelTemplateOutput {
     }
 }
 
+extension GetPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPortalOutput()
+        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
+        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
+        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
+        value.portalId = try reader["portalId"].readIfPresent()
+        value.preview = try reader["preview"].readIfPresent(with: ApiGatewayV2ClientTypes.Preview.read(from:))
+        value.publishStatus = try reader["publishStatus"].readIfPresent()
+        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetPortalProductOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPortalProductOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPortalProductOutput()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.displayOrder = try reader["displayOrder"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayOrder.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.portalProductArn = try reader["portalProductArn"].readIfPresent()
+        value.portalProductId = try reader["portalProductId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetPortalProductSharingPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPortalProductSharingPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPortalProductSharingPolicyOutput()
+        value.policyDocument = try reader["policyDocument"].readIfPresent()
+        value.portalProductId = try reader["portalProductId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetProductPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProductPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProductPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayContent.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productPageArn = try reader["productPageArn"].readIfPresent()
+        value.productPageId = try reader["productPageId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetProductRestEndpointPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProductRestEndpointPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProductRestEndpointPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent()
+        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent()
+        value.rawDisplayContent = try reader["rawDisplayContent"].readIfPresent()
+        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tryItState = try reader["tryItState"].readIfPresent()
+        return value
+    }
+}
+
 extension GetRouteOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouteOutput {
@@ -8425,6 +10986,58 @@ extension ImportApiOutput {
     }
 }
 
+extension ListPortalProductsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPortalProductsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPortalProductsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.PortalProductSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListPortalsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPortalsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPortalsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.PortalSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListProductPagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProductPagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProductPagesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.ProductPageSummaryNoBody.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListProductRestEndpointPagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProductRestEndpointPagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProductRestEndpointPagesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListRoutingRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRoutingRulesOutput {
@@ -8435,6 +11048,27 @@ extension ListRoutingRulesOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.routingRules = try reader["routingRules"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension PreviewPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PreviewPortalOutput {
+        return PreviewPortalOutput()
+    }
+}
+
+extension PublishPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishPortalOutput {
+        return PublishPortalOutput()
+    }
+}
+
+extension PutPortalProductSharingPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutPortalProductSharingPolicyOutput {
+        return PutPortalProductSharingPolicyOutput()
     }
 }
 
@@ -8667,6 +11301,83 @@ extension UpdateModelOutput {
     }
 }
 
+extension UpdatePortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePortalOutput()
+        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
+        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
+        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
+        value.portalId = try reader["portalId"].readIfPresent()
+        value.preview = try reader["preview"].readIfPresent(with: ApiGatewayV2ClientTypes.Preview.read(from:))
+        value.publishStatus = try reader["publishStatus"].readIfPresent()
+        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdatePortalProductOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePortalProductOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePortalProductOutput()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.displayOrder = try reader["displayOrder"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayOrder.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.portalProductArn = try reader["portalProductArn"].readIfPresent()
+        value.portalProductId = try reader["portalProductId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateProductPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProductPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProductPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.DisplayContent.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productPageArn = try reader["productPageArn"].readIfPresent()
+        value.productPageId = try reader["productPageId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProductRestEndpointPageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProductRestEndpointPageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProductRestEndpointPageOutput()
+        value.displayContent = try reader["displayContent"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointDisplayContentResponse.read(from:))
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent()
+        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent()
+        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tryItState = try reader["tryItState"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateRouteOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRouteOutput {
@@ -8882,6 +11593,72 @@ enum CreateModelOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePortalProductOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProductPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProductRestEndpointPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9123,6 +11900,90 @@ enum DeleteModelOutputError {
     }
 }
 
+enum DeletePortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePortalProductOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePortalProductSharingPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProductPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProductRestEndpointPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRouteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9222,6 +12083,24 @@ enum DeleteVpcLinkOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisablePortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9509,6 +12388,91 @@ enum GetModelTemplateOutputError {
     }
 }
 
+enum GetPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPortalProductOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPortalProductSharingPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProductPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProductRestEndpointPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRouteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9682,6 +12646,72 @@ enum ImportApiOutputError {
     }
 }
 
+enum ListPortalProductsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPortalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProductPagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProductRestEndpointPagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRoutingRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9690,6 +12720,59 @@ enum ListRoutingRulesOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PreviewPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PublishPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutPortalProductSharingPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -9910,6 +12993,75 @@ enum UpdateModelOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePortalProductOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProductPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProductRestEndpointPageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10146,6 +13298,241 @@ extension ApiGatewayV2ClientTypes.TlsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.TlsConfig()
         value.serverNameToVerify = try reader["serverNameToVerify"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Authorization {
+
+    static func write(value: ApiGatewayV2ClientTypes.Authorization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cognitoConfig"].write(value.cognitoConfig, with: ApiGatewayV2ClientTypes.CognitoConfig.write(value:to:))
+        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Authorization()
+        value.cognitoConfig = try reader["cognitoConfig"].readIfPresent(with: ApiGatewayV2ClientTypes.CognitoConfig.read(from:))
+        value.`none` = try reader["none"].readIfPresent(with: ApiGatewayV2ClientTypes.None.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.None {
+
+    static func write(value: ApiGatewayV2ClientTypes.None?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.None {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ApiGatewayV2ClientTypes.None()
+    }
+}
+
+extension ApiGatewayV2ClientTypes.CognitoConfig {
+
+    static func write(value: ApiGatewayV2ClientTypes.CognitoConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appClientId"].write(value.appClientId)
+        try writer["userPoolArn"].write(value.userPoolArn)
+        try writer["userPoolDomain"].write(value.userPoolDomain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CognitoConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.CognitoConfig()
+        value.appClientId = try reader["appClientId"].readIfPresent() ?? ""
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
+        value.userPoolDomain = try reader["userPoolDomain"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.EndpointConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.EndpointConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.EndpointConfigurationResponse()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.portalDefaultDomainName = try reader["portalDefaultDomainName"].readIfPresent() ?? ""
+        value.portalDomainHostedZoneId = try reader["portalDomainHostedZoneId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalContent {
+
+    static func write(value: ApiGatewayV2ClientTypes.PortalContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["theme"].write(value.theme, with: ApiGatewayV2ClientTypes.PortalTheme.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalContent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.theme = try reader["theme"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalTheme.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalTheme {
+
+    static func write(value: ApiGatewayV2ClientTypes.PortalTheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customColors"].write(value.customColors, with: ApiGatewayV2ClientTypes.CustomColors.write(value:to:))
+        try writer["logoLastUploaded"].writeTimestamp(value.logoLastUploaded, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalTheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalTheme()
+        value.customColors = try reader["customColors"].readIfPresent(with: ApiGatewayV2ClientTypes.CustomColors.read(from:))
+        value.logoLastUploaded = try reader["logoLastUploaded"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.CustomColors {
+
+    static func write(value: ApiGatewayV2ClientTypes.CustomColors?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accentColor"].write(value.accentColor)
+        try writer["backgroundColor"].write(value.backgroundColor)
+        try writer["errorValidationColor"].write(value.errorValidationColor)
+        try writer["headerColor"].write(value.headerColor)
+        try writer["navigationColor"].write(value.navigationColor)
+        try writer["textColor"].write(value.textColor)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CustomColors {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.CustomColors()
+        value.accentColor = try reader["accentColor"].readIfPresent() ?? ""
+        value.backgroundColor = try reader["backgroundColor"].readIfPresent() ?? ""
+        value.errorValidationColor = try reader["errorValidationColor"].readIfPresent() ?? ""
+        value.headerColor = try reader["headerColor"].readIfPresent() ?? ""
+        value.navigationColor = try reader["navigationColor"].readIfPresent() ?? ""
+        value.textColor = try reader["textColor"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.StatusException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.StatusException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.StatusException()
+        value.exception = try reader["exception"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayOrder {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contents"].writeList(value.contents, memberWritingClosure: ApiGatewayV2ClientTypes.Section.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["overviewPageArn"].write(value.overviewPageArn)
+        try writer["productPageArns"].writeList(value.productPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.DisplayOrder()
+        value.contents = try reader["contents"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.Section.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.overviewPageArn = try reader["overviewPageArn"].readIfPresent()
+        value.productPageArns = try reader["productPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Section {
+
+    static func write(value: ApiGatewayV2ClientTypes.Section?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["productRestEndpointPageArns"].writeList(value.productRestEndpointPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sectionName"].write(value.sectionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Section {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Section()
+        value.productRestEndpointPageArns = try reader["productRestEndpointPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sectionName = try reader["sectionName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayContent {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.DisplayContent()
+        value.body = try reader["body"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.EndpointDisplayContentResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.EndpointDisplayContentResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.EndpointDisplayContentResponse()
+        value.body = try reader["body"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.operationName = try reader["operationName"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RestEndpointIdentifier {
+
+    static func write(value: ApiGatewayV2ClientTypes.RestEndpointIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifierParts"].write(value.identifierParts, with: ApiGatewayV2ClientTypes.IdentifierParts.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RestEndpointIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RestEndpointIdentifier()
+        value.identifierParts = try reader["identifierParts"].readIfPresent(with: ApiGatewayV2ClientTypes.IdentifierParts.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.IdentifierParts {
+
+    static func write(value: ApiGatewayV2ClientTypes.IdentifierParts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["method"].write(value.method)
+        try writer["path"].write(value.path)
+        try writer["restApiId"].write(value.restApiId)
+        try writer["stage"].write(value.stage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.IdentifierParts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.IdentifierParts()
+        value.method = try reader["method"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.restApiId = try reader["restApiId"].readIfPresent() ?? ""
+        value.stage = try reader["stage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10451,6 +13838,18 @@ extension ApiGatewayV2ClientTypes.Model {
     }
 }
 
+extension ApiGatewayV2ClientTypes.Preview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Preview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Preview()
+        value.previewStatus = try reader["previewStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.previewUrl = try reader["previewUrl"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        return value
+    }
+}
+
 extension ApiGatewayV2ClientTypes.RouteResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteResponse {
@@ -10528,6 +13927,75 @@ extension ApiGatewayV2ClientTypes.VpcLink {
     }
 }
 
+extension ApiGatewayV2ClientTypes.PortalProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalProductSummary()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.portalProductArn = try reader["portalProductArn"].readIfPresent() ?? ""
+        value.portalProductId = try reader["portalProductId"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalSummary()
+        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
+        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
+        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
+        value.portalId = try reader["portalId"].readIfPresent() ?? ""
+        value.preview = try reader["preview"].readIfPresent(with: ApiGatewayV2ClientTypes.Preview.read(from:))
+        value.publishStatus = try reader["publishStatus"].readIfPresent()
+        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.ProductPageSummaryNoBody()
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.pageTitle = try reader["pageTitle"].readIfPresent() ?? ""
+        value.productPageArn = try reader["productPageArn"].readIfPresent() ?? ""
+        value.productPageId = try reader["productPageId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.operationName = try reader["operationName"].readIfPresent()
+        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent() ?? ""
+        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent() ?? ""
+        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tryItState = try reader["tryItState"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ApiGatewayV2ClientTypes.RoutingRule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRule {
@@ -10556,6 +14024,43 @@ extension ApiGatewayV2ClientTypes.TlsConfigInput {
     static func write(value: ApiGatewayV2ClientTypes.TlsConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["serverNameToVerify"].write(value.serverNameToVerify)
+    }
+}
+
+extension ApiGatewayV2ClientTypes.EndpointConfigurationRequest {
+
+    static func write(value: ApiGatewayV2ClientTypes.EndpointConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acmManaged"].write(value.acmManaged, with: ApiGatewayV2ClientTypes.ACMManaged.write(value:to:))
+        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ACMManaged {
+
+    static func write(value: ApiGatewayV2ClientTypes.ACMManaged?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+        try writer["domainName"].write(value.domainName)
+    }
+}
+
+extension ApiGatewayV2ClientTypes.EndpointDisplayContent {
+
+    static func write(value: ApiGatewayV2ClientTypes.EndpointDisplayContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
+        try writer["overrides"].write(value.overrides, with: ApiGatewayV2ClientTypes.DisplayContentOverrides.write(value:to:))
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayContentOverrides {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayContentOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["operationName"].write(value.operationName)
     }
 }
 

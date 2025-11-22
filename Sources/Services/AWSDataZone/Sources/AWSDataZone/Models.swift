@@ -814,7 +814,7 @@ extension DataZoneClientTypes.SubscribedProject: Swift.CustomDebugStringConverti
 
 extension DataZoneClientTypes {
 
-    ///
+    /// The details of the IAM user profile.
     public struct IamUserProfileDetails: Swift.Sendable {
         /// The ARN of the IAM user.
         public var arn: Swift.String?
@@ -3801,6 +3801,87 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    public enum AttributeEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asset
+        case listing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeEntityType] {
+            return [
+                .asset,
+                .listing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asset: return "ASSET"
+            case .listing: return "LISTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The attribute error.
+    public struct AttributeError: Swift.Sendable {
+        /// The attribute ID as part of the attribute error.
+        /// This member is required.
+        public var attributeIdentifier: Swift.String?
+        /// The code generated as part of the attribute error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message generated as part of the attribute error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            attributeIdentifier: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.attributeIdentifier = attributeIdentifier
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The attribute input.
+    public struct AttributeInput: Swift.Sendable {
+        /// The ID of the attribute.
+        /// This member is required.
+        public var attributeIdentifier: Swift.String?
+        /// The metadata forms as part of the attribute input.
+        /// This member is required.
+        public var forms: [DataZoneClientTypes.FormInput]?
+
+        public init(
+            attributeIdentifier: Swift.String? = nil,
+            forms: [DataZoneClientTypes.FormInput]? = nil
+        ) {
+            self.attributeIdentifier = attributeIdentifier
+            self.forms = forms
+        }
+    }
+}
+
+extension DataZoneClientTypes.AttributeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AttributeInput(attributeIdentifier: \(Swift.String(describing: attributeIdentifier)), forms: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case custom
@@ -4151,6 +4232,135 @@ extension DataZoneClientTypes {
             self.awsRegion = awsRegion
             self.iamConnectionId = iamConnectionId
         }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The results of the BatchGetAttribute action.
+    public struct BatchGetAttributeOutput: Swift.Sendable {
+        /// The attribute ID.
+        /// This member is required.
+        public var attributeIdentifier: Swift.String?
+        /// The metadata forms that are part of the results of the BatchGetAttribute action.
+        public var forms: [DataZoneClientTypes.FormOutput]?
+
+        public init(
+            attributeIdentifier: Swift.String? = nil,
+            forms: [DataZoneClientTypes.FormOutput]? = nil
+        ) {
+            self.attributeIdentifier = attributeIdentifier
+            self.forms = forms
+        }
+    }
+}
+
+public struct BatchGetAttributesMetadataInput: Swift.Sendable {
+    /// The attribute identifier.
+    /// This member is required.
+    public var attributeIdentifiers: [Swift.String]?
+    /// The domain ID where you want to get the attribute metadata.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The entity ID for which you want to get attribute metadata.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The entity revision for which you want to get attribute metadata.
+    public var entityRevision: Swift.String?
+    /// The entity type for which you want to get attribute metadata.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.AttributeEntityType?
+
+    public init(
+        attributeIdentifiers: [Swift.String]? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityRevision: Swift.String? = nil,
+        entityType: DataZoneClientTypes.AttributeEntityType? = nil
+    ) {
+        self.attributeIdentifiers = attributeIdentifiers
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityRevision = entityRevision
+        self.entityType = entityType
+    }
+}
+
+public struct BatchGetAttributesMetadataOutput: Swift.Sendable {
+    /// The results of the BatchGetAttributesMetadata action.
+    public var attributes: [DataZoneClientTypes.BatchGetAttributeOutput]?
+    /// The errors generated when the BatchGetAttributesMetadata action is invoked.
+    /// This member is required.
+    public var errors: [DataZoneClientTypes.AttributeError]?
+
+    public init(
+        attributes: [DataZoneClientTypes.BatchGetAttributeOutput]? = nil,
+        errors: [DataZoneClientTypes.AttributeError]? = nil
+    ) {
+        self.attributes = attributes
+        self.errors = errors
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The results of the BatchPutAttribute action.
+    public struct BatchPutAttributeOutput: Swift.Sendable {
+        /// The attribute ID.
+        /// This member is required.
+        public var attributeIdentifier: Swift.String?
+
+        public init(
+            attributeIdentifier: Swift.String? = nil
+        ) {
+            self.attributeIdentifier = attributeIdentifier
+        }
+    }
+}
+
+public struct BatchPutAttributesMetadataInput: Swift.Sendable {
+    /// The attributes of the metadata.
+    /// This member is required.
+    public var attributes: [DataZoneClientTypes.AttributeInput]?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The domain ID where you want to write the attribute metadata.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The entity ID for which you want to write the attribute metadata.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The entity type for which you want to write the attribute metadata.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.AttributeEntityType?
+
+    public init(
+        attributes: [DataZoneClientTypes.AttributeInput]? = nil,
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.AttributeEntityType? = nil
+    ) {
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+    }
+}
+
+public struct BatchPutAttributesMetadataOutput: Swift.Sendable {
+    /// The results of the BatchPutAttributeMetadata action.
+    public var attributes: [DataZoneClientTypes.BatchPutAttributeOutput]?
+    /// The errors generated when the BatchPutAttributeMetadata action is invoked.
+    public var errors: [DataZoneClientTypes.AttributeError]?
+
+    public init(
+        attributes: [DataZoneClientTypes.BatchPutAttributeOutput]? = nil,
+        errors: [DataZoneClientTypes.AttributeError]? = nil
+    ) {
+        self.attributes = attributes
+        self.errors = errors
     }
 }
 
@@ -9870,6 +10080,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The enforcement details of a glossary term.
+    public struct GlossaryTermEnforcementDetail: Swift.Sendable {
+        /// The ID of the required glossary term.
+        public var requiredGlossaryTermIds: [Swift.String]?
+
+        public init(
+            requiredGlossaryTermIds: [Swift.String]? = nil
+        ) {
+            self.requiredGlossaryTermIds = requiredGlossaryTermIds
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The reference of a metadata form.
     public struct MetadataFormReference: Swift.Sendable {
         /// The type ID of the metadata form reference.
@@ -9910,6 +10135,8 @@ extension DataZoneClientTypes {
     public enum RuleDetail: Swift.Sendable {
         /// The enforcement detail of the metadata form.
         case metadataformenforcementdetail(DataZoneClientTypes.MetadataFormEnforcementDetail)
+        /// The enforcement details of a glossary term that's part of the metadata rule.
+        case glossarytermenforcementdetail(DataZoneClientTypes.GlossaryTermEnforcementDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10040,11 +10267,13 @@ extension CreateRuleInput: Swift.CustomDebugStringConvertible {
 extension DataZoneClientTypes {
 
     public enum RuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case glossaryTermEnforcement
         case metadataFormEnforcement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuleType] {
             return [
+                .glossaryTermEnforcement,
                 .metadataFormEnforcement
             ]
         }
@@ -10056,6 +10285,7 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .glossaryTermEnforcement: return "GLOSSARY_TERM_ENFORCEMENT"
             case .metadataFormEnforcement: return "METADATA_FORM_ENFORCEMENT"
             case let .sdkUnknown(s): return s
             }
@@ -22087,6 +22317,37 @@ extension UpdateProjectProfileOutput: Swift.CustomDebugStringConvertible {
         "UpdateProjectProfileOutput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
+public struct UpdateRootDomainUnitOwnerInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The current owner of the root domain unit.
+    /// This member is required.
+    public var currentOwner: Swift.String?
+    /// The ID of the domain where the root domain unit owner is to be updated.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The new owner of the root domain unit.
+    /// This member is required.
+    public var newOwner: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        currentOwner: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        newOwner: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.currentOwner = currentOwner
+        self.domainIdentifier = domainIdentifier
+        self.newOwner = newOwner
+    }
+}
+
+public struct UpdateRootDomainUnitOwnerOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateSubscriptionGrantStatusInput: Swift.Sendable {
     /// The identifier of the asset the subscription grant status of which is to be updated.
     /// This member is required.
@@ -23038,6 +23299,58 @@ extension AssociateGovernedTermsInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/associate-governed-terms"
+    }
+}
+
+extension BatchGetAttributesMetadataInput {
+
+    static func urlPathProvider(_ value: BatchGetAttributesMetadataInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/attributes-metadata"
+    }
+}
+
+extension BatchGetAttributesMetadataInput {
+
+    static func queryItemProvider(_ value: BatchGetAttributesMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let entityRevision = value.entityRevision {
+            let entityRevisionQueryItem = Smithy.URIQueryItem(name: "entityRevision".urlPercentEncoding(), value: Swift.String(entityRevision).urlPercentEncoding())
+            items.append(entityRevisionQueryItem)
+        }
+        guard let attributeIdentifiers = value.attributeIdentifiers else {
+            let message = "Creating a URL Query Item failed. attributeIdentifiers is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        attributeIdentifiers.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "attributeIdentifier".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension BatchPutAttributesMetadataInput {
+
+    static func urlPathProvider(_ value: BatchPutAttributesMetadataInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/attributes-metadata"
     }
 }
 
@@ -26151,6 +26464,16 @@ extension UpdateProjectProfileInput {
     }
 }
 
+extension UpdateRootDomainUnitOwnerInput {
+
+    static func urlPathProvider(_ value: UpdateRootDomainUnitOwnerInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/root-domain-unit-owner"
+    }
+}
+
 extension UpdateRuleInput {
 
     static func urlPathProvider(_ value: UpdateRuleInput) -> Swift.String? {
@@ -26267,6 +26590,15 @@ extension AssociateGovernedTermsInput {
     static func write(value: AssociateGovernedTermsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["governedGlossaryTerms"].writeList(value.governedGlossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchPutAttributesMetadataInput {
+
+    static func write(value: BatchPutAttributesMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeList(value.attributes, memberWritingClosure: DataZoneClientTypes.AttributeInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
     }
 }
 
@@ -27001,6 +27333,16 @@ extension UpdateProjectProfileInput {
     }
 }
 
+extension UpdateRootDomainUnitOwnerInput {
+
+    static func write(value: UpdateRootDomainUnitOwnerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["currentOwner"].write(value.currentOwner)
+        try writer["newOwner"].write(value.newOwner)
+    }
+}
+
 extension UpdateRuleInput {
 
     static func write(value: UpdateRuleInput?, to writer: SmithyJSON.Writer) throws {
@@ -27122,6 +27464,32 @@ extension AssociateGovernedTermsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateGovernedTermsOutput {
         return AssociateGovernedTermsOutput()
+    }
+}
+
+extension BatchGetAttributesMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetAttributesMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetAttributesMetadataOutput()
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.BatchGetAttributeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AttributeError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchPutAttributesMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchPutAttributesMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchPutAttributesMetadataOutput()
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.BatchPutAttributeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AttributeError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -29847,6 +30215,13 @@ extension UpdateProjectProfileOutput {
     }
 }
 
+extension UpdateRootDomainUnitOwnerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRootDomainUnitOwnerOutput {
+        return UpdateRootDomainUnitOwnerOutput()
+    }
+}
+
 extension UpdateRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuleOutput {
@@ -30073,6 +30448,45 @@ enum AssociateEnvironmentRoleOutputError {
 }
 
 enum AssociateGovernedTermsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetAttributesMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchPutAttributesMetadataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -33169,6 +33583,26 @@ enum UpdateProjectProfileOutputError {
     }
 }
 
+enum UpdateRootDomainUnitOwnerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33594,6 +34028,39 @@ extension DataZoneClientTypes.FormOutput {
         value.typeName = try reader["typeName"].readIfPresent()
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.content = try reader["content"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.BatchGetAttributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchGetAttributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.BatchGetAttributeOutput()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        value.forms = try reader["forms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AttributeError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AttributeError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AttributeError()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.BatchPutAttributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchPutAttributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.BatchPutAttributeOutput()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -35394,6 +35861,8 @@ extension DataZoneClientTypes.RuleDetail {
     static func write(value: DataZoneClientTypes.RuleDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .glossarytermenforcementdetail(glossarytermenforcementdetail):
+                try writer["glossaryTermEnforcementDetail"].write(glossarytermenforcementdetail, with: DataZoneClientTypes.GlossaryTermEnforcementDetail.write(value:to:))
             case let .metadataformenforcementdetail(metadataformenforcementdetail):
                 try writer["metadataFormEnforcementDetail"].write(metadataformenforcementdetail, with: DataZoneClientTypes.MetadataFormEnforcementDetail.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -35407,9 +35876,26 @@ extension DataZoneClientTypes.RuleDetail {
         switch name {
             case "metadataFormEnforcementDetail":
                 return .metadataformenforcementdetail(try reader["metadataFormEnforcementDetail"].read(with: DataZoneClientTypes.MetadataFormEnforcementDetail.read(from:)))
+            case "glossaryTermEnforcementDetail":
+                return .glossarytermenforcementdetail(try reader["glossaryTermEnforcementDetail"].read(with: DataZoneClientTypes.GlossaryTermEnforcementDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.GlossaryTermEnforcementDetail {
+
+    static func write(value: DataZoneClientTypes.GlossaryTermEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requiredGlossaryTermIds"].writeList(value.requiredGlossaryTermIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermEnforcementDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryTermEnforcementDetail()
+        value.requiredGlossaryTermIds = try reader["requiredGlossaryTermIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -37481,6 +37967,15 @@ extension DataZoneClientTypes.OwnerUserProperties {
     static func write(value: DataZoneClientTypes.OwnerUserProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["userIdentifier"].write(value.userIdentifier)
+    }
+}
+
+extension DataZoneClientTypes.AttributeInput {
+
+    static func write(value: DataZoneClientTypes.AttributeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeIdentifier"].write(value.attributeIdentifier)
+        try writer["forms"].writeList(value.forms, memberWritingClosure: DataZoneClientTypes.FormInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

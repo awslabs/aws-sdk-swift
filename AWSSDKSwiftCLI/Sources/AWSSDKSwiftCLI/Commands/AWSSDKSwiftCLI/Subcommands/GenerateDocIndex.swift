@@ -40,6 +40,9 @@ struct GenerateDocIndexCommand: ParsableCommand {
         ).replacingOccurrences(
             of: "/latest)",
             with: ")"
+        ).replacingOccurrences(
+            of: "# ``AWSSDKForSwift``",
+            with: "# ``SDKForSwift``"
         )
     }
 

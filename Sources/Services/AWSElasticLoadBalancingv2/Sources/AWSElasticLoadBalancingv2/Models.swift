@@ -1943,7 +1943,7 @@ public struct CreateListenerInput: Swift.Sendable {
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
-    /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
+    /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC. You can’t specify the UDP, TCP_UDP, QUIC, or TCP_QUIC protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
@@ -3147,13 +3147,13 @@ extension ElasticLoadBalancingv2ClientTypes {
 public struct CreateTargetGroupInput: Swift.Sendable {
     /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
     public var healthCheckEnabled: Swift.Bool?
-    /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
+    /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
     public var healthCheckIntervalSeconds: Swift.Int?
     /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
     public var healthCheckPath: Swift.String?
-    /// The port the load balancer uses when performing health checks on targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is traffic-port, which is the port on which each target receives traffic from the load balancer. If the protocol is GENEVE, the default is port 80.
+    /// The port the load balancer uses when performing health checks on targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC the default is traffic-port, which is the port on which each target receives traffic from the load balancer. If the protocol is GENEVE, the default is port 80.
     public var healthCheckPort: Swift.String?
-    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks.
     public var healthCheckProtocol: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// The amount of time, in seconds, during which no response from a target means a failed health check. The range is 2–120 seconds. For target groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda, the default is 30 seconds.
     public var healthCheckTimeoutSeconds: Swift.Int?
@@ -3161,19 +3161,21 @@ public struct CreateTargetGroupInput: Swift.Sendable {
     public var healthyThresholdCount: Swift.Int?
     /// The IP address type. The default value is ipv4.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
-    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
+    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
     public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
     /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
     /// This member is required.
     public var name: Swift.String?
     /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
     public var port: Swift.Int?
-    /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
+    /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. A TCP_QUIC listener must be associated with a TCP_QUIC target group. If the target is a Lambda function, this parameter does not apply.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The default is HTTP1, which sends requests to targets using HTTP/1.1.
     public var protocolVersion: Swift.String?
     /// The tags to assign to the target group.
     public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
+    /// The port on which the target control agent and application load balancer exchange management traffic for the target optimizer feature.
+    public var targetControlPort: Swift.Int?
     /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.
     ///
     /// * instance - Register targets by instance ID. This is the default value.
@@ -3184,7 +3186,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
     ///
     /// * alb - Register a single Application Load Balancer as a target.
     public var targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum?
-    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 2. If the target type is lambda, the default is 5.
+    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 2. If the target type is lambda, the default is 5.
     public var unhealthyThresholdCount: Swift.Int?
     /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
     public var vpcId: Swift.String?
@@ -3204,6 +3206,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
         `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
         protocolVersion: Swift.String? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil,
+        targetControlPort: Swift.Int? = nil,
         targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum? = nil,
         unhealthyThresholdCount: Swift.Int? = nil,
         vpcId: Swift.String? = nil
@@ -3222,6 +3225,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
         self.`protocol` = `protocol`
         self.protocolVersion = protocolVersion
         self.tags = tags
+        self.targetControlPort = targetControlPort
         self.targetType = targetType
         self.unhealthyThresholdCount = unhealthyThresholdCount
         self.vpcId = vpcId
@@ -3258,6 +3262,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
         /// [HTTP/HTTPS protocol] The protocol version. The possible values are GRPC, HTTP1, and HTTP2.
         public var protocolVersion: Swift.String?
+        /// The port on which the target control agent and application load balancer exchange management traffic for the target optimizer feature.
+        public var targetControlPort: Swift.Int?
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: Swift.String?
         /// The name of the target group.
@@ -3283,6 +3289,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             port: Swift.Int? = nil,
             `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
             protocolVersion: Swift.String? = nil,
+            targetControlPort: Swift.Int? = nil,
             targetGroupArn: Swift.String? = nil,
             targetGroupName: Swift.String? = nil,
             targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum? = nil,
@@ -3302,6 +3309,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.port = port
             self.`protocol` = `protocol`
             self.protocolVersion = protocolVersion
+            self.targetControlPort = targetControlPort
             self.targetGroupArn = targetGroupArn
             self.targetGroupName = targetGroupName
             self.targetType = targetType
@@ -4074,6 +4082,12 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// * connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.
         ///
         /// * connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.
+        ///
+        /// * health_check_logs.s3.enabled - Indicates whether health check logs are enabled. The value is true or false. The default is false.
+        ///
+        /// * health_check_logs.s3.bucket - The name of the S3 bucket for the health check logs. This attribute is required if health check logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.
+        ///
+        /// * health_check_logs.s3.prefix - The prefix for the location in the S3 bucket for the health check logs.
         ///
         /// * routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.
         ///
@@ -5191,7 +5205,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
-    /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
+    /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols. You can’t change the protocol to UDP, TCP_UDP, QUIC, or TCP_QUIC if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
@@ -5332,7 +5346,7 @@ public struct ModifyTargetGroupInput: Swift.Sendable {
     public var healthCheckPath: Swift.String?
     /// The port the load balancer uses when performing health checks on targets.
     public var healthCheckPort: Swift.String?
-    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+    /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks.
     public var healthCheckProtocol: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
     public var healthCheckTimeoutSeconds: Swift.Int?
@@ -6178,6 +6192,7 @@ extension CreateTargetGroupInput {
         try writer["Protocol"].write(value.`protocol`)
         try writer["ProtocolVersion"].write(value.protocolVersion)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetControlPort"].write(value.targetControlPort)
         try writer["TargetType"].write(value.targetType)
         try writer["UnhealthyThresholdCount"].write(value.unhealthyThresholdCount)
         try writer["VpcId"].write(value.vpcId)
@@ -9492,6 +9507,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetGroup {
         value.targetType = try reader["TargetType"].readIfPresent()
         value.protocolVersion = try reader["ProtocolVersion"].readIfPresent()
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.targetControlPort = try reader["TargetControlPort"].readIfPresent()
         return value
     }
 }
