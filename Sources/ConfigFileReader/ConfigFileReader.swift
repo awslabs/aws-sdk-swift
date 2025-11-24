@@ -7,9 +7,15 @@
 import Foundation
 @_spi(FileBasedConfig) import AWSSDKCommon
 
-public struct ConfigFileReader {
+public class ConfigFileReader {
     public let configFilePath: String
     public let credentialsFilePath: String
+    
+    var currentSection: ConfigFileSection?
+    var isCurrentSectionValid = false
+    var sections: [String: ConfigFileSection] = [:]
+    var currentProperty: String?
+    var currentSubProperty: String?
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
         self.configFilePath = configFilePath ?? "~/.aws/config"
@@ -39,6 +45,52 @@ public struct ConfigFileReader {
         return decodedString
     }
     
+    private func parseSectionHeader(from line: String) -> (name: String, type: String)? {
+        let regexPattern = "\\[\\s*(?:(default)|(profile)\\s+(.+?)|(sso-session)\\s+(.+?)|(services)\\s+(.+?))\\s*\\]"
+            
+            guard let range = line.range(of: regexPattern, options: .regularExpression) else {
+                return nil
+            }
+            
+//        let lineString = String(line[range])
+        let content = String(line)
+            .dropFirst()
+            .dropLast()
+            .trimmingCharacters(in: .whitespaces)
+
+        if content == "default" {
+            return (name: "default", type: "default")
+        } else if let spaceIndex = content.firstIndex(of: " ") {
+            let type = String(content[..<spaceIndex])
+            let name = String(content[content.index(after: spaceIndex)...])
+            return (name: name.trimmingCharacters(in: .whitespaces), type: type)
+        }
+        if content.contains("profile") == false && content.contains("sso-session") == false && content.contains("services") == false {
+                return (name: content, type: "profile") // Assume it's just a profile name if no type keyword found
+            }
+        return nil
+    }
+    
+    private func handleNewSectionFound(name sectionName: String, lineNumber: Int) -> Bool {
+        if sectionName != currentSection?.name {
+            let section = ConfigFileSection(name: sectionName)
+            sections[sectionName] = section // Access properties via self
+            currentSection = section
+            print("Found new section named: '\(sectionName)' on line number: '\(lineNumber)'")
+            currentProperty = nil
+            currentSubProperty = nil
+            isCurrentSectionValid = true
+            return true // Signal to continue processing this line's content if needed (though sections usually end the line's work)
+        } else {
+            print("Found duplicate section matching current section on line number: '\(lineNumber)' current section will remain unchanged: '\(sectionName)' ")
+            isCurrentSectionValid = true
+            currentProperty = nil
+            currentSubProperty = nil
+            // If a duplicate is found, we want the loop to immediately move to the next line.
+            return false
+        }
+    }
+    
     func config() throws -> FileBasedConfigurationSectionProviding? {
         
         // Use the helper function for the config file (which is mandatory)
@@ -62,67 +114,25 @@ public struct ConfigFileReader {
            arrayData = stringConfigData.split(whereSeparator: \.isNewline) + stringCredentialsData!.split(whereSeparator: \.isNewline)
         }
         
-        var currentLineNumber: Int = 0
-        var currentSection: ConfigFileSection?
-        var isCurrentSectionValid = false
-        var sections: [String: ConfigFileSection] = [:]
-        var currentProperty: String?
-        var currentSubProperty: String?
+        
         let definedSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile", "default", "sso-services", and "services"
         
         for line in arrayData{
+            var currentLineNumber: Int = 0
             currentLineNumber += 1
-            let blankLine = "\t"
-            guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && line != blankLine else{
+            let blankLine = try! NSRegularExpression(pattern: "^\\s*$", options: [])
+            guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && blankLine.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) == nil else{
                 continue
             }
             switch line{
             case _ where definedSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                isCurrentSectionValid = true
-                // Extract the profile name using another regex or string manipulation
-                if let range = line.range(of: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .regularExpression),
-                   let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    var sectionName = ""
-                    let definedName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces)) // Remove space and ']'
-                    if let newRange = definedName.range(of: "profile|sso-session|services\\s+(.+?)"){
-                        sectionName = String(definedName[newRange.upperBound...])
-                    } else{
-                        sectionName = definedName
+                if let sectionHeader = parseSectionHeader(from: String(line)) {
+                // Pass currentLineNumber as a parameter
+                    if !handleNewSectionFound(name: sectionHeader.name, lineNumber: currentLineNumber) {
+                    continue
                     }
-                    if sectionName != currentSection?.name {
-                        let section = ConfigFileSection(name: sectionName)
-                        sections[sectionName] = section
-                        currentSection = section
-                        print("Found new section named: '\(sectionName)' on line number: '\(currentLineNumber)'") // For demonstration
-                        print("  The current section contains '\(currentSection!)'")
-                        isCurrentSectionValid = true
-                    } else {
-                        print("Found dulpicate section matching current section on line number: '\(currentLineNumber)' current section will remain unchanged: '\(sectionName)' ")
-                        currentProperty = nil
-                        currentSubProperty = nil
-                        isCurrentSectionValid = true
-                        continue
-                    }
-                } else if line.contains("[default]"){
-                    let sectionName = "default"
-                    if sectionName != currentSection?.name {
-                        let section = ConfigFileSection(name: sectionName)
-                        sections[sectionName] = section
-                        currentSection = section
-                        print("A user profile was not configured, the \(sectionName) will be used")
-                        print("  The current section contains '\(currentSection!)'")
-                        isCurrentSectionValid = true
-                    } else {
-                        print("Found dulpicate section matching current section on line number: '\(currentLineNumber)' current section will remain unchanged: '\(sectionName)' ")
-                        currentProperty = nil
-                        currentSubProperty = nil
-                        isCurrentSectionValid = true
-                        continue
-                    }
-                } else {
-                    print("Found invalid section: '\(line)' on line number: '\(currentLineNumber)'")
-                    isCurrentSectionValid = false
                 }
+                continue
             case _ where line.contains("="):
                 if !isCurrentSectionValid {
                         print("Skipping line because previous section was invalid")
@@ -206,7 +216,7 @@ public struct ConfigFileReader {
                 print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                 throw error.localizedDescription
             }
-            case _ where !line.contains("=") && line.hasPrefix("\t") && line != blankLine:
+            case _ where !line.contains("=") && !line.hasPrefix("["):
                 if !isCurrentSectionValid {
                         print("Skipping line because previous section was invalid")
                         continue // Skip this line and move to the next iteration
@@ -221,9 +231,9 @@ public struct ConfigFileReader {
                         }
                         let components = String(line)
                         let value = components.dropFirst().dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
-                        guard !value.isEmpty && !value.contains(" ") && value != blankLine  else{
-                            continue
-                        }
+//                        guard !value.isEmpty && !value.contains(" ") && value != blankLine  else{
+//                            continue
+//                        }
 
                         if currentSection?.properties[currentKeyPropertyName] != nil {
                             currentSection?.properties[currentKeyPropertyName]?.append("\n" + value)
@@ -282,7 +292,9 @@ struct ConfigFile: FileBasedConfiguration {
         switch type {
         case .profile:
             sectionName = name
-        default:
+        case .ssoSession:
+            sectionName = name
+        case .services:
             sectionName = name
         }
         return sections[sectionName]
