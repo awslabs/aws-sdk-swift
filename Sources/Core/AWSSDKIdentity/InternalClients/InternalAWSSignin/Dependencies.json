@@ -11,6 +11,5 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTelemetryAPI",
     "SmithyTestUtil"
 ]

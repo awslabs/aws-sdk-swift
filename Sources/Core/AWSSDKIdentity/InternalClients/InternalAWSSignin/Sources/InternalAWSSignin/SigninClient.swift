@@ -26,8 +26,8 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
-import enum SmithyTelemetryAPI.DefaultTelemetry
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -211,7 +211,7 @@ extension SigninClient {
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? SmithyTelemetryAPI.DefaultTelemetry.provider,
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
                 try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
@@ -267,7 +267,7 @@ extension SigninClient {
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? SmithyTelemetryAPI.DefaultTelemetry.provider,
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
                 try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
@@ -327,7 +327,7 @@ extension SigninClient {
                 region,
                 region,
                 try DefaultEndpointResolver(),
-                SmithyTelemetryAPI.DefaultTelemetry.provider,
+                ClientRuntime.DefaultTelemetry.provider,
                 try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
                 AWSClientConfigDefaultsProvider.clientLogMode(),
                 nil,
