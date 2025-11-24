@@ -7,7 +7,7 @@
 
 import AWSSTS
 import Foundation
-import ClientRuntime
+import SmithySwiftNIO
 
 struct AWSSTSGetCallerIdentity: PerformanceTest {
     let name = "sts.getcalleridentity.latency"
@@ -45,7 +45,7 @@ struct AWSSTSGetCallerIdentityNIO: PerformanceTest {
 
     static func getCallerIdentityNIO() async throws -> Double {
         let start = Date()
-        let nioClient = NIOHTTPClient(httpClientConfiguration: HttpClientConfiguration())
+        let nioClient = SmithySwiftNIO.SwiftNIOHTTPClient(httpClientConfiguration: ClientRuntime.HttpClientConfiguration())
         let config = try await STSClient.STSClientConfiguration(region: "us-west-2", httpClientEngine: nioClient)
         let client = STSClient(config: config)
         _ = try await client.getCallerIdentity(input: .init())
