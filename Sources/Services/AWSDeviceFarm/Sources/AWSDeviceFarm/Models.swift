@@ -1040,6 +1040,27 @@ public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DeviceFarmClientTypes {
 
+    /// Information about an environment variable for a project or a run.
+    public struct EnvironmentVariable: Swift.Sendable {
+        /// The name of the environment variable.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the environment variable.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     /// Contains the VPC configuration data necessary to interface with AWS Device Farm's services.
     public struct VpcConfig: Swift.Sendable {
         /// An array of one or more security groups IDs in your Amazon VPC.
@@ -1068,6 +1089,10 @@ extension DeviceFarmClientTypes {
 public struct CreateProjectInput: Swift.Sendable {
     /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
     public var defaultJobTimeoutMinutes: Swift.Int?
+    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see [Custom test environments ](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) in AWS Device Farm.
+    public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+    /// An IAM role to be assumed by the test host for all runs in the project.
+    public var executionRoleArn: Swift.String?
     /// The project's name.
     /// This member is required.
     public var name: Swift.String?
@@ -1076,10 +1101,14 @@ public struct CreateProjectInput: Swift.Sendable {
 
     public init(
         defaultJobTimeoutMinutes: Swift.Int? = nil,
+        environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+        executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
     ) {
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
         self.name = name
         self.vpcConfig = vpcConfig
     }
@@ -1095,6 +1124,10 @@ extension DeviceFarmClientTypes {
         public var created: Foundation.Date?
         /// The default number of minutes (at the project level) a test run executes before it times out. The default value is 150 minutes.
         public var defaultJobTimeoutMinutes: Swift.Int?
+        /// Environment variables associated with the project.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+        /// The IAM execution role associated with the project.
+        public var executionRoleArn: Swift.String?
         /// The project's name.
         public var name: Swift.String?
         /// The VPC security groups and subnets that are attached to a project.
@@ -1104,12 +1137,16 @@ extension DeviceFarmClientTypes {
             arn: Swift.String? = nil,
             created: Foundation.Date? = nil,
             defaultJobTimeoutMinutes: Swift.Int? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+            executionRoleArn: Swift.String? = nil,
             name: Swift.String? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
         ) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.name = name
             self.vpcConfig = vpcConfig
         }
@@ -2750,6 +2787,10 @@ extension DeviceFarmClientTypes {
         public var customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths?
         /// The device proxy to be configured on the device for the run.
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
+        /// Environment variables associated with the run.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+        /// An IAM role to be assumed by the test host for the run.
+        public var executionRoleArn: Swift.String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public var extraDataPackageArn: Swift.String?
         /// Information about the locale that is used for the run.
@@ -2768,6 +2809,8 @@ extension DeviceFarmClientTypes {
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+            executionRoleArn: Swift.String? = nil,
             extraDataPackageArn: Swift.String? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -2779,6 +2822,8 @@ extension DeviceFarmClientTypes {
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
             self.deviceProxy = deviceProxy
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.extraDataPackageArn = extraDataPackageArn
             self.locale = locale
             self.location = location
@@ -3776,8 +3821,12 @@ extension DeviceFarmClientTypes {
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// The results of a device filter used to select the devices for a test run.
         public var deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult?
+        /// Environment variables associated with the run.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
         public var eventCount: Swift.Int?
+        /// The IAM role associated with the run.
+        public var executionRoleArn: Swift.String?
         /// The number of minutes the job executes before it times out.
         public var jobTimeoutMinutes: Swift.Int?
         /// Information about the locale that is used for the run.
@@ -3897,7 +3946,9 @@ extension DeviceFarmClientTypes {
             devicePoolArn: Swift.String? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
             eventCount: Swift.Int? = nil,
+            executionRoleArn: Swift.String? = nil,
             jobTimeoutMinutes: Swift.Int? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -3931,7 +3982,9 @@ extension DeviceFarmClientTypes {
             self.devicePoolArn = devicePoolArn
             self.deviceProxy = deviceProxy
             self.deviceSelectionResult = deviceSelectionResult
+            self.environmentVariables = environmentVariables
             self.eventCount = eventCount
+            self.executionRoleArn = executionRoleArn
             self.jobTimeoutMinutes = jobTimeoutMinutes
             self.locale = locale
             self.location = location
@@ -5174,7 +5227,7 @@ public struct ListSuitesOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -6171,7 +6224,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
@@ -6193,7 +6246,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The keys of the tags to be removed.
@@ -6407,6 +6460,10 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The number of minutes a test run in the project executes before it times out.
     public var defaultJobTimeoutMinutes: Swift.Int?
+    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see [Custom test environments ](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) in AWS Device Farm.
+    public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+    /// An IAM role to be assumed by the test host for all runs in the project.
+    public var executionRoleArn: Swift.String?
     /// A string that represents the new name of the project that you are updating.
     public var name: Swift.String?
     /// The VPC security groups and subnets that are attached to a project.
@@ -6415,11 +6472,15 @@ public struct UpdateProjectInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         defaultJobTimeoutMinutes: Swift.Int? = nil,
+        environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+        executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
     ) {
         self.arn = arn
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
         self.name = name
         self.vpcConfig = vpcConfig
     }
@@ -7133,6 +7194,8 @@ extension CreateProjectInput {
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
     }
@@ -7788,6 +7851,8 @@ extension UpdateProjectInput {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
     }
@@ -10265,6 +10330,25 @@ extension DeviceFarmClientTypes.Project {
         value.defaultJobTimeoutMinutes = try reader["defaultJobTimeoutMinutes"].readIfPresent()
         value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.EnvironmentVariable {
+
+    static func write(value: DeviceFarmClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.EnvironmentVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.EnvironmentVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10667,6 +10751,8 @@ extension DeviceFarmClientTypes.Run {
         value.testSpecArn = try reader["testSpecArn"].readIfPresent()
         value.deviceSelectionResult = try reader["deviceSelectionResult"].readIfPresent(with: DeviceFarmClientTypes.DeviceSelectionResult.read(from:))
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10977,6 +11063,8 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration {
         try writer["billingMethod"].write(value.billingMethod)
         try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
         try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["extraDataPackageArn"].write(value.extraDataPackageArn)
         try writer["locale"].write(value.locale)
         try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))

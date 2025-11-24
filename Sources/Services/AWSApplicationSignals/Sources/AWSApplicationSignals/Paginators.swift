@@ -12,6 +12,39 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ApplicationSignalsClient {
+    /// Paginate over `[ListEntityEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntityEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityEventsOutput`
+    public func listEntityEventsPaginated(input: ListEntityEventsInput) -> ClientRuntime.PaginatorSequence<ListEntityEventsInput, ListEntityEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityEventsInput, ListEntityEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityEvents(input:))
+    }
+}
+
+extension ListEntityEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEntityEventsInput {
+        return ListEntityEventsInput(
+            endTime: self.endTime,
+            entity: self.entity,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEntityEventsInput, OperationStackOutput == ListEntityEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntityEventsPaginated`
+    /// to access the nested member `[ApplicationSignalsClientTypes.ChangeEvent]`
+    /// - Returns: `[ApplicationSignalsClientTypes.ChangeEvent]`
+    public func changeEvents() async throws -> [ApplicationSignalsClientTypes.ChangeEvent] {
+        return try await self.asyncCompactMap { item in item.changeEvents }
+    }
+}
+extension ApplicationSignalsClient {
     /// Paginate over `[ListServiceDependenciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

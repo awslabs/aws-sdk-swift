@@ -2578,9 +2578,11 @@ extension SESv2ClientTypes {
         case awsSesApSoutheast1
         case awsSesApSoutheast2
         case awsSesApSoutheast3
+        case awsSesApSoutheast5
         case awsSesApSouth1
         case awsSesApSouth2
         case awsSesCaCentral1
+        case awsSesCaWest1
         case awsSesEuCentral1
         case awsSesEuCentral2
         case awsSesEuNorth1
@@ -2609,9 +2611,11 @@ extension SESv2ClientTypes {
                 .awsSesApSoutheast1,
                 .awsSesApSoutheast2,
                 .awsSesApSoutheast3,
+                .awsSesApSoutheast5,
                 .awsSesApSouth1,
                 .awsSesApSouth2,
                 .awsSesCaCentral1,
+                .awsSesCaWest1,
                 .awsSesEuCentral1,
                 .awsSesEuCentral2,
                 .awsSesEuNorth1,
@@ -2646,9 +2650,11 @@ extension SESv2ClientTypes {
             case .awsSesApSoutheast1: return "AWS_SES_AP_SOUTHEAST_1"
             case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
             case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
+            case .awsSesApSoutheast5: return "AWS_SES_AP_SOUTHEAST_5"
             case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
             case .awsSesApSouth2: return "AWS_SES_AP_SOUTH_2"
             case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
+            case .awsSesCaWest1: return "AWS_SES_CA_WEST_1"
             case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
             case .awsSesEuCentral2: return "AWS_SES_EU_CENTRAL_2"
             case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
@@ -2759,11 +2765,15 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_CA_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_5 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2925,11 +2935,15 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_CA_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_5 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
         ///

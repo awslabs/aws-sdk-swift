@@ -1743,6 +1743,7 @@ extension CloudWatchLogsClient {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
     public func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1815,6 +1816,7 @@ extension CloudWatchLogsClient {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
     public func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6163,6 +6165,80 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLogEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutLogGroupDeletionProtection` operation on the `CloudWatchLogs` service.
+    ///
+    /// Enables or disables deletion protection for the specified log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. For information about the parameters that are common to all actions, see [Common Parameters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/CommonParameters.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutLogGroupDeletionProtectionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutLogGroupDeletionProtectionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func putLogGroupDeletionProtection(input: PutLogGroupDeletionProtectionInput) async throws -> PutLogGroupDeletionProtectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putLogGroupDeletionProtection")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(PutLogGroupDeletionProtectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLogGroupDeletionProtectionOutput>(PutLogGroupDeletionProtectionOutput.httpOutput(from:), PutLogGroupDeletionProtectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutLogGroupDeletionProtectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLogGroupDeletionProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(xAmzTarget: "Logs_20140328.PutLogGroupDeletionProtection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLogGroupDeletionProtectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLogGroupDeletionProtection")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -59,6 +59,139 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BedrockClientTypes {
 
+    public enum InputTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case honor
+        case ignore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputTags] {
+            return [
+                .honor,
+                .ignore
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .honor: return "HONOR"
+            case .ignore: return "IGNORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account-level enforced guardrail input configuration.
+    public struct AccountEnforcedGuardrailInferenceInputConfiguration: Swift.Sendable {
+        /// Identifier for the guardrail, could be the ID or the ARN.
+        /// This member is required.
+        public var guardrailIdentifier: Swift.String?
+        /// Numerical guardrail version.
+        /// This member is required.
+        public var guardrailVersion: Swift.String?
+        /// Whether to honor or ignore input tags at runtime.
+        /// This member is required.
+        public var inputTags: BedrockClientTypes.InputTags?
+
+        public init(
+            guardrailIdentifier: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            inputTags: BedrockClientTypes.InputTags? = nil
+        ) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.inputTags = inputTags
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ConfigurationOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Configuration owned by the account
+        case account
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationOwner] {
+            return [
+                .account
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account enforced guardrail output configuration.
+    public struct AccountEnforcedGuardrailOutputConfiguration: Swift.Sendable {
+        /// Unique ID for the account enforced configuration.
+        public var configId: Swift.String?
+        /// Timestamp.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the role used to update the configuration.
+        public var createdBy: Swift.String?
+        /// ARN representation for the guardrail.
+        public var guardrailArn: Swift.String?
+        /// Unique ID for the guardrail.
+        public var guardrailId: Swift.String?
+        /// Numerical guardrail version.
+        public var guardrailVersion: Swift.String?
+        /// Whether to honor or ignore input tags at runtime.
+        public var inputTags: BedrockClientTypes.InputTags?
+        /// Configuration owner type.
+        public var owner: BedrockClientTypes.ConfigurationOwner?
+        /// Timestamp.
+        public var updatedAt: Foundation.Date?
+        /// The ARN of the role used to update the configuration.
+        public var updatedBy: Swift.String?
+
+        public init(
+            configId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            guardrailArn: Swift.String? = nil,
+            guardrailId: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            inputTags: BedrockClientTypes.InputTags? = nil,
+            owner: BedrockClientTypes.ConfigurationOwner? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.configId = configId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+            self.inputTags = inputTags
+            self.owner = owner
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum AgreementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case error
@@ -4777,6 +4910,85 @@ public struct ListCustomModelsOutput: Swift.Sendable {
     ) {
         self.modelSummaries = modelSummaries
         self.nextToken = nextToken
+    }
+}
+
+public struct DeleteEnforcedGuardrailConfigurationInput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    /// This member is required.
+    public var configId: Swift.String?
+
+    public init(
+        configId: Swift.String? = nil
+    ) {
+        self.configId = configId
+    }
+}
+
+public struct DeleteEnforcedGuardrailConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListEnforcedGuardrailsConfigurationInput: Swift.Sendable {
+    /// Opaque continuation token of previous paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEnforcedGuardrailsConfigurationOutput: Swift.Sendable {
+    /// Array of AccountEnforcedGuardrailOutputConfiguration objects.
+    /// This member is required.
+    public var guardrailsConfig: [BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration]?
+    /// Opaque continuation token of previous paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        guardrailsConfig: [BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.guardrailsConfig = guardrailsConfig
+        self.nextToken = nextToken
+    }
+}
+
+public struct PutEnforcedGuardrailConfigurationInput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    public var configId: Swift.String?
+    /// Account-level enforced guardrail input configuration.
+    /// This member is required.
+    public var guardrailInferenceConfig: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration?
+
+    public init(
+        configId: Swift.String? = nil,
+        guardrailInferenceConfig: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration? = nil
+    ) {
+        self.configId = configId
+        self.guardrailInferenceConfig = guardrailInferenceConfig
+    }
+}
+
+public struct PutEnforcedGuardrailConfigurationOutput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    public var configId: Swift.String?
+    /// Timestamp.
+    public var updatedAt: Foundation.Date?
+    /// The ARN of the role used to update the configuration.
+    public var updatedBy: Swift.String?
+
+    public init(
+        configId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.configId = configId
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
     }
 }
 
@@ -12922,6 +13134,16 @@ extension DeleteCustomModelDeploymentInput {
     }
 }
 
+extension DeleteEnforcedGuardrailConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteEnforcedGuardrailConfigurationInput) -> Swift.String? {
+        guard let configId = value.configId else {
+            return nil
+        }
+        return "/enforcedGuardrailsConfiguration/\(configId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteFoundationModelAgreementInput {
 
     static func urlPathProvider(_ value: DeleteFoundationModelAgreementInput) -> Swift.String? {
@@ -13527,6 +13749,25 @@ extension ListCustomModelsInput {
     }
 }
 
+extension ListEnforcedGuardrailsConfigurationInput {
+
+    static func urlPathProvider(_ value: ListEnforcedGuardrailsConfigurationInput) -> Swift.String? {
+        return "/enforcedGuardrailsConfiguration"
+    }
+}
+
+extension ListEnforcedGuardrailsConfigurationInput {
+
+    static func queryItemProvider(_ value: ListEnforcedGuardrailsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListEvaluationJobsInput {
 
     static func urlPathProvider(_ value: ListEvaluationJobsInput) -> Swift.String? {
@@ -14036,6 +14277,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutEnforcedGuardrailConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEnforcedGuardrailConfigurationInput) -> Swift.String? {
+        return "/enforcedGuardrailsConfiguration"
+    }
+}
+
 extension PutModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: PutModelInvocationLoggingConfigurationInput) -> Swift.String? {
@@ -14465,6 +14713,15 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutEnforcedGuardrailConfigurationInput {
+
+    static func write(value: PutEnforcedGuardrailConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configId"].write(value.configId)
+        try writer["guardrailInferenceConfig"].write(value.guardrailInferenceConfig, with: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration.write(value:to:))
+    }
+}
+
 extension PutModelInvocationLoggingConfigurationInput {
 
     static func write(value: PutModelInvocationLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -14866,6 +15123,13 @@ extension DeleteCustomModelDeploymentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomModelDeploymentOutput {
         return DeleteCustomModelDeploymentOutput()
+    }
+}
+
+extension DeleteEnforcedGuardrailConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnforcedGuardrailConfigurationOutput {
+        return DeleteEnforcedGuardrailConfigurationOutput()
     }
 }
 
@@ -15490,6 +15754,19 @@ extension ListCustomModelsOutput {
     }
 }
 
+extension ListEnforcedGuardrailsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnforcedGuardrailsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEnforcedGuardrailsConfigurationOutput()
+        value.guardrailsConfig = try reader["guardrailsConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListEvaluationJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEvaluationJobsOutput {
@@ -15666,6 +15943,20 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutEnforcedGuardrailConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEnforcedGuardrailConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutEnforcedGuardrailConfigurationOutput()
+        value.configId = try reader["configId"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -16303,6 +16594,24 @@ enum DeleteCustomModelDeploymentOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEnforcedGuardrailConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -17032,6 +17341,24 @@ enum ListCustomModelsOutputError {
     }
 }
 
+enum ListEnforcedGuardrailsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEvaluationJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17266,6 +17593,25 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutEnforcedGuardrailConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -20761,6 +21107,25 @@ extension BedrockClientTypes.CustomModelSummary {
     }
 }
 
+extension BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration()
+        value.configId = try reader["configId"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
+        value.guardrailId = try reader["guardrailId"].readIfPresent()
+        value.inputTags = try reader["inputTags"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.EvaluationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationSummary {
@@ -21279,6 +21644,16 @@ extension BedrockClientTypes.InferenceProfileModelSource {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration {
+
+    static func write(value: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailIdentifier"].write(value.guardrailIdentifier)
+        try writer["guardrailVersion"].write(value.guardrailVersion)
+        try writer["inputTags"].write(value.inputTags)
     }
 }
 

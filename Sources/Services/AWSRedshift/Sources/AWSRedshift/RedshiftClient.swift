@@ -1246,7 +1246,9 @@ extension RedshiftClient {
     /// - `ClusterQuotaExceededFault` : The request would exceed the allowed number of cluster instances for this account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
+    /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InsufficientClusterCapacityFault` : The number of nodes specified exceeds the allotted capacity of the cluster.
@@ -8800,6 +8802,80 @@ extension RedshiftClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyLakehouseConfiguration` operation on the `Redshift` service.
+    ///
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyLakehouseConfigurationInput`)
+    ///
+    /// - Returns: Contains configuration information for lakehouse integration, including the cluster identifier, catalog ARN, and registration status. (Type: `ModifyLakehouseConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
+    /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
+    /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
+    /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func modifyLakehouseConfiguration(input: ModifyLakehouseConfigurationInput) async throws -> ModifyLakehouseConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyLakehouseConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(ModifyLakehouseConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLakehouseConfigurationOutput>(ModifyLakehouseConfigurationOutput.httpOutput(from:), ModifyLakehouseConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLakehouseConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyLakehouseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyLakehouseConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(serviceID: serviceName, version: RedshiftClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Redshift")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyLakehouseConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyRedshiftIdcApplication` operation on the `Redshift` service.
     ///
     /// Changes an existing Amazon Redshift IAM Identity Center application.
@@ -9775,6 +9851,7 @@ extension RedshiftClient {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
@@ -9793,6 +9870,7 @@ extension RedshiftClient {
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `NumberOfNodesPerClusterLimitExceededFault` : The operation would exceed the number of nodes allowed for a cluster.
     /// - `NumberOfNodesQuotaExceededFault` : The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
+    /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
     /// - `ReservedNodeAlreadyExistsFault` : User already has a reservation with the given identifier.
     /// - `ReservedNodeAlreadyMigratedFault` : Indicates that the reserved node has already been exchanged.
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.

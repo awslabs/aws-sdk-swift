@@ -3904,6 +3904,29 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+/// The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
+public struct VpcEncryptionControlViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "VpcEncryptionControlViolationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension RDSClientTypes {
 
     public enum ClusterScalabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4337,18 +4360,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
-    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
-    ///
-    /// * If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.
-    ///
-    ///
-    /// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.
-    ///
-    /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.
+    /// Specifies whether the DB cluster is publicly accessible. Valid for Cluster Type: Multi-AZ DB clusters only When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is controlled by its security group settings. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to true. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     public var publiclyAccessible: Swift.Bool?
     /// Reserved for future use.
     public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
@@ -4977,6 +4989,38 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum UpgradeRolloutOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case first
+        case last
+        case second
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpgradeRolloutOrder] {
+            return [
+                .first,
+                .last,
+                .second
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .first: return "first"
+            case .last: return "last"
+            case .second: return "second"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster. For an Amazon Aurora DB cluster, this data type is used as a response element in the operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster, ModifyDBCluster, PromoteReadReplicaDBCluster, RestoreDBClusterFromS3, RestoreDBClusterFromSnapshot, RestoreDBClusterToPointInTime, StartDBCluster, and StopDBCluster. For a Multi-AZ DB cluster, this data type is used as a response element in the operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster, ModifyDBCluster, RebootDBCluster, RestoreDBClusterFromSnapshot, and RestoreDBClusterToPointInTime. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     public struct DBCluster: Swift.Sendable {
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
@@ -5154,6 +5198,14 @@ extension RDSClientTypes {
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
+        /// This data type represents the order in which the clusters are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -5241,6 +5293,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
@@ -5326,6 +5379,7 @@ extension RDSClientTypes {
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -6227,18 +6281,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide. This setting doesn't apply to RDS Custom DB instances. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.
-    ///
-    /// * If the default VPC in the target Region has an internet gateway attached to it, the DB instance is public.
-    ///
-    ///
-    /// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB instance is private.
-    ///
-    /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB instance is public.
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is controlled by its security group settings. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to false for Aurora instances and true for non-Aurora instances. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     public var publiclyAccessible: Swift.Bool?
     /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The encryption for DB instances is managed by the DB cluster.
     public var storageEncrypted: Swift.Bool?
@@ -6990,6 +7033,14 @@ extension RDSClientTypes {
         public var tdeCredentialArn: Swift.String?
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for RDS for Db2 and RDS for SQL Server DB instances that were created with a time zone specified.
         public var timezone: Swift.String?
+        /// This data type represents the order in which the instances are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of Amazon EC2 VPC security groups that the DB instance belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -7080,6 +7131,7 @@ extension RDSClientTypes {
             tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
@@ -7168,6 +7220,7 @@ extension RDSClientTypes {
             self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -17791,8 +17844,6 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Can't be longer than 64 characters.
-    ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
     public var domainOu: Swift.String?
@@ -28268,6 +28319,7 @@ enum CreateDBClusterOutputError {
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28355,6 +28407,7 @@ enum CreateDBInstanceOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28392,6 +28445,7 @@ enum CreateDBInstanceReadReplicaOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29792,6 +29846,7 @@ enum ModifyDBClusterOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotAvailableFault": return try StorageTypeNotAvailableFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29875,6 +29930,7 @@ enum ModifyDBInstanceOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30405,6 +30461,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30440,6 +30497,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30477,6 +30535,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30509,6 +30568,7 @@ enum RestoreDBInstanceFromS3OutputError {
             case "ProvisionedIopsNotAvailableInAZFault": return try ProvisionedIopsNotAvailableInAZFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30547,6 +30607,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30600,6 +30661,7 @@ enum StartDBClusterOutputError {
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidDBShardGroupState": return try InvalidDBShardGroupStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30624,6 +30686,7 @@ enum StartDBInstanceOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -31662,6 +31725,19 @@ extension StorageTypeNotSupportedFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = StorageTypeNotSupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension VpcEncryptionControlViolationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
+        let reader = baseError.errorBodyReader
+        var value = VpcEncryptionControlViolationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33123,6 +33199,7 @@ extension RDSClientTypes.DBCluster {
         value.dbClusterOptionGroupMemberships = try reader["DBClusterOptionGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterOptionGroupStatus.read(from:), memberNodeInfo: "DBClusterOptionGroup", isFlattened: false)
         value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.replicationSourceIdentifier = try reader["ReplicationSourceIdentifier"].readIfPresent()
         value.readReplicaIdentifiers = try reader["ReadReplicaIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterStatusInfo.read(from:), memberNodeInfo: "DBClusterStatusInfo", isFlattened: false)
@@ -33386,6 +33463,7 @@ extension RDSClientTypes.DBInstance {
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
         value.dbSubnetGroup = try reader["DBSubnetGroup"].readIfPresent(with: RDSClientTypes.DBSubnetGroup.read(from:))
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.PendingModifiedValues.read(from:))
         value.latestRestorableTime = try reader["LatestRestorableTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.multiAZ = try reader["MultiAZ"].readIfPresent()

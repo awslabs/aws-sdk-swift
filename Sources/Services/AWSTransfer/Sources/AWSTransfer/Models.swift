@@ -3111,6 +3111,39 @@ public struct CreateUserOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration settings for hosting a web app endpoint, including the VPC ID, subnet IDs, and security group IDs for access control.
+    public struct WebAppVpcConfig: Swift.Sendable {
+        /// The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations.
+        public var securityGroupIds: [Swift.String]?
+        /// The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC where the web app endpoint will be hosted.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration for a web app, including VPC settings when the endpoint is hosted within a VPC.
+    public enum WebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration for hosting the web app endpoint within a VPC.
+        case vpc(TransferClientTypes.WebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// A structure that describes the values to use for the IAM Identity Center settings when you create or update a web app.
     public struct IdentityCenterConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
@@ -3180,6 +3213,8 @@ extension TransferClientTypes {
 public struct CreateWebAppInput: Swift.Sendable {
     /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in [Update your access endpoint with a custom URL](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-customize.html).
     public var accessEndpoint: Swift.String?
+    /// The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC.
+    public var endpointDetails: TransferClientTypes.WebAppEndpointDetails?
     /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see [Configure your identity provider for Transfer Family web apps](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-identity-center.html).
     /// This member is required.
     public var identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails?
@@ -3192,12 +3227,14 @@ public struct CreateWebAppInput: Swift.Sendable {
 
     public init(
         accessEndpoint: Swift.String? = nil,
+        endpointDetails: TransferClientTypes.WebAppEndpointDetails? = nil,
         identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
+        self.endpointDetails = endpointDetails
         self.identityProviderDetails = identityProviderDetails
         self.tags = tags
         self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -4577,11 +4614,73 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration details for a web app endpoint, including the VPC identifier, subnet IDs, and VPC endpoint ID used for hosting the endpoint.
+    public struct DescribedWebAppVpcConfig: Swift.Sendable {
+        /// The list of subnet IDs within the VPC where the web app endpoint is deployed. These subnets must be in the same VPC and provide network connectivity for the endpoint.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC endpoint created for the web app.
+        public var vpcEndpointId: Swift.String?
+        /// The identifier of the VPC where the web app endpoint is hosted.
+        public var vpcId: Swift.String?
+
+        public init(
+            subnetIds: [Swift.String]? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration details for a web app, including VPC configuration when the endpoint is hosted within a VPC.
+    public enum DescribedWebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration details when the web app endpoint is hosted within a VPC. This includes the VPC ID, subnet IDs, and VPC endpoint ID.
+        case vpc(TransferClientTypes.DescribedWebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// Returns a structure that contains the identity provider details for your web app.
     public enum DescribedWebAppIdentityProviderDetails: Swift.Sendable {
         /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
         case identitycenterconfig(TransferClientTypes.DescribedIdentityCenterConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum WebAppEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAppEndpointType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4594,8 +4693,12 @@ extension TransferClientTypes {
         /// The Amazon Resource Name (ARN) of the web app.
         /// This member is required.
         public var arn: Swift.String?
+        /// The endpoint configuration details for the web app, including VPC settings if the endpoint is hosted within a VPC.
+        public var describedEndpointDetails: TransferClientTypes.DescribedWebAppEndpointDetails?
         /// A structure that contains the details for the identity provider used by the web app.
         public var describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails?
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints that provide network isolation.
+        public var endpointType: TransferClientTypes.WebAppEndpointType?
         /// Key-value pairs that can be used to group and search for web apps. Tags are metadata attached to web apps for any purpose.
         public var tags: [TransferClientTypes.Tag]?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
@@ -4611,7 +4714,9 @@ extension TransferClientTypes {
         public init(
             accessEndpoint: Swift.String? = nil,
             arn: Swift.String? = nil,
+            describedEndpointDetails: TransferClientTypes.DescribedWebAppEndpointDetails? = nil,
             describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails? = nil,
+            endpointType: TransferClientTypes.WebAppEndpointType? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             webAppEndpoint: Swift.String? = nil,
             webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
@@ -4620,7 +4725,9 @@ extension TransferClientTypes {
         ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.describedEndpointDetails = describedEndpointDetails
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
+            self.endpointType = endpointType
             self.tags = tags
             self.webAppEndpoint = webAppEndpoint
             self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -5294,6 +5401,8 @@ extension TransferClientTypes {
         /// The Amazon Resource Name (ARN) for the web app.
         /// This member is required.
         public var arn: Swift.String?
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints.
+        public var endpointType: TransferClientTypes.WebAppEndpointType?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
         public var webAppEndpoint: Swift.String?
         /// The unique identifier for the web app.
@@ -5303,11 +5412,13 @@ extension TransferClientTypes {
         public init(
             accessEndpoint: Swift.String? = nil,
             arn: Swift.String? = nil,
+            endpointType: TransferClientTypes.WebAppEndpointType? = nil,
             webAppEndpoint: Swift.String? = nil,
             webAppId: Swift.String? = nil
         ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.endpointType = endpointType
             self.webAppEndpoint = webAppEndpoint
             self.webAppId = webAppId
         }
@@ -6444,6 +6555,31 @@ public struct UpdateWebAppCustomizationOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration settings for updating a web app endpoint, including the subnet IDs where the endpoint should be deployed.
+    public struct UpdateWebAppVpcConfig: Swift.Sendable {
+        /// The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration details for updating a web app, including VPC settings for endpoints hosted within a VPC.
+    public enum UpdateWebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration details for updating a web app endpoint hosted within a VPC. This includes the subnet IDs for endpoint deployment.
+        case vpc(TransferClientTypes.UpdateWebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
     public struct UpdateWebAppIdentityCenterConfig: Swift.Sendable {
         /// The IAM role used to access IAM Identity Center.
@@ -6470,6 +6606,8 @@ extension TransferClientTypes {
 public struct UpdateWebAppInput: Swift.Sendable {
     /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
     public var accessEndpoint: Swift.String?
+    /// The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings.
+    public var endpointDetails: TransferClientTypes.UpdateWebAppEndpointDetails?
     /// Provide updated identity provider values in a WebAppIdentityProviderDetails object.
     public var identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails?
     /// Provide the identifier of the web app that you are updating.
@@ -6480,11 +6618,13 @@ public struct UpdateWebAppInput: Swift.Sendable {
 
     public init(
         accessEndpoint: Swift.String? = nil,
+        endpointDetails: TransferClientTypes.UpdateWebAppEndpointDetails? = nil,
         identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails? = nil,
         webAppId: Swift.String? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
+        self.endpointDetails = endpointDetails
         self.identityProviderDetails = identityProviderDetails
         self.webAppId = webAppId
         self.webAppUnits = webAppUnits
@@ -7106,6 +7246,7 @@ extension CreateWebAppInput {
     static func write(value: CreateWebAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["EndpointDetails"].write(value.endpointDetails, with: TransferClientTypes.WebAppEndpointDetails.write(value:to:))
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.WebAppIdentityProviderDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WebAppEndpointPolicy"].write(value.webAppEndpointPolicy)
@@ -7735,6 +7876,7 @@ extension UpdateWebAppInput {
     static func write(value: UpdateWebAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["EndpointDetails"].write(value.endpointDetails, with: TransferClientTypes.UpdateWebAppEndpointDetails.write(value:to:))
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.UpdateWebAppIdentityProviderDetails.write(value:to:))
         try writer["WebAppId"].write(value.webAppId)
         try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
@@ -10551,6 +10693,34 @@ extension TransferClientTypes.DescribedWebApp {
         value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.describedEndpointDetails = try reader["DescribedEndpointDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppEndpointDetails.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppEndpointDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppEndpointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Vpc":
+                return .vpc(try reader["Vpc"].read(with: TransferClientTypes.DescribedWebAppVpcConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppVpcConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWebAppVpcConfig()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -10964,6 +11134,7 @@ extension TransferClientTypes.ListedWebApp {
         value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
         value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
         value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
         return value
     }
 }
@@ -11034,6 +11205,29 @@ extension TransferClientTypes.IdentityCenterConfig {
     }
 }
 
+extension TransferClientTypes.WebAppEndpointDetails {
+
+    static func write(value: TransferClientTypes.WebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.WebAppVpcConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.WebAppVpcConfig {
+
+    static func write(value: TransferClientTypes.WebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
 extension TransferClientTypes.UpdateConnectorEgressConfig {
 
     static func write(value: TransferClientTypes.UpdateConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
@@ -11074,6 +11268,27 @@ extension TransferClientTypes.UpdateWebAppIdentityCenterConfig {
     static func write(value: TransferClientTypes.UpdateWebAppIdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Role"].write(value.role)
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppEndpointDetails {
+
+    static func write(value: TransferClientTypes.UpdateWebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.UpdateWebAppVpcConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppVpcConfig {
+
+    static func write(value: TransferClientTypes.UpdateWebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

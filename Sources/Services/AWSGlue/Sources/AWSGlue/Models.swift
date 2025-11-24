@@ -15324,6 +15324,38 @@ public struct CreateUsageProfileOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    public enum FunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aggregateFunction
+        case regularFunction
+        case storedProcedure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionType] {
+            return [
+                .aggregateFunction,
+                .regularFunction,
+                .storedProcedure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aggregateFunction: return "AGGREGATE_FUNCTION"
+            case .regularFunction: return "REGULAR_FUNCTION"
+            case .storedProcedure: return "STORED_PROCEDURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum PrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case group
         case role
@@ -15413,6 +15445,8 @@ extension GlueClientTypes {
         public var className: Swift.String?
         /// The name of the function.
         public var functionName: Swift.String?
+        /// The type of the function.
+        public var functionType: GlueClientTypes.FunctionType?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -15423,12 +15457,14 @@ extension GlueClientTypes {
         public init(
             className: Swift.String? = nil,
             functionName: Swift.String? = nil,
+            functionType: GlueClientTypes.FunctionType? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
         ) {
             self.className = className
             self.functionName = functionName
+            self.functionType = functionType
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -23430,6 +23466,8 @@ extension GlueClientTypes {
         public var databaseName: Swift.String?
         /// The name of the function.
         public var functionName: Swift.String?
+        /// The type of the function.
+        public var functionType: GlueClientTypes.FunctionType?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -23443,6 +23481,7 @@ extension GlueClientTypes {
             createTime: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
             functionName: Swift.String? = nil,
+            functionType: GlueClientTypes.FunctionType? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
@@ -23452,6 +23491,7 @@ extension GlueClientTypes {
             self.createTime = createTime
             self.databaseName = databaseName
             self.functionName = functionName
+            self.functionType = functionType
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -23475,6 +23515,8 @@ public struct GetUserDefinedFunctionsInput: Swift.Sendable {
     public var catalogId: Swift.String?
     /// The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
     public var databaseName: Swift.String?
+    /// An optional function-type pattern string that filters the function definitions returned from Amazon Redshift Federated Permissions Catalog. Specify a value of REGULAR_FUNCTION or STORED_PROCEDURE. The STORED_PROCEDURE function type is only compatible with Amazon Redshift Federated Permissions Catalog.
+    public var functionType: GlueClientTypes.FunctionType?
     /// The maximum number of functions to return in one response.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -23486,12 +23528,14 @@ public struct GetUserDefinedFunctionsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
+        functionType: GlueClientTypes.FunctionType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pattern: Swift.String? = nil
     ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
+        self.functionType = functionType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pattern = pattern
@@ -33351,6 +33395,7 @@ extension GetUserDefinedFunctionsInput {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["FunctionType"].write(value.functionType)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Pattern"].write(value.pattern)
@@ -49142,6 +49187,7 @@ extension GlueClientTypes.UserDefinedFunction {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.className = try reader["ClassName"].readIfPresent()
         value.ownerName = try reader["OwnerName"].readIfPresent()
+        value.functionType = try reader["FunctionType"].readIfPresent()
         value.ownerType = try reader["OwnerType"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceUris = try reader["ResourceUris"].readListIfPresent(memberReadingClosure: GlueClientTypes.ResourceUri.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -49832,6 +49878,7 @@ extension GlueClientTypes.UserDefinedFunctionInput {
         guard let value else { return }
         try writer["ClassName"].write(value.className)
         try writer["FunctionName"].write(value.functionName)
+        try writer["FunctionType"].write(value.functionType)
         try writer["OwnerName"].write(value.ownerName)
         try writer["OwnerType"].write(value.ownerType)
         try writer["ResourceUris"].writeList(value.resourceUris, memberWritingClosure: GlueClientTypes.ResourceUri.write(value:to:), memberNodeInfo: "member", isFlattened: false)

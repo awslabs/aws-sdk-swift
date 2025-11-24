@@ -333,7 +333,9 @@ extension NetworkManagerClientTypes {
         case subnetNoIpv6Cidrs
         case subnetUnsupportedAvailabilityZone
         case vpcNotFound
+        case vpcUnsupportedFeatures
         case vpnConnectionNotFound
+        case vpnExistingAssociations
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AttachmentErrorCode] {
@@ -348,7 +350,9 @@ extension NetworkManagerClientTypes {
                 .subnetNoIpv6Cidrs,
                 .subnetUnsupportedAvailabilityZone,
                 .vpcNotFound,
-                .vpnConnectionNotFound
+                .vpcUnsupportedFeatures,
+                .vpnConnectionNotFound,
+                .vpnExistingAssociations
             ]
         }
 
@@ -369,7 +373,9 @@ extension NetworkManagerClientTypes {
             case .subnetNoIpv6Cidrs: return "SUBNET_NO_IPV6_CIDRS"
             case .subnetUnsupportedAvailabilityZone: return "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
             case .vpcNotFound: return "VPC_NOT_FOUND"
+            case .vpcUnsupportedFeatures: return "VPC_UNSUPPORTED_FEATURES"
             case .vpnConnectionNotFound: return "VPN_CONNECTION_NOT_FOUND"
+            case .vpnExistingAssociations: return "VPN_EXISTING_ASSOCIATIONS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1080,6 +1086,33 @@ public struct AssociateTransitGatewayConnectPeerOutput: Swift.Sendable {
 
 extension NetworkManagerClientTypes {
 
+    /// Summary information about routing policy associations for an attachment.
+    public struct AttachmentRoutingPolicyAssociationSummary: Swift.Sendable {
+        /// The list of routing policies currently associated with the attachment.
+        public var associatedRoutingPolicies: [Swift.String]?
+        /// The ID of the attachment associated with the routing policy.
+        public var attachmentId: Swift.String?
+        /// The list of routing policies that are pending association with the attachment.
+        public var pendingRoutingPolicies: [Swift.String]?
+        /// The routing policy label associated with the attachment.
+        public var routingPolicyLabel: Swift.String?
+
+        public init(
+            associatedRoutingPolicies: [Swift.String]? = nil,
+            attachmentId: Swift.String? = nil,
+            pendingRoutingPolicies: [Swift.String]? = nil,
+            routingPolicyLabel: Swift.String? = nil
+        ) {
+            self.associatedRoutingPolicies = associatedRoutingPolicies
+            self.attachmentId = attachmentId
+            self.pendingRoutingPolicies = pendingRoutingPolicies
+            self.routingPolicyLabel = routingPolicyLabel
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
     /// Specifies a location in Amazon Web Services.
     public struct AWSLocation: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
@@ -1250,6 +1283,10 @@ extension NetworkManagerClientTypes {
         case coreNetworkEdge
         case coreNetworkSegment
         case networkFunctionGroup
+        case routingPolicy
+        case routingPolicyAttachmentAssociation
+        case routingPolicyEdgeAssociation
+        case routingPolicySegmentAssociation
         case segmentsConfiguration
         case segmentActionsConfiguration
         case sdkUnknown(Swift.String)
@@ -1264,6 +1301,10 @@ extension NetworkManagerClientTypes {
                 .coreNetworkEdge,
                 .coreNetworkSegment,
                 .networkFunctionGroup,
+                .routingPolicy,
+                .routingPolicyAttachmentAssociation,
+                .routingPolicyEdgeAssociation,
+                .routingPolicySegmentAssociation,
                 .segmentsConfiguration,
                 .segmentActionsConfiguration
             ]
@@ -1284,6 +1325,10 @@ extension NetworkManagerClientTypes {
             case .coreNetworkEdge: return "CORE_NETWORK_EDGE"
             case .coreNetworkSegment: return "CORE_NETWORK_SEGMENT"
             case .networkFunctionGroup: return "NETWORK_FUNCTION_GROUP"
+            case .routingPolicy: return "ROUTING_POLICY"
+            case .routingPolicyAttachmentAssociation: return "ROUTING_POLICY_ATTACHMENT_ASSOCIATION"
+            case .routingPolicyEdgeAssociation: return "ROUTING_POLICY_EDGE_ASSOCIATION"
+            case .routingPolicySegmentAssociation: return "ROUTING_POLICY_SEGMENT_ASSOCIATION"
             case .segmentsConfiguration: return "SEGMENTS_CONFIGURATION"
             case .segmentActionsConfiguration: return "SEGMENT_ACTIONS_CONFIGURATION"
             case let .sdkUnknown(s): return s
@@ -1961,6 +2006,54 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes {
 
+    /// Information about a routing policy association.
+    public struct RoutingPolicyAssociationDetail: Swift.Sendable {
+        /// The names of the routing policies in the association.
+        public var routingPolicyNames: [Swift.String]?
+        /// The names of the segments that are shared with each other in the association.
+        public var sharedSegments: [Swift.String]?
+
+        public init(
+            routingPolicyNames: [Swift.String]? = nil,
+            sharedSegments: [Swift.String]? = nil
+        ) {
+            self.routingPolicyNames = routingPolicyNames
+            self.sharedSegments = sharedSegments
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum RoutingPolicyDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inbound
+        case outbound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingPolicyDirection] {
+            return [
+                .inbound,
+                .outbound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inbound: return "inbound"
+            case .outbound: return "outbound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
     public enum SegmentActionServiceInsertion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sendTo
         case sendVia
@@ -2118,6 +2211,8 @@ extension NetworkManagerClientTypes {
     public struct CoreNetworkChangeValues: Swift.Sendable {
         /// The ASN of a core network.
         public var asn: Swift.Int?
+        /// The attachment identifier in the core network change values.
+        public var attachmentId: Swift.String?
         /// The IP addresses used for a core network.
         public var cidr: Swift.String?
         /// The ID of the destination.
@@ -2130,6 +2225,14 @@ extension NetworkManagerClientTypes {
         public var insideCidrBlocks: [Swift.String]?
         /// The network function group name if the change event is associated with a network function group.
         public var networkFunctionGroupName: Swift.String?
+        /// The edge locations of peers in the core network change values.
+        public var peerEdgeLocations: [Swift.String]?
+        /// The routing policy configuration in the core network change values.
+        public var routingPolicy: Swift.String?
+        /// The names of the routing policies and other association details in the core network change values.
+        public var routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]?
+        /// The routing policy direction (inbound/outbound) in a core network change event.
+        public var routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection?
         /// Indicates whether security group referencing is enabled for the core network.
         public var securityGroupReferencingSupport: Swift.Bool
         /// The names of the segments in a core network.
@@ -2143,12 +2246,17 @@ extension NetworkManagerClientTypes {
 
         public init(
             asn: Swift.Int? = nil,
+            attachmentId: Swift.String? = nil,
             cidr: Swift.String? = nil,
             destinationIdentifier: Swift.String? = nil,
             dnsSupport: Swift.Bool = false,
             edgeLocations: [Swift.String]? = nil,
             insideCidrBlocks: [Swift.String]? = nil,
             networkFunctionGroupName: Swift.String? = nil,
+            peerEdgeLocations: [Swift.String]? = nil,
+            routingPolicy: Swift.String? = nil,
+            routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]? = nil,
+            routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection? = nil,
             securityGroupReferencingSupport: Swift.Bool = false,
             segmentName: Swift.String? = nil,
             serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]? = nil,
@@ -2156,12 +2264,17 @@ extension NetworkManagerClientTypes {
             vpnEcmpSupport: Swift.Bool = false
         ) {
             self.asn = asn
+            self.attachmentId = attachmentId
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
             self.dnsSupport = dnsSupport
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.peerEdgeLocations = peerEdgeLocations
+            self.routingPolicy = routingPolicy
+            self.routingPolicyAssociationDetails = routingPolicyAssociationDetails
+            self.routingPolicyDirection = routingPolicyDirection
             self.securityGroupReferencingSupport = securityGroupReferencingSupport
             self.segmentName = segmentName
             self.serviceInsertionActions = serviceInsertionActions
@@ -2218,6 +2331,12 @@ extension NetworkManagerClientTypes {
         public var edgeLocation: Swift.String?
         /// The changed network function group name.
         public var networkFunctionGroupName: Swift.String?
+        /// The edge location of the peer in a core network change event.
+        public var peerEdgeLocation: Swift.String?
+        /// The names of the routing policies and other association details in the core network change values.
+        public var routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]?
+        /// The routing policy direction (inbound/outbound) in a core network change event.
+        public var routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection?
         /// The segment name if the change event is associated with a segment.
         public var segmentName: Swift.String?
 
@@ -2226,12 +2345,18 @@ extension NetworkManagerClientTypes {
             cidr: Swift.String? = nil,
             edgeLocation: Swift.String? = nil,
             networkFunctionGroupName: Swift.String? = nil,
+            peerEdgeLocation: Swift.String? = nil,
+            routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]? = nil,
+            routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection? = nil,
             segmentName: Swift.String? = nil
         ) {
             self.attachmentId = attachmentId
             self.cidr = cidr
             self.edgeLocation = edgeLocation
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.peerEdgeLocation = peerEdgeLocation
+            self.routingPolicyAssociationDetails = routingPolicyAssociationDetails
+            self.routingPolicyDirection = routingPolicyDirection
             self.segmentName = segmentName
         }
     }
@@ -2457,6 +2582,76 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes {
 
+    /// Information about the next hop for a route in the core network.
+    public struct RoutingInformationNextHop: Swift.Sendable {
+        /// The ID of the core network attachment for the next hop.
+        public var coreNetworkAttachmentId: Swift.String?
+        /// The edge location for the next hop.
+        public var edgeLocation: Swift.String?
+        /// The IP address of the next hop.
+        public var ipAddress: Swift.String?
+        /// The ID of the resource for the next hop.
+        public var resourceId: Swift.String?
+        /// The type of resource for the next hop.
+        public var resourceType: Swift.String?
+        /// The name of the segment for the next hop.
+        public var segmentName: Swift.String?
+
+        public init(
+            coreNetworkAttachmentId: Swift.String? = nil,
+            edgeLocation: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            segmentName: Swift.String? = nil
+        ) {
+            self.coreNetworkAttachmentId = coreNetworkAttachmentId
+            self.edgeLocation = edgeLocation
+            self.ipAddress = ipAddress
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.segmentName = segmentName
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Routing information for a core network, including route details and BGP attributes.
+    public struct CoreNetworkRoutingInformation: Swift.Sendable {
+        /// The BGP AS path for the route.
+        public var asPath: [Swift.String]?
+        /// The BGP community values for the route.
+        public var communities: [Swift.String]?
+        /// The BGP local preference value for the route.
+        public var localPreference: Swift.String?
+        /// The BGP Multi-Exit Discriminator (MED) value for the route.
+        public var med: Swift.String?
+        /// The next hop information for the route.
+        public var nextHop: NetworkManagerClientTypes.RoutingInformationNextHop?
+        /// The IP prefix for the route.
+        public var `prefix`: Swift.String?
+
+        public init(
+            asPath: [Swift.String]? = nil,
+            communities: [Swift.String]? = nil,
+            localPreference: Swift.String? = nil,
+            med: Swift.String? = nil,
+            nextHop: NetworkManagerClientTypes.RoutingInformationNextHop? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.asPath = asPath
+            self.communities = communities
+            self.localPreference = localPreference
+            self.med = med
+            self.nextHop = nextHop
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
     /// Returns details about a core network edge.
     public struct CoreNetworkSegmentEdgeIdentifier: Swift.Sendable {
         /// The ID of a core network.
@@ -2529,6 +2724,8 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
     /// Options for creating an attachment.
     /// This member is required.
     public var options: NetworkManagerClientTypes.ConnectAttachmentOptions?
+    /// The routing policy label to apply to the Connect attachment for traffic routing decisions.
+    public var routingPolicyLabel: Swift.String?
     /// The list of key-value tags associated with the request.
     public var tags: [NetworkManagerClientTypes.Tag]?
     /// The ID of the attachment between the two connections.
@@ -2540,6 +2737,7 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         edgeLocation: Swift.String? = nil,
         options: NetworkManagerClientTypes.ConnectAttachmentOptions? = nil,
+        routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         transportAttachmentId: Swift.String? = nil
     ) {
@@ -2547,6 +2745,7 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
         self.options = options
+        self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
         self.transportAttachmentId = transportAttachmentId
     }
@@ -2700,6 +2899,51 @@ public struct CreateCoreNetworkOutput: Swift.Sendable {
         coreNetwork: NetworkManagerClientTypes.CoreNetwork? = nil
     ) {
         self.coreNetwork = coreNetwork
+    }
+}
+
+public struct CreateCoreNetworkPrefixListAssociationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the core network to associate with the prefix list.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// An optional alias for the prefix list association.
+    /// This member is required.
+    public var prefixListAlias: Swift.String?
+    /// The ARN of the prefix list to associate with the core network.
+    /// This member is required.
+    public var prefixListArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        prefixListAlias: Swift.String? = nil,
+        prefixListArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.coreNetworkId = coreNetworkId
+        self.prefixListAlias = prefixListAlias
+        self.prefixListArn = prefixListArn
+    }
+}
+
+public struct CreateCoreNetworkPrefixListAssociationOutput: Swift.Sendable {
+    /// The ID of the core network associated with the prefix list.
+    public var coreNetworkId: Swift.String?
+    /// The alias of the prefix list association, if provided.
+    public var prefixListAlias: Swift.String?
+    /// The ARN of the prefix list that was associated with the core network.
+    public var prefixListArn: Swift.String?
+
+    public init(
+        coreNetworkId: Swift.String? = nil,
+        prefixListAlias: Swift.String? = nil,
+        prefixListArn: Swift.String? = nil
+    ) {
+        self.coreNetworkId = coreNetworkId
+        self.prefixListAlias = prefixListAlias
+        self.prefixListArn = prefixListArn
     }
 }
 
@@ -2915,6 +3159,8 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
     /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
     /// This member is required.
     public var edgeLocations: [Swift.String]?
+    /// The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
+    public var routingPolicyLabel: Swift.String?
     /// The key value tags to apply to the Direct Connect gateway attachment during creation.
     public var tags: [NetworkManagerClientTypes.Tag]?
 
@@ -2923,12 +3169,14 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         directConnectGatewayArn: Swift.String? = nil,
         edgeLocations: [Swift.String]? = nil,
+        routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
     ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.directConnectGatewayArn = directConnectGatewayArn
         self.edgeLocations = edgeLocations
+        self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
     }
 }
@@ -3333,6 +3581,8 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Sendable {
     /// The ID of a core network where you're creating a site-to-site VPN attachment.
     /// This member is required.
     public var coreNetworkId: Swift.String?
+    /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
+    public var routingPolicyLabel: Swift.String?
     /// The tags associated with the request.
     public var tags: [NetworkManagerClientTypes.Tag]?
     /// The ARN identifying the VPN attachment.
@@ -3342,11 +3592,13 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         coreNetworkId: Swift.String? = nil,
+        routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         vpnConnectionArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
+        self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
         self.vpnConnectionArn = vpnConnectionArn
     }
@@ -3650,6 +3902,8 @@ public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Sendable {
     /// The ID of the peer for the
     /// This member is required.
     public var peeringId: Swift.String?
+    /// The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions.
+    public var routingPolicyLabel: Swift.String?
     /// The list of key-value tags associated with the request.
     public var tags: [NetworkManagerClientTypes.Tag]?
     /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
@@ -3659,11 +3913,13 @@ public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         peeringId: Swift.String? = nil,
+        routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         transitGatewayRouteTableArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.peeringId = peeringId
+        self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
         self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
     }
@@ -3738,6 +3994,8 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
     public var coreNetworkId: Swift.String?
     /// Options for the VPC attachment.
     public var options: NetworkManagerClientTypes.VpcOptions?
+    /// The routing policy label to apply to the VPC attachment for traffic routing decisions.
+    public var routingPolicyLabel: Swift.String?
     /// The subnet ARN of the VPC attachment.
     /// This member is required.
     public var subnetArns: [Swift.String]?
@@ -3751,6 +4009,7 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         coreNetworkId: Swift.String? = nil,
         options: NetworkManagerClientTypes.VpcOptions? = nil,
+        routingPolicyLabel: Swift.String? = nil,
         subnetArns: [Swift.String]? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         vpcArn: Swift.String? = nil
@@ -3758,6 +4017,7 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.options = options
+        self.routingPolicyLabel = routingPolicyLabel
         self.subnetArns = subnetArns
         self.tags = tags
         self.vpcArn = vpcArn
@@ -3920,6 +4180,38 @@ public struct DeleteCoreNetworkPolicyVersionOutput: Swift.Sendable {
         coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy? = nil
     ) {
         self.coreNetworkPolicy = coreNetworkPolicy
+    }
+}
+
+public struct DeleteCoreNetworkPrefixListAssociationInput: Swift.Sendable {
+    /// The ID of the core network from which to delete the prefix list association.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The ARN of the prefix list to disassociate from the core network.
+    /// This member is required.
+    public var prefixListArn: Swift.String?
+
+    public init(
+        coreNetworkId: Swift.String? = nil,
+        prefixListArn: Swift.String? = nil
+    ) {
+        self.coreNetworkId = coreNetworkId
+        self.prefixListArn = prefixListArn
+    }
+}
+
+public struct DeleteCoreNetworkPrefixListAssociationOutput: Swift.Sendable {
+    /// The ID of the core network from which the prefix list association was deleted.
+    public var coreNetworkId: Swift.String?
+    /// The ARN of the prefix list that was disassociated from the core network.
+    public var prefixListArn: Swift.String?
+
+    public init(
+        coreNetworkId: Swift.String? = nil,
+        prefixListArn: Swift.String? = nil
+    ) {
+        self.coreNetworkId = coreNetworkId
+        self.prefixListArn = prefixListArn
     }
 }
 
@@ -6166,6 +6458,45 @@ public struct GetVpcAttachmentOutput: Swift.Sendable {
     }
 }
 
+public struct ListAttachmentRoutingPolicyAssociationsInput: Swift.Sendable {
+    /// The ID of a specific attachment to filter the routing policy associations.
+    public var attachmentId: Swift.String?
+    /// The ID of the core network to list attachment routing policy associations for.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The maximum number of results to return in a single page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.coreNetworkId = coreNetworkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAttachmentRoutingPolicyAssociationsOutput: Swift.Sendable {
+    /// The list of attachment routing policy associations.
+    public var attachmentRoutingPolicyAssociations: [NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachmentRoutingPolicyAssociations: [NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachmentRoutingPolicyAssociations = attachmentRoutingPolicyAssociations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAttachmentsInput: Swift.Sendable {
     /// The type of attachment.
     public var attachmentType: NetworkManagerClientTypes.AttachmentType?
@@ -6281,6 +6612,133 @@ public struct ListCoreNetworkPolicyVersionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.coreNetworkPolicyVersions = coreNetworkPolicyVersions
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCoreNetworkPrefixListAssociationsInput: Swift.Sendable {
+    /// The ID of the core network to list prefix list associations for.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The maximum number of results to return in a single page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ARN of a specific prefix list to filter the associations.
+    public var prefixListArn: Swift.String?
+
+    public init(
+        coreNetworkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        prefixListArn: Swift.String? = nil
+    ) {
+        self.coreNetworkId = coreNetworkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.prefixListArn = prefixListArn
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Information about a prefix list association with a core network.
+    public struct PrefixListAssociation: Swift.Sendable {
+        /// The core network id in the association.
+        public var coreNetworkId: Swift.String?
+        /// The alias of the prefix list in the association.
+        public var prefixListAlias: Swift.String?
+        /// The ARN of the prefix list in the association.
+        public var prefixListArn: Swift.String?
+
+        public init(
+            coreNetworkId: Swift.String? = nil,
+            prefixListAlias: Swift.String? = nil,
+            prefixListArn: Swift.String? = nil
+        ) {
+            self.coreNetworkId = coreNetworkId
+            self.prefixListAlias = prefixListAlias
+            self.prefixListArn = prefixListArn
+        }
+    }
+}
+
+public struct ListCoreNetworkPrefixListAssociationsOutput: Swift.Sendable {
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of prefix list associations for the core network.
+    public var prefixListAssociations: [NetworkManagerClientTypes.PrefixListAssociation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        prefixListAssociations: [NetworkManagerClientTypes.PrefixListAssociation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.prefixListAssociations = prefixListAssociations
+    }
+}
+
+public struct ListCoreNetworkRoutingInformationInput: Swift.Sendable {
+    /// BGP community values to match when filtering routing information.
+    public var communityMatches: [Swift.String]?
+    /// The ID of the core network to retrieve routing information for.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The edge location to filter routing information by.
+    /// This member is required.
+    public var edgeLocation: Swift.String?
+    /// Exact AS path values to match when filtering routing information.
+    public var exactAsPathMatches: [Swift.String]?
+    /// Local preference values to match when filtering routing information.
+    public var localPreferenceMatches: [Swift.String]?
+    /// The maximum number of routing information entries to return in a single page.
+    public var maxResults: Swift.Int?
+    /// Multi-Exit Discriminator (MED) values to match when filtering routing information.
+    public var medMatches: [Swift.String]?
+    /// Filters to apply based on next hop information.
+    public var nextHopFilters: [Swift.String: [Swift.String]]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The name of the segment to filter routing information by.
+    /// This member is required.
+    public var segmentName: Swift.String?
+
+    public init(
+        communityMatches: [Swift.String]? = nil,
+        coreNetworkId: Swift.String? = nil,
+        edgeLocation: Swift.String? = nil,
+        exactAsPathMatches: [Swift.String]? = nil,
+        localPreferenceMatches: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        medMatches: [Swift.String]? = nil,
+        nextHopFilters: [Swift.String: [Swift.String]]? = nil,
+        nextToken: Swift.String? = nil,
+        segmentName: Swift.String? = nil
+    ) {
+        self.communityMatches = communityMatches
+        self.coreNetworkId = coreNetworkId
+        self.edgeLocation = edgeLocation
+        self.exactAsPathMatches = exactAsPathMatches
+        self.localPreferenceMatches = localPreferenceMatches
+        self.maxResults = maxResults
+        self.medMatches = medMatches
+        self.nextHopFilters = nextHopFilters
+        self.nextToken = nextToken
+        self.segmentName = segmentName
+    }
+}
+
+public struct ListCoreNetworkRoutingInformationOutput: Swift.Sendable {
+    /// The list of routing information for the core network.
+    public var coreNetworkRoutingInformation: [NetworkManagerClientTypes.CoreNetworkRoutingInformation]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        coreNetworkRoutingInformation: [NetworkManagerClientTypes.CoreNetworkRoutingInformation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.coreNetworkRoutingInformation = coreNetworkRoutingInformation
         self.nextToken = nextToken
     }
 }
@@ -6441,6 +6899,51 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct PutAttachmentRoutingPolicyLabelInput: Swift.Sendable {
+    /// The ID of the attachment to apply the routing policy label to.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the core network containing the attachment.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The routing policy label to apply to the attachment.
+    /// This member is required.
+    public var routingPolicyLabel: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        routingPolicyLabel: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.clientToken = clientToken
+        self.coreNetworkId = coreNetworkId
+        self.routingPolicyLabel = routingPolicyLabel
+    }
+}
+
+public struct PutAttachmentRoutingPolicyLabelOutput: Swift.Sendable {
+    /// The ID of the attachment that received the routing policy label.
+    public var attachmentId: Swift.String?
+    /// The ID of the core network containing the attachment.
+    public var coreNetworkId: Swift.String?
+    /// The routing policy label that was applied to the attachment.
+    public var routingPolicyLabel: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        routingPolicyLabel: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.coreNetworkId = coreNetworkId
+        self.routingPolicyLabel = routingPolicyLabel
+    }
+}
+
 public struct PutCoreNetworkPolicyInput: Swift.Sendable {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
@@ -6551,6 +7054,42 @@ public struct RejectAttachmentOutput: Swift.Sendable {
         attachment: NetworkManagerClientTypes.Attachment? = nil
     ) {
         self.attachment = attachment
+    }
+}
+
+public struct RemoveAttachmentRoutingPolicyLabelInput: Swift.Sendable {
+    /// The ID of the attachment to remove the routing policy label from.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The ID of the core network containing the attachment.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.coreNetworkId = coreNetworkId
+    }
+}
+
+public struct RemoveAttachmentRoutingPolicyLabelOutput: Swift.Sendable {
+    /// The ID of the attachment from which the routing policy label was removed.
+    public var attachmentId: Swift.String?
+    /// The ID of the core network containing the attachment.
+    public var coreNetworkId: Swift.String?
+    /// The routing policy label that was removed from the attachment.
+    public var routingPolicyLabel: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        routingPolicyLabel: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.coreNetworkId = coreNetworkId
+        self.routingPolicyLabel = routingPolicyLabel
     }
 }
 
@@ -7139,6 +7678,13 @@ extension CreateCoreNetworkInput {
     }
 }
 
+extension CreateCoreNetworkPrefixListAssociationInput {
+
+    static func urlPathProvider(_ value: CreateCoreNetworkPrefixListAssociationInput) -> Swift.String? {
+        return "/prefix-list"
+    }
+}
+
 extension CreateDeviceInput {
 
     static func urlPathProvider(_ value: CreateDeviceInput) -> Swift.String? {
@@ -7264,6 +7810,19 @@ extension DeleteCoreNetworkPolicyVersionInput {
             return nil
         }
         return "/core-networks/\(coreNetworkId.urlPercentEncoding())/core-network-policy-versions/\(policyVersionId)"
+    }
+}
+
+extension DeleteCoreNetworkPrefixListAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteCoreNetworkPrefixListAssociationInput) -> Swift.String? {
+        guard let prefixListArn = value.prefixListArn else {
+            return nil
+        }
+        guard let coreNetworkId = value.coreNetworkId else {
+            return nil
+        }
+        return "/prefix-list/\(prefixListArn.urlPercentEncoding())/core-network/\(coreNetworkId.urlPercentEncoding())"
     }
 }
 
@@ -8147,6 +8706,36 @@ extension GetVpcAttachmentInput {
     }
 }
 
+extension ListAttachmentRoutingPolicyAssociationsInput {
+
+    static func urlPathProvider(_ value: ListAttachmentRoutingPolicyAssociationsInput) -> Swift.String? {
+        guard let coreNetworkId = value.coreNetworkId else {
+            return nil
+        }
+        return "/routing-policy-label/core-network/\(coreNetworkId.urlPercentEncoding())"
+    }
+}
+
+extension ListAttachmentRoutingPolicyAssociationsInput {
+
+    static func queryItemProvider(_ value: ListAttachmentRoutingPolicyAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let attachmentId = value.attachmentId {
+            let attachmentIdQueryItem = Smithy.URIQueryItem(name: "attachmentId".urlPercentEncoding(), value: Swift.String(attachmentId).urlPercentEncoding())
+            items.append(attachmentIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListAttachmentsInput {
 
     static func urlPathProvider(_ value: ListAttachmentsInput) -> Swift.String? {
@@ -8230,6 +8819,62 @@ extension ListCoreNetworkPolicyVersionsInput {
 extension ListCoreNetworkPolicyVersionsInput {
 
     static func queryItemProvider(_ value: ListCoreNetworkPolicyVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCoreNetworkPrefixListAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCoreNetworkPrefixListAssociationsInput) -> Swift.String? {
+        guard let coreNetworkId = value.coreNetworkId else {
+            return nil
+        }
+        return "/prefix-list/core-network/\(coreNetworkId.urlPercentEncoding())"
+    }
+}
+
+extension ListCoreNetworkPrefixListAssociationsInput {
+
+    static func queryItemProvider(_ value: ListCoreNetworkPrefixListAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let prefixListArn = value.prefixListArn {
+            let prefixListArnQueryItem = Smithy.URIQueryItem(name: "prefixListArn".urlPercentEncoding(), value: Swift.String(prefixListArn).urlPercentEncoding())
+            items.append(prefixListArnQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCoreNetworkRoutingInformationInput {
+
+    static func urlPathProvider(_ value: ListCoreNetworkRoutingInformationInput) -> Swift.String? {
+        guard let coreNetworkId = value.coreNetworkId else {
+            return nil
+        }
+        return "/core-networks/\(coreNetworkId.urlPercentEncoding())/core-network-routing-information"
+    }
+}
+
+extension ListCoreNetworkRoutingInformationInput {
+
+    static func queryItemProvider(_ value: ListCoreNetworkRoutingInformationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -8338,6 +8983,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutAttachmentRoutingPolicyLabelInput {
+
+    static func urlPathProvider(_ value: PutAttachmentRoutingPolicyLabelInput) -> Swift.String? {
+        return "/routing-policy-label"
+    }
+}
+
 extension PutCoreNetworkPolicyInput {
 
     static func urlPathProvider(_ value: PutCoreNetworkPolicyInput) -> Swift.String? {
@@ -8375,6 +9027,19 @@ extension RejectAttachmentInput {
             return nil
         }
         return "/attachments/\(attachmentId.urlPercentEncoding())/reject"
+    }
+}
+
+extension RemoveAttachmentRoutingPolicyLabelInput {
+
+    static func urlPathProvider(_ value: RemoveAttachmentRoutingPolicyLabelInput) -> Swift.String? {
+        guard let coreNetworkId = value.coreNetworkId else {
+            return nil
+        }
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/routing-policy-label/core-network/\(coreNetworkId.urlPercentEncoding())/attachment/\(attachmentId.urlPercentEncoding())"
     }
 }
 
@@ -8596,6 +9261,7 @@ extension CreateConnectAttachmentInput {
         try writer["CoreNetworkId"].write(value.coreNetworkId)
         try writer["EdgeLocation"].write(value.edgeLocation)
         try writer["Options"].write(value.options, with: NetworkManagerClientTypes.ConnectAttachmentOptions.write(value:to:))
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TransportAttachmentId"].write(value.transportAttachmentId)
     }
@@ -8641,6 +9307,17 @@ extension CreateCoreNetworkInput {
     }
 }
 
+extension CreateCoreNetworkPrefixListAssociationInput {
+
+    static func write(value: CreateCoreNetworkPrefixListAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["PrefixListAlias"].write(value.prefixListAlias)
+        try writer["PrefixListArn"].write(value.prefixListArn)
+    }
+}
+
 extension CreateDeviceInput {
 
     static func write(value: CreateDeviceInput?, to writer: SmithyJSON.Writer) throws {
@@ -8665,6 +9342,7 @@ extension CreateDirectConnectGatewayAttachmentInput {
         try writer["CoreNetworkId"].write(value.coreNetworkId)
         try writer["DirectConnectGatewayArn"].write(value.directConnectGatewayArn)
         try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -8707,6 +9385,7 @@ extension CreateSiteToSiteVpnAttachmentInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpnConnectionArn"].write(value.vpnConnectionArn)
     }
@@ -8729,6 +9408,7 @@ extension CreateTransitGatewayRouteTableAttachmentInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["PeeringId"].write(value.peeringId)
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
     }
@@ -8741,6 +9421,7 @@ extension CreateVpcAttachmentInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["CoreNetworkId"].write(value.coreNetworkId)
         try writer["Options"].write(value.options, with: NetworkManagerClientTypes.VpcOptions.write(value:to:))
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["SubnetArns"].writeList(value.subnetArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcArn"].write(value.vpcArn)
@@ -8760,6 +9441,31 @@ extension GetNetworkRoutesInput {
         try writer["SubnetOfMatches"].writeList(value.subnetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SupernetOfMatches"].writeList(value.supernetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkManagerClientTypes.RouteType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListCoreNetworkRoutingInformationInput {
+
+    static func write(value: ListCoreNetworkRoutingInformationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommunityMatches"].writeList(value.communityMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EdgeLocation"].write(value.edgeLocation)
+        try writer["ExactAsPathMatches"].writeList(value.exactAsPathMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LocalPreferenceMatches"].writeList(value.localPreferenceMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MedMatches"].writeList(value.medMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NextHopFilters"].writeMap(value.nextHopFilters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SegmentName"].write(value.segmentName)
+    }
+}
+
+extension PutAttachmentRoutingPolicyLabelInput {
+
+    static func write(value: PutAttachmentRoutingPolicyLabelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentId"].write(value.attachmentId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
     }
 }
 
@@ -9012,6 +9718,20 @@ extension CreateCoreNetworkOutput {
     }
 }
 
+extension CreateCoreNetworkPrefixListAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCoreNetworkPrefixListAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCoreNetworkPrefixListAssociationOutput()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.prefixListAlias = try reader["PrefixListAlias"].readIfPresent()
+        value.prefixListArn = try reader["PrefixListArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateDeviceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDeviceOutput {
@@ -9176,6 +9896,19 @@ extension DeleteCoreNetworkPolicyVersionOutput {
         let reader = responseReader
         var value = DeleteCoreNetworkPolicyVersionOutput()
         value.coreNetworkPolicy = try reader["CoreNetworkPolicy"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkPolicy.read(from:))
+        return value
+    }
+}
+
+extension DeleteCoreNetworkPrefixListAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCoreNetworkPrefixListAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCoreNetworkPrefixListAssociationOutput()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.prefixListArn = try reader["PrefixListArn"].readIfPresent()
         return value
     }
 }
@@ -9670,6 +10403,19 @@ extension GetVpcAttachmentOutput {
     }
 }
 
+extension ListAttachmentRoutingPolicyAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAttachmentRoutingPolicyAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAttachmentRoutingPolicyAssociationsOutput()
+        value.attachmentRoutingPolicyAssociations = try reader["AttachmentRoutingPolicyAssociations"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAttachmentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAttachmentsOutput {
@@ -9704,6 +10450,32 @@ extension ListCoreNetworkPolicyVersionsOutput {
         let reader = responseReader
         var value = ListCoreNetworkPolicyVersionsOutput()
         value.coreNetworkPolicyVersions = try reader["CoreNetworkPolicyVersions"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkPolicyVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCoreNetworkPrefixListAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoreNetworkPrefixListAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCoreNetworkPrefixListAssociationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.prefixListAssociations = try reader["PrefixListAssociations"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PrefixListAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListCoreNetworkRoutingInformationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoreNetworkRoutingInformationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCoreNetworkRoutingInformationOutput()
+        value.coreNetworkRoutingInformation = try reader["CoreNetworkRoutingInformation"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkRoutingInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -9760,6 +10532,20 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension PutAttachmentRoutingPolicyLabelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAttachmentRoutingPolicyLabelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAttachmentRoutingPolicyLabelOutput()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.routingPolicyLabel = try reader["RoutingPolicyLabel"].readIfPresent()
+        return value
+    }
+}
+
 extension PutCoreNetworkPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutCoreNetworkPolicyOutput {
@@ -9799,6 +10585,20 @@ extension RejectAttachmentOutput {
         let reader = responseReader
         var value = RejectAttachmentOutput()
         value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
+        return value
+    }
+}
+
+extension RemoveAttachmentRoutingPolicyLabelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveAttachmentRoutingPolicyLabelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RemoveAttachmentRoutingPolicyLabelOutput()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.routingPolicyLabel = try reader["RoutingPolicyLabel"].readIfPresent()
         return value
     }
 }
@@ -10138,6 +10938,26 @@ enum CreateCoreNetworkOutputError {
     }
 }
 
+enum CreateCoreNetworkPrefixListAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDeviceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10400,6 +11220,26 @@ enum DeleteCoreNetworkPolicyVersionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCoreNetworkPrefixListAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11139,6 +11979,24 @@ enum GetVpcAttachmentOutputError {
     }
 }
 
+enum ListAttachmentRoutingPolicyAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAttachmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11174,6 +12032,42 @@ enum ListConnectPeersOutputError {
 }
 
 enum ListCoreNetworkPolicyVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCoreNetworkPrefixListAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCoreNetworkRoutingInformationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11256,6 +12150,26 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum PutAttachmentRoutingPolicyLabelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutCoreNetworkPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11326,6 +12240,26 @@ enum RejectAttachmentOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RemoveAttachmentRoutingPolicyLabelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12357,10 +13291,24 @@ extension NetworkManagerClientTypes.CoreNetworkChangeEventValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkChangeEventValues()
         value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        value.peerEdgeLocation = try reader["PeerEdgeLocation"].readIfPresent()
+        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
         value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.cidr = try reader["Cidr"].readIfPresent()
+        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.RoutingPolicyAssociationDetail()
+        value.routingPolicyNames = try reader["RoutingPolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12397,6 +13345,11 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues {
         value.vpnEcmpSupport = try reader["VpnEcmpSupport"].readIfPresent() ?? false
         value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
         value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
+        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
+        value.routingPolicy = try reader["RoutingPolicy"].readIfPresent()
+        value.peerEdgeLocations = try reader["PeerEdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12659,6 +13612,19 @@ extension NetworkManagerClientTypes.RouteAnalysisEndpointOptions {
     }
 }
 
+extension NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.pendingRoutingPolicies = try reader["PendingRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedRoutingPolicies = try reader["AssociatedRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routingPolicyLabel = try reader["RoutingPolicyLabel"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkManagerClientTypes.ConnectPeerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerSummary {
@@ -12687,6 +13653,48 @@ extension NetworkManagerClientTypes.CoreNetworkPolicyVersion {
         value.description = try reader["Description"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.changeSetState = try reader["ChangeSetState"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PrefixListAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PrefixListAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PrefixListAssociation()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.prefixListArn = try reader["PrefixListArn"].readIfPresent()
+        value.prefixListAlias = try reader["PrefixListAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkRoutingInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkRoutingInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkRoutingInformation()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.nextHop = try reader["NextHop"].readIfPresent(with: NetworkManagerClientTypes.RoutingInformationNextHop.read(from:))
+        value.localPreference = try reader["LocalPreference"].readIfPresent()
+        value.med = try reader["Med"].readIfPresent()
+        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.communities = try reader["Communities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.RoutingInformationNextHop {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RoutingInformationNextHop {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.RoutingInformationNextHop()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.coreNetworkAttachmentId = try reader["CoreNetworkAttachmentId"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
         return value
     }
 }
