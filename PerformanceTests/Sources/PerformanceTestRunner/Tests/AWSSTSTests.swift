@@ -6,6 +6,7 @@
 //
 
 import AWSSTS
+import ClientRuntime
 import Foundation
 import SmithySwiftNIO
 
