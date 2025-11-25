@@ -169,8 +169,8 @@ fun discoverServices(): List<AwsService> {
                 internalClient = false,
             )
 
-            // Codegen internal STS client for use by credential resolvers.
-            if (serviceApi.sdkId in setOf("STS", "SSO", "SSO OIDC", "Cognito Identity")) {
+            // Codegen internal clients used by credential resolvers.
+            if (serviceApi.sdkId in setOf("STS", "SSO", "SSO OIDC", "Cognito Identity", "Signin")) {
                 val internalProjection = AwsService(
                     name = service.id.toString(),
                     packageName = "Internal$packageName",

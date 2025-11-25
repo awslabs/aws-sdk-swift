@@ -1317,14 +1317,18 @@ extension NetworkFirewallClientTypes {
 
     public enum PerObjectSyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityConstrained
+        case deprecated
         case inSync
+        case notSubscribed
         case pending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PerObjectSyncStatus] {
             return [
                 .capacityConstrained,
+                .deprecated,
                 .inSync,
+                .notSubscribed,
                 .pending
             ]
         }
@@ -1337,7 +1341,9 @@ extension NetworkFirewallClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityConstrained: return "CAPACITY_CONSTRAINED"
+            case .deprecated: return "DEPRECATED"
             case .inSync: return "IN_SYNC"
+            case .notSubscribed: return "NOT_SUBSCRIBED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
@@ -4033,6 +4039,10 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var description: Swift.String?
     /// A timestamp indicating when the rule group was last modified.
     public var lastModifiedTime: Foundation.Date?
+    /// The display name of the product listing for this rule group.
+    public var listingName: Swift.String?
+    /// The unique identifier for the product listing associated with this rule group.
+    public var productId: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     /// This member is required.
     public var ruleGroupArn: Swift.String?
@@ -4043,23 +4053,31 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
+    /// The name of the Amazon Web Services Marketplace vendor that provides this rule group.
+    public var vendorName: Swift.String?
 
     public init(
         capacity: Swift.Int? = nil,
         description: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
+        listingName: Swift.String? = nil,
+        productId: Swift.String? = nil,
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions? = nil,
-        type: NetworkFirewallClientTypes.RuleGroupType? = nil
+        type: NetworkFirewallClientTypes.RuleGroupType? = nil,
+        vendorName: Swift.String? = nil
     ) {
         self.capacity = capacity
         self.description = description
         self.lastModifiedTime = lastModifiedTime
+        self.listingName = listingName
+        self.productId = productId
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
         self.statefulRuleOptions = statefulRuleOptions
         self.type = type
+        self.vendorName = vendorName
     }
 }
 
@@ -4730,13 +4748,15 @@ extension NetworkFirewallClientTypes {
         case activeThreatDefense
         case awsManagedDomainLists
         case awsManagedThreatSignatures
+        case partnerManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceManagedType] {
             return [
                 .activeThreatDefense,
                 .awsManagedDomainLists,
-                .awsManagedThreatSignatures
+                .awsManagedThreatSignatures,
+                .partnerManaged
             ]
         }
 
@@ -4750,6 +4770,7 @@ extension NetworkFirewallClientTypes {
             case .activeThreatDefense: return "ACTIVE_THREAT_DEFENSE"
             case .awsManagedDomainLists: return "AWS_MANAGED_DOMAIN_LISTS"
             case .awsManagedThreatSignatures: return "AWS_MANAGED_THREAT_SIGNATURES"
+            case .partnerManaged: return "PARTNER_MANAGED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4785,6 +4806,35 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    public enum SubscriptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notSubscribed
+        case subscribed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionStatus] {
+            return [
+                .notSubscribed,
+                .subscribed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notSubscribed: return "NOT_SUBSCRIBED"
+            case .subscribed: return "SUBSCRIBED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListRuleGroupsInput: Swift.Sendable {
     /// Indicates the general category of the Amazon Web Services managed rule group.
     public var managedType: NetworkFirewallClientTypes.ResourceManagedType?
@@ -4794,6 +4844,8 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The scope of the request. The default setting of ACCOUNT or a setting of NULL returns all of the rule groups in your account. A setting of MANAGED returns all available managed rule groups.
     public var scope: NetworkFirewallClientTypes.ResourceManagedStatus?
+    /// Filters the results to show only rule groups with the specified subscription status. Use this to find subscribed or unsubscribed rule groups.
+    public var subscriptionStatus: NetworkFirewallClientTypes.SubscriptionStatus?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
@@ -4802,12 +4854,14 @@ public struct ListRuleGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scope: NetworkFirewallClientTypes.ResourceManagedStatus? = nil,
+        subscriptionStatus: NetworkFirewallClientTypes.SubscriptionStatus? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     ) {
         self.managedType = managedType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.scope = scope
+        self.subscriptionStatus = subscriptionStatus
         self.type = type
     }
 }
@@ -4820,13 +4874,17 @@ extension NetworkFirewallClientTypes {
         public var arn: Swift.String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public var name: Swift.String?
+        /// The name of the Amazon Web Services Marketplace seller that provides this rule group.
+        public var vendorName: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            vendorName: Swift.String? = nil
         ) {
             self.arn = arn
             self.name = name
+            self.vendorName = vendorName
         }
     }
 }
@@ -6632,6 +6690,7 @@ extension ListRuleGroupsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Scope"].write(value.scope)
+        try writer["SubscriptionStatus"].write(value.subscriptionStatus)
         try writer["Type"].write(value.type)
     }
 }
@@ -7191,10 +7250,13 @@ extension DescribeRuleGroupMetadataOutput {
         value.capacity = try reader["Capacity"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.listingName = try reader["ListingName"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
         value.ruleGroupArn = try reader["RuleGroupArn"].readIfPresent() ?? ""
         value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
         value.statefulRuleOptions = try reader["StatefulRuleOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
+        value.vendorName = try reader["VendorName"].readIfPresent()
         return value
     }
 }
@@ -8482,6 +8544,7 @@ enum UpdateFirewallAnalysisSettingsOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9992,6 +10055,7 @@ extension NetworkFirewallClientTypes.RuleGroupMetadata {
         var value = NetworkFirewallClientTypes.RuleGroupMetadata()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.vendorName = try reader["VendorName"].readIfPresent()
         return value
     }
 }

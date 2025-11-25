@@ -386,7 +386,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput {
         let context = Smithy.ContextBuilder()
@@ -462,7 +462,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput {
         let context = Smithy.ContextBuilder()
@@ -1418,6 +1418,7 @@ extension BudgetsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `ExpiredNextTokenException` : The pagination token expired.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidNextTokenException` : The pagination token is invalid.
@@ -1868,7 +1869,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2016,6 +2017,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput {
         let context = Smithy.ContextBuilder()

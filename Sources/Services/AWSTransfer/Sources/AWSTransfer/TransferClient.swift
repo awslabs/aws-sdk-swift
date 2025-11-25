@@ -813,7 +813,7 @@ extension TransferClient {
 
     /// Performs the `CreateWebApp` operation on the `Transfer` service.
     ///
-    /// Creates a web app based on specified parameters, and returns the ID for the new web app.
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWebAppInput`)
     ///
@@ -2551,7 +2551,7 @@ extension TransferClient {
 
     /// Performs the `DescribeWebApp` operation on the `Transfer` service.
     ///
-    /// Describes the web app that's identified by WebAppId.
+    /// Describes the web app that's identified by WebAppId. The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeWebAppInput`)
     ///
@@ -3869,7 +3869,7 @@ extension TransferClient {
 
     /// Performs the `ListWebApps` operation on the `Transfer` service.
     ///
-    /// Lists all web apps associated with your Amazon Web Services account for your current region.
+    /// Lists all web apps associated with your Amazon Web Services account for your current region. The response includes the endpoint type for each web app, showing whether it is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWebAppsInput`)
     ///
@@ -5433,7 +5433,7 @@ extension TransferClient {
 
     /// Performs the `UpdateWebApp` operation on the `Transfer` service.
     ///
-    /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, endpoint configuration, and the web app units. For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateWebAppInput`)
     ///

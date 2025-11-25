@@ -1491,6 +1491,7 @@ extension RDSClient {
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1805,6 +1806,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1896,6 +1898,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func createDBInstanceReadReplica(input: CreateDBInstanceReadReplicaInput) async throws -> CreateDBInstanceReadReplicaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8212,6 +8215,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotAvailableFault` : The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8522,6 +8526,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10675,6 +10680,7 @@ extension RDSClient {
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10764,6 +10770,7 @@ extension RDSClient {
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10855,6 +10862,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func restoreDBInstanceFromDBSnapshot(input: RestoreDBInstanceFromDBSnapshotInput) async throws -> RestoreDBInstanceFromDBSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10941,6 +10949,7 @@ extension RDSClient {
     /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func restoreDBInstanceFromS3(input: RestoreDBInstanceFromS3Input) async throws -> RestoreDBInstanceFromS3Output {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11033,6 +11042,7 @@ extension RDSClient {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func restoreDBInstanceToPointInTime(input: RestoreDBInstanceToPointInTimeInput) async throws -> RestoreDBInstanceToPointInTimeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11248,6 +11258,7 @@ extension RDSClient {
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBShardGroupStateFault` : The DB shard group must be in the available state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11326,6 +11337,7 @@ extension RDSClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `VpcEncryptionControlViolationException` : The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
     public func startDBInstance(input: StartDBInstanceInput) async throws -> StartDBInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

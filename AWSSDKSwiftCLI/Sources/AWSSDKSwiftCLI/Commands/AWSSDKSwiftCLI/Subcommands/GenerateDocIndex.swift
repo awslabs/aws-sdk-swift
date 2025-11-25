@@ -34,13 +34,30 @@ struct GenerateDocIndexCommand: ParsableCommand {
 
     /// Converts old format relative links to new format
     func convertToNewFormat(_ content: String) -> String {
-        return content.replacingOccurrences(
+        var result = content.replacingOccurrences(
             of: "../../../../../swift/api/",
-            with: "../../../../../sdk-for-swift/latest/api/"
+            with: "../../../../../latest/api/"
         ).replacingOccurrences(
-            of: "/latest)",
-            with: ")"
+            of: "# ``AWSSDKForSwift``",
+            with: "# ``SDKForSwift``"
         )
+
+        // Find and replace /modulename/latest) with /modulename/documentation/modulename)
+        let lines = result.components(separatedBy: .newlines)
+        result = lines.map { line in
+            if line.contains("/latest)") {
+                // Extract module name from pattern like "api/modulename/latest)"
+                if let apiRange = line.range(of: "api/"),
+                   let latestRange = line.range(of: "/latest)") {
+                    let moduleStart = apiRange.upperBound
+                    let moduleName = String(line[moduleStart..<latestRange.lowerBound])
+                    return line.replacingOccurrences(of: "/\(moduleName)/latest)", with: "/\(moduleName)/documentation/\(moduleName))")
+                }
+            }
+            return line
+        }.joined(separator: "\n")
+
+        return result
     }
 
     /// Returns the contents of the generated doc index.

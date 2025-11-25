@@ -139,6 +139,11 @@ public struct PutDestinationPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutLogGroupDeletionProtectionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutMetricFilterOutput: Swift.Sendable {
 
     public init() { }
@@ -1445,6 +1450,8 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct CreateLogGroupInput: Swift.Sendable {
+    /// Use this parameter to enable deletion protection for the new log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. By default log groups are created without deletion protection enabled.
+    public var deletionProtectionEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
     /// Use this parameter to specify the log group class for this log group. There are three classes:
@@ -1465,11 +1472,13 @@ public struct CreateLogGroupInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        deletionProtectionEnabled: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
         self.kmsKeyId = kmsKeyId
         self.logGroupClass = logGroupClass
         self.logGroupName = logGroupName
@@ -2882,6 +2891,8 @@ extension CloudWatchLogsClientTypes {
         public var creationTime: Swift.Int?
         /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
         public var dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus?
+        /// Indicates whether deletion protection is enabled for this log group. When enabled, deletion protection blocks all deletion operations until it is explicitly disabled.
+        public var deletionProtectionEnabled: Swift.Bool?
         /// Displays all the properties that this log group has inherited from account-level settings.
         public var inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
@@ -2918,6 +2929,7 @@ extension CloudWatchLogsClientTypes {
             arn: Swift.String? = nil,
             creationTime: Swift.Int? = nil,
             dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
+            deletionProtectionEnabled: Swift.Bool? = nil,
             inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]? = nil,
             kmsKeyId: Swift.String? = nil,
             logGroupArn: Swift.String? = nil,
@@ -2930,6 +2942,7 @@ extension CloudWatchLogsClientTypes {
             self.arn = arn
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
+            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
             self.logGroupArn = logGroupArn
@@ -5079,13 +5092,13 @@ extension CloudWatchLogsClientTypes {
 
     /// Information about a destination where scheduled query results are processed and delivered.
     public struct ScheduledQueryDestination: Swift.Sendable {
-        /// The destination identifier (S3 URI or EventBridge ARN).
+        /// The destination identifier (S3 URI).
         public var destinationIdentifier: Swift.String?
-        /// The type of destination (S3 or EVENTBRIDGE).
+        /// The type of destination (S3).
         public var destinationType: CloudWatchLogsClientTypes.ScheduledQueryDestinationType?
         /// Error message if the destination processing failed.
         public var errorMessage: Swift.String?
-        /// The processed identifier returned for the destination (S3 key or event ID).
+        /// The processed identifier returned for the destination (S3 key).
         public var processedIdentifier: Swift.String?
         /// The processing status for this destination (IN_PROGRESS, ERROR, FAILED, or COMPLETE).
         public var status: CloudWatchLogsClientTypes.ActionStatus?
@@ -5110,11 +5123,11 @@ extension CloudWatchLogsClientTypes {
 
     /// A record of a scheduled query execution, including its status and destination processing information.
     public struct TriggerHistoryRecord: Swift.Sendable {
-        /// The list of destinations where the scheduled query results were delivered for this execution. This includes S3 buckets and EventBridge targets configured for the scheduled query.
+        /// The list of destinations where the scheduled query results were delivered for this execution. This includes S3 buckets configured for the scheduled query.
         public var destinations: [CloudWatchLogsClientTypes.ScheduledQueryDestination]?
         /// The error message if the scheduled query execution failed. This field is only populated when the execution status indicates a failure.
         public var errorMessage: Swift.String?
-        /// The status of the query execution (SUCCEEDED, FAILED, TIMEOUT, or INVALID_QUERY).
+        /// The status of the query execution (Running, Complete, Failed, Timeout, or InvalidQuery).
         public var executionStatus: CloudWatchLogsClientTypes.ExecutionStatus?
         /// The unique identifier for the query execution.
         public var queryId: Swift.String?
@@ -5393,11 +5406,13 @@ extension CloudWatchLogsClientTypes {
 
     public enum OCSFVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v11
+        case v15
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OCSFVersion] {
             return [
-                .v11
+                .v11,
+                .v15
             ]
         }
 
@@ -5409,6 +5424,7 @@ extension CloudWatchLogsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .v11: return "V1.1"
+            case .v15: return "V1.5"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5417,11 +5433,13 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [ parseToOSCF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
+    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [parseToOCSF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
     public struct ParseToOCSF: Swift.Sendable {
         /// Specify the service or process that produces the log events that will be converted with this processor.
         /// This member is required.
         public var eventSource: CloudWatchLogsClientTypes.EventSource?
+        /// Identifies the specific release of the Open Cybersecurity Schema Framework (OCSF) transformer being used to parse OCSF data. Defaults to the latest version if not specified. Does not automatically update.
+        public var mappingVersion: Swift.String?
         /// Specify which version of the OCSF schema to use for the transformed log events.
         /// This member is required.
         public var ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion?
@@ -5430,10 +5448,12 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             eventSource: CloudWatchLogsClientTypes.EventSource? = nil,
+            mappingVersion: Swift.String? = nil,
             ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion? = nil,
             source: Swift.String? = nil
         ) {
             self.eventSource = eventSource
+            self.mappingVersion = mappingVersion
             self.ocsfVersion = ocsfVersion
             self.source = source
         }
@@ -6590,7 +6610,11 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
+    /// * For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.
+    ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
+    ///
+    /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
     ///
@@ -6909,6 +6933,23 @@ public struct PutLogEventsOutput: Swift.Sendable {
         self.nextSequenceToken = nextSequenceToken
         self.rejectedEntityInfo = rejectedEntityInfo
         self.rejectedLogEventsInfo = rejectedLogEventsInfo
+    }
+}
+
+public struct PutLogGroupDeletionProtectionInput: Swift.Sendable {
+    /// Whether to enable deletion protection. Type: Boolean Required: Yes
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+
+    public init(
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        logGroupIdentifier: Swift.String? = nil
+    ) {
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.logGroupIdentifier = logGroupIdentifier
     }
 }
 
@@ -8414,6 +8455,13 @@ extension PutLogEventsInput {
     }
 }
 
+extension PutLogGroupDeletionProtectionInput {
+
+    static func urlPathProvider(_ value: PutLogGroupDeletionProtectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutMetricFilterInput {
 
     static func urlPathProvider(_ value: PutMetricFilterInput) -> Swift.String? {
@@ -8610,6 +8658,7 @@ extension CreateLogGroupInput {
 
     static func write(value: CreateLogGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["logGroupClass"].write(value.logGroupClass)
         try writer["logGroupName"].write(value.logGroupName)
@@ -9329,6 +9378,15 @@ extension PutLogEventsInput {
         try writer["logGroupName"].write(value.logGroupName)
         try writer["logStreamName"].write(value.logStreamName)
         try writer["sequenceToken"].write(value.sequenceToken)
+    }
+}
+
+extension PutLogGroupDeletionProtectionInput {
+
+    static func write(value: PutLogGroupDeletionProtectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["logGroupIdentifier"].write(value.logGroupIdentifier)
     }
 }
 
@@ -10436,6 +10494,13 @@ extension PutLogEventsOutput {
     }
 }
 
+extension PutLogGroupDeletionProtectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutLogGroupDeletionProtectionOutput {
+        return PutLogGroupDeletionProtectionOutput()
+    }
+}
+
 extension PutMetricFilterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutMetricFilterOutput {
@@ -10963,6 +11028,7 @@ enum DeleteLogGroupOutputError {
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10980,6 +11046,7 @@ enum DeleteLogStreamOutputError {
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11960,6 +12027,25 @@ enum PutLogEventsOutputError {
     }
 }
 
+enum PutLogGroupDeletionProtectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutMetricFilterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12836,6 +12922,7 @@ extension CloudWatchLogsClientTypes.LogGroup {
         value.inheritedProperties = try reader["inheritedProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudWatchLogsClientTypes.InheritedProperty>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logGroupClass = try reader["logGroupClass"].readIfPresent()
         value.logGroupArn = try reader["logGroupArn"].readIfPresent()
+        value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent()
         return value
     }
 }
@@ -13531,6 +13618,7 @@ extension CloudWatchLogsClientTypes.ParseToOCSF {
     static func write(value: CloudWatchLogsClientTypes.ParseToOCSF?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventSource"].write(value.eventSource)
+        try writer["mappingVersion"].write(value.mappingVersion)
         try writer["ocsfVersion"].write(value.ocsfVersion)
         try writer["source"].write(value.source)
     }
@@ -13541,6 +13629,7 @@ extension CloudWatchLogsClientTypes.ParseToOCSF {
         value.source = try reader["source"].readIfPresent()
         value.eventSource = try reader["eventSource"].readIfPresent() ?? .sdkUnknown("")
         value.ocsfVersion = try reader["ocsfVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingVersion = try reader["mappingVersion"].readIfPresent()
         return value
     }
 }

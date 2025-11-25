@@ -177,6 +177,55 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    public enum ScanFinding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case malware
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanFinding] {
+            return [
+                .malware
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .malware: return "MALWARE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains aggregated scan results across multiple scan operations, providing a summary of scan status and findings.
+    public struct AggregatedScanResult: Swift.Sendable {
+        /// A Boolean value indicating whether any of the aggregated scans failed.
+        public var failedScan: Swift.Bool?
+        /// An array of findings discovered across all aggregated scans.
+        public var findings: [BackupClientTypes.ScanFinding]?
+        /// The timestamp when the aggregated scan result was last computed, in Unix format and Coordinated Universal Time (UTC).
+        public var lastComputed: Foundation.Date?
+
+        public init(
+            failedScan: Swift.Bool? = nil,
+            findings: [BackupClientTypes.ScanFinding]? = nil,
+            lastComputed: Foundation.Date? = nil
+        ) {
+            self.failedScan = failedScan
+            self.findings = findings
+            self.lastComputed = lastComputed
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     public enum AggregationPeriod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fourteenDays
         case oneDay
@@ -876,6 +925,80 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    public enum MalwareScanner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case guardduty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareScanner] {
+            return [
+                .guardduty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .guardduty: return "GUARDDUTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum ScanMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullScan
+        case incrementalScan
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanMode] {
+            return [
+                .fullScan,
+                .incrementalScan
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullScan: return "FULL_SCAN"
+            case .incrementalScan: return "INCREMENTAL_SCAN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Defines a scanning action that specifies the malware scanner and scan mode to use.
+    public struct ScanAction: Swift.Sendable {
+        /// The malware scanner to use for the scan action. Currently only GUARDDUTY is supported.
+        public var malwareScanner: BackupClientTypes.MalwareScanner?
+        /// The scanning mode to use for the scan action. Valid values: FULL_SCAN | INCREMENTAL_SCAN.
+        public var scanMode: BackupClientTypes.ScanMode?
+
+        public init(
+            malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+            scanMode: BackupClientTypes.ScanMode? = nil
+        ) {
+            self.malwareScanner = malwareScanner
+            self.scanMode = scanMode
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     /// Specifies a scheduled task used to back up a selection of resources.
     public struct BackupRule: Swift.Sendable {
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
@@ -895,6 +1018,8 @@ extension BackupClientTypes {
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
         public var ruleName: Swift.String?
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public var scanActions: [BackupClientTypes.ScanAction]?
         /// A cron expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *). For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
         /// The timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -916,6 +1041,7 @@ extension BackupClientTypes {
             recoveryPointTags: [Swift.String: Swift.String]? = nil,
             ruleId: Swift.String? = nil,
             ruleName: Swift.String? = nil,
+            scanActions: [BackupClientTypes.ScanAction]? = nil,
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
@@ -930,6 +1056,7 @@ extension BackupClientTypes {
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
             self.ruleName = ruleName
+            self.scanActions = scanActions
             self.scheduleExpression = scheduleExpression
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
@@ -941,7 +1068,30 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scanActions: \(Swift.String(describing: scanActions)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+
+    /// Contains configuration settings for malware scanning, including the scanner type, target resource types, and scanner role.
+    public struct ScanSetting: Swift.Sendable {
+        /// The malware scanner to use for scanning. Currently only GUARDDUTY is supported.
+        public var malwareScanner: BackupClientTypes.MalwareScanner?
+        /// An array of resource types to be scanned for malware.
+        public var resourceTypes: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that the scanner uses to access resources; for example, arn:aws:iam::123456789012:role/ScannerRole.
+        public var scannerRoleArn: Swift.String?
+
+        public init(
+            malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+            resourceTypes: [Swift.String]? = nil,
+            scannerRoleArn: Swift.String? = nil
+        ) {
+            self.malwareScanner = malwareScanner
+            self.resourceTypes = resourceTypes
+            self.scannerRoleArn = scannerRoleArn
+        }
+    }
 }
 
 extension BackupClientTypes {
@@ -956,15 +1106,19 @@ extension BackupClientTypes {
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         /// This member is required.
         public var rules: [BackupClientTypes.BackupRule]?
+        /// Contains your scanning configuration for the backup plan and includes the Malware scanner, your selected resources, and scanner role.
+        public var scanSettings: [BackupClientTypes.ScanSetting]?
 
         public init(
             advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
             backupPlanName: Swift.String? = nil,
-            rules: [BackupClientTypes.BackupRule]? = nil
+            rules: [BackupClientTypes.BackupRule]? = nil,
+            scanSettings: [BackupClientTypes.ScanSetting]? = nil
         ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
+            self.scanSettings = scanSettings
         }
     }
 }
@@ -992,6 +1146,8 @@ extension BackupClientTypes {
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
         public var ruleName: Swift.String?
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public var scanActions: [BackupClientTypes.ScanAction]?
         /// A CRON expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public var scheduleExpression: Swift.String?
         /// The timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -1012,6 +1168,7 @@ extension BackupClientTypes {
             lifecycle: BackupClientTypes.Lifecycle? = nil,
             recoveryPointTags: [Swift.String: Swift.String]? = nil,
             ruleName: Swift.String? = nil,
+            scanActions: [BackupClientTypes.ScanAction]? = nil,
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
@@ -1025,6 +1182,7 @@ extension BackupClientTypes {
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
+            self.scanActions = scanActions
             self.scheduleExpression = scheduleExpression
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
@@ -1036,7 +1194,7 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scanActions: \(Swift.String(describing: scanActions)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -1051,15 +1209,19 @@ extension BackupClientTypes {
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         /// This member is required.
         public var rules: [BackupClientTypes.BackupRuleInput]?
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public var scanSettings: [BackupClientTypes.ScanSetting]?
 
         public init(
             advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
             backupPlanName: Swift.String? = nil,
-            rules: [BackupClientTypes.BackupRuleInput]? = nil
+            rules: [BackupClientTypes.BackupRuleInput]? = nil,
+            scanSettings: [BackupClientTypes.ScanSetting]? = nil
         ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
+            self.scanSettings = scanSettings
         }
     }
 }
@@ -2443,7 +2605,7 @@ extension BackupClientTypes {
         public var organizationUnits: [Swift.String]?
         /// These are the Regions to be included in the report. Use the wildcard as the string value to include all Regions.
         public var regions: [Swift.String]?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT
         /// This member is required.
         public var reportTemplate: Swift.String?
 
@@ -2478,7 +2640,7 @@ public struct CreateReportPlanInput: Swift.Sendable {
     public var reportPlanName: Swift.String?
     /// The tags to assign to the report plan.
     public var reportPlanTags: [Swift.String: Swift.String]?
-    /// Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
+    /// Identifies the report template for the report. Reports are built using a report template. The report templates are: RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
     /// This member is required.
     public var reportSetting: BackupClientTypes.ReportSetting?
 
@@ -3760,6 +3922,68 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    public enum ScanJobState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case completed
+        case completedWithIssues
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanJobState] {
+            return [
+                .canceled,
+                .completed,
+                .completedWithIssues,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains the results of a security scan, including scanner information, scan state, and any findings discovered.
+    public struct ScanResult: Swift.Sendable {
+        /// An array of findings discovered during the scan.
+        public var findings: [BackupClientTypes.ScanFinding]?
+        /// The timestamp of when the last scan was performed, in Unix format and Coordinated Universal Time (UTC).
+        public var lastScanTimestamp: Foundation.Date?
+        /// The malware scanner used to perform the scan. Currently only GUARDDUTY is supported.
+        public var malwareScanner: BackupClientTypes.MalwareScanner?
+        /// The final state of the scan job. Valid values: COMPLETED | FAILED | CANCELED.
+        public var scanJobState: BackupClientTypes.ScanJobState?
+
+        public init(
+            findings: [BackupClientTypes.ScanFinding]? = nil,
+            lastScanTimestamp: Foundation.Date? = nil,
+            malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+            scanJobState: BackupClientTypes.ScanJobState? = nil
+        ) {
+            self.findings = findings
+            self.lastScanTimestamp = lastScanTimestamp
+            self.malwareScanner = malwareScanner
+            self.scanJobState = scanJobState
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     public enum RecoveryPointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case completed
@@ -3881,6 +4105,8 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
     public var resourceName: Swift.String?
     /// The type of Amazon Web Services resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
     public var resourceType: Swift.String?
+    /// Contains the latest scanning results against the recovery point and currently include MalwareScanner, ScanJobState, Findings, and LastScanTimestamp
+    public var scanResults: [BackupClientTypes.ScanResult]?
     /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
     public var sourceBackupVaultArn: Swift.String?
     /// A status code specifying the state of the recovery point. For more information, see [ Recovery point status](https://docs.aws.amazon.com/aws-backup/latest/devguide/applicationstackbackups.html#cfnrecoverypointstatus) in the Backup Developer Guide.
@@ -3926,6 +4152,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil,
+        scanResults: [BackupClientTypes.ScanResult]? = nil,
         sourceBackupVaultArn: Swift.String? = nil,
         status: BackupClientTypes.RecoveryPointStatus? = nil,
         statusMessage: Swift.String? = nil,
@@ -3955,6 +4182,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.resourceType = resourceType
+        self.scanResults = scanResults
         self.sourceBackupVaultArn = sourceBackupVaultArn
         self.status = status
         self.statusMessage = statusMessage
@@ -4366,6 +4594,269 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         self.statusMessage = statusMessage
         self.validationStatus = validationStatus
         self.validationStatusMessage = validationStatusMessage
+    }
+}
+
+public struct DescribeScanJobInput: Swift.Sendable {
+    /// Uniquely identifies a request to Backup to scan a resource.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+
+    public init(
+        scanJobId: Swift.String? = nil
+    ) {
+        self.scanJobId = scanJobId
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains identifying information about the creation of a scan job, including the backup plan and rule that initiated the scan.
+    public struct ScanJobCreator: Swift.Sendable {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
+        /// This member is required.
+        public var backupPlanArn: Swift.String?
+        /// The ID of the backup plan.
+        /// This member is required.
+        public var backupPlanId: Swift.String?
+        /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
+        /// This member is required.
+        public var backupPlanVersion: Swift.String?
+        /// Uniquely identifies the backup rule that initiated the scan job.
+        /// This member is required.
+        public var backupRuleId: Swift.String?
+
+        public init(
+            backupPlanArn: Swift.String? = nil,
+            backupPlanId: Swift.String? = nil,
+            backupPlanVersion: Swift.String? = nil,
+            backupRuleId: Swift.String? = nil
+        ) {
+            self.backupPlanArn = backupPlanArn
+            self.backupPlanId = backupPlanId
+            self.backupPlanVersion = backupPlanVersion
+            self.backupRuleId = backupRuleId
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum ScanResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebs
+        case ec2
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanResourceType] {
+            return [
+                .ebs,
+                .ec2,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebs: return "EBS"
+            case .ec2: return "EC2"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum ScanResultStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noThreatsFound
+        case threatsFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanResultStatus] {
+            return [
+                .noThreatsFound,
+                .threatsFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noThreatsFound: return "NO_THREATS_FOUND"
+            case .threatsFound: return "THREATS_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains information about the results of a scan job.
+    public struct ScanResultInfo: Swift.Sendable {
+        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        /// This member is required.
+        public var scanResultStatus: BackupClientTypes.ScanResultStatus?
+
+        public init(
+            scanResultStatus: BackupClientTypes.ScanResultStatus? = nil
+        ) {
+            self.scanResultStatus = scanResultStatus
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum ScanState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case completed
+        case completedWithIssues
+        case created
+        case failed
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanState] {
+            return [
+                .canceled,
+                .completed,
+                .completedWithIssues,
+                .created,
+                .failed,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeScanJobOutput: Swift.Sendable {
+    /// Returns the account ID that owns the scan job. Pattern: ^[0-9]{12}$
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault
+    /// This member is required.
+    public var backupVaultArn: Swift.String?
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var completionDate: Foundation.Date?
+    /// Contains identifying information about the creation of a scan job, including the backup plan and rule that initiated the scan.
+    /// This member is required.
+    public var createdBy: BackupClientTypes.ScanJobCreator?
+    /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// This member is required.
+    public var creationDate: Foundation.Date?
+    /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:iam::123456789012:role/S3Access.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// The scanning engine used for the corresponding scan job. Currently only GUARDUTY is supported.
+    /// This member is required.
+    public var malwareScanner: BackupClientTypes.MalwareScanner?
+    /// An ARN that uniquely identifies the target recovery point for scanning.; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+    /// An ARN that uniquely identifies the source resource of the corresponding recovery point ARN.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The non-unique name of the resource that belongs to the specified backup.
+    /// This member is required.
+    public var resourceName: Swift.String?
+    /// The type of Amazon Web Services Resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume. Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    /// This member is required.
+    public var resourceType: BackupClientTypes.ScanResourceType?
+    /// An ARN that uniquely identifies the base recovery point for scanning. This field will only be populated when an incremental scan job has taken place.
+    public var scanBaseRecoveryPointArn: Swift.String?
+    /// The scan ID generated by Amazon GuardDuty for the corresponding Scan Job ID request from Backup.
+    public var scanId: Swift.String?
+    /// The scan job ID that uniquely identified the request to Backup.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+    /// Specifies the scan type used for the scan job.
+    /// This member is required.
+    public var scanMode: BackupClientTypes.ScanMode?
+    /// Contains the ScanResultsStatus for the scanning job and returns THREATS_FOUND or NO_THREATS_FOUND for completed jobs.
+    public var scanResult: BackupClientTypes.ScanResultInfo?
+    /// Specifies the scanner IAM role ARN used to for the scan job.
+    /// This member is required.
+    public var scannerRoleArn: Swift.String?
+    /// The current state of a scan job.
+    /// This member is required.
+    public var state: BackupClientTypes.ScanState?
+    /// A detailed message explaining the status of the job to back up a resource.
+    public var statusMessage: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        backupVaultArn: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        completionDate: Foundation.Date? = nil,
+        createdBy: BackupClientTypes.ScanJobCreator? = nil,
+        creationDate: Foundation.Date? = nil,
+        iamRoleArn: Swift.String? = nil,
+        malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
+        resourceType: BackupClientTypes.ScanResourceType? = nil,
+        scanBaseRecoveryPointArn: Swift.String? = nil,
+        scanId: Swift.String? = nil,
+        scanJobId: Swift.String? = nil,
+        scanMode: BackupClientTypes.ScanMode? = nil,
+        scanResult: BackupClientTypes.ScanResultInfo? = nil,
+        scannerRoleArn: Swift.String? = nil,
+        state: BackupClientTypes.ScanState? = nil,
+        statusMessage: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.backupVaultArn = backupVaultArn
+        self.backupVaultName = backupVaultName
+        self.completionDate = completionDate
+        self.createdBy = createdBy
+        self.creationDate = creationDate
+        self.iamRoleArn = iamRoleArn
+        self.malwareScanner = malwareScanner
+        self.recoveryPointArn = recoveryPointArn
+        self.resourceArn = resourceArn
+        self.resourceName = resourceName
+        self.resourceType = resourceType
+        self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+        self.scanId = scanId
+        self.scanJobId = scanJobId
+        self.scanMode = scanMode
+        self.scanResult = scanResult
+        self.scannerRoleArn = scannerRoleArn
+        self.state = state
+        self.statusMessage = statusMessage
     }
 }
 
@@ -6183,6 +6674,8 @@ extension BackupClientTypes {
 
     /// Contains detailed information about the recovery points stored in a backup vault.
     public struct RecoveryPointByBackupVault: Swift.Sendable {
+        /// Contains the latest scanning results against the recovery point and currently include FailedScan, Findings, LastComputed.
+        public var aggregatedScanResult: BackupClientTypes.AggregatedScanResult?
         /// The size, in bytes, of a backup.
         public var backupSizeInBytes: Swift.Int?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
@@ -6239,6 +6732,7 @@ extension BackupClientTypes {
         public var vaultType: BackupClientTypes.VaultType?
 
         public init(
+            aggregatedScanResult: BackupClientTypes.AggregatedScanResult? = nil,
             backupSizeInBytes: Swift.Int? = nil,
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
@@ -6267,6 +6761,7 @@ extension BackupClientTypes {
             statusMessage: Swift.String? = nil,
             vaultType: BackupClientTypes.VaultType? = nil
         ) {
+            self.aggregatedScanResult = aggregatedScanResult
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -6403,6 +6898,8 @@ extension BackupClientTypes {
 
     /// Contains detailed information about a saved recovery point.
     public struct RecoveryPointByResource: Swift.Sendable {
+        /// Contains the latest scanning results against the recovery point and currently include FailedScan, Findings, LastComputed.
+        public var aggregatedScanResult: BackupClientTypes.AggregatedScanResult?
         /// The size, in bytes, of a backup.
         public var backupSizeBytes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
@@ -6433,6 +6930,7 @@ extension BackupClientTypes {
         public var vaultType: BackupClientTypes.VaultType?
 
         public init(
+            aggregatedScanResult: BackupClientTypes.AggregatedScanResult? = nil,
             backupSizeBytes: Swift.Int? = nil,
             backupVaultName: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
@@ -6448,6 +6946,7 @@ extension BackupClientTypes {
             statusMessage: Swift.String? = nil,
             vaultType: BackupClientTypes.VaultType? = nil
         ) {
+            self.aggregatedScanResult = aggregatedScanResult
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -6488,7 +6987,7 @@ public struct ListReportJobsInput: Swift.Sendable {
     public var byCreationBefore: Foundation.Date?
     /// Returns only report jobs with the specified report plan name.
     public var byReportPlanName: Swift.String?
-    /// Returns only report jobs that are in the specified status. The statuses are: CREATED | RUNNING | COMPLETED | FAILED
+    /// Returns only report jobs that are in the specified status. The statuses are: CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES Please note that only scanning jobs finish with state completed with issues. For backup jobs this is a console interpretation of a job that finishes in completed state and has a status message.
     public var byStatus: Swift.String?
     /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
     public var maxResults: Swift.Int?
@@ -7233,6 +7732,362 @@ public struct ListRestoreTestingSelectionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListScanJobsInput: Swift.Sendable {
+    /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Amazon Web Services Organizations management account, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
+    public var byAccountId: Swift.String?
+    /// Returns only scan jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+    public var byBackupVaultName: Swift.String?
+    /// Returns only scan jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+    public var byCompleteAfter: Foundation.Date?
+    /// Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+    public var byCompleteBefore: Foundation.Date?
+    /// Returns only the scan jobs for the specified malware scanner. Currently only supports GUARDDUTY.
+    public var byMalwareScanner: BackupClientTypes.MalwareScanner?
+    /// Returns only the scan jobs that are ran against the specified recovery point.
+    public var byRecoveryPointArn: Swift.String?
+    /// Returns only scan jobs that match the specified resource Amazon Resource Name (ARN).
+    public var byResourceArn: Swift.String?
+    /// Returns restore testing selections by the specified restore testing plan name.
+    ///
+    /// * EBSfor Amazon Elastic Block Store
+    ///
+    /// * EC2for Amazon Elastic Compute Cloud
+    ///
+    /// * S3for Amazon Simple Storage Service (Amazon S3)
+    ///
+    ///
+    /// Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    public var byResourceType: BackupClientTypes.ScanResourceType?
+    /// Returns only the scan jobs for the specified scan results:
+    ///
+    /// * THREATS_FOUND
+    ///
+    /// * NO_THREATS_FOUND
+    public var byScanResultStatus: BackupClientTypes.ScanResultStatus?
+    /// Returns only the scan jobs for the specified scanning job state.
+    public var byState: BackupClientTypes.ScanState?
+    /// The maximum number of items to be returned. Valid Range: Minimum value of 1. Maximum value of 1000.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        byAccountId: Swift.String? = nil,
+        byBackupVaultName: Swift.String? = nil,
+        byCompleteAfter: Foundation.Date? = nil,
+        byCompleteBefore: Foundation.Date? = nil,
+        byMalwareScanner: BackupClientTypes.MalwareScanner? = nil,
+        byRecoveryPointArn: Swift.String? = nil,
+        byResourceArn: Swift.String? = nil,
+        byResourceType: BackupClientTypes.ScanResourceType? = nil,
+        byScanResultStatus: BackupClientTypes.ScanResultStatus? = nil,
+        byState: BackupClientTypes.ScanState? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.byAccountId = byAccountId
+        self.byBackupVaultName = byBackupVaultName
+        self.byCompleteAfter = byCompleteAfter
+        self.byCompleteBefore = byCompleteBefore
+        self.byMalwareScanner = byMalwareScanner
+        self.byRecoveryPointArn = byRecoveryPointArn
+        self.byResourceArn = byResourceArn
+        self.byResourceType = byResourceType
+        self.byScanResultStatus = byScanResultStatus
+        self.byState = byState
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains metadata about a scan job, including information about the scanning process, results, and associated resources.
+    public struct ScanJob: Swift.Sendable {
+        /// The account ID that owns the scan job.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+        /// This member is required.
+        public var backupVaultArn: Swift.String?
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+        /// The date and time that a scan job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var completionDate: Foundation.Date?
+        /// Contains identifying information about the creation of a scan job.
+        /// This member is required.
+        public var createdBy: BackupClientTypes.ScanJobCreator?
+        /// The date and time that a scan job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationDate: Foundation.Date?
+        /// Specifies the IAM role ARN used to create the scan job; for example, arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// The scanning engine used for the scan job. Currently only GUARDDUTY is supported.
+        /// This member is required.
+        public var malwareScanner: BackupClientTypes.MalwareScanner?
+        /// An ARN that uniquely identifies the recovery point being scanned; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        /// This member is required.
+        public var recoveryPointArn: Swift.String?
+        /// An ARN that uniquely identifies the source resource of the recovery point being scanned.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The non-unique name of the resource that belongs to the specified backup.
+        /// This member is required.
+        public var resourceName: Swift.String?
+        /// The type of Amazon Web Services resource being scanned; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// This member is required.
+        public var resourceType: BackupClientTypes.ScanResourceType?
+        /// An ARN that uniquely identifies the base recovery point for scanning. This field is populated when an incremental scan job has taken place.
+        public var scanBaseRecoveryPointArn: Swift.String?
+        /// The scan ID generated by the malware scanner for the corresponding scan job.
+        public var scanId: Swift.String?
+        /// The unique identifier that identifies the scan job request to Backup.
+        /// This member is required.
+        public var scanJobId: Swift.String?
+        /// Specifies the scan type use for the scan job. Includes: FULL_SCAN will scan the entire data lineage within the backup. INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN.
+        /// This member is required.
+        public var scanMode: BackupClientTypes.ScanMode?
+        /// Contains the scan results information, including the status of threats found during scanning.
+        public var scanResult: BackupClientTypes.ScanResultInfo?
+        /// Specifies the scanner IAM role ARN used for the scan job.
+        /// This member is required.
+        public var scannerRoleArn: Swift.String?
+        /// The current state of the scan job. Valid values: CREATED | RUNNING | COMPLETED | COMPLETED_WITH_ISSUES | FAILED | CANCELED.
+        public var state: BackupClientTypes.ScanState?
+        /// A detailed message explaining the status of the scan job.
+        public var statusMessage: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            backupVaultArn: Swift.String? = nil,
+            backupVaultName: Swift.String? = nil,
+            completionDate: Foundation.Date? = nil,
+            createdBy: BackupClientTypes.ScanJobCreator? = nil,
+            creationDate: Foundation.Date? = nil,
+            iamRoleArn: Swift.String? = nil,
+            malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+            recoveryPointArn: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            resourceType: BackupClientTypes.ScanResourceType? = nil,
+            scanBaseRecoveryPointArn: Swift.String? = nil,
+            scanId: Swift.String? = nil,
+            scanJobId: Swift.String? = nil,
+            scanMode: BackupClientTypes.ScanMode? = nil,
+            scanResult: BackupClientTypes.ScanResultInfo? = nil,
+            scannerRoleArn: Swift.String? = nil,
+            state: BackupClientTypes.ScanState? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.completionDate = completionDate
+            self.createdBy = createdBy
+            self.creationDate = creationDate
+            self.iamRoleArn = iamRoleArn
+            self.malwareScanner = malwareScanner
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+            self.scanId = scanId
+            self.scanJobId = scanJobId
+            self.scanMode = scanMode
+            self.scanResult = scanResult
+            self.scannerRoleArn = scannerRoleArn
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct ListScanJobsOutput: Swift.Sendable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// An array of structures containing metadata about your scan jobs returned in JSON format.
+    /// This member is required.
+    public var scanJobs: [BackupClientTypes.ScanJob]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scanJobs: [BackupClientTypes.ScanJob]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.scanJobs = scanJobs
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum ScanJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aggregateAll
+        case any
+        case canceled
+        case completed
+        case completedWithIssues
+        case created
+        case failed
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanJobStatus] {
+            return [
+                .aggregateAll,
+                .any,
+                .canceled,
+                .completed,
+                .completedWithIssues,
+                .created,
+                .failed,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListScanJobSummariesInput: Swift.Sendable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// The period for the returned results.
+    ///
+    /// * ONE_DAYThe daily job count for the prior 1 day.
+    ///
+    /// * SEVEN_DAYSThe daily job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYSThe daily job count for the prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// Returns only the scan jobs for the specified malware scanner. Currently the only MalwareScanner is GUARDDUTY. But the field also supports ANY, and AGGREGATE_ALL.
+    public var malwareScanner: BackupClientTypes.MalwareScanner?
+    /// The maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum.
+    public var resourceType: Swift.String?
+    /// Returns only the scan jobs for the specified scan results.
+    public var scanResultStatus: BackupClientTypes.ScanResultStatus?
+    /// Returns only the scan jobs for the specified scanning job state.
+    public var state: BackupClientTypes.ScanJobStatus?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        scanResultStatus: BackupClientTypes.ScanResultStatus? = nil,
+        state: BackupClientTypes.ScanJobStatus? = nil
+    ) {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.malwareScanner = malwareScanner
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.scanResultStatus = scanResultStatus
+        self.state = state
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains summary information about scan jobs, including counts and metadata for a specific time period and criteria.
+    public struct ScanJobSummary: Swift.Sendable {
+        /// The account ID that owns the scan jobs included in this summary.
+        public var accountId: Swift.String?
+        /// The number of scan jobs that match the specified criteria.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: Foundation.Date?
+        /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
+        public var malwareScanner: BackupClientTypes.MalwareScanner?
+        /// The Amazon Web Services Region where the scan jobs were executed.
+        public var region: Swift.String?
+        /// The type of Amazon Web Services resource for the scan jobs included in this summary.
+        public var resourceType: Swift.String?
+        /// The scan result status for the scan jobs included in this summary. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        public var scanResultStatus: BackupClientTypes.ScanResultStatus?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: Foundation.Date?
+        /// The state of the scan jobs included in this summary. Valid values: CREATED | RUNNING | COMPLETED | COMPLETED_WITH_ISSUES | FAILED | CANCELED.
+        public var state: BackupClientTypes.ScanJobStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: Foundation.Date? = nil,
+            malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            scanResultStatus: BackupClientTypes.ScanResultStatus? = nil,
+            startTime: Foundation.Date? = nil,
+            state: BackupClientTypes.ScanJobStatus? = nil
+        ) {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.malwareScanner = malwareScanner
+            self.region = region
+            self.resourceType = resourceType
+            self.scanResultStatus = scanResultStatus
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+}
+
+public struct ListScanJobSummariesOutput: Swift.Sendable {
+    /// The period for the returned results.
+    ///
+    /// * ONE_DAYThe daily job count for the prior 1 day.
+    ///
+    /// * SEVEN_DAYSThe daily job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYSThe daily job count for the prior 14 days.
+    ///
+    ///
+    /// Valid Values: 'ONE_DAY' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS'
+    public var aggregationPeriod: Swift.String?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// The summary information.
+    public var scanJobSummaries: [BackupClientTypes.ScanJobSummary]?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        scanJobSummaries: [BackupClientTypes.ScanJobSummary]? = nil
+    ) {
+        self.aggregationPeriod = aggregationPeriod
+        self.nextToken = nextToken
+        self.scanJobSummaries = scanJobSummaries
+    }
+}
+
 public struct ListTagsInput: Swift.Sendable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
@@ -7751,6 +8606,72 @@ public struct StartRestoreJobOutput: Swift.Sendable {
     }
 }
 
+public struct StartScanJobInput: Swift.Sendable {
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+    public var idempotencyToken: Swift.String?
+    /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
+    /// This member is required.
+    public var malwareScanner: BackupClientTypes.MalwareScanner?
+    /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan. If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+    /// An ARN that uniquely identifies the base recovery point to be used for incremental scanning.
+    public var scanBaseRecoveryPointArn: Swift.String?
+    /// Specifies the scan type use for the scan job. Includes:
+    ///
+    /// * FULL_SCAN will scan the entire data lineage within the backup.
+    ///
+    /// * INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN.
+    /// This member is required.
+    public var scanMode: BackupClientTypes.ScanMode?
+    /// Specified the IAM scanner role ARN.
+    /// This member is required.
+    public var scannerRoleArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        iamRoleArn: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        scanBaseRecoveryPointArn: Swift.String? = nil,
+        scanMode: BackupClientTypes.ScanMode? = nil,
+        scannerRoleArn: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.iamRoleArn = iamRoleArn
+        self.idempotencyToken = idempotencyToken
+        self.malwareScanner = malwareScanner
+        self.recoveryPointArn = recoveryPointArn
+        self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+        self.scanMode = scanMode
+        self.scannerRoleArn = scannerRoleArn
+    }
+}
+
+public struct StartScanJobOutput: Swift.Sendable {
+    /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// This member is required.
+    public var creationDate: Foundation.Date?
+    /// Uniquely identifies a request to Backup to back up a resource.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+
+    public init(
+        creationDate: Foundation.Date? = nil,
+        scanJobId: Swift.String? = nil
+    ) {
+        self.creationDate = creationDate
+        self.scanJobId = scanJobId
+    }
+}
+
 public struct StopBackupJobInput: Swift.Sendable {
     /// Uniquely identifies a request to Backup to back up a resource.
     /// This member is required.
@@ -7833,6 +8754,8 @@ public struct UpdateBackupPlanOutput: Swift.Sendable {
     public var backupPlanId: Swift.String?
     /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: Foundation.Date?
+    /// Contains your scanning configuration for the backup plan and includes the Malware scanner, your selected resources, and scanner role.
+    public var scanSettings: [BackupClientTypes.ScanSetting]?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
     public var versionId: Swift.String?
 
@@ -7841,12 +8764,14 @@ public struct UpdateBackupPlanOutput: Swift.Sendable {
         backupPlanArn: Swift.String? = nil,
         backupPlanId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
+        scanSettings: [BackupClientTypes.ScanSetting]? = nil,
         versionId: Swift.String? = nil
     ) {
         self.advancedBackupSettings = advancedBackupSettings
         self.backupPlanArn = backupPlanArn
         self.backupPlanId = backupPlanId
         self.creationDate = creationDate
+        self.scanSettings = scanSettings
         self.versionId = versionId
     }
 }
@@ -8666,6 +9591,16 @@ extension DescribeRestoreJobInput {
             return nil
         }
         return "/restore-jobs/\(restoreJobId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeScanJobInput {
+
+    static func urlPathProvider(_ value: DescribeScanJobInput) -> Swift.String? {
+        guard let scanJobId = value.scanJobId else {
+            return nil
+        }
+        return "/scan/jobs/\(scanJobId.urlPercentEncoding())"
     }
 }
 
@@ -9811,6 +10746,116 @@ extension ListRestoreTestingSelectionsInput {
     }
 }
 
+extension ListScanJobsInput {
+
+    static func urlPathProvider(_ value: ListScanJobsInput) -> Swift.String? {
+        return "/scan/jobs"
+    }
+}
+
+extension ListScanJobsInput {
+
+    static func queryItemProvider(_ value: ListScanJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let byResourceType = value.byResourceType {
+            let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "ByResourceType".urlPercentEncoding(), value: Swift.String(byResourceType.rawValue).urlPercentEncoding())
+            items.append(byResourceTypeQueryItem)
+        }
+        if let byBackupVaultName = value.byBackupVaultName {
+            let byBackupVaultNameQueryItem = Smithy.URIQueryItem(name: "ByBackupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
+            items.append(byBackupVaultNameQueryItem)
+        }
+        if let byCompleteAfter = value.byCompleteAfter {
+            let byCompleteAfterQueryItem = Smithy.URIQueryItem(name: "ByCompleteAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            items.append(byCompleteAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let byResourceArn = value.byResourceArn {
+            let byResourceArnQueryItem = Smithy.URIQueryItem(name: "ByResourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            items.append(byResourceArnQueryItem)
+        }
+        if let byState = value.byState {
+            let byStateQueryItem = Smithy.URIQueryItem(name: "ByState".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+            items.append(byStateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byAccountId = value.byAccountId {
+            let byAccountIdQueryItem = Smithy.URIQueryItem(name: "ByAccountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            items.append(byAccountIdQueryItem)
+        }
+        if let byCompleteBefore = value.byCompleteBefore {
+            let byCompleteBeforeQueryItem = Smithy.URIQueryItem(name: "ByCompleteBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            items.append(byCompleteBeforeQueryItem)
+        }
+        if let byRecoveryPointArn = value.byRecoveryPointArn {
+            let byRecoveryPointArnQueryItem = Smithy.URIQueryItem(name: "ByRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byRecoveryPointArn).urlPercentEncoding())
+            items.append(byRecoveryPointArnQueryItem)
+        }
+        if let byMalwareScanner = value.byMalwareScanner {
+            let byMalwareScannerQueryItem = Smithy.URIQueryItem(name: "ByMalwareScanner".urlPercentEncoding(), value: Swift.String(byMalwareScanner.rawValue).urlPercentEncoding())
+            items.append(byMalwareScannerQueryItem)
+        }
+        if let byScanResultStatus = value.byScanResultStatus {
+            let byScanResultStatusQueryItem = Smithy.URIQueryItem(name: "ByScanResultStatus".urlPercentEncoding(), value: Swift.String(byScanResultStatus.rawValue).urlPercentEncoding())
+            items.append(byScanResultStatusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListScanJobSummariesInput {
+
+    static func urlPathProvider(_ value: ListScanJobSummariesInput) -> Swift.String? {
+        return "/audit/scan-job-summaries"
+    }
+}
+
+extension ListScanJobSummariesInput {
+
+    static func queryItemProvider(_ value: ListScanJobSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let aggregationPeriod = value.aggregationPeriod {
+            let aggregationPeriodQueryItem = Smithy.URIQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            items.append(aggregationPeriodQueryItem)
+        }
+        if let accountId = value.accountId {
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let malwareScanner = value.malwareScanner {
+            let malwareScannerQueryItem = Smithy.URIQueryItem(name: "MalwareScanner".urlPercentEncoding(), value: Swift.String(malwareScanner.rawValue).urlPercentEncoding())
+            items.append(malwareScannerQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let scanResultStatus = value.scanResultStatus {
+            let scanResultStatusQueryItem = Smithy.URIQueryItem(name: "ScanResultStatus".urlPercentEncoding(), value: Swift.String(scanResultStatus.rawValue).urlPercentEncoding())
+            items.append(scanResultStatusQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsInput {
 
     static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
@@ -9953,6 +10998,13 @@ extension StartRestoreJobInput {
 
     static func urlPathProvider(_ value: StartRestoreJobInput) -> Swift.String? {
         return "/restore-jobs"
+    }
+}
+
+extension StartScanJobInput {
+
+    static func urlPathProvider(_ value: StartScanJobInput) -> Swift.String? {
+        return "/scan/job"
     }
 }
 
@@ -10318,6 +11370,21 @@ extension StartRestoreJobInput {
         try writer["Metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RecoveryPointArn"].write(value.recoveryPointArn)
         try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension StartScanJobInput {
+
+    static func write(value: StartScanJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupVaultName"].write(value.backupVaultName)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["IdempotencyToken"].write(value.idempotencyToken)
+        try writer["MalwareScanner"].write(value.malwareScanner)
+        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
+        try writer["ScanBaseRecoveryPointArn"].write(value.scanBaseRecoveryPointArn)
+        try writer["ScanMode"].write(value.scanMode)
+        try writer["ScannerRoleArn"].write(value.scannerRoleArn)
     }
 }
 
@@ -10857,6 +11924,7 @@ extension DescribeRecoveryPointOutput {
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.scanResults = try reader["ScanResults"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceBackupVaultArn = try reader["SourceBackupVaultArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
@@ -10933,6 +12001,37 @@ extension DescribeRestoreJobOutput {
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
         value.validationStatusMessage = try reader["ValidationStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeScanJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeScanJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeScanJobOutput()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent() ?? ""
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.ScanJobCreator.read(from:))
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent() ?? .sdkUnknown("")
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceName = try reader["ResourceName"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.scanBaseRecoveryPointArn = try reader["ScanBaseRecoveryPointArn"].readIfPresent()
+        value.scanId = try reader["ScanId"].readIfPresent()
+        value.scanJobId = try reader["ScanJobId"].readIfPresent() ?? ""
+        value.scanMode = try reader["ScanMode"].readIfPresent() ?? .sdkUnknown("")
+        value.scanResult = try reader["ScanResult"].readIfPresent(with: BackupClientTypes.ScanResultInfo.read(from:))
+        value.scannerRoleArn = try reader["ScannerRoleArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -11517,6 +12616,33 @@ extension ListRestoreTestingSelectionsOutput {
     }
 }
 
+extension ListScanJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListScanJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListScanJobsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.scanJobs = try reader["ScanJobs"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanJob.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListScanJobSummariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListScanJobSummariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListScanJobSummariesOutput()
+        value.aggregationPeriod = try reader["AggregationPeriod"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.scanJobSummaries = try reader["ScanJobSummaries"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsOutput {
@@ -11631,6 +12757,19 @@ extension StartRestoreJobOutput {
     }
 }
 
+extension StartScanJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartScanJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartScanJobOutput()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scanJobId = try reader["ScanJobId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StopBackupJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopBackupJobOutput {
@@ -11663,6 +12802,7 @@ extension UpdateBackupPlanOutput {
         value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent()
         value.backupPlanId = try reader["BackupPlanId"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanSettings = try reader["ScanSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.versionId = try reader["VersionId"].readIfPresent()
         return value
     }
@@ -12415,6 +13555,23 @@ enum DescribeRestoreJobOutputError {
     }
 }
 
+enum DescribeScanJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateBackupVaultMpaApprovalTeamOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13136,6 +14293,36 @@ enum ListRestoreTestingSelectionsOutputError {
     }
 }
 
+enum ListScanJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListScanJobSummariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13321,6 +14508,25 @@ enum StartRestoreJobOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartScanJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -13931,6 +15137,19 @@ extension BackupClientTypes.CalculatedLifecycle {
     }
 }
 
+extension BackupClientTypes.ScanResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanResult()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.scanJobState = try reader["ScanJobState"].readIfPresent()
+        value.lastScanTimestamp = try reader["LastScanTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.ScanFinding>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BackupClientTypes.ReportJob {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportJob {
@@ -14031,6 +15250,29 @@ extension BackupClientTypes.RestoreJobCreator {
     }
 }
 
+extension BackupClientTypes.ScanJobCreator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJobCreator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanJobCreator()
+        value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent() ?? ""
+        value.backupPlanId = try reader["BackupPlanId"].readIfPresent() ?? ""
+        value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent() ?? ""
+        value.backupRuleId = try reader["BackupRuleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BackupClientTypes.ScanResultInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResultInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanResultInfo()
+        value.scanResultStatus = try reader["ScanResultStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BackupClientTypes.BackupPlan {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlan {
@@ -14039,6 +15281,26 @@ extension BackupClientTypes.BackupPlan {
         value.backupPlanName = try reader["BackupPlanName"].readIfPresent() ?? ""
         value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.advancedBackupSettings = try reader["AdvancedBackupSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.AdvancedBackupSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanSettings = try reader["ScanSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ScanSetting {
+
+    static func write(value: BackupClientTypes.ScanSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MalwareScanner"].write(value.malwareScanner)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScannerRoleArn"].write(value.scannerRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanSetting()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scannerRoleArn = try reader["ScannerRoleArn"].readIfPresent()
         return value
     }
 }
@@ -14061,6 +15323,24 @@ extension BackupClientTypes.BackupRule {
         value.enableContinuousBackup = try reader["EnableContinuousBackup"].readIfPresent()
         value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
         value.indexActions = try reader["IndexActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.IndexAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanActions = try reader["ScanActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ScanAction {
+
+    static func write(value: BackupClientTypes.ScanAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MalwareScanner"].write(value.malwareScanner)
+        try writer["ScanMode"].write(value.scanMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanAction()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.scanMode = try reader["ScanMode"].readIfPresent()
         return value
     }
 }
@@ -14556,6 +15836,19 @@ extension BackupClientTypes.RecoveryPointByBackupVault {
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
         value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
+        value.aggregatedScanResult = try reader["AggregatedScanResult"].readIfPresent(with: BackupClientTypes.AggregatedScanResult.read(from:))
+        return value
+    }
+}
+
+extension BackupClientTypes.AggregatedScanResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.AggregatedScanResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.AggregatedScanResult()
+        value.failedScan = try reader["FailedScan"].readIfPresent()
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.ScanFinding>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastComputed = try reader["LastComputed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -14592,6 +15885,7 @@ extension BackupClientTypes.RecoveryPointByResource {
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
         value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
+        value.aggregatedScanResult = try reader["AggregatedScanResult"].readIfPresent(with: BackupClientTypes.AggregatedScanResult.read(from:))
         return value
     }
 }
@@ -14704,6 +15998,53 @@ extension BackupClientTypes.RestoreTestingSelectionForList {
     }
 }
 
+extension BackupClientTypes.ScanJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanJob()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent() ?? ""
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.ScanJobCreator.read(from:))
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent() ?? .sdkUnknown("")
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceName = try reader["ResourceName"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.scanBaseRecoveryPointArn = try reader["ScanBaseRecoveryPointArn"].readIfPresent()
+        value.scanId = try reader["ScanId"].readIfPresent()
+        value.scanJobId = try reader["ScanJobId"].readIfPresent() ?? ""
+        value.scanMode = try reader["ScanMode"].readIfPresent() ?? .sdkUnknown("")
+        value.scanResult = try reader["ScanResult"].readIfPresent(with: BackupClientTypes.ScanResultInfo.read(from:))
+        value.scannerRoleArn = try reader["ScannerRoleArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.ScanJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanJobSummary()
+        value.region = try reader["Region"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.scanResultStatus = try reader["ScanResultStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension BackupClientTypes.TieringConfigurationsListMember {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfigurationsListMember {
@@ -14725,6 +16066,7 @@ extension BackupClientTypes.BackupPlanInput {
         try writer["AdvancedBackupSettings"].writeList(value.advancedBackupSettings, memberWritingClosure: BackupClientTypes.AdvancedBackupSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BackupPlanName"].write(value.backupPlanName)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: BackupClientTypes.BackupRuleInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScanSettings"].writeList(value.scanSettings, memberWritingClosure: BackupClientTypes.ScanSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -14739,6 +16081,7 @@ extension BackupClientTypes.BackupRuleInput {
         try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
         try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RuleName"].write(value.ruleName)
+        try writer["ScanActions"].writeList(value.scanActions, memberWritingClosure: BackupClientTypes.ScanAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScheduleExpression"].write(value.scheduleExpression)
         try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
         try writer["StartWindowMinutes"].write(value.startWindowMinutes)

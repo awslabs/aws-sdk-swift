@@ -1255,6 +1255,77 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeStreamStorageConfiguration` operation on the `KinesisVideo` service.
+    ///
+    /// Retrieves the current storage configuration for the specified Kinesis video stream. In the request, you must specify either the StreamName or the StreamARN. You must have permissions for the KinesisVideo:DescribeStreamStorageConfiguration action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamStorageConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeStreamStorageConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have required permissions to perform this operation.
+    /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
+    /// - `InvalidArgumentException` : The value for this input parameter is invalid.
+    /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
+    public func describeStreamStorageConfiguration(input: DescribeStreamStorageConfigurationInput) async throws -> DescribeStreamStorageConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeStreamStorageConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisvideo")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>(DescribeStreamStorageConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamStorageConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamStorageConfigurationOutput>(DescribeStreamStorageConfigurationOutput.httpOutput(from:), DescribeStreamStorageConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamStorageConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Video", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStreamStorageConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamStorageConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamStorageConfigurationInput, DescribeStreamStorageConfigurationOutput>(serviceID: serviceName, version: KinesisVideoClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideo")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamStorageConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDataEndpoint` operation on the `KinesisVideo` service.
     ///
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN.
@@ -1328,7 +1399,7 @@ extension KinesisVideoClient {
 
     /// Performs the `GetSignalingChannelEndpoint` operation on the `KinesisVideo` service.
     ///
-    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
+    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signaling channel isn't configured for ingestion, you will receive the error InvalidArgumentException. Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetSignalingChannelEndpointInput`)
     ///
@@ -2596,6 +2667,85 @@ extension KinesisVideoClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideo")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStream")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateStreamStorageConfiguration` operation on the `KinesisVideo` service.
+    ///
+    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamStorageConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateStreamStorageConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have required permissions to perform this operation.
+    /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
+    /// - `InvalidArgumentException` : The value for this input parameter is invalid.
+    /// - `ResourceInUseException` : When the input StreamARN or ChannelARN in CLOUD_STORAGE_MODE is already mapped to a different Kinesis Video Stream resource, or if the provided input StreamARN or ChannelARN is not in Active status, try one of the following :
+    ///
+    /// * The DescribeMediaStorageConfiguration API to determine what the stream given channel is mapped to.
+    ///
+    /// * The DescribeMappedResourceConfiguration API to determine the channel that the given stream is mapped to.
+    ///
+    /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
+    /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
+    /// - `VersionMismatchException` : The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
+    public func updateStreamStorageConfiguration(input: UpdateStreamStorageConfigurationInput) async throws -> UpdateStreamStorageConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateStreamStorageConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisvideo")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>(UpdateStreamStorageConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamStorageConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamStorageConfigurationOutput>(UpdateStreamStorageConfigurationOutput.httpOutput(from:), UpdateStreamStorageConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamStorageConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Video", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStreamStorageConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamStorageConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamStorageConfigurationInput, UpdateStreamStorageConfigurationOutput>(serviceID: serviceName, version: KinesisVideoClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideo")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamStorageConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -27,6 +27,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -642,6 +644,86 @@ extension CloudTrailClientTypes {
         ) {
             self.fieldSelectors = fieldSelectors
             self.name = name
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum EventCategoryAggregation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case data
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventCategoryAggregation] {
+            return [
+                .data
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .data: return "Data"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Specifies the type of the aggregation templates in the aggregation configuration. Valid values include API_ACTIVITY, RESOURCE_ACCESS and USER_ACTIONS.
+    public enum Template: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiActivity
+        case resourceAccess
+        case userActions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Template] {
+            return [
+                .apiActivity,
+                .resourceAccess,
+                .userActions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiActivity: return "API_ACTIVITY"
+            case .resourceAccess: return "RESOURCE_ACCESS"
+            case .userActions: return "USER_ACTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// An object that contains configuration settings for aggregating events.
+    public struct AggregationConfiguration: Swift.Sendable {
+        /// Specifies the event category for which aggregation should be performed.
+        /// This member is required.
+        public var eventCategory: CloudTrailClientTypes.EventCategoryAggregation?
+        /// A list of aggregation templates that can be used to configure event aggregation.
+        /// This member is required.
+        public var templates: [CloudTrailClientTypes.Template]?
+
+        public init(
+            eventCategory: CloudTrailClientTypes.EventCategoryAggregation? = nil,
+            templates: [CloudTrailClientTypes.Template]? = nil
+        ) {
+            self.eventCategory = eventCategory
+            self.templates = templates
         }
     }
 }
@@ -1660,6 +1742,30 @@ public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+/// This exception is thrown when the request rate exceeds the limit.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateEventDataStoreInput: Swift.Sendable {
     /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-eds-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include events outside of Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-integrations-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -2136,30 +2242,6 @@ public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// This exception is thrown when the request rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// This exception is thrown when the specified trail already exists.
 public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2222,7 +2304,7 @@ public struct CreateTrailInput: Swift.Sendable {
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
     public var isOrganizationTrail: Swift.Bool?
-    /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
+    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
     /// * alias/MyAliasName
     ///
@@ -2838,7 +2920,7 @@ extension CloudTrailClientTypes {
         public var isMultiRegionTrail: Swift.Bool?
         /// Specifies whether the trail is an organization trail.
         public var isOrganizationTrail: Swift.Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID that encrypts the logs and digest files delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public var kmsKeyId: Swift.String?
         /// Specifies whether log file validation is enabled.
         public var logFileValidationEnabled: Swift.Bool?
@@ -3305,11 +3387,15 @@ public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, 
 public struct GetEventConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
     public var eventDataStore: Swift.String?
+    /// The name of the trail for which you want to retrieve event configuration settings.
+    public var trailName: Swift.String?
 
     public init(
-        eventDataStore: Swift.String? = nil
+        eventDataStore: Swift.String? = nil,
+        trailName: Swift.String? = nil
     ) {
         self.eventDataStore = eventDataStore
+        self.trailName = trailName
     }
 }
 
@@ -3393,21 +3479,29 @@ extension CloudTrailClientTypes {
 }
 
 public struct GetEventConfigurationOutput: Swift.Sendable {
+    /// The list of aggregation configurations that are configured for the trail.
+    public var aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]?
     /// The list of context key selectors that are configured for the event data store.
     public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
     /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings are returned.
     public var eventDataStoreArn: Swift.String?
     /// The maximum allowed size for events stored in the specified event data store.
     public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+    /// The Amazon Resource Name (ARN) of the trail for which the event configuration settings are returned.
+    public var trailARN: Swift.String?
 
     public init(
+        aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]? = nil,
         contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
         eventDataStoreArn: Swift.String? = nil,
-        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil,
+        trailARN: Swift.String? = nil
     ) {
+        self.aggregationConfigurations = aggregationConfigurations
         self.contextKeySelectors = contextKeySelectors
         self.eventDataStoreArn = eventDataStoreArn
         self.maxEventSize = maxEventSize
+        self.trailARN = trailARN
     }
 }
 
@@ -3924,6 +4018,35 @@ public struct GetInsightSelectorsInput: Swift.Sendable {
 
 extension CloudTrailClientTypes {
 
+    public enum SourceEventCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case data
+        case management
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEventCategory] {
+            return [
+                .data,
+                .management
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .data: return "Data"
+            case .management: return "Management"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
     public enum InsightType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apicallrateinsight
         case apierrorrateinsight
@@ -3955,12 +4078,20 @@ extension CloudTrailClientTypes {
 
     /// A JSON string that contains a list of Insights types that are logged on a trail or event data store.
     public struct InsightSelector: Swift.Sendable {
-        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// Select the event category on which Insights should be enabled.
+        ///
+        /// * If EventCategories is not provided, the specified Insights types are enabled on management API calls by default.
+        ///
+        /// * If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled.
+        public var eventCategories: [CloudTrailClientTypes.SourceEventCategory]?
+        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public var insightType: CloudTrailClientTypes.InsightType?
 
         public init(
+            eventCategories: [CloudTrailClientTypes.SourceEventCategory]? = nil,
             insightType: CloudTrailClientTypes.InsightType? = nil
         ) {
+            self.eventCategories = eventCategories
             self.insightType = insightType
         }
     }
@@ -3969,7 +4100,7 @@ extension CloudTrailClientTypes {
 public struct GetInsightSelectorsOutput: Swift.Sendable {
     /// The ARN of the source event data store that enabled Insights events.
     public var eventDataStoreArn: Swift.String?
-    /// A JSON string that contains the Insight types you want to log on a trail or event data store. ApiErrorRateInsight and ApiCallRateInsight are supported as Insights types.
+    /// Contains the Insights types that are enabled on a trail or event data store. It also specifies the event categories on which a particular Insight type is enabled. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     /// The ARN of the destination event data store that logs Insights events.
     public var insightsDestination: Swift.String?
@@ -4604,6 +4735,182 @@ public struct ListImportsOutput: Swift.Sendable {
 
 extension CloudTrailClientTypes {
 
+    public enum ListInsightsDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case insightsEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListInsightsDataType] {
+            return [
+                .insightsEvents
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .insightsEvents: return "InsightsEvents"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum ListInsightsDataDimensionKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventId
+        case eventName
+        case eventSource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListInsightsDataDimensionKey] {
+            return [
+                .eventId,
+                .eventName,
+                .eventSource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventId: return "EventId"
+            case .eventName: return "EventName"
+            case .eventSource: return "EventSource"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListInsightsDataInput: Swift.Sendable {
+    /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType
+    /// This member is required.
+    public var dataType: CloudTrailClientTypes.ListInsightsDataType?
+    /// Contains a map of dimensions. Currently the map can contain only one item.
+    public var dimensions: [Swift.String: Swift.String]?
+    /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+    public var endTime: Foundation.Date?
+    /// The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events.
+    /// This member is required.
+    public var insightSource: Swift.String?
+    /// The number of events to return. Possible values are 1 through 50. The default is 50.
+    public var maxResults: Swift.Int?
+    /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified a EventName as a dimension with PutObject as a value, the call with NextToken should include those same parameters.
+    public var nextToken: Swift.String?
+    /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+    public var startTime: Foundation.Date?
+
+    public init(
+        dataType: CloudTrailClientTypes.ListInsightsDataType? = nil,
+        dimensions: [Swift.String: Swift.String]? = nil,
+        endTime: Foundation.Date? = nil,
+        insightSource: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.dataType = dataType
+        self.dimensions = dimensions
+        self.endTime = endTime
+        self.insightSource = insightSource
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Specifies the type and name of a resource referenced by an event.
+    public struct Resource: Swift.Sendable {
+        /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
+        public var resourceName: Swift.String?
+        /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for Amazon RDS, and AccessKey for IAM. To learn more about how to look up and filter events by the resource types supported for a service, see [Filtering CloudTrail Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-console.html#filtering-cloudtrail-events).
+        public var resourceType: Swift.String?
+
+        public init(
+            resourceName: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Contains information about an event that was returned by a lookup request. The result includes a representation of a CloudTrail event.
+    public struct Event: Swift.Sendable {
+        /// The Amazon Web Services access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
+        public var accessKeyId: Swift.String?
+        /// A JSON string that contains a representation of the event returned.
+        public var cloudTrailEvent: Swift.String?
+        /// The CloudTrail ID of the event returned.
+        public var eventId: Swift.String?
+        /// The name of the event returned.
+        public var eventName: Swift.String?
+        /// The Amazon Web Services service to which the request was made.
+        public var eventSource: Swift.String?
+        /// The date and time of the event returned.
+        public var eventTime: Foundation.Date?
+        /// Information about whether the event is a write event or a read event.
+        public var readOnly: Swift.String?
+        /// A list of resources referenced by the event returned.
+        public var resources: [CloudTrailClientTypes.Resource]?
+        /// A user name or role name of the requester that called the API in the event returned.
+        public var username: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            cloudTrailEvent: Swift.String? = nil,
+            eventId: Swift.String? = nil,
+            eventName: Swift.String? = nil,
+            eventSource: Swift.String? = nil,
+            eventTime: Foundation.Date? = nil,
+            readOnly: Swift.String? = nil,
+            resources: [CloudTrailClientTypes.Resource]? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.accessKeyId = accessKeyId
+            self.cloudTrailEvent = cloudTrailEvent
+            self.eventId = eventId
+            self.eventName = eventName
+            self.eventSource = eventSource
+            self.eventTime = eventTime
+            self.readOnly = readOnly
+            self.resources = resources
+            self.username = username
+        }
+    }
+}
+
+public struct ListInsightsDataOutput: Swift.Sendable {
+    /// A list of events returned based on the InsightSource, DataType or Dimensions specified. The events list is sorted by time. The most recent event is listed first.
+    public var events: [CloudTrailClientTypes.Event]?
+    /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified a EventName as a dimension with PutObject as a value, the call with NextToken should include those same parameters.
+    public var nextToken: Swift.String?
+
+    public init(
+        events: [CloudTrailClientTypes.Event]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextToken = nextToken
+    }
+}
+
+extension CloudTrailClientTypes {
+
     public enum InsightsMetricDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fillWithZeros
         case nonZeroData
@@ -4655,6 +4962,8 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
     public var period: Swift.Int?
     /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
     public var startTime: Foundation.Date?
+    /// The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data. This parameter should only be provided to fetch Insights metrics data generated on trails logging data events. This parameter is not required for Insights metric data generated on trails logging management events.
+    public var trailName: Swift.String?
 
     public init(
         dataType: CloudTrailClientTypes.InsightsMetricDataType? = nil,
@@ -4666,7 +4975,8 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         period: Swift.Int? = nil,
-        startTime: Foundation.Date? = nil
+        startTime: Foundation.Date? = nil,
+        trailName: Swift.String? = nil
     ) {
         self.dataType = dataType
         self.endTime = endTime
@@ -4678,6 +4988,7 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
         self.nextToken = nextToken
         self.period = period
         self.startTime = startTime
+        self.trailName = trailName
     }
 }
 
@@ -4694,6 +5005,8 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// List of timestamps at intervals corresponding to the specified time period.
     public var timestamps: [Foundation.Date]?
+    /// Specifies the ARN of the trail. This is only returned when Insights is enabled on a trail logging data events.
+    public var trailARN: Swift.String?
     /// List of values representing the API call rate or error rate at each timestamp. The number of values is equal to the number of timestamps.
     public var values: [Swift.Double]?
 
@@ -4704,6 +5017,7 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
         insightType: CloudTrailClientTypes.InsightType? = nil,
         nextToken: Swift.String? = nil,
         timestamps: [Foundation.Date]? = nil,
+        trailARN: Swift.String? = nil,
         values: [Swift.Double]? = nil
     ) {
         self.errorCode = errorCode
@@ -4712,6 +5026,7 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
         self.insightType = insightType
         self.nextToken = nextToken
         self.timestamps = timestamps
+        self.trailARN = trailARN
         self.values = values
     }
 }
@@ -5096,6 +5411,7 @@ public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSC
 
 extension CloudTrailClientTypes {
 
+    /// Specifies the event category for which aggregation configuration is enabled. Valid value is Data.
     public enum EventCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insight
         case sdkUnknown(Swift.String)
@@ -5220,72 +5536,6 @@ public struct LookupEventsInput: Swift.Sendable {
     }
 }
 
-extension CloudTrailClientTypes {
-
-    /// Specifies the type and name of a resource referenced by an event.
-    public struct Resource: Swift.Sendable {
-        /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
-        public var resourceName: Swift.String?
-        /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for Amazon RDS, and AccessKey for IAM. To learn more about how to look up and filter events by the resource types supported for a service, see [Filtering CloudTrail Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-console.html#filtering-cloudtrail-events).
-        public var resourceType: Swift.String?
-
-        public init(
-            resourceName: Swift.String? = nil,
-            resourceType: Swift.String? = nil
-        ) {
-            self.resourceName = resourceName
-            self.resourceType = resourceType
-        }
-    }
-}
-
-extension CloudTrailClientTypes {
-
-    /// Contains information about an event that was returned by a lookup request. The result includes a representation of a CloudTrail event.
-    public struct Event: Swift.Sendable {
-        /// The Amazon Web Services access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
-        public var accessKeyId: Swift.String?
-        /// A JSON string that contains a representation of the event returned.
-        public var cloudTrailEvent: Swift.String?
-        /// The CloudTrail ID of the event returned.
-        public var eventId: Swift.String?
-        /// The name of the event returned.
-        public var eventName: Swift.String?
-        /// The Amazon Web Services service to which the request was made.
-        public var eventSource: Swift.String?
-        /// The date and time of the event returned.
-        public var eventTime: Foundation.Date?
-        /// Information about whether the event is a write event or a read event.
-        public var readOnly: Swift.String?
-        /// A list of resources referenced by the event returned.
-        public var resources: [CloudTrailClientTypes.Resource]?
-        /// A user name or role name of the requester that called the API in the event returned.
-        public var username: Swift.String?
-
-        public init(
-            accessKeyId: Swift.String? = nil,
-            cloudTrailEvent: Swift.String? = nil,
-            eventId: Swift.String? = nil,
-            eventName: Swift.String? = nil,
-            eventSource: Swift.String? = nil,
-            eventTime: Foundation.Date? = nil,
-            readOnly: Swift.String? = nil,
-            resources: [CloudTrailClientTypes.Resource]? = nil,
-            username: Swift.String? = nil
-        ) {
-            self.accessKeyId = accessKeyId
-            self.cloudTrailEvent = cloudTrailEvent
-            self.eventId = eventId
-            self.eventName = eventName
-            self.eventSource = eventSource
-            self.eventTime = eventTime
-            self.readOnly = readOnly
-            self.resources = resources
-            self.username = username
-        }
-    }
-}
-
 /// Contains a response to a LookupEvents action.
 public struct LookupEventsOutput: Swift.Sendable {
     /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
@@ -5327,42 +5577,56 @@ public struct InsufficientIAMAccessPermissionException: ClientRuntime.ModeledErr
 }
 
 public struct PutEventConfigurationInput: Swift.Sendable {
+    /// The list of aggregation configurations that you want to configure for the trail.
+    public var aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]?
     /// A list of context key selectors that will be included to provide enriched event data.
-    /// This member is required.
     public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
-    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which event configuration settings are updated.
     public var eventDataStore: Swift.String?
     /// The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
-    /// This member is required.
     public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+    /// The name of the trail for which you want to update event configuration settings.
+    public var trailName: Swift.String?
 
     public init(
+        aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]? = nil,
         contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
         eventDataStore: Swift.String? = nil,
-        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil,
+        trailName: Swift.String? = nil
     ) {
+        self.aggregationConfigurations = aggregationConfigurations
         self.contextKeySelectors = contextKeySelectors
         self.eventDataStore = eventDataStore
         self.maxEventSize = maxEventSize
+        self.trailName = trailName
     }
 }
 
 public struct PutEventConfigurationOutput: Swift.Sendable {
+    /// A list of aggregation configurations that are configured for the trail.
+    public var aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]?
     /// The list of context key selectors that are configured for the event data store.
     public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
     /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings were updated.
     public var eventDataStoreArn: Swift.String?
     /// The maximum allowed size for events stored in the specified event data store.
     public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+    /// The Amazon Resource Name (ARN) of the trail that has aggregation enabled.
+    public var trailARN: Swift.String?
 
     public init(
+        aggregationConfigurations: [CloudTrailClientTypes.AggregationConfiguration]? = nil,
         contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
         eventDataStoreArn: Swift.String? = nil,
-        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil,
+        trailARN: Swift.String? = nil
     ) {
+        self.aggregationConfigurations = aggregationConfigurations
         self.contextKeySelectors = contextKeySelectors
         self.eventDataStoreArn = eventDataStoreArn
         self.maxEventSize = maxEventSize
+        self.trailARN = trailARN
     }
 }
 
@@ -5454,7 +5718,7 @@ public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSC
 public struct PutInsightSelectorsInput: Swift.Sendable {
     /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
     public var eventDataStore: Swift.String?
-    /// A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+    /// Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful.
     /// This member is required.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     /// The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
@@ -5478,7 +5742,7 @@ public struct PutInsightSelectorsInput: Swift.Sendable {
 public struct PutInsightSelectorsOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the source event data store for which you want to change or add Insights selectors.
     public var eventDataStoreArn: Swift.String?
-    /// A JSON string that contains the Insights event types that you want to log on a trail or event data store. The valid Insights types are ApiErrorRateInsight and ApiCallRateInsight.
+    /// Contains the Insights types you want to log on a specific category of events in a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can only log Insights for management events only.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     /// The ARN of the destination event data store that logs Insights events.
     public var insightsDestination: Swift.String?
@@ -6306,7 +6570,7 @@ public struct UpdateTrailInput: Swift.Sendable {
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization. Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to an organization trail.
     public var isOrganizationTrail: Swift.Bool?
-    /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
+    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
     /// * alias/MyAliasName
     ///
@@ -6378,7 +6642,7 @@ public struct UpdateTrailOutput: Swift.Sendable {
     public var isMultiRegionTrail: Swift.Bool?
     /// Specifies whether the trail is an organization trail.
     public var isOrganizationTrail: Swift.Bool?
-    /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+    /// Specifies the KMS key ID that encrypts the logs and digest files delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
     /// Specifies whether log file integrity validation is enabled.
     public var logFileValidationEnabled: Swift.Bool?
@@ -6654,6 +6918,13 @@ extension ListImportFailuresInput {
 extension ListImportsInput {
 
     static func urlPathProvider(_ value: ListImportsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListInsightsDataInput {
+
+    static func urlPathProvider(_ value: ListInsightsDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7034,6 +7305,7 @@ extension GetEventConfigurationInput {
     static func write(value: GetEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["TrailName"].write(value.trailName)
     }
 }
 
@@ -7156,6 +7428,20 @@ extension ListImportsInput {
     }
 }
 
+extension ListInsightsDataInput {
+
+    static func write(value: ListInsightsDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataType"].write(value.dataType)
+        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["InsightSource"].write(value.insightSource)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension ListInsightsMetricDataInput {
 
     static func write(value: ListInsightsMetricDataInput?, to writer: SmithyJSON.Writer) throws {
@@ -7170,6 +7456,7 @@ extension ListInsightsMetricDataInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["Period"].write(value.period)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TrailName"].write(value.trailName)
     }
 }
 
@@ -7230,9 +7517,11 @@ extension PutEventConfigurationInput {
 
     static func write(value: PutEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AggregationConfigurations"].writeList(value.aggregationConfigurations, memberWritingClosure: CloudTrailClientTypes.AggregationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContextKeySelectors"].writeList(value.contextKeySelectors, memberWritingClosure: CloudTrailClientTypes.ContextKeySelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EventDataStore"].write(value.eventDataStore)
         try writer["MaxEventSize"].write(value.maxEventSize)
+        try writer["TrailName"].write(value.trailName)
     }
 }
 
@@ -7692,9 +7981,11 @@ extension GetEventConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEventConfigurationOutput()
+        value.aggregationConfigurations = try reader["AggregationConfigurations"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
         value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
+        value.trailARN = try reader["TrailARN"].readIfPresent()
         return value
     }
 }
@@ -7909,6 +8200,19 @@ extension ListImportsOutput {
     }
 }
 
+extension ListInsightsDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInsightsDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInsightsDataOutput()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListInsightsMetricDataOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInsightsMetricDataOutput {
@@ -7922,6 +8226,7 @@ extension ListInsightsMetricDataOutput {
         value.insightType = try reader["InsightType"].readIfPresent()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.trailARN = try reader["TrailARN"].readIfPresent()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7999,9 +8304,11 @@ extension PutEventConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutEventConfigurationOutput()
+        value.aggregationConfigurations = try reader["AggregationConfigurations"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
         value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
+        value.trailARN = try reader["TrailARN"].readIfPresent()
         return value
     }
 }
@@ -8397,6 +8704,7 @@ enum CreateEventDataStoreOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesMode": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "OrganizationsNotInUse": return try OrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8739,8 +9047,10 @@ enum GetEventConfigurationOutputError {
             case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
             case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidTrailName": return try InvalidTrailNameException.makeError(baseError: baseError)
             case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "TrailNotFound": return try TrailNotFoundException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8987,6 +9297,22 @@ enum ListImportsOutputError {
     }
 }
 
+enum ListInsightsDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListInsightsMetricDataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8996,6 +9322,7 @@ enum ListInsightsMetricDataOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidTrailName": return try InvalidTrailNameException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9121,12 +9448,15 @@ enum PutEventConfigurationOutputError {
             case "InsufficientIAMAccessPermission": return try InsufficientIAMAccessPermissionException.makeError(baseError: baseError)
             case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
             case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
+            case "InvalidHomeRegion": return try InvalidHomeRegionException.makeError(baseError: baseError)
             case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidTrailName": return try InvalidTrailNameException.makeError(baseError: baseError)
             case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
             case "NotOrganizationMasterAccount": return try NotOrganizationMasterAccountException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TrailNotFound": return try TrailNotFoundException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9540,6 +9870,7 @@ enum UpdateEventDataStoreOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CloudTrailAccessNotEnabled": return try CloudTrailAccessNotEnabledException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreAlreadyExists": return try EventDataStoreAlreadyExistsException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreHasOngoingImport": return try EventDataStoreHasOngoingImportException.makeError(baseError: baseError)
@@ -9558,6 +9889,7 @@ enum UpdateEventDataStoreOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesMode": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "OrganizationsNotInUse": return try OrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10078,6 +10410,19 @@ extension OrganizationsNotInUseException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CloudTrailInvalidClientTokenIdException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
@@ -10239,19 +10584,6 @@ extension S3BucketDoesNotExistException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3BucketDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = S3BucketDoesNotExistException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10936,6 +11268,23 @@ extension CloudTrailClientTypes.ContextKeySelector {
     }
 }
 
+extension CloudTrailClientTypes.AggregationConfiguration {
+
+    static func write(value: CloudTrailClientTypes.AggregationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventCategory"].write(value.eventCategory)
+        try writer["Templates"].writeList(value.templates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.Template>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.AggregationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.AggregationConfiguration()
+        value.templates = try reader["Templates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.Template>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.eventCategory = try reader["EventCategory"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CloudTrailClientTypes.PartitionKey {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PartitionKey {
@@ -11037,6 +11386,7 @@ extension CloudTrailClientTypes.InsightSelector {
 
     static func write(value: CloudTrailClientTypes.InsightSelector?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.SourceEventCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InsightType"].write(value.insightType)
     }
 
@@ -11044,6 +11394,7 @@ extension CloudTrailClientTypes.InsightSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.InsightSelector()
         value.insightType = try reader["InsightType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.SourceEventCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11129,6 +11480,35 @@ extension CloudTrailClientTypes.ImportsListItem {
     }
 }
 
+extension CloudTrailClientTypes.Event {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Event()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.eventName = try reader["EventName"].readIfPresent()
+        value.readOnly = try reader["ReadOnly"].readIfPresent()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventSource = try reader["EventSource"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudTrailEvent = try reader["CloudTrailEvent"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Resource()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudTrailClientTypes.PublicKey {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PublicKey {
@@ -11173,35 +11553,6 @@ extension CloudTrailClientTypes.TrailInfo {
         value.trailARN = try reader["TrailARN"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.homeRegion = try reader["HomeRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Event()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.eventName = try reader["EventName"].readIfPresent()
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eventSource = try reader["EventSource"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudTrailEvent = try reader["CloudTrailEvent"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Resource()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
         return value
     }
 }

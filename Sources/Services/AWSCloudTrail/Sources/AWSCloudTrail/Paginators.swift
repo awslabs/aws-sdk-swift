@@ -141,6 +141,41 @@ extension PaginatorSequence where OperationStackInput == ListImportsInput, Opera
     }
 }
 extension CloudTrailClient {
+    /// Paginate over `[ListInsightsDataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInsightsDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInsightsDataOutput`
+    public func listInsightsDataPaginated(input: ListInsightsDataInput) -> ClientRuntime.PaginatorSequence<ListInsightsDataInput, ListInsightsDataOutput> {
+        return ClientRuntime.PaginatorSequence<ListInsightsDataInput, ListInsightsDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInsightsData(input:))
+    }
+}
+
+extension ListInsightsDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInsightsDataInput {
+        return ListInsightsDataInput(
+            dataType: self.dataType,
+            dimensions: self.dimensions,
+            endTime: self.endTime,
+            insightSource: self.insightSource,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInsightsDataInput, OperationStackOutput == ListInsightsDataOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInsightsDataPaginated`
+    /// to access the nested member `[CloudTrailClientTypes.Event]`
+    /// - Returns: `[CloudTrailClientTypes.Event]`
+    public func events() async throws -> [CloudTrailClientTypes.Event] {
+        return try await self.asyncCompactMap { item in item.events }
+    }
+}
+extension CloudTrailClient {
     /// Paginate over `[ListInsightsMetricDataOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -166,7 +201,8 @@ extension ListInsightsMetricDataInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             period: self.period,
-            startTime: self.startTime
+            startTime: self.startTime,
+            trailName: self.trailName
         )}
 }
 extension CloudTrailClient {

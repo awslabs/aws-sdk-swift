@@ -41,8 +41,8 @@ public extension Process {
         
         /// Returns a process for executing `git tag -a <version> -m <message>`
         /// This is used for creating a tag with the provided version and message.
-        public func tag(_ version: Version, _ message: String) -> Process {
-            gitProcess(["tag", "-a", "\(version)", "-m", message])
+        public func tag(_ version: Version, _ modifier: String, _ message: String) -> Process {
+            return gitProcess(["tag", "-a", "\(version)\(modifier)", "-m", message])
         }
         
         /// Returns a process for executing `git update-index --refresh`

@@ -326,6 +326,7 @@ extension MediaPackageV2ClientTypes {
         case incompatibleDashCompactnessConfiguration
         case incompatibleDashProfileDvbDashConfiguration
         case incompatibleXmlEncoding
+        case invalidDrmSettings
         case invalidHarvestJobDuration
         case invalidManifestFilter
         case invalidPaginationMaxResults
@@ -418,6 +419,7 @@ extension MediaPackageV2ClientTypes {
                 .incompatibleDashCompactnessConfiguration,
                 .incompatibleDashProfileDvbDashConfiguration,
                 .incompatibleXmlEncoding,
+                .invalidDrmSettings,
                 .invalidHarvestJobDuration,
                 .invalidManifestFilter,
                 .invalidPaginationMaxResults,
@@ -516,6 +518,7 @@ extension MediaPackageV2ClientTypes {
             case .incompatibleDashCompactnessConfiguration: return "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
             case .incompatibleDashProfileDvbDashConfiguration: return "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
             case .incompatibleXmlEncoding: return "INCOMPATIBLE_XML_ENCODING"
+            case .invalidDrmSettings: return "INVALID_DRM_SETTINGS"
             case .invalidHarvestJobDuration: return "INVALID_HARVEST_JOB_DURATION"
             case .invalidManifestFilter: return "INVALID_MANIFEST_FILTER"
             case .invalidPaginationMaxResults: return "INVALID_PAGINATION_MAX_RESULTS"
@@ -1379,6 +1382,8 @@ extension MediaPackageV2ClientTypes {
     public struct FilterConfiguration: Swift.Sendable {
         /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
         public var clipStartTime: Foundation.Date?
+        /// Optionally specify one or more DRM settings for all of your manifest egress requests. When you include a DRM setting, note that you cannot use an identical DRM setting query parameter for this manifest's endpoint URL.
+        public var drmSettings: Swift.String?
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public var end: Foundation.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -1390,12 +1395,14 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             clipStartTime: Foundation.Date? = nil,
+            drmSettings: Swift.String? = nil,
             end: Foundation.Date? = nil,
             manifestFilter: Swift.String? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
         ) {
             self.clipStartTime = clipStartTime
+            self.drmSettings = drmSettings
             self.end = end
             self.manifestFilter = manifestFilter
             self.start = start
@@ -6576,6 +6583,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
     static func write(value: MediaPackageV2ClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClipStartTime"].writeTimestamp(value.clipStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DrmSettings"].write(value.drmSettings)
         try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["ManifestFilter"].write(value.manifestFilter)
         try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -6586,6 +6594,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.FilterConfiguration()
         value.manifestFilter = try reader["ManifestFilter"].readIfPresent()
+        value.drmSettings = try reader["DrmSettings"].readIfPresent()
         value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()

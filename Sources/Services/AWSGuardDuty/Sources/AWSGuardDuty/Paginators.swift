@@ -279,6 +279,38 @@ extension PaginatorSequence where OperationStackInput == ListIPSetsInput, Operat
     }
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListMalwareScansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMalwareScansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMalwareScansOutput`
+    public func listMalwareScansPaginated(input: ListMalwareScansInput) -> ClientRuntime.PaginatorSequence<ListMalwareScansInput, ListMalwareScansOutput> {
+        return ClientRuntime.PaginatorSequence<ListMalwareScansInput, ListMalwareScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMalwareScans(input:))
+    }
+}
+
+extension ListMalwareScansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMalwareScansInput {
+        return ListMalwareScansInput(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMalwareScansInput, OperationStackOutput == ListMalwareScansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMalwareScansPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.MalwareScan]`
+    /// - Returns: `[GuardDutyClientTypes.MalwareScan]`
+    public func scans() async throws -> [GuardDutyClientTypes.MalwareScan] {
+        return try await self.asyncCompactMap { item in item.scans }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListMembersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

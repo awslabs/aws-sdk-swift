@@ -1,6 +1,34 @@
 {
     "smithy": "2.0",
     "shapes": {
+        "com.amazonaws.sagemaker#AcceleratorPartitionConfig": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.sagemaker#MIGProfileType",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Multi-Instance GPU (MIG) profile type that defines the partition configuration. The profile specifies the compute and memory allocation for each partition instance. The available profile types depend on the instance type specified in the compute quota configuration.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Count": {
+                    "target": "com.amazonaws.sagemaker#Integer",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The number of accelerator partitions to allocate with the specified partition type. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the accelerator partition count you provide.</p>",
+                        "smithy.api#range": {
+                            "min": 0,
+                            "max": 10000000
+                        },
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for allocating accelerator partitions.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#AcceleratorsAmount": {
             "type": "integer",
             "traits": {
@@ -183,6 +211,34 @@
                         "smithy.api#enumValue": "Disabled"
                     }
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#ActiveClusterOperationCount": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ActiveClusterOperationName": {
+            "type": "enum",
+            "members": {
+                "SCALING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Scaling"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ActiveOperations": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.sagemaker#ActiveClusterOperationName"
+            },
+            "value": {
+                "target": "com.amazonaws.sagemaker#ActiveClusterOperationCount"
             }
         },
         "com.amazonaws.sagemaker#AddAssociation": {
@@ -5473,6 +5529,414 @@
                 "smithy.api#documentation": "<p>Provides summary information about the model package.</p>"
             }
         },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodeLogicalIdsError": {
+            "type": "structure",
+            "members": {
+                "NodeLogicalId": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalId",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The logical node ID of the node that encountered an error during the reboot operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ErrorCode": {
+                    "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesErrorCode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The error code associated with the error encountered when rebooting a node by logical node ID.</p> <p>Possible values:</p> <ul> <li> <p> <code>InstanceIdNotFound</code>: The node does not exist in the specified cluster.</p> </li> <li> <p> <code>InvalidInstanceStatus</code>: The node is in a state that does not allow rebooting. Wait for the node to finish any ongoing changes before retrying.</p> </li> <li> <p> <code>InstanceIdInUse</code>: Another operation is already in progress for this node. Wait for the operation to complete before retrying.</p> </li> <li> <p> <code>InternalServerError</code>: An internal error occurred while processing this node.</p> </li> </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.sagemaker#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A human-readable message describing the error encountered when rebooting a node by logical node ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents an error encountered when rebooting a node (identified by its logical node ID) from a SageMaker HyperPod cluster.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodeLogicalIdsErrors": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#BatchRebootClusterNodeLogicalIdsError"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 25
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.sagemaker#ResourceNotFound"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. <code>BatchRebootClusterNodes</code> performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud <code>RebootInstances</code> API, which attempts to cleanly shut down the operating system before restarting the instance.</p> <p>This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart.</p> <note> <ul> <li> <p>Rebooting a node may cause temporary service interruption for workloads running on that node. Ensure your workloads can handle node restarts or use appropriate scheduling to minimize impact.</p> </li> <li> <p>You can reboot up to 25 nodes in a single request.</p> </li> <li> <p>For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.</p> </li> </ul> </note>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodesError": {
+            "type": "structure",
+            "members": {
+                "NodeId": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeId",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The EC2 instance ID of the node that encountered an error during the reboot operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ErrorCode": {
+                    "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesErrorCode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The error code associated with the error encountered when rebooting a node.</p> <p>Possible values:</p> <ul> <li> <p> <code>InstanceIdNotFound</code>: The instance does not exist in the specified cluster.</p> </li> <li> <p> <code>InvalidInstanceStatus</code>: The instance is in a state that does not allow rebooting. Wait for the instance to finish any ongoing changes before retrying.</p> </li> <li> <p> <code>InstanceIdInUse</code>: Another operation is already in progress for this node. Wait for the operation to complete before retrying.</p> </li> <li> <p> <code>InternalServerError</code>: An internal error occurred while processing this node.</p> </li> </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.sagemaker#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A human-readable message describing the error encountered when rebooting a node.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents an error encountered when rebooting a node from a SageMaker HyperPod cluster.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodesErrorCode": {
+            "type": "enum",
+            "members": {
+                "INSTANCE_ID_NOT_FOUND": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceIdNotFound"
+                    }
+                },
+                "INVALID_INSTANCE_STATUS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InvalidInstanceStatus"
+                    }
+                },
+                "INSTANCE_ID_IN_USE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceIdInUse"
+                    }
+                },
+                "INTERNAL_SERVER_ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InternalServerError"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodesErrors": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesError"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 25
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodesRequest": {
+            "type": "structure",
+            "members": {
+                "ClusterName": {
+                    "target": "com.amazonaws.sagemaker#ClusterNameOrArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NodeIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeIds",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A list of EC2 instance IDs to reboot using soft recovery. You can specify between 1 and 25 instance IDs.</p> <note> <ul> <li> <p>Either <code>NodeIds</code> or <code>NodeLogicalIds</code> must be provided (or both), but at least one is required.</p> </li> <li> <p>Each instance ID must follow the pattern <code>i-</code> followed by 17 hexadecimal characters (for example, <code>i-0123456789abcdef0</code>).</p> </li> </ul> </note>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 25
+                        }
+                    }
+                },
+                "NodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalIdList",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A list of logical node IDs to reboot using soft recovery. You can specify between 1 and 25 logical node IDs.</p> <p>The <code>NodeLogicalId</code> is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.</p> <important> <ul> <li> <p>This parameter is only supported for clusters using <code>Continuous</code> as the <code>NodeProvisioningMode</code>. For clusters using the default provisioning mode, use <code>NodeIds</code> instead.</p> </li> <li> <p>Either <code>NodeIds</code> or <code>NodeLogicalIds</code> must be provided (or both), but at least one is required.</p> </li> </ul> </important>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 25
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.sagemaker#BatchRebootClusterNodesResponse": {
+            "type": "structure",
+            "members": {
+                "Successful": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of EC2 instance IDs for which the reboot operation was successfully initiated.</p>"
+                    }
+                },
+                "Failed": {
+                    "target": "com.amazonaws.sagemaker#BatchRebootClusterNodesErrors",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of errors encountered for EC2 instance IDs that could not be rebooted. Each error includes the instance ID, an error code, and a descriptive message.</p>"
+                    }
+                },
+                "FailedNodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#BatchRebootClusterNodeLogicalIdsErrors",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of errors encountered for logical node IDs that could not be rebooted. Each error includes the logical node ID, an error code, and a descriptive message. This field is only present when <code>NodeLogicalIds</code> were provided in the request.</p>"
+                    }
+                },
+                "SuccessfulNodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of logical node IDs for which the reboot operation was successfully initiated. This field is only present when <code>NodeLogicalIds</code> were provided in the request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodeLogicalIdsError": {
+            "type": "structure",
+            "members": {
+                "NodeLogicalId": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalId",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The logical node ID of the node that encountered an error during the replacement operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ErrorCode": {
+                    "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesErrorCode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The error code associated with the error encountered when replacing a node by logical node ID.</p> <p>Possible values:</p> <ul> <li> <p> <code>InstanceIdNotFound</code>: The node does not exist in the specified cluster.</p> </li> <li> <p> <code>InvalidInstanceStatus</code>: The node is in a state that does not allow replacement. Wait for the node to finish any ongoing changes before retrying.</p> </li> <li> <p> <code>InstanceIdInUse</code>: Another operation is already in progress for this node. Wait for the operation to complete before retrying.</p> </li> <li> <p> <code>InternalServerError</code>: An internal error occurred while processing this node.</p> </li> </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.sagemaker#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A human-readable message describing the error encountered when replacing a node by logical node ID.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents an error encountered when replacing a node (identified by its logical node ID) in a SageMaker HyperPod cluster.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodeLogicalIdsErrors": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodeLogicalIdsError"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 25
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.sagemaker#ResourceNotFound"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. <code>BatchReplaceClusterNodes</code> terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same.</p> <p>This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot.</p> <important> <ul> <li> <p> <b>Data Loss Warning:</b> Replacing nodes destroys all instance volumes, including both root and secondary volumes. All data stored on these volumes will be permanently lost and cannot be recovered.</p> </li> <li> <p>To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup\">Use the backup script provided by SageMaker HyperPod</a>.</p> </li> <li> <p>If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html\">UpdateClusterSoftware API</a>. For more information about patching a cluster, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software\">Update the SageMaker HyperPod platform software of a cluster</a>.</p> </li> <li> <p>You can replace up to 25 nodes in a single request.</p> </li> </ul> </important>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodesError": {
+            "type": "structure",
+            "members": {
+                "NodeId": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeId",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The EC2 instance ID of the node that encountered an error during the replacement operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ErrorCode": {
+                    "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesErrorCode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The error code associated with the error encountered when replacing a node.</p> <p>Possible values:</p> <ul> <li> <p> <code>InstanceIdNotFound</code>: The instance does not exist in the specified cluster.</p> </li> <li> <p> <code>InvalidInstanceStatus</code>: The instance is in a state that does not allow replacement. Wait for the instance to finish any ongoing changes before retrying.</p> </li> <li> <p> <code>InstanceIdInUse</code>: Another operation is already in progress for this node. Wait for the operation to complete before retrying.</p> </li> <li> <p> <code>InternalServerError</code>: An internal error occurred while processing this node.</p> </li> </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.sagemaker#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A human-readable message describing the error encountered when replacing a node.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents an error encountered when replacing a node in a SageMaker HyperPod cluster.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodesErrorCode": {
+            "type": "enum",
+            "members": {
+                "INSTANCE_ID_NOT_FOUND": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceIdNotFound"
+                    }
+                },
+                "INVALID_INSTANCE_STATUS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InvalidInstanceStatus"
+                    }
+                },
+                "INSTANCE_ID_IN_USE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceIdInUse"
+                    }
+                },
+                "INTERNAL_SERVER_ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InternalServerError"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodesErrors": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesError"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 25
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodesRequest": {
+            "type": "structure",
+            "members": {
+                "ClusterName": {
+                    "target": "com.amazonaws.sagemaker#ClusterNameOrArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NodeIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeIds",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs.</p> <important> <p>Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.</p> </important> <note> <ul> <li> <p>Either <code>NodeIds</code> or <code>NodeLogicalIds</code> must be provided (or both), but at least one is required.</p> </li> <li> <p>Each instance ID must follow the pattern <code>i-</code> followed by 17 hexadecimal characters (for example, <code>i-0123456789abcdef0</code>).</p> </li> <li> <p>For SageMaker HyperPod clusters using the Slurm workload manager, you cannot replace instances that are configured as Slurm controller nodes.</p> </li> </ul> </note>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 25
+                        }
+                    }
+                },
+                "NodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalIdList",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs.</p> <p>The <code>NodeLogicalId</code> is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.</p> <important> <ul> <li> <p>Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.</p> </li> <li> <p>This parameter is only supported for clusters using <code>Continuous</code> as the <code>NodeProvisioningMode</code>. For clusters using the default provisioning mode, use <code>NodeIds</code> instead.</p> </li> <li> <p>Either <code>NodeIds</code> or <code>NodeLogicalIds</code> must be provided (or both), but at least one is required.</p> </li> </ul> </important>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 25
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.sagemaker#BatchReplaceClusterNodesResponse": {
+            "type": "structure",
+            "members": {
+                "Successful": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of EC2 instance IDs for which the replacement operation was successfully initiated.</p>"
+                    }
+                },
+                "Failed": {
+                    "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodesErrors",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of errors encountered for EC2 instance IDs that could not be replaced. Each error includes the instance ID, an error code, and a descriptive message.</p>"
+                    }
+                },
+                "FailedNodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodeLogicalIdsErrors",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of errors encountered for logical node IDs that could not be replaced. Each error includes the logical node ID, an error code, and a descriptive message. This field is only present when <code>NodeLogicalIds</code> were provided in the request.</p>"
+                    }
+                },
+                "SuccessfulNodeLogicalIds": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeLogicalIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of logical node IDs for which the replacement operation was successfully initiated. This field is only present when <code>NodeLogicalIds</code> were provided in the request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.sagemaker#BatchStrategy": {
             "type": "enum",
             "members": {
@@ -7801,6 +8265,43 @@
                 "smithy.api#pattern": "^[a-z]{3}\\d-az\\d$"
             }
         },
+        "com.amazonaws.sagemaker#ClusterCapacityRequirements": {
+            "type": "structure",
+            "members": {
+                "Spot": {
+                    "target": "com.amazonaws.sagemaker#ClusterSpotOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration options specific to Spot instances.</p>"
+                    }
+                },
+                "OnDemand": {
+                    "target": "com.amazonaws.sagemaker#ClusterOnDemandOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration options specific to On-Demand instances.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Defines the instance capacity requirements for an instance group, including configurations for both Spot and On-Demand capacity types. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterCapacityType": {
+            "type": "enum",
+            "members": {
+                "SPOT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Spot"
+                    }
+                },
+                "ON_DEMAND": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OnDemand"
+                    }
+                }
+            }
+        },
         "com.amazonaws.sagemaker#ClusterConfigMode": {
             "type": "enum",
             "members": {
@@ -8062,6 +8563,12 @@
                         "smithy.api#documentation": "<p>The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.</p>"
                     }
                 },
+                "MinCount": {
+                    "target": "com.amazonaws.sagemaker#ClusterInstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum number of instances that must be available in the instance group of a SageMaker HyperPod cluster before it transitions to <code>InService</code> status. </p>"
+                    }
+                },
                 "InstanceGroupName": {
                     "target": "com.amazonaws.sagemaker#ClusterInstanceGroupName",
                     "traits": {
@@ -8146,6 +8653,24 @@
                         "smithy.api#documentation": "<p>The ID of the Amazon Machine Image (AMI) desired for the instance group.</p>"
                     }
                 },
+                "ActiveOperations": {
+                    "target": "com.amazonaws.sagemaker#ActiveOperations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map indicating active operations currently in progress for the instance group of a SageMaker HyperPod cluster. When there is a scaling operation in progress, this map contains a key <code>Scaling</code> with value 1. </p>"
+                    }
+                },
+                "KubernetesConfig": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Kubernetes configuration for the instance group that contains labels and taints to be applied for the nodes in this instance group. </p>"
+                    }
+                },
+                "CapacityRequirements": {
+                    "target": "com.amazonaws.sagemaker#ClusterCapacityRequirements",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The instance capacity requirements for the instance group.</p>"
+                    }
+                },
                 "TargetStateCount": {
                     "target": "com.amazonaws.sagemaker#ClusterInstanceCount",
                     "traits": {
@@ -8191,6 +8716,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "MinInstanceCount": {
+                    "target": "com.amazonaws.sagemaker#ClusterInstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the minimum number of instances required for an instance group to become <code>InService</code>. If this threshold isn't met within 3 hours, the instance group rolls back to its previous state - zero instances for new instance groups, or previous settings for existing instance groups. <code>MinInstanceCount</code> only affects the initial transition to <code>InService</code> and does not guarantee maintaining this minimum afterward. </p>"
                     }
                 },
                 "InstanceGroupName": {
@@ -8265,6 +8796,18 @@
                     "target": "com.amazonaws.sagemaker#ImageId",
                     "traits": {
                         "smithy.api#documentation": "<p>When configuring your HyperPod cluster, you can specify an image ID using one of the following options:</p> <ul> <li> <p> <code>HyperPodPublicAmiId</code>: Use a HyperPod public AMI</p> </li> <li> <p> <code>CustomAmiId</code>: Use your custom AMI</p> </li> <li> <p> <code>default</code>: Use the default latest system image</p> </li> </ul> <p>If you choose to use a custom AMI (<code>CustomAmiId</code>), ensure it meets the following requirements:</p> <ul> <li> <p>Encryption: The custom AMI must be unencrypted.</p> </li> <li> <p>Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.</p> </li> <li> <p>Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.</p> </li> </ul> <p>When updating the instance group's AMI through the <code>UpdateClusterSoftware</code> operation, if an instance group uses a custom AMI, you must provide an <code>ImageId</code> or use the default as input. Note that if you don't specify an instance group in your <code>UpdateClusterSoftware</code> request, then all of the instance groups are patched with the specified image.</p>"
+                    }
+                },
+                "KubernetesConfig": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the Kubernetes configuration for the instance group. You describe what you want the labels and taints to look like, and the cluster works to reconcile the actual state with the declared state for nodes in this instance group. </p>"
+                    }
+                },
+                "CapacityRequirements": {
+                    "target": "com.amazonaws.sagemaker#ClusterCapacityRequirements",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the capacity requirements for the instance group.</p>"
                     }
                 }
             },
@@ -9109,6 +9652,208 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#ClusterKubernetesConfig": {
+            "type": "structure",
+            "members": {
+                "Labels": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesLabels",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Key-value pairs of labels to be applied to cluster nodes.</p>"
+                    }
+                },
+                "Taints": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaints",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List of taints to be applied to cluster nodes.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Kubernetes configuration that specifies labels and taints to be applied to cluster nodes in an instance group. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesConfigDetails": {
+            "type": "structure",
+            "members": {
+                "CurrentLabels": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesLabels",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current labels applied to cluster nodes of an instance group.</p>"
+                    }
+                },
+                "DesiredLabels": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesLabels",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired labels to be applied to cluster nodes of an instance group.</p>"
+                    }
+                },
+                "CurrentTaints": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaints",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current taints applied to cluster nodes of an instance group.</p>"
+                    }
+                },
+                "DesiredTaints": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaints",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired taints to be applied to cluster nodes of an instance group.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Detailed Kubernetes configuration showing both the current and desired state of labels and taints for cluster nodes. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesConfigNodeDetails": {
+            "type": "structure",
+            "members": {
+                "CurrentLabels": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesLabels",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current labels applied to the cluster node.</p>"
+                    }
+                },
+                "DesiredLabels": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesLabels",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired labels to be applied to the cluster node.</p>"
+                    }
+                },
+                "CurrentTaints": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaints",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current taints applied to the cluster node.</p>"
+                    }
+                },
+                "DesiredTaints": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaints",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The desired taints to be applied to the cluster node.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Node-specific Kubernetes configuration showing both current and desired state of labels and taints for an individual cluster node. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesLabelKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 317
+                },
+                "smithy.api#pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesLabelValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 63
+                },
+                "smithy.api#pattern": "^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesLabels": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.sagemaker#ClusterKubernetesLabelKey"
+            },
+            "value": {
+                "target": "com.amazonaws.sagemaker#ClusterKubernetesLabelValue"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 50
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesTaint": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaintKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key of the taint.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaintValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of the taint.</p>"
+                    }
+                },
+                "Effect": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesTaintEffect",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The effect of the taint. Valid values are <code>NoSchedule</code>, <code>PreferNoSchedule</code>, and <code>NoExecute</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A Kubernetes taint that can be applied to cluster nodes.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesTaintEffect": {
+            "type": "enum",
+            "members": {
+                "NO_SCHEDULE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NoSchedule"
+                    }
+                },
+                "PREFER_NO_SCHEDULE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PreferNoSchedule"
+                    }
+                },
+                "NO_EXECUTE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NoExecute"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesTaintKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 317
+                },
+                "smithy.api#pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesTaintValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 63
+                },
+                "smithy.api#pattern": "^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterKubernetesTaints": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#ClusterKubernetesTaint"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 50
+                }
+            }
+        },
         "com.amazonaws.sagemaker#ClusterLifeCycleConfig": {
             "type": "structure",
             "members": {
@@ -9300,6 +10045,18 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>Contains information about the UltraServer.</p>"
                     }
+                },
+                "KubernetesConfig": {
+                    "target": "com.amazonaws.sagemaker#ClusterKubernetesConfigNodeDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Kubernetes configuration applied to this node, showing both the current and desired state of labels and taints. The cluster works to reconcile the actual state with the declared state. </p>"
+                    }
+                },
+                "CapacityType": {
+                    "target": "com.amazonaws.sagemaker#ClusterCapacityType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The capacity type of the node. Valid values are <code>OnDemand</code> and <code>Spot</code>. When set to <code>OnDemand</code>, the node is launched as an On-Demand instance. When set to <code>Spot</code>, the node is launched as a Spot instance. </p>"
+                    }
                 }
             },
             "traits": {
@@ -9446,6 +10203,13 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>Contains information about the UltraServer.</p>"
                     }
+                },
+                "PrivateDnsHostname": {
+                    "target": "com.amazonaws.sagemaker#ClusterPrivateDnsHostname",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The private DNS hostname of the SageMaker HyperPod cluster node.</p>"
+                    }
                 }
             },
             "traits": {
@@ -9458,6 +10222,13 @@
                 "smithy.api#range": {
                     "min": 0
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterOnDemandOptions": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration options specific to On-Demand instances.</p>"
             }
         },
         "com.amazonaws.sagemaker#ClusterOrchestrator": {
@@ -9808,6 +10579,13 @@
                         "smithy.api#enumValue": "NAME"
                     }
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterSpotOptions": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration options specific to Spot instances.</p>"
             }
         },
         "com.amazonaws.sagemaker#ClusterStatus": {
@@ -10583,6 +11361,12 @@
                     "target": "com.amazonaws.sagemaker#MemoryInGiBAmount",
                     "traits": {
                         "smithy.api#documentation": "<p>The amount of memory in GiB to allocate. If you specify a value only for this parameter, SageMaker AI automatically allocates a ratio-based value for vCPU based on this memory that you provide. For example, if you allocate 200 out of 400 total memory in GiB, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU. Accelerators are set to 0.</p>"
+                    }
+                },
+                "AcceleratorPartition": {
+                    "target": "com.amazonaws.sagemaker#AcceleratorPartitionConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The accelerator partition configuration for fractional GPU allocation.</p>"
                     }
                 }
             },
@@ -13075,6 +13859,12 @@
                     "target": "com.amazonaws.sagemaker#Boolean",
                     "traits": {
                         "smithy.api#documentation": "<p>Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.</p>"
+                    }
+                },
+                "MetricsConfig": {
+                    "target": "com.amazonaws.sagemaker#MetricsConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration parameters for utilization metrics.</p>"
                     }
                 }
             },
@@ -15698,6 +16488,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The type of instance that hosts the optimized model that you create with the optimization job.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "MaxInstanceCount": {
+                    "target": "com.amazonaws.sagemaker#OptimizationJobMaxInstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of instances to use for the optimization job.</p>"
                     }
                 },
                 "OptimizationEnvironment": {
@@ -23669,6 +24465,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.</p>"
                     }
+                },
+                "MetricsConfig": {
+                    "target": "com.amazonaws.sagemaker#MetricsConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration parameters for utilization metrics.</p>"
+                    }
                 }
             },
             "traits": {
@@ -23783,6 +24585,12 @@
                     "target": "com.amazonaws.sagemaker#ProductionVariantSummaryList",
                     "traits": {
                         "smithy.api#documentation": "<p>An array of <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariantSummary.html\">ProductionVariantSummary</a> objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on <code>ProductionVariants</code>.</p>"
+                    }
+                },
+                "MetricsConfig": {
+                    "target": "com.amazonaws.sagemaker#MetricsConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration parameters for utilization metrics.</p>"
                     }
                 }
             },
@@ -27574,6 +28382,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "MaxInstanceCount": {
+                    "target": "com.amazonaws.sagemaker#OptimizationJobMaxInstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of instances to use for the optimization job.</p>"
+                    }
+                },
                 "OptimizationConfigs": {
                     "target": "com.amazonaws.sagemaker#OptimizationConfigs",
                     "traits": {
@@ -29280,7 +30094,7 @@
                 "TargetResources": {
                     "target": "com.amazonaws.sagemaker#SageMakerResourceNames",
                     "traits": {
-                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> </ul>"
+                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>"
                     }
                 },
                 "ReservedCapacitySummaries": {
@@ -32045,6 +32859,9 @@
             "type": "boolean"
         },
         "com.amazonaws.sagemaker#EnableCapture": {
+            "type": "boolean"
+        },
+        "com.amazonaws.sagemaker#EnableEnhancedMetrics": {
             "type": "boolean"
         },
         "com.amazonaws.sagemaker#EnableInfraCheck": {
@@ -39365,6 +40182,12 @@
                     "target": "com.amazonaws.sagemaker#TargetCount",
                     "traits": {
                         "smithy.api#documentation": "<p>The desired number of instances for the group after scaling.</p>"
+                    }
+                },
+                "MinCount": {
+                    "target": "com.amazonaws.sagemaker#InstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Minimum instance count of the instance group.</p>"
                     }
                 },
                 "FailureMessage": {
@@ -50103,6 +50926,179 @@
                 "smithy.api#pattern": "^(https|s3)://([^/]+)/?(.*)$"
             }
         },
+        "com.amazonaws.sagemaker#MIGProfileType": {
+            "type": "enum",
+            "members": {
+                "MIG_1G_5GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.5gb"
+                    }
+                },
+                "MIG_1G_10GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.10gb"
+                    }
+                },
+                "MIG_1G_18GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.18gb"
+                    }
+                },
+                "MIG_1G_20GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.20gb"
+                    }
+                },
+                "MIG_1G_23GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.23gb"
+                    }
+                },
+                "MIG_1G_35GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.35gb"
+                    }
+                },
+                "MIG_1G_45GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.45gb"
+                    }
+                },
+                "MIG_1G_47GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-1g.47gb"
+                    }
+                },
+                "MIG_2G_10GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-2g.10gb"
+                    }
+                },
+                "MIG_2G_20GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-2g.20gb"
+                    }
+                },
+                "MIG_2G_35GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-2g.35gb"
+                    }
+                },
+                "MIG_2G_45GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-2g.45gb"
+                    }
+                },
+                "MIG_2G_47GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-2g.47gb"
+                    }
+                },
+                "MIG_3G_20GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-3g.20gb"
+                    }
+                },
+                "MIG_3G_40GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-3g.40gb"
+                    }
+                },
+                "MIG_3G_71GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-3g.71gb"
+                    }
+                },
+                "MIG_3G_90GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-3g.90gb"
+                    }
+                },
+                "MIG_3G_93GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-3g.93gb"
+                    }
+                },
+                "MIG_4G_20GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-4g.20gb"
+                    }
+                },
+                "MIG_4G_40GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-4g.40gb"
+                    }
+                },
+                "MIG_4G_71GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-4g.71gb"
+                    }
+                },
+                "MIG_4G_90GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-4g.90gb"
+                    }
+                },
+                "MIG_4G_93GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-4g.93gb"
+                    }
+                },
+                "MIG_7G_40GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-7g.40gb"
+                    }
+                },
+                "MIG_7G_80GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-7g.80gb"
+                    }
+                },
+                "MIG_7G_141GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-7g.141gb"
+                    }
+                },
+                "MIG_7G_180GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-7g.180gb"
+                    }
+                },
+                "MIG_7G_186GB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "mig-7g.186gb"
+                    }
+                }
+            }
+        },
         "com.amazonaws.sagemaker#MLFramework": {
             "type": "string",
             "traits": {
@@ -50550,6 +51546,60 @@
                 "smithy.api#pattern": "^.+$"
             }
         },
+        "com.amazonaws.sagemaker#MetricPublishFrequencyInSeconds": {
+            "type": "intEnum",
+            "members": {
+                "FREQ_10_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 10 seconds frequency</p>",
+                        "smithy.api#enumValue": 10
+                    }
+                },
+                "FREQ_30_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 30 seconds frequency</p>",
+                        "smithy.api#enumValue": 30
+                    }
+                },
+                "FREQ_60_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 60 seconds frequency</p>",
+                        "smithy.api#enumValue": 60
+                    }
+                },
+                "FREQ_120_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 120 seconds frequency</p>",
+                        "smithy.api#enumValue": 120
+                    }
+                },
+                "FREQ_180_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 180 seconds frequency</p>",
+                        "smithy.api#enumValue": 180
+                    }
+                },
+                "FREQ_240_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 240 seconds frequency</p>",
+                        "smithy.api#enumValue": 240
+                    }
+                },
+                "FREQ_300_S": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics publishing at 300 seconds frequency</p>",
+                        "smithy.api#enumValue": 300
+                    }
+                }
+            }
+        },
         "com.amazonaws.sagemaker#MetricRegex": {
             "type": "string",
             "traits": {
@@ -50605,6 +51655,26 @@
         },
         "com.amazonaws.sagemaker#MetricValue": {
             "type": "float"
+        },
+        "com.amazonaws.sagemaker#MetricsConfig": {
+            "type": "structure",
+            "members": {
+                "EnableEnhancedMetrics": {
+                    "target": "com.amazonaws.sagemaker#EnableEnhancedMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to enable enhanced metrics for the endpoint. Enhanced metrics provide utilization data at instance and container granularity. Container granularity is supported for Inference Components. The default is <code>False</code>.</p>"
+                    }
+                },
+                "MetricPublishFrequencyInSeconds": {
+                    "target": "com.amazonaws.sagemaker#MetricPublishFrequencyInSeconds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The frequency, in seconds, at which utilization metrics are published to Amazon CloudWatch. The default is <code>60</code> seconds.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration for Utilization metrics.</p>"
+            }
         },
         "com.amazonaws.sagemaker#MetricsSource": {
             "type": "structure",
@@ -53346,6 +54416,80 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#ModelSpeculativeDecodingConfig": {
+            "type": "structure",
+            "members": {
+                "Technique": {
+                    "target": "com.amazonaws.sagemaker#ModelSpeculativeDecodingTechnique",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The speculative decoding technique to apply during model optimization.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "TrainingDataSource": {
+                    "target": "com.amazonaws.sagemaker#ModelSpeculativeDecodingTrainingDataSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The location of the training data to use for speculative decoding. The data must be formatted as ShareGPT, OpenAI Completions or OpenAI Chat Completions. The input can also be unencrypted captured data from a SageMaker endpoint as long as the endpoint uses one of the above formats.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings for the model speculative decoding technique that's applied by a model optimization job.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ModelSpeculativeDecodingS3DataType": {
+            "type": "enum",
+            "members": {
+                "S3Prefix": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3Prefix"
+                    }
+                },
+                "ManifestFile": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ManifestFile"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ModelSpeculativeDecodingTechnique": {
+            "type": "enum",
+            "members": {
+                "EAGLE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EAGLE"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ModelSpeculativeDecodingTrainingDataSource": {
+            "type": "structure",
+            "members": {
+                "S3Uri": {
+                    "target": "com.amazonaws.sagemaker#S3Uri",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon S3 URI that points to the training data for speculative decoding.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "S3DataType": {
+                    "target": "com.amazonaws.sagemaker#ModelSpeculativeDecodingS3DataType",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The type of data stored in the Amazon S3 location. Valid values are <code>S3Prefix</code> or <code>ManifestFile</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the training data source for speculative decoding.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#ModelStepMetadata": {
             "type": "structure",
             "members": {
@@ -55924,6 +57068,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Settings for the model sharding technique that's applied by a model optimization job.</p>"
                     }
+                },
+                "ModelSpeculativeDecodingConfig": {
+                    "target": "com.amazonaws.sagemaker#ModelSpeculativeDecodingConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings for the model speculative decoding technique that's applied by a model optimization job.</p>"
+                    }
                 }
             },
             "traits": {
@@ -55981,6 +57131,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ml.p5.48xlarge"
+                    }
+                },
+                "ML_P5E_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.p5e.48xlarge"
+                    }
+                },
+                "ML_P5EN_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.p5en.48xlarge"
                     }
                 },
                 "ML_G5_XLARGE": {
@@ -56186,6 +57348,14 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#OptimizationJobMaxInstanceCount": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1
+                }
+            }
+        },
         "com.amazonaws.sagemaker#OptimizationJobModelSource": {
             "type": "structure",
             "members": {
@@ -56193,6 +57363,12 @@
                     "target": "com.amazonaws.sagemaker#OptimizationJobModelSourceS3",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon S3 location of a source model to optimize with an optimization job.</p>"
+                    }
+                },
+                "SageMakerModel": {
+                    "target": "com.amazonaws.sagemaker#OptimizationSageMakerModel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of an existing SageMaker model to optimize with an optimization job.</p>"
                     }
                 }
             },
@@ -56235,6 +57411,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The Amazon S3 URI for where to store the optimized model that you create with an optimization job.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "SageMakerModel": {
+                    "target": "com.amazonaws.sagemaker#OptimizationSageMakerModel",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of a SageMaker model to use as the output destination for an optimization job.</p>"
                     }
                 }
             },
@@ -56350,6 +57532,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "MaxInstanceCount": {
+                    "target": "com.amazonaws.sagemaker#OptimizationJobMaxInstanceCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of instances to use for the optimization job.</p>"
+                    }
+                },
                 "OptimizationTypes": {
                     "target": "com.amazonaws.sagemaker#OptimizationTypes",
                     "traits": {
@@ -56394,6 +57582,20 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Output values produced by an optimization job.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#OptimizationSageMakerModel": {
+            "type": "structure",
+            "members": {
+                "ModelName": {
+                    "target": "com.amazonaws.sagemaker#ModelName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of a SageMaker model.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A SageMaker model to use as the source or destination for an optimization job.</p>"
             }
         },
         "com.amazonaws.sagemaker#OptimizationType": {
@@ -64681,11 +65883,10 @@
                     }
                 },
                 "VolumeSizeInGB": {
-                    "target": "com.amazonaws.sagemaker#VolumeSizeInGB",
+                    "target": "com.amazonaws.sagemaker#OptionalVolumeSizeInGB",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The size of the ML storage volume that you want to provision. </p> <p>ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose <code>File</code> as the <code>TrainingInputMode</code> in the algorithm specification. </p> <p>When using an ML instance with <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html#nvme-ssd-volumes\">NVMe SSD volumes</a>, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include <code>ml.p4d</code>, <code>ml.g4dn</code>, and <code>ml.g5</code>. </p> <p>When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through <code>VolumeSizeInGB</code> in the <code>ResourceConfig</code> API. For example, ML instance families that use EBS volumes include <code>ml.c5</code> and <code>ml.p2</code>. </p> <p>To look up instance types and their instance storage types and volumes, see <a href=\"http://aws.amazon.com/ec2/instance-types/\">Amazon EC2 Instance Types</a>.</p> <p>To find the default local paths defined by the SageMaker training platform, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.html\">Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs</a>.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The size of the ML storage volume that you want to provision. </p> <p>ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose <code>File</code> as the <code>TrainingInputMode</code> in the algorithm specification. </p> <p>When using an ML instance with <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html#nvme-ssd-volumes\">NVMe SSD volumes</a>, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include <code>ml.p4d</code>, <code>ml.g4dn</code>, and <code>ml.g5</code>. </p> <p>When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through <code>VolumeSizeInGB</code> in the <code>ResourceConfig</code> API. For example, ML instance families that use EBS volumes include <code>ml.c5</code> and <code>ml.p2</code>. </p> <p>To look up instance types and their instance storage types and volumes, see <a href=\"http://aws.amazon.com/ec2/instance-types/\">Amazon EC2 Instance Types</a>.</p> <p>To find the default local paths defined by the SageMaker training platform, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.html\">Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs</a>.</p>"
                     }
                 },
                 "VolumeKmsKeyId": {
@@ -65201,13 +66402,13 @@
                 "GroupPatterns": {
                     "target": "com.amazonaws.sagemaker#GroupPatternsList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of AWS IAM Identity Center group patterns that should be assigned to the specified role. Group patterns support wildcard matching using <code>*</code>.</p>",
+                        "smithy.api#documentation": "<p>A list of Amazon Web Services IAM Identity Center group patterns that should be assigned to the specified role. Group patterns support wildcard matching using <code>*</code>.</p>",
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Defines the mapping between an in-app role and the AWS IAM Identity Center group patterns that should be assigned to that role within the SageMaker Partner AI App.</p>"
+                "smithy.api#documentation": "<p>Defines the mapping between an in-app role and the Amazon Web Services IAM Identity Center group patterns that should be assigned to that role within the SageMaker Partner AI App.</p>"
             }
         },
         "com.amazonaws.sagemaker#RoleGroupAssignmentsList": {
@@ -65699,6 +66900,12 @@
                 },
                 {
                     "target": "com.amazonaws.sagemaker#BatchDescribeModelPackage"
+                },
+                {
+                    "target": "com.amazonaws.sagemaker#BatchRebootClusterNodes"
+                },
+                {
+                    "target": "com.amazonaws.sagemaker#BatchReplaceClusterNodes"
                 },
                 {
                     "target": "com.amazonaws.sagemaker#CreateAction"
@@ -67835,6 +69042,12 @@
                     "traits": {
                         "smithy.api#enumValue": "hyperpod-cluster"
                     }
+                },
+                "ENDPOINT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "endpoint"
+                    }
                 }
             }
         },
@@ -68460,7 +69673,7 @@
                     "target": "com.amazonaws.sagemaker#SageMakerResourceNames",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> </ul>",
+                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>",
                         "smithy.api#required": {}
                     }
                 }
@@ -74729,7 +75942,7 @@
                     "target": "com.amazonaws.sagemaker#SageMakerResourceNames",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) for this training plan offering.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> </ul>",
+                        "smithy.api#documentation": "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) for this training plan offering.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -74987,7 +76200,7 @@
                 "TargetResources": {
                     "target": "com.amazonaws.sagemaker#SageMakerResourceNames",
                     "traits": {
-                        "smithy.api#documentation": "<p>The target resources (e.g., training jobs, HyperPod clusters) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> </ul>"
+                        "smithy.api#documentation": "<p>The target resources (e.g., training jobs, HyperPod clusters, Endpoints) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>"
                     }
                 },
                 "ReservedCapacitySummaries": {

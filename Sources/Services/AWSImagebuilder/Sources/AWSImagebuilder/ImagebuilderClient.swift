@@ -539,6 +539,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
@@ -1166,6 +1167,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
@@ -1874,6 +1876,86 @@ extension ImagebuilderClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Imagebuilder")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWorkflow")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DistributeImage` operation on the `Imagebuilder` service.
+    ///
+    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DistributeImageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DistributeImageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permissions to perform the requested operation.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    /// - `TooManyRequestsException` : You have attempted too many requests for the specific operation.
+    public func distributeImage(input: DistributeImageInput) async throws -> DistributeImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "distributeImage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "imagebuilder")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DistributeImageInput, DistributeImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DistributeImageInput, DistributeImageOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DistributeImageInput, DistributeImageOutput>(DistributeImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DistributeImageInput, DistributeImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DistributeImageInput, DistributeImageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DistributeImageInput, DistributeImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DistributeImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DistributeImageInput, DistributeImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DistributeImageOutput>(DistributeImageOutput.httpOutput(from:), DistributeImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DistributeImageInput, DistributeImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DistributeImageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("imagebuilder", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DistributeImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DistributeImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DistributeImageInput, DistributeImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DistributeImageInput, DistributeImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DistributeImageInput, DistributeImageOutput>(serviceID: serviceName, version: ImagebuilderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Imagebuilder")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DistributeImage")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5236,6 +5318,82 @@ extension ImagebuilderClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Imagebuilder")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutImageRecipePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RetryImage` operation on the `Imagebuilder` service.
+    ///
+    /// RetryImage retries an image distribution without rebuilding the image.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RetryImageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RetryImageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    public func retryImage(input: RetryImageInput) async throws -> RetryImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "retryImage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "imagebuilder")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RetryImageInput, RetryImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RetryImageInput, RetryImageOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetryImageInput, RetryImageOutput>(RetryImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryImageInput, RetryImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryImageInput, RetryImageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RetryImageInput, RetryImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetryImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryImageInput, RetryImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryImageOutput>(RetryImageOutput.httpOutput(from:), RetryImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryImageInput, RetryImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RetryImageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("imagebuilder", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryImageInput, RetryImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetryImageInput, RetryImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RetryImageInput, RetryImageOutput>(serviceID: serviceName, version: ImagebuilderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Imagebuilder")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RetryImage")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

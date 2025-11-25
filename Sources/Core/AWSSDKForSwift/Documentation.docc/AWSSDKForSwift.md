@@ -1,5 +1,9 @@
 # ``AWSSDKForSwift``
 
+@Metadata {
+    @DisplayName("AWS SDK for Swift API Reference")
+}
+
 A pure-Swift SDK for accessing all published AWS services.
 
 ## Overview
@@ -268,6 +272,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSComprehendMedical](../../../../../swift/api/awscomprehendmedical/latest)
 
 [AWSComputeOptimizer](../../../../../swift/api/awscomputeoptimizer/latest)
+
+[AWSComputeOptimizerAutomation](../../../../../swift/api/awscomputeoptimizerautomation/latest)
 
 [AWSConfigService](../../../../../swift/api/awsconfigservice/latest)
 
@@ -649,6 +655,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
 
+[AWSPartnerCentralChannel](../../../../../swift/api/awspartnercentralchannel/latest)
+
 [AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
@@ -787,6 +795,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSageMakerRuntime](../../../../../swift/api/awssagemakerruntime/latest)
 
+[AWSSageMakerRuntimeHTTP2](../../../../../swift/api/awssagemakerruntimehttp2/latest)
+
 [AWSSagemakerEdge](../../../../../swift/api/awssagemakeredge/latest)
 
 [AWSSavingsplans](../../../../../swift/api/awssavingsplans/latest)
@@ -816,6 +826,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSShield](../../../../../swift/api/awsshield/latest)
 
 [AWSSigner](../../../../../swift/api/awssigner/latest)
+
+[AWSSignin](../../../../../swift/api/awssignin/latest)
 
 [AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
 
