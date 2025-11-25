@@ -2103,7 +2103,7 @@ private let serviceClientData: [ServiceClientData] = [
         .internalUse
     ),
     .init(
-        "InternalAWSSignIn",
+        "InternalAWSSignin",
         "signin.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI],
         .internalUse

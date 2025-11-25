@@ -117,7 +117,7 @@ struct GeneratePackageManifest {
             )
         }
 
-        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignIn"]
+        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"]
         let internalServices = internalServiceNames.map { name in
             let fileURL = URL(fileURLWithPath: "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Dependencies.json")
             let data = try! Data(contentsOf: fileURL)
