@@ -17,8 +17,9 @@ struct PerformanceMain {
         let sdkVersion = ProcessRunner.getSdkVersion()
 
         // Add more tests here
-        let performanceTests = [
-            AWSSTSGetCallerIdentity()
+        let performanceTests: [PerformanceTest] = [
+            AWSSTSGetCallerIdentity(),
+            AWSSTSGetCallerIdentityNIO()
         ]
 
         var results: [PerformanceTestResult] = []
