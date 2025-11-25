@@ -13,12 +13,15 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "aws-sdk-swift", path: ".."),
+        .package(name: "smithy-swift", path: "../../smithy-swift"),
     ],
     targets: [
         .executableTarget(
             name: "PerformanceTestRunner",
             dependencies: [
                 .product(name: "AWSSTS", package: "aws-sdk-swift"),
+                .product(name: "SmithySwiftNIO", package: "smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift")
             ]
         ),
     ]
