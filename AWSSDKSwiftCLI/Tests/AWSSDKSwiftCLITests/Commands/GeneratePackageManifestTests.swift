@@ -34,7 +34,7 @@ class GeneratePackageManifestTests: CLITestCase {
             createDependencyJSON(service: $0, path: path)
         }
 
-        let internalServices = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity"]
+        let internalServices = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"]
         internalServices.forEach {
             let path = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\($0)"
             try! FileManager.default.createDirectory(
@@ -79,7 +79,7 @@ class GeneratePackageManifestTests: CLITestCase {
         })
         try! subject.run()
         let result = try! String(contentsOfFile: "Package.swift", encoding: .utf8)
-        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3-InternalAWSSTS-InternalAWSSSO-InternalAWSSSOOIDC-InternalAWSCognitoIdentity")
+        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3-InternalAWSSTS-InternalAWSSSO-InternalAWSSSOOIDC-InternalAWSCognitoIdentity-InternalAWSSignin")
     }
     
     // MARK: resolveVersions()
