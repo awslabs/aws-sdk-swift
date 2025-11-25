@@ -5237,6 +5237,78 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateHostedZoneFeatures` operation on the `Route53` service.
+    ///
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostedZoneFeaturesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateHostedZoneFeaturesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    public func updateHostedZoneFeatures(input: UpdateHostedZoneFeaturesInput) async throws -> UpdateHostedZoneFeaturesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateHostedZoneFeatures")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHostedZoneFeaturesRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHostedZoneFeaturesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesOutput.httpOutput(from:), UpdateHostedZoneFeaturesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostedZoneFeaturesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHostedZoneFeaturesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHostedZoneFeatures")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateTrafficPolicyComment` operation on the `Route53` service.
     ///
     /// Updates the comment for a specified traffic policy version.

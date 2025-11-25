@@ -39,6 +39,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyHTTPClient](../../../../../swift/api/smithyhttpclient/latest)
 
+[SmithyHTTPClientAPI](../../../../../swift/api/smithyhttpclientapi/latest)
+
 [SmithyIdentity](../../../../../swift/api/smithyidentity/latest)
 
 [SmithyIdentityAPI](../../../../../swift/api/smithyidentityapi/latest)
@@ -52,6 +54,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [SmithyRetriesAPI](../../../../../swift/api/smithyretriesapi/latest)
 
 [SmithyStreams](../../../../../swift/api/smithystreams/latest)
+
+[SmithySwiftNIO](../../../../../swift/api/smithyswiftnio/latest)
+
+[SmithyTelemetryAPI](../../../../../swift/api/smithytelemetryapi/latest)
 
 [SmithyTestUtil](../../../../../swift/api/smithytestutil/latest)
 
