@@ -53,6 +53,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyRetriesAPI](../../../../../latest/api/smithyretriesapi/documentation/smithyretriesapi)
 
+[SmithySerialization](../../../../../latest/api/smithyserialization/documentation/smithyserialization)
+
 [SmithyStreams](../../../../../latest/api/smithystreams/documentation/smithystreams)
 
 [SmithySwiftNIO](../../../../../latest/api/smithyswiftnio/documentation/smithyswiftnio)

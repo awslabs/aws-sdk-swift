@@ -3464,13 +3464,15 @@ extension BedrockRuntimeClientTypes {
         case `default`
         case flex
         case priority
+        case reserved
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceTierType] {
             return [
                 .default,
                 .flex,
-                .priority
+                .priority,
+                .reserved
             ]
         }
 
@@ -3484,6 +3486,7 @@ extension BedrockRuntimeClientTypes {
             case .default: return "default"
             case .flex: return "flex"
             case .priority: return "priority"
+            case .reserved: return "reserved"
             case let .sdkUnknown(s): return s
             }
         }
