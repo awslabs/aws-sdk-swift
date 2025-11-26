@@ -1471,6 +1471,48 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The NAT Gateway configuration used for recommendations.
+    public struct NatGatewayConfiguration: Swift.Sendable {
+        /// The number of active connections through the NAT Gateway.
+        public var activeConnectionCount: Swift.Int?
+        /// The number of packets received from the destination through the NAT Gateway.
+        public var packetsInFromDestination: Swift.Int?
+        /// The number of packets received from the source through the NAT Gateway.
+        public var packetsInFromSource: Swift.Int?
+
+        public init(
+            activeConnectionCount: Swift.Int? = nil,
+            packetsInFromDestination: Swift.Int? = nil,
+            packetsInFromSource: Swift.Int? = nil
+        ) {
+            self.activeConnectionCount = activeConnectionCount
+            self.packetsInFromDestination = packetsInFromDestination
+            self.packetsInFromSource = packetsInFromSource
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The NAT Gateway recommendation details.
+    public struct NatGateway: Swift.Sendable {
+        /// The NAT Gateway configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.NatGatewayConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.NatGatewayConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// The OpenSearch reserved instances configuration used for recommendations.
     public struct OpenSearchReservedInstancesConfiguration: Swift.Sendable {
         /// The account scope for which you want recommendations.
@@ -1908,6 +1950,8 @@ extension CostOptimizationHubClientTypes {
         case dynamodbreservedcapacity(CostOptimizationHubClientTypes.DynamoDbReservedCapacity)
         /// The MemoryDB reserved instances recommendation details.
         case memorydbreservedinstances(CostOptimizationHubClientTypes.MemoryDbReservedInstances)
+        /// The NAT Gateway recommendation details.
+        case natgateway(CostOptimizationHubClientTypes.NatGateway)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1927,6 +1971,7 @@ extension CostOptimizationHubClientTypes {
         case elastiCacheReservedInstances
         case lambdaFunction
         case memoryDbReservedInstances
+        case natGateway
         case openSearchReservedInstances
         case rdsDbInstance
         case rdsDbInstanceStorage
@@ -1949,6 +1994,7 @@ extension CostOptimizationHubClientTypes {
                 .elastiCacheReservedInstances,
                 .lambdaFunction,
                 .memoryDbReservedInstances,
+                .natGateway,
                 .openSearchReservedInstances,
                 .rdsDbInstance,
                 .rdsDbInstanceStorage,
@@ -1977,6 +2023,7 @@ extension CostOptimizationHubClientTypes {
             case .elastiCacheReservedInstances: return "ElastiCacheReservedInstances"
             case .lambdaFunction: return "LambdaFunction"
             case .memoryDbReservedInstances: return "MemoryDbReservedInstances"
+            case .natGateway: return "NatGateway"
             case .openSearchReservedInstances: return "OpenSearchReservedInstances"
             case .rdsDbInstance: return "RdsDbInstance"
             case .rdsDbInstanceStorage: return "RdsDbInstanceStorage"
@@ -3329,9 +3376,84 @@ extension CostOptimizationHubClientTypes.ResourceDetails {
                 return .dynamodbreservedcapacity(try reader["dynamoDbReservedCapacity"].read(with: CostOptimizationHubClientTypes.DynamoDbReservedCapacity.read(from:)))
             case "memoryDbReservedInstances":
                 return .memorydbreservedinstances(try reader["memoryDbReservedInstances"].read(with: CostOptimizationHubClientTypes.MemoryDbReservedInstances.read(from:)))
+            case "natGateway":
+                return .natgateway(try reader["natGateway"].read(with: CostOptimizationHubClientTypes.NatGateway.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CostOptimizationHubClientTypes.NatGateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.NatGateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.NatGateway()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.NatGatewayConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourceCostCalculation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
+        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourcePricing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourcePricing()
+        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
+        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
+        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
+        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.EstimatedDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
+        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
+        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
+        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.Usage()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.usageAmount = try reader["usageAmount"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.productCode = try reader["productCode"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.NatGatewayConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.NatGatewayConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.NatGatewayConfiguration()
+        value.activeConnectionCount = try reader["activeConnectionCount"].readIfPresent()
+        value.packetsInFromSource = try reader["packetsInFromSource"].readIfPresent()
+        value.packetsInFromDestination = try reader["packetsInFromDestination"].readIfPresent()
+        return value
     }
 }
 
@@ -3427,56 +3549,6 @@ extension CostOptimizationHubClientTypes.AuroraDbClusterStorage {
         var value = CostOptimizationHubClientTypes.AuroraDbClusterStorage()
         value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration.read(from:))
         value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourceCostCalculation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
-        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourcePricing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourcePricing()
-        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
-        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
-        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
-        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.EstimatedDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
-        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
-        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
-        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.Usage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.Usage()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.usageAmount = try reader["usageAmount"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.productCode = try reader["productCode"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
         return value
     }
 }

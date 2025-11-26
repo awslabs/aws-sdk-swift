@@ -202,23 +202,23 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the configuration of an EC2 Auto Scaling group.
+    /// Describes the configuration of an EC2 Amazon EC2 Auto Scaling group.
     public struct AutoScalingGroupConfiguration: Swift.Sendable {
-        /// Describes the allocation strategy that the EC2 Auto Scaling group uses. This field is only available for EC2 Auto Scaling groups with mixed instance types.
+        /// Describes the allocation strategy that the EC2 Amazon EC2 Auto Scaling group uses. This field is only available for EC2 Amazon EC2 Auto Scaling groups with mixed instance types.
         public var allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy?
-        /// The desired capacity, or number of instances, for the EC2 Auto Scaling group.
+        /// The desired capacity, or number of instances, for the EC2 Amazon EC2 Auto Scaling group.
         public var desiredCapacity: Swift.Int
-        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Auto Scaling groups with scaling policies.
+        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Amazon EC2 Auto Scaling groups with scaling policies.
         public var estimatedInstanceHourReductionPercentage: Swift.Double?
-        /// The instance type for the EC2 Auto Scaling group.
+        /// The instance type for the EC2 Amazon EC2 Auto Scaling group.
         public var instanceType: Swift.String?
-        /// The maximum size, or maximum number of instances, for the EC2 Auto Scaling group.
+        /// The maximum size, or maximum number of instances, for the EC2 Amazon EC2 Auto Scaling group.
         public var maxSize: Swift.Int
-        /// The minimum size, or minimum number of instances, for the EC2 Auto Scaling group.
+        /// The minimum size, or minimum number of instances, for the EC2 Amazon EC2 Auto Scaling group.
         public var minSize: Swift.Int
-        /// List the instance types within an EC2 Auto Scaling group that has mixed instance types.
+        /// List the instance types within an EC2 Amazon EC2 Auto Scaling group that has mixed instance types.
         public var mixedInstanceTypes: [Swift.String]?
-        /// Describes whether the EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
+        /// Describes whether the EC2 Amazon EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
         public var type: ComputeOptimizerClientTypes.AsgType?
 
         public init(
@@ -274,7 +274,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
     public struct AutoScalingGroupEstimatedMonthlySavings: Swift.Sendable {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
@@ -771,7 +771,7 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for a resource.
     public struct EffectiveRecommendationPreferences: Swift.Sendable {
-        /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
+        /// Describes the CPU vendor and architecture for an instance or Amazon EC2 Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
@@ -1131,11 +1131,11 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the savings opportunity for Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    /// Describes the savings opportunity for Amazon EC2 Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
     public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Sendable {
-        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings?
-        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations.
         public var savingsOpportunityPercentage: Swift.Double
 
         public init(
@@ -1150,23 +1150,23 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes a recommendation option for an Auto Scaling group.
+    /// Describes a recommendation option for an Amazon EC2 Auto Scaling group.
     public struct AutoScalingGroupRecommendationOption: Swift.Sendable {
-        /// An array of objects that describe an Auto Scaling group configuration.
+        /// An array of objects that describe an Amazon EC2 Auto Scaling group configuration.
         public var configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
-        /// Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
+        /// Describes the GPU accelerator settings for the recommended instance type of the Amazon EC2 Auto Scaling group.
         public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
         public var migrationEffort: ComputeOptimizerClientTypes.MigrationEffort?
-        /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
+        /// The performance risk of the Amazon EC2 Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public var performanceRisk: Swift.Double
-        /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option. The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        /// An array of objects that describe the projected utilization metrics of the Amazon EC2 Auto Scaling group recommendation option. The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]?
-        /// The rank of the Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
+        /// The rank of the Amazon EC2 Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
         public var rank: Swift.Int
-        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        /// An object that describes the savings opportunity for the Amazon EC2 Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
-        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        /// An object that describes the savings opportunity for the Amazon EC2 Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
         public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
         public init(
@@ -1193,29 +1193,29 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes an Auto Scaling group recommendation.
+    /// Describes an Amazon EC2 Auto Scaling group recommendation.
     public struct AutoScalingGroupRecommendation: Swift.Sendable {
-        /// The Amazon Web Services account ID of the Auto Scaling group.
+        /// The Amazon Web Services account ID of the Amazon EC2 Auto Scaling group.
         public var accountId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Auto Scaling group.
+        /// The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling group.
         public var autoScalingGroupArn: Swift.String?
-        /// The name of the Auto Scaling group.
+        /// The name of the Amazon EC2 Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
-        /// An array of objects that describe the current configuration of the Auto Scaling group.
+        /// An array of objects that describe the current configuration of the Amazon EC2 Auto Scaling group.
         public var currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
-        /// Describes the GPU accelerator settings for the current instance type of the Auto Scaling group.
+        /// Describes the GPU accelerator settings for the current instance type of the Amazon EC2 Auto Scaling group.
         public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
-        /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
+        /// The risk of the current Amazon EC2 Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Amazon EC2 Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
-        /// An object that describes the effective recommendation preferences for the Auto Scaling group.
+        /// An object that describes the effective recommendation preferences for the Amazon EC2 Auto Scaling group.
         public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences?
-        /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:
+        /// The finding classification of the Amazon EC2 Auto Scaling group. Findings for Amazon EC2 Auto Scaling groups include:
         ///
-        /// * NotOptimized —An Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
+        /// * NotOptimized —An Amazon EC2 Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
         ///
-        /// * Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
+        /// * Optimized —An Amazon EC2 Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public var finding: ComputeOptimizerClientTypes.Finding?
-        /// The applications that might be running on the instances in the Auto Scaling group as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instances:
+        /// The applications that might be running on the instances in the Amazon EC2 Auto Scaling group as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instances:
         ///
         /// * AmazonEmr - Infers that Amazon EMR might be running on the instances.
         ///
@@ -1235,13 +1235,13 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * SQLServer - Infers that SQLServer might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
-        /// The timestamp of when the Auto Scaling group recommendation was last generated.
+        /// The timestamp of when the Amazon EC2 Auto Scaling group recommendation was last generated.
         public var lastRefreshTimestamp: Foundation.Date?
-        /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
+        /// The number of days for which utilization metrics were analyzed for the Amazon EC2 Auto Scaling group.
         public var lookBackPeriodInDays: Swift.Double
-        /// An array of objects that describe the recommendation options for the Auto Scaling group.
+        /// An array of objects that describe the recommendation options for the Amazon EC2 Auto Scaling group.
         public var recommendationOptions: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption]?
-        /// An array of objects that describe the utilization metrics of the Auto Scaling group.
+        /// An array of objects that describe the utilization metrics of the Amazon EC2 Auto Scaling group.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]?
 
         public init(
@@ -1566,7 +1566,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the scope of a recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
+    /// Describes the scope of a recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Amazon EC2 Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Amazon EC2 Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Amazon EC2 Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public struct Scope: Swift.Sendable {
         /// The name of the scope. The following scopes are possible:
         ///
@@ -1582,10 +1582,10 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * AccountId - The value must be a 12-digit Amazon Web Services account ID.
         ///
-        /// * ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group.
+        /// * ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Amazon EC2 Auto Scaling group.
         ///
         ///
-        /// Only EC2 instance and Auto Scaling group ARNs are currently supported.
+        /// Only EC2 instance and Amazon EC2 Auto Scaling group ARNs are currently supported.
         public var value: Swift.String?
 
         public init(
@@ -1602,7 +1602,7 @@ public struct DeleteRecommendationPreferencesInput: Swift.Sendable {
     /// The name of the recommendation preference to delete.
     /// This member is required.
     public var recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
-    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -2160,7 +2160,7 @@ extension ComputeOptimizerClientTypes {
         public var name: ComputeOptimizerClientTypes.FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:
         ///
-        /// * Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Auto Scaling groups.
+        /// * Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Amazon EC2 Auto Scaling groups.
         ///
         /// * Specify Underprovisioned, Overprovisioned, or Optimized if you specify the name parameter as Finding and you want to filter results for EC2 instances.
         ///
@@ -2215,7 +2215,7 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
     public struct RecommendationPreferences: Swift.Sendable {
-        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
+        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Amazon EC2 Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
@@ -2252,17 +2252,17 @@ extension ComputeOptimizerClientTypes {
 }
 
 public struct ExportAutoScalingGroupRecommendationsInput: Swift.Sendable {
-    /// The IDs of the Amazon Web Services accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+    /// The IDs of the Amazon Web Services accounts for which to export Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
     public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]?
     /// The format of the export file. The only export file format currently supported is Csv.
     public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    /// An array of objects to specify a filter that exports a more specific set of Auto Scaling group recommendations.
+    /// An array of objects to specify a filter that exports a more specific set of Amazon EC2 Auto Scaling group recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
     public var includeMemberAccounts: Swift.Bool?
-    /// An object to specify the preferences for the Auto Scaling group recommendations to export.
+    /// An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to export.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
     /// This member is required.
@@ -3029,6 +3029,7 @@ extension ComputeOptimizerClientTypes {
         case savingsOpportunity
         case savingsOpportunityAfterDiscount
         case tags
+        case utilizationMetricsActiveConnectionCountMaximum
         case utilizationMetricsCpuMaximum
         case utilizationMetricsDatabaseConnectionsMaximum
         case utilizationMetricsEbsVolumeReadIopsMaximum
@@ -3036,6 +3037,8 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
+        case utilizationMetricsPacketsInFromDestinationMaximum
+        case utilizationMetricsPacketsInFromSourceMaximum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
         case utilizationMetricsVolumeWriteOpsPerSecondMaximum
         case sdkUnknown(Swift.String)
@@ -3053,6 +3056,7 @@ extension ComputeOptimizerClientTypes {
                 .savingsOpportunity,
                 .savingsOpportunityAfterDiscount,
                 .tags,
+                .utilizationMetricsActiveConnectionCountMaximum,
                 .utilizationMetricsCpuMaximum,
                 .utilizationMetricsDatabaseConnectionsMaximum,
                 .utilizationMetricsEbsVolumeReadIopsMaximum,
@@ -3060,6 +3064,8 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
+                .utilizationMetricsPacketsInFromDestinationMaximum,
+                .utilizationMetricsPacketsInFromSourceMaximum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum
             ]
@@ -3083,6 +3089,7 @@ extension ComputeOptimizerClientTypes {
             case .savingsOpportunity: return "SavingsOpportunity"
             case .savingsOpportunityAfterDiscount: return "SavingsOpportunityAfterDiscount"
             case .tags: return "Tags"
+            case .utilizationMetricsActiveConnectionCountMaximum: return "UtilizationMetricsActiveConnectionCountMaximum"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
             case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
             case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
@@ -3090,6 +3097,8 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
+            case .utilizationMetricsPacketsInFromDestinationMaximum: return "UtilizationMetricsPacketsInFromDestinationMaximum"
+            case .utilizationMetricsPacketsInFromSourceMaximum: return "UtilizationMetricsPacketsInFromSourceMaximum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
             case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
             case let .sdkUnknown(s): return s
@@ -3974,17 +3983,17 @@ public struct ExportRDSDatabaseRecommendationsOutput: Swift.Sendable {
 }
 
 public struct GetAutoScalingGroupRecommendationsInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
+    /// The ID of the Amazon Web Services account for which to return Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Amazon EC2 Auto Scaling group recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
+    /// The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling groups for which to return recommendations.
     public var autoScalingGroupArns: [Swift.String]?
-    /// An array of objects to specify a filter that returns a more specific list of Auto Scaling group recommendations.
+    /// An array of objects to specify a filter that returns a more specific list of Amazon EC2 Auto Scaling group recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
-    /// The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    /// The maximum number of Amazon EC2 Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token to advance to the next page of Auto Scaling group recommendations.
+    /// The token to advance to the next page of Amazon EC2 Auto Scaling group recommendations.
     public var nextToken: Swift.String?
-    /// An object to specify the preferences for the Auto Scaling group recommendations to return in the response.
+    /// An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to return in the response.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
 
     public init(
@@ -4006,7 +4015,7 @@ public struct GetAutoScalingGroupRecommendationsInput: Swift.Sendable {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes an error experienced when getting recommendations. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group, or if you request recommendations for an instance of an unsupported instance family.
+    /// Describes an error experienced when getting recommendations. For example, an error is returned if you request recommendations for an unsupported Amazon EC2 Auto Scaling group, or if you request recommendations for an instance of an unsupported instance family.
     public struct GetRecommendationError: Swift.Sendable {
         /// The error code.
         public var code: Swift.String?
@@ -4028,11 +4037,11 @@ extension ComputeOptimizerClientTypes {
 }
 
 public struct GetAutoScalingGroupRecommendationsOutput: Swift.Sendable {
-    /// An array of objects that describe Auto Scaling group recommendations.
+    /// An array of objects that describe Amazon EC2 Auto Scaling group recommendations.
     public var autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
-    /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
+    /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Amazon EC2 Auto Scaling group.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
-    /// The token to use to advance to the next page of Auto Scaling group recommendations. This value is null when there are no more pages of Auto Scaling group recommendations to return.
+    /// The token to use to advance to the next page of Amazon EC2 Auto Scaling group recommendations. This value is null when there are no more pages of Amazon EC2 Auto Scaling group recommendations to return.
     public var nextToken: Swift.String?
 
     public init(
@@ -4849,6 +4858,7 @@ extension ComputeOptimizerClientTypes {
         case ecsService
         case lambdaFunction
         case license
+        case natGateway
         case rdsDbInstance
         case rdsDbInstanceStorage
         case sdkUnknown(Swift.String)
@@ -4862,6 +4872,7 @@ extension ComputeOptimizerClientTypes {
                 .ecsService,
                 .lambdaFunction,
                 .license,
+                .natGateway,
                 .rdsDbInstance,
                 .rdsDbInstanceStorage
             ]
@@ -4881,6 +4892,7 @@ extension ComputeOptimizerClientTypes {
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
+            case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RdsDBInstance"
             case .rdsDbInstanceStorage: return "RdsDBInstanceStorage"
             case let .sdkUnknown(s): return s
@@ -4891,7 +4903,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the source of a recommendation, such as an Amazon EC2 instance or Auto Scaling group.
+    /// Describes the source of a recommendation, such as an Amazon EC2 instance or Amazon EC2 Auto Scaling group.
     public struct RecommendationSource: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public var recommendationSourceArn: Swift.String?
@@ -5848,7 +5860,7 @@ public struct GetECSServiceRecommendationsOutput: Swift.Sendable {
 }
 
 public struct GetEffectiveRecommendationPreferencesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
+    /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Amazon EC2 Auto Scaling group ARNs are currently supported.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6112,6 +6124,7 @@ extension ComputeOptimizerClientTypes {
         case ebsVolume
         case ec2Instance
         case ecsService
+        case natGateway
         case rdsDbInstance
         case sdkUnknown(Swift.String)
 
@@ -6121,6 +6134,7 @@ extension ComputeOptimizerClientTypes {
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .natGateway,
                 .rdsDbInstance
             ]
         }
@@ -6136,6 +6150,7 @@ extension ComputeOptimizerClientTypes {
             case .ebsVolume: return "EBSVolume"
             case .ec2Instance: return "EC2Instance"
             case .ecsService: return "ECSService"
+            case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RDSDBInstance"
             case let .sdkUnknown(s): return s
             }
@@ -6175,12 +6190,14 @@ extension ComputeOptimizerClientTypes {
     public enum IdleFinding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case idle
         case unattached
+        case unused
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdleFinding] {
             return [
                 .idle,
-                .unattached
+                .unattached,
+                .unused
             ]
         }
 
@@ -6193,6 +6210,7 @@ extension ComputeOptimizerClientTypes {
             switch self {
             case .idle: return "Idle"
             case .unattached: return "Unattached"
+            case .unused: return "Unused"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6259,6 +6277,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum IdleMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeConnectionCount
         case cpu
         case databaseConnections
         case ebsVolumeReadIops
@@ -6266,12 +6285,15 @@ extension ComputeOptimizerClientTypes {
         case memory
         case networkInBytesPerSecond
         case networkOutBytesPerSecond
+        case packetsInFromDestination
+        case packetsInFromSource
         case volumeReadOpsPerSecond
         case volumeWriteOpsPerSecond
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdleMetricName] {
             return [
+                .activeConnectionCount,
                 .cpu,
                 .databaseConnections,
                 .ebsVolumeReadIops,
@@ -6279,6 +6301,8 @@ extension ComputeOptimizerClientTypes {
                 .memory,
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
+                .packetsInFromDestination,
+                .packetsInFromSource,
                 .volumeReadOpsPerSecond,
                 .volumeWriteOpsPerSecond
             ]
@@ -6291,6 +6315,7 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .activeConnectionCount: return "ActiveConnectionCount"
             case .cpu: return "CPU"
             case .databaseConnections: return "DatabaseConnections"
             case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
@@ -6298,6 +6323,8 @@ extension ComputeOptimizerClientTypes {
             case .memory: return "Memory"
             case .networkInBytesPerSecond: return "NetworkInBytesPerSecond"
             case .networkOutBytesPerSecond: return "NetworkOutBytesPerSecond"
+            case .packetsInFromDestination: return "PacketsInFromDestination"
+            case .packetsInFromSource: return "PacketsInFromSource"
             case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
             case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
             case let .sdkUnknown(s): return s
@@ -8187,7 +8214,7 @@ public struct GetRecommendationPreferencesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to advance to the next page of recommendation preferences.
     public var nextToken: Swift.String?
-    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -8249,7 +8276,7 @@ extension ComputeOptimizerClientTypes {
         public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// The preference to control which resource type values are considered when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. If the preference isn’t set, this object is null.
         public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
-        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
         /// Describes the savings estimation mode used for calculating savings opportunity. Only the account manager or delegated administrator of your organization can activate this preference.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
@@ -8536,7 +8563,7 @@ extension ComputeOptimizerClientTypes {
 
     /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. For more information, see [ Rightsizing recommendation preferences](https://docs.aws.amazon.com/compute-optimizer/latest/ug/rightsizing-preferences.html) in the Compute Optimizer User Guide.
     ///
-    /// * This preference is only available for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// * This preference is only available for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
     ///
     /// * Compute Optimizer only supports the customization of Ec2InstanceTypes.
     public struct PreferredResource: Swift.Sendable {
@@ -8566,20 +8593,20 @@ public struct PutRecommendationPreferencesInput: Swift.Sendable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
-    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
     ///
     /// * Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.
     ///
-    /// * Auto Scaling group lookback preferences can only be set at the resource level.
+    /// * Amazon EC2 Auto Scaling group lookback preferences can only be set at the resource level.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
-    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
-    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// The status of the savings estimation mode preference to create or update. Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html) in the Compute Optimizer User Guide.
     public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
-    /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
+    /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Amazon EC2 Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Amazon EC2 Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Amazon EC2 Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public var scope: ComputeOptimizerClientTypes.Scope?
     /// The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. When this preference isn't specified, we use the following default values. CPU utilization:
     ///
