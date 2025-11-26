@@ -523,7 +523,7 @@ extension ComputeOptimizerClient {
 
     /// Performs the `ExportAutoScalingGroupRecommendations` operation on the `ComputeOptimizer` service.
     ///
-    /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
+    /// Exports optimization recommendations for Amazon EC2 Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ExportAutoScalingGroupRecommendationsInput`)
     ///
@@ -1131,7 +1131,7 @@ extension ComputeOptimizerClient {
 
     /// Performs the `GetAutoScalingGroupRecommendations` operation on the `ComputeOptimizer` service.
     ///
-    /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
+    /// Returns Amazon EC2 Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAutoScalingGroupRecommendationsInput`)
     ///
@@ -2191,7 +2191,7 @@ extension ComputeOptimizerClient {
 
     /// Performs the `GetRecommendationPreferences` operation on the `ComputeOptimizer` service.
     ///
-    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRecommendationPreferencesInput`)
     ///
@@ -2271,7 +2271,7 @@ extension ComputeOptimizerClient {
     ///
     /// * Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.
     ///
-    /// * EC2Auto Scaling groups in an account that are NotOptimized, or Optimized.
+    /// * EC2Amazon EC2 Auto Scaling groups in an account that are NotOptimized, or Optimized.
     ///
     /// * Amazon EBS volumes in an account that are NotOptimized, or Optimized.
     ///
