@@ -14,6 +14,7 @@ public class ConfigFileReader {
     var currentSection: ConfigFileSection?
     var isCurrentSectionValid = false
     var sections: [String: ConfigFileSection] = [:]
+    var currentSubSection: String?
     var currentProperty: String?
     var currentSubProperty: String?
     
@@ -47,20 +48,25 @@ public class ConfigFileReader {
     
     private func parseSectionHeader(from line: String) -> (name: String, type: String)? {
         let regexPattern = "\\[\\s*(?:(default)|(profile)\\s+(.+?)|(sso-session)\\s+(.+?)|(services)\\s+(.+?))\\s*\\]"
+        let commentPattern = " *[#;]"
             
-            guard let range = line.range(of: regexPattern, options: .regularExpression) else {
+        guard line.range(of: regexPattern, options: .regularExpression) != nil else {
                 return nil
             }
             
-//        let lineString = String(line[range])
-        let content = String(line)
-            .dropFirst()
-            .dropLast()
-            .trimmingCharacters(in: .whitespaces)
+        var content = String(line).dropFirst().dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let commentRange = content.range(of:commentPattern, options: .regularExpression) {
+            content = String(content[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
+        }
+        
+        if content.hasSuffix("]"){
+            content = String(content.dropLast())
+        }
 
         if content == "default" {
-            return (name: "default", type: "default")
-        } else if let spaceIndex = content.firstIndex(of: " ") {
+            return (name: "default", type: "profile")
+        } else if let spaceIndex = content.firstIndex(where: \.isWhitespace) {
             let type = String(content[..<spaceIndex])
             let name = String(content[content.index(after: spaceIndex)...])
             return (name: name.trimmingCharacters(in: .whitespaces), type: type)
@@ -74,7 +80,7 @@ public class ConfigFileReader {
     private func handleNewSectionFound(name sectionName: String, lineNumber: Int) -> Bool {
         if sectionName != currentSection?.name {
             let section = ConfigFileSection(name: sectionName)
-            sections[sectionName] = section // Access properties via self
+            sections[sectionName] = section
             currentSection = section
             print("Found new section named: '\(sectionName)' on line number: '\(lineNumber)'")
             currentProperty = nil
@@ -134,17 +140,20 @@ public class ConfigFileReader {
                 }
                 continue
             case _ where line.contains("="):
-                if !isCurrentSectionValid {
-                        print("Skipping line because previous section was invalid")
-                        continue // Skip this line and move to the next iteration
-                    }
+//                if !isCurrentSectionValid {
+//                        print("Skipping line because previous section was invalid")
+//                        continue // Skip this line and move to the next iteration
+//                    }
                 do {
                 guard currentSection != nil else{
                     throw MyError("Expected a section definition")
                 }
+                if !isCurrentSectionValid {
+                    print("Skipping line because previous section was invalid")
+                    continue // Skip this line and move to the next iteration
+                }
                     //Identify properties under section
                     let sectionHeader = currentSection?.name
-                    var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 1{
                         let commentPattern = " +[#;]"
@@ -157,9 +166,13 @@ public class ConfigFileReader {
                                 propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
                             }
                             currentProperty = propertyName
-                            currentSection?.properties[propertyName] = ""
+                            currentSection?.properties[propertyName] = nil
                             sections[currentSection!.name] = currentSection
-                            print("Found new property key with no value: '\(currentProperty!)' on line number: '\(currentLineNumber)', added to section: '\(currentSection!.name)'")
+                            let subSectionName = String(propertyName)
+                            let subSection = ConfigFileSection(name: subSectionName)
+                            sections[subSectionName] = subSection
+                            currentSubSection = subSectionName
+                            print("Found new property key with no value: '\(subSectionName)' on line number: '\(currentLineNumber)', added to section: '\(currentSection!.name)' as a new subsection")
                         } else if line.hasPrefix(" ") || line.hasPrefix("\t") {
                             let subKey = key
                             propertyName = String(subKey.trimmingCharacters(in: .whitespaces))
@@ -169,8 +182,8 @@ public class ConfigFileReader {
                             }
                             currentSubProperty = propertyName //Start of a property
                             var subprops = currentSection?.subproperties ?? [String: [String: String]]()
-                            var subKeyValues = subprops[currentProperty!] ?? [String: String]()
-                            subKeyValues[propertyName] = "" // Add the blank value
+                            var subKeyValues = subprops[currentSubProperty!] ?? [String: String]()
+                            subKeyValues[propertyName] = nil // Add the blank value
                             subprops[currentProperty!] = subKeyValues
                             currentSection?.subproperties = subprops
                             sections[currentSection!.name] = currentSection
@@ -189,6 +202,7 @@ public class ConfigFileReader {
                                 value = String(value[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
                             }
                             // key-value pair aren't indented
+                            currentSubSection = nil // End of subsection if no indent
                             currentProperty = key
                             currentSection?.properties[key] = value
                             sections[currentSection!.name] = currentSection
@@ -197,17 +211,17 @@ public class ConfigFileReader {
                         } else{
                             // key-value pair are indented
                             guard let currentSectionName = currentSection?.name,
-                                  let currentPropertyName = currentProperty,
-                                  !currentPropertyName.isEmpty else {
+                                  let currentSubSectionName = currentSubSection,
+                                  !key.isEmpty else {
                                 throw MyError("Property did not have a name in sub-property")
                             }
-                            
-                            var subpropertyKeysAndValues = subproperties[currentPropertyName] ?? [String: String]()
+                            var subproperties = currentSection?.subproperties
+                            var subpropertyKeysAndValues = subproperties![currentSubSectionName] ?? [String: String]()
                             subpropertyKeysAndValues[key] = value
-                            subproperties[currentPropertyName] = subpropertyKeysAndValues
-                            currentSection?.subproperties = subproperties
+                            subproperties![currentSubSectionName] = subpropertyKeysAndValues
+                            currentSection?.subproperties = subproperties!
                             sections[currentSectionName] = currentSection
-                            print("  Added sub-property key and value '\(key)' = '\(value)' under property '\(currentProperty!)' in section: \(currentSection!.name)")
+                            print("  Added sub-property key and value '\(key)' = '\(value)' under subsection '\(currentSubSectionName)' in section: \(currentSection!.name)")
                             print("  The current section contains '\(currentSection!)'")
                         }
                     }
@@ -278,7 +292,6 @@ public class ConfigFileReader {
 
 @_spi(FileBasedConfig)
 public extension ConfigFileReader {
-
     static func makeAsync(configFilePath: String?, credentialsFilePath: String?) async throws -> FileBasedConfiguration? {
         try await ConfigFileReader(configFilePath, credentialsFilePath)?.config()
     }
@@ -327,7 +340,7 @@ extension String: @retroactive Error {
 }
 
 struct Subsection: FileBasedConfigurationSubsection {
-    let subproperties: [String: String]
+    var subproperties: [String: String]
 
     func value(for name: AWSSDKCommon.FileBasedConfigurationKey) -> String? {
         subproperties[name.rawValue]
