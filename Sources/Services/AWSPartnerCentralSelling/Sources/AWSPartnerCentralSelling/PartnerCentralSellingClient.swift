@@ -618,6 +618,7 @@ extension PartnerCentralSellingClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -680,6 +681,82 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateEngagementContext` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateEngagementContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func createEngagementContext(input: CreateEngagementContextInput) async throws -> CreateEngagementContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEngagementContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateEngagementContextInput, CreateEngagementContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(CreateEngagementContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEngagementContextOutput>(CreateEngagementContextOutput.httpOutput(from:), CreateEngagementContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateEngagementContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateEngagementContext"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEngagementContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEngagementContext")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEngagementInvitation` operation on the `PartnerCentralSelling` service.
     ///
     /// This action creates an invitation from a sender to a single receiver to join an engagement.
@@ -693,6 +770,7 @@ extension PartnerCentralSellingClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -852,6 +930,7 @@ extension PartnerCentralSellingClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -927,6 +1006,7 @@ extension PartnerCentralSellingClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -1002,6 +1082,7 @@ extension PartnerCentralSellingClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1220,6 +1301,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1438,6 +1520,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1510,6 +1593,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1582,6 +1666,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1654,6 +1739,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1726,6 +1812,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1871,6 +1958,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1943,6 +2031,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2015,6 +2104,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2154,6 +2244,79 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListOpportunityFromEngagementTasks` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOpportunityFromEngagementTasksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOpportunityFromEngagementTasksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listOpportunityFromEngagementTasks(input: ListOpportunityFromEngagementTasksInput) async throws -> ListOpportunityFromEngagementTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOpportunityFromEngagementTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(ListOpportunityFromEngagementTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpportunityFromEngagementTasksOutput>(ListOpportunityFromEngagementTasksOutput.httpOutput(from:), ListOpportunityFromEngagementTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOpportunityFromEngagementTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunityFromEngagementTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListOpportunityFromEngagementTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOpportunityFromEngagementTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOpportunityFromEngagementTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListResourceSnapshotJobs` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
@@ -2166,6 +2329,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2248,6 +2412,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2322,6 +2487,7 @@ extension PartnerCentralSellingClient {
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
     public func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -2465,6 +2631,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2751,6 +2918,82 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartOpportunityFromEngagementTask` operation on the `PartnerCentralSelling` service.
+    ///
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartOpportunityFromEngagementTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartOpportunityFromEngagementTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func startOpportunityFromEngagementTask(input: StartOpportunityFromEngagementTaskInput) async throws -> StartOpportunityFromEngagementTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startOpportunityFromEngagementTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(StartOpportunityFromEngagementTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOpportunityFromEngagementTaskOutput>(StartOpportunityFromEngagementTaskOutput.httpOutput(from:), StartOpportunityFromEngagementTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartOpportunityFromEngagementTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartOpportunityFromEngagementTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartOpportunityFromEngagementTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartOpportunityFromEngagementTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartOpportunityFromEngagementTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Starts a resource snapshot job that has been previously created.
@@ -2763,6 +3006,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2835,6 +3079,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -3104,6 +3349,81 @@ extension PartnerCentralSellingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateEngagementContext` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Updates the context information for an existing engagement with new or modified data.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateEngagementContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateEngagementContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func updateEngagementContext(input: UpdateEngagementContextInput) async throws -> UpdateEngagementContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEngagementContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateEngagementContextInput, UpdateEngagementContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(UpdateEngagementContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEngagementContextOutput>(UpdateEngagementContextOutput.httpOutput(from:), UpdateEngagementContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEngagementContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.UpdateEngagementContext"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEngagementContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEngagementContext")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

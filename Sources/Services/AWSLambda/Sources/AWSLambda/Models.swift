@@ -60,11 +60,6 @@ public struct DeleteFunctionEventInvokeConfigOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteFunctionOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct DeleteFunctionUrlConfigOutput: Swift.Sendable {
 
     public init() { }
@@ -494,7 +489,7 @@ public struct AddPermissionInput: Swift.Sendable {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// Restricts the lambda:InvokeFunction action to function URL calls. When specified, this option prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// Indicates whether the permission applies when the function is invoked through a function URL.
     public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
@@ -867,6 +862,544 @@ extension LambdaClientTypes {
     }
 }
 
+/// The maximum number of capacity providers for your account has been exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html)
+public struct CapacityProviderLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CapacityProviderLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum CapacityProviderScalingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderScalingMode] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "Auto"
+            case .manual: return "Manual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum CapacityProviderPredefinedMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lambdacapacityprovideraveragecpuutilization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderPredefinedMetricType] {
+            return [
+                .lambdacapacityprovideraveragecpuutilization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lambdacapacityprovideraveragecpuutilization: return "LambdaCapacityProviderAverageCPUUtilization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// A scaling policy for the capacity provider that automatically adjusts capacity to maintain a target value for a specific metric.
+    public struct TargetTrackingScalingPolicy: Swift.Sendable {
+        /// The predefined metric type to track for scaling decisions.
+        /// This member is required.
+        public var predefinedMetricType: LambdaClientTypes.CapacityProviderPredefinedMetricType?
+        /// The target value for the metric that the scaling policy attempts to maintain through scaling actions.
+        /// This member is required.
+        public var targetValue: Swift.Double?
+
+        public init(
+            predefinedMetricType: LambdaClientTypes.CapacityProviderPredefinedMetricType? = nil,
+            targetValue: Swift.Double? = nil
+        ) {
+            self.predefinedMetricType = predefinedMetricType
+            self.targetValue = targetValue
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration that defines how the capacity provider scales compute instances based on demand and policies.
+    public struct CapacityProviderScalingConfig: Swift.Sendable {
+        /// The maximum number of vCPUs that the capacity provider can provision across all compute instances.
+        public var maxVCpuCount: Swift.Int?
+        /// The scaling mode that determines how the capacity provider responds to changes in demand.
+        public var scalingMode: LambdaClientTypes.CapacityProviderScalingMode?
+        /// A list of scaling policies that define how the capacity provider scales compute instances based on metrics and thresholds.
+        public var scalingPolicies: [LambdaClientTypes.TargetTrackingScalingPolicy]?
+
+        public init(
+            maxVCpuCount: Swift.Int? = nil,
+            scalingMode: LambdaClientTypes.CapacityProviderScalingMode? = nil,
+            scalingPolicies: [LambdaClientTypes.TargetTrackingScalingPolicy]? = nil
+        ) {
+            self.maxVCpuCount = maxVCpuCount
+            self.scalingMode = scalingMode
+            self.scalingPolicies = scalingPolicies
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specifications that define the characteristics and constraints for compute instances used by the capacity provider.
+    public struct InstanceRequirements: Swift.Sendable {
+        /// A list of EC2 instance types that the capacity provider is allowed to use. If not specified, all compatible instance types are allowed.
+        public var allowedInstanceTypes: [Swift.String]?
+        /// A list of supported CPU architectures for compute instances. Valid values include x86_64 and arm64.
+        public var architectures: [LambdaClientTypes.Architecture]?
+        /// A list of EC2 instance types that the capacity provider should not use, even if they meet other requirements.
+        public var excludedInstanceTypes: [Swift.String]?
+
+        public init(
+            allowedInstanceTypes: [Swift.String]? = nil,
+            architectures: [LambdaClientTypes.Architecture]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil
+        ) {
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.architectures = architectures
+            self.excludedInstanceTypes = excludedInstanceTypes
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration that specifies the permissions required for the capacity provider to manage compute resources.
+    public struct CapacityProviderPermissionsConfig: Swift.Sendable {
+        /// The ARN of the IAM role that the capacity provider uses to manage compute instances and other Amazon Web Services resources.
+        /// This member is required.
+        public var capacityProviderOperatorRoleArn: Swift.String?
+
+        public init(
+            capacityProviderOperatorRoleArn: Swift.String? = nil
+        ) {
+            self.capacityProviderOperatorRoleArn = capacityProviderOperatorRoleArn
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// VPC configuration that specifies the network settings for compute instances managed by the capacity provider.
+    public struct CapacityProviderVpcConfig: Swift.Sendable {
+        /// A list of security group IDs that control network access for compute instances managed by the capacity provider.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// A list of subnet IDs where the capacity provider launches compute instances.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+public struct CreateCapacityProviderInput: Swift.Sendable {
+    /// The name of the capacity provider.
+    /// This member is required.
+    public var capacityProviderName: Swift.String?
+    /// The scaling configuration that defines how the capacity provider scales compute instances, including maximum vCPU count and scaling policies.
+    public var capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig?
+    /// The instance requirements that specify the compute instance characteristics, including architectures and allowed or excluded instance types.
+    public var instanceRequirements: LambdaClientTypes.InstanceRequirements?
+    /// The ARN of the KMS key used to encrypt data associated with the capacity provider.
+    public var kmsKeyArn: Swift.String?
+    /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources.
+    /// This member is required.
+    public var permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig?
+    /// A list of tags to associate with the capacity provider.
+    public var tags: [Swift.String: Swift.String]?
+    /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
+    /// This member is required.
+    public var vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig?
+
+    public init(
+        capacityProviderName: Swift.String? = nil,
+        capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil,
+        instanceRequirements: LambdaClientTypes.InstanceRequirements? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
+    ) {
+        self.capacityProviderName = capacityProviderName
+        self.capacityProviderScalingConfig = capacityProviderScalingConfig
+        self.instanceRequirements = instanceRequirements
+        self.kmsKeyArn = kmsKeyArn
+        self.permissionsConfig = permissionsConfig
+        self.tags = tags
+        self.vpcConfig = vpcConfig
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum CapacityProviderState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleting
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderState] {
+            return [
+                .active,
+                .deleting,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// A capacity provider manages compute resources for Lambda functions.
+    public struct CapacityProvider: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        /// This member is required.
+        public var capacityProviderArn: Swift.String?
+        /// The scaling configuration for the capacity provider.
+        public var capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig?
+        /// The instance requirements for compute resources managed by the capacity provider.
+        public var instanceRequirements: LambdaClientTypes.InstanceRequirements?
+        /// The ARN of the KMS key used to encrypt the capacity provider's resources.
+        public var kmsKeyArn: Swift.String?
+        /// The date and time when the capacity provider was last modified.
+        public var lastModified: Swift.String?
+        /// The permissions configuration for the capacity provider.
+        /// This member is required.
+        public var permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig?
+        /// The current state of the capacity provider.
+        /// This member is required.
+        public var state: LambdaClientTypes.CapacityProviderState?
+        /// The VPC configuration for the capacity provider.
+        /// This member is required.
+        public var vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig?
+
+        public init(
+            capacityProviderArn: Swift.String? = nil,
+            capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil,
+            instanceRequirements: LambdaClientTypes.InstanceRequirements? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            lastModified: Swift.String? = nil,
+            permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
+            state: LambdaClientTypes.CapacityProviderState? = nil,
+            vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
+        ) {
+            self.capacityProviderArn = capacityProviderArn
+            self.capacityProviderScalingConfig = capacityProviderScalingConfig
+            self.instanceRequirements = instanceRequirements
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModified = lastModified
+            self.permissionsConfig = permissionsConfig
+            self.state = state
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+public struct CreateCapacityProviderOutput: Swift.Sendable {
+    /// Information about the capacity provider that was created.
+    /// This member is required.
+    public var capacityProvider: LambdaClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: LambdaClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
+public struct DeleteCapacityProviderInput: Swift.Sendable {
+    /// The name of the capacity provider to delete.
+    /// This member is required.
+    public var capacityProviderName: Swift.String?
+
+    public init(
+        capacityProviderName: Swift.String? = nil
+    ) {
+        self.capacityProviderName = capacityProviderName
+    }
+}
+
+public struct DeleteCapacityProviderOutput: Swift.Sendable {
+    /// Information about the deleted capacity provider.
+    /// This member is required.
+    public var capacityProvider: LambdaClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: LambdaClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
+public struct GetCapacityProviderInput: Swift.Sendable {
+    /// The name of the capacity provider to retrieve.
+    /// This member is required.
+    public var capacityProviderName: Swift.String?
+
+    public init(
+        capacityProviderName: Swift.String? = nil
+    ) {
+        self.capacityProviderName = capacityProviderName
+    }
+}
+
+public struct GetCapacityProviderOutput: Swift.Sendable {
+    /// Information about the capacity provider, including its configuration and current state.
+    /// This member is required.
+    public var capacityProvider: LambdaClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: LambdaClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
+public struct ListCapacityProvidersInput: Swift.Sendable {
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// The maximum number of capacity providers to return.
+    public var maxItems: Swift.Int?
+    /// Filter capacity providers by their current state.
+    public var state: LambdaClientTypes.CapacityProviderState?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        state: LambdaClientTypes.CapacityProviderState? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.state = state
+    }
+}
+
+public struct ListCapacityProvidersOutput: Swift.Sendable {
+    /// A list of capacity providers in your account.
+    /// This member is required.
+    public var capacityProviders: [LambdaClientTypes.CapacityProvider]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        capacityProviders: [LambdaClientTypes.CapacityProvider]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.capacityProviders = capacityProviders
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct ListFunctionVersionsByCapacityProviderInput: Swift.Sendable {
+    /// The name of the capacity provider to list function versions for.
+    /// This member is required.
+    public var capacityProviderName: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// The maximum number of function versions to return in the response.
+    public var maxItems: Swift.Int?
+
+    public init(
+        capacityProviderName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.capacityProviderName = capacityProviderName
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case activenoninvocable
+        case deactivated
+        case deactivating
+        case deleting
+        case failed
+        case inactive
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .active,
+                .activenoninvocable,
+                .deactivated,
+                .deactivating,
+                .deleting,
+                .failed,
+                .inactive,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .activenoninvocable: return "ActiveNonInvocable"
+            case .deactivated: return "Deactivated"
+            case .deactivating: return "Deactivating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inactive: return "Inactive"
+            case .pending: return "Pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about a function version that uses a specific capacity provider, including its ARN and current state.
+    public struct FunctionVersionsByCapacityProviderListItem: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the function version.
+        /// This member is required.
+        public var functionArn: Swift.String?
+        /// The current state of the function version.
+        /// This member is required.
+        public var state: LambdaClientTypes.State?
+
+        public init(
+            functionArn: Swift.String? = nil,
+            state: LambdaClientTypes.State? = nil
+        ) {
+            self.functionArn = functionArn
+            self.state = state
+        }
+    }
+}
+
+public struct ListFunctionVersionsByCapacityProviderOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the capacity provider.
+    /// This member is required.
+    public var capacityProviderArn: Swift.String?
+    /// A list of function versions that use the specified capacity provider.
+    /// This member is required.
+    public var functionVersions: [LambdaClientTypes.FunctionVersionsByCapacityProviderListItem]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        capacityProviderArn: Swift.String? = nil,
+        functionVersions: [LambdaClientTypes.FunctionVersionsByCapacityProviderListItem]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.capacityProviderArn = capacityProviderArn
+        self.functionVersions = functionVersions
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct UpdateCapacityProviderInput: Swift.Sendable {
+    /// The name of the capacity provider to update.
+    /// This member is required.
+    public var capacityProviderName: Swift.String?
+    /// The updated scaling configuration for the capacity provider.
+    public var capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig?
+
+    public init(
+        capacityProviderName: Swift.String? = nil,
+        capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil
+    ) {
+        self.capacityProviderName = capacityProviderName
+        self.capacityProviderScalingConfig = capacityProviderScalingConfig
+    }
+}
+
+public struct UpdateCapacityProviderOutput: Swift.Sendable {
+    /// Information about the updated capacity provider.
+    /// This member is required.
+    public var capacityProvider: LambdaClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: LambdaClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
 extension LambdaClientTypes {
 
     public enum CodeSigningPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1129,6 +1662,67 @@ public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteFunctionInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function or version. Name formats
+    ///
+    /// * Function name – my-function (name-only), my-function:1 (with version).
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version to delete. You can't delete a version that an alias references.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+public struct DeleteFunctionOutput: Swift.Sendable {
+    /// The HTTP status code returned by the operation.
+    public var statusCode: Swift.Int
+
+    public init(
+        statusCode: Swift.Int = 0
+    ) {
+        self.statusCode = statusCode
+    }
+}
+
+public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name - my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// A version number or alias name.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
 extension LambdaClientTypes {
 
     /// A destination for events that failed processing. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
@@ -1335,7 +1929,7 @@ extension LambdaClientTypes {
         public var maximumPollers: Swift.Int?
         /// The minimum number of event pollers this event source can scale down to. For Amazon SQS events source mappings, default is 2, and minimum 2 required. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 1.
         public var minimumPollers: Swift.Int?
-        /// (Amazon MSK and self-managed Apache Kafka) The name of the provisioned poller group. Use this option to group multiple ESMs within the VPC to share Event Poller Unit (EPU) capacity. This option is used to optimize Provisioned mode costs for your ESMs. You can group up to 100 ESMs per poller group and aggregate maximum pollers across all ESMs in a group cannot exceed 2000.
+        /// (Amazon MSK and self-managed Apache Kafka) The name of the provisioned poller group. Use this option to group multiple ESMs within the event source's VPC to share Event Poller Unit (EPU) capacity. You can use this option to optimize Provisioned mode costs for your ESMs. You can group up to 100 ESMs per poller group and aggregate maximum pollers across all ESMs in a group cannot exceed 2000.
         public var pollerGroupName: Swift.String?
 
         public init(
@@ -2703,6 +3297,33 @@ public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+/// The maximum number of function versions that can be associated with a single capacity provider has been exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+public struct FunctionVersionsPerCapacityProviderLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FunctionVersionsPerCapacityProviderLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
 public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2726,6 +3347,46 @@ public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClie
     ) {
         self.properties.message = message
         self.properties.type = type
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration for Lambda-managed instances used by the capacity provider.
+    public struct LambdaManagedInstancesCapacityProviderConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        /// This member is required.
+        public var capacityProviderArn: Swift.String?
+        /// The amount of memory in GiB allocated per vCPU for execution environments.
+        public var executionEnvironmentMemoryGiBPerVCpu: Swift.Double?
+        /// The maximum number of concurrent execution environments that can run on each compute instance.
+        public var perExecutionEnvironmentMaxConcurrency: Swift.Int?
+
+        public init(
+            capacityProviderArn: Swift.String? = nil,
+            executionEnvironmentMemoryGiBPerVCpu: Swift.Double? = nil,
+            perExecutionEnvironmentMaxConcurrency: Swift.Int? = nil
+        ) {
+            self.capacityProviderArn = capacityProviderArn
+            self.executionEnvironmentMemoryGiBPerVCpu = executionEnvironmentMemoryGiBPerVCpu
+            self.perExecutionEnvironmentMaxConcurrency = perExecutionEnvironmentMaxConcurrency
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public struct CapacityProviderConfig: Swift.Sendable {
+        /// Configuration for Lambda-managed instances used by the capacity provider.
+        /// This member is required.
+        public var lambdaManagedInstancesCapacityProviderConfig: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig?
+
+        public init(
+            lambdaManagedInstancesCapacityProviderConfig: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig? = nil
+        ) {
+            self.lambdaManagedInstancesCapacityProviderConfig = lambdaManagedInstancesCapacityProviderConfig
+        }
     }
 }
 
@@ -2975,6 +3636,32 @@ extension LambdaClientTypes {
             switch self {
             case .image: return "Image"
             case .zip: return "Zip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum FunctionVersionLatestPublished: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case latestPublished
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionVersionLatestPublished] {
+            return [
+                .latestPublished
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .latestPublished: return "LATEST_PUBLISHED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3292,6 +3979,8 @@ extension LambdaClientTypes {
 public struct CreateFunctionInput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The code for the function.
     /// This member is required.
     public var code: LambdaClientTypes.FunctionCode?
@@ -3346,6 +4035,8 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var packageType: LambdaClientTypes.PackageType?
     /// Set to true to publish the first version of the function during creation.
     public var publish: Swift.Bool?
+    /// Specifies where to publish the function version or configuration.
+    public var publishTo: LambdaClientTypes.FunctionVersionLatestPublished?
     /// The Amazon Resource Name (ARN) of the function's execution role.
     /// This member is required.
     public var role: Swift.String?
@@ -3366,6 +4057,7 @@ public struct CreateFunctionInput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         code: LambdaClientTypes.FunctionCode? = nil,
         codeSigningConfigArn: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
@@ -3382,6 +4074,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
         publish: Swift.Bool? = false,
+        publishTo: LambdaClientTypes.FunctionVersionLatestPublished? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
@@ -3392,6 +4085,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.code = code
         self.codeSigningConfigArn = codeSigningConfigArn
         self.deadLetterConfig = deadLetterConfig
@@ -3408,6 +4102,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         self.memorySize = memorySize
         self.packageType = packageType
         self.publish = publish
+        self.publishTo = publishTo
         self.role = role
         self.runtime = runtime
         self.snapStart = snapStart
@@ -3545,15 +4240,26 @@ extension LambdaClientTypes {
 extension LambdaClientTypes {
 
     public enum LastUpdateStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityproviderscalinglimitexceeded
         case disabledkmskey
+        case ec2requestlimitexceeded
         case efsioerror
         case efsmountconnectivityerror
         case efsmountfailure
         case efsmounttimeout
         case enilimitexceeded
         case functionerror
+        case functionerrorextensioniniterror
+        case functionerrorinitresourceexhausted
+        case functionerrorinittimeout
+        case functionerrorinvalidentrypoint
+        case functionerrorinvalidworkingdirectory
+        case functionerrorpermissiondenied
+        case functionerrorruntimeiniterror
+        case functionerrortoomanyextensions
         case imageaccessdenied
         case imagedeleted
+        case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
         case invalidconfiguration
@@ -3566,19 +4272,31 @@ extension LambdaClientTypes {
         case kmskeyaccessdenied
         case kmskeynotfound
         case subnetoutofipaddresses
+        case vcpulimitexceeded
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LastUpdateStatusReasonCode] {
             return [
+                .capacityproviderscalinglimitexceeded,
                 .disabledkmskey,
+                .ec2requestlimitexceeded,
                 .efsioerror,
                 .efsmountconnectivityerror,
                 .efsmountfailure,
                 .efsmounttimeout,
                 .enilimitexceeded,
                 .functionerror,
+                .functionerrorextensioniniterror,
+                .functionerrorinitresourceexhausted,
+                .functionerrorinittimeout,
+                .functionerrorinvalidentrypoint,
+                .functionerrorinvalidworkingdirectory,
+                .functionerrorpermissiondenied,
+                .functionerrorruntimeiniterror,
+                .functionerrortoomanyextensions,
                 .imageaccessdenied,
                 .imagedeleted,
+                .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
                 .invalidconfiguration,
@@ -3590,7 +4308,8 @@ extension LambdaClientTypes {
                 .invalidzipfileexception,
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
-                .subnetoutofipaddresses
+                .subnetoutofipaddresses,
+                .vcpulimitexceeded
             ]
         }
 
@@ -3601,15 +4320,26 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .disabledkmskey: return "DisabledKMSKey"
+            case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
             case .efsioerror: return "EFSIOError"
             case .efsmountconnectivityerror: return "EFSMountConnectivityError"
             case .efsmountfailure: return "EFSMountFailure"
             case .efsmounttimeout: return "EFSMountTimeout"
             case .enilimitexceeded: return "EniLimitExceeded"
             case .functionerror: return "FunctionError"
+            case .functionerrorextensioniniterror: return "FunctionError.ExtensionInitError"
+            case .functionerrorinitresourceexhausted: return "FunctionError.InitResourceExhausted"
+            case .functionerrorinittimeout: return "FunctionError.InitTimeout"
+            case .functionerrorinvalidentrypoint: return "FunctionError.InvalidEntryPoint"
+            case .functionerrorinvalidworkingdirectory: return "FunctionError.InvalidWorkingDirectory"
+            case .functionerrorpermissiondenied: return "FunctionError.PermissionDenied"
+            case .functionerrorruntimeiniterror: return "FunctionError.RuntimeInitError"
+            case .functionerrortoomanyextensions: return "FunctionError.TooManyExtensions"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
             case .invalidconfiguration: return "InvalidConfiguration"
@@ -3622,6 +4352,7 @@ extension LambdaClientTypes {
             case .kmskeyaccessdenied: return "KMSKeyAccessDenied"
             case .kmskeynotfound: return "KMSKeyNotFound"
             case .subnetoutofipaddresses: return "SubnetOutOfIPAddresses"
+            case .vcpulimitexceeded: return "VcpuLimitExceeded"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3748,53 +4479,29 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case failed
-        case inactive
-        case pending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [State] {
-            return [
-                .active,
-                .failed,
-                .inactive,
-                .pending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "Active"
-            case .failed: return "Failed"
-            case .inactive: return "Inactive"
-            case .pending: return "Pending"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
     public enum StateReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityproviderscalinglimitexceeded
         case creating
         case disabledkmskey
+        case ec2requestlimitexceeded
         case efsioerror
         case efsmountconnectivityerror
         case efsmountfailure
         case efsmounttimeout
         case enilimitexceeded
         case functionerror
+        case functionerrorextensioniniterror
+        case functionerrorinitresourceexhausted
+        case functionerrorinittimeout
+        case functionerrorinvalidentrypoint
+        case functionerrorinvalidworkingdirectory
+        case functionerrorpermissiondenied
+        case functionerrorruntimeiniterror
+        case functionerrortoomanyextensions
         case idle
         case imageaccessdenied
         case imagedeleted
+        case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
         case invalidconfiguration
@@ -3808,21 +4515,33 @@ extension LambdaClientTypes {
         case kmskeynotfound
         case restoring
         case subnetoutofipaddresses
+        case vcpulimitexceeded
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StateReasonCode] {
             return [
+                .capacityproviderscalinglimitexceeded,
                 .creating,
                 .disabledkmskey,
+                .ec2requestlimitexceeded,
                 .efsioerror,
                 .efsmountconnectivityerror,
                 .efsmountfailure,
                 .efsmounttimeout,
                 .enilimitexceeded,
                 .functionerror,
+                .functionerrorextensioniniterror,
+                .functionerrorinitresourceexhausted,
+                .functionerrorinittimeout,
+                .functionerrorinvalidentrypoint,
+                .functionerrorinvalidworkingdirectory,
+                .functionerrorpermissiondenied,
+                .functionerrorruntimeiniterror,
+                .functionerrortoomanyextensions,
                 .idle,
                 .imageaccessdenied,
                 .imagedeleted,
+                .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
                 .invalidconfiguration,
@@ -3835,7 +4554,8 @@ extension LambdaClientTypes {
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
                 .restoring,
-                .subnetoutofipaddresses
+                .subnetoutofipaddresses,
+                .vcpulimitexceeded
             ]
         }
 
@@ -3846,17 +4566,28 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .creating: return "Creating"
             case .disabledkmskey: return "DisabledKMSKey"
+            case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
             case .efsioerror: return "EFSIOError"
             case .efsmountconnectivityerror: return "EFSMountConnectivityError"
             case .efsmountfailure: return "EFSMountFailure"
             case .efsmounttimeout: return "EFSMountTimeout"
             case .enilimitexceeded: return "EniLimitExceeded"
             case .functionerror: return "FunctionError"
+            case .functionerrorextensioniniterror: return "FunctionError.ExtensionInitError"
+            case .functionerrorinitresourceexhausted: return "FunctionError.InitResourceExhausted"
+            case .functionerrorinittimeout: return "FunctionError.InitTimeout"
+            case .functionerrorinvalidentrypoint: return "FunctionError.InvalidEntryPoint"
+            case .functionerrorinvalidworkingdirectory: return "FunctionError.InvalidWorkingDirectory"
+            case .functionerrorpermissiondenied: return "FunctionError.PermissionDenied"
+            case .functionerrorruntimeiniterror: return "FunctionError.RuntimeInitError"
+            case .functionerrortoomanyextensions: return "FunctionError.TooManyExtensions"
             case .idle: return "Idle"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
             case .invalidconfiguration: return "InvalidConfiguration"
@@ -3870,6 +4601,7 @@ extension LambdaClientTypes {
             case .kmskeynotfound: return "KMSKeyNotFound"
             case .restoring: return "Restoring"
             case .subnetoutofipaddresses: return "SubnetOutOfIPAddresses"
+            case .vcpulimitexceeded: return "VcpuLimitExceeded"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3922,10 +4654,14 @@ extension LambdaClientTypes {
 public struct CreateFunctionOutput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The SHA256 hash of the function's deployment package.
     public var codeSha256: Swift.String?
     /// The size of the function's deployment package, in bytes.
     public var codeSize: Swift.Int
+    /// The SHA256 hash of the function configuration.
+    public var configSha256: Swift.String?
     /// The function's dead letter queue.
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
@@ -4008,8 +4744,10 @@ public struct CreateFunctionOutput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
         codeSize: Swift.Int = 0,
+        configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -4046,8 +4784,10 @@ public struct CreateFunctionOutput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
+        self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -4230,31 +4970,6 @@ public struct CreateFunctionUrlConfigOutput: Swift.Sendable {
     }
 }
 
-public struct DeleteFunctionInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function or version. Name formats
-    ///
-    /// * Function name – my-function (name-only), my-function:1 (with version).
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify a version to delete. You can't delete a version that an alias references.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-    }
-}
-
 public struct DeleteFunctionCodeSigningConfigInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -4294,31 +5009,6 @@ public struct DeleteFunctionConcurrencyInput: Swift.Sendable {
         functionName: Swift.String? = nil
     ) {
         self.functionName = functionName
-    }
-}
-
-public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name - my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// A version number or alias name.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
     }
 }
 
@@ -4423,10 +5113,14 @@ extension LambdaClientTypes {
     public struct FunctionConfiguration: Swift.Sendable {
         /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [LambdaClientTypes.Architecture]?
+        /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+        public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
         /// The SHA256 hash of the function's deployment package.
         public var codeSha256: Swift.String?
         /// The size of the function's deployment package, in bytes.
         public var codeSize: Swift.Int
+        /// The SHA256 hash of the function configuration.
+        public var configSha256: Swift.String?
         /// The function's dead letter queue.
         public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
         /// The function's description.
@@ -4509,8 +5203,10 @@ extension LambdaClientTypes {
 
         public init(
             architectures: [LambdaClientTypes.Architecture]? = nil,
+            capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
             codeSha256: Swift.String? = nil,
             codeSize: Swift.Int = 0,
+            configSha256: Swift.String? = nil,
             deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
             description: Swift.String? = nil,
             environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -4547,8 +5243,10 @@ extension LambdaClientTypes {
             vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
         ) {
             self.architectures = architectures
+            self.capacityProviderConfig = capacityProviderConfig
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
+            self.configSha256 = configSha256
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
@@ -4743,10 +5441,14 @@ public struct GetFunctionConfigurationInput: Swift.Sendable {
 public struct GetFunctionConfigurationOutput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The SHA256 hash of the function's deployment package.
     public var codeSha256: Swift.String?
     /// The size of the function's deployment package, in bytes.
     public var codeSize: Swift.Int
+    /// The SHA256 hash of the function configuration.
+    public var configSha256: Swift.String?
     /// The function's dead letter queue.
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
@@ -4829,8 +5531,10 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
         codeSize: Swift.Int = 0,
+        configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -4867,8 +5571,10 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
+        self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -4906,73 +5612,8 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     }
 }
 
-public struct GetFunctionEventInvokeConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name - my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// A version number or alias name.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-    }
-}
-
-public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
-    /// A destination for events after they have been sent to a function for processing. Destinations
-    ///
-    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-    ///
-    /// * Queue - The ARN of a standard SQS queue.
-    ///
-    /// * Bucket - The ARN of an Amazon S3 bucket.
-    ///
-    /// * Topic - The ARN of a standard SNS topic.
-    ///
-    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-    ///
-    ///
-    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The Amazon Resource Name (ARN) of the function.
-    public var functionArn: Swift.String?
-    /// The date and time that the configuration was last updated.
-    public var lastModified: Foundation.Date?
-    /// The maximum age of a request that Lambda sends to a function for processing.
-    public var maximumEventAgeInSeconds: Swift.Int?
-    /// The maximum number of times to retry when the function returns an error.
-    public var maximumRetryAttempts: Swift.Int?
-
-    public init(
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        functionArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        maximumEventAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil
-    ) {
-        self.destinationConfig = destinationConfig
-        self.functionArn = functionArn
-        self.lastModified = lastModified
-        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-    }
-}
-
 public struct GetFunctionRecursionConfigInput: Swift.Sendable {
-    ///
+    /// The name of the function.
     /// This member is required.
     public var functionName: Swift.String?
 
@@ -5020,6 +5661,61 @@ public struct GetFunctionRecursionConfigOutput: Swift.Sendable {
         recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
     ) {
         self.recursiveLoop = recursiveLoop
+    }
+}
+
+public struct GetFunctionScalingConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version or alias to get the scaling configuration for a published version of the function.
+    /// This member is required.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration that defines the scaling behavior for a Lambda Managed Instances function, including the minimum and maximum number of execution environments that can be provisioned.
+    public struct FunctionScalingConfig: Swift.Sendable {
+        /// The maximum number of execution environments that can be provisioned for the function.
+        public var maxExecutionEnvironments: Swift.Int?
+        /// The minimum number of execution environments to maintain for the function.
+        public var minExecutionEnvironments: Swift.Int?
+
+        public init(
+            maxExecutionEnvironments: Swift.Int? = nil,
+            minExecutionEnvironments: Swift.Int? = nil
+        ) {
+            self.maxExecutionEnvironments = maxExecutionEnvironments
+            self.minExecutionEnvironments = minExecutionEnvironments
+        }
+    }
+}
+
+public struct GetFunctionScalingConfigOutput: Swift.Sendable {
+    /// The scaling configuration that is currently applied to the function. This represents the actual scaling settings in effect.
+    public var appliedFunctionScalingConfig: LambdaClientTypes.FunctionScalingConfig?
+    /// The Amazon Resource Name (ARN) of the function.
+    public var functionArn: Swift.String?
+    /// The scaling configuration that was requested for the function.
+    public var requestedFunctionScalingConfig: LambdaClientTypes.FunctionScalingConfig?
+
+    public init(
+        appliedFunctionScalingConfig: LambdaClientTypes.FunctionScalingConfig? = nil,
+        functionArn: Swift.String? = nil,
+        requestedFunctionScalingConfig: LambdaClientTypes.FunctionScalingConfig? = nil
+    ) {
+        self.appliedFunctionScalingConfig = appliedFunctionScalingConfig
+        self.functionArn = functionArn
+        self.requestedFunctionScalingConfig = requestedFunctionScalingConfig
     }
 }
 
@@ -5655,6 +6351,33 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
+/// The function has no published versions available.
+public struct NoPublishedVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoPublishedVersionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
 public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5737,7 +6460,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The processed request payload exceeded the Invoke request body size limit for asynchronous invocations. While the event payload may be under 1 MB, the size after internal serialization exceeds the maximum allowed size for asynchronous invocations.
+/// The request payload exceeded the maximum allowed size for serialized request entities.
 public struct SerializedRequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -6244,93 +6967,6 @@ public struct InvokeWithResponseStreamOutput: Swift.Sendable {
     }
 }
 
-public struct ListFunctionEventInvokeConfigsInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - my-function.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// The maximum number of configurations to return.
-    public var maxItems: Swift.Int?
-
-    public init(
-        functionName: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.functionName = functionName
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-extension LambdaClientTypes {
-
-    public struct FunctionEventInvokeConfig: Swift.Sendable {
-        /// A destination for events after they have been sent to a function for processing. Destinations
-        ///
-        /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-        ///
-        /// * Queue - The ARN of a standard SQS queue.
-        ///
-        /// * Bucket - The ARN of an Amazon S3 bucket.
-        ///
-        /// * Topic - The ARN of a standard SNS topic.
-        ///
-        /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-        ///
-        ///
-        /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-        public var destinationConfig: LambdaClientTypes.DestinationConfig?
-        /// The Amazon Resource Name (ARN) of the function.
-        public var functionArn: Swift.String?
-        /// The date and time that the configuration was last updated.
-        public var lastModified: Foundation.Date?
-        /// The maximum age of a request that Lambda sends to a function for processing.
-        public var maximumEventAgeInSeconds: Swift.Int?
-        /// The maximum number of times to retry when the function returns an error.
-        public var maximumRetryAttempts: Swift.Int?
-
-        public init(
-            destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-            functionArn: Swift.String? = nil,
-            lastModified: Foundation.Date? = nil,
-            maximumEventAgeInSeconds: Swift.Int? = nil,
-            maximumRetryAttempts: Swift.Int? = nil
-        ) {
-            self.destinationConfig = destinationConfig
-            self.functionArn = functionArn
-            self.lastModified = lastModified
-            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-            self.maximumRetryAttempts = maximumRetryAttempts
-        }
-    }
-}
-
-public struct ListFunctionEventInvokeConfigsOutput: Swift.Sendable {
-    /// A list of configurations.
-    public var functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]?
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.functionEventInvokeConfigs = functionEventInvokeConfigs
-        self.nextMarker = nextMarker
-    }
-}
-
 extension LambdaClientTypes {
 
     public enum FunctionVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6693,96 +7329,6 @@ public struct PutFunctionConcurrencyOutput: Swift.Sendable {
     }
 }
 
-public struct PutFunctionEventInvokeConfigInput: Swift.Sendable {
-    /// A destination for events after they have been sent to a function for processing. Destinations
-    ///
-    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-    ///
-    /// * Queue - The ARN of a standard SQS queue.
-    ///
-    /// * Bucket - The ARN of an Amazon S3 bucket.
-    ///
-    /// * Topic - The ARN of a standard SNS topic.
-    ///
-    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-    ///
-    ///
-    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name - my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The maximum age of a request that Lambda sends to a function for processing.
-    public var maximumEventAgeInSeconds: Swift.Int?
-    /// The maximum number of times to retry when the function returns an error.
-    public var maximumRetryAttempts: Swift.Int?
-    /// A version number or alias name.
-    public var qualifier: Swift.String?
-
-    public init(
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        functionName: Swift.String? = nil,
-        maximumEventAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.destinationConfig = destinationConfig
-        self.functionName = functionName
-        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.qualifier = qualifier
-    }
-}
-
-public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
-    /// A destination for events after they have been sent to a function for processing. Destinations
-    ///
-    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-    ///
-    /// * Queue - The ARN of a standard SQS queue.
-    ///
-    /// * Bucket - The ARN of an Amazon S3 bucket.
-    ///
-    /// * Topic - The ARN of a standard SNS topic.
-    ///
-    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-    ///
-    ///
-    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The Amazon Resource Name (ARN) of the function.
-    public var functionArn: Swift.String?
-    /// The date and time that the configuration was last updated.
-    public var lastModified: Foundation.Date?
-    /// The maximum age of a request that Lambda sends to a function for processing.
-    public var maximumEventAgeInSeconds: Swift.Int?
-    /// The maximum number of times to retry when the function returns an error.
-    public var maximumRetryAttempts: Swift.Int?
-
-    public init(
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        functionArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        maximumEventAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil
-    ) {
-        self.destinationConfig = destinationConfig
-        self.functionArn = functionArn
-        self.lastModified = lastModified
-        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-    }
-}
-
 public struct PutFunctionRecursionConfigInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -6817,6 +7363,38 @@ public struct PutFunctionRecursionConfigOutput: Swift.Sendable {
         recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
     ) {
         self.recursiveLoop = recursiveLoop
+    }
+}
+
+public struct PutFunctionScalingConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The scaling configuration to apply to the function, including minimum and maximum execution environment limits.
+    public var functionScalingConfig: LambdaClientTypes.FunctionScalingConfig?
+    /// Specify a version or alias to set the scaling configuration for a published version of the function.
+    /// This member is required.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        functionScalingConfig: LambdaClientTypes.FunctionScalingConfig? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.functionScalingConfig = functionScalingConfig
+        self.qualifier = qualifier
+    }
+}
+
+public struct PutFunctionScalingConfigOutput: Swift.Sendable {
+    /// The current state of the function after applying the scaling configuration.
+    public var functionState: LambdaClientTypes.State?
+
+    public init(
+        functionState: LambdaClientTypes.State? = nil
+    ) {
+        self.functionState = functionState
     }
 }
 
@@ -6902,6 +7480,8 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
     public var imageUri: Swift.String?
     /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling [PublishVersion] separately.
     public var publish: Swift.Bool?
+    /// Specifies where to publish the function version or configuration.
+    public var publishTo: LambdaClientTypes.FunctionVersionLatestPublished?
     /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
     public var revisionId: Swift.String?
     /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
@@ -6921,6 +7501,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         imageUri: Swift.String? = nil,
         publish: Swift.Bool? = false,
+        publishTo: LambdaClientTypes.FunctionVersionLatestPublished? = nil,
         revisionId: Swift.String? = nil,
         s3Bucket: Swift.String? = nil,
         s3Key: Swift.String? = nil,
@@ -6933,6 +7514,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         self.functionName = functionName
         self.imageUri = imageUri
         self.publish = publish
+        self.publishTo = publishTo
         self.revisionId = revisionId
         self.s3Bucket = s3Bucket
         self.s3Key = s3Key
@@ -6944,17 +7526,21 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
 
 extension UpdateFunctionCodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
+        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), publishTo: \(Swift.String(describing: publishTo)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 /// Details about a function's configuration.
 public struct UpdateFunctionCodeOutput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The SHA256 hash of the function's deployment package.
     public var codeSha256: Swift.String?
     /// The size of the function's deployment package, in bytes.
     public var codeSize: Swift.Int
+    /// The SHA256 hash of the function configuration.
+    public var configSha256: Swift.String?
     /// The function's dead letter queue.
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
@@ -7037,8 +7623,10 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
         codeSize: Swift.Int = 0,
+        configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -7075,8 +7663,10 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
+        self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -7115,6 +7705,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
 }
 
 public struct UpdateFunctionConfigurationInput: Swift.Sendable {
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see [Dead-letter queues](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// A description of the function.
@@ -7176,6 +7768,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfig?
 
     public init(
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.Environment? = nil,
@@ -7196,6 +7789,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
+        self.capacityProviderConfig = capacityProviderConfig
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -7222,10 +7816,14 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
 public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The SHA256 hash of the function's deployment package.
     public var codeSha256: Swift.String?
     /// The size of the function's deployment package, in bytes.
     public var codeSize: Swift.Int
+    /// The SHA256 hash of the function configuration.
+    public var configSha256: Swift.String?
     /// The function's dead letter queue.
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
@@ -7308,8 +7906,10 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
         codeSize: Swift.Int = 0,
+        configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -7346,8 +7946,10 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
+        self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -7382,96 +7984,6 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         self.tracingConfig = tracingConfig
         self.version = version
         self.vpcConfig = vpcConfig
-    }
-}
-
-public struct UpdateFunctionEventInvokeConfigInput: Swift.Sendable {
-    /// A destination for events after they have been sent to a function for processing. Destinations
-    ///
-    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-    ///
-    /// * Queue - The ARN of a standard SQS queue.
-    ///
-    /// * Bucket - The ARN of an Amazon S3 bucket.
-    ///
-    /// * Topic - The ARN of a standard SNS topic.
-    ///
-    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-    ///
-    ///
-    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name - my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The maximum age of a request that Lambda sends to a function for processing.
-    public var maximumEventAgeInSeconds: Swift.Int?
-    /// The maximum number of times to retry when the function returns an error.
-    public var maximumRetryAttempts: Swift.Int?
-    /// A version number or alias name.
-    public var qualifier: Swift.String?
-
-    public init(
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        functionName: Swift.String? = nil,
-        maximumEventAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.destinationConfig = destinationConfig
-        self.functionName = functionName
-        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.qualifier = qualifier
-    }
-}
-
-public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
-    /// A destination for events after they have been sent to a function for processing. Destinations
-    ///
-    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
-    ///
-    /// * Queue - The ARN of a standard SQS queue.
-    ///
-    /// * Bucket - The ARN of an Amazon S3 bucket.
-    ///
-    /// * Topic - The ARN of a standard SNS topic.
-    ///
-    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
-    ///
-    ///
-    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The Amazon Resource Name (ARN) of the function.
-    public var functionArn: Swift.String?
-    /// The date and time that the configuration was last updated.
-    public var lastModified: Foundation.Date?
-    /// The maximum age of a request that Lambda sends to a function for processing.
-    public var maximumEventAgeInSeconds: Swift.Int?
-    /// The maximum number of times to retry when the function returns an error.
-    public var maximumRetryAttempts: Swift.Int?
-
-    public init(
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        functionArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        maximumEventAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil
-    ) {
-        self.destinationConfig = destinationConfig
-        self.functionArn = functionArn
-        self.lastModified = lastModified
-        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
     }
 }
 
@@ -7898,6 +8410,8 @@ public struct PublishVersionInput: Swift.Sendable {
     /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
+    /// Specifies where to publish the function version or configuration.
+    public var publishTo: LambdaClientTypes.FunctionVersionLatestPublished?
     /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
     public var revisionId: Swift.String?
 
@@ -7905,11 +8419,13 @@ public struct PublishVersionInput: Swift.Sendable {
         codeSha256: Swift.String? = nil,
         description: Swift.String? = nil,
         functionName: Swift.String? = nil,
+        publishTo: LambdaClientTypes.FunctionVersionLatestPublished? = nil,
         revisionId: Swift.String? = nil
     ) {
         self.codeSha256 = codeSha256
         self.description = description
         self.functionName = functionName
+        self.publishTo = publishTo
         self.revisionId = revisionId
     }
 }
@@ -7918,10 +8434,14 @@ public struct PublishVersionInput: Swift.Sendable {
 public struct PublishVersionOutput: Swift.Sendable {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions.
+    public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// The SHA256 hash of the function's deployment package.
     public var codeSha256: Swift.String?
     /// The size of the function's deployment package, in bytes.
     public var codeSize: Swift.Int
+    /// The SHA256 hash of the function configuration.
+    public var configSha256: Swift.String?
     /// The function's dead letter queue.
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
@@ -8004,8 +8524,10 @@ public struct PublishVersionOutput: Swift.Sendable {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
+        capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
         codeSize: Swift.Int = 0,
+        configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
@@ -8042,8 +8564,10 @@ public struct PublishVersionOutput: Swift.Sendable {
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
         self.architectures = architectures
+        self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
+        self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -8098,6 +8622,71 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     ) {
         self.accountLimit = accountLimit
         self.accountUsage = accountUsage
+    }
+}
+
+public struct GetFunctionEventInvokeConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name - my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// A version number or alias name.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
+    /// A destination for events after they have been sent to a function for processing. Destinations
+    ///
+    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+    ///
+    /// * Queue - The ARN of a standard SQS queue.
+    ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
+    /// * Topic - The ARN of a standard SNS topic.
+    ///
+    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// The Amazon Resource Name (ARN) of the function.
+    public var functionArn: Swift.String?
+    /// The date and time that the configuration was last updated.
+    public var lastModified: Foundation.Date?
+    /// The maximum age of a request that Lambda sends to a function for processing.
+    public var maximumEventAgeInSeconds: Swift.Int?
+    /// The maximum number of times to retry when the function returns an error.
+    public var maximumRetryAttempts: Swift.Int?
+
+    public init(
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        functionArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        maximumEventAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil
+    ) {
+        self.destinationConfig = destinationConfig
+        self.functionArn = functionArn
+        self.lastModified = lastModified
+        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
     }
 }
 
@@ -8579,6 +9168,93 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
     }
 }
 
+public struct ListFunctionEventInvokeConfigsInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - my-function.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// The maximum number of configurations to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        functionName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.functionName = functionName
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension LambdaClientTypes {
+
+    public struct FunctionEventInvokeConfig: Swift.Sendable {
+        /// A destination for events after they have been sent to a function for processing. Destinations
+        ///
+        /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+        ///
+        /// * Queue - The ARN of a standard SQS queue.
+        ///
+        /// * Bucket - The ARN of an Amazon S3 bucket.
+        ///
+        /// * Topic - The ARN of a standard SNS topic.
+        ///
+        /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+        ///
+        ///
+        /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+        public var destinationConfig: LambdaClientTypes.DestinationConfig?
+        /// The Amazon Resource Name (ARN) of the function.
+        public var functionArn: Swift.String?
+        /// The date and time that the configuration was last updated.
+        public var lastModified: Foundation.Date?
+        /// The maximum age of a request that Lambda sends to a function for processing.
+        public var maximumEventAgeInSeconds: Swift.Int?
+        /// The maximum number of times to retry when the function returns an error.
+        public var maximumRetryAttempts: Swift.Int?
+
+        public init(
+            destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+            functionArn: Swift.String? = nil,
+            lastModified: Foundation.Date? = nil,
+            maximumEventAgeInSeconds: Swift.Int? = nil,
+            maximumRetryAttempts: Swift.Int? = nil
+        ) {
+            self.destinationConfig = destinationConfig
+            self.functionArn = functionArn
+            self.lastModified = lastModified
+            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+        }
+    }
+}
+
+public struct ListFunctionEventInvokeConfigsOutput: Swift.Sendable {
+    /// A list of configurations.
+    public var functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.functionEventInvokeConfigs = functionEventInvokeConfigs
+        self.nextMarker = nextMarker
+    }
+}
+
 public struct ListTagsInput: Swift.Sendable {
     /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
     /// This member is required.
@@ -8807,6 +9483,96 @@ public struct PutProvisionedConcurrencyConfigOutput: Swift.Sendable {
     }
 }
 
+public struct PutFunctionEventInvokeConfigInput: Swift.Sendable {
+    /// A destination for events after they have been sent to a function for processing. Destinations
+    ///
+    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+    ///
+    /// * Queue - The ARN of a standard SQS queue.
+    ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
+    /// * Topic - The ARN of a standard SNS topic.
+    ///
+    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name - my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The maximum age of a request that Lambda sends to a function for processing.
+    public var maximumEventAgeInSeconds: Swift.Int?
+    /// The maximum number of times to retry when the function returns an error.
+    public var maximumRetryAttempts: Swift.Int?
+    /// A version number or alias name.
+    public var qualifier: Swift.String?
+
+    public init(
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        functionName: Swift.String? = nil,
+        maximumEventAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.destinationConfig = destinationConfig
+        self.functionName = functionName
+        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.qualifier = qualifier
+    }
+}
+
+public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
+    /// A destination for events after they have been sent to a function for processing. Destinations
+    ///
+    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+    ///
+    /// * Queue - The ARN of a standard SQS queue.
+    ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
+    /// * Topic - The ARN of a standard SNS topic.
+    ///
+    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// The Amazon Resource Name (ARN) of the function.
+    public var functionArn: Swift.String?
+    /// The date and time that the configuration was last updated.
+    public var lastModified: Foundation.Date?
+    /// The maximum age of a request that Lambda sends to a function for processing.
+    public var maximumEventAgeInSeconds: Swift.Int?
+    /// The maximum number of times to retry when the function returns an error.
+    public var maximumRetryAttempts: Swift.Int?
+
+    public init(
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        functionArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        maximumEventAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil
+    ) {
+        self.destinationConfig = destinationConfig
+        self.functionArn = functionArn
+        self.lastModified = lastModified
+        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
@@ -8838,6 +9604,96 @@ public struct UntagResourceInput: Swift.Sendable {
     ) {
         self.resource = resource
         self.tagKeys = tagKeys
+    }
+}
+
+public struct UpdateFunctionEventInvokeConfigInput: Swift.Sendable {
+    /// A destination for events after they have been sent to a function for processing. Destinations
+    ///
+    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+    ///
+    /// * Queue - The ARN of a standard SQS queue.
+    ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
+    /// * Topic - The ARN of a standard SNS topic.
+    ///
+    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name - my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The maximum age of a request that Lambda sends to a function for processing.
+    public var maximumEventAgeInSeconds: Swift.Int?
+    /// The maximum number of times to retry when the function returns an error.
+    public var maximumRetryAttempts: Swift.Int?
+    /// A version number or alias name.
+    public var qualifier: Swift.String?
+
+    public init(
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        functionName: Swift.String? = nil,
+        maximumEventAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.destinationConfig = destinationConfig
+        self.functionName = functionName
+        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.qualifier = qualifier
+    }
+}
+
+public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
+    /// A destination for events after they have been sent to a function for processing. Destinations
+    ///
+    /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
+    ///
+    /// * Queue - The ARN of a standard SQS queue.
+    ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
+    /// * Topic - The ARN of a standard SNS topic.
+    ///
+    /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// The Amazon Resource Name (ARN) of the function.
+    public var functionArn: Swift.String?
+    /// The date and time that the configuration was last updated.
+    public var lastModified: Foundation.Date?
+    /// The maximum age of a request that Lambda sends to a function for processing.
+    public var maximumEventAgeInSeconds: Swift.Int?
+    /// The maximum number of times to retry when the function returns an error.
+    public var maximumRetryAttempts: Swift.Int?
+
+    public init(
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        functionArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        maximumEventAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil
+    ) {
+        self.destinationConfig = destinationConfig
+        self.functionArn = functionArn
+        self.lastModified = lastModified
+        self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
     }
 }
 
@@ -8898,6 +9754,13 @@ extension CreateAliasInput {
     }
 }
 
+extension CreateCapacityProviderInput {
+
+    static func urlPathProvider(_ value: CreateCapacityProviderInput) -> Swift.String? {
+        return "/2025-11-30/capacity-providers"
+    }
+}
+
 extension CreateCodeSigningConfigInput {
 
     static func urlPathProvider(_ value: CreateCodeSigningConfigInput) -> Swift.String? {
@@ -8951,6 +9814,16 @@ extension DeleteAliasInput {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCapacityProviderInput {
+
+    static func urlPathProvider(_ value: DeleteCapacityProviderInput) -> Swift.String? {
+        guard let capacityProviderName = value.capacityProviderName else {
+            return nil
+        }
+        return "/2025-11-30/capacity-providers/\(capacityProviderName.urlPercentEncoding())"
     }
 }
 
@@ -9117,6 +9990,16 @@ extension GetAliasInput {
     }
 }
 
+extension GetCapacityProviderInput {
+
+    static func urlPathProvider(_ value: GetCapacityProviderInput) -> Swift.String? {
+        guard let capacityProviderName = value.capacityProviderName else {
+            return nil
+        }
+        return "/2025-11-30/capacity-providers/\(capacityProviderName.urlPercentEncoding())"
+    }
+}
+
 extension GetCodeSigningConfigInput {
 
     static func urlPathProvider(_ value: GetCodeSigningConfigInput) -> Swift.String? {
@@ -9230,6 +10113,30 @@ extension GetFunctionRecursionConfigInput {
             return nil
         }
         return "/2024-08-31/functions/\(functionName.urlPercentEncoding())/recursion-config"
+    }
+}
+
+extension GetFunctionScalingConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionScalingConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2025-11-30/functions/\(functionName.urlPercentEncoding())/function-scaling-config"
+    }
+}
+
+extension GetFunctionScalingConfigInput {
+
+    static func queryItemProvider(_ value: GetFunctionScalingConfigInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let qualifier = value.qualifier else {
+            let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let qualifierQueryItem = Smithy.URIQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+        items.append(qualifierQueryItem)
+        return items
     }
 }
 
@@ -9495,6 +10402,33 @@ extension ListAliasesInput {
     }
 }
 
+extension ListCapacityProvidersInput {
+
+    static func urlPathProvider(_ value: ListCapacityProvidersInput) -> Swift.String? {
+        return "/2025-11-30/capacity-providers"
+    }
+}
+
+extension ListCapacityProvidersInput {
+
+    static func queryItemProvider(_ value: ListCapacityProvidersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let state = value.state {
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListCodeSigningConfigsInput {
 
     static func urlPathProvider(_ value: ListCodeSigningConfigsInput) -> Swift.String? {
@@ -9645,6 +10579,32 @@ extension ListFunctionUrlConfigsInput {
 extension ListFunctionUrlConfigsInput {
 
     static func queryItemProvider(_ value: ListFunctionUrlConfigsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListFunctionVersionsByCapacityProviderInput {
+
+    static func urlPathProvider(_ value: ListFunctionVersionsByCapacityProviderInput) -> Swift.String? {
+        guard let capacityProviderName = value.capacityProviderName else {
+            return nil
+        }
+        return "/2025-11-30/capacity-providers/\(capacityProviderName.urlPercentEncoding())/function-versions"
+    }
+}
+
+extension ListFunctionVersionsByCapacityProviderInput {
+
+    static func queryItemProvider(_ value: ListFunctionVersionsByCapacityProviderInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
@@ -9858,6 +10818,30 @@ extension PutFunctionRecursionConfigInput {
     }
 }
 
+extension PutFunctionScalingConfigInput {
+
+    static func urlPathProvider(_ value: PutFunctionScalingConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2025-11-30/functions/\(functionName.urlPercentEncoding())/function-scaling-config"
+    }
+}
+
+extension PutFunctionScalingConfigInput {
+
+    static func queryItemProvider(_ value: PutFunctionScalingConfigInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let qualifier = value.qualifier else {
+            let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let qualifierQueryItem = Smithy.URIQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+        items.append(qualifierQueryItem)
+        return items
+    }
+}
+
 extension PutProvisionedConcurrencyConfigInput {
 
     static func urlPathProvider(_ value: PutProvisionedConcurrencyConfigInput) -> Swift.String? {
@@ -10010,6 +10994,16 @@ extension UpdateAliasInput {
     }
 }
 
+extension UpdateCapacityProviderInput {
+
+    static func urlPathProvider(_ value: UpdateCapacityProviderInput) -> Swift.String? {
+        guard let capacityProviderName = value.capacityProviderName else {
+            return nil
+        }
+        return "/2025-11-30/capacity-providers/\(capacityProviderName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateCodeSigningConfigInput {
 
     static func urlPathProvider(_ value: UpdateCodeSigningConfigInput) -> Swift.String? {
@@ -10133,6 +11127,20 @@ extension CreateAliasInput {
     }
 }
 
+extension CreateCapacityProviderInput {
+
+    static func write(value: CreateCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderName"].write(value.capacityProviderName)
+        try writer["CapacityProviderScalingConfig"].write(value.capacityProviderScalingConfig, with: LambdaClientTypes.CapacityProviderScalingConfig.write(value:to:))
+        try writer["InstanceRequirements"].write(value.instanceRequirements, with: LambdaClientTypes.InstanceRequirements.write(value:to:))
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["PermissionsConfig"].write(value.permissionsConfig, with: LambdaClientTypes.CapacityProviderPermissionsConfig.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["VpcConfig"].write(value.vpcConfig, with: LambdaClientTypes.CapacityProviderVpcConfig.write(value:to:))
+    }
+}
+
 extension CreateCodeSigningConfigInput {
 
     static func write(value: CreateCodeSigningConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -10183,6 +11191,7 @@ extension CreateFunctionInput {
     static func write(value: CreateFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["Code"].write(value.code, with: LambdaClientTypes.FunctionCode.write(value:to:))
         try writer["CodeSigningConfigArn"].write(value.codeSigningConfigArn)
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
@@ -10199,6 +11208,7 @@ extension CreateFunctionInput {
         try writer["MemorySize"].write(value.memorySize)
         try writer["PackageType"].write(value.packageType)
         try writer["Publish"].write(value.publish)
+        try writer["PublishTo"].write(value.publishTo)
         try writer["Role"].write(value.role)
         try writer["Runtime"].write(value.runtime)
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
@@ -10262,6 +11272,7 @@ extension PublishVersionInput {
         guard let value else { return }
         try writer["CodeSha256"].write(value.codeSha256)
         try writer["Description"].write(value.description)
+        try writer["PublishTo"].write(value.publishTo)
         try writer["RevisionId"].write(value.revisionId)
     }
 }
@@ -10300,6 +11311,14 @@ extension PutFunctionRecursionConfigInput {
     }
 }
 
+extension PutFunctionScalingConfigInput {
+
+    static func write(value: PutFunctionScalingConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionScalingConfig"].write(value.functionScalingConfig, with: LambdaClientTypes.FunctionScalingConfig.write(value:to:))
+    }
+}
+
 extension PutProvisionedConcurrencyConfigInput {
 
     static func write(value: PutProvisionedConcurrencyConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -10333,6 +11352,14 @@ extension UpdateAliasInput {
         try writer["FunctionVersion"].write(value.functionVersion)
         try writer["RevisionId"].write(value.revisionId)
         try writer["RoutingConfig"].write(value.routingConfig, with: LambdaClientTypes.AliasRoutingConfiguration.write(value:to:))
+    }
+}
+
+extension UpdateCapacityProviderInput {
+
+    static func write(value: UpdateCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderScalingConfig"].write(value.capacityProviderScalingConfig, with: LambdaClientTypes.CapacityProviderScalingConfig.write(value:to:))
     }
 }
 
@@ -10381,6 +11408,7 @@ extension UpdateFunctionCodeInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["ImageUri"].write(value.imageUri)
         try writer["Publish"].write(value.publish)
+        try writer["PublishTo"].write(value.publishTo)
         try writer["RevisionId"].write(value.revisionId)
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
@@ -10394,6 +11422,7 @@ extension UpdateFunctionConfigurationInput {
 
     static func write(value: UpdateFunctionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Environment"].write(value.environment, with: LambdaClientTypes.Environment.write(value:to:))
@@ -10477,6 +11506,18 @@ extension CreateAliasOutput {
     }
 }
 
+extension CreateCapacityProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCapacityProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCapacityProviderOutput()
+        value.capacityProvider = try reader["CapacityProvider"].readIfPresent(with: LambdaClientTypes.CapacityProvider.read(from:))
+        return value
+    }
+}
+
 extension CreateCodeSigningConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeSigningConfigOutput {
@@ -10540,8 +11581,10 @@ extension CreateFunctionOutput {
         let reader = responseReader
         var value = CreateFunctionOutput()
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
@@ -10604,6 +11647,18 @@ extension DeleteAliasOutput {
     }
 }
 
+extension DeleteCapacityProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCapacityProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCapacityProviderOutput()
+        value.capacityProvider = try reader["CapacityProvider"].readIfPresent(with: LambdaClientTypes.CapacityProvider.read(from:))
+        return value
+    }
+}
+
 extension DeleteCodeSigningConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeSigningConfigOutput {
@@ -10657,7 +11712,9 @@ extension DeleteEventSourceMappingOutput {
 extension DeleteFunctionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFunctionOutput {
-        return DeleteFunctionOutput()
+        var value = DeleteFunctionOutput()
+        value.statusCode = httpResponse.statusCode.rawValue
+        return value
     }
 }
 
@@ -10729,6 +11786,18 @@ extension GetAliasOutput {
         value.name = try reader["Name"].readIfPresent()
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: LambdaClientTypes.AliasRoutingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GetCapacityProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapacityProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCapacityProviderOutput()
+        value.capacityProvider = try reader["CapacityProvider"].readIfPresent(with: LambdaClientTypes.CapacityProvider.read(from:))
         return value
     }
 }
@@ -10837,8 +11906,10 @@ extension GetFunctionConfigurationOutput {
         let reader = responseReader
         var value = GetFunctionConfigurationOutput()
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
@@ -10901,6 +11972,20 @@ extension GetFunctionRecursionConfigOutput {
         let reader = responseReader
         var value = GetFunctionRecursionConfigOutput()
         value.recursiveLoop = try reader["RecursiveLoop"].readIfPresent()
+        return value
+    }
+}
+
+extension GetFunctionScalingConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionScalingConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFunctionScalingConfigOutput()
+        value.appliedFunctionScalingConfig = try reader["AppliedFunctionScalingConfig"].readIfPresent(with: LambdaClientTypes.FunctionScalingConfig.read(from:))
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.requestedFunctionScalingConfig = try reader["RequestedFunctionScalingConfig"].readIfPresent(with: LambdaClientTypes.FunctionScalingConfig.read(from:))
         return value
     }
 }
@@ -11088,6 +12173,19 @@ extension ListAliasesOutput {
     }
 }
 
+extension ListCapacityProvidersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCapacityProvidersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCapacityProvidersOutput()
+        value.capacityProviders = try reader["CapacityProviders"].readListIfPresent(memberReadingClosure: LambdaClientTypes.CapacityProvider.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCodeSigningConfigsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeSigningConfigsOutput {
@@ -11161,6 +12259,20 @@ extension ListFunctionUrlConfigsOutput {
         let reader = responseReader
         var value = ListFunctionUrlConfigsOutput()
         value.functionUrlConfigs = try reader["FunctionUrlConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FunctionUrlConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFunctionVersionsByCapacityProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFunctionVersionsByCapacityProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFunctionVersionsByCapacityProviderOutput()
+        value.capacityProviderArn = try reader["CapacityProviderArn"].readIfPresent() ?? ""
+        value.functionVersions = try reader["FunctionVersions"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FunctionVersionsByCapacityProviderListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextMarker = try reader["NextMarker"].readIfPresent()
         return value
     }
@@ -11258,8 +12370,10 @@ extension PublishVersionOutput {
         let reader = responseReader
         var value = PublishVersionOutput()
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
@@ -11351,6 +12465,18 @@ extension PutFunctionRecursionConfigOutput {
     }
 }
 
+extension PutFunctionScalingConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFunctionScalingConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutFunctionScalingConfigOutput()
+        value.functionState = try reader["FunctionState"].readIfPresent()
+        return value
+    }
+}
+
 extension PutProvisionedConcurrencyConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProvisionedConcurrencyConfigOutput {
@@ -11427,6 +12553,18 @@ extension UpdateAliasOutput {
     }
 }
 
+extension UpdateCapacityProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCapacityProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCapacityProviderOutput()
+        value.capacityProvider = try reader["CapacityProvider"].readIfPresent(with: LambdaClientTypes.CapacityProvider.read(from:))
+        return value
+    }
+}
+
 extension UpdateCodeSigningConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCodeSigningConfigOutput {
@@ -11490,8 +12628,10 @@ extension UpdateFunctionCodeOutput {
         let reader = responseReader
         var value = UpdateFunctionCodeOutput()
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
@@ -11538,8 +12678,10 @@ extension UpdateFunctionConfigurationOutput {
         let reader = responseReader
         var value = UpdateFunctionConfigurationOutput()
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
@@ -11670,6 +12812,24 @@ enum CreateAliasOutputError {
     }
 }
 
+enum CreateCapacityProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CapacityProviderLimitExceededException": return try CapacityProviderLimitExceededException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCodeSigningConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11714,6 +12874,7 @@ enum CreateFunctionOutputError {
             case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
             case "CodeStorageExceededException": return try CodeStorageExceededException.makeError(baseError: baseError)
             case "CodeVerificationFailedException": return try CodeVerificationFailedException.makeError(baseError: baseError)
+            case "FunctionVersionsPerCapacityProviderLimitExceededException": return try FunctionVersionsPerCapacityProviderLimitExceededException.makeError(baseError: baseError)
             case "InvalidCodeSignatureException": return try InvalidCodeSignatureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -11753,6 +12914,24 @@ enum DeleteAliasOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCapacityProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11951,6 +13130,23 @@ enum GetAliasOutputError {
     }
 }
 
+enum GetCapacityProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCodeSigningConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12070,6 +13266,23 @@ enum GetFunctionEventInvokeConfigOutputError {
 }
 
 enum GetFunctionRecursionConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFunctionScalingConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12232,6 +13445,7 @@ enum InvokeOutputError {
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
             case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
             case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "NoPublishedVersionException": return try NoPublishedVersionException.makeError(baseError: baseError)
             case "RecursiveInvocationException": return try RecursiveInvocationException.makeError(baseError: baseError)
             case "RequestTooLargeException": return try RequestTooLargeException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -12294,6 +13508,7 @@ enum InvokeWithResponseStreamOutputError {
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
             case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
             case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "NoPublishedVersionException": return try NoPublishedVersionException.makeError(baseError: baseError)
             case "RecursiveInvocationException": return try RecursiveInvocationException.makeError(baseError: baseError)
             case "RequestTooLargeException": return try RequestTooLargeException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -12322,6 +13537,22 @@ enum ListAliasesOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCapacityProvidersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12411,6 +13642,23 @@ enum ListFunctionsByCodeSigningConfigOutputError {
 }
 
 enum ListFunctionUrlConfigsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFunctionVersionsByCapacityProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12538,6 +13786,7 @@ enum PublishVersionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CodeStorageExceededException": return try CodeStorageExceededException.makeError(baseError: baseError)
+            case "FunctionVersionsPerCapacityProviderLimitExceededException": return try FunctionVersionsPerCapacityProviderLimitExceededException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -12605,6 +13854,24 @@ enum PutFunctionEventInvokeConfigOutputError {
 }
 
 enum PutFunctionRecursionConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutFunctionScalingConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12740,6 +14007,24 @@ enum UpdateAliasOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCapacityProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -12968,6 +14253,20 @@ extension TooManyRequestsException {
     }
 }
 
+extension CapacityProviderLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CapacityProviderLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = CapacityProviderLimitExceededException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CodeSigningConfigNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CodeSigningConfigNotFoundException {
@@ -13003,6 +14302,20 @@ extension CodeVerificationFailedException {
         var value = CodeVerificationFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FunctionVersionsPerCapacityProviderLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FunctionVersionsPerCapacityProviderLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = FunctionVersionsPerCapacityProviderLimitExceededException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -13291,6 +14604,20 @@ extension KMSNotFoundException {
     }
 }
 
+extension NoPublishedVersionException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoPublishedVersionException {
+        let reader = baseError.errorBodyReader
+        var value = NoPublishedVersionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RecursiveInvocationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RecursiveInvocationException {
@@ -13464,6 +14791,110 @@ extension LambdaClientTypes.AliasRoutingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.AliasRoutingConfiguration()
         value.additionalVersionWeights = try reader["AdditionalVersionWeights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProvider()
+        value.capacityProviderArn = try reader["CapacityProviderArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderVpcConfig.read(from:))
+        value.permissionsConfig = try reader["PermissionsConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderPermissionsConfig.read(from:))
+        value.instanceRequirements = try reader["InstanceRequirements"].readIfPresent(with: LambdaClientTypes.InstanceRequirements.read(from:))
+        value.capacityProviderScalingConfig = try reader["CapacityProviderScalingConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderScalingConfig.read(from:))
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderScalingConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxVCpuCount"].write(value.maxVCpuCount)
+        try writer["ScalingMode"].write(value.scalingMode)
+        try writer["ScalingPolicies"].writeList(value.scalingPolicies, memberWritingClosure: LambdaClientTypes.TargetTrackingScalingPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderScalingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderScalingConfig()
+        value.maxVCpuCount = try reader["MaxVCpuCount"].readIfPresent()
+        value.scalingMode = try reader["ScalingMode"].readIfPresent()
+        value.scalingPolicies = try reader["ScalingPolicies"].readListIfPresent(memberReadingClosure: LambdaClientTypes.TargetTrackingScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.TargetTrackingScalingPolicy {
+
+    static func write(value: LambdaClientTypes.TargetTrackingScalingPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TargetTrackingScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TargetTrackingScalingPolicy()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension LambdaClientTypes.InstanceRequirements {
+
+    static func write(value: LambdaClientTypes.InstanceRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InstanceRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InstanceRequirements()
+        value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedInstanceTypes = try reader["AllowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedInstanceTypes = try reader["ExcludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderPermissionsConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderPermissionsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderOperatorRoleArn"].write(value.capacityProviderOperatorRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderPermissionsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderPermissionsConfig()
+        value.capacityProviderOperatorRoleArn = try reader["CapacityProviderOperatorRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderVpcConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderVpcConfig()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13988,6 +15419,40 @@ extension LambdaClientTypes.LoggingConfig {
     }
 }
 
+extension LambdaClientTypes.CapacityProviderConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaManagedInstancesCapacityProviderConfig"].write(value.lambdaManagedInstancesCapacityProviderConfig, with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderConfig()
+        value.lambdaManagedInstancesCapacityProviderConfig = try reader["LambdaManagedInstancesCapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
+
+    static func write(value: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderArn"].write(value.capacityProviderArn)
+        try writer["ExecutionEnvironmentMemoryGiBPerVCpu"].write(value.executionEnvironmentMemoryGiBPerVCpu)
+        try writer["PerExecutionEnvironmentMaxConcurrency"].write(value.perExecutionEnvironmentMaxConcurrency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig()
+        value.capacityProviderArn = try reader["CapacityProviderArn"].readIfPresent() ?? ""
+        value.perExecutionEnvironmentMaxConcurrency = try reader["PerExecutionEnvironmentMaxConcurrency"].readIfPresent()
+        value.executionEnvironmentMemoryGiBPerVCpu = try reader["ExecutionEnvironmentMemoryGiBPerVCpu"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.TenancyConfig {
 
     static func write(value: LambdaClientTypes.TenancyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -14094,6 +15559,8 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.snapStart = try reader["SnapStart"].readIfPresent(with: LambdaClientTypes.SnapStartResponse.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.LoggingConfig.read(from:))
+        value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
+        value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         return value
     }
@@ -14130,6 +15597,23 @@ extension LambdaClientTypes.Concurrency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.Concurrency()
         value.reservedConcurrentExecutions = try reader["ReservedConcurrentExecutions"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionScalingConfig {
+
+    static func write(value: LambdaClientTypes.FunctionScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxExecutionEnvironments"].write(value.maxExecutionEnvironments)
+        try writer["MinExecutionEnvironments"].write(value.minExecutionEnvironments)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionScalingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionScalingConfig()
+        value.minExecutionEnvironments = try reader["MinExecutionEnvironments"].readIfPresent()
+        value.maxExecutionEnvironments = try reader["MaxExecutionEnvironments"].readIfPresent()
         return value
     }
 }
@@ -14252,6 +15736,17 @@ extension LambdaClientTypes.FunctionUrlConfig {
         value.cors = try reader["Cors"].readIfPresent(with: LambdaClientTypes.Cors.read(from:))
         value.authType = try reader["AuthType"].readIfPresent() ?? .sdkUnknown("")
         value.invokeMode = try reader["InvokeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionVersionsByCapacityProviderListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionVersionsByCapacityProviderListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionVersionsByCapacityProviderListItem()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

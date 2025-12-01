@@ -604,6 +604,78 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCapacityProvider` operation on the `Lambda` service.
+    ///
+    /// Creates a capacity provider that manages compute resources for Lambda functions
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCapacityProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CapacityProviderLimitExceededException` : The maximum number of capacity providers for your account has been exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html)
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func createCapacityProvider(input: CreateCapacityProviderInput) async throws -> CreateCapacityProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCapacityProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(CreateCapacityProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutput>(CreateCapacityProviderOutput.httpOutput(from:), CreateCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Creates a code signing configuration. A [code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html) defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
@@ -806,6 +878,7 @@ extension LambdaClient {
     /// - `CodeSigningConfigNotFoundException` : The specified code signing configuration does not exist.
     /// - `CodeStorageExceededException` : Your Amazon Web Services account has exceeded its maximum total code size. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `CodeVerificationFailedException` : The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
+    /// - `FunctionVersionsPerCapacityProviderLimitExceededException` : The maximum number of function versions that can be associated with a single capacity provider has been exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidCodeSignatureException` : The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
@@ -997,6 +1070,75 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCapacityProvider` operation on the `Lambda` service.
+    ///
+    /// Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCapacityProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCapacityProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func deleteCapacityProvider(input: DeleteCapacityProviderInput) async throws -> DeleteCapacityProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCapacityProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(DeleteCapacityProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutput>(DeleteCapacityProviderOutput.httpOutput(from:), DeleteCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1765,6 +1907,74 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCapacityProvider` operation on the `Lambda` service.
+    ///
+    /// Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getCapacityProvider(input: GetCapacityProviderInput) async throws -> GetCapacityProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityProviderInput, GetCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>(GetCapacityProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityProviderOutput>(GetCapacityProviderOutput.httpOutput(from:), GetCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityProviderInput, GetCapacityProviderOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Returns information about the specified code signing configuration.
@@ -2311,6 +2521,75 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetFunctionScalingConfig` operation on the `Lambda` service.
+    ///
+    /// Retrieves the scaling configuration for a Lambda Managed Instances function.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionScalingConfigInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetFunctionScalingConfigOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getFunctionScalingConfig(input: GetFunctionScalingConfigInput) async throws -> GetFunctionScalingConfigOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFunctionScalingConfig")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>(GetFunctionScalingConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>(GetFunctionScalingConfigInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionScalingConfigOutput>(GetFunctionScalingConfigOutput.httpOutput(from:), GetFunctionScalingConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionScalingConfigOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFunctionScalingConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFunctionScalingConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFunctionScalingConfigInput, GetFunctionScalingConfigOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFunctionScalingConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetFunctionUrlConfig` operation on the `Lambda` service.
     ///
     /// Returns details about a Lambda function URL.
@@ -2822,12 +3101,13 @@ extension LambdaClient {
     /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
     /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
     /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `NoPublishedVersionException` : The function has no published versions available.
     /// - `RecursiveInvocationException` : Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
     /// - `RequestTooLargeException` : The request payload exceeded the Invoke request body JSON input quota. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
-    /// - `SerializedRequestEntityTooLargeException` : The processed request payload exceeded the Invoke request body size limit for asynchronous invocations. While the event payload may be under 1 MB, the size after internal serialization exceeds the maximum allowed size for asynchronous invocations.
+    /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
     /// - `SnapStartNotReadyException` : Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
@@ -2995,12 +3275,13 @@ extension LambdaClient {
     /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
     /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
     /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `NoPublishedVersionException` : The function has no published versions available.
     /// - `RecursiveInvocationException` : Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
     /// - `RequestTooLargeException` : The request payload exceeded the Invoke request body JSON input quota. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
-    /// - `SerializedRequestEntityTooLargeException` : The processed request payload exceeded the Invoke request body size limit for asynchronous invocations. While the event payload may be under 1 MB, the size after internal serialization exceeds the maximum allowed size for asynchronous invocations.
+    /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
     /// - `SnapStartNotReadyException` : Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
@@ -3123,6 +3404,74 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAliases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCapacityProviders` operation on the `Lambda` service.
+    ///
+    /// Returns a list of capacity providers in your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCapacityProvidersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCapacityProvidersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func listCapacityProviders(input: ListCapacityProvidersInput) async throws -> ListCapacityProvidersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCapacityProviders")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCapacityProvidersInput, ListCapacityProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>(ListCapacityProvidersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>(ListCapacityProvidersInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCapacityProvidersOutput>(ListCapacityProvidersOutput.httpOutput(from:), ListCapacityProvidersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCapacityProvidersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCapacityProvidersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCapacityProvidersInput, ListCapacityProvidersOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCapacityProviders")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3397,6 +3746,75 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFunctionUrlConfigs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListFunctionVersionsByCapacityProvider` operation on the `Lambda` service.
+    ///
+    /// Returns a list of function versions that are configured to use a specific capacity provider.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionVersionsByCapacityProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListFunctionVersionsByCapacityProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func listFunctionVersionsByCapacityProvider(input: ListFunctionVersionsByCapacityProviderInput) async throws -> ListFunctionVersionsByCapacityProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFunctionVersionsByCapacityProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>(ListFunctionVersionsByCapacityProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>(ListFunctionVersionsByCapacityProviderInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionVersionsByCapacityProviderOutput>(ListFunctionVersionsByCapacityProviderOutput.httpOutput(from:), ListFunctionVersionsByCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionVersionsByCapacityProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFunctionVersionsByCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFunctionVersionsByCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFunctionVersionsByCapacityProviderInput, ListFunctionVersionsByCapacityProviderOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFunctionVersionsByCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3972,6 +4390,7 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `CodeStorageExceededException` : Your Amazon Web Services account has exceeded its maximum total code size. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+    /// - `FunctionVersionsPerCapacityProviderLimitExceededException` : The maximum number of function versions that can be associated with a single capacity provider has been exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
     ///
@@ -4316,6 +4735,79 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFunctionRecursionConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutFunctionScalingConfig` operation on the `Lambda` service.
+    ///
+    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutFunctionScalingConfigInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutFunctionScalingConfigOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func putFunctionScalingConfig(input: PutFunctionScalingConfigInput) async throws -> PutFunctionScalingConfigOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putFunctionScalingConfig")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(PutFunctionScalingConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(PutFunctionScalingConfigInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutFunctionScalingConfigInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionScalingConfigOutput>(PutFunctionScalingConfigOutput.httpOutput(from:), PutFunctionScalingConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionScalingConfigOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFunctionScalingConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFunctionScalingConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFunctionScalingConfigInput, PutFunctionScalingConfigOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFunctionScalingConfig")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4829,6 +5321,78 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCapacityProvider` operation on the `Lambda` service.
+    ///
+    /// Updates the configuration of an existing capacity provider.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCapacityProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCapacityProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func updateCapacityProvider(input: UpdateCapacityProviderInput) async throws -> UpdateCapacityProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCapacityProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(UpdateCapacityProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutput>(UpdateCapacityProviderOutput.httpOutput(from:), UpdateCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCapacityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

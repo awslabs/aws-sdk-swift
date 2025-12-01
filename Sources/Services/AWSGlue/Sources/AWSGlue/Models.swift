@@ -11941,49 +11941,6 @@ extension GlueClientTypes {
         /// * CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.
         ///
         ///
-        /// Additionally, a ConnectionType for the following SaaS connectors is supported:
-        ///
-        /// * FACEBOOKADS - Designates a connection to Facebook Ads.
-        ///
-        /// * GOOGLEADS - Designates a connection to Google Ads.
-        ///
-        /// * GOOGLESHEETS - Designates a connection to Google Sheets.
-        ///
-        /// * GOOGLEANALYTICS4 - Designates a connection to Google Analytics 4.
-        ///
-        /// * HUBSPOT - Designates a connection to HubSpot.
-        ///
-        /// * INSTAGRAMADS - Designates a connection to Instagram Ads.
-        ///
-        /// * INTERCOM - Designates a connection to Intercom.
-        ///
-        /// * JIRACLOUD - Designates a connection to Jira Cloud.
-        ///
-        /// * MARKETO - Designates a connection to Adobe Marketo Engage.
-        ///
-        /// * NETSUITEERP - Designates a connection to Oracle NetSuite.
-        ///
-        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authentication.
-        ///
-        /// * SALESFORCEMARKETINGCLOUD - Designates a connection to Salesforce Marketing Cloud.
-        ///
-        /// * SALESFORCEPARDOT - Designates a connection to Salesforce Marketing Cloud Account Engagement (MCAE).
-        ///
-        /// * SAPODATA - Designates a connection to SAP OData.
-        ///
-        /// * SERVICENOW - Designates a connection to ServiceNow.
-        ///
-        /// * SLACK - Designates a connection to Slack.
-        ///
-        /// * SNAPCHATADS - Designates a connection to Snapchat Ads.
-        ///
-        /// * STRIPE - Designates a connection to Stripe.
-        ///
-        /// * ZENDESK - Designates a connection to Zendesk.
-        ///
-        /// * ZOHOCRM - Designates a connection to Zoho CRM.
-        ///
-        ///
         /// For more information on the connection parameters needed for a particular connector, see the documentation for the connector in [Adding an Glue connection](https://docs.aws.amazon.com/glue/latest/dg/console-connections.html)in the Glue User Guide. SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
         /// This member is required.
         public var connectionType: GlueClientTypes.ConnectionType?
@@ -14604,6 +14561,8 @@ extension GlueClientTypes {
         /// The unique identifier assigned to this field within the Iceberg table schema, used for schema evolution and field tracking.
         /// This member is required.
         public var id: Swift.Int
+        /// Default value used to populate the field's value for all records that were written before the field was added to the schema. This enables backward compatibility when adding new fields to existing Iceberg tables.
+        public var initialDefault: Smithy.Document?
         /// The name of the field as it appears in the table schema and query operations.
         /// This member is required.
         public var name: Swift.String?
@@ -14613,19 +14572,25 @@ extension GlueClientTypes {
         /// The data type definition for this field, specifying the structure and format of the data it contains.
         /// This member is required.
         public var type: Smithy.Document?
+        /// Default value used to populate the field's value for any records written after the field was added to the schema, if the writer does not supply the field's value. This can be changed through schema evolution.
+        public var writeDefault: Smithy.Document?
 
         public init(
             doc: Swift.String? = nil,
             id: Swift.Int = 0,
+            initialDefault: Smithy.Document? = nil,
             name: Swift.String? = nil,
             `required`: Swift.Bool = false,
-            type: Smithy.Document? = nil
+            type: Smithy.Document? = nil,
+            writeDefault: Smithy.Document? = nil
         ) {
             self.doc = doc
             self.id = id
+            self.initialDefault = initialDefault
             self.name = name
             self.`required` = `required`
             self.type = type
+            self.writeDefault = writeDefault
         }
     }
 }
@@ -14921,6 +14886,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum LastRefreshType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LastRefreshType] {
+            return [
+                .full,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum ViewDialect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case athena
         case redshift
@@ -14990,21 +14984,41 @@ extension GlueClientTypes {
         public var definer: Swift.String?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public var isProtected: Swift.Bool?
+        /// The type of the materialized view's last refresh. Valid values: Full, Incremental.
+        public var lastRefreshType: GlueClientTypes.LastRefreshType?
+        /// Auto refresh interval in seconds for the materialized view. If not specified, the view will not automatically refresh.
+        public var refreshSeconds: Swift.Int?
         /// A list of structures that contains the dialect of the view, and the query that defines the view.
         public var representations: [GlueClientTypes.ViewRepresentationInput]?
+        /// List of the Apache Iceberg table versions referenced by the materialized view.
+        public var subObjectVersionIds: [Swift.Int]?
         /// A list of base table ARNs that make up the view.
         public var subObjects: [Swift.String]?
+        /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
+        public var viewVersionId: Swift.Int
+        /// The version ID of the Apache Iceberg table.
+        public var viewVersionToken: Swift.String?
 
         public init(
             definer: Swift.String? = nil,
             isProtected: Swift.Bool? = nil,
+            lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
+            refreshSeconds: Swift.Int? = nil,
             representations: [GlueClientTypes.ViewRepresentationInput]? = nil,
-            subObjects: [Swift.String]? = nil
+            subObjectVersionIds: [Swift.Int]? = nil,
+            subObjects: [Swift.String]? = nil,
+            viewVersionId: Swift.Int = 0,
+            viewVersionToken: Swift.String? = nil
         ) {
             self.definer = definer
             self.isProtected = isProtected
+            self.lastRefreshType = lastRefreshType
+            self.refreshSeconds = refreshSeconds
             self.representations = representations
+            self.subObjectVersionIds = subObjectVersionIds
             self.subObjects = subObjects
+            self.viewVersionId = viewVersionId
+            self.viewVersionToken = viewVersionToken
         }
     }
 }
@@ -22737,21 +22751,41 @@ extension GlueClientTypes {
         public var definer: Swift.String?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public var isProtected: Swift.Bool?
+        /// Sets the method used for the most recent refresh.
+        public var lastRefreshType: GlueClientTypes.LastRefreshType?
+        /// Auto refresh interval in seconds for the materialized view. If not specified, the view will not automatically refresh.
+        public var refreshSeconds: Swift.Int?
         /// A list of representations.
         public var representations: [GlueClientTypes.ViewRepresentation]?
+        /// List of the Apache Iceberg table versions referenced by the materialized view.
+        public var subObjectVersionIds: [Swift.Int]?
         /// A list of table Amazon Resource Names (ARNs).
         public var subObjects: [Swift.String]?
+        /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
+        public var viewVersionId: Swift.Int
+        /// The version ID of the Apache Iceberg table.
+        public var viewVersionToken: Swift.String?
 
         public init(
             definer: Swift.String? = nil,
             isProtected: Swift.Bool? = nil,
+            lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
+            refreshSeconds: Swift.Int? = nil,
             representations: [GlueClientTypes.ViewRepresentation]? = nil,
-            subObjects: [Swift.String]? = nil
+            subObjectVersionIds: [Swift.Int]? = nil,
+            subObjects: [Swift.String]? = nil,
+            viewVersionId: Swift.Int = 0,
+            viewVersionToken: Swift.String? = nil
         ) {
             self.definer = definer
             self.isProtected = isProtected
+            self.lastRefreshType = lastRefreshType
+            self.refreshSeconds = refreshSeconds
             self.representations = representations
+            self.subObjectVersionIds = subObjectVersionIds
             self.subObjects = subObjects
+            self.viewVersionId = viewVersionId
+            self.viewVersionToken = viewVersionToken
         }
     }
 }
@@ -28354,8 +28388,99 @@ public struct UpdateSourceControlFromJobOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    public enum IcebergUpdateAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case addEncryptionKey
+        case addSchema
+        case addSortOrder
+        case addSpec
+        case removeEncryptionKey
+        case removeProperties
+        case setCurrentSchema
+        case setDefaultSortOrder
+        case setDefaultSpec
+        case setLocation
+        case setProperties
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergUpdateAction] {
+            return [
+                .addEncryptionKey,
+                .addSchema,
+                .addSortOrder,
+                .addSpec,
+                .removeEncryptionKey,
+                .removeProperties,
+                .setCurrentSchema,
+                .setDefaultSortOrder,
+                .setDefaultSpec,
+                .setLocation,
+                .setProperties
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .addEncryptionKey: return "add-encryption-key"
+            case .addSchema: return "add-schema"
+            case .addSortOrder: return "add-sort-order"
+            case .addSpec: return "add-spec"
+            case .removeEncryptionKey: return "remove-encryption-key"
+            case .removeProperties: return "remove-properties"
+            case .setCurrentSchema: return "set-current-schema"
+            case .setDefaultSortOrder: return "set-default-sort-order"
+            case .setDefaultSpec: return "set-default-spec"
+            case .setLocation: return "set-location"
+            case .setProperties: return "set-properties"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Encryption key structure used for Iceberg table encryption. Contains the key ID, encrypted key metadata, optional reference to the encrypting key, and additional properties for the table's encryption scheme.
+    public struct IcebergEncryptedKey: Swift.Sendable {
+        /// Optional ID of the key used to encrypt or wrap the key metadata in Iceberg table encryption. This field references another encryption key that was used to encrypt the current key's metadata.
+        public var encryptedById: Swift.String?
+        /// Encrypted key and metadata, base64 encoded. The format of encrypted key metadata is determined by the table's encryption scheme and can be a wrapped format specific to the table's KMS provider.
+        /// This member is required.
+        public var encryptedKeyMetadata: Swift.String?
+        /// Unique identifier of the encryption key used for Iceberg table encryption. This ID is used to reference the key in table metadata and track which key was used to encrypt specific data.
+        /// This member is required.
+        public var keyId: Swift.String?
+        /// A string to string map of additional metadata used by the table's encryption scheme. These properties provide additional context and configuration for the encryption key implementation.
+        public var properties: [Swift.String: Swift.String]?
+
+        public init(
+            encryptedById: Swift.String? = nil,
+            encryptedKeyMetadata: Swift.String? = nil,
+            keyId: Swift.String? = nil,
+            properties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.encryptedById = encryptedById
+            self.encryptedKeyMetadata = encryptedKeyMetadata
+            self.keyId = keyId
+            self.properties = properties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Defines a complete set of updates to be applied to an Iceberg table, including schema changes, partitioning modifications, sort order adjustments, location updates, and property changes.
     public struct IcebergTableUpdate: Swift.Sendable {
+        /// The type of update action to be performed on the Iceberg table. Defines the specific operation such as adding schema, setting current schema, adding partition spec, or managing encryption keys.
+        public var action: GlueClientTypes.IcebergUpdateAction?
+        /// Encryption key information associated with an Iceberg table update operation. Used when adding or removing encryption keys from the table metadata during table evolution.
+        public var encryptionKey: GlueClientTypes.IcebergEncryptedKey?
+        /// Identifier of the encryption key involved in an Iceberg table update operation. References the specific key being added to or removed from the table's encryption configuration.
+        public var keyId: Swift.String?
         /// The updated S3 location where the Iceberg table data will be stored.
         /// This member is required.
         public var location: Swift.String?
@@ -28370,12 +28495,18 @@ extension GlueClientTypes {
         public var sortOrder: GlueClientTypes.IcebergSortOrder?
 
         public init(
+            action: GlueClientTypes.IcebergUpdateAction? = nil,
+            encryptionKey: GlueClientTypes.IcebergEncryptedKey? = nil,
+            keyId: Swift.String? = nil,
             location: Swift.String? = nil,
             partitionSpec: GlueClientTypes.IcebergPartitionSpec? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             schema: GlueClientTypes.IcebergSchema? = nil,
             sortOrder: GlueClientTypes.IcebergSortOrder? = nil
         ) {
+            self.action = action
+            self.encryptionKey = encryptionKey
+            self.keyId = keyId
             self.location = location
             self.partitionSpec = partitionSpec
             self.properties = properties
@@ -28814,6 +28945,8 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
         public var federatedTable: GlueClientTypes.FederatedTable?
+        /// Indicates a table is a MaterializedView.
+        public var isMaterializedView: Swift.Bool?
         /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
         public var isMultiDialectView: Swift.Bool?
         /// Indicates whether the table has been registered with Lake Formation.
@@ -28833,7 +28966,7 @@ extension GlueClientTypes {
         public var partitionKeys: [GlueClientTypes.Column]?
         /// The retention time for this table.
         public var retention: Swift.Int
-        /// A structure containing information about the state of an asynchronous change to a table.
+        /// Indicates the the state of an asynchronous change to a table.
         public var status: GlueClientTypes.TableStatus?
         /// A storage descriptor containing information about the physical storage of this table.
         public var storageDescriptor: GlueClientTypes.StorageDescriptor?
@@ -28859,6 +28992,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             description: Swift.String? = nil,
             federatedTable: GlueClientTypes.FederatedTable? = nil,
+            isMaterializedView: Swift.Bool? = nil,
             isMultiDialectView: Swift.Bool? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
             lastAccessTime: Foundation.Date? = nil,
@@ -28884,6 +29018,7 @@ extension GlueClientTypes {
             self.databaseName = databaseName
             self.description = description
             self.federatedTable = federatedTable
+            self.isMaterializedView = isMaterializedView
             self.isMultiDialectView = isMultiDialectView
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
@@ -29311,6 +29446,8 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Sendable {
     public var authorizedColumns: [Swift.String]?
     /// A list of column row filters.
     public var cellFilters: [GlueClientTypes.ColumnRowFilter]?
+    /// Indicates if a table is a materialized view.
+    public var isMaterializedView: Swift.Bool
     /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
     public var isMultiDialectView: Swift.Bool
     /// A flag that instructs the engine not to push user-provided operations into the logical plan of the view during query planning. However, if set this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
@@ -29331,6 +29468,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Sendable {
     public init(
         authorizedColumns: [Swift.String]? = nil,
         cellFilters: [GlueClientTypes.ColumnRowFilter]? = nil,
+        isMaterializedView: Swift.Bool = false,
         isMultiDialectView: Swift.Bool = false,
         isProtected: Swift.Bool = false,
         isRegisteredWithLakeFormation: Swift.Bool = false,
@@ -29342,6 +29480,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Sendable {
     ) {
         self.authorizedColumns = authorizedColumns
         self.cellFilters = cellFilters
+        self.isMaterializedView = isMaterializedView
         self.isMultiDialectView = isMultiDialectView
         self.isProtected = isProtected
         self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
@@ -36414,6 +36553,7 @@ extension GetUnfilteredTableMetadataOutput {
         var value = GetUnfilteredTableMetadataOutput()
         value.authorizedColumns = try reader["AuthorizedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.cellFilters = try reader["CellFilters"].readListIfPresent(memberReadingClosure: GlueClientTypes.ColumnRowFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isMaterializedView = try reader["IsMaterializedView"].readIfPresent() ?? false
         value.isMultiDialectView = try reader["IsMultiDialectView"].readIfPresent() ?? false
         value.isProtected = try reader["IsProtected"].readIfPresent() ?? false
         value.isRegisteredWithLakeFormation = try reader["IsRegisteredWithLakeFormation"].readIfPresent() ?? false
@@ -48996,6 +49136,7 @@ extension GlueClientTypes.Table {
         value.federatedTable = try reader["FederatedTable"].readIfPresent(with: GlueClientTypes.FederatedTable.read(from:))
         value.viewDefinition = try reader["ViewDefinition"].readIfPresent(with: GlueClientTypes.ViewDefinition.read(from:))
         value.isMultiDialectView = try reader["IsMultiDialectView"].readIfPresent()
+        value.isMaterializedView = try reader["IsMaterializedView"].readIfPresent()
         value.status = try reader["Status"].readIfPresent(with: GlueClientTypes.TableStatus.read(from:))
         return value
     }
@@ -49051,7 +49192,12 @@ extension GlueClientTypes.ViewDefinition {
         var value = GlueClientTypes.ViewDefinition()
         value.isProtected = try reader["IsProtected"].readIfPresent()
         value.definer = try reader["Definer"].readIfPresent()
+        value.viewVersionId = try reader["ViewVersionId"].readIfPresent() ?? 0
+        value.viewVersionToken = try reader["ViewVersionToken"].readIfPresent()
+        value.refreshSeconds = try reader["RefreshSeconds"].readIfPresent()
+        value.lastRefreshType = try reader["LastRefreshType"].readIfPresent()
         value.subObjects = try reader["SubObjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subObjectVersionIds = try reader["SubObjectVersionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.representations = try reader["Representations"].readListIfPresent(memberReadingClosure: GlueClientTypes.ViewRepresentation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -49762,8 +49908,13 @@ extension GlueClientTypes.ViewDefinitionInput {
         guard let value else { return }
         try writer["Definer"].write(value.definer)
         try writer["IsProtected"].write(value.isProtected)
+        try writer["LastRefreshType"].write(value.lastRefreshType)
+        try writer["RefreshSeconds"].write(value.refreshSeconds)
         try writer["Representations"].writeList(value.representations, memberWritingClosure: GlueClientTypes.ViewRepresentationInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubObjectVersionIds"].writeList(value.subObjectVersionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubObjects"].writeList(value.subObjects, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ViewVersionId"].write(value.viewVersionId)
+        try writer["ViewVersionToken"].write(value.viewVersionToken)
     }
 }
 
@@ -49866,9 +50017,11 @@ extension GlueClientTypes.IcebergStructField {
         guard let value else { return }
         try writer["Doc"].write(value.doc)
         try writer["Id"].write(value.id)
+        try writer["InitialDefault"].write(value.initialDefault)
         try writer["Name"].write(value.name)
         try writer["Required"].write(value.`required`)
         try writer["Type"].write(value.type)
+        try writer["WriteDefault"].write(value.writeDefault)
     }
 }
 
@@ -50243,11 +50396,25 @@ extension GlueClientTypes.IcebergTableUpdate {
 
     static func write(value: GlueClientTypes.IcebergTableUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["EncryptionKey"].write(value.encryptionKey, with: GlueClientTypes.IcebergEncryptedKey.write(value:to:))
+        try writer["KeyId"].write(value.keyId)
         try writer["Location"].write(value.location)
         try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
         try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
         try writer["SortOrder"].write(value.sortOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.IcebergEncryptedKey {
+
+    static func write(value: GlueClientTypes.IcebergEncryptedKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptedById"].write(value.encryptedById)
+        try writer["EncryptedKeyMetadata"].write(value.encryptedKeyMetadata)
+        try writer["KeyId"].write(value.keyId)
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

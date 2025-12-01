@@ -207,6 +207,37 @@ extension PaginatorSequence where OperationStackInput == ListAssociatedAccessPol
     }
 }
 extension EKSClient {
+    /// Paginate over `[ListCapabilitiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCapabilitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCapabilitiesOutput`
+    public func listCapabilitiesPaginated(input: ListCapabilitiesInput) -> ClientRuntime.PaginatorSequence<ListCapabilitiesInput, ListCapabilitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCapabilitiesInput, ListCapabilitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCapabilities(input:))
+    }
+}
+
+extension ListCapabilitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCapabilitiesInput {
+        return ListCapabilitiesInput(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCapabilitiesInput, OperationStackOutput == ListCapabilitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCapabilitiesPaginated`
+    /// to access the nested member `[EKSClientTypes.CapabilitySummary]`
+    /// - Returns: `[EKSClientTypes.CapabilitySummary]`
+    public func capabilities() async throws -> [EKSClientTypes.CapabilitySummary] {
+        return try await self.asyncCompactMap { item in item.capabilities }
+    }
+}
+extension EKSClient {
     /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -444,6 +475,7 @@ extension ListUpdatesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListUpdatesInput {
         return ListUpdatesInput(
             addonName: self.addonName,
+            capabilityName: self.capabilityName,
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,
