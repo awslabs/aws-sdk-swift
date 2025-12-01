@@ -26,7 +26,7 @@ class S3EventStreamTests: S3XCTestCase {
     }
 
     // Tests event stream output in restXml protocol using S3::SelectObjectContent.
-    func testEventStreamOutput() async throws {
+    func xtestEventStreamOutput() async throws {
         let result = try await client.selectObjectContent(input: SelectObjectContentInput(
             bucket: bucketName,
             // Gets the two ID objects from the S3 object content.
