@@ -9224,6 +9224,8 @@ extension BedrockClientTypes {
 
     /// Configuration fields for invocation logging.
     public struct LoggingConfig: Swift.Sendable {
+        /// Set to include audio data in the log delivery.
+        public var audioDataDeliveryEnabled: Swift.Bool?
         /// CloudWatch logging configuration.
         public var cloudWatchConfig: BedrockClientTypes.CloudWatchConfig?
         /// Set to include embeddings data in the log delivery.
@@ -9238,6 +9240,7 @@ extension BedrockClientTypes {
         public var videoDataDeliveryEnabled: Swift.Bool?
 
         public init(
+            audioDataDeliveryEnabled: Swift.Bool? = nil,
             cloudWatchConfig: BedrockClientTypes.CloudWatchConfig? = nil,
             embeddingDataDeliveryEnabled: Swift.Bool? = nil,
             imageDataDeliveryEnabled: Swift.Bool? = nil,
@@ -9245,6 +9248,7 @@ extension BedrockClientTypes {
             textDataDeliveryEnabled: Swift.Bool? = nil,
             videoDataDeliveryEnabled: Swift.Bool? = nil
         ) {
+            self.audioDataDeliveryEnabled = audioDataDeliveryEnabled
             self.cloudWatchConfig = cloudWatchConfig
             self.embeddingDataDeliveryEnabled = embeddingDataDeliveryEnabled
             self.imageDataDeliveryEnabled = imageDataDeliveryEnabled
@@ -20956,6 +20960,7 @@ extension BedrockClientTypes.LoggingConfig {
 
     static func write(value: BedrockClientTypes.LoggingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioDataDeliveryEnabled"].write(value.audioDataDeliveryEnabled)
         try writer["cloudWatchConfig"].write(value.cloudWatchConfig, with: BedrockClientTypes.CloudWatchConfig.write(value:to:))
         try writer["embeddingDataDeliveryEnabled"].write(value.embeddingDataDeliveryEnabled)
         try writer["imageDataDeliveryEnabled"].write(value.imageDataDeliveryEnabled)
@@ -20973,6 +20978,7 @@ extension BedrockClientTypes.LoggingConfig {
         value.imageDataDeliveryEnabled = try reader["imageDataDeliveryEnabled"].readIfPresent()
         value.embeddingDataDeliveryEnabled = try reader["embeddingDataDeliveryEnabled"].readIfPresent()
         value.videoDataDeliveryEnabled = try reader["videoDataDeliveryEnabled"].readIfPresent()
+        value.audioDataDeliveryEnabled = try reader["audioDataDeliveryEnabled"].readIfPresent()
         return value
     }
 }

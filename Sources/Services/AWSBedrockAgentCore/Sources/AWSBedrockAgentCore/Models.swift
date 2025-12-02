@@ -1300,6 +1300,201 @@ public struct CompleteResourceTokenAuthOutput: Swift.Sendable {
     public init() { }
 }
 
+/// An exception thrown when attempting to create a resource with an identifier that already exists.
+public struct DuplicateIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateIdException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The input data structure containing agent session spans in OpenTelemetry format. Supports traces from frameworks like Strands (AgentCore Runtime) and LangGraph with OpenInference instrumentation for comprehensive evaluation.
+    public enum EvaluationInput: Swift.Sendable {
+        /// The collection of spans representing agent execution traces within a session. Each span contains detailed information about tool calls, model interactions, and other agent activities that can be evaluated for quality and performance.
+        case sessionspans([Smithy.Document])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The specification of which trace or span IDs to evaluate within the provided input data. Allows precise targeting of evaluation at different levels: tool calls, traces, or sessions.
+    public enum EvaluationTarget: Swift.Sendable {
+        /// The list of specific span IDs to evaluate within the provided traces. Used to target evaluation at individual tool calls or specific operations within the agent's execution flow.
+        case spanids([Swift.String])
+        /// The list of trace IDs to evaluate, representing complete request-response interactions. Used to evaluate entire conversation turns or specific agent interactions within a session.
+        case traceids([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct EvaluateInput: Swift.Sendable {
+    /// The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
+    /// This member is required.
+    public var evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput?
+    /// The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
+    public var evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget?
+    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
+    /// This member is required.
+    public var evaluatorId: Swift.String?
+
+    public init(
+        evaluationInput: BedrockAgentCoreClientTypes.EvaluationInput? = nil,
+        evaluationTarget: BedrockAgentCoreClientTypes.EvaluationTarget? = nil,
+        evaluatorId: Swift.String? = nil
+    ) {
+        self.evaluationInput = evaluationInput
+        self.evaluationTarget = evaluationTarget
+        self.evaluatorId = evaluatorId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The contextual information that uniquely identifies a span within the distributed tracing system. Contains session, trace, and span identifiers used to correlate evaluation results with specific agent execution points.
+    public struct SpanContext: Swift.Sendable {
+        /// The unique identifier of the session containing this span. Sessions represent complete conversation flows and are detected using configurable SessionTimeoutMinutes (default 15 minutes).
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The unique identifier of the specific span being referenced. Spans represent individual operations like tool calls, model invocations, or other discrete actions within the agent's execution.
+        public var spanId: Swift.String?
+        /// The unique identifier of the trace containing this span. Traces represent individual request-response interactions within a session and group related spans together.
+        public var traceId: Swift.String?
+
+        public init(
+            sessionId: Swift.String? = nil,
+            spanId: Swift.String? = nil,
+            traceId: Swift.String? = nil
+        ) {
+            self.sessionId = sessionId
+            self.spanId = spanId
+            self.traceId = traceId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The contextual information associated with an evaluation, including span context details that identify the specific traces and sessions being evaluated within the agent's execution flow.
+    public enum Context: Swift.Sendable {
+        /// The span context information that uniquely identifies the trace and span being evaluated, including session ID, trace ID, and span ID for precise targeting within the agent's execution flow.
+        case spancontext(BedrockAgentCoreClientTypes.SpanContext)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The token consumption statistics for language model operations during evaluation. Provides detailed breakdown of input, output, and total tokens used for cost tracking and performance monitoring.
+    public struct TokenUsage: Swift.Sendable {
+        /// The number of tokens consumed for input processing during the evaluation. Includes tokens from the evaluation prompt, agent traces, and any additional context provided to the evaluator model.
+        public var inputTokens: Swift.Int?
+        /// The number of tokens generated by the evaluator model in its response. Includes tokens for the score, explanation, and any additional output produced during the evaluation process.
+        public var outputTokens: Swift.Int?
+        /// The total number of tokens consumed during the evaluation, calculated as the sum of input and output tokens. Used for cost calculation and rate limiting within the service limits.
+        public var totalTokens: Swift.Int?
+
+        public init(
+            inputTokens: Swift.Int? = nil,
+            outputTokens: Swift.Int? = nil,
+            totalTokens: Swift.Int? = nil
+        ) {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+            self.totalTokens = totalTokens
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The comprehensive result of an evaluation containing the score, explanation, evaluator metadata, and execution details. Provides both quantitative ratings and qualitative insights about agent performance.
+    public struct EvaluationResultContent: Swift.Sendable {
+        /// The contextual information associated with this evaluation result, including span context details that identify the specific traces and sessions that were evaluated.
+        /// This member is required.
+        public var context: BedrockAgentCoreClientTypes.Context?
+        /// The error code indicating the type of failure that occurred during evaluation. Used to programmatically identify and handle different categories of evaluation errors.
+        public var errorCode: Swift.String?
+        /// The error message describing what went wrong if the evaluation failed. Provides detailed information about evaluation failures to help diagnose and resolve issues with evaluator configuration or input data.
+        public var errorMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) of the evaluator used to generate this result. For custom evaluators, this is the full ARN; for built-in evaluators, this follows the pattern Builtin.{EvaluatorName}.
+        /// This member is required.
+        public var evaluatorArn: Swift.String?
+        /// The unique identifier of the evaluator that produced this result. This matches the evaluatorId provided in the evaluation request and can be used to identify which evaluator generated specific results.
+        /// This member is required.
+        public var evaluatorId: Swift.String?
+        /// The human-readable name of the evaluator used for this evaluation. For built-in evaluators, this is the descriptive name (e.g., "Helpfulness", "Correctness"); for custom evaluators, this is the user-defined name.
+        /// This member is required.
+        public var evaluatorName: Swift.String?
+        /// The detailed explanation provided by the evaluator describing the reasoning behind the assigned score. This qualitative feedback helps understand why specific ratings were given and provides actionable insights for improvement.
+        public var explanation: Swift.String?
+        /// The categorical label assigned by the evaluator when using a categorical rating scale. This provides a human-readable description of the evaluation result (e.g., "Excellent", "Good", "Poor") corresponding to the numerical value. For numerical scales, this field is optional and provides a natural language explanation of what the value means (e.g., value 0.5 = "Somewhat Helpful").
+        public var label: Swift.String?
+        /// The token consumption statistics for this evaluation, including input tokens, output tokens, and total tokens used by the underlying language model during the evaluation process.
+        public var tokenUsage: BedrockAgentCoreClientTypes.TokenUsage?
+        /// The numerical score assigned by the evaluator according to its configured rating scale. For numerical scales, this is a decimal value within the defined range. This field is not allowed for categorical scales.
+        public var value: Swift.Double?
+
+        public init(
+            context: BedrockAgentCoreClientTypes.Context? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            evaluatorArn: Swift.String? = nil,
+            evaluatorId: Swift.String? = nil,
+            evaluatorName: Swift.String? = nil,
+            explanation: Swift.String? = nil,
+            label: Swift.String? = nil,
+            tokenUsage: BedrockAgentCoreClientTypes.TokenUsage? = nil,
+            value: Swift.Double? = nil
+        ) {
+            self.context = context
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.evaluatorArn = evaluatorArn
+            self.evaluatorId = evaluatorId
+            self.evaluatorName = evaluatorName
+            self.explanation = explanation
+            self.label = label
+            self.tokenUsage = tokenUsage
+            self.value = value
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationResultContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluationResultContent(context: \(Swift.String(describing: context)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), label: \(Swift.String(describing: label)), tokenUsage: \(Swift.String(describing: tokenUsage)), value: \(Swift.String(describing: value)), explanation: \"CONTENT_REDACTED\")"}
+}
+
+public struct EvaluateOutput: Swift.Sendable {
+    /// The detailed evaluation results containing scores, explanations, and metadata. Includes the evaluator information, numerical or categorical ratings based on the evaluator's rating scale, and token usage statistics for the evaluation process.
+    /// This member is required.
+    public var evaluationResults: [BedrockAgentCoreClientTypes.EvaluationResultContent]?
+
+    public init(
+        evaluationResults: [BedrockAgentCoreClientTypes.EvaluationResultContent]? = nil
+    ) {
+        self.evaluationResults = evaluationResults
+    }
+}
+
 public struct GetResourceApiKeyInput: Swift.Sendable {
     /// The credential provider name for the resource from which you are retrieving the API key.
     /// This member is required.
@@ -2723,6 +2918,8 @@ extension BedrockAgentCoreClientTypes {
         /// The identifier of the memory strategy associated with this record.
         /// This member is required.
         public var memoryStrategyId: Swift.String?
+        /// A map of metadata key-value pairs associated with a memory record.
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
         /// The namespaces associated with this memory record. Namespaces help organize and categorize memory records.
         /// This member is required.
         public var namespaces: [Swift.String]?
@@ -2732,12 +2929,14 @@ extension BedrockAgentCoreClientTypes {
             createdAt: Foundation.Date? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.content = content
             self.createdAt = createdAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
         }
     }
@@ -3171,6 +3370,8 @@ extension BedrockAgentCoreClientTypes {
         /// The identifier of the memory strategy associated with this record.
         /// This member is required.
         public var memoryStrategyId: Swift.String?
+        /// A map of metadata key-value pairs associated with a memory record.
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
         /// The namespaces associated with this memory record.
         /// This member is required.
         public var namespaces: [Swift.String]?
@@ -3182,6 +3383,7 @@ extension BedrockAgentCoreClientTypes {
             createdAt: Foundation.Date? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
             score: Swift.Double? = nil
         ) {
@@ -3189,6 +3391,7 @@ extension BedrockAgentCoreClientTypes {
             self.createdAt = createdAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
             self.score = score
         }
@@ -3280,10 +3483,37 @@ public struct ListSessionsOutput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Filters to apply to metadata associated with a memory. Specify the metadata key and value in the left and right fields and use the operator field to define the relationship to match.
+    public struct MemoryMetadataFilterExpression: Swift.Sendable {
+        /// Left expression of the event metadata filter.
+        /// This member is required.
+        public var `left`: BedrockAgentCoreClientTypes.LeftExpression?
+        /// The relationship between the metadata key and value to match when applying the metadata filter.
+        /// This member is required.
+        public var `operator`: BedrockAgentCoreClientTypes.OperatorType?
+        /// Right expression of the eventMetadatafilter.
+        public var `right`: BedrockAgentCoreClientTypes.RightExpression?
+
+        public init(
+            `left`: BedrockAgentCoreClientTypes.LeftExpression? = nil,
+            `operator`: BedrockAgentCoreClientTypes.OperatorType? = nil,
+            `right`: BedrockAgentCoreClientTypes.RightExpression? = nil
+        ) {
+            self.`left` = `left`
+            self.`operator` = `operator`
+            self.`right` = `right`
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Contains search criteria for retrieving memory records.
     public struct SearchCriteria: Swift.Sendable {
         /// The memory strategy identifier to filter memory records by.
         public var memoryStrategyId: Swift.String?
+        /// Filters to apply to metadata associated with a memory.
+        public var metadataFilters: [BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression]?
         /// The search query to use for finding relevant memory records.
         /// This member is required.
         public var searchQuery: Swift.String?
@@ -3292,10 +3522,12 @@ extension BedrockAgentCoreClientTypes {
 
         public init(
             memoryStrategyId: Swift.String? = nil,
+            metadataFilters: [BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression]? = nil,
             searchQuery: Swift.String? = nil,
             topk: Swift.Int? = 10
         ) {
             self.memoryStrategyId = memoryStrategyId
+            self.metadataFilters = metadataFilters
             self.searchQuery = searchQuery
             self.topk = topk
         }
@@ -3304,7 +3536,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.SearchCriteria: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchCriteria(memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), topk: \(Swift.String(describing: topk)), searchQuery: \"CONTENT_REDACTED\")"}
+        "SearchCriteria(memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), metadataFilters: \(Swift.String(describing: metadataFilters)), topk: \(Swift.String(describing: topk)), searchQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct RetrieveMemoryRecordsInput: Swift.Sendable {
@@ -3478,6 +3710,16 @@ extension DeleteMemoryRecordInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/memoryRecords/\(memoryRecordId.urlPercentEncoding())"
+    }
+}
+
+extension EvaluateInput {
+
+    static func urlPathProvider(_ value: EvaluateInput) -> Swift.String? {
+        guard let evaluatorId = value.evaluatorId else {
+            return nil
+        }
+        return "/evaluations/evaluate/\(evaluatorId.urlPercentEncoding())"
     }
 }
 
@@ -4048,6 +4290,15 @@ extension CreateEventInput {
     }
 }
 
+extension EvaluateInput {
+
+    static func write(value: EvaluateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["evaluationInput"].write(value.evaluationInput, with: BedrockAgentCoreClientTypes.EvaluationInput.write(value:to:))
+        try writer["evaluationTarget"].write(value.evaluationTarget, with: BedrockAgentCoreClientTypes.EvaluationTarget.write(value:to:))
+    }
+}
+
 extension GetResourceApiKeyInput {
 
     static func write(value: GetResourceApiKeyInput?, to writer: SmithyJSON.Writer) throws {
@@ -4338,6 +4589,18 @@ extension DeleteMemoryRecordOutput {
         let reader = responseReader
         var value = DeleteMemoryRecordOutput()
         value.memoryRecordId = try reader["memoryRecordId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EvaluateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EvaluateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EvaluateOutput()
+        value.evaluationResults = try reader["evaluationResults"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.EvaluationResultContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4869,6 +5132,28 @@ enum DeleteMemoryRecordOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EvaluateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DuplicateIdException": return try DuplicateIdException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5534,11 +5819,11 @@ extension InvalidInputException {
     }
 }
 
-extension RuntimeClientError {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RuntimeClientError {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = RuntimeClientError()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5547,11 +5832,24 @@ extension RuntimeClientError {
     }
 }
 
-extension ConflictException {
+extension DuplicateIdException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DuplicateIdException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = DuplicateIdException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RuntimeClientError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RuntimeClientError {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeClientError()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5754,6 +6052,63 @@ extension BedrockAgentCoreClientTypes.Content {
     }
 }
 
+extension BedrockAgentCoreClientTypes.EvaluationResultContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EvaluationResultContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EvaluationResultContent()
+        value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
+        value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
+        value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
+        value.explanation = try reader["explanation"].readIfPresent()
+        value.context = try reader["context"].readIfPresent(with: BedrockAgentCoreClientTypes.Context.read(from:))
+        value.value = try reader["value"].readIfPresent()
+        value.label = try reader["label"].readIfPresent()
+        value.tokenUsage = try reader["tokenUsage"].readIfPresent(with: BedrockAgentCoreClientTypes.TokenUsage.read(from:))
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.TokenUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.TokenUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.TokenUsage()
+        value.inputTokens = try reader["inputTokens"].readIfPresent()
+        value.outputTokens = try reader["outputTokens"].readIfPresent()
+        value.totalTokens = try reader["totalTokens"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Context {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Context {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "spanContext":
+                return .spancontext(try reader["spanContext"].read(with: BedrockAgentCoreClientTypes.SpanContext.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SpanContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SpanContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SpanContext()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.traceId = try reader["traceId"].readIfPresent()
+        value.spanId = try reader["spanId"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ViewPort {
 
     static func write(value: BedrockAgentCoreClientTypes.ViewPort?, to writer: SmithyJSON.Writer) throws {
@@ -5813,6 +6168,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecord {
         value.memoryStrategyId = try reader["memoryStrategyId"].readIfPresent() ?? ""
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6075,6 +6431,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordSummary {
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.score = try reader["score"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6132,6 +6489,34 @@ extension BedrockAgentCoreClientTypes.UserIdentifier {
                 try writer["userId"].write(userid)
             case let .usertoken(usertoken):
                 try writer["userToken"].write(usertoken)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sessionspans(sessionspans):
+                try writer["sessionSpans"].writeList(sessionspans, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationTarget {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .spanids(spanids):
+                try writer["spanIds"].writeList(spanids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .traceids(traceids):
+                try writer["traceIds"].writeList(traceids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6234,8 +6619,19 @@ extension BedrockAgentCoreClientTypes.SearchCriteria {
     static func write(value: BedrockAgentCoreClientTypes.SearchCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["metadataFilters"].writeList(value.metadataFilters, memberWritingClosure: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["searchQuery"].write(value.searchQuery)
         try writer["topK"].write(value.topk)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression {
+
+    static func write(value: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["left"].write(value.`left`, with: BedrockAgentCoreClientTypes.LeftExpression.write(value:to:))
+        try writer["operator"].write(value.`operator`)
+        try writer["right"].write(value.`right`, with: BedrockAgentCoreClientTypes.RightExpression.write(value:to:))
     }
 }
 

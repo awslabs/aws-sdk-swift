@@ -278,12 +278,14 @@ extension SavingsplansClientTypes {
 
     public enum CurrencyCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cny
+        case eur
         case usd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CurrencyCode] {
             return [
                 .cny,
+                .eur,
                 .usd
             ]
         }
@@ -296,6 +298,7 @@ extension SavingsplansClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cny: return "CNY"
+            case .eur: return "EUR"
             case .usd: return "USD"
             case let .sdkUnknown(s): return s
             }
@@ -306,18 +309,36 @@ extension SavingsplansClientTypes {
 extension SavingsplansClientTypes {
 
     public enum SavingsPlanProductType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dms
+        case docdb
+        case dsql
+        case dynamodb
         case ec2
+        case elasticache
         case fargate
+        case keyspaces
         case lambda
+        case neptune
+        case rds
         case sagemaker
+        case timestream
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SavingsPlanProductType] {
             return [
+                .dms,
+                .docdb,
+                .dsql,
+                .dynamodb,
                 .ec2,
+                .elasticache,
                 .fargate,
+                .keyspaces,
                 .lambda,
-                .sagemaker
+                .neptune,
+                .rds,
+                .sagemaker,
+                .timestream
             ]
         }
 
@@ -328,10 +349,19 @@ extension SavingsplansClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dms: return "DMS"
+            case .docdb: return "DocDB"
+            case .dsql: return "DSQL"
+            case .dynamodb: return "DynamoDB"
             case .ec2: return "EC2"
+            case .elasticache: return "ElastiCache"
             case .fargate: return "Fargate"
+            case .keyspaces: return "Keyspaces"
             case .lambda: return "Lambda"
+            case .neptune: return "Neptune"
+            case .rds: return "RDS"
             case .sagemaker: return "SageMaker"
+            case .timestream: return "Timestream"
             case let .sdkUnknown(s): return s
             }
         }
@@ -398,20 +428,38 @@ extension SavingsplansClientTypes {
 extension SavingsplansClientTypes {
 
     public enum SavingsPlanRateServiceCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aurora
+        case dms
+        case docdb
+        case dynamodb
         case ec2
+        case elasticache
         case fargate
         case fargateEks
         case lambda
+        case mcs
+        case neptune
+        case rds
         case sagemaker
+        case timestream
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SavingsPlanRateServiceCode] {
             return [
+                .aurora,
+                .dms,
+                .docdb,
+                .dynamodb,
                 .ec2,
+                .elasticache,
                 .fargate,
                 .fargateEks,
                 .lambda,
-                .sagemaker
+                .mcs,
+                .neptune,
+                .rds,
+                .sagemaker,
+                .timestream
             ]
         }
 
@@ -422,11 +470,20 @@ extension SavingsplansClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aurora: return "AuroraDSQL"
+            case .dms: return "AWSDatabaseMigrationSvc"
+            case .docdb: return "AmazonDocDB"
+            case .dynamodb: return "AmazonDynamoDB"
             case .ec2: return "AmazonEC2"
+            case .elasticache: return "AmazonElastiCache"
             case .fargate: return "AmazonECS"
             case .fargateEks: return "AmazonEKS"
             case .lambda: return "AWSLambda"
+            case .mcs: return "AmazonMCS"
+            case .neptune: return "AmazonNeptune"
+            case .rds: return "AmazonRDS"
             case .sagemaker: return "AmazonSageMaker"
+            case .timestream: return "AmazonTimestream"
             case let .sdkUnknown(s): return s
             }
         }
@@ -436,16 +493,40 @@ extension SavingsplansClientTypes {
 extension SavingsplansClientTypes {
 
     public enum SavingsPlanRateUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acuHr
+        case dcuHr
+        case dpu
+        case elastiCacheProcessingUnit
+        case gbHours
         case hours
         case lambdaGbSecond
+        case ncuHr
+        case readCapacityUnitHrs
+        case readRequestUnits
+        case replicatedWriteCapacityUnitHrs
+        case replicatedWriteRequestUnits
         case request
+        case writeCapacityUnitHrs
+        case writeRequestUnits
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SavingsPlanRateUnit] {
             return [
+                .acuHr,
+                .dcuHr,
+                .dpu,
+                .elastiCacheProcessingUnit,
+                .gbHours,
                 .hours,
                 .lambdaGbSecond,
-                .request
+                .ncuHr,
+                .readCapacityUnitHrs,
+                .readRequestUnits,
+                .replicatedWriteCapacityUnitHrs,
+                .replicatedWriteRequestUnits,
+                .request,
+                .writeCapacityUnitHrs,
+                .writeRequestUnits
             ]
         }
 
@@ -456,9 +537,21 @@ extension SavingsplansClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .acuHr: return "ACU-Hr"
+            case .dcuHr: return "DCU-Hr"
+            case .dpu: return "DPU"
+            case .elastiCacheProcessingUnit: return "ElastiCacheProcessingUnit"
+            case .gbHours: return "GB-Hours"
             case .hours: return "Hrs"
             case .lambdaGbSecond: return "Lambda-GB-Second"
+            case .ncuHr: return "NCU-hr"
+            case .readCapacityUnitHrs: return "ReadCapacityUnit-Hrs"
+            case .readRequestUnits: return "ReadRequestUnits"
+            case .replicatedWriteCapacityUnitHrs: return "ReplicatedWriteCapacityUnit-Hrs"
+            case .replicatedWriteRequestUnits: return "ReplicatedWriteRequestUnits"
             case .request: return "Request"
+            case .writeCapacityUnitHrs: return "WriteCapacityUnit-Hrs"
+            case .writeRequestUnits: return "WriteRequestUnits"
             case let .sdkUnknown(s): return s
             }
         }
@@ -533,6 +626,7 @@ extension SavingsplansClientTypes {
         case commitment
         case ec2InstanceFamily
         case end
+        case instanceFamily
         case paymentOption
         case region
         case savingsPlanType
@@ -546,6 +640,7 @@ extension SavingsplansClientTypes {
                 .commitment,
                 .ec2InstanceFamily,
                 .end,
+                .instanceFamily,
                 .paymentOption,
                 .region,
                 .savingsPlanType,
@@ -565,6 +660,7 @@ extension SavingsplansClientTypes {
             case .commitment: return "commitment"
             case .ec2InstanceFamily: return "ec2-instance-family"
             case .end: return "end"
+            case .instanceFamily: return "instance-family"
             case .paymentOption: return "payment-option"
             case .region: return "region"
             case .savingsPlanType: return "savings-plan-type"
@@ -710,6 +806,7 @@ extension SavingsplansClientTypes {
 
     public enum SavingsPlanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compute
+        case database
         case ec2Instance
         case sagemaker
         case sdkUnknown(Swift.String)
@@ -717,6 +814,7 @@ extension SavingsplansClientTypes {
         public static var allCases: [SavingsPlanType] {
             return [
                 .compute,
+                .database,
                 .ec2Instance,
                 .sagemaker
             ]
@@ -730,6 +828,7 @@ extension SavingsplansClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .compute: return "Compute"
+            case .database: return "Database"
             case .ec2Instance: return "EC2Instance"
             case .sagemaker: return "SageMaker"
             case let .sdkUnknown(s): return s
@@ -762,7 +861,7 @@ extension SavingsplansClientTypes {
         public var recurringPaymentAmount: Swift.String?
         /// The Amazon Web Services Region.
         public var region: Swift.String?
-        /// The time until when a return for the Savings Plan can be requested. If the Savings Plan is not returnable, the field reflects the Savings Plan start time.
+        /// The time until when a return for the Savings Plan can be requested. If the Savings Plan is not returnable, the field reflects the Savings Plans start time.
         public var returnableUntil: Swift.String?
         /// The Amazon Resource Name (ARN) of the Savings Plan.
         public var savingsPlanArn: Swift.String?
@@ -1717,6 +1816,7 @@ enum DescribeSavingsPlanRatesOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

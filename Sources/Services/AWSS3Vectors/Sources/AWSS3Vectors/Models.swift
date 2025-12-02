@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
+import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -26,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.Document
+import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access denied.
@@ -205,73 +207,6 @@ extension S3VectorsClientTypes {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The metadata configuration for a vector index.
-    public struct MetadataConfiguration: Swift.Sendable {
-        /// Non-filterable metadata keys allow you to enrich vectors with additional context during storage and retrieval. Unlike default metadata keys, these keys can’t be used as query filters. Non-filterable metadata keys can be retrieved but can’t be searched, queried, or filtered. You can access non-filterable metadata keys of your vectors after finding the vectors. For more information about non-filterable metadata keys, see [Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-vectors.html) and [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide.
-        /// This member is required.
-        public var nonFilterableMetadataKeys: [Swift.String]?
-
-        public init(
-            nonFilterableMetadataKeys: [Swift.String]? = nil
-        ) {
-            self.nonFilterableMetadataKeys = nonFilterableMetadataKeys
-        }
-    }
-}
-
-public struct CreateIndexInput: Swift.Sendable {
-    /// The data type of the vectors to be inserted into the vector index.
-    /// This member is required.
-    public var dataType: S3VectorsClientTypes.DataType?
-    /// The dimensions of the vectors to be inserted into the vector index.
-    /// This member is required.
-    public var dimension: Swift.Int?
-    /// The distance metric to be used for similarity search.
-    /// This member is required.
-    public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
-    /// The name of the vector index to create.
-    /// This member is required.
-    public var indexName: Swift.String?
-    /// The metadata configuration for the vector index.
-    public var metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration?
-    /// The Amazon Resource Name (ARN) of the vector bucket to create the vector index in.
-    public var vectorBucketArn: Swift.String?
-    /// The name of the vector bucket to create the vector index in.
-    public var vectorBucketName: Swift.String?
-
-    public init(
-        dataType: S3VectorsClientTypes.DataType? = nil,
-        dimension: Swift.Int? = nil,
-        distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
-        indexName: Swift.String? = nil,
-        metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration? = nil,
-        vectorBucketArn: Swift.String? = nil,
-        vectorBucketName: Swift.String? = nil
-    ) {
-        self.dataType = dataType
-        self.dimension = dimension
-        self.distanceMetric = distanceMetric
-        self.indexName = indexName
-        self.metadataConfiguration = metadataConfiguration
-        self.vectorBucketArn = vectorBucketArn
-        self.vectorBucketName = vectorBucketName
-    }
-}
-
-public struct CreateIndexOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the newly created vector index.
-    /// This member is required.
-    public var indexArn: Swift.String?
-
-    public init(
-        indexArn: Swift.String? = nil
-    ) {
-        self.indexArn = indexArn
-    }
-}
-
-extension S3VectorsClientTypes {
-
     public enum SseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
         case awsKms
@@ -301,7 +236,7 @@ extension S3VectorsClientTypes {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The encryption configuration for a vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256.
+    /// The encryption configuration for a vector bucket or index. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256. You can optionally override bucket level encryption settings, and set a specific encryption configuration for a vector index at the time of index creation.
     public struct EncryptionConfiguration: Swift.Sendable {
         /// Amazon Web Services Key Management Service (KMS) customer managed key ID to use for the encryption configuration. This parameter is allowed if and only if sseType is set to aws:kms. To specify the KMS key, you must use the format of the KMS key Amazon Resource Name (ARN). For example, specify Key ARN in the following format: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
         public var kmsKeyArn: Swift.String?
@@ -318,18 +253,97 @@ extension S3VectorsClientTypes {
     }
 }
 
+extension S3VectorsClientTypes {
+
+    /// The metadata configuration for a vector index.
+    public struct MetadataConfiguration: Swift.Sendable {
+        /// Non-filterable metadata keys allow you to enrich vectors with additional context during storage and retrieval. Unlike default metadata keys, these keys can’t be used as query filters. Non-filterable metadata keys can be retrieved but can’t be searched, queried, or filtered. You can access non-filterable metadata keys of your vectors after finding the vectors. For more information about non-filterable metadata keys, see [Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-vectors.html) and [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide.
+        /// This member is required.
+        public var nonFilterableMetadataKeys: [Swift.String]?
+
+        public init(
+            nonFilterableMetadataKeys: [Swift.String]? = nil
+        ) {
+            self.nonFilterableMetadataKeys = nonFilterableMetadataKeys
+        }
+    }
+}
+
+public struct CreateIndexInput: Swift.Sendable {
+    /// The data type of the vectors to be inserted into the vector index.
+    /// This member is required.
+    public var dataType: S3VectorsClientTypes.DataType?
+    /// The dimensions of the vectors to be inserted into the vector index.
+    /// This member is required.
+    public var dimension: Swift.Int?
+    /// The distance metric to be used for similarity search.
+    /// This member is required.
+    public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
+    /// The encryption configuration for a vector index. By default, if you don't specify, all new vectors in the vector index will use the encryption configuration of the vector bucket.
+    public var encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration?
+    /// The name of the vector index to create.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The metadata configuration for the vector index.
+    public var metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration?
+    /// An array of user-defined tags that you would like to apply to the vector index that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize, track costs, and control access to resources. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
+    public var tags: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the vector bucket to create the vector index in.
+    public var vectorBucketArn: Swift.String?
+    /// The name of the vector bucket to create the vector index in.
+    public var vectorBucketName: Swift.String?
+
+    public init(
+        dataType: S3VectorsClientTypes.DataType? = nil,
+        dimension: Swift.Int? = nil,
+        distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
+        encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration? = nil,
+        indexName: Swift.String? = nil,
+        metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        vectorBucketArn: Swift.String? = nil,
+        vectorBucketName: Swift.String? = nil
+    ) {
+        self.dataType = dataType
+        self.dimension = dimension
+        self.distanceMetric = distanceMetric
+        self.encryptionConfiguration = encryptionConfiguration
+        self.indexName = indexName
+        self.metadataConfiguration = metadataConfiguration
+        self.tags = tags
+        self.vectorBucketArn = vectorBucketArn
+        self.vectorBucketName = vectorBucketName
+    }
+}
+
+public struct CreateIndexOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the newly created vector index.
+    /// This member is required.
+    public var indexArn: Swift.String?
+
+    public init(
+        indexArn: Swift.String? = nil
+    ) {
+        self.indexArn = indexArn
+    }
+}
+
 public struct CreateVectorBucketInput: Swift.Sendable {
     /// The encryption configuration for the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256.
     public var encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration?
+    /// An array of user-defined tags that you would like to apply to the vector bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
+    public var tags: [Swift.String: Swift.String]?
     /// The name of the vector bucket to create.
     /// This member is required.
     public var vectorBucketName: Swift.String?
 
     public init(
         encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         vectorBucketName: Swift.String? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
+        self.tags = tags
         self.vectorBucketName = vectorBucketName
     }
 }
@@ -563,7 +577,7 @@ public struct GetIndexInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector index.
+    /// The attributes of a vector index.
     public struct Index: Swift.Sendable {
         /// Date and time when the vector index was created.
         /// This member is required.
@@ -577,6 +591,8 @@ extension S3VectorsClientTypes {
         /// The distance metric to be used for similarity search.
         /// This member is required.
         public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
+        /// The encryption configuration for a vector index. By default, if you don't specify, all new vectors in the vector index will use the encryption configuration of the vector bucket.
+        public var encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the vector index.
         /// This member is required.
         public var indexArn: Swift.String?
@@ -594,6 +610,7 @@ extension S3VectorsClientTypes {
             dataType: S3VectorsClientTypes.DataType? = nil,
             dimension: Swift.Int? = nil,
             distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
+            encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration? = nil,
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
             metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration? = nil,
@@ -603,6 +620,7 @@ extension S3VectorsClientTypes {
             self.dataType = dataType
             self.dimension = dimension
             self.distanceMetric = distanceMetric
+            self.encryptionConfiguration = encryptionConfiguration
             self.indexArn = indexArn
             self.indexName = indexName
             self.metadataConfiguration = metadataConfiguration
@@ -625,7 +643,7 @@ public struct GetIndexOutput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The vector data in different formats.
+    /// The vector data in different formats.
     public enum VectorData: Swift.Sendable {
         /// The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed.
         case float32([Swift.Float])
@@ -635,7 +653,7 @@ extension S3VectorsClientTypes {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector returned by the GetVectors operation.
+    /// The attributes of a vector returned by the GetVectors operation.
     public struct GetOutputVector: Swift.Sendable {
         /// The vector data of the vector.
         public var data: S3VectorsClientTypes.VectorData?
@@ -674,7 +692,7 @@ public struct GetVectorBucketInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector bucket.
+    /// The attributes of a vector bucket.
     public struct VectorBucket: Swift.Sendable {
         /// Date and time when the vector bucket was created.
         /// This member is required.
@@ -813,7 +831,7 @@ public struct ListIndexesInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Summary information about a vector index.
+    /// Summary information about a vector index.
     public struct IndexSummary: Swift.Sendable {
         /// Date and time when the vector index was created.
         /// This member is required.
@@ -903,7 +921,7 @@ public struct ListVectorsInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector returned by the ListVectors operation.
+    /// The attributes of a vector returned by the ListVectors operation.
     public struct ListOutputVector: Swift.Sendable {
         /// The vector data of the vector.
         public var data: S3VectorsClientTypes.VectorData?
@@ -943,7 +961,7 @@ public struct ListVectorsOutput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector to add to a vector index.
+    /// The attributes of a vector to add to a vector index.
     public struct PutInputVector: Swift.Sendable {
         /// The vector data of the vector. Vector dimensions must match the dimension count that's configured for the vector index.
         ///
@@ -1042,10 +1060,8 @@ public struct QueryVectorsInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. The attributes of a vector in the approximate nearest neighbor search.
+    /// The attributes of a vector in the approximate nearest neighbor search.
     public struct QueryOutputVector: Swift.Sendable {
-        /// The vector data associated with the vector, if requested.
-        public var data: S3VectorsClientTypes.VectorData?
         /// The measure of similarity between the vector in the response and the query vector.
         public var distance: Swift.Float?
         /// The key of the vector in the approximate nearest neighbor search.
@@ -1055,12 +1071,10 @@ extension S3VectorsClientTypes {
         public var metadata: Smithy.Document?
 
         public init(
-            data: S3VectorsClientTypes.VectorData? = nil,
             distance: Swift.Float? = nil,
             key: Swift.String? = nil,
             metadata: Smithy.Document? = nil
         ) {
-            self.data = data
             self.distance = distance
             self.key = key
             self.metadata = metadata
@@ -1109,6 +1123,30 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you want to list tags for. The tagged resource can be a vector bucket or a vector index.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The user-defined tags that are applied to the S3 Vectors resource. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html).
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
 public struct ListVectorBucketsInput: Swift.Sendable {
     /// The maximum number of vector buckets to be returned in the response.
     public var maxResults: Swift.Int?
@@ -1130,7 +1168,7 @@ public struct ListVectorBucketsInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Summary information about a vector bucket.
+    /// Summary information about a vector bucket.
     public struct VectorBucketSummary: Swift.Sendable {
         /// Date and time when the vector bucket was created.
         /// This member is required.
@@ -1219,6 +1257,28 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're applying tags to. The tagged resource can be a vector bucket or a vector index.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The user-defined tag that you want to add to the specified S3 Vectors resource. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html).
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// The request was denied due to request throttling.
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1241,6 +1301,28 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     ) {
         self.properties.message = message
     }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The array of tag keys that you're removing from the S3 Vectors resource. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html).
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension S3VectorsClientTypes {
@@ -1369,6 +1451,16 @@ extension ListIndexesInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension ListVectorBucketsInput {
 
     static func urlPathProvider(_ value: ListVectorBucketsInput) -> Swift.String? {
@@ -1404,6 +1496,42 @@ extension QueryVectorsInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
 extension CreateIndexInput {
 
     static func write(value: CreateIndexInput?, to writer: SmithyJSON.Writer) throws {
@@ -1411,8 +1539,10 @@ extension CreateIndexInput {
         try writer["dataType"].write(value.dataType)
         try writer["dimension"].write(value.dimension)
         try writer["distanceMetric"].write(value.distanceMetric)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3VectorsClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["indexName"].write(value.indexName)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: S3VectorsClientTypes.MetadataConfiguration.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["vectorBucketArn"].write(value.vectorBucketArn)
         try writer["vectorBucketName"].write(value.vectorBucketName)
     }
@@ -1423,6 +1553,7 @@ extension CreateVectorBucketInput {
     static func write(value: CreateVectorBucketInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3VectorsClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["vectorBucketName"].write(value.vectorBucketName)
     }
 }
@@ -1581,6 +1712,14 @@ extension QueryVectorsInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateIndexOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
@@ -1694,6 +1833,18 @@ extension ListIndexesOutput {
     }
 }
 
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension ListVectorBucketsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVectorBucketsOutput {
@@ -1744,6 +1895,20 @@ extension QueryVectorsOutput {
         value.distanceMetric = try reader["distanceMetric"].readIfPresent() ?? .sdkUnknown("")
         value.vectors = try reader["vectors"].readListIfPresent(memberReadingClosure: S3VectorsClientTypes.QueryOutputVector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
     }
 }
 
@@ -1802,6 +1967,7 @@ enum DeleteIndexOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1818,6 +1984,7 @@ enum DeleteVectorBucketOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1945,6 +2112,22 @@ enum ListIndexesOutputError {
     }
 }
 
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListVectorBucketsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2028,6 +2211,40 @@ enum QueryVectorsOutputError {
             case "KmsInvalidKeyUsageException": return try KmsInvalidKeyUsageException.makeError(baseError: baseError)
             case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
             case "KmsNotFoundException": return try KmsNotFoundException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2218,6 +2435,24 @@ extension S3VectorsClientTypes.Index {
         value.dimension = try reader["dimension"].readIfPresent() ?? 0
         value.distanceMetric = try reader["distanceMetric"].readIfPresent() ?? .sdkUnknown("")
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: S3VectorsClientTypes.MetadataConfiguration.read(from:))
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.EncryptionConfiguration {
+
+    static func write(value: S3VectorsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["sseType"].write(value.sseType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.EncryptionConfiguration()
+        value.sseType = try reader["sseType"].readIfPresent() ?? S3VectorsClientTypes.SseType.aes256
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
 }
@@ -2246,23 +2481,6 @@ extension S3VectorsClientTypes.VectorBucket {
         value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension S3VectorsClientTypes.EncryptionConfiguration {
-
-    static func write(value: S3VectorsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["sseType"].write(value.sseType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.EncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.EncryptionConfiguration()
-        value.sseType = try reader["sseType"].readIfPresent() ?? S3VectorsClientTypes.SseType.aes256
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
 }
@@ -2345,10 +2563,9 @@ extension S3VectorsClientTypes.QueryOutputVector {
     static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.QueryOutputVector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3VectorsClientTypes.QueryOutputVector()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.data = try reader["data"].readIfPresent(with: S3VectorsClientTypes.VectorData.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent()
         value.distance = try reader["distance"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readIfPresent()
         return value
     }
 }

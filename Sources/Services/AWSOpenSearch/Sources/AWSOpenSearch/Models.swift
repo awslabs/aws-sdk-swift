@@ -1271,19 +1271,38 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration for serverless vector acceleration, which provides [GPU-accelerated](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/gpu-acceleration-vector-index.html) vector search capabilities for improved performance on vector workloads.
+    public struct ServerlessVectorAcceleration: Swift.Sendable {
+        /// Specifies whether serverless vector acceleration is enabled for the domain.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Container for parameters required to enable all machine learning features.
     public struct AIMLOptionsInput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?
         /// Container for parameters required to enable S3 vectors engine features on the specified domain.
         public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
+        /// Specifies whether to enable serverless vector acceleration for the domain. When enabled, provides [GPU-accelerated](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/gpu-acceleration-vector-index.html) vector search capabilities for improved performance on vector workloads.
+        public var serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration?
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil,
-            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil,
+            serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
     }
 }
@@ -1359,13 +1378,17 @@ extension OpenSearchClientTypes {
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput?
         /// Container for parameters representing the state of S3 vectors engine features on the specified domain.
         public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
+        /// The current serverless vector acceleration configuration for the domain.
+        public var serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration?
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil,
-            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil,
+            serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
     }
 }
@@ -13938,6 +13961,22 @@ extension OpenSearchClientTypes.AIMLOptionsOutput {
         var value = OpenSearchClientTypes.AIMLOptionsOutput()
         value.naturalLanguageQueryGenerationOptions = try reader["NaturalLanguageQueryGenerationOptions"].readIfPresent(with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput.read(from:))
         value.s3VectorsEngine = try reader["S3VectorsEngine"].readIfPresent(with: OpenSearchClientTypes.S3VectorsEngine.read(from:))
+        value.serverlessVectorAcceleration = try reader["ServerlessVectorAcceleration"].readIfPresent(with: OpenSearchClientTypes.ServerlessVectorAcceleration.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ServerlessVectorAcceleration {
+
+    static func write(value: OpenSearchClientTypes.ServerlessVectorAcceleration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServerlessVectorAcceleration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ServerlessVectorAcceleration()
+        value.enabled = try reader["Enabled"].readIfPresent()
         return value
     }
 }
@@ -15556,6 +15595,7 @@ extension OpenSearchClientTypes.AIMLOptionsInput {
         guard let value else { return }
         try writer["NaturalLanguageQueryGenerationOptions"].write(value.naturalLanguageQueryGenerationOptions, with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput.write(value:to:))
         try writer["S3VectorsEngine"].write(value.s3VectorsEngine, with: OpenSearchClientTypes.S3VectorsEngine.write(value:to:))
+        try writer["ServerlessVectorAcceleration"].write(value.serverlessVectorAcceleration, with: OpenSearchClientTypes.ServerlessVectorAcceleration.write(value:to:))
     }
 }
 

@@ -59,7 +59,9 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
@@ -520,6 +522,77 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CheckpointDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Saves the progress of a [durable function](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order state updates.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CheckpointDurableExecutionInput`)
+    ///
+    /// - Returns: The response from the CheckpointDurableExecution operation. (Type: `CheckpointDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func checkpointDurableExecution(input: CheckpointDurableExecutionInput) async throws -> CheckpointDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "checkpointDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(CheckpointDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckpointDurableExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckpointDurableExecutionOutput>(CheckpointDurableExecutionOutput.httpOutput(from:), CheckpointDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CheckpointDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckpointDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckpointDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckpointDurableExecutionInput, CheckpointDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CheckpointDurableExecution")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2042,6 +2115,211 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Retrieves detailed information about a specific [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDurableExecutionInput`)
+    ///
+    /// - Returns: The response from the GetDurableExecution operation, containing detailed information about the durable execution. (Type: `GetDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getDurableExecution(input: GetDurableExecutionInput) async throws -> GetDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDurableExecutionInput, GetDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(GetDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDurableExecutionOutput>(GetDurableExecutionOutput.httpOutput(from:), GetDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDurableExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDurableExecutionHistory` operation on the `Lambda` service.
+    ///
+    /// Retrieves the execution history for a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDurableExecutionHistoryInput`)
+    ///
+    /// - Returns: The response from the GetDurableExecutionHistory operation, containing the execution history and events. (Type: `GetDurableExecutionHistoryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getDurableExecutionHistory(input: GetDurableExecutionHistoryInput) async throws -> GetDurableExecutionHistoryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDurableExecutionHistory")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>(GetDurableExecutionHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>(GetDurableExecutionHistoryInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDurableExecutionHistoryOutput>(GetDurableExecutionHistoryOutput.httpOutput(from:), GetDurableExecutionHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDurableExecutionHistoryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDurableExecutionHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDurableExecutionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDurableExecutionHistoryInput, GetDurableExecutionHistoryOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDurableExecutionHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDurableExecutionState` operation on the `Lambda` service.
+    ///
+    /// Retrieves the current execution state required for the replay process during [durable function](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) execution. This API is used by the Lambda durable functions SDK to get state information needed for replay. You typically don't need to call this API directly as the SDK handles state management automatically. The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDurableExecutionStateInput`)
+    ///
+    /// - Returns: The response from the GetDurableExecutionState operation, containing the current execution state for replay. (Type: `GetDurableExecutionStateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getDurableExecutionState(input: GetDurableExecutionStateInput) async throws -> GetDurableExecutionStateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDurableExecutionState")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDurableExecutionStateInput, GetDurableExecutionStateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>(GetDurableExecutionStateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>(GetDurableExecutionStateInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDurableExecutionStateOutput>(GetDurableExecutionStateOutput.httpOutput(from:), GetDurableExecutionStateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDurableExecutionStateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDurableExecutionStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDurableExecutionStateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDurableExecutionStateInput, GetDurableExecutionStateOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDurableExecutionState")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of [ListEventSourceMappings].
@@ -3083,6 +3361,7 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `DurableExecutionAlreadyStartedException` : The durable execution with the specified name has already been started. Each durable execution name must be unique within the function. Use a different name or check the status of the existing execution.
     /// - `EC2AccessDeniedException` : Need additional permissions to configure VPC settings.
     /// - `EC2ThrottledException` : Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
     /// - `EC2UnexpectedException` : Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
@@ -3539,6 +3818,75 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCodeSigningConfigs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDurableExecutionsByFunction` operation on the `Lambda` service.
+    ///
+    /// Returns a list of [durable executions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDurableExecutionsByFunctionInput`)
+    ///
+    /// - Returns: The response from the ListDurableExecutionsByFunction operation, containing a list of durable executions and pagination information. (Type: `ListDurableExecutionsByFunctionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func listDurableExecutionsByFunction(input: ListDurableExecutionsByFunctionInput) async throws -> ListDurableExecutionsByFunctionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDurableExecutionsByFunction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>(ListDurableExecutionsByFunctionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>(ListDurableExecutionsByFunctionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDurableExecutionsByFunctionOutput>(ListDurableExecutionsByFunctionOutput.httpOutput(from:), ListDurableExecutionsByFunctionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDurableExecutionsByFunctionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDurableExecutionsByFunctionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDurableExecutionsByFunctionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDurableExecutionsByFunctionInput, ListDurableExecutionsByFunctionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDurableExecutionsByFunction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5102,6 +5450,287 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemovePermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendDurableExecutionCallbackFailure` operation on the `Lambda` service.
+    ///
+    /// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendDurableExecutionCallbackFailureInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendDurableExecutionCallbackFailureOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func sendDurableExecutionCallbackFailure(input: SendDurableExecutionCallbackFailureInput) async throws -> SendDurableExecutionCallbackFailureOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDurableExecutionCallbackFailure")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>(SendDurableExecutionCallbackFailureInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput, LambdaClientTypes.ErrorObject, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: LambdaClientTypes.ErrorObject.write(value:to:), keyPath: \.error, defaultBody: "{}"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDurableExecutionCallbackFailureOutput>(SendDurableExecutionCallbackFailureOutput.httpOutput(from:), SendDurableExecutionCallbackFailureOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendDurableExecutionCallbackFailureOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDurableExecutionCallbackFailureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDurableExecutionCallbackFailureOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDurableExecutionCallbackFailureInput, SendDurableExecutionCallbackFailureOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDurableExecutionCallbackFailure")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendDurableExecutionCallbackHeartbeat` operation on the `Lambda` service.
+    ///
+    /// Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendDurableExecutionCallbackHeartbeatInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendDurableExecutionCallbackHeartbeatOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func sendDurableExecutionCallbackHeartbeat(input: SendDurableExecutionCallbackHeartbeatInput) async throws -> SendDurableExecutionCallbackHeartbeatOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDurableExecutionCallbackHeartbeat")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>(SendDurableExecutionCallbackHeartbeatInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDurableExecutionCallbackHeartbeatOutput>(SendDurableExecutionCallbackHeartbeatOutput.httpOutput(from:), SendDurableExecutionCallbackHeartbeatOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendDurableExecutionCallbackHeartbeatOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDurableExecutionCallbackHeartbeatOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDurableExecutionCallbackHeartbeatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDurableExecutionCallbackHeartbeatInput, SendDurableExecutionCallbackHeartbeatOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDurableExecutionCallbackHeartbeat")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendDurableExecutionCallbackSuccess` operation on the `Lambda` service.
+    ///
+    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendDurableExecutionCallbackSuccessInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendDurableExecutionCallbackSuccessOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func sendDurableExecutionCallbackSuccess(input: SendDurableExecutionCallbackSuccessInput) async throws -> SendDurableExecutionCallbackSuccessOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDurableExecutionCallbackSuccess")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(SendDurableExecutionCallbackSuccessInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobBodyMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(keyPath: \.result))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDurableExecutionCallbackSuccessOutput>(SendDurableExecutionCallbackSuccessOutput.httpOutput(from:), SendDurableExecutionCallbackSuccessOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendDurableExecutionCallbackSuccessOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDurableExecutionCallbackSuccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDurableExecutionCallbackSuccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDurableExecutionCallbackSuccessInput, SendDurableExecutionCallbackSuccessOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDurableExecutionCallbackSuccess")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Stops a running [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html). The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopDurableExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func stopDurableExecution(input: StopDurableExecutionInput) async throws -> StopDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopDurableExecutionInput, StopDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>(StopDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput, LambdaClientTypes.ErrorObject, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: LambdaClientTypes.ErrorObject.write(value:to:), keyPath: \.error, defaultBody: "{}"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDurableExecutionOutput>(StopDurableExecutionOutput.httpOutput(from:), StopDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopDurableExecutionInput, StopDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopDurableExecution")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

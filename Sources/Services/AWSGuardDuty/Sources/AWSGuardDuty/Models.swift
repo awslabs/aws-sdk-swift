@@ -1655,6 +1655,21 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Auto Scaling Group involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct AutoscalingAutoScalingGroup: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that are part of the same Auto Scaling Group.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Sendable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
@@ -1691,6 +1706,21 @@ extension GuardDutyClientTypes {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
             self.bucketPolicy = bucketPolicy
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the CloudFormation stack involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct CloudformationStack: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were created as part of the same CloudFormation stack.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
         }
     }
 }
@@ -1810,11 +1840,15 @@ extension GuardDutyClientTypes {
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var lte: Swift.Int?
+        /// Represents the match condition to be applied to a single field when querying for findings. The matches condition is available only for create-filter and update-filter APIs.
+        public var matches: [Swift.String]?
         /// Represents the not equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var neq: [Swift.String]?
         /// Represents a not equal condition to be applied to a single field when querying for findings.
         public var notEquals: [Swift.String]?
+        /// Represents the not match condition to be applied to a single field when querying for findings. The not-matches condition is available only for create-filter and update-filter APIs.
+        public var notMatches: [Swift.String]?
 
         public init(
             eq: [Swift.String]? = nil,
@@ -1827,8 +1861,10 @@ extension GuardDutyClientTypes {
             lessThanOrEqual: Swift.Int? = nil,
             lt: Swift.Int? = nil,
             lte: Swift.Int? = nil,
+            matches: [Swift.String]? = nil,
             neq: [Swift.String]? = nil,
-            notEquals: [Swift.String]? = nil
+            notEquals: [Swift.String]? = nil,
+            notMatches: [Swift.String]? = nil
         ) {
             self.eq = eq
             self.equals = equals
@@ -1840,8 +1876,10 @@ extension GuardDutyClientTypes {
             self.lessThanOrEqual = lessThanOrEqual
             self.lt = lt
             self.lte = lte
+            self.matches = matches
             self.neq = neq
             self.notEquals = notEquals
+            self.notMatches = notMatches
         }
     }
 }
@@ -5390,6 +5428,21 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 Image involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2Image: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were launched with the same Amazon Machine Image (AMI).
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the EC2 instance profile.
     public struct IamInstanceProfile: Swift.Sendable {
         /// The profile ARN of the EC2 instance.
@@ -5475,6 +5528,25 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 launch template involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2LaunchTemplate: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that share the same Amazon EC2 launch template.
+        public var ec2InstanceUids: [Swift.String]?
+        /// Version of the EC2 launch template.
+        public var version: Swift.String?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+            self.version = version
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains other private IP address information of the EC2 instance.
     public struct PrivateIpAddressDetails: Swift.Sendable {
         /// The private DNS name of the EC2 instance.
@@ -5553,6 +5625,134 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 VPC involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2Vpc: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were launched within the same Virtual Private Cloud (VPC).
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum EcsClusterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deprovisioning
+        case failed
+        case inactive
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcsClusterStatus] {
+            return [
+                .active,
+                .deprovisioning,
+                .failed,
+                .inactive,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deprovisioning: return "DEPROVISIONING"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon ECS cluster involved in a GuardDuty finding, including cluster identification and status.
+    public struct EcsCluster: Swift.Sendable {
+        /// A list of unique identifiers for the Amazon EC2 instances that serve as container instances in the Amazon ECS cluster.
+        public var ec2InstanceUids: [Swift.String]?
+        /// The current status of the Amazon ECS cluster.
+        public var status: GuardDutyClientTypes.EcsClusterStatus?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil,
+            status: GuardDutyClientTypes.EcsClusterStatus? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+            self.status = status
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum EcsLaunchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2
+        case fargate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcsLaunchType] {
+            return [
+                .ec2,
+                .fargate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "EC2"
+            case .fargate: return "FARGATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about Amazon ECS task involved in a GuardDuty finding, including task definition and container identifiers.
+    public struct EcsTask: Swift.Sendable {
+        /// A list of unique identifiers for the containers associated with the Amazon ECS task.
+        public var containerUids: [Swift.String]?
+        /// The timestamp indicating when the Amazon ECS task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The infrastructure type on which the Amazon ECS task runs.
+        public var launchType: GuardDutyClientTypes.EcsLaunchType?
+        /// The ARN of task definition which describes the container and volume definitions of the Amazon ECS task.
+        public var taskDefinitionArn: Swift.String?
+
+        public init(
+            containerUids: [Swift.String]? = nil,
+            createdAt: Foundation.Date? = nil,
+            launchType: GuardDutyClientTypes.EcsLaunchType? = nil,
+            taskDefinitionArn: Swift.String? = nil
+        ) {
+            self.containerUids = containerUids
+            self.createdAt = createdAt
+            self.launchType = launchType
+            self.taskDefinitionArn = taskDefinitionArn
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the Amazon EKS cluster involved in a GuardDuty finding, including cluster identification, status, and network configuration.
     public struct EksCluster: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon EKS cluster involved in the finding.
@@ -5578,6 +5778,21 @@ extension GuardDutyClientTypes {
             self.ec2InstanceUids = ec2InstanceUids
             self.status = status
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the IAM instance profile involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct IamInstanceProfileV2: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that share the same IAM instance profile.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
         }
     }
 }
@@ -5846,14 +6061,30 @@ extension GuardDutyClientTypes {
     public struct ResourceData: Swift.Sendable {
         /// Contains information about the IAM access key details of a user that involved in the GuardDuty finding.
         public var accessKey: GuardDutyClientTypes.AccessKey?
+        /// Contains detailed information about the Auto Scaling Group associated with the activity that prompted GuardDuty to generate a finding.
+        public var autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup?
+        /// Contains detailed information about the CloudFormation stack associated with the activity that prompted GuardDuty to generate a finding.
+        public var cloudformationStack: GuardDutyClientTypes.CloudformationStack?
         /// Contains detailed information about the container associated with the activity that prompted GuardDuty to generate a finding.
         public var container: GuardDutyClientTypes.ContainerFindingResource?
+        /// Contains detailed information about the EC2 Image associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2Image: GuardDutyClientTypes.Ec2Image?
         /// Contains information about the Amazon EC2 instance.
         public var ec2Instance: GuardDutyClientTypes.Ec2Instance?
+        /// Contains detailed information about the EC2 launch template associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2LaunchTemplate: GuardDutyClientTypes.Ec2LaunchTemplate?
         /// Contains information about the elastic network interface of the Amazon EC2 instance.
         public var ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface?
+        /// Contains detailed information about the EC2 VPC associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2Vpc: GuardDutyClientTypes.Ec2Vpc?
+        /// Contains detailed information about the Amazon ECS cluster associated with the activity that prompted GuardDuty to generate a finding.
+        public var ecsCluster: GuardDutyClientTypes.EcsCluster?
+        /// Contains detailed information about the Amazon ECS task associated with the activity that prompted GuardDuty to generate a finding.
+        public var ecsTask: GuardDutyClientTypes.EcsTask?
         /// Contains detailed information about the Amazon EKS cluster associated with the activity that prompted GuardDuty to generate a finding.
         public var eksCluster: GuardDutyClientTypes.EksCluster?
+        /// Contains detailed information about the IAM instance profile associated with the activity that prompted GuardDuty to generate a finding.
+        public var iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfileV2?
         /// Contains detailed information about the Kubernetes workload associated with the activity that prompted GuardDuty to generate a finding.
         public var kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload?
         /// Contains information about the Amazon S3 bucket.
@@ -5863,19 +6094,35 @@ extension GuardDutyClientTypes {
 
         public init(
             accessKey: GuardDutyClientTypes.AccessKey? = nil,
+            autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup? = nil,
+            cloudformationStack: GuardDutyClientTypes.CloudformationStack? = nil,
             container: GuardDutyClientTypes.ContainerFindingResource? = nil,
+            ec2Image: GuardDutyClientTypes.Ec2Image? = nil,
             ec2Instance: GuardDutyClientTypes.Ec2Instance? = nil,
+            ec2LaunchTemplate: GuardDutyClientTypes.Ec2LaunchTemplate? = nil,
             ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface? = nil,
+            ec2Vpc: GuardDutyClientTypes.Ec2Vpc? = nil,
+            ecsCluster: GuardDutyClientTypes.EcsCluster? = nil,
+            ecsTask: GuardDutyClientTypes.EcsTask? = nil,
             eksCluster: GuardDutyClientTypes.EksCluster? = nil,
+            iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfileV2? = nil,
             kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload? = nil,
             s3Bucket: GuardDutyClientTypes.S3Bucket? = nil,
             s3Object: GuardDutyClientTypes.S3Object? = nil
         ) {
             self.accessKey = accessKey
+            self.autoscalingAutoScalingGroup = autoscalingAutoScalingGroup
+            self.cloudformationStack = cloudformationStack
             self.container = container
+            self.ec2Image = ec2Image
             self.ec2Instance = ec2Instance
+            self.ec2LaunchTemplate = ec2LaunchTemplate
             self.ec2NetworkInterface = ec2NetworkInterface
+            self.ec2Vpc = ec2Vpc
+            self.ecsCluster = ecsCluster
+            self.ecsTask = ecsTask
             self.eksCluster = eksCluster
+            self.iamInstanceProfile = iamInstanceProfile
             self.kubernetesWorkload = kubernetesWorkload
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
@@ -5887,10 +6134,18 @@ extension GuardDutyClientTypes {
 
     public enum FindingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessKey
+        case autoscalingAutoScalingGroup
+        case cloudformationStack
         case container
+        case ec2Image
         case ec2Instance
+        case ec2LaunchTemplate
         case ec2NetworkInterface
+        case ec2Vpc
+        case ecsCluster
+        case ecsTask
         case eksCluster
+        case iamInstanceProfile
         case kubernetesWorkload
         case s3Bucket
         case s3Object
@@ -5899,10 +6154,18 @@ extension GuardDutyClientTypes {
         public static var allCases: [FindingResourceType] {
             return [
                 .accessKey,
+                .autoscalingAutoScalingGroup,
+                .cloudformationStack,
                 .container,
+                .ec2Image,
                 .ec2Instance,
+                .ec2LaunchTemplate,
                 .ec2NetworkInterface,
+                .ec2Vpc,
+                .ecsCluster,
+                .ecsTask,
                 .eksCluster,
+                .iamInstanceProfile,
                 .kubernetesWorkload,
                 .s3Bucket,
                 .s3Object
@@ -5917,10 +6180,18 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessKey: return "ACCESS_KEY"
+            case .autoscalingAutoScalingGroup: return "AUTOSCALING_AUTO_SCALING_GROUP"
+            case .cloudformationStack: return "CLOUDFORMATION_STACK"
             case .container: return "CONTAINER"
+            case .ec2Image: return "EC2_IMAGE"
             case .ec2Instance: return "EC2_INSTANCE"
+            case .ec2LaunchTemplate: return "EC2_LAUNCH_TEMPLATE"
             case .ec2NetworkInterface: return "EC2_NETWORK_INTERFACE"
+            case .ec2Vpc: return "EC2_VPC"
+            case .ecsCluster: return "ECS_CLUSTER"
+            case .ecsTask: return "ECS_TASK"
             case .eksCluster: return "EKS_CLUSTER"
+            case .iamInstanceProfile: return "IAM_INSTANCE_PROFILE"
             case .kubernetesWorkload: return "KUBERNETES_WORKLOAD"
             case .s3Bucket: return "S3_BUCKET"
             case .s3Object: return "S3_OBJECT"
@@ -16676,8 +16947,10 @@ extension GuardDutyClientTypes.Condition {
         try writer["lessThanOrEqual"].write(value.lessThanOrEqual)
         try writer["lt"].write(value.lt)
         try writer["lte"].write(value.lte)
+        try writer["matches"].writeList(value.matches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["neq"].writeList(value.neq, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["notEquals"].writeList(value.notEquals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["notMatches"].writeList(value.notMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Condition {
@@ -16695,6 +16968,8 @@ extension GuardDutyClientTypes.Condition {
         value.greaterThanOrEqual = try reader["greaterThanOrEqual"].readIfPresent()
         value.lessThan = try reader["lessThan"].readIfPresent()
         value.lessThanOrEqual = try reader["lessThanOrEqual"].readIfPresent()
+        value.matches = try reader["matches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notMatches = try reader["notMatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16984,6 +17259,99 @@ extension GuardDutyClientTypes.ResourceData {
         value.eksCluster = try reader["eksCluster"].readIfPresent(with: GuardDutyClientTypes.EksCluster.read(from:))
         value.kubernetesWorkload = try reader["kubernetesWorkload"].readIfPresent(with: GuardDutyClientTypes.KubernetesWorkload.read(from:))
         value.container = try reader["container"].readIfPresent(with: GuardDutyClientTypes.ContainerFindingResource.read(from:))
+        value.ecsCluster = try reader["ecsCluster"].readIfPresent(with: GuardDutyClientTypes.EcsCluster.read(from:))
+        value.ecsTask = try reader["ecsTask"].readIfPresent(with: GuardDutyClientTypes.EcsTask.read(from:))
+        value.iamInstanceProfile = try reader["iamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfileV2.read(from:))
+        value.autoscalingAutoScalingGroup = try reader["autoscalingAutoScalingGroup"].readIfPresent(with: GuardDutyClientTypes.AutoscalingAutoScalingGroup.read(from:))
+        value.ec2LaunchTemplate = try reader["ec2LaunchTemplate"].readIfPresent(with: GuardDutyClientTypes.Ec2LaunchTemplate.read(from:))
+        value.ec2Vpc = try reader["ec2Vpc"].readIfPresent(with: GuardDutyClientTypes.Ec2Vpc.read(from:))
+        value.ec2Image = try reader["ec2Image"].readIfPresent(with: GuardDutyClientTypes.Ec2Image.read(from:))
+        value.cloudformationStack = try reader["cloudformationStack"].readIfPresent(with: GuardDutyClientTypes.CloudformationStack.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CloudformationStack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudformationStack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CloudformationStack()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Image()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Vpc {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Vpc {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Vpc()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2LaunchTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2LaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2LaunchTemplate()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AutoscalingAutoScalingGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutoscalingAutoScalingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AutoscalingAutoScalingGroup()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IamInstanceProfileV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfileV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IamInstanceProfileV2()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsTask()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
+        value.launchType = try reader["launchType"].readIfPresent()
+        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsCluster()
+        value.status = try reader["status"].readIfPresent()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

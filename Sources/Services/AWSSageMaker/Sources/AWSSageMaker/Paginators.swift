@@ -1462,6 +1462,44 @@ extension PaginatorSequence where OperationStackInput == ListLineageGroupsInput,
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListMlflowAppsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMlflowAppsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMlflowAppsOutput`
+    public func listMlflowAppsPaginated(input: ListMlflowAppsInput) -> ClientRuntime.PaginatorSequence<ListMlflowAppsInput, ListMlflowAppsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMlflowAppsInput, ListMlflowAppsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMlflowApps(input:))
+    }
+}
+
+extension ListMlflowAppsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMlflowAppsInput {
+        return ListMlflowAppsInput(
+            accountDefaultStatus: self.accountDefaultStatus,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            defaultForDomainId: self.defaultForDomainId,
+            maxResults: self.maxResults,
+            mlflowVersion: self.mlflowVersion,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMlflowAppsInput, OperationStackOutput == ListMlflowAppsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMlflowAppsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.MlflowAppSummary]`
+    /// - Returns: `[SageMakerClientTypes.MlflowAppSummary]`
+    public func summaries() async throws -> [SageMakerClientTypes.MlflowAppSummary] {
+        return try await self.asyncCompactMap { item in item.summaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListMlflowTrackingServersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

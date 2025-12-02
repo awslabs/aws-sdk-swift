@@ -639,6 +639,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNotificationsContacts](../../../../../swift/api/awsnotificationscontacts/latest)
 
+[AWSNovaAct](../../../../../swift/api/awsnovaact/latest)
+
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
