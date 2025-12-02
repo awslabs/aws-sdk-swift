@@ -79,7 +79,7 @@ class GeneratePackageManifestTests: CLITestCase {
         })
         try! subject.run()
         let result = try! String(contentsOfFile: "Package.swift", encoding: .utf8)
-        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3-InternalAWSSTS-InternalAWSSSO-InternalAWSSSOOIDC-InternalAWSCognitoIdentity-InternalAWSSignin")
+        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3-InternalAWSCognitoIdentity-InternalAWSSSO-InternalAWSSSOOIDC-InternalAWSSTS-InternalAWSSignin")
     }
     
     // MARK: resolveVersions()

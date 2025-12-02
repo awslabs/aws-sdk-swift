@@ -102,34 +102,33 @@ struct GeneratePackageManifest {
             let dependencies: [String]
         }
 
-        let versions = try resolveVersions()
-        let serviceNames = try resolveServices()
-        let services = serviceNames.map { name in
-            let fileURL = URL(fileURLWithPath: "Sources/Services/\(name)/Dependencies.json")
-            let data = try! Data(contentsOf: fileURL)
-            let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: data)
+        func loadService(name: String, basePath: String, isInternal: Bool) throws -> PackageManifestBuilder.Service {
+            let fileURL = URL(fileURLWithPath: "\(basePath)/\(name)/Dependencies.json")
+            let data = try Data(contentsOf: fileURL)
+            let info = try JSONDecoder().decode(ServiceClientInfo.self, from: data)
             let modelFileName = URL(fileURLWithPath: info.modelPath).lastPathComponent
             return PackageManifestBuilder.Service(
                 moduleName: name,
                 codegenName: modelFileName,
                 dependencies: info.dependencies,
-                isInternal: false
+                isInternal: isInternal
             )
         }
 
-        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"]
-        let internalServices = internalServiceNames.map { name in
-            let fileURL = URL(fileURLWithPath: "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Dependencies.json")
-            let data = try! Data(contentsOf: fileURL)
-            let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: data)
-            let modelFileName = URL(fileURLWithPath: info.modelPath).lastPathComponent
-            return PackageManifestBuilder.Service(
-                moduleName: "Internal\(name)",
-                codegenName: modelFileName,
-                dependencies: info.dependencies,
-                isInternal: true
-            )
+        let versions = try resolveVersions()
+
+        let serviceNames = try resolveServices().sorted()
+        let services = try serviceNames.map {
+            try loadService(name: $0, basePath: "Sources/Services", isInternal: false)
         }
+
+        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"].sorted()
+        let internalServices = try internalServiceNames.map {
+            let name = "Internal\($0)"
+            let basePath = "Sources/Core/AWSSDKIdentity/InternalClients"
+            return try loadService(name: name, basePath: basePath, isInternal: true)
+        }
+        log("Resolved \(internalServices.count) internal service clients")
 
         log("Creating package manifest contents...")
         let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services + internalServices)
