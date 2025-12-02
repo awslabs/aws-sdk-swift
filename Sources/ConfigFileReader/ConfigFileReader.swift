@@ -16,6 +16,7 @@ public class ConfigFileReader {
     var sections: [String: ConfigFileSection] = [:]
     var currentSubSection: String?
     var currentProperty: String?
+    var currentPropertyValue: String?
     var currentSubProperty: String?
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
@@ -166,6 +167,7 @@ public class ConfigFileReader {
                                 propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
                             }
                             currentProperty = propertyName
+                            currentPropertyValue = nil
                             currentSection?.properties[propertyName] = ""
                             sections[currentSection!.name] = currentSection
                             let subSectionName = String(propertyName)
@@ -208,6 +210,8 @@ public class ConfigFileReader {
                             // key-value pair aren't indented
                             currentSubSection = nil // End of subsection if no indent
                             currentProperty = key
+                            currentPropertyValue = value
+                            currentSubProperty = value
                             currentSection?.properties[key] = value
                             sections[currentSection!.name] = currentSection
                             print("  Added new property key and value '\(key)' = '\(value)' to section '\(currentSection!.name)'")
@@ -247,14 +251,11 @@ public class ConfigFileReader {
                             print("Skipping line because previous section was invalid")
                             continue // Skip this line and move to the next iteration
                         }
-                    if currentProperty != nil {
+                    if currentProperty != nil && currentPropertyValue != nil {
                         guard let currentKeyPropertyName = currentSection?.properties.keys.first else {
                             throw MyError("Property key did not have a name")
                         }
                         let components = String(line.trimmingCharacters(in: .whitespacesAndNewlines))
-                        if components.contains( " ") && components.contains("\t"){
-                            throw MyError("Expected an '=' sign defining a property in sub-property")
-                        }
                         let value = components
                         if currentSection?.properties[currentKeyPropertyName] != nil {
                             currentSection?.properties[currentKeyPropertyName]?.append("\n" + value)
@@ -265,12 +266,14 @@ public class ConfigFileReader {
                         }
                         print("  Added new value '\(value)' to key '\(currentKeyPropertyName)' within section '\(currentSection!.name)'")
                         print("  The current section contains '\(currentSection!)")
-                    } else {
+                    } else if currentProperty == nil {
                         if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
                             throw MyError("Expected a property definition")
                         }else {
                             throw MyError("Expected a property definition, found continuation")
                         }
+                    } else if currentPropertyValue == nil {
+                        throw MyError("Expected an '=' sign defining a property in sub-property")
                     }
                 } catch let error as MyError {
                     print("Local Error in Property Continuation Case ")
