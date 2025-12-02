@@ -1627,6 +1627,113 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum SyntheticDataColumnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case categorical
+        case numerical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyntheticDataColumnType] {
+            return [
+                .categorical,
+                .numerical
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .categorical: return "CATEGORICAL"
+            case .numerical: return "NUMERICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Properties that define how a specific data column should be handled during synthetic data generation, including its name, type, and role in predictive modeling.
+    public struct SyntheticDataColumnProperties: Swift.Sendable {
+        /// The name of the data column as it appears in the dataset.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The data type of the column, which determines how the synthetic data generation algorithm processes and synthesizes values for this column.
+        /// This member is required.
+        public var columnType: CleanRoomsClientTypes.SyntheticDataColumnType?
+        /// Indicates if this column contains predictive values that should be treated as target variables in machine learning models. This affects how the synthetic data generation preserves statistical relationships.
+        /// This member is required.
+        public var isPredictiveValue: Swift.Bool?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnType: CleanRoomsClientTypes.SyntheticDataColumnType? = nil,
+            isPredictiveValue: Swift.Bool? = nil
+        ) {
+            self.columnName = columnName
+            self.columnType = columnType
+            self.isPredictiveValue = isPredictiveValue
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains classification information for data columns, including mappings that specify how columns should be handled during synthetic data generation and privacy analysis.
+    public struct ColumnClassificationDetails: Swift.Sendable {
+        /// A mapping that defines the classification of data columns for synthetic data generation and specifies how each column should be handled during the privacy-preserving data synthesis process.
+        /// This member is required.
+        public var columnMapping: [CleanRoomsClientTypes.SyntheticDataColumnProperties]?
+
+        public init(
+            columnMapping: [CleanRoomsClientTypes.SyntheticDataColumnProperties]? = nil
+        ) {
+            self.columnMapping = columnMapping
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Parameters that control the generation of synthetic data for machine learning, including privacy settings and column classification details.
+    public struct MLSyntheticDataParameters: Swift.Sendable {
+        /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
+        /// This member is required.
+        public var columnClassification: CleanRoomsClientTypes.ColumnClassificationDetails?
+        /// The epsilon value for differential privacy when generating synthetic data. Lower values provide stronger privacy guarantees but may reduce data utility.
+        /// This member is required.
+        public var epsilon: Swift.Double?
+        /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
+        /// This member is required.
+        public var maxMembershipInferenceAttackScore: Swift.Double?
+
+        public init(
+            columnClassification: CleanRoomsClientTypes.ColumnClassificationDetails? = nil,
+            epsilon: Swift.Double? = nil,
+            maxMembershipInferenceAttackScore: Swift.Double? = nil
+        ) {
+            self.columnClassification = columnClassification
+            self.epsilon = epsilon
+            self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The parameters that control how synthetic data is generated, including privacy settings, column classifications, and other configuration options that affect the data synthesis process.
+    public enum SyntheticDataParameters: Swift.Sendable {
+        /// The machine learning-specific parameters for synthetic data generation.
+        case mlsyntheticdataparameters(CleanRoomsClientTypes.MLSyntheticDataParameters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The reasons for the validation results.
     public struct AnalysisTemplateValidationStatusReason: Swift.Sendable {
         /// The validation message.
@@ -1769,6 +1876,8 @@ extension CleanRoomsClientTypes {
         public var source: CleanRoomsClientTypes.AnalysisSource?
         /// The source metadata for the analysis template.
         public var sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata?
+        /// The parameters used to generate synthetic data for this analysis template.
+        public var syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters?
         /// The time that the analysis template was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -1791,6 +1900,7 @@ extension CleanRoomsClientTypes {
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
             sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata? = nil,
+            syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         ) {
@@ -1809,6 +1919,7 @@ extension CleanRoomsClientTypes {
             self.schema = schema
             self.source = source
             self.sourceMetadata = sourceMetadata
+            self.syntheticDataParameters = syntheticDataParameters
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1817,7 +1928,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), syntheticDataParameters: \(Swift.String(describing: syntheticDataParameters)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -2144,6 +2255,8 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     /// The information in the analysis template.
     /// This member is required.
     public var source: CleanRoomsClientTypes.AnalysisSource?
+    /// The parameters for generating synthetic data when running the analysis template.
+    public var syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -2156,6 +2269,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
         source: CleanRoomsClientTypes.AnalysisSource? = nil,
+        syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.analysisParameters = analysisParameters
@@ -2166,13 +2280,14 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
         self.name = name
         self.schema = schema
         self.source = source
+        self.syntheticDataParameters = syntheticDataParameters
         self.tags = tags
     }
 }
 
 extension CreateAnalysisTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), syntheticDataParameters: \(Swift.String(describing: syntheticDataParameters)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAnalysisTemplateOutput: Swift.Sendable {
@@ -2279,6 +2394,8 @@ extension CleanRoomsClientTypes {
         /// The identifier of the analysis template.
         /// This member is required.
         public var id: Swift.String?
+        /// Indicates if this analysis template summary generated synthetic data.
+        public var isSyntheticData: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the member who created the analysis template.
         /// This member is required.
         public var membershipArn: Swift.String?
@@ -2299,6 +2416,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
+            isSyntheticData: Swift.Bool? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2310,6 +2428,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.description = description
             self.id = id
+            self.isSyntheticData = isSyntheticData
             self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.name = name
@@ -2665,6 +2784,8 @@ extension CleanRoomsClientTypes {
         public var source: CleanRoomsClientTypes.AnalysisSource?
         /// The source metadata for the collaboration analysis template.
         public var sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata?
+        /// The synthetic data generation parameters configured for this collaboration analysis template.
+        public var syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters?
         /// The time that the analysis template in the collaboration was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -2686,6 +2807,7 @@ extension CleanRoomsClientTypes {
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
             sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata? = nil,
+            syntheticDataParameters: CleanRoomsClientTypes.SyntheticDataParameters? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         ) {
@@ -2703,6 +2825,7 @@ extension CleanRoomsClientTypes {
             self.schema = schema
             self.source = source
             self.sourceMetadata = sourceMetadata
+            self.syntheticDataParameters = syntheticDataParameters
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -2711,7 +2834,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), syntheticDataParameters: \(Swift.String(describing: syntheticDataParameters)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -3437,19 +3560,39 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Payment configuration for synthetic data generation.
+    public struct SyntheticDataGenerationPaymentConfig: Swift.Sendable {
+        /// Indicates who is responsible for paying for synthetic data generation.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        ) {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
     public struct MLPaymentConfig: Swift.Sendable {
         /// The payment responsibilities accepted by the member for model inference.
         public var modelInference: CleanRoomsClientTypes.ModelInferencePaymentConfig?
         /// The payment responsibilities accepted by the member for model training.
         public var modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig?
+        /// The payment configuration for machine learning synthetic data generation.
+        public var syntheticDataGeneration: CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig?
 
         public init(
             modelInference: CleanRoomsClientTypes.ModelInferencePaymentConfig? = nil,
-            modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig? = nil
+            modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig? = nil,
+            syntheticDataGeneration: CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig? = nil
         ) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
+            self.syntheticDataGeneration = syntheticDataGeneration
         }
     }
 }
@@ -4722,6 +4865,8 @@ extension CleanRoomsClientTypes {
         /// The identifier of the analysis template.
         /// This member is required.
         public var id: Swift.String?
+        /// Indicates if this collaboration analysis template uses synthetic data generation.
+        public var isSyntheticData: Swift.Bool?
         /// The name of the analysis template.
         /// This member is required.
         public var name: Swift.String?
@@ -4737,6 +4882,7 @@ extension CleanRoomsClientTypes {
             creatorAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
+            isSyntheticData: Swift.Bool? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
         ) {
@@ -4747,6 +4893,7 @@ extension CleanRoomsClientTypes {
             self.creatorAccountId = creatorAccountId
             self.description = description
             self.id = id
+            self.isSyntheticData = isSyntheticData
             self.name = name
             self.updateTime = updateTime
         }
@@ -8128,19 +8275,39 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Configuration for payment for synthetic data generation in a membership.
+    public struct MembershipSyntheticDataGenerationPaymentConfig: Swift.Sendable {
+        /// Indicates if this membership is responsible for paying for synthetic data generation.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        ) {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
     public struct MembershipMLPaymentConfig: Swift.Sendable {
         /// The payment responsibilities accepted by the member for model inference.
         public var modelInference: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig?
         /// The payment responsibilities accepted by the member for model training.
         public var modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig?
+        /// The payment configuration for synthetic data generation for this machine learning membership.
+        public var syntheticDataGeneration: CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig?
 
         public init(
             modelInference: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig? = nil,
-            modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig? = nil
+            modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig? = nil,
+            syntheticDataGeneration: CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig? = nil
         ) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
+            self.syntheticDataGeneration = syntheticDataGeneration
         }
     }
 }
@@ -8535,6 +8702,7 @@ extension CleanRoomsClientTypes {
     /// The parameters for the protected job.
     public struct ProtectedJobParameters: Swift.Sendable {
         /// The ARN of the analysis template.
+        /// This member is required.
         public var analysisTemplateArn: Swift.String?
 
         public init(
@@ -12060,6 +12228,7 @@ extension CreateAnalysisTemplateInput {
         try writer["name"].write(value.name)
         try writer["schema"].write(value.schema, with: CleanRoomsClientTypes.AnalysisSchema.write(value:to:))
         try writer["source"].write(value.source, with: CleanRoomsClientTypes.AnalysisSource.write(value:to:))
+        try writer["syntheticDataParameters"].write(value.syntheticDataParameters, with: CleanRoomsClientTypes.SyntheticDataParameters.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -15074,6 +15243,84 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate {
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorMessageConfiguration = try reader["errorMessageConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ErrorMessageConfiguration.read(from:))
+        value.syntheticDataParameters = try reader["syntheticDataParameters"].readIfPresent(with: CleanRoomsClientTypes.SyntheticDataParameters.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SyntheticDataParameters {
+
+    static func write(value: CleanRoomsClientTypes.SyntheticDataParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .mlsyntheticdataparameters(mlsyntheticdataparameters):
+                try writer["mlSyntheticDataParameters"].write(mlsyntheticdataparameters, with: CleanRoomsClientTypes.MLSyntheticDataParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SyntheticDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "mlSyntheticDataParameters":
+                return .mlsyntheticdataparameters(try reader["mlSyntheticDataParameters"].read(with: CleanRoomsClientTypes.MLSyntheticDataParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.MLSyntheticDataParameters {
+
+    static func write(value: CleanRoomsClientTypes.MLSyntheticDataParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnClassification"].write(value.columnClassification, with: CleanRoomsClientTypes.ColumnClassificationDetails.write(value:to:))
+        try writer["epsilon"].write(value.epsilon)
+        try writer["maxMembershipInferenceAttackScore"].write(value.maxMembershipInferenceAttackScore)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MLSyntheticDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MLSyntheticDataParameters()
+        value.epsilon = try reader["epsilon"].readIfPresent() ?? 0.0
+        value.maxMembershipInferenceAttackScore = try reader["maxMembershipInferenceAttackScore"].readIfPresent() ?? 0.0
+        value.columnClassification = try reader["columnClassification"].readIfPresent(with: CleanRoomsClientTypes.ColumnClassificationDetails.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ColumnClassificationDetails {
+
+    static func write(value: CleanRoomsClientTypes.ColumnClassificationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnMapping"].writeList(value.columnMapping, memberWritingClosure: CleanRoomsClientTypes.SyntheticDataColumnProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ColumnClassificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ColumnClassificationDetails()
+        value.columnMapping = try reader["columnMapping"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SyntheticDataColumnProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SyntheticDataColumnProperties {
+
+    static func write(value: CleanRoomsClientTypes.SyntheticDataColumnProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["columnType"].write(value.columnType)
+        try writer["isPredictiveValue"].write(value.isPredictiveValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SyntheticDataColumnProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SyntheticDataColumnProperties()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.columnType = try reader["columnType"].readIfPresent() ?? .sdkUnknown("")
+        value.isPredictiveValue = try reader["isPredictiveValue"].readIfPresent() ?? false
         return value
     }
 }
@@ -15833,6 +16080,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate {
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorMessageConfiguration = try reader["errorMessageConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ErrorMessageConfiguration.read(from:))
+        value.syntheticDataParameters = try reader["syntheticDataParameters"].readIfPresent(with: CleanRoomsClientTypes.SyntheticDataParameters.read(from:))
         return value
     }
 }
@@ -16424,6 +16672,7 @@ extension CleanRoomsClientTypes.MembershipMLPaymentConfig {
         guard let value else { return }
         try writer["modelInference"].write(value.modelInference, with: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig.write(value:to:))
         try writer["modelTraining"].write(value.modelTraining, with: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig.write(value:to:))
+        try writer["syntheticDataGeneration"].write(value.syntheticDataGeneration, with: CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipMLPaymentConfig {
@@ -16431,6 +16680,22 @@ extension CleanRoomsClientTypes.MembershipMLPaymentConfig {
         var value = CleanRoomsClientTypes.MembershipMLPaymentConfig()
         value.modelTraining = try reader["modelTraining"].readIfPresent(with: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig.read(from:))
         value.modelInference = try reader["modelInference"].readIfPresent(with: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig.read(from:))
+        value.syntheticDataGeneration = try reader["syntheticDataGeneration"].readIfPresent(with: CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipSyntheticDataGenerationPaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -16947,7 +17212,7 @@ extension CleanRoomsClientTypes.ProtectedJobParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedJobParameters()
-        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent()
+        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17294,6 +17559,7 @@ extension CleanRoomsClientTypes.AnalysisTemplateSummary {
         value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
         value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.isSyntheticData = try reader["isSyntheticData"].readIfPresent()
         return value
     }
 }
@@ -17312,6 +17578,7 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary {
         value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.isSyntheticData = try reader["isSyntheticData"].readIfPresent()
         return value
     }
 }
@@ -17657,6 +17924,7 @@ extension CleanRoomsClientTypes.MLPaymentConfig {
         guard let value else { return }
         try writer["modelInference"].write(value.modelInference, with: CleanRoomsClientTypes.ModelInferencePaymentConfig.write(value:to:))
         try writer["modelTraining"].write(value.modelTraining, with: CleanRoomsClientTypes.ModelTrainingPaymentConfig.write(value:to:))
+        try writer["syntheticDataGeneration"].write(value.syntheticDataGeneration, with: CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MLPaymentConfig {
@@ -17664,6 +17932,22 @@ extension CleanRoomsClientTypes.MLPaymentConfig {
         var value = CleanRoomsClientTypes.MLPaymentConfig()
         value.modelTraining = try reader["modelTraining"].readIfPresent(with: CleanRoomsClientTypes.ModelTrainingPaymentConfig.read(from:))
         value.modelInference = try reader["modelInference"].readIfPresent(with: CleanRoomsClientTypes.ModelInferencePaymentConfig.read(from:))
+        value.syntheticDataGeneration = try reader["syntheticDataGeneration"].readIfPresent(with: CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SyntheticDataGenerationPaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }

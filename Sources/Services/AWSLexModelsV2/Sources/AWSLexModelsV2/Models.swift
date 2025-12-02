@@ -3727,6 +3727,128 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Configuration settings for integrating Deepgram speech-to-text models with Amazon Lex.
+    public struct DeepgramSpeechModelConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the Deepgram API token.
+        /// This member is required.
+        public var apiTokenSecretArn: Swift.String?
+        /// The identifier of the Deepgram speech-to-text model to use for processing speech input.
+        public var modelId: Swift.String?
+
+        public init(
+            apiTokenSecretArn: Swift.String? = nil,
+            modelId: Swift.String? = nil
+        ) {
+            self.apiTokenSecretArn = apiTokenSecretArn
+            self.modelId = modelId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration settings that define which speech-to-text model to use for processing speech input.
+    public struct SpeechModelConfig: Swift.Sendable {
+        /// Configuration settings for using Deepgram as the speech-to-text provider.
+        public var deepgramConfig: LexModelsV2ClientTypes.DeepgramSpeechModelConfig?
+
+        public init(
+            deepgramConfig: LexModelsV2ClientTypes.DeepgramSpeechModelConfig? = nil
+        ) {
+            self.deepgramConfig = deepgramConfig
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    public enum SpeechModelPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deepgram
+        case neural
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpeechModelPreference] {
+            return [
+                .deepgram,
+                .neural,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepgram: return "Deepgram"
+            case .neural: return "Neural"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Settings that control how Amazon Lex processes and recognizes speech input from users.
+    public struct SpeechRecognitionSettings: Swift.Sendable {
+        /// Configuration settings for the selected speech-to-text model.
+        public var speechModelConfig: LexModelsV2ClientTypes.SpeechModelConfig?
+        /// The speech-to-text model to use.
+        public var speechModelPreference: LexModelsV2ClientTypes.SpeechModelPreference?
+
+        public init(
+            speechModelConfig: LexModelsV2ClientTypes.SpeechModelConfig? = nil,
+            speechModelPreference: LexModelsV2ClientTypes.SpeechModelPreference? = nil
+        ) {
+            self.speechModelConfig = speechModelConfig
+            self.speechModelPreference = speechModelPreference
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration for a foundation model used for speech synthesis and recognition capabilities.
+    public struct SpeechFoundationModel: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the foundation model used for speech processing.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The identifier of the voice to use for speech synthesis with the foundation model.
+        public var voiceId: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            voiceId: Swift.String? = nil
+        ) {
+            self.modelArn = modelArn
+            self.voiceId = voiceId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Unified configuration settings that combine speech recognition and synthesis capabilities.
+    public struct UnifiedSpeechSettings: Swift.Sendable {
+        /// The foundation model configuration to use for unified speech processing capabilities.
+        /// This member is required.
+        public var speechFoundationModel: LexModelsV2ClientTypes.SpeechFoundationModel?
+
+        public init(
+            speechFoundationModel: LexModelsV2ClientTypes.SpeechFoundationModel? = nil
+        ) {
+            self.speechFoundationModel = speechFoundationModel
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     public enum VoiceEngine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case generative
         case longform
@@ -3813,6 +3935,10 @@ extension LexModelsV2ClientTypes {
         public var nluIntentConfidenceThreshold: Swift.Double?
         /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
         public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+        /// Speech-to-text settings to apply when importing the bot locale configuration.
+        public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+        /// Unified speech settings to apply when importing the bot locale configuration.
+        public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
         /// Defines settings for using an Amazon Polly voice to communicate with a user. Valid values include:
         ///
         /// * standard
@@ -3830,6 +3956,8 @@ extension LexModelsV2ClientTypes {
             localeId: Swift.String? = nil,
             nluIntentConfidenceThreshold: Swift.Double? = nil,
             speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+            speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+            unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
             voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
         ) {
             self.botId = botId
@@ -3837,6 +3965,8 @@ extension LexModelsV2ClientTypes {
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
     }
@@ -5925,6 +6055,10 @@ public struct CreateBotLocaleInput: Swift.Sendable {
     public var nluIntentConfidenceThreshold: Swift.Double?
     /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// Speech-to-text settings to configure for the new bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// Unified speech settings to configure for the new bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -5936,6 +6070,8 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -5945,6 +6081,8 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -5970,6 +6108,10 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
     public var nluIntentConfidenceThreshold: Swift.Double?
     /// The sensitivity level for voice activity detection (VAD) that was specified for the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The speech-to-text settings configured for the created bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The unified speech settings configured for the created bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -5984,6 +6126,8 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -5996,6 +6140,8 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -8438,6 +8584,10 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
     public var slotTypesCount: Swift.Int?
     /// The sensitivity level for voice activity detection (VAD) configured for the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The speech-to-text settings configured for the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The unified speech settings configured for the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -8459,6 +8609,8 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         recommendedActions: [Swift.String]? = nil,
         slotTypesCount: Swift.Int? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -8478,6 +8630,8 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         self.recommendedActions = recommendedActions
         self.slotTypesCount = slotTypesCount
         self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -14496,6 +14650,10 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
     public var nluIntentConfidenceThreshold: Swift.Double?
     /// The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// Updated speech-to-text settings to apply to the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// Updated unified speech settings to apply to the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -14507,6 +14665,8 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -14516,6 +14676,8 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -14547,6 +14709,10 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
     public var recommendedActions: [Swift.String]?
     /// The updated sensitivity level for voice activity detection (VAD) in the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The updated speech-to-text settings for the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The updated unified speech settings for the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The updated Amazon Polly voice to use for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -14564,6 +14730,8 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -14579,6 +14747,8 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.recommendedActions = recommendedActions
         self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -18059,6 +18229,8 @@ extension CreateBotLocaleInput {
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 }
@@ -18612,6 +18784,8 @@ extension UpdateBotLocaleInput {
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 }
@@ -18827,6 +19001,8 @@ extension CreateBotLocaleOutput {
         value.localeName = try reader["localeName"].readIfPresent()
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -19257,6 +19433,8 @@ extension DescribeBotLocaleOutput {
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.slotTypesCount = try reader["slotTypesCount"].readIfPresent()
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -20272,6 +20450,8 @@ extension UpdateBotLocaleOutput {
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -22654,8 +22834,89 @@ extension LexModelsV2ClientTypes.VoiceSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.VoiceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.VoiceSettings()
-        value.voiceId = try reader["voiceId"].readIfPresent() ?? ""
         value.engine = try reader["engine"].readIfPresent()
+        value.voiceId = try reader["voiceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.UnifiedSpeechSettings {
+
+    static func write(value: LexModelsV2ClientTypes.UnifiedSpeechSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["speechFoundationModel"].write(value.speechFoundationModel, with: LexModelsV2ClientTypes.SpeechFoundationModel.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UnifiedSpeechSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.UnifiedSpeechSettings()
+        value.speechFoundationModel = try reader["speechFoundationModel"].readIfPresent(with: LexModelsV2ClientTypes.SpeechFoundationModel.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechFoundationModel {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechFoundationModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+        try writer["voiceId"].write(value.voiceId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechFoundationModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechFoundationModel()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.voiceId = try reader["voiceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechRecognitionSettings {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechRecognitionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["speechModelConfig"].write(value.speechModelConfig, with: LexModelsV2ClientTypes.SpeechModelConfig.write(value:to:))
+        try writer["speechModelPreference"].write(value.speechModelPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechRecognitionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechRecognitionSettings()
+        value.speechModelPreference = try reader["speechModelPreference"].readIfPresent()
+        value.speechModelConfig = try reader["speechModelConfig"].readIfPresent(with: LexModelsV2ClientTypes.SpeechModelConfig.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechModelConfig {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deepgramConfig"].write(value.deepgramConfig, with: LexModelsV2ClientTypes.DeepgramSpeechModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechModelConfig()
+        value.deepgramConfig = try reader["deepgramConfig"].readIfPresent(with: LexModelsV2ClientTypes.DeepgramSpeechModelConfig.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.DeepgramSpeechModelConfig {
+
+    static func write(value: LexModelsV2ClientTypes.DeepgramSpeechModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiTokenSecretArn"].write(value.apiTokenSecretArn)
+        try writer["modelId"].write(value.modelId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DeepgramSpeechModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.DeepgramSpeechModelConfig()
+        value.apiTokenSecretArn = try reader["apiTokenSecretArn"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent()
         return value
     }
 }
@@ -24613,6 +24874,8 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 
@@ -24624,7 +24887,9 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         value.localeId = try reader["localeId"].readIfPresent() ?? ""
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         return value
     }
 }

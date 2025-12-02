@@ -4646,6 +4646,35 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationStatus] {
+            return [
+                .completed,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The credentials of a connection.
     public struct ConnectionCredentials: Swift.Sendable {
         /// The access key ID of a connection.
@@ -14485,6 +14514,68 @@ extension GetConnectionOutput: Swift.CustomDebugStringConvertible {
         "GetConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetDataExportConfigurationInput: Swift.Sendable {
+    /// The ID of the domain where you want to get the data export configuration details.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The encryption configuration details.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms.
+        public var kmsKeyArn: Swift.String?
+        /// The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
+        public var sseAlgorithm: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            sseAlgorithm: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+    }
+}
+
+public struct GetDataExportConfigurationOutput: Swift.Sendable {
+    /// The timestamp at which the data export configuration report was created.
+    public var createdAt: Foundation.Date?
+    /// The encryption configuration as part of the data export configuration details.
+    public var encryptionConfiguration: DataZoneClientTypes.EncryptionConfiguration?
+    /// Specifies whether the export is enabled.
+    public var isExportEnabled: Swift.Bool?
+    /// The Amazon S3 table bucket ARN as part of the data export configuration details.
+    public var s3TableBucketArn: Swift.String?
+    /// The status of the data export configuration.
+    public var status: DataZoneClientTypes.ConfigurationStatus?
+    /// The timestamp at which the data export configuration report was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        encryptionConfiguration: DataZoneClientTypes.EncryptionConfiguration? = nil,
+        isExportEnabled: Swift.Bool? = nil,
+        s3TableBucketArn: Swift.String? = nil,
+        status: DataZoneClientTypes.ConfigurationStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.encryptionConfiguration = encryptionConfiguration
+        self.isExportEnabled = isExportEnabled
+        self.s3TableBucketArn = s3TableBucketArn
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetEnvironmentInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain where the environment exists.
     /// This member is required.
@@ -19360,6 +19451,38 @@ public struct ListTimeSeriesDataPointsOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    public enum MetadataGenerationRunType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessDescriptions
+        case businessGlossaryAssociations
+        case businessNames
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataGenerationRunType] {
+            return [
+                .businessDescriptions,
+                .businessGlossaryAssociations,
+                .businessNames
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessDescriptions: return "BUSINESS_DESCRIPTIONS"
+            case .businessGlossaryAssociations: return "BUSINESS_GLOSSARY_ASSOCIATIONS"
+            case .businessNames: return "BUSINESS_NAMES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetMetadataGenerationRunInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain the metadata generation run of which you want to get.
     /// This member is required.
@@ -19367,13 +19490,17 @@ public struct GetMetadataGenerationRunInput: Swift.Sendable {
     /// The identifier of the metadata generation run.
     /// This member is required.
     public var identifier: Swift.String?
+    /// The type of the metadata generation run.
+    public var type: DataZoneClientTypes.MetadataGenerationRunType?
 
     public init(
         domainIdentifier: Swift.String? = nil,
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
     ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
+        self.type = type
     }
 }
 
@@ -19383,6 +19510,7 @@ extension DataZoneClientTypes {
         case canceled
         case failed
         case inProgress
+        case partiallySucceeded
         case submitted
         case succeeded
         case sdkUnknown(Swift.String)
@@ -19392,6 +19520,7 @@ extension DataZoneClientTypes {
                 .canceled,
                 .failed,
                 .inProgress,
+                .partiallySucceeded,
                 .submitted,
                 .succeeded
             ]
@@ -19407,6 +19536,7 @@ extension DataZoneClientTypes {
             case .canceled: return "CANCELED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .partiallySucceeded: return "PARTIALLY_SUCCEEDED"
             case .submitted: return "SUBMITTED"
             case .succeeded: return "SUCCEEDED"
             case let .sdkUnknown(s): return s
@@ -19468,26 +19598,25 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    public enum MetadataGenerationRunType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case businessDescriptions
-        case sdkUnknown(Swift.String)
+    /// The statistics of the metadata generation run type.
+    public struct MetadataGenerationRunTypeStat: Swift.Sendable {
+        /// The error message displayed if the action fails to run.
+        public var errorMessage: Swift.String?
+        /// The status of the metadata generation run type statistics.
+        /// This member is required.
+        public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+        /// The type of the metadata generation run type statistics.
+        /// This member is required.
+        public var type: DataZoneClientTypes.MetadataGenerationRunType?
 
-        public static var allCases: [MetadataGenerationRunType] {
-            return [
-                .businessDescriptions
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .businessDescriptions: return "BUSINESS_DESCRIPTIONS"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            errorMessage: Swift.String? = nil,
+            status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+            type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.status = status
+            self.type = type
         }
     }
 }
@@ -19511,7 +19640,12 @@ public struct GetMetadataGenerationRunOutput: Swift.Sendable {
     /// The asset for which you're generating metadata.
     public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
     /// The type of metadata generation run.
+    @available(*, deprecated, message: "This field is going to be deprecated, please use the 'types' field to provide the MetadataGenerationRun types API deprecated since 2025-11-21")
     public var type: DataZoneClientTypes.MetadataGenerationRunType?
+    /// The type stats included in the metadata generation run output details.
+    public var typeStats: [DataZoneClientTypes.MetadataGenerationRunTypeStat]?
+    /// The types of the metadata generation run.
+    public var types: [DataZoneClientTypes.MetadataGenerationRunType]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -19521,7 +19655,9 @@ public struct GetMetadataGenerationRunOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
         target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
-        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil,
+        typeStats: [DataZoneClientTypes.MetadataGenerationRunTypeStat]? = nil,
+        types: [DataZoneClientTypes.MetadataGenerationRunType]? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -19531,6 +19667,8 @@ public struct GetMetadataGenerationRunOutput: Swift.Sendable {
         self.status = status
         self.target = target
         self.type = type
+        self.typeStats = typeStats
+        self.types = types
     }
 }
 
@@ -19544,6 +19682,8 @@ public struct ListMetadataGenerationRunsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The status of the metadata generation runs.
     public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    /// The target ID for which you want to list metadata generation runs.
+    public var targetIdentifier: Swift.String?
     /// The type of the metadata generation runs.
     public var type: DataZoneClientTypes.MetadataGenerationRunType?
 
@@ -19552,12 +19692,14 @@ public struct ListMetadataGenerationRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+        targetIdentifier: Swift.String? = nil,
         type: DataZoneClientTypes.MetadataGenerationRunType? = nil
     ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+        self.targetIdentifier = targetIdentifier
         self.type = type
     }
 }
@@ -19584,7 +19726,10 @@ extension DataZoneClientTypes {
         /// The asset for which metadata was generated.
         public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
         /// The type of the metadata generation run.
+        @available(*, deprecated, message: "This field is going to be deprecated, please use the 'types' field to provide the MetadataGenerationRun types API deprecated since 2025-11-21")
         public var type: DataZoneClientTypes.MetadataGenerationRunType?
+        /// The types of the metadata generation run.
+        public var types: [DataZoneClientTypes.MetadataGenerationRunType]?
 
         public init(
             createdAt: Foundation.Date? = nil,
@@ -19594,7 +19739,8 @@ extension DataZoneClientTypes {
             owningProjectId: Swift.String? = nil,
             status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
             target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
-            type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+            type: DataZoneClientTypes.MetadataGenerationRunType? = nil,
+            types: [DataZoneClientTypes.MetadataGenerationRunType]? = nil
         ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -19604,6 +19750,7 @@ extension DataZoneClientTypes {
             self.status = status
             self.target = target
             self.type = type
+            self.types = types
         }
     }
 }
@@ -19636,21 +19783,25 @@ public struct StartMetadataGenerationRunInput: Swift.Sendable {
     /// This member is required.
     public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
     /// The type of the metadata generation run.
-    /// This member is required.
+    @available(*, deprecated, message: "This field is going to be deprecated, please use the 'types' field to provide the MetadataGenerationRun types API deprecated since 2025-11-21")
     public var type: DataZoneClientTypes.MetadataGenerationRunType?
+    /// The types of the metadata generation run.
+    public var types: [DataZoneClientTypes.MetadataGenerationRunType]?
 
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
         target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
-        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil,
+        types: [DataZoneClientTypes.MetadataGenerationRunType]? = nil
     ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.owningProjectIdentifier = owningProjectIdentifier
         self.target = target
         self.type = type
+        self.types = types
     }
 }
 
@@ -19670,7 +19821,10 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
     /// The status of the metadata generation run.
     public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
     /// The type of the metadata generation run.
+    @available(*, deprecated, message: "This field is going to be deprecated, please use the 'types' field to provide the MetadataGenerationRun types API deprecated since 2025-11-21")
     public var type: DataZoneClientTypes.MetadataGenerationRunType?
+    /// The types of the metadata generation run.
+    public var types: [DataZoneClientTypes.MetadataGenerationRunType]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -19679,7 +19833,8 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
         id: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
-        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil,
+        types: [DataZoneClientTypes.MetadataGenerationRunType]? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -19688,6 +19843,7 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
         self.owningProjectId = owningProjectId
         self.status = status
         self.type = type
+        self.types = types
     }
 }
 
@@ -19818,6 +19974,36 @@ public struct PostTimeSeriesDataPointsOutput: Swift.Sendable {
         self.entityType = entityType
         self.forms = forms
     }
+}
+
+public struct PutDataExportConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The domain ID where you want to create data export configuration details.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// Specifies that the export is to be enabled as part of creating data export configuration details.
+    /// This member is required.
+    public var enableExport: Swift.Bool?
+    /// The encryption configuration as part of creating data export configuration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in [KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/sagemaker-unified-studio-export-asset-metadata-kms-permissions.html).
+    public var encryptionConfiguration: DataZoneClientTypes.EncryptionConfiguration?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        enableExport: Swift.Bool? = nil,
+        encryptionConfiguration: DataZoneClientTypes.EncryptionConfiguration? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.enableExport = enableExport
+        self.encryptionConfiguration = encryptionConfiguration
+    }
+}
+
+public struct PutDataExportConfigurationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension DataZoneClientTypes {
@@ -24220,6 +24406,16 @@ extension GetConnectionInput {
     }
 }
 
+extension GetDataExportConfigurationInput {
+
+    static func urlPathProvider(_ value: GetDataExportConfigurationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/data-export-configuration"
+    }
+}
+
 extension GetDataProductInput {
 
     static func urlPathProvider(_ value: GetDataProductInput) -> Swift.String? {
@@ -24535,6 +24731,18 @@ extension GetMetadataGenerationRunInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetMetadataGenerationRunInput {
+
+    static func queryItemProvider(_ value: GetMetadataGenerationRunInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
     }
 }
 
@@ -25456,6 +25664,10 @@ extension ListMetadataGenerationRunsInput {
 
     static func queryItemProvider(_ value: ListMetadataGenerationRunsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let targetIdentifier = value.targetIdentifier {
+            let targetIdentifierQueryItem = Smithy.URIQueryItem(name: "targetIdentifier".urlPercentEncoding(), value: Swift.String(targetIdentifier).urlPercentEncoding())
+            items.append(targetIdentifierQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -26046,6 +26258,16 @@ extension PostTimeSeriesDataPointsInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/time-series-data-points"
+    }
+}
+
+extension PutDataExportConfigurationInput {
+
+    static func urlPathProvider(_ value: PutDataExportConfigurationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/data-export-configuration"
     }
 }
 
@@ -27004,6 +27226,16 @@ extension PostTimeSeriesDataPointsInput {
     }
 }
 
+extension PutDataExportConfigurationInput {
+
+    static func write(value: PutDataExportConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["enableExport"].write(value.enableExport)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: DataZoneClientTypes.EncryptionConfiguration.write(value:to:))
+    }
+}
+
 extension PutEnvironmentBlueprintConfigurationInput {
 
     static func write(value: PutEnvironmentBlueprintConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -27148,6 +27380,7 @@ extension StartMetadataGenerationRunInput {
         try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
         try writer["target"].write(value.target, with: DataZoneClientTypes.MetadataGenerationRunTarget.write(value:to:))
         try writer["type"].write(value.type)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -28516,6 +28749,23 @@ extension GetConnectionOutput {
     }
 }
 
+extension GetDataExportConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataExportConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataExportConfigurationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: DataZoneClientTypes.EncryptionConfiguration.read(from:))
+        value.isExportEnabled = try reader["isExportEnabled"].readIfPresent()
+        value.s3TableBucketArn = try reader["s3TableBucketArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataProductOutput {
@@ -28994,6 +29244,8 @@ extension GetMetadataGenerationRunOutput {
         value.status = try reader["status"].readIfPresent()
         value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.MetadataGenerationRunTarget.read(from:))
         value.type = try reader["type"].readIfPresent()
+        value.typeStats = try reader["typeStats"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MetadataGenerationRunTypeStat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29657,6 +29909,13 @@ extension PostTimeSeriesDataPointsOutput {
     }
 }
 
+extension PutDataExportConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDataExportConfigurationOutput {
+        return PutDataExportConfigurationOutput()
+    }
+}
+
 extension PutEnvironmentBlueprintConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEnvironmentBlueprintConfigurationOutput {
@@ -29860,6 +30119,7 @@ extension StartMetadataGenerationRunOutput {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -31761,6 +32021,25 @@ enum GetConnectionOutputError {
     }
 }
 
+enum GetDataExportConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataProductOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32976,6 +33255,27 @@ enum PostLineageEventOutputError {
 }
 
 enum PostTimeSeriesDataPointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutDataExportConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -36068,6 +36368,23 @@ extension DataZoneClientTypes.ConnectionCredentials {
     }
 }
 
+extension DataZoneClientTypes.EncryptionConfiguration {
+
+    static func write(value: DataZoneClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["sseAlgorithm"].write(value.sseAlgorithm)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EncryptionConfiguration()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.RunStatisticsForAssets {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RunStatisticsForAssets {
@@ -36304,6 +36621,18 @@ extension DataZoneClientTypes.MetadataGenerationRunTarget {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataGenerationRunTypeStat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTypeStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataGenerationRunTypeStat()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -36748,6 +37077,7 @@ extension DataZoneClientTypes.MetadataGenerationRunItem {
         value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.MetadataGenerationRunTarget.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""

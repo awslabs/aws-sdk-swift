@@ -54,6 +54,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -370,7 +371,7 @@ extension S3VectorsClient {
 extension S3VectorsClient {
     /// Performs the `CreateIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation.
+    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
@@ -446,7 +447,7 @@ extension S3VectorsClient {
 
     /// Performs the `CreateVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation.
+    /// Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVectorBucketInput`)
     ///
@@ -521,7 +522,7 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation.
+    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
@@ -532,6 +533,7 @@ extension S3VectorsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
     /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -594,7 +596,7 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation.
+    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketInput`)
     ///
@@ -606,6 +608,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
     /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -668,7 +671,7 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
+    /// Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketPolicyInput`)
     ///
@@ -742,7 +745,7 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation.
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVectorsInput`)
     ///
@@ -827,7 +830,7 @@ extension S3VectorsClient {
 
     /// Performs the `GetIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetIndex permission to use this operation.
+    /// Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetIndex permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
@@ -901,7 +904,7 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation.
+    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVectorBucketInput`)
     ///
@@ -975,7 +978,7 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
+    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVectorBucketPolicyInput`)
     ///
@@ -1049,7 +1052,7 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation.
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVectorsInput`)
     ///
@@ -1134,7 +1137,7 @@ extension S3VectorsClient {
 
     /// Performs the `ListIndexes` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation.
+    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListIndexesInput`)
     ///
@@ -1206,9 +1209,80 @@ extension S3VectorsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListTagsForResource` operation on the `S3Vectors` service.
+    ///
+    /// Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:ListTagsForResource permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListVectorBuckets` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation.
+    /// Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListVectorBucketsInput`)
     ///
@@ -1281,7 +1355,7 @@ extension S3VectorsClient {
 
     /// Performs the `ListVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
+    /// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
     ///
     /// * With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..
     ///
@@ -1359,7 +1433,7 @@ extension S3VectorsClient {
 
     /// Performs the `PutVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutVectorBucketPolicyInput`)
     ///
@@ -1433,7 +1507,7 @@ extension S3VectorsClient {
 
     /// Performs the `PutVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide. When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values. Permissions You must have the s3vectors:PutVectors permission to use this operation.
+    /// Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide. When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values. Permissions You must have the s3vectors:PutVectors permission to use this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutVectorsInput`)
     ///
@@ -1519,7 +1593,7 @@ extension S3VectorsClient {
 
     /// Performs the `QueryVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
     ///
     /// * With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).
     ///
@@ -1594,6 +1668,154 @@ extension S3VectorsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "QueryVectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TagResource` operation on the `S3Vectors` service.
+    ///
+    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:TagResource permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `S3Vectors` service.
+    ///
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

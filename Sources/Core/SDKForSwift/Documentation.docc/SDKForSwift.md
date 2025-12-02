@@ -39,6 +39,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyHTTPClient](../../../../../latest/api/smithyhttpclient/documentation/smithyhttpclient)
 
+[SmithyHTTPClientAPI](../../../../../latest/api/smithyhttpclientapi/documentation/smithyhttpclientapi)
+
 [SmithyIdentity](../../../../../latest/api/smithyidentity/documentation/smithyidentity)
 
 [SmithyIdentityAPI](../../../../../latest/api/smithyidentityapi/documentation/smithyidentityapi)
@@ -51,7 +53,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyRetriesAPI](../../../../../latest/api/smithyretriesapi/documentation/smithyretriesapi)
 
+[SmithySerialization](../../../../../latest/api/smithyserialization/documentation/smithyserialization)
+
 [SmithyStreams](../../../../../latest/api/smithystreams/documentation/smithystreams)
+
+[SmithySwiftNIO](../../../../../latest/api/smithyswiftnio/documentation/smithyswiftnio)
+
+[SmithyTelemetryAPI](../../../../../latest/api/smithytelemetryapi/documentation/smithytelemetryapi)
 
 [SmithyTestUtil](../../../../../latest/api/smithytestutil/documentation/smithytestutil)
 
@@ -631,6 +639,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNotificationsContacts](../../../../../latest/api/awsnotificationscontacts/documentation/awsnotificationscontacts)
 
+[AWSNovaAct](../../../../../latest/api/awsnovaact/documentation/awsnovaact)
+
 [AWSOAM](../../../../../latest/api/awsoam/documentation/awsoam)
 
 [AWSOSIS](../../../../../latest/api/awsosis/documentation/awsosis)
@@ -654,6 +664,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../latest/api/awspi/documentation/awspi)
 
 [AWSPanorama](../../../../../latest/api/awspanorama/documentation/awspanorama)
+
+[AWSPartnerCentralAccount](../../../../../latest/api/awspartnercentralaccount/documentation/awspartnercentralaccount)
+
+[AWSPartnerCentralBenefits](../../../../../latest/api/awspartnercentralbenefits/documentation/awspartnercentralbenefits)
 
 [AWSPartnerCentralChannel](../../../../../latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
 
@@ -732,6 +746,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRoute53](../../../../../latest/api/awsroute53/documentation/awsroute53)
 
 [AWSRoute53Domains](../../../../../latest/api/awsroute53domains/documentation/awsroute53domains)
+
+[AWSRoute53GlobalResolver](../../../../../latest/api/awsroute53globalresolver/documentation/awsroute53globalresolver)
 
 [AWSRoute53Profiles](../../../../../latest/api/awsroute53profiles/documentation/awsroute53profiles)
 

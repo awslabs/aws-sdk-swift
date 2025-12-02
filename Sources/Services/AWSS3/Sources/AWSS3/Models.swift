@@ -522,30 +522,11 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Container for the person being granted permissions.
+    /// Container for the person being granted permissions.
     public struct Grantee: Swift.Sendable {
-        /// Screen name of the grantee.
+        ///
         public var displayName: Swift.String?
-        /// Email address of the grantee. Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:
         ///
-        /// * US East (N. Virginia)
-        ///
-        /// * US West (N. California)
-        ///
-        /// * US West (Oregon)
-        ///
-        /// * Asia Pacific (Singapore)
-        ///
-        /// * Asia Pacific (Sydney)
-        ///
-        /// * Asia Pacific (Tokyo)
-        ///
-        /// * Europe (Ireland)
-        ///
-        /// * South America (São Paulo)
-        ///
-        ///
-        /// For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference.
         public var emailAddress: Swift.String?
         /// The canonical user ID of the grantee.
         public var id: Swift.String?
@@ -630,28 +611,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Container for the owner's display name and ID.
+    /// Container for the owner's display name and ID.
     public struct Owner: Swift.Sendable {
-        /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
         ///
-        /// * US East (N. Virginia)
-        ///
-        /// * US West (N. California)
-        ///
-        /// * US West (Oregon)
-        ///
-        /// * Asia Pacific (Singapore)
-        ///
-        /// * Asia Pacific (Sydney)
-        ///
-        /// * Asia Pacific (Tokyo)
-        ///
-        /// * Europe (Ireland)
-        ///
-        /// * South America (São Paulo)
-        ///
-        ///
-        /// This functionality is not supported for directory buckets.
         public var displayName: Swift.String?
         /// Container for the ID of the owner.
         public var id: Swift.String?
@@ -1200,6 +1162,7 @@ extension S3ClientTypes {
     public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOntap
         case fsxOpenzfs
         case glacier
         case glacierIr
@@ -1216,6 +1179,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOntap,
                 .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
@@ -1238,6 +1202,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOntap: return "FSX_ONTAP"
             case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
@@ -2020,7 +1985,7 @@ extension S3ClientTypes {
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
-        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html). You must have the s3express:TagResource permission to create a directory bucket with tags.
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. You must have the s3:TagResource permission to create a general purpose bucket with tags or the s3express:TagResource permission to create a directory bucket with tags. When creating buckets with tags, note that tag-based conditions using aws:ResourceTag and s3:BucketTag condition keys are applicable only after ABAC is enabled on the bucket. To learn more, see [Enabling ABAC in general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html).
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
@@ -4599,7 +4564,7 @@ public struct GetBucketAclInput: Swift.Sendable {
 public struct GetBucketAclOutput: Swift.Sendable {
     /// A list of grants.
     public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
+    /// Container for the bucket owner's ID.
     public var owner: S3ClientTypes.Owner?
 
     public init(
@@ -4999,7 +4964,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking an encryption type for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/userguide/block-encryption-type.html). This data type is used with the following actions:
+    /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking or unblocking SSE-C for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/blocking-unblocking-s3-c-encryption-gpb.html). This data type is used with the following actions:
     ///
     /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
     ///
@@ -5031,7 +4996,7 @@ extension S3ClientTypes {
     public struct ServerSideEncryptionRule: Swift.Sendable {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public var applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault?
-        /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking an encryption type for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/userguide/block-encryption-type.html). Currently, this parameter only supports blocking or unblocking Server Side Encryption with Customer Provided Keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
+        /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking or unblocking SSE-C for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/blocking-unblocking-s3-c-encryption-gpb.html). Currently, this parameter only supports blocking or unblocking server-side encryption with customer-provided keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
         public var blockedEncryptionTypes: S3ClientTypes.BlockedEncryptionTypes?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Amazon S3 to use an S3 Bucket Key.
         ///
@@ -8433,7 +8398,7 @@ public struct GetObjectAclInput: Swift.Sendable {
 public struct GetObjectAclOutput: Swift.Sendable {
     /// A list of grants.
     public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
+    /// Container for the bucket owner's ID.
     public var owner: S3ClientTypes.Owner?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
@@ -9062,7 +9027,7 @@ public struct GetPublicAccessBlockInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
+    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. Bucket-level settings work alongside account-level settings (which may inherit from organization-level policies). For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public struct PublicAccessBlockConfiguration: Swift.Sendable {
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:
         ///
@@ -9861,7 +9826,7 @@ extension S3ClientTypes {
 
     /// Container element that identifies who initiated the multipart upload.
     public struct Initiator: Swift.Sendable {
-        /// Name of the Principal. This functionality is not supported for directory buckets.
+        /// This functionality is not supported for directory buckets.
         public var displayName: Swift.String?
         /// If the principal is an Amazon Web Services account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value. Directory buckets - If the principal is an Amazon Web Services account, it provides the Amazon Web Services account ID. If the principal is an IAM User, it provides a user ARN value.
         public var id: Swift.String?
@@ -10072,6 +10037,7 @@ extension S3ClientTypes {
     public enum ObjectStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOntap
         case fsxOpenzfs
         case glacier
         case glacierIr
@@ -10088,6 +10054,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOntap,
                 .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
@@ -10110,6 +10077,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOntap: return "FSX_ONTAP"
             case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
@@ -10688,7 +10656,7 @@ public struct ListPartsOutput: Swift.Sendable {
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
+    /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN.
     public var initiator: S3ClientTypes.Initiator?
     /// Indicates whether the returned list of parts is truncated. A true value indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
     public var isTruncated: Swift.Bool?
@@ -10698,7 +10666,7 @@ public struct ListPartsOutput: Swift.Sendable {
     public var maxParts: Swift.Int?
     /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
     public var nextPartNumberMarker: Swift.String?
-    /// Container element that identifies the object owner, after the object is created. If multipart upload is initiated by an IAM user, this element provides the parent account ID and display name. Directory buckets - The bucket owner is returned as the object owner for all the parts.
+    /// Container element that identifies the object owner, after the object is created. If multipart upload is initiated by an IAM user, this element provides the parent account ID. Directory buckets - The bucket owner is returned as the object owner for all the parts.
     public var owner: S3ClientTypes.Owner?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
     public var partNumberMarker: Swift.String?

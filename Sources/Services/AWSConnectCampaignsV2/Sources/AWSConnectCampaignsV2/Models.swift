@@ -664,6 +664,62 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Default WhatsApp Outbound config
+    public struct WhatsAppOutboundConfig: Swift.Sendable {
+        /// Amazon Resource Names(ARN)
+        /// This member is required.
+        public var connectSourcePhoneNumberArn: Swift.String?
+        /// Amazon Resource Names(ARN)
+        /// This member is required.
+        public var wisdomTemplateArn: Swift.String?
+
+        public init(
+            connectSourcePhoneNumberArn: Swift.String? = nil,
+            wisdomTemplateArn: Swift.String? = nil
+        ) {
+            self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
+            self.wisdomTemplateArn = wisdomTemplateArn
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// WhatsApp Outbound Mode
+    public enum WhatsAppOutboundMode: Swift.Sendable {
+        /// Agentless config
+        case agentless(ConnectCampaignsV2ClientTypes.AgentlessConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// WhatsApp Channel Subtype config
+    public struct WhatsAppChannelSubtypeConfig: Swift.Sendable {
+        /// Allocates outbound capacity for the specific channel subtype of this campaign between multiple active campaigns
+        public var capacity: Swift.Double?
+        /// Default WhatsApp Outbound config
+        /// This member is required.
+        public var defaultOutboundConfig: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig?
+        /// WhatsApp Outbound Mode
+        /// This member is required.
+        public var outboundMode: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode?
+
+        public init(
+            capacity: Swift.Double? = nil,
+            defaultOutboundConfig: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig? = nil,
+            outboundMode: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode? = nil
+        ) {
+            self.capacity = capacity
+            self.defaultOutboundConfig = defaultOutboundConfig
+            self.outboundMode = outboundMode
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Campaign Channel Subtype config
     public struct ChannelSubtypeConfig: Swift.Sendable {
         /// Email Channel Subtype config
@@ -672,15 +728,19 @@ extension ConnectCampaignsV2ClientTypes {
         public var sms: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig?
         /// Telephony Channel Subtype config
         public var telephony: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig?
+        /// WhatsApp Channel Subtype config
+        public var whatsApp: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig?
 
         public init(
             email: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig? = nil,
-            telephony: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig? = nil
+            telephony: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig? = nil,
+            whatsApp: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig? = nil
         ) {
             self.email = email
             self.sms = sms
             self.telephony = telephony
+            self.whatsApp = whatsApp
         }
     }
 }
@@ -990,17 +1050,21 @@ extension ConnectCampaignsV2ClientTypes {
         public var sms: ConnectCampaignsV2ClientTypes.TimeWindow?
         /// Time window config
         public var telephony: ConnectCampaignsV2ClientTypes.TimeWindow?
+        /// Time window config
+        public var whatsApp: ConnectCampaignsV2ClientTypes.TimeWindow?
 
         public init(
             email: ConnectCampaignsV2ClientTypes.TimeWindow? = nil,
             localTimeZoneConfig: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.TimeWindow? = nil,
-            telephony: ConnectCampaignsV2ClientTypes.TimeWindow? = nil
+            telephony: ConnectCampaignsV2ClientTypes.TimeWindow? = nil,
+            whatsApp: ConnectCampaignsV2ClientTypes.TimeWindow? = nil
         ) {
             self.email = email
             self.localTimeZoneConfig = localTimeZoneConfig
             self.sms = sms
             self.telephony = telephony
+            self.whatsApp = whatsApp
         }
     }
 }
@@ -1057,10 +1121,39 @@ extension ConnectCampaignsV2ClientTypes {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes {
+
+    /// The type of campaign externally exposed in APIs.
+    public enum ExternalCampaignType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case journey
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalCampaignType] {
+            return [
+                .journey,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .journey: return "JOURNEY"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The request for CreateCampaign API.
 public struct CreateCampaignInput: Swift.Sendable {
     /// Campaign Channel Subtype config
-    /// This member is required.
     public var channelSubtypeConfig: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig?
     /// Communication limits config
     public var communicationLimitsOverride: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig?
@@ -1080,6 +1173,8 @@ public struct CreateCampaignInput: Swift.Sendable {
     public var source: ConnectCampaignsV2ClientTypes.Source?
     /// Tag map with key and value.
     public var tags: [Swift.String: Swift.String]?
+    /// The type of campaign externally exposed in APIs.
+    public var type: ConnectCampaignsV2ClientTypes.ExternalCampaignType?
 
     public init(
         channelSubtypeConfig: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig? = nil,
@@ -1090,7 +1185,8 @@ public struct CreateCampaignInput: Swift.Sendable {
         name: Swift.String? = nil,
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        type: ConnectCampaignsV2ClientTypes.ExternalCampaignType? = nil
     ) {
         self.channelSubtypeConfig = channelSubtypeConfig
         self.communicationLimitsOverride = communicationLimitsOverride
@@ -1101,6 +1197,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.schedule = schedule
         self.source = source
         self.tags = tags
+        self.type = type
     }
 }
 
@@ -1144,13 +1241,15 @@ extension ConnectCampaignsV2ClientTypes {
         case email
         case sms
         case telephony
+        case whatsapp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChannelSubtype] {
             return [
                 .email,
                 .sms,
-                .telephony
+                .telephony,
+                .whatsapp
             ]
         }
 
@@ -1164,6 +1263,7 @@ extension ConnectCampaignsV2ClientTypes {
             case .email: return "EMAIL"
             case .sms: return "SMS"
             case .telephony: return "TELEPHONY"
+            case .whatsapp: return "WHATSAPP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1321,13 +1421,15 @@ extension ConnectCampaignsV2ClientTypes {
         case email
         case sms
         case telephony
+        case whatsapp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CommunicationTimeConfigType] {
             return [
                 .email,
                 .sms,
-                .telephony
+                .telephony,
+                .whatsapp
             ]
         }
 
@@ -1341,6 +1443,7 @@ extension ConnectCampaignsV2ClientTypes {
             case .email: return "EMAIL"
             case .sms: return "SMS"
             case .telephony: return "TELEPHONY"
+            case .whatsapp: return "WHATSAPP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1458,6 +1561,22 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Lambda integration identifier
+    public struct LambdaIntegrationIdentifier: Swift.Sendable {
+        /// Lambda ARN for integration with Connect instances
+        /// This member is required.
+        public var functionArn: Swift.String?
+
+        public init(
+            functionArn: Swift.String? = nil
+        ) {
+            self.functionArn = functionArn
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Q Connect integration identifier
     public struct QConnectIntegrationIdentifier: Swift.Sendable {
         /// Amazon Resource Names(ARN)
@@ -1480,6 +1599,8 @@ extension ConnectCampaignsV2ClientTypes {
         case customerprofiles(ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier)
         /// Q Connect integration identifier
         case qconnect(ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier)
+        /// Lambda integration identifier
+        case lambda(ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1536,7 +1657,6 @@ extension ConnectCampaignsV2ClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// Campaign Channel Subtype config
-        /// This member is required.
         public var channelSubtypeConfig: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig?
         /// Communication limits config
         public var communicationLimitsOverride: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig?
@@ -1559,6 +1679,8 @@ extension ConnectCampaignsV2ClientTypes {
         public var source: ConnectCampaignsV2ClientTypes.Source?
         /// Tag map with key and value.
         public var tags: [Swift.String: Swift.String]?
+        /// The type of campaign externally exposed in APIs.
+        public var type: ConnectCampaignsV2ClientTypes.ExternalCampaignType?
 
         public init(
             arn: Swift.String? = nil,
@@ -1571,7 +1693,8 @@ extension ConnectCampaignsV2ClientTypes {
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
             source: ConnectCampaignsV2ClientTypes.Source? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            type: ConnectCampaignsV2ClientTypes.ExternalCampaignType? = nil
         ) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
@@ -1584,6 +1707,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.schedule = schedule
             self.source = source
             self.tags = tags
+            self.type = type
         }
     }
 }
@@ -2098,6 +2222,8 @@ extension ConnectCampaignsV2ClientTypes {
         public var name: Swift.String?
         /// Campaign schedule
         public var schedule: ConnectCampaignsV2ClientTypes.Schedule?
+        /// The type of campaign externally exposed in APIs.
+        public var type: ConnectCampaignsV2ClientTypes.ExternalCampaignType?
 
         public init(
             arn: Swift.String? = nil,
@@ -2106,7 +2232,8 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
-            schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil
+            schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
+            type: ConnectCampaignsV2ClientTypes.ExternalCampaignType? = nil
         ) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
@@ -2115,6 +2242,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.id = id
             self.name = name
             self.schedule = schedule
+            self.type = type
         }
     }
 }
@@ -2215,6 +2343,22 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Lambda integration summary
+    public struct LambdaIntegrationSummary: Swift.Sendable {
+        /// Lambda ARN for integration with Connect instances
+        /// This member is required.
+        public var functionArn: Swift.String?
+
+        public init(
+            functionArn: Swift.String? = nil
+        ) {
+            self.functionArn = functionArn
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Q Connect integration summary
     public struct QConnectIntegrationSummary: Swift.Sendable {
         /// Amazon Resource Names(ARN)
@@ -2237,6 +2381,8 @@ extension ConnectCampaignsV2ClientTypes {
         case customerprofiles(ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary)
         /// Q Connect integration summary
         case qconnect(ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary)
+        /// Lambda integration summary
+        case lambda(ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2318,6 +2464,22 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Lambda integration config
+    public struct LambdaIntegrationConfig: Swift.Sendable {
+        /// Lambda ARN for integration with Connect instances
+        /// This member is required.
+        public var functionArn: Swift.String?
+
+        public init(
+            functionArn: Swift.String? = nil
+        ) {
+            self.functionArn = functionArn
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Q Connect integration config
     public struct QConnectIntegrationConfig: Swift.Sendable {
         /// Amazon Resource Names(ARN)
@@ -2340,6 +2502,8 @@ extension ConnectCampaignsV2ClientTypes {
         case customerprofiles(ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig)
         /// Q Connect integration config
         case qconnect(ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig)
+        /// Lambda integration config
+        case lambda(ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2488,6 +2652,40 @@ extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters: Swift
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Parameters for the WhatsApp Channel Subtype
+    public struct WhatsAppChannelSubtypeParameters: Swift.Sendable {
+        /// Amazon Resource Names(ARN)
+        public var connectSourcePhoneNumberArn: Swift.String?
+        /// The phone number of the customer, in E.164 format.
+        /// This member is required.
+        public var destinationPhoneNumber: Swift.String?
+        /// Amazon Resource Names(ARN)
+        public var templateArn: Swift.String?
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.
+        /// This member is required.
+        public var templateParameters: [Swift.String: Swift.String]?
+
+        public init(
+            connectSourcePhoneNumberArn: Swift.String? = nil,
+            destinationPhoneNumber: Swift.String? = nil,
+            templateArn: Swift.String? = nil,
+            templateParameters: [Swift.String: Swift.String]? = nil
+        ) {
+            self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.templateArn = templateArn
+            self.templateParameters = templateParameters
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WhatsAppChannelSubtypeParameters(connectSourcePhoneNumberArn: \(Swift.String(describing: connectSourcePhoneNumberArn)), templateArn: \(Swift.String(describing: templateArn)), destinationPhoneNumber: \"CONTENT_REDACTED\", templateParameters: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// ChannelSubtypeParameters for an outbound request
     public enum ChannelSubtypeParameters: Swift.Sendable {
         /// Parameters for the Telephony Channel Subtype
@@ -2496,6 +2694,8 @@ extension ConnectCampaignsV2ClientTypes {
         case sms(ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters)
         /// Parameters for the Email Channel Subtype
         case email(ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters)
+        /// Parameters for the WhatsApp Channel Subtype
+        case whatsapp(ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3458,6 +3658,7 @@ extension CreateCampaignInput {
         try writer["schedule"].write(value.schedule, with: ConnectCampaignsV2ClientTypes.Schedule.write(value:to:))
         try writer["source"].write(value.source, with: ConnectCampaignsV2ClientTypes.Source.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -4718,6 +4919,7 @@ extension ConnectCampaignsV2ClientTypes.Campaign {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
         value.channelSubtypeConfig = try reader["channelSubtypeConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig.read(from:))
+        value.type = try reader["type"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Source.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
@@ -4796,6 +4998,7 @@ extension ConnectCampaignsV2ClientTypes.CommunicationTimeConfig {
         try writer["localTimeZoneConfig"].write(value.localTimeZoneConfig, with: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig.write(value:to:))
         try writer["sms"].write(value.sms, with: ConnectCampaignsV2ClientTypes.TimeWindow.write(value:to:))
         try writer["telephony"].write(value.telephony, with: ConnectCampaignsV2ClientTypes.TimeWindow.write(value:to:))
+        try writer["whatsApp"].write(value.whatsApp, with: ConnectCampaignsV2ClientTypes.TimeWindow.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationTimeConfig {
@@ -4805,6 +5008,7 @@ extension ConnectCampaignsV2ClientTypes.CommunicationTimeConfig {
         value.telephony = try reader["telephony"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeWindow.read(from:))
         value.sms = try reader["sms"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeWindow.read(from:))
         value.email = try reader["email"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeWindow.read(from:))
+        value.whatsApp = try reader["whatsApp"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeWindow.read(from:))
         return value
     }
 }
@@ -4996,6 +5200,7 @@ extension ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
         try writer["email"].write(value.email, with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.write(value:to:))
         try writer["sms"].write(value.sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.write(value:to:))
         try writer["telephony"].write(value.telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.write(value:to:))
+        try writer["whatsApp"].write(value.whatsApp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
@@ -5004,7 +5209,81 @@ extension ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
         value.telephony = try reader["telephony"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.read(from:))
         value.sms = try reader["sms"].readIfPresent(with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.read(from:))
         value.email = try reader["email"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.read(from:))
+        value.whatsApp = try reader["whatsApp"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.read(from:))
         return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacity"].write(value.capacity)
+        try writer["defaultOutboundConfig"].write(value.defaultOutboundConfig, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.write(value:to:))
+        try writer["outboundMode"].write(value.outboundMode, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig()
+        value.capacity = try reader["capacity"].readIfPresent()
+        value.outboundMode = try reader["outboundMode"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.read(from:))
+        value.defaultOutboundConfig = try reader["defaultOutboundConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectSourcePhoneNumberArn"].write(value.connectSourcePhoneNumberArn)
+        try writer["wisdomTemplateArn"].write(value.wisdomTemplateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig()
+        value.connectSourcePhoneNumberArn = try reader["connectSourcePhoneNumberArn"].readIfPresent() ?? ""
+        value.wisdomTemplateArn = try reader["wisdomTemplateArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentless(agentless):
+                try writer["agentless"].write(agentless, with: ConnectCampaignsV2ClientTypes.AgentlessConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentless":
+                return .agentless(try reader["agentless"].read(with: ConnectCampaignsV2ClientTypes.AgentlessConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.AgentlessConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.AgentlessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AgentlessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ConnectCampaignsV2ClientTypes.AgentlessConfig()
     }
 }
 
@@ -5067,19 +5346,6 @@ extension ConnectCampaignsV2ClientTypes.EmailOutboundMode {
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.AgentlessConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.AgentlessConfig?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AgentlessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return ConnectCampaignsV2ClientTypes.AgentlessConfig()
     }
 }
 
@@ -5392,6 +5658,7 @@ extension ConnectCampaignsV2ClientTypes.CampaignSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
         value.channelSubtypes = try reader["channelSubtypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.ChannelSubtype>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
         return value
@@ -5408,9 +5675,21 @@ extension ConnectCampaignsV2ClientTypes.IntegrationSummary {
                 return .customerprofiles(try reader["customerProfiles"].read(with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary.read(from:)))
             case "qConnect":
                 return .qconnect(try reader["qConnect"].read(with: ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary.read(from:)))
+            case "lambda":
+                return .lambda(try reader["lambda"].read(with: ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary()
+        value.functionArn = try reader["functionArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -5488,11 +5767,21 @@ extension ConnectCampaignsV2ClientTypes.IntegrationIdentifier {
         switch value {
             case let .customerprofiles(customerprofiles):
                 try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier.write(value:to:))
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier.write(value:to:))
             case let .qconnect(qconnect):
                 try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["functionArn"].write(value.functionArn)
     }
 }
 
@@ -5536,11 +5825,21 @@ extension ConnectCampaignsV2ClientTypes.IntegrationConfig {
         switch value {
             case let .customerprofiles(customerprofiles):
                 try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig.write(value:to:))
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig.write(value:to:))
             case let .qconnect(qconnect):
                 try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["functionArn"].write(value.functionArn)
     }
 }
 
@@ -5582,9 +5881,22 @@ extension ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters {
                 try writer["sms"].write(sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters.write(value:to:))
             case let .telephony(telephony):
                 try writer["telephony"].write(telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters.write(value:to:))
+            case let .whatsapp(whatsapp):
+                try writer["whatsApp"].write(whatsapp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectSourcePhoneNumberArn"].write(value.connectSourcePhoneNumberArn)
+        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["templateArn"].write(value.templateArn)
+        try writer["templateParameters"].writeMap(value.templateParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

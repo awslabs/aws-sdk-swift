@@ -2424,6 +2424,157 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A block containing error information when content processing fails.
+    public struct ErrorBlock: Swift.Sendable {
+        /// A human-readable error message describing what went wrong during content processing.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ErrorBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum AudioFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aac
+        case flac
+        case m4a
+        case mka
+        case mkv
+        case mp3
+        case mp4
+        case mpeg
+        case mpga
+        case ogg
+        case opus
+        case pcm
+        case wav
+        case webm
+        case xAac
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioFormat] {
+            return [
+                .aac,
+                .flac,
+                .m4a,
+                .mka,
+                .mkv,
+                .mp3,
+                .mp4,
+                .mpeg,
+                .mpga,
+                .ogg,
+                .opus,
+                .pcm,
+                .wav,
+                .webm,
+                .xAac
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aac: return "aac"
+            case .flac: return "flac"
+            case .m4a: return "m4a"
+            case .mka: return "mka"
+            case .mkv: return "mkv"
+            case .mp3: return "mp3"
+            case .mp4: return "mp4"
+            case .mpeg: return "mpeg"
+            case .mpga: return "mpga"
+            case .ogg: return "ogg"
+            case .opus: return "opus"
+            case .pcm: return "pcm"
+            case .wav: return "wav"
+            case .webm: return "webm"
+            case .xAac: return "x-aac"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A storage location in an Amazon S3 bucket.
+    public struct S3Location: Swift.Sendable {
+        /// If the bucket belongs to another AWS account, specify that account's ID.
+        public var bucketOwner: Swift.String?
+        /// An object URI starting with s3://.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            bucketOwner: Swift.String? = nil,
+            uri: Swift.String? = nil
+        ) {
+            self.bucketOwner = bucketOwner
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The source of audio data, which can be provided either as raw bytes or a reference to an S3 location.
+    public enum AudioSource: Swift.Sendable {
+        /// Audio data encoded in base64.
+        case bytes(Foundation.Data)
+        /// A reference to audio data stored in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
+        case s3location(BedrockRuntimeClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// An audio content block that contains audio data in various supported formats.
+    public struct AudioBlock: Swift.Sendable {
+        /// Error information if the audio block could not be processed or contains invalid data.
+        public var error: BedrockRuntimeClientTypes.ErrorBlock?
+        /// The format of the audio data, such as MP3, WAV, FLAC, or other supported audio formats.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.AudioFormat?
+        /// The source of the audio data, which can be provided as raw bytes or an S3 location.
+        /// This member is required.
+        public var source: BedrockRuntimeClientTypes.AudioSource?
+
+        public init(
+            error: BedrockRuntimeClientTypes.ErrorBlock? = nil,
+            format: BedrockRuntimeClientTypes.AudioFormat? = nil,
+            source: BedrockRuntimeClientTypes.AudioSource? = nil
+        ) {
+            self.error = error
+            self.format = format
+            self.source = source
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.AudioBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AudioBlock(format: \(Swift.String(describing: format)), error: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum CachePointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case sdkUnknown(Swift.String)
@@ -2737,26 +2888,6 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A storage location in an Amazon S3 bucket.
-    public struct S3Location: Swift.Sendable {
-        /// If the bucket belongs to another AWS account, specify that account's ID.
-        public var bucketOwner: Swift.String?
-        /// An object URI starting with s3://.
-        /// This member is required.
-        public var uri: Swift.String?
-
-        public init(
-            bucketOwner: Swift.String? = nil,
-            uri: Swift.String? = nil
-        ) {
-            self.bucketOwner = bucketOwner
-            self.uri = uri
-        }
-    }
-}
-
-extension BedrockRuntimeClientTypes {
-
     /// Contains the content of a document.
     public enum DocumentSource: Swift.Sendable {
         /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
@@ -2998,6 +3129,8 @@ extension BedrockRuntimeClientTypes {
 
     /// Image content for a message.
     public struct ImageBlock: Swift.Sendable {
+        /// Error information if the image block could not be processed or contains invalid data.
+        public var error: BedrockRuntimeClientTypes.ErrorBlock?
         /// The format of the image.
         /// This member is required.
         public var format: BedrockRuntimeClientTypes.ImageFormat?
@@ -3006,13 +3139,20 @@ extension BedrockRuntimeClientTypes {
         public var source: BedrockRuntimeClientTypes.ImageSource?
 
         public init(
+            error: BedrockRuntimeClientTypes.ErrorBlock? = nil,
             format: BedrockRuntimeClientTypes.ImageFormat? = nil,
             source: BedrockRuntimeClientTypes.ImageSource? = nil
         ) {
+            self.error = error
             self.format = format
             self.source = source
         }
     }
+}
+
+extension BedrockRuntimeClientTypes.ImageBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImageBlock(format: \(Swift.String(describing: format)), error: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -3328,6 +3468,8 @@ extension BedrockRuntimeClientTypes {
         case document(BedrockRuntimeClientTypes.DocumentBlock)
         /// Video to include in the message.
         case video(BedrockRuntimeClientTypes.VideoBlock)
+        /// An audio content block containing audio data in the conversation.
+        case audio(BedrockRuntimeClientTypes.AudioBlock)
         /// Information about a tool use request from a model.
         case tooluse(BedrockRuntimeClientTypes.ToolUseBlock)
         /// The result for a tool request that a model makes.
@@ -3464,13 +3606,15 @@ extension BedrockRuntimeClientTypes {
         case `default`
         case flex
         case priority
+        case reserved
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceTierType] {
             return [
                 .default,
                 .flex,
-                .priority
+                .priority,
+                .reserved
             ]
         }
 
@@ -3484,6 +3628,7 @@ extension BedrockRuntimeClientTypes {
             case .default: return "default"
             case .flex: return "flex"
             case .priority: return "priority"
+            case .reserved: return "reserved"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3759,6 +3904,8 @@ extension BedrockRuntimeClientTypes {
         case contentFiltered
         case endTurn
         case guardrailIntervened
+        case malformedModelOutput
+        case malformedToolUse
         case maxTokens
         case modelContextWindowExceeded
         case stopSequence
@@ -3770,6 +3917,8 @@ extension BedrockRuntimeClientTypes {
                 .contentFiltered,
                 .endTurn,
                 .guardrailIntervened,
+                .malformedModelOutput,
+                .malformedToolUse,
                 .maxTokens,
                 .modelContextWindowExceeded,
                 .stopSequence,
@@ -3787,6 +3936,8 @@ extension BedrockRuntimeClientTypes {
             case .contentFiltered: return "content_filtered"
             case .endTurn: return "end_turn"
             case .guardrailIntervened: return "guardrail_intervened"
+            case .malformedModelOutput: return "malformed_model_output"
+            case .malformedToolUse: return "malformed_tool_use"
             case .maxTokens: return "max_tokens"
             case .modelContextWindowExceeded: return "model_context_window_exceeded"
             case .stopSequence: return "stop_sequence"
@@ -4109,6 +4260,30 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A streaming delta event that contains incremental image data during streaming responses.
+    public struct ImageBlockDelta: Swift.Sendable {
+        /// Error information if this image delta could not be processed.
+        public var error: BedrockRuntimeClientTypes.ErrorBlock?
+        /// The incremental image source data for this delta event.
+        public var source: BedrockRuntimeClientTypes.ImageSource?
+
+        public init(
+            error: BedrockRuntimeClientTypes.ErrorBlock? = nil,
+            source: BedrockRuntimeClientTypes.ImageSource? = nil
+        ) {
+            self.error = error
+            self.source = source
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ImageBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImageBlockDelta(error: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Contains content regarding the reasoning that is carried out by the model with respect to the content in the content block. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
     public enum ReasoningContentBlockDelta: Swift.Sendable {
         /// The reasoning that the model used to return the output.
@@ -4127,6 +4302,8 @@ extension BedrockRuntimeClientTypes {
     public enum ToolResultBlockDelta: Swift.Sendable {
         /// The reasoning the model used to return the output.
         case text(Swift.String)
+        /// The JSON schema for the tool result content block. see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
+        case json(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4161,6 +4338,8 @@ extension BedrockRuntimeClientTypes {
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlockDelta)
         /// Incremental citation information that is streamed as part of the response generation process.
         case citation(BedrockRuntimeClientTypes.CitationsDelta)
+        /// A streaming delta event containing incremental image data.
+        case image(BedrockRuntimeClientTypes.ImageBlockDelta)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4182,6 +4361,22 @@ extension BedrockRuntimeClientTypes {
         ) {
             self.contentBlockIndex = contentBlockIndex
             self.delta = delta
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The initial event in a streaming image block that indicates the start of image content.
+    public struct ImageBlockStart: Swift.Sendable {
+        /// The format of the image data that will be streamed in subsequent delta events.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.ImageFormat?
+
+        public init(
+            format: BedrockRuntimeClientTypes.ImageFormat? = nil
+        ) {
+            self.format = format
         }
     }
 }
@@ -4243,6 +4438,8 @@ extension BedrockRuntimeClientTypes {
         case tooluse(BedrockRuntimeClientTypes.ToolUseBlockStart)
         /// The
         case toolresult(BedrockRuntimeClientTypes.ToolResultBlockStart)
+        /// The initial event indicating the start of a streaming image block.
+        case image(BedrockRuntimeClientTypes.ImageBlockStart)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6351,6 +6548,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
     static func write(value: BedrockRuntimeClientTypes.ContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .audio(audio):
+                try writer["audio"].write(audio, with: BedrockRuntimeClientTypes.AudioBlock.write(value:to:))
             case let .cachepoint(cachepoint):
                 try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
             case let .citationscontent(citationscontent):
@@ -6390,6 +6589,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 return .document(try reader["document"].read(with: BedrockRuntimeClientTypes.DocumentBlock.read(from:)))
             case "video":
                 return .video(try reader["video"].read(with: BedrockRuntimeClientTypes.VideoBlock.read(from:)))
+            case "audio":
+                return .audio(try reader["audio"].read(with: BedrockRuntimeClientTypes.AudioBlock.read(from:)))
             case "toolUse":
                 return .tooluse(try reader["toolUse"].read(with: BedrockRuntimeClientTypes.ToolUseBlock.read(from:)))
             case "toolResult":
@@ -7040,6 +7241,7 @@ extension BedrockRuntimeClientTypes.ImageBlock {
 
     static func write(value: BedrockRuntimeClientTypes.ImageBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["error"].write(value.error, with: BedrockRuntimeClientTypes.ErrorBlock.write(value:to:))
         try writer["format"].write(value.format)
         try writer["source"].write(value.source, with: BedrockRuntimeClientTypes.ImageSource.write(value:to:))
     }
@@ -7049,6 +7251,22 @@ extension BedrockRuntimeClientTypes.ImageBlock {
         var value = BedrockRuntimeClientTypes.ImageBlock()
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.ImageSource.read(from:))
+        value.error = try reader["error"].readIfPresent(with: BedrockRuntimeClientTypes.ErrorBlock.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.ErrorBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.ErrorBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["message"].write(value.message)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ErrorBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ErrorBlock()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -7099,6 +7317,53 @@ extension BedrockRuntimeClientTypes.ToolUseBlock {
         value.input = try reader["input"].readIfPresent() ?? [:]
         value.type = try reader["type"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.AudioBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.AudioBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["error"].write(value.error, with: BedrockRuntimeClientTypes.ErrorBlock.write(value:to:))
+        try writer["format"].write(value.format)
+        try writer["source"].write(value.source, with: BedrockRuntimeClientTypes.AudioSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.AudioBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.AudioBlock()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.AudioSource.read(from:))
+        value.error = try reader["error"].readIfPresent(with: BedrockRuntimeClientTypes.ErrorBlock.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.AudioSource {
+
+    static func write(value: BedrockRuntimeClientTypes.AudioSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location, with: BedrockRuntimeClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.AudioSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bytes":
+                return .bytes(try reader["bytes"].read())
+            case "s3Location":
+                return .s3location(try reader["s3Location"].read(with: BedrockRuntimeClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -7325,9 +7590,22 @@ extension BedrockRuntimeClientTypes.ContentBlockDelta {
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlockDelta.read(from:)))
             case "citation":
                 return .citation(try reader["citation"].read(with: BedrockRuntimeClientTypes.CitationsDelta.read(from:)))
+            case "image":
+                return .image(try reader["image"].read(with: BedrockRuntimeClientTypes.ImageBlockDelta.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ImageBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ImageBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ImageBlockDelta()
+        value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.ImageSource.read(from:))
+        value.error = try reader["error"].readIfPresent(with: BedrockRuntimeClientTypes.ErrorBlock.read(from:))
+        return value
     }
 }
 
@@ -7380,6 +7658,8 @@ extension BedrockRuntimeClientTypes.ToolResultBlockDelta {
         switch name {
             case "text":
                 return .text(try reader["text"].read())
+            case "json":
+                return .json(try reader["json"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -7417,9 +7697,21 @@ extension BedrockRuntimeClientTypes.ContentBlockStart {
                 return .tooluse(try reader["toolUse"].read(with: BedrockRuntimeClientTypes.ToolUseBlockStart.read(from:)))
             case "toolResult":
                 return .toolresult(try reader["toolResult"].read(with: BedrockRuntimeClientTypes.ToolResultBlockStart.read(from:)))
+            case "image":
+                return .image(try reader["image"].read(with: BedrockRuntimeClientTypes.ImageBlockStart.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ImageBlockStart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ImageBlockStart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ImageBlockStart()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
