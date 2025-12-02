@@ -9101,7 +9101,6 @@ extension S3Client {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SelectObjectContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SelectObjectContentOutput>())
-        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(serviceID: serviceName, version: S3Client.version, config: config))
