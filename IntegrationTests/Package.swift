@@ -41,6 +41,8 @@ let package = Package(
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
+        .package(url: "https://github.com/awslabs/smithy-swift-opentelemetry", from: "1.0.0"),
+        .package(url: "https://github.com/open-telemetry/opentelemetry-swift", from: "1.13.0"),
     ],
     targets: integrationTestTargets
 )
@@ -71,6 +73,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     let integrationTestName = "\(name)IntegrationTests"
     var additionalDependencies: [String] = []
     var exclusions: [String] = []
+    var platformSpecificDependencies: [Target.Dependency] = []
     switch name {
     case "AWSEC2":
         additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
@@ -93,6 +96,10 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
+        platformSpecificDependencies = [
+            .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS])),
+            .product(name: "InMemoryExporter", package: "opentelemetry-swift", condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
+        ]
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
@@ -113,7 +120,7 @@ private func integrationTestTarget(_ name: String) -> Target {
             .product(name: name, package: "aws-sdk-swift")
         ] + additionalDependencies.map {
             Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)
-        },
+        } + platformSpecificDependencies,
         path: "./Services/\(integrationTestName)",
         exclude: exclusions,
         resources: [.process("Resources")]
