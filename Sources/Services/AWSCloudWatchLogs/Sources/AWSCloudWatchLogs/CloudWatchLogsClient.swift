@@ -448,6 +448,79 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateSourceToS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceToS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateSourceToS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func associateSourceToS3TableIntegration(input: AssociateSourceToS3TableIntegrationInput) async throws -> AssociateSourceToS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSourceToS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(AssociateSourceToS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceToS3TableIntegrationOutput>(AssociateSourceToS3TableIntegrationOutput.httpOutput(from:), AssociateSourceToS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceToS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSourceToS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.AssociateSourceToS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSourceToS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSourceToS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CancelExportTask` operation on the `CloudWatchLogs` service.
     ///
     /// Cancels the specified export task. The task must be in the PENDING or RUNNING state.
@@ -917,7 +990,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `CreateScheduledQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates a new Scheduled Query that runs CloudWatch Logs Insights queries on a schedule and delivers results to specified destinations.
+    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateScheduledQueryInput`)
     ///
@@ -928,7 +1001,7 @@ extension CloudWatchLogsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
     /// - `ConflictException` : This operation attempted to create a resource that already exists.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
@@ -992,7 +1065,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DeleteAccountPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.
     ///
     /// * To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.
     ///
@@ -1000,7 +1073,7 @@ extension CloudWatchLogsClient {
     ///
     /// * To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.
     ///
-    /// * To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions.
+    /// * To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions. If you delete a field index policy that included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console. However, facet data is retained for up to 30 days.
     ///
     ///
     /// If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
@@ -1513,7 +1586,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DeleteIndexPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. You can't use this operation to delete an account-level index policy. Instead, use [DeletAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteAccountPolicy.html). If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events.
+    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this operation to delete an account-level index policy. Instead, use [DeletAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteAccountPolicy.html). If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events. This operation only affects log group-level policies, including any facet configurations, and preserves any data source-based account policies that may apply to the log group.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIndexPolicyInput`)
     ///
@@ -2163,7 +2236,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DeleteScheduledQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Deletes an existing scheduled query and all its associated configurations. This operation permanently removes the scheduled query and cannot be undone.
+    /// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteScheduledQueryInput`)
     ///
@@ -2173,7 +2246,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
@@ -3035,7 +3108,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeLogGroups` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns information about log groups. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name  condition key to control access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns information about log groups, including data sources that ingest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name  condition key to control access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeLogGroupsInput`)
     ///
@@ -3247,7 +3320,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeQueries` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status.
+    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status. This operation includes both interactive queries started directly by users and automated queries executed by scheduled query configurations. Scheduled query executions appear in the results alongside manually initiated queries, providing visibility into all query activity in your account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeQueriesInput`)
     ///
@@ -3594,6 +3667,79 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateKmsKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateSourceFromS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Disassociates a data source from an S3 Table Integration, removing query access and deleting all associated data from the integration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceFromS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceFromS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func disassociateSourceFromS3TableIntegration(input: DisassociateSourceFromS3TableIntegrationInput) async throws -> DisassociateSourceFromS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSourceFromS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(DisassociateSourceFromS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceFromS3TableIntegrationOutput>(DisassociateSourceFromS3TableIntegrationOutput.httpOutput(from:), DisassociateSourceFromS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSourceFromS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.DisassociateSourceFromS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSourceFromS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSourceFromS3TableIntegration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4262,9 +4408,81 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetLogFields` operation on the `CloudWatchLogs` service.
+    ///
+    /// Discovers available fields for a specific data source and type. The response includes any field modifications introduced through pipelines, such as new fields or changed field types.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetLogFieldsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetLogFieldsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func getLogFields(input: GetLogFieldsInput) async throws -> GetLogFieldsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getLogFields")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetLogFieldsInput, GetLogFieldsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(GetLogFieldsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogFieldsOutput>(GetLogFieldsOutput.httpOutput(from:), GetLogFieldsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLogFieldsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLogFieldsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(xAmzTarget: "Logs_20140328.GetLogFields"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLogFieldsInput, GetLogFieldsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLogFieldsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogFieldsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLogFields")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetLogGroupFields` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see [Supported Logs and Discovered Fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html). The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see [Supported Logs and Discovered Fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html). The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLogGroupFieldsInput`)
     ///
@@ -4481,7 +4699,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetQueryResults` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
@@ -4552,7 +4770,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetScheduledQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns detailed information about a specified scheduled query, including its configuration, current state, and execution history.
+    /// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetScheduledQueryInput`)
     ///
@@ -4562,7 +4780,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
@@ -4625,7 +4843,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetScheduledQueryHistory` operation on the `CloudWatchLogs` service.
     ///
-    /// Retrieves the execution history of a scheduled query within a specified time range, including execution status and destination processing metadata.
+    /// Retrieves the execution history of a scheduled query within a specified time range, including query results and destination processing status.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetScheduledQueryHistoryInput`)
     ///
@@ -4635,7 +4853,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
@@ -4756,6 +4974,77 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransformer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAggregateLogGroupSummaries` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). The operation aggregates log groups by data source name and type and optionally format, providing counts of log groups that share these characteristics. The operation paginates results. By default, it returns up to 50 results and includes a token to retrieve more results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAggregateLogGroupSummariesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAggregateLogGroupSummariesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func listAggregateLogGroupSummaries(input: ListAggregateLogGroupSummariesInput) async throws -> ListAggregateLogGroupSummariesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAggregateLogGroupSummaries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(ListAggregateLogGroupSummariesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregateLogGroupSummariesOutput>(ListAggregateLogGroupSummariesOutput.httpOutput(from:), ListAggregateLogGroupSummariesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateLogGroupSummariesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAggregateLogGroupSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(xAmzTarget: "Logs_20140328.ListAggregateLogGroupSummaries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAggregateLogGroupSummariesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAggregateLogGroupSummaries")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4984,7 +5273,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `ListLogGroups` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [ CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can optionally filter the list by log group class and by using regular expressions in your request to match strings in the log group names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
+    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [ CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can optionally filter the list by log group class, by using regular expressions in your request to match strings in the log group names, by using the fieldIndexes parameter to filter log groups based on which field indexes are configured, by using the dataSources parameter to filter log groups by data source types, and by using the fieldIndexNames parameter to filter by specific field index names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLogGroupsInput`)
     ///
@@ -5126,7 +5415,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `ListScheduledQueries` operation on the `CloudWatchLogs` service.
     ///
-    /// Lists all scheduled queries in the current AWS account and region with optional filtering by state.
+    /// Lists all scheduled queries in your account and region. You can filter results by state to show only enabled or disabled queries.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListScheduledQueriesInput`)
     ///
@@ -5136,7 +5425,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
     public func listScheduledQueries(input: ListScheduledQueriesInput) async throws -> ListScheduledQueriesOutput {
@@ -5184,6 +5473,79 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListScheduledQueries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSourcesForS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns a list of data source associations for a specified S3 Table Integration, showing which data sources are currently associated for query access.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSourcesForS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSourcesForS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func listSourcesForS3TableIntegration(input: ListSourcesForS3TableIntegrationInput) async throws -> ListSourcesForS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSourcesForS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(ListSourcesForS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourcesForS3TableIntegrationOutput>(ListSourcesForS3TableIntegrationOutput.httpOutput(from:), ListSourcesForS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSourcesForS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSourcesForS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.ListSourcesForS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSourcesForS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSourcesForS3TableIntegration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5340,7 +5702,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutAccountPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
     ///
     /// * To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.
     ///
@@ -5349,6 +5711,8 @@ extension CloudWatchLogsClient {
     /// * To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.
     ///
     /// * To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.
+    ///
+    /// * To configure facets for field index policies, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.
     ///
     /// * To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.
     ///
@@ -5377,7 +5741,7 @@ extension CloudWatchLogsClient {
     /// * traceId
     ///
     ///
-    /// Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota. You can also set up a transformer at the log-group level. For more information, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer. Field index policy You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html) To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 20 account-level field index policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html) instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). Metric extraction policy A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them. Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"]. Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats: LogGroupName IN ["log-group-1", "log-group-2"]LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"] If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:
+    /// Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota. You can also set up a transformer at the log-group level. For more information, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer. Field index policy You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html) To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 40 account-level field index policies (20 for log group prefix selection, 20 for data source selection) that are each scoped to a subset of log groups or data sources with the selectionCriteria parameter. Field index policies can now be created for specific data source name and type combinations using DataSourceName and DataSourceType selection criteria. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html) instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). Metric extraction policy A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them. Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"]. Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats: LogGroupName IN ["log-group-1", "log-group-2"]LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"] If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:
     ///
     /// * If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".
     ///
@@ -5921,7 +6285,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutIndexPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html). You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html). To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:
+    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html). You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html). You can configure indexed fields as facets to enable interactive exploration and filtering of your logs in the CloudWatch Logs Insights console. Facets allow you to view value distributions and counts for indexed fields without running queries. When you create a field index, you can optionally set it as a facet to enable this interactive analysis capability. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:
     ///
     /// * @logStream
     ///
@@ -5941,7 +6305,7 @@ extension CloudWatchLogsClient {
     /// * Each field name can include as many as 100 characters.
     ///
     ///
-    /// Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy. The log group ignores any account-wide field index policy that you might have created.
+    /// Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html) that apply to log groups. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy for log group-level indexing, including any facet configurations. The log group ignores any account-wide field index policy that applies to log groups, but data source-based account policies may still apply.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutIndexPolicyInput`)
     ///
@@ -6797,11 +7161,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `StartQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Starts a query of one or more log groups using CloudWatch Logs Insights. You specify the log groups and time range to query and the query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html). After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) to retrieve the results of a query, using the queryId that StartQuery returns. To specify the log groups to query, a StartQuery operation must include one of the following:
+    /// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html). After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) to retrieve the results of a query, using the queryId that StartQuery returns. Interactive queries started with StartQuery share concurrency limits with automated scheduled query executions. Both types of queries count toward the same regional concurrent query quota, so high scheduled query activity may affect the availability of concurrent slots for interactive queries. To specify the log groups to query, a StartQuery operation must include one of the following:
     ///
     /// * Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers
     ///
-    /// * Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class. For more information about the SOURCE command, see [SOURCE](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Source.html).
+    /// * Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class, or select data sources using dataSource syntax in LogsQL, PPL, and SQL. For more information about the SOURCE command, see [SOURCE](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Source.html).
     ///
     ///
     /// If you have associated a KMS key with the query results in this account, then [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
@@ -6877,7 +7241,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `StopQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
+    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running. This operation can be used to cancel both interactive queries and individual scheduled query executions. When used with scheduled queries, StopQuery cancels only the specific execution identified by the query ID, not the scheduled query configuration itself.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopQueryInput`)
     ///
@@ -7591,7 +7955,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `UpdateScheduledQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Updates the configuration of an existing scheduled query. This operation follows PUT semantics, replacing the existing configuration with the provided values.
+    /// Updates an existing scheduled query with new configuration. This operation uses PUT semantics, allowing modification of query parameters, schedule, and destinations.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateScheduledQueryInput`)
     ///
@@ -7601,7 +7965,7 @@ extension CloudWatchLogsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary issue and the request can be retried.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.

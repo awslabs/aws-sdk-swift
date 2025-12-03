@@ -2814,6 +2814,7 @@ extension OpenSearchServerlessClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = Smithy.ContextBuilder()

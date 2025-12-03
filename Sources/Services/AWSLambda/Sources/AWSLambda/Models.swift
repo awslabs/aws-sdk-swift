@@ -37,6 +37,7 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 
@@ -1397,6 +1398,598 @@ public struct UpdateCapacityProviderOutput: Swift.Sendable {
         capacityProvider: LambdaClientTypes.CapacityProvider? = nil
     ) {
         self.capacityProvider = capacityProvider
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum OperationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancel
+        case fail
+        case retry
+        case start
+        case succeed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationAction] {
+            return [
+                .cancel,
+                .fail,
+                .retry,
+                .start,
+                .succeed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancel: return "CANCEL"
+            case .fail: return "FAIL"
+            case .retry: return "RETRY"
+            case .start: return "START"
+            case .succeed: return "SUCCEED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration options for callback operations in durable executions, including timeout settings and retry behavior.
+    public struct CallbackOptions: Swift.Sendable {
+        /// The heartbeat timeout for the callback operation, in seconds. If not specified or set to 0, heartbeat timeout is disabled.
+        public var heartbeatTimeoutSeconds: Swift.Int
+        /// The timeout for the callback operation in seconds. If not specified or set to 0, the callback has no timeout.
+        public var timeoutSeconds: Swift.Int
+
+        public init(
+            heartbeatTimeoutSeconds: Swift.Int = 0,
+            timeoutSeconds: Swift.Int = 0
+        ) {
+            self.heartbeatTimeoutSeconds = heartbeatTimeoutSeconds
+            self.timeoutSeconds = timeoutSeconds
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration options for chained function invocations in durable executions, including retry settings and timeout configuration.
+    public struct ChainedInvokeOptions: Swift.Sendable {
+        /// The name or ARN of the Lambda function to invoke.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// The tenant identifier for the chained invocation.
+        public var tenantId: Swift.String?
+
+        public init(
+            functionName: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.functionName = functionName
+            self.tenantId = tenantId
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration options for a durable execution context.
+    public struct ContextOptions: Swift.Sendable {
+        /// Whether the state data of children of the completed context should be included in the invoke payload and GetDurableExecutionState response.
+        public var replayChildren: Swift.Bool?
+
+        public init(
+            replayChildren: Swift.Bool? = nil
+        ) {
+            self.replayChildren = replayChildren
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// An object that contains error information.
+    public struct ErrorObject: Swift.Sendable {
+        /// Machine-readable error data.
+        public var errorData: Swift.String?
+        /// A human-readable error message.
+        public var errorMessage: Swift.String?
+        /// The error type.
+        public var errorType: Swift.String?
+        /// Stack trace information for the error.
+        public var stackTrace: [Swift.String]?
+
+        public init(
+            errorData: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            errorType: Swift.String? = nil,
+            stackTrace: [Swift.String]? = nil
+        ) {
+            self.errorData = errorData
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+            self.stackTrace = stackTrace
+        }
+    }
+}
+
+extension LambdaClientTypes.ErrorObject: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ErrorObject(errorData: \"CONTENT_REDACTED\", errorMessage: \"CONTENT_REDACTED\", errorType: \"CONTENT_REDACTED\", stackTrace: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration options for a step operation.
+    public struct StepOptions: Swift.Sendable {
+        /// The delay in seconds before the next retry attempt.
+        public var nextAttemptDelaySeconds: Swift.Int?
+
+        public init(
+            nextAttemptDelaySeconds: Swift.Int? = nil
+        ) {
+            self.nextAttemptDelaySeconds = nextAttemptDelaySeconds
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum OperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case callback
+        case chainedInvoke
+        case context
+        case execution
+        case step
+        case wait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationType] {
+            return [
+                .callback,
+                .chainedInvoke,
+                .context,
+                .execution,
+                .step,
+                .wait
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .callback: return "CALLBACK"
+            case .chainedInvoke: return "CHAINED_INVOKE"
+            case .context: return "CONTEXT"
+            case .execution: return "EXECUTION"
+            case .step: return "STEP"
+            case .wait: return "WAIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specifies how long to pause the durable execution.
+    public struct WaitOptions: Swift.Sendable {
+        /// The duration to wait, in seconds.
+        public var waitSeconds: Swift.Int?
+
+        public init(
+            waitSeconds: Swift.Int? = nil
+        ) {
+            self.waitSeconds = waitSeconds
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// An update to be applied to an operation during checkpointing.
+    public struct OperationUpdate: Swift.Sendable {
+        /// The action to take on the operation.
+        /// This member is required.
+        public var action: LambdaClientTypes.OperationAction?
+        /// Configuration options for callback operations in durable executions, including timeout settings and retry behavior.
+        public var callbackOptions: LambdaClientTypes.CallbackOptions?
+        /// Configuration options for chained function invocations in durable executions, including retry settings and timeout configuration.
+        public var chainedInvokeOptions: LambdaClientTypes.ChainedInvokeOptions?
+        /// Options for context operations.
+        public var contextOptions: LambdaClientTypes.ContextOptions?
+        /// The error information for failed operations.
+        public var error: LambdaClientTypes.ErrorObject?
+        /// The unique identifier for this operation.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The customer-provided name for this operation.
+        public var name: Swift.String?
+        /// The unique identifier of the parent operation, if this operation is running within a child context.
+        public var parentId: Swift.String?
+        /// The payload for successful operations.
+        public var payload: Swift.String?
+        /// Options for step operations.
+        public var stepOptions: LambdaClientTypes.StepOptions?
+        /// The subtype of the operation, providing additional categorization.
+        public var subType: Swift.String?
+        /// The type of operation to update.
+        /// This member is required.
+        public var type: LambdaClientTypes.OperationType?
+        /// Options for wait operations.
+        public var waitOptions: LambdaClientTypes.WaitOptions?
+
+        public init(
+            action: LambdaClientTypes.OperationAction? = nil,
+            callbackOptions: LambdaClientTypes.CallbackOptions? = nil,
+            chainedInvokeOptions: LambdaClientTypes.ChainedInvokeOptions? = nil,
+            contextOptions: LambdaClientTypes.ContextOptions? = nil,
+            error: LambdaClientTypes.ErrorObject? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parentId: Swift.String? = nil,
+            payload: Swift.String? = nil,
+            stepOptions: LambdaClientTypes.StepOptions? = nil,
+            subType: Swift.String? = nil,
+            type: LambdaClientTypes.OperationType? = nil,
+            waitOptions: LambdaClientTypes.WaitOptions? = nil
+        ) {
+            self.action = action
+            self.callbackOptions = callbackOptions
+            self.chainedInvokeOptions = chainedInvokeOptions
+            self.contextOptions = contextOptions
+            self.error = error
+            self.id = id
+            self.name = name
+            self.parentId = parentId
+            self.payload = payload
+            self.stepOptions = stepOptions
+            self.subType = subType
+            self.type = type
+            self.waitOptions = waitOptions
+        }
+    }
+}
+
+extension LambdaClientTypes.OperationUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OperationUpdate(action: \(Swift.String(describing: action)), callbackOptions: \(Swift.String(describing: callbackOptions)), chainedInvokeOptions: \(Swift.String(describing: chainedInvokeOptions)), contextOptions: \(Swift.String(describing: contextOptions)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), parentId: \(Swift.String(describing: parentId)), stepOptions: \(Swift.String(describing: stepOptions)), subType: \(Swift.String(describing: subType)), type: \(Swift.String(describing: type)), waitOptions: \(Swift.String(describing: waitOptions)), payload: \"CONTENT_REDACTED\")"}
+}
+
+public struct CheckpointDurableExecutionInput: Swift.Sendable {
+    /// A unique token that identifies the current checkpoint state. This token is provided by the Lambda runtime and must be used to ensure checkpoints are applied in the correct order. Each checkpoint operation consumes this token and returns a new one.
+    /// This member is required.
+    public var checkpointToken: Swift.String?
+    /// An optional idempotency token to ensure that duplicate checkpoint requests are handled correctly. If provided, Lambda uses this token to detect and handle duplicate requests within a 15-minute window.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// An array of state updates to apply during this checkpoint. Each update represents a change to the execution state, such as completing a step, starting a callback, or scheduling a timer. Updates are applied atomically as part of the checkpoint operation.
+    public var updates: [LambdaClientTypes.OperationUpdate]?
+
+    public init(
+        checkpointToken: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        updates: [LambdaClientTypes.OperationUpdate]? = nil
+    ) {
+        self.checkpointToken = checkpointToken
+        self.clientToken = clientToken
+        self.durableExecutionArn = durableExecutionArn
+        self.updates = updates
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a callback operation in a durable execution, including the callback token and timeout configuration.
+    public struct CallbackDetails: Swift.Sendable {
+        /// The callback ID. Callback IDs are generated by the DurableContext when a durable function calls ctx.waitForCallback.
+        public var callbackId: Swift.String?
+        /// An error object that contains details about the failure.
+        public var error: LambdaClientTypes.ErrorObject?
+        /// The response payload from the callback operation as a string.
+        public var result: Swift.String?
+
+        public init(
+            callbackId: Swift.String? = nil,
+            error: LambdaClientTypes.ErrorObject? = nil,
+            result: Swift.String? = nil
+        ) {
+            self.callbackId = callbackId
+            self.error = error
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes.CallbackDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CallbackDetails(callbackId: \(Swift.String(describing: callbackId)), error: \(Swift.String(describing: error)), result: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a chained function invocation in a durable execution, including the target function and invocation parameters.
+    public struct ChainedInvokeDetails: Swift.Sendable {
+        /// Details about the chained invocation failure.
+        public var error: LambdaClientTypes.ErrorObject?
+        /// The response payload from the chained invocation.
+        public var result: Swift.String?
+
+        public init(
+            error: LambdaClientTypes.ErrorObject? = nil,
+            result: Swift.String? = nil
+        ) {
+            self.error = error
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ChainedInvokeDetails(error: \(Swift.String(describing: error)), result: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a durable execution context.
+    public struct ContextDetails: Swift.Sendable {
+        /// Details about the context failure.
+        public var error: LambdaClientTypes.ErrorObject?
+        /// Whether the state data of child operations of this completed context should be included in the invoke payload and GetDurableExecutionState response.
+        public var replayChildren: Swift.Bool?
+        /// The response payload from the context.
+        public var result: Swift.String?
+
+        public init(
+            error: LambdaClientTypes.ErrorObject? = nil,
+            replayChildren: Swift.Bool? = nil,
+            result: Swift.String? = nil
+        ) {
+            self.error = error
+            self.replayChildren = replayChildren
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes.ContextDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContextDetails(error: \(Swift.String(describing: error)), replayChildren: \(Swift.String(describing: replayChildren)), result: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+    public struct ExecutionDetails: Swift.Sendable {
+        /// The original input payload provided for the durable execution.
+        public var inputPayload: Swift.String?
+
+        public init(
+            inputPayload: Swift.String? = nil
+        ) {
+            self.inputPayload = inputPayload
+        }
+    }
+}
+
+extension LambdaClientTypes.ExecutionDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExecutionDetails(inputPayload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case failed
+        case pending
+        case ready
+        case started
+        case stopped
+        case succeeded
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationStatus] {
+            return [
+                .cancelled,
+                .failed,
+                .pending,
+                .ready,
+                .started,
+                .stopped,
+                .succeeded,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .ready: return "READY"
+            case .started: return "STARTED"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step operation.
+    public struct StepDetails: Swift.Sendable {
+        /// The current attempt number for this step.
+        public var attempt: Swift.Int
+        /// Details about the step failure.
+        public var error: LambdaClientTypes.ErrorObject?
+        /// The date and time when the next attempt is scheduled, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD). Only populated when the step is in a pending state.
+        public var nextAttemptTimestamp: Foundation.Date?
+        /// The JSON response payload from the step operation.
+        public var result: Swift.String?
+
+        public init(
+            attempt: Swift.Int = 0,
+            error: LambdaClientTypes.ErrorObject? = nil,
+            nextAttemptTimestamp: Foundation.Date? = nil,
+            result: Swift.String? = nil
+        ) {
+            self.attempt = attempt
+            self.error = error
+            self.nextAttemptTimestamp = nextAttemptTimestamp
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes.StepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StepDetails(attempt: \(Swift.String(describing: attempt)), error: \(Swift.String(describing: error)), nextAttemptTimestamp: \(Swift.String(describing: nextAttemptTimestamp)), result: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation.
+    public struct WaitDetails: Swift.Sendable {
+        /// The date and time when the wait operation is scheduled to complete, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var scheduledEndTimestamp: Foundation.Date?
+
+        public init(
+            scheduledEndTimestamp: Foundation.Date? = nil
+        ) {
+            self.scheduledEndTimestamp = scheduledEndTimestamp
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about an operation within a durable execution.
+    public struct Operation: Swift.Sendable {
+        /// Contains details about a callback operation in a durable execution, including the callback token and timeout configuration.
+        public var callbackDetails: LambdaClientTypes.CallbackDetails?
+        /// Contains details about a chained function invocation in a durable execution, including the target function and invocation parameters.
+        public var chainedInvokeDetails: LambdaClientTypes.ChainedInvokeDetails?
+        /// Details about the context, if this operation represents a context.
+        public var contextDetails: LambdaClientTypes.ContextDetails?
+        /// The date and time when the operation ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var endTimestamp: Foundation.Date?
+        /// Details about the execution, if this operation represents an execution.
+        public var executionDetails: LambdaClientTypes.ExecutionDetails?
+        /// The unique identifier for this operation.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The customer-provided name for this operation.
+        public var name: Swift.String?
+        /// The unique identifier of the parent operation, if this operation is running within a child context.
+        public var parentId: Swift.String?
+        /// The date and time when the operation started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var startTimestamp: Foundation.Date?
+        /// The current status of the operation.
+        /// This member is required.
+        public var status: LambdaClientTypes.OperationStatus?
+        /// Details about the step, if this operation represents a step.
+        public var stepDetails: LambdaClientTypes.StepDetails?
+        /// The subtype of the operation, providing additional categorization.
+        public var subType: Swift.String?
+        /// The type of operation.
+        /// This member is required.
+        public var type: LambdaClientTypes.OperationType?
+        /// Details about the wait operation, if this operation represents a wait.
+        public var waitDetails: LambdaClientTypes.WaitDetails?
+
+        public init(
+            callbackDetails: LambdaClientTypes.CallbackDetails? = nil,
+            chainedInvokeDetails: LambdaClientTypes.ChainedInvokeDetails? = nil,
+            contextDetails: LambdaClientTypes.ContextDetails? = nil,
+            endTimestamp: Foundation.Date? = nil,
+            executionDetails: LambdaClientTypes.ExecutionDetails? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parentId: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil,
+            status: LambdaClientTypes.OperationStatus? = nil,
+            stepDetails: LambdaClientTypes.StepDetails? = nil,
+            subType: Swift.String? = nil,
+            type: LambdaClientTypes.OperationType? = nil,
+            waitDetails: LambdaClientTypes.WaitDetails? = nil
+        ) {
+            self.callbackDetails = callbackDetails
+            self.chainedInvokeDetails = chainedInvokeDetails
+            self.contextDetails = contextDetails
+            self.endTimestamp = endTimestamp
+            self.executionDetails = executionDetails
+            self.id = id
+            self.name = name
+            self.parentId = parentId
+            self.startTimestamp = startTimestamp
+            self.status = status
+            self.stepDetails = stepDetails
+            self.subType = subType
+            self.type = type
+            self.waitDetails = waitDetails
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains operations that have been updated since the last checkpoint, such as completed asynchronous work like timers or callbacks.
+    public struct CheckpointUpdatedExecutionState: Swift.Sendable {
+        /// Indicates that more results are available. Use this value in a subsequent call to retrieve the next page of results.
+        public var nextMarker: Swift.String?
+        /// A list of operations that have been updated since the last checkpoint.
+        public var operations: [LambdaClientTypes.Operation]?
+
+        public init(
+            nextMarker: Swift.String? = nil,
+            operations: [LambdaClientTypes.Operation]? = nil
+        ) {
+            self.nextMarker = nextMarker
+            self.operations = operations
+        }
+    }
+}
+
+/// The response from the CheckpointDurableExecution operation.
+public struct CheckpointDurableExecutionOutput: Swift.Sendable {
+    /// A new checkpoint token to use for the next checkpoint operation. This token replaces the one provided in the request and must be used for subsequent checkpoints to maintain proper ordering.
+    public var checkpointToken: Swift.String?
+    /// Updated execution state information that includes any changes that occurred since the last checkpoint, such as completed callbacks or expired timers. This allows the SDK to update its internal state during replay.
+    /// This member is required.
+    public var newExecutionState: LambdaClientTypes.CheckpointUpdatedExecutionState?
+
+    public init(
+        checkpointToken: Swift.String? = nil,
+        newExecutionState: LambdaClientTypes.CheckpointUpdatedExecutionState? = nil
+    ) {
+        self.checkpointToken = checkpointToken
+        self.newExecutionState = newExecutionState
     }
 }
 
@@ -3447,6 +4040,25 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout and retention period for execution history.
+    public struct DurableConfig: Swift.Sendable {
+        /// The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations.
+        public var executionTimeout: Swift.Int?
+        /// The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API.
+        public var retentionPeriodInDays: Swift.Int?
+
+        public init(
+            executionTimeout: Swift.Int? = nil,
+            retentionPeriodInDays: Swift.Int? = nil
+        ) {
+            self.executionTimeout = executionTimeout
+            self.retentionPeriodInDays = retentionPeriodInDays
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// A function's environment variable settings. You can use environment variables to adjust your function's behavior without updating code. An environment variable is a pair of strings that are stored in a function's version-specific configuration.
     public struct Environment: Swift.Sendable {
         /// Environment variable key-value pairs. For more information, see [Using Lambda environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html).
@@ -3990,6 +4602,8 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// A description of the function.
     public var description: Swift.String?
+    /// Configuration settings for durable functions. Enables creating functions with durability that can remember their state and continue execution even after interruptions.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -4062,6 +4676,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         codeSigningConfigArn: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.Environment? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -4090,6 +4705,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         self.codeSigningConfigArn = codeSigningConfigArn
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -4483,6 +5099,7 @@ extension LambdaClientTypes {
         case capacityproviderscalinglimitexceeded
         case creating
         case disabledkmskey
+        case drainingdurableexecutions
         case ec2requestlimitexceeded
         case efsioerror
         case efsmountconnectivityerror
@@ -4523,6 +5140,7 @@ extension LambdaClientTypes {
                 .capacityproviderscalinglimitexceeded,
                 .creating,
                 .disabledkmskey,
+                .drainingdurableexecutions,
                 .ec2requestlimitexceeded,
                 .efsioerror,
                 .efsmountconnectivityerror,
@@ -4569,6 +5187,7 @@ extension LambdaClientTypes {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .creating: return "Creating"
             case .disabledkmskey: return "DisabledKMSKey"
+            case .drainingdurableexecutions: return "DrainingDurableExecutions"
             case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
             case .efsioerror: return "EFSIOError"
             case .efsmountconnectivityerror: return "EFSMountConnectivityError"
@@ -4666,6 +5285,8 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
     public var description: Swift.String?
+    /// The function's durable execution configuration settings, if the function is configured for durability.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -4750,6 +5371,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -4790,6 +5412,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -5125,6 +5748,8 @@ extension LambdaClientTypes {
         public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
         /// The function's description.
         public var description: Swift.String?
+        /// The function's durable execution configuration settings, if the function is configured for durability.
+        public var durableConfig: LambdaClientTypes.DurableConfig?
         /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
         public var environment: LambdaClientTypes.EnvironmentResponse?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -5209,6 +5834,7 @@ extension LambdaClientTypes {
             configSha256: Swift.String? = nil,
             deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
             description: Swift.String? = nil,
+            durableConfig: LambdaClientTypes.DurableConfig? = nil,
             environment: LambdaClientTypes.EnvironmentResponse? = nil,
             ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
             fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -5249,6 +5875,7 @@ extension LambdaClientTypes {
             self.configSha256 = configSha256
             self.deadLetterConfig = deadLetterConfig
             self.description = description
+            self.durableConfig = durableConfig
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
             self.fileSystemConfigs = fileSystemConfigs
@@ -5453,6 +6080,8 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
     public var description: Swift.String?
+    /// The function's durable execution configuration settings, if the function is configured for durability.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -5537,6 +6166,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -5577,6 +6207,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -5901,6 +6532,33 @@ public struct GetRuntimeManagementConfigOutput: Swift.Sendable {
         self.functionArn = functionArn
         self.runtimeVersionArn = runtimeVersionArn
         self.updateRuntimeOn = updateRuntimeOn
+    }
+}
+
+/// The durable execution with the specified name has already been started. Each durable execution name must be unique within the function. Use a different name or check the status of the existing execution.
+public struct DurableExecutionAlreadyStartedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DurableExecutionAlreadyStartedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -6681,6 +7339,8 @@ extension LambdaClientTypes {
 public struct InvokeInput: Swift.Sendable {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
     public var clientContext: Swift.String?
+    /// Optional unique name for the durable execution. When you start your special function, you can give it a unique name to identify this specific execution. It's like giving a nickname to a task.
+    public var durableExecutionName: Swift.String?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
@@ -6712,6 +7372,7 @@ public struct InvokeInput: Swift.Sendable {
 
     public init(
         clientContext: Swift.String? = nil,
+        durableExecutionName: Swift.String? = nil,
         functionName: Swift.String? = nil,
         invocationType: LambdaClientTypes.InvocationType? = nil,
         logType: LambdaClientTypes.LogType? = nil,
@@ -6720,6 +7381,7 @@ public struct InvokeInput: Swift.Sendable {
         tenantId: Swift.String? = nil
     ) {
         self.clientContext = clientContext
+        self.durableExecutionName = durableExecutionName
         self.functionName = functionName
         self.invocationType = invocationType
         self.logType = logType
@@ -6731,10 +7393,12 @@ public struct InvokeInput: Swift.Sendable {
 
 extension InvokeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), tenantId: \(Swift.String(describing: tenantId)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), tenantId: \(Swift.String(describing: tenantId)), payload: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeOutput: Swift.Sendable {
+    /// The ARN of the durable execution that was started. This is returned when invoking a durable function and provides a unique identifier for tracking the execution.
+    public var durableExecutionArn: Swift.String?
     /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
     public var executedVersion: Swift.String?
     /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.
@@ -6747,12 +7411,14 @@ public struct InvokeOutput: Swift.Sendable {
     public var statusCode: Swift.Int
 
     public init(
+        durableExecutionArn: Swift.String? = nil,
         executedVersion: Swift.String? = nil,
         functionError: Swift.String? = nil,
         logResult: Swift.String? = nil,
         payload: Foundation.Data? = nil,
         statusCode: Swift.Int = 0
     ) {
+        self.durableExecutionArn = durableExecutionArn
         self.executedVersion = executedVersion
         self.functionError = functionError
         self.logResult = logResult
@@ -6763,7 +7429,7 @@ public struct InvokeOutput: Swift.Sendable {
 
 extension InvokeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeOutput(executedVersion: \(Swift.String(describing: executedVersion)), functionError: \(Swift.String(describing: functionError)), logResult: \(Swift.String(describing: logResult)), statusCode: \(Swift.String(describing: statusCode)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeOutput(durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), executedVersion: \(Swift.String(describing: executedVersion)), functionError: \(Swift.String(describing: functionError)), logResult: \(Swift.String(describing: logResult)), statusCode: \(Swift.String(describing: statusCode)), payload: \"CONTENT_REDACTED\")"}
 }
 
 @available(*, deprecated)
@@ -7545,6 +8211,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
     public var description: Swift.String?
+    /// The function's durable execution configuration settings, if the function is configured for durability.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -7629,6 +8297,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -7669,6 +8338,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -7711,6 +8381,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// A description of the function.
     public var description: Swift.String?
+    /// Configuration settings for durable functions. Allows updating execution timeout and retention period for functions with durability enabled.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -7771,6 +8443,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.Environment? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -7792,6 +8465,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         self.capacityProviderConfig = capacityProviderConfig
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -7828,6 +8502,8 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
     public var description: Swift.String?
+    /// The function's durable execution configuration settings, if the function is configured for durability.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -7912,6 +8588,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -7952,6 +8629,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -8446,6 +9124,8 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// The function's description.
     public var description: Swift.String?
+    /// The function's durable execution configuration settings, if the function is configured for durability.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
@@ -8530,6 +9210,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         configSha256: Swift.String? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         environment: LambdaClientTypes.EnvironmentResponse? = nil,
         ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
         fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
@@ -8570,6 +9251,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         self.configSha256 = configSha256
         self.deadLetterConfig = deadLetterConfig
         self.description = description
+        self.durableConfig = durableConfig
         self.environment = environment
         self.ephemeralStorage = ephemeralStorage
         self.fileSystemConfigs = fileSystemConfigs
@@ -8622,6 +9304,961 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     ) {
         self.accountLimit = accountLimit
         self.accountUsage = accountUsage
+    }
+}
+
+public struct GetDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case stopped
+        case succeeded
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .failed,
+                .running,
+                .stopped,
+                .succeeded,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains trace headers for the Lambda durable execution.
+    public struct TraceHeader: Swift.Sendable {
+        /// The X-Ray trace header associated with the durable execution.
+        public var xAmznTraceId: Swift.String?
+
+        public init(
+            xAmznTraceId: Swift.String? = nil
+        ) {
+            self.xAmznTraceId = xAmznTraceId
+        }
+    }
+}
+
+/// The response from the GetDurableExecution operation, containing detailed information about the durable execution.
+public struct GetDurableExecutionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// The name of the durable execution. This is either the name you provided when invoking the function, or a system-generated unique identifier if no name was provided.
+    /// This member is required.
+    public var durableExecutionName: Swift.String?
+    /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
+    public var endTimestamp: Foundation.Date?
+    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
+    public var error: LambdaClientTypes.ErrorObject?
+    /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
+    /// This member is required.
+    public var functionArn: Swift.String?
+    /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
+    public var inputPayload: Swift.String?
+    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
+    public var result: Swift.String?
+    /// The date and time when the durable execution started, in Unix timestamp format.
+    /// This member is required.
+    public var startTimestamp: Foundation.Date?
+    /// The current status of the durable execution. Valid values are RUNNING, SUCCEEDED, FAILED, TIMED_OUT, and STOPPED.
+    /// This member is required.
+    public var status: LambdaClientTypes.ExecutionStatus?
+    /// The trace headers associated with the durable execution.
+    public var traceHeader: LambdaClientTypes.TraceHeader?
+    /// The version of the Lambda function that was invoked for this durable execution. This ensures that all replays during the execution use the same function version.
+    public var version: Swift.String?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil,
+        durableExecutionName: Swift.String? = nil,
+        endTimestamp: Foundation.Date? = nil,
+        error: LambdaClientTypes.ErrorObject? = nil,
+        functionArn: Swift.String? = nil,
+        inputPayload: Swift.String? = nil,
+        result: Swift.String? = nil,
+        startTimestamp: Foundation.Date? = nil,
+        status: LambdaClientTypes.ExecutionStatus? = nil,
+        traceHeader: LambdaClientTypes.TraceHeader? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+        self.durableExecutionName = durableExecutionName
+        self.endTimestamp = endTimestamp
+        self.error = error
+        self.functionArn = functionArn
+        self.inputPayload = inputPayload
+        self.result = result
+        self.startTimestamp = startTimestamp
+        self.status = status
+        self.traceHeader = traceHeader
+        self.version = version
+    }
+}
+
+extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDurableExecutionOutput(durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetDurableExecutionHistoryInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The default is true.
+    public var includeExecutionData: Swift.Bool?
+    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of results. Each pagination token expires after 24 hours.
+    public var marker: Swift.String?
+    /// The maximum number of history events to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    public var maxItems: Swift.Int?
+    /// When set to true, returns the history events in reverse chronological order (newest first). By default, events are returned in chronological order (oldest first).
+    public var reverseOrder: Swift.Bool?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil,
+        includeExecutionData: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = 0,
+        reverseOrder: Swift.Bool? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+        self.includeExecutionData = includeExecutionData
+        self.marker = marker
+        self.maxItems = maxItems
+        self.reverseOrder = reverseOrder
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Error information for an event.
+    public struct EventError: Swift.Sendable {
+        /// The error payload.
+        public var payload: LambdaClientTypes.ErrorObject?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: LambdaClientTypes.ErrorObject? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a failed callback operation, including error information and the reason for failure.
+    public struct CallbackFailedDetails: Swift.Sendable {
+        /// An error object that contains details about the failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a callback operation that has started, including timing information and callback metadata.
+    public struct CallbackStartedDetails: Swift.Sendable {
+        /// The callback ID. Callback IDs are generated by the DurableContext when a durable function calls ctx.waitForCallback.
+        /// This member is required.
+        public var callbackId: Swift.String?
+        /// The heartbeat timeout value, in seconds.
+        public var heartbeatTimeout: Swift.Int?
+        /// The timeout value, in seconds.
+        public var timeout: Swift.Int?
+
+        public init(
+            callbackId: Swift.String? = nil,
+            heartbeatTimeout: Swift.Int? = nil,
+            timeout: Swift.Int? = nil
+        ) {
+            self.callbackId = callbackId
+            self.heartbeatTimeout = heartbeatTimeout
+            self.timeout = timeout
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Result information for an event.
+    public struct EventResult: Swift.Sendable {
+        /// The result payload.
+        public var payload: Swift.String?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventResult(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
+    public struct CallbackSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
+    public struct CallbackTimedOutDetails: Swift.Sendable {
+        /// Details about the callback timeout.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a failed chained function invocation, including error information and failure reason.
+    public struct ChainedInvokeFailedDetails: Swift.Sendable {
+        /// Details about the chained invocation failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Input information for an event.
+    public struct EventInput: Swift.Sendable {
+        /// The input payload.
+        public var payload: Swift.String?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventInput(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a chained function invocation that has started execution, including start time and execution context.
+    public struct ChainedInvokeStartedDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies the durable execution.
+        public var durableExecutionArn: Swift.String?
+        /// The version of the function that was executed.
+        public var executedVersion: Swift.String?
+        /// The name or ARN of the Lambda function being invoked.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// The JSON input payload provided to the chained invocation.
+        public var input: LambdaClientTypes.EventInput?
+        /// The tenant identifier for the chained invocation.
+        public var tenantId: Swift.String?
+
+        public init(
+            durableExecutionArn: Swift.String? = nil,
+            executedVersion: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            input: LambdaClientTypes.EventInput? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.durableExecutionArn = durableExecutionArn
+            self.executedVersion = executedVersion
+            self.functionName = functionName
+            self.input = input
+            self.tenantId = tenantId
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that was stopped.
+    public struct ChainedInvokeStoppedDetails: Swift.Sendable {
+        /// Details about why the chained invocation stopped.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that succeeded.
+    public struct ChainedInvokeSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that timed out.
+    public struct ChainedInvokeTimedOutDetails: Swift.Sendable {
+        /// Details about the chained invocation timeout.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that failed.
+    public struct ContextFailedDetails: Swift.Sendable {
+        /// Details about the context failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that has started.
+    public struct ContextStartedDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that succeeded.
+    public struct ContextSucceededDetails: Swift.Sendable {
+        /// The JSON response payload from the successful context.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case callbackfailed
+        case callbackstarted
+        case callbacksucceeded
+        case callbacktimedout
+        case chainedinvokefailed
+        case chainedinvokestarted
+        case chainedinvokestopped
+        case chainedinvokesucceeded
+        case chainedinvoketimedout
+        case contextfailed
+        case contextstarted
+        case contextsucceeded
+        case executionfailed
+        case executionstarted
+        case executionstopped
+        case executionsucceeded
+        case executiontimedout
+        case invocationcompleted
+        case stepfailed
+        case stepstarted
+        case stepsucceeded
+        case waitcancelled
+        case waitstarted
+        case waitsucceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventType] {
+            return [
+                .callbackfailed,
+                .callbackstarted,
+                .callbacksucceeded,
+                .callbacktimedout,
+                .chainedinvokefailed,
+                .chainedinvokestarted,
+                .chainedinvokestopped,
+                .chainedinvokesucceeded,
+                .chainedinvoketimedout,
+                .contextfailed,
+                .contextstarted,
+                .contextsucceeded,
+                .executionfailed,
+                .executionstarted,
+                .executionstopped,
+                .executionsucceeded,
+                .executiontimedout,
+                .invocationcompleted,
+                .stepfailed,
+                .stepstarted,
+                .stepsucceeded,
+                .waitcancelled,
+                .waitstarted,
+                .waitsucceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .callbackfailed: return "CallbackFailed"
+            case .callbackstarted: return "CallbackStarted"
+            case .callbacksucceeded: return "CallbackSucceeded"
+            case .callbacktimedout: return "CallbackTimedOut"
+            case .chainedinvokefailed: return "ChainedInvokeFailed"
+            case .chainedinvokestarted: return "ChainedInvokeStarted"
+            case .chainedinvokestopped: return "ChainedInvokeStopped"
+            case .chainedinvokesucceeded: return "ChainedInvokeSucceeded"
+            case .chainedinvoketimedout: return "ChainedInvokeTimedOut"
+            case .contextfailed: return "ContextFailed"
+            case .contextstarted: return "ContextStarted"
+            case .contextsucceeded: return "ContextSucceeded"
+            case .executionfailed: return "ExecutionFailed"
+            case .executionstarted: return "ExecutionStarted"
+            case .executionstopped: return "ExecutionStopped"
+            case .executionsucceeded: return "ExecutionSucceeded"
+            case .executiontimedout: return "ExecutionTimedOut"
+            case .invocationcompleted: return "InvocationCompleted"
+            case .stepfailed: return "StepFailed"
+            case .stepstarted: return "StepStarted"
+            case .stepsucceeded: return "StepSucceeded"
+            case .waitcancelled: return "WaitCancelled"
+            case .waitstarted: return "WaitStarted"
+            case .waitsucceeded: return "WaitSucceeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a failed [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+    public struct ExecutionFailedDetails: Swift.Sendable {
+        /// Details about the execution failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a durable execution that started.
+    public struct ExecutionStartedDetails: Swift.Sendable {
+        /// The maximum amount of time that the durable execution is allowed to run, in seconds.
+        /// This member is required.
+        public var executionTimeout: Swift.Int?
+        /// The input payload provided for the durable execution.
+        /// This member is required.
+        public var input: LambdaClientTypes.EventInput?
+
+        public init(
+            executionTimeout: Swift.Int? = nil,
+            input: LambdaClientTypes.EventInput? = nil
+        ) {
+            self.executionTimeout = executionTimeout
+            self.input = input
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that stopped.
+    public struct ExecutionStoppedDetails: Swift.Sendable {
+        /// Details about why the execution stopped.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that succeeded.
+    public struct ExecutionSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that timed out.
+    public struct ExecutionTimedOutDetails: Swift.Sendable {
+        /// Details about the execution timeout.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a function invocation that completed.
+    public struct InvocationCompletedDetails: Swift.Sendable {
+        /// The date and time when the invocation ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var endTimestamp: Foundation.Date?
+        /// Details about the invocation failure.
+        public var error: LambdaClientTypes.EventError?
+        /// The request ID for the invocation.
+        /// This member is required.
+        public var requestId: Swift.String?
+        /// The date and time when the invocation started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var startTimestamp: Foundation.Date?
+
+        public init(
+            endTimestamp: Foundation.Date? = nil,
+            error: LambdaClientTypes.EventError? = nil,
+            requestId: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.error = error
+            self.requestId = requestId
+            self.startTimestamp = startTimestamp
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about retry attempts for an operation.
+    public struct RetryDetails: Swift.Sendable {
+        /// The current attempt number for this operation.
+        public var currentAttempt: Swift.Int
+        /// The delay before the next retry attempt, in seconds.
+        public var nextAttemptDelaySeconds: Swift.Int?
+
+        public init(
+            currentAttempt: Swift.Int = 0,
+            nextAttemptDelaySeconds: Swift.Int? = nil
+        ) {
+            self.currentAttempt = currentAttempt
+            self.nextAttemptDelaySeconds = nextAttemptDelaySeconds
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that failed.
+    public struct StepFailedDetails: Swift.Sendable {
+        /// Details about the step failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+        /// Information about retry attempts for this step operation.
+        /// This member is required.
+        public var retryDetails: LambdaClientTypes.RetryDetails?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil,
+            retryDetails: LambdaClientTypes.RetryDetails? = nil
+        ) {
+            self.error = error
+            self.retryDetails = retryDetails
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that has started.
+    public struct StepStartedDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that succeeded.
+    public struct StepSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+        /// Information about retry attempts for this step operation.
+        /// This member is required.
+        public var retryDetails: LambdaClientTypes.RetryDetails?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil,
+            retryDetails: LambdaClientTypes.RetryDetails? = nil
+        ) {
+            self.result = result
+            self.retryDetails = retryDetails
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that was cancelled.
+    public struct WaitCancelledDetails: Swift.Sendable {
+        /// Details about why the wait operation was cancelled.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that has started.
+    public struct WaitStartedDetails: Swift.Sendable {
+        /// The duration to wait, in seconds.
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// The date and time when the wait operation is scheduled to complete, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var scheduledEndTimestamp: Foundation.Date?
+
+        public init(
+            duration: Swift.Int? = nil,
+            scheduledEndTimestamp: Foundation.Date? = nil
+        ) {
+            self.duration = duration
+            self.scheduledEndTimestamp = scheduledEndTimestamp
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that succeeded.
+    public struct WaitSucceededDetails: Swift.Sendable {
+        /// The wait duration, in seconds.
+        public var duration: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = nil
+        ) {
+            self.duration = duration
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// An event that occurred during the execution of a durable function.
+    public struct Event: Swift.Sendable {
+        /// Contains details about a failed callback operation, including error information and the reason for failure.
+        public var callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails?
+        /// Contains details about a callback operation that has started, including timing information and callback metadata.
+        public var callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails?
+        /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
+        public var callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails?
+        /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
+        public var callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails?
+        /// Contains details about a failed chained function invocation, including error information and failure reason.
+        public var chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails?
+        /// Contains details about a chained function invocation that has started execution, including start time and execution context.
+        public var chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails?
+        /// Details about a chained invocation that was stopped.
+        public var chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails?
+        /// Details about a chained invocation that succeeded.
+        public var chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails?
+        /// Details about a chained invocation that timed out.
+        public var chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails?
+        /// Details about a context that failed.
+        public var contextFailedDetails: LambdaClientTypes.ContextFailedDetails?
+        /// Details about a context that started.
+        public var contextStartedDetails: LambdaClientTypes.ContextStartedDetails?
+        /// Details about a context that succeeded.
+        public var contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails?
+        /// The unique identifier for this event. Event IDs increment sequentially.
+        public var eventId: Swift.Int?
+        /// The date and time when this event occurred, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var eventTimestamp: Foundation.Date?
+        /// The type of event that occurred.
+        public var eventType: LambdaClientTypes.EventType?
+        /// Details about an execution that failed.
+        public var executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails?
+        /// Details about an execution that started.
+        public var executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails?
+        /// Details about an execution that was stopped.
+        public var executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails?
+        /// Details about an execution that succeeded.
+        public var executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails?
+        /// Details about an execution that timed out.
+        public var executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails?
+        /// The unique identifier for this operation.
+        public var id: Swift.String?
+        /// Details about a function invocation that completed.
+        public var invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails?
+        /// The customer-provided name for this operation.
+        public var name: Swift.String?
+        /// The unique identifier of the parent operation, if this operation is running within a child context.
+        public var parentId: Swift.String?
+        /// Details about a step that failed.
+        public var stepFailedDetails: LambdaClientTypes.StepFailedDetails?
+        /// Details about a step that started.
+        public var stepStartedDetails: LambdaClientTypes.StepStartedDetails?
+        /// Details about a step that succeeded.
+        public var stepSucceededDetails: LambdaClientTypes.StepSucceededDetails?
+        /// The subtype of the event, providing additional categorization.
+        public var subType: Swift.String?
+        /// Details about a wait operation that was cancelled.
+        public var waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails?
+        /// Details about a wait operation that started.
+        public var waitStartedDetails: LambdaClientTypes.WaitStartedDetails?
+        /// Details about a wait operation that succeeded.
+        public var waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails?
+
+        public init(
+            callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails? = nil,
+            callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails? = nil,
+            callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails? = nil,
+            callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails? = nil,
+            chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails? = nil,
+            chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails? = nil,
+            chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails? = nil,
+            chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails? = nil,
+            chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails? = nil,
+            contextFailedDetails: LambdaClientTypes.ContextFailedDetails? = nil,
+            contextStartedDetails: LambdaClientTypes.ContextStartedDetails? = nil,
+            contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails? = nil,
+            eventId: Swift.Int? = 1,
+            eventTimestamp: Foundation.Date? = nil,
+            eventType: LambdaClientTypes.EventType? = nil,
+            executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails? = nil,
+            executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails? = nil,
+            executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails? = nil,
+            executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails? = nil,
+            executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails? = nil,
+            id: Swift.String? = nil,
+            invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails? = nil,
+            name: Swift.String? = nil,
+            parentId: Swift.String? = nil,
+            stepFailedDetails: LambdaClientTypes.StepFailedDetails? = nil,
+            stepStartedDetails: LambdaClientTypes.StepStartedDetails? = nil,
+            stepSucceededDetails: LambdaClientTypes.StepSucceededDetails? = nil,
+            subType: Swift.String? = nil,
+            waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails? = nil,
+            waitStartedDetails: LambdaClientTypes.WaitStartedDetails? = nil,
+            waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails? = nil
+        ) {
+            self.callbackFailedDetails = callbackFailedDetails
+            self.callbackStartedDetails = callbackStartedDetails
+            self.callbackSucceededDetails = callbackSucceededDetails
+            self.callbackTimedOutDetails = callbackTimedOutDetails
+            self.chainedInvokeFailedDetails = chainedInvokeFailedDetails
+            self.chainedInvokeStartedDetails = chainedInvokeStartedDetails
+            self.chainedInvokeStoppedDetails = chainedInvokeStoppedDetails
+            self.chainedInvokeSucceededDetails = chainedInvokeSucceededDetails
+            self.chainedInvokeTimedOutDetails = chainedInvokeTimedOutDetails
+            self.contextFailedDetails = contextFailedDetails
+            self.contextStartedDetails = contextStartedDetails
+            self.contextSucceededDetails = contextSucceededDetails
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventType = eventType
+            self.executionFailedDetails = executionFailedDetails
+            self.executionStartedDetails = executionStartedDetails
+            self.executionStoppedDetails = executionStoppedDetails
+            self.executionSucceededDetails = executionSucceededDetails
+            self.executionTimedOutDetails = executionTimedOutDetails
+            self.id = id
+            self.invocationCompletedDetails = invocationCompletedDetails
+            self.name = name
+            self.parentId = parentId
+            self.stepFailedDetails = stepFailedDetails
+            self.stepStartedDetails = stepStartedDetails
+            self.stepSucceededDetails = stepSucceededDetails
+            self.subType = subType
+            self.waitCancelledDetails = waitCancelledDetails
+            self.waitStartedDetails = waitStartedDetails
+            self.waitSucceededDetails = waitSucceededDetails
+        }
+    }
+}
+
+/// The response from the GetDurableExecutionHistory operation, containing the execution history and events.
+public struct GetDurableExecutionHistoryOutput: Swift.Sendable {
+    /// An array of execution history events, ordered chronologically unless ReverseOrder is set to true. Each event represents a significant occurrence during the execution, such as step completion or callback resolution.
+    /// This member is required.
+    public var events: [LambdaClientTypes.Event]?
+    /// If present, indicates that more history events are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
+    public var nextMarker: Swift.String?
+
+    public init(
+        events: [LambdaClientTypes.Event]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct GetDurableExecutionStateInput: Swift.Sendable {
+    /// A checkpoint token that identifies the current state of the execution. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context.
+    /// This member is required.
+    public var checkpointToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of operations. Each pagination token expires after 24 hours.
+    public var marker: Swift.String?
+    /// The maximum number of operations to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    public var maxItems: Swift.Int?
+
+    public init(
+        checkpointToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = 0
+    ) {
+        self.checkpointToken = checkpointToken
+        self.durableExecutionArn = durableExecutionArn
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+/// The response from the GetDurableExecutionState operation, containing the current execution state for replay.
+public struct GetDurableExecutionStateOutput: Swift.Sendable {
+    /// If present, indicates that more operations are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
+    public var nextMarker: Swift.String?
+    /// An array of operations that represent the current state of the durable execution. Operations are ordered by their start sequence number in ascending order and include information needed for replay processing.
+    /// This member is required.
+    public var operations: [LambdaClientTypes.Operation]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        operations: [LambdaClientTypes.Operation]? = nil
+    ) {
+        self.nextMarker = nextMarker
+        self.operations = operations
     }
 }
 
@@ -9168,6 +10805,106 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
     }
 }
 
+public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
+    /// Filter executions by name. Only executions with names that contain this string are returned.
+    public var durableExecutionName: Swift.String?
+    /// The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Pagination token from a previous request to continue retrieving results.
+    public var marker: Swift.String?
+    /// Maximum number of executions to return (1-1000). Default is 100.
+    public var maxItems: Swift.Int?
+    /// The function version or alias. If not specified, lists executions for the $LATEST version.
+    public var qualifier: Swift.String?
+    /// Set to true to return results in reverse chronological order (newest first). Default is false.
+    public var reverseOrder: Swift.Bool?
+    /// Filter executions that started after this timestamp (ISO 8601 format).
+    public var startedAfter: Foundation.Date?
+    /// Filter executions that started before this timestamp (ISO 8601 format).
+    public var startedBefore: Foundation.Date?
+    /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    public var statuses: [LambdaClientTypes.ExecutionStatus]?
+
+    public init(
+        durableExecutionName: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = 0,
+        qualifier: Swift.String? = nil,
+        reverseOrder: Swift.Bool? = nil,
+        startedAfter: Foundation.Date? = nil,
+        startedBefore: Foundation.Date? = nil,
+        statuses: [LambdaClientTypes.ExecutionStatus]? = nil
+    ) {
+        self.durableExecutionName = durableExecutionName
+        self.functionName = functionName
+        self.marker = marker
+        self.maxItems = maxItems
+        self.qualifier = qualifier
+        self.reverseOrder = reverseOrder
+        self.startedAfter = startedAfter
+        self.startedBefore = startedBefore
+        self.statuses = statuses
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+    public struct Execution: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the durable execution, if this execution is a durable execution.
+        /// This member is required.
+        public var durableExecutionArn: Swift.String?
+        /// The unique name of the durable execution, if one was provided when the execution was started.
+        /// This member is required.
+        public var durableExecutionName: Swift.String?
+        /// The date and time when the durable execution ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var endTimestamp: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the Lambda function.
+        /// This member is required.
+        public var functionArn: Swift.String?
+        /// The date and time when the durable execution started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var startTimestamp: Foundation.Date?
+        /// The current status of the durable execution.
+        /// This member is required.
+        public var status: LambdaClientTypes.ExecutionStatus?
+
+        public init(
+            durableExecutionArn: Swift.String? = nil,
+            durableExecutionName: Swift.String? = nil,
+            endTimestamp: Foundation.Date? = nil,
+            functionArn: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil,
+            status: LambdaClientTypes.ExecutionStatus? = nil
+        ) {
+            self.durableExecutionArn = durableExecutionArn
+            self.durableExecutionName = durableExecutionName
+            self.endTimestamp = endTimestamp
+            self.functionArn = functionArn
+            self.startTimestamp = startTimestamp
+            self.status = status
+        }
+    }
+}
+
+/// The response from the ListDurableExecutionsByFunction operation, containing a list of durable executions and pagination information.
+public struct ListDurableExecutionsByFunctionOutput: Swift.Sendable {
+    /// List of durable execution summaries matching the filter criteria.
+    public var durableExecutions: [LambdaClientTypes.Execution]?
+    /// Pagination token for retrieving additional results. Present only if there are more results available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        durableExecutions: [LambdaClientTypes.Execution]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.durableExecutions = durableExecutions
+        self.nextMarker = nextMarker
+    }
+}
+
 public struct ListFunctionEventInvokeConfigsInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -9573,6 +11310,125 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
     }
 }
 
+/// The callback ID token has either expired or the callback associated with the token has already been closed.
+public struct CallbackTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CallbackTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct SendDurableExecutionCallbackFailureInput: Swift.Sendable {
+    /// The unique identifier for the callback operation.
+    /// This member is required.
+    public var callbackId: Swift.String?
+    /// Error details describing why the callback operation failed.
+    public var error: LambdaClientTypes.ErrorObject?
+
+    public init(
+        callbackId: Swift.String? = nil,
+        error: LambdaClientTypes.ErrorObject? = nil
+    ) {
+        self.callbackId = callbackId
+        self.error = error
+    }
+}
+
+public struct SendDurableExecutionCallbackFailureOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct SendDurableExecutionCallbackHeartbeatInput: Swift.Sendable {
+    /// The unique identifier for the callback operation.
+    /// This member is required.
+    public var callbackId: Swift.String?
+
+    public init(
+        callbackId: Swift.String? = nil
+    ) {
+        self.callbackId = callbackId
+    }
+}
+
+public struct SendDurableExecutionCallbackHeartbeatOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct SendDurableExecutionCallbackSuccessInput: Swift.Sendable {
+    /// The unique identifier for the callback operation.
+    /// This member is required.
+    public var callbackId: Swift.String?
+    /// The result data from the successful callback operation. Maximum size is 256 KB.
+    public var result: Foundation.Data?
+
+    public init(
+        callbackId: Swift.String? = nil,
+        result: Foundation.Data? = nil
+    ) {
+        self.callbackId = callbackId
+        self.result = result
+    }
+}
+
+extension SendDurableExecutionCallbackSuccessInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendDurableExecutionCallbackSuccessInput(callbackId: \(Swift.String(describing: callbackId)), result: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendDurableExecutionCallbackSuccessOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Optional error details explaining why the execution is being stopped.
+    public var error: LambdaClientTypes.ErrorObject?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil,
+        error: LambdaClientTypes.ErrorObject? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+        self.error = error
+    }
+}
+
+public struct StopDurableExecutionOutput: Swift.Sendable {
+    /// The timestamp when the execution was stopped (ISO 8601 format).
+    /// This member is required.
+    public var stopTimestamp: Foundation.Date?
+
+    public init(
+        stopTimestamp: Foundation.Date? = nil
+    ) {
+        self.stopTimestamp = stopTimestamp
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
@@ -9741,6 +11597,16 @@ extension AddPermissionInput {
             items.append(qualifierQueryItem)
         }
         return items
+    }
+}
+
+extension CheckpointDurableExecutionInput {
+
+    static func urlPathProvider(_ value: CheckpointDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/checkpoint"
     }
 }
 
@@ -10007,6 +11873,82 @@ extension GetCodeSigningConfigInput {
             return nil
         }
         return "/2020-04-22/code-signing-configs/\(codeSigningConfigArn.urlPercentEncoding())"
+    }
+}
+
+extension GetDurableExecutionInput {
+
+    static func urlPathProvider(_ value: GetDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())"
+    }
+}
+
+extension GetDurableExecutionHistoryInput {
+
+    static func urlPathProvider(_ value: GetDurableExecutionHistoryInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/history"
+    }
+}
+
+extension GetDurableExecutionHistoryInput {
+
+    static func queryItemProvider(_ value: GetDurableExecutionHistoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeExecutionData = value.includeExecutionData {
+            let includeExecutionDataQueryItem = Smithy.URIQueryItem(name: "IncludeExecutionData".urlPercentEncoding(), value: Swift.String(includeExecutionData).urlPercentEncoding())
+            items.append(includeExecutionDataQueryItem)
+        }
+        if let reverseOrder = value.reverseOrder {
+            let reverseOrderQueryItem = Smithy.URIQueryItem(name: "ReverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+            items.append(reverseOrderQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetDurableExecutionStateInput {
+
+    static func urlPathProvider(_ value: GetDurableExecutionStateInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/state"
+    }
+}
+
+extension GetDurableExecutionStateInput {
+
+    static func queryItemProvider(_ value: GetDurableExecutionStateInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        guard let checkpointToken = value.checkpointToken else {
+            let message = "Creating a URL Query Item failed. checkpointToken is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let checkpointTokenQueryItem = Smithy.URIQueryItem(name: "CheckpointToken".urlPercentEncoding(), value: Swift.String(checkpointToken).urlPercentEncoding())
+        items.append(checkpointTokenQueryItem)
+        return items
     }
 }
 
@@ -10295,6 +12237,9 @@ extension InvokeInput {
         if let clientContext = value.clientContext {
             items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Context", value: Swift.String(clientContext)))
         }
+        if let durableExecutionName = value.durableExecutionName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Durable-Execution-Name", value: Swift.String(durableExecutionName)))
+        }
         if let invocationType = value.invocationType {
             items.add(SmithyHTTPAPI.Header(name: "X-Amz-Invocation-Type", value: Swift.String(invocationType.rawValue)))
         }
@@ -10447,6 +12392,58 @@ extension ListCodeSigningConfigsInput {
         if let maxItems = value.maxItems {
             let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDurableExecutionsByFunctionInput {
+
+    static func urlPathProvider(_ value: ListDurableExecutionsByFunctionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
+            return nil
+        }
+        return "/2025-12-01/functions/\(functionName.urlPercentEncoding())/durable-executions"
+    }
+}
+
+extension ListDurableExecutionsByFunctionInput {
+
+    static func queryItemProvider(_ value: ListDurableExecutionsByFunctionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let durableExecutionName = value.durableExecutionName {
+            let durableExecutionNameQueryItem = Smithy.URIQueryItem(name: "DurableExecutionName".urlPercentEncoding(), value: Swift.String(durableExecutionName).urlPercentEncoding())
+            items.append(durableExecutionNameQueryItem)
+        }
+        if let statuses = value.statuses {
+            statuses.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "Statuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let startedAfter = value.startedAfter {
+            let startedAfterQueryItem = Smithy.URIQueryItem(name: "StartedAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startedAfter)).urlPercentEncoding())
+            items.append(startedAfterQueryItem)
+        }
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = Smithy.URIQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
+        }
+        if let reverseOrder = value.reverseOrder {
+            let reverseOrderQueryItem = Smithy.URIQueryItem(name: "ReverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+            items.append(reverseOrderQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let startedBefore = value.startedBefore {
+            let startedBeforeQueryItem = Smithy.URIQueryItem(name: "StartedBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startedBefore)).urlPercentEncoding())
+            items.append(startedBeforeQueryItem)
         }
         return items
     }
@@ -10945,6 +12942,46 @@ extension RemovePermissionInput {
     }
 }
 
+extension SendDurableExecutionCallbackFailureInput {
+
+    static func urlPathProvider(_ value: SendDurableExecutionCallbackFailureInput) -> Swift.String? {
+        guard let callbackId = value.callbackId else {
+            return nil
+        }
+        return "/2025-12-01/durable-execution-callbacks/\(callbackId.urlPercentEncoding())/fail"
+    }
+}
+
+extension SendDurableExecutionCallbackHeartbeatInput {
+
+    static func urlPathProvider(_ value: SendDurableExecutionCallbackHeartbeatInput) -> Swift.String? {
+        guard let callbackId = value.callbackId else {
+            return nil
+        }
+        return "/2025-12-01/durable-execution-callbacks/\(callbackId.urlPercentEncoding())/heartbeat"
+    }
+}
+
+extension SendDurableExecutionCallbackSuccessInput {
+
+    static func urlPathProvider(_ value: SendDurableExecutionCallbackSuccessInput) -> Swift.String? {
+        guard let callbackId = value.callbackId else {
+            return nil
+        }
+        return "/2025-12-01/durable-execution-callbacks/\(callbackId.urlPercentEncoding())/succeed"
+    }
+}
+
+extension StopDurableExecutionInput {
+
+    static func urlPathProvider(_ value: StopDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/stop"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -11116,6 +13153,16 @@ extension AddPermissionInput {
     }
 }
 
+extension CheckpointDurableExecutionInput {
+
+    static func write(value: CheckpointDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CheckpointToken"].write(value.checkpointToken)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Updates"].writeList(value.updates, memberWritingClosure: LambdaClientTypes.OperationUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAliasInput {
 
     static func write(value: CreateAliasInput?, to writer: SmithyJSON.Writer) throws {
@@ -11196,6 +13243,7 @@ extension CreateFunctionInput {
         try writer["CodeSigningConfigArn"].write(value.codeSigningConfigArn)
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DurableConfig"].write(value.durableConfig, with: LambdaClientTypes.DurableConfig.write(value:to:))
         try writer["Environment"].write(value.environment, with: LambdaClientTypes.Environment.write(value:to:))
         try writer["EphemeralStorage"].write(value.ephemeralStorage, with: LambdaClientTypes.EphemeralStorage.write(value:to:))
         try writer["FileSystemConfigs"].writeList(value.fileSystemConfigs, memberWritingClosure: LambdaClientTypes.FileSystemConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11336,6 +13384,30 @@ extension PutRuntimeManagementConfigInput {
     }
 }
 
+extension SendDurableExecutionCallbackFailureInput {
+
+    static func write(value: SendDurableExecutionCallbackFailureInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Error"].write(value.error, with: LambdaClientTypes.ErrorObject.write(value:to:))
+    }
+}
+
+extension SendDurableExecutionCallbackSuccessInput {
+
+    static func write(value: SendDurableExecutionCallbackSuccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Result"].write(value.result)
+    }
+}
+
+extension StopDurableExecutionInput {
+
+    static func write(value: StopDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Error"].write(value.error, with: LambdaClientTypes.ErrorObject.write(value:to:))
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -11425,6 +13497,7 @@ extension UpdateFunctionConfigurationInput {
         try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DurableConfig"].write(value.durableConfig, with: LambdaClientTypes.DurableConfig.write(value:to:))
         try writer["Environment"].write(value.environment, with: LambdaClientTypes.Environment.write(value:to:))
         try writer["EphemeralStorage"].write(value.ephemeralStorage, with: LambdaClientTypes.EphemeralStorage.write(value:to:))
         try writer["FileSystemConfigs"].writeList(value.fileSystemConfigs, memberWritingClosure: LambdaClientTypes.FileSystemConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11485,6 +13558,19 @@ extension AddPermissionOutput {
         let reader = responseReader
         var value = AddPermissionOutput()
         value.statement = try reader["Statement"].readIfPresent()
+        return value
+    }
+}
+
+extension CheckpointDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CheckpointDurableExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CheckpointDurableExecutionOutput()
+        value.checkpointToken = try reader["CheckpointToken"].readIfPresent()
+        value.newExecutionState = try reader["NewExecutionState"].readIfPresent(with: LambdaClientTypes.CheckpointUpdatedExecutionState.read(from:))
         return value
     }
 }
@@ -11587,6 +13673,7 @@ extension CreateFunctionOutput {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11814,6 +13901,54 @@ extension GetCodeSigningConfigOutput {
     }
 }
 
+extension GetDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDurableExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDurableExecutionOutput()
+        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent() ?? ""
+        value.durableExecutionName = try reader["DurableExecutionName"].readIfPresent() ?? ""
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.inputPayload = try reader["InputPayload"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.traceHeader = try reader["TraceHeader"].readIfPresent(with: LambdaClientTypes.TraceHeader.read(from:))
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension GetDurableExecutionHistoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDurableExecutionHistoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDurableExecutionHistoryOutput()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension GetDurableExecutionStateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDurableExecutionStateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDurableExecutionStateOutput()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension GetEventSourceMappingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventSourceMappingOutput {
@@ -11912,6 +14047,7 @@ extension GetFunctionConfigurationOutput {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12109,6 +14245,9 @@ extension InvokeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeOutput {
         var value = InvokeOutput()
+        if let durableExecutionArnHeaderValue = httpResponse.headers.value(for: "X-Amz-Durable-Execution-Arn") {
+            value.durableExecutionArn = durableExecutionArnHeaderValue
+        }
         if let executedVersionHeaderValue = httpResponse.headers.value(for: "X-Amz-Executed-Version") {
             value.executedVersion = executedVersionHeaderValue
         }
@@ -12194,6 +14333,19 @@ extension ListCodeSigningConfigsOutput {
         let reader = responseReader
         var value = ListCodeSigningConfigsOutput()
         value.codeSigningConfigs = try reader["CodeSigningConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.CodeSigningConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDurableExecutionsByFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDurableExecutionsByFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDurableExecutionsByFunctionOutput()
+        value.durableExecutions = try reader["DurableExecutions"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Execution.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextMarker = try reader["NextMarker"].readIfPresent()
         return value
     }
@@ -12376,6 +14528,7 @@ extension PublishVersionOutput {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12522,6 +14675,39 @@ extension RemovePermissionOutput {
     }
 }
 
+extension SendDurableExecutionCallbackFailureOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDurableExecutionCallbackFailureOutput {
+        return SendDurableExecutionCallbackFailureOutput()
+    }
+}
+
+extension SendDurableExecutionCallbackHeartbeatOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDurableExecutionCallbackHeartbeatOutput {
+        return SendDurableExecutionCallbackHeartbeatOutput()
+    }
+}
+
+extension SendDurableExecutionCallbackSuccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDurableExecutionCallbackSuccessOutput {
+        return SendDurableExecutionCallbackSuccessOutput()
+    }
+}
+
+extension StopDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopDurableExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopDurableExecutionOutput()
+        value.stopTimestamp = try reader["StopTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -12634,6 +14820,7 @@ extension UpdateFunctionCodeOutput {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12684,6 +14871,7 @@ extension UpdateFunctionConfigurationOutput {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: LambdaClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.environment = try reader["Environment"].readIfPresent(with: LambdaClientTypes.EnvironmentResponse.read(from:))
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12787,6 +14975,22 @@ enum AddPermissionOutputError {
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CheckpointDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13163,6 +15367,56 @@ enum GetCodeSigningConfigOutputError {
     }
 }
 
+enum GetDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDurableExecutionHistoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDurableExecutionStateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEventSourceMappingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13427,6 +15681,7 @@ enum InvokeOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "DurableExecutionAlreadyStartedException": return try DurableExecutionAlreadyStartedException.makeError(baseError: baseError)
             case "EC2AccessDeniedException": return try EC2AccessDeniedException.makeError(baseError: baseError)
             case "EC2ThrottledException": return try EC2ThrottledException.makeError(baseError: baseError)
             case "EC2UnexpectedException": return try EC2UnexpectedException.makeError(baseError: baseError)
@@ -13570,6 +15825,23 @@ enum ListCodeSigningConfigsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDurableExecutionsByFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13953,6 +16225,74 @@ enum RemovePermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendDurableExecutionCallbackFailureOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendDurableExecutionCallbackHeartbeatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendDurableExecutionCallbackSuccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -14365,6 +16705,20 @@ extension ProvisionedConcurrencyConfigNotFoundException {
     }
 }
 
+extension DurableExecutionAlreadyStartedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DurableExecutionAlreadyStartedException {
+        let reader = baseError.errorBodyReader
+        var value = DurableExecutionAlreadyStartedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension EC2AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EC2AccessDeniedException {
@@ -14744,6 +17098,20 @@ extension UnsupportedMediaTypeException {
     }
 }
 
+extension CallbackTimeoutException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CallbackTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = CallbackTimeoutException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent {
     static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<LambdaClientTypes.InvokeWithResponseStreamResponseEvent> {
         { message in
@@ -14777,6 +17145,129 @@ extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent {
                 throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
+    }
+}
+
+extension LambdaClientTypes.CheckpointUpdatedExecutionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CheckpointUpdatedExecutionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CheckpointUpdatedExecutionState()
+        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Operation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Operation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Operation()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.subType = try reader["SubType"].readIfPresent()
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionDetails = try reader["ExecutionDetails"].readIfPresent(with: LambdaClientTypes.ExecutionDetails.read(from:))
+        value.contextDetails = try reader["ContextDetails"].readIfPresent(with: LambdaClientTypes.ContextDetails.read(from:))
+        value.stepDetails = try reader["StepDetails"].readIfPresent(with: LambdaClientTypes.StepDetails.read(from:))
+        value.waitDetails = try reader["WaitDetails"].readIfPresent(with: LambdaClientTypes.WaitDetails.read(from:))
+        value.callbackDetails = try reader["CallbackDetails"].readIfPresent(with: LambdaClientTypes.CallbackDetails.read(from:))
+        value.chainedInvokeDetails = try reader["ChainedInvokeDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeDetails.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeDetails()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ErrorObject {
+
+    static func write(value: LambdaClientTypes.ErrorObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorData"].write(value.errorData)
+        try writer["ErrorMessage"].write(value.errorMessage)
+        try writer["ErrorType"].write(value.errorType)
+        try writer["StackTrace"].writeList(value.stackTrace, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ErrorObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ErrorObject()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorType = try reader["ErrorType"].readIfPresent()
+        value.errorData = try reader["ErrorData"].readIfPresent()
+        value.stackTrace = try reader["StackTrace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackDetails()
+        value.callbackId = try reader["CallbackId"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.WaitDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitDetails()
+        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepDetails()
+        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
+        value.nextAttemptTimestamp = try reader["NextAttemptTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ContextDetails()
+        value.replayChildren = try reader["ReplayChildren"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionDetails()
+        value.inputPayload = try reader["InputPayload"].readIfPresent()
+        return value
     }
 }
 
@@ -15453,6 +17944,23 @@ extension LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
     }
 }
 
+extension LambdaClientTypes.DurableConfig {
+
+    static func write(value: LambdaClientTypes.DurableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionTimeout"].write(value.executionTimeout)
+        try writer["RetentionPeriodInDays"].write(value.retentionPeriodInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DurableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.DurableConfig()
+        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent()
+        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.TenancyConfig {
 
     static func write(value: LambdaClientTypes.TenancyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -15518,6 +18026,349 @@ extension LambdaClientTypes.AccountUsage {
     }
 }
 
+extension LambdaClientTypes.TraceHeader {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TraceHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TraceHeader()
+        value.xAmznTraceId = try reader["XAmznTraceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Event {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Event()
+        value.eventType = try reader["EventType"].readIfPresent()
+        value.subType = try reader["SubType"].readIfPresent()
+        value.eventId = try reader["EventId"].readIfPresent() ?? 1
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.eventTimestamp = try reader["EventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.executionStartedDetails = try reader["ExecutionStartedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionStartedDetails.read(from:))
+        value.executionSucceededDetails = try reader["ExecutionSucceededDetails"].readIfPresent(with: LambdaClientTypes.ExecutionSucceededDetails.read(from:))
+        value.executionFailedDetails = try reader["ExecutionFailedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionFailedDetails.read(from:))
+        value.executionTimedOutDetails = try reader["ExecutionTimedOutDetails"].readIfPresent(with: LambdaClientTypes.ExecutionTimedOutDetails.read(from:))
+        value.executionStoppedDetails = try reader["ExecutionStoppedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionStoppedDetails.read(from:))
+        value.contextStartedDetails = try reader["ContextStartedDetails"].readIfPresent(with: LambdaClientTypes.ContextStartedDetails.read(from:))
+        value.contextSucceededDetails = try reader["ContextSucceededDetails"].readIfPresent(with: LambdaClientTypes.ContextSucceededDetails.read(from:))
+        value.contextFailedDetails = try reader["ContextFailedDetails"].readIfPresent(with: LambdaClientTypes.ContextFailedDetails.read(from:))
+        value.waitStartedDetails = try reader["WaitStartedDetails"].readIfPresent(with: LambdaClientTypes.WaitStartedDetails.read(from:))
+        value.waitSucceededDetails = try reader["WaitSucceededDetails"].readIfPresent(with: LambdaClientTypes.WaitSucceededDetails.read(from:))
+        value.waitCancelledDetails = try reader["WaitCancelledDetails"].readIfPresent(with: LambdaClientTypes.WaitCancelledDetails.read(from:))
+        value.stepStartedDetails = try reader["StepStartedDetails"].readIfPresent(with: LambdaClientTypes.StepStartedDetails.read(from:))
+        value.stepSucceededDetails = try reader["StepSucceededDetails"].readIfPresent(with: LambdaClientTypes.StepSucceededDetails.read(from:))
+        value.stepFailedDetails = try reader["StepFailedDetails"].readIfPresent(with: LambdaClientTypes.StepFailedDetails.read(from:))
+        value.chainedInvokeStartedDetails = try reader["ChainedInvokeStartedDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeStartedDetails.read(from:))
+        value.chainedInvokeSucceededDetails = try reader["ChainedInvokeSucceededDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeSucceededDetails.read(from:))
+        value.chainedInvokeFailedDetails = try reader["ChainedInvokeFailedDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeFailedDetails.read(from:))
+        value.chainedInvokeTimedOutDetails = try reader["ChainedInvokeTimedOutDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeTimedOutDetails.read(from:))
+        value.chainedInvokeStoppedDetails = try reader["ChainedInvokeStoppedDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeStoppedDetails.read(from:))
+        value.callbackStartedDetails = try reader["CallbackStartedDetails"].readIfPresent(with: LambdaClientTypes.CallbackStartedDetails.read(from:))
+        value.callbackSucceededDetails = try reader["CallbackSucceededDetails"].readIfPresent(with: LambdaClientTypes.CallbackSucceededDetails.read(from:))
+        value.callbackFailedDetails = try reader["CallbackFailedDetails"].readIfPresent(with: LambdaClientTypes.CallbackFailedDetails.read(from:))
+        value.callbackTimedOutDetails = try reader["CallbackTimedOutDetails"].readIfPresent(with: LambdaClientTypes.CallbackTimedOutDetails.read(from:))
+        value.invocationCompletedDetails = try reader["InvocationCompletedDetails"].readIfPresent(with: LambdaClientTypes.InvocationCompletedDetails.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.InvocationCompletedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvocationCompletedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InvocationCompletedDetails()
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.EventError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventError()
+        value.payload = try reader["Payload"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackTimedOutDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackTimedOutDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.EventResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventResult()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackStartedDetails()
+        value.callbackId = try reader["CallbackId"].readIfPresent() ?? ""
+        value.heartbeatTimeout = try reader["HeartbeatTimeout"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeStoppedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStoppedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeStoppedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeTimedOutDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeTimedOutDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeStartedDetails()
+        value.functionName = try reader["FunctionName"].readIfPresent() ?? ""
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
+        value.executedVersion = try reader["ExecutedVersion"].readIfPresent()
+        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.EventInput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventInput()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.RetryDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RetryDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.RetryDetails()
+        value.currentAttempt = try reader["CurrentAttempt"].readIfPresent() ?? 0
+        value.nextAttemptDelaySeconds = try reader["NextAttemptDelaySeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return LambdaClientTypes.StepStartedDetails()
+    }
+}
+
+extension LambdaClientTypes.WaitCancelledDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitCancelledDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitCancelledDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.WaitSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitSucceededDetails()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.WaitStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitStartedDetails()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ContextFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ContextSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return LambdaClientTypes.ContextStartedDetails()
+    }
+}
+
+extension LambdaClientTypes.ExecutionStoppedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStoppedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionStoppedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionTimedOutDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionTimedOutDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionStartedDetails()
+        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
+        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension LambdaClientTypes.FunctionConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionConfiguration {
@@ -15561,6 +18412,7 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.LoggingConfig.read(from:))
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         return value
     }
@@ -15665,6 +18517,21 @@ extension LambdaClientTypes.AliasConfiguration {
         value.description = try reader["Description"].readIfPresent()
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: LambdaClientTypes.AliasRoutingConfiguration.read(from:))
         value.revisionId = try reader["RevisionId"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Execution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Execution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Execution()
+        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent() ?? ""
+        value.durableExecutionName = try reader["DurableExecutionName"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -15792,6 +18659,68 @@ extension LambdaClientTypes.ProvisionedConcurrencyConfigListItem {
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
         return value
+    }
+}
+
+extension LambdaClientTypes.OperationUpdate {
+
+    static func write(value: LambdaClientTypes.OperationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["CallbackOptions"].write(value.callbackOptions, with: LambdaClientTypes.CallbackOptions.write(value:to:))
+        try writer["ChainedInvokeOptions"].write(value.chainedInvokeOptions, with: LambdaClientTypes.ChainedInvokeOptions.write(value:to:))
+        try writer["ContextOptions"].write(value.contextOptions, with: LambdaClientTypes.ContextOptions.write(value:to:))
+        try writer["Error"].write(value.error, with: LambdaClientTypes.ErrorObject.write(value:to:))
+        try writer["Id"].write(value.id)
+        try writer["Name"].write(value.name)
+        try writer["ParentId"].write(value.parentId)
+        try writer["Payload"].write(value.payload)
+        try writer["StepOptions"].write(value.stepOptions, with: LambdaClientTypes.StepOptions.write(value:to:))
+        try writer["SubType"].write(value.subType)
+        try writer["Type"].write(value.type)
+        try writer["WaitOptions"].write(value.waitOptions, with: LambdaClientTypes.WaitOptions.write(value:to:))
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeOptions {
+
+    static func write(value: LambdaClientTypes.ChainedInvokeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionName"].write(value.functionName)
+        try writer["TenantId"].write(value.tenantId)
+    }
+}
+
+extension LambdaClientTypes.CallbackOptions {
+
+    static func write(value: LambdaClientTypes.CallbackOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeartbeatTimeoutSeconds"].write(value.heartbeatTimeoutSeconds)
+        try writer["TimeoutSeconds"].write(value.timeoutSeconds)
+    }
+}
+
+extension LambdaClientTypes.WaitOptions {
+
+    static func write(value: LambdaClientTypes.WaitOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WaitSeconds"].write(value.waitSeconds)
+    }
+}
+
+extension LambdaClientTypes.StepOptions {
+
+    static func write(value: LambdaClientTypes.StepOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NextAttemptDelaySeconds"].write(value.nextAttemptDelaySeconds)
+    }
+}
+
+extension LambdaClientTypes.ContextOptions {
+
+    static func write(value: LambdaClientTypes.ContextOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplayChildren"].write(value.replayChildren)
     }
 }
 

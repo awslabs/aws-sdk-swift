@@ -514,7 +514,7 @@ extension SavingsplansClient {
 
     /// Performs the `DescribeSavingsPlanRates` operation on the `Savingsplans` service.
     ///
-    /// Describes the rates for the specified Savings Plan.
+    /// Describes the rates for a specific, existing Savings Plan.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlanRatesInput`)
     ///
@@ -523,6 +523,7 @@ extension SavingsplansClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
     public func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput) async throws -> DescribeSavingsPlanRatesOutput {
@@ -652,7 +653,7 @@ extension SavingsplansClient {
 
     /// Performs the `DescribeSavingsPlansOfferingRates` operation on the `Savingsplans` service.
     ///
-    /// Describes the offering rates for the specified Savings Plans.
+    /// Describes the offering rates for Savings Plans you might want to purchase.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansOfferingRatesInput`)
     ///

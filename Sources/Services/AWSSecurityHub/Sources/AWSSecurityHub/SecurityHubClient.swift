@@ -1288,7 +1288,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchUpdateFindingsV2` operation on the `SecurityHub` service.
     ///
-    /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in public preview and subject to change.
+    /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsV2Input`)
     ///
@@ -1430,79 +1430,6 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConnectorRegistrationsV2` operation on the `SecurityHub` service.
-    ///
-    /// Grants permission to complete the authorization based on input parameters. This API is in public preview and subject to change.
-    ///
-    /// - Parameter input: [no documentation found] (Type: `ConnectorRegistrationsV2Input`)
-    ///
-    /// - Returns: [no documentation found] (Type: `ConnectorRegistrationsV2Output`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
-    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
-    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
-    public func connectorRegistrationsV2(input: ConnectorRegistrationsV2Input) async throws -> ConnectorRegistrationsV2Output {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "connectorRegistrationsV2")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(ConnectorRegistrationsV2Input.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConnectorRegistrationsV2Input.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ConnectorRegistrationsV2Output>(ConnectorRegistrationsV2Output.httpOutput(from:), ConnectorRegistrationsV2OutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<ConnectorRegistrationsV2Output>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConnectorRegistrationsV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConnectorRegistrationsV2Output>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConnectorRegistrationsV2")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `CreateActionTarget` operation on the `SecurityHub` service.
     ///
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
@@ -1577,7 +1504,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Enables aggregation across Amazon Web Services Regions. This API is in public preview and subject to change.
+    /// Enables aggregation across Amazon Web Services Regions.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAggregatorV2Input`)
     ///
@@ -1590,6 +1517,7 @@ extension SecurityHubClient {
     /// - `ConflictException` : The request causes conflict with the current state of the service resource.
     /// - `InternalServerException` : The request has failed due to an internal failure of the service.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed the service quota limit.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
     public func createAggregatorV2(input: CreateAggregatorV2Input) async throws -> CreateAggregatorV2Output {
@@ -1723,7 +1651,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Creates a V2 automation rule. This API is in public preview and subject to change.
+    /// Creates a V2 automation rule.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleV2Input`)
     ///
@@ -1735,6 +1663,7 @@ extension SecurityHubClient {
     /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
     /// - `ConflictException` : The request causes conflict with the current state of the service resource.
     /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed the service quota limit.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
     public func createAutomationRuleV2(input: CreateAutomationRuleV2Input) async throws -> CreateAutomationRuleV2Output {
@@ -1869,7 +1798,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to create a connectorV2 based on input parameters. This API is in public preview and subject to change.
+    /// Grants permission to create a connectorV2 based on input parameters.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateConnectorV2Input`)
     ///
@@ -1882,6 +1811,7 @@ extension SecurityHubClient {
     /// - `ConflictException` : The request causes conflict with the current state of the service resource.
     /// - `InternalServerException` : The request has failed due to an internal failure of the service.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed the service quota limit.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
     public func createConnectorV2(input: CreateConnectorV2Input) async throws -> CreateConnectorV2Output {
@@ -2174,7 +2104,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateTicketV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in public preview and subject to change.
+    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateTicketV2Input`)
     ///
@@ -2387,7 +2317,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Deletes the Aggregator V2. This API is in public preview and subject to change.
+    /// Deletes the Aggregator V2.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAggregatorV2Input`)
     ///
@@ -2457,7 +2387,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Deletes a V2 automation rule. This API is in public preview and subject to change.
+    /// Deletes a V2 automation rule.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAutomationRuleV2Input`)
     ///
@@ -2598,7 +2528,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to delete a connectorV2. This API is in public preview and subject to change.
+    /// Grants permission to delete a connectorV2.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConnectorV2Input`)
     ///
@@ -3229,7 +3159,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeProductsV2` operation on the `SecurityHub` service.
     ///
-    /// Gets information about the product integration. This API is in public preview and subject to change.
+    /// Gets information about the product integration.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeProductsV2Input`)
     ///
@@ -3299,7 +3229,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Returns details about the service resource in your account. This API is in public preview and subject to change.
+    /// Returns details about the service resource in your account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSecurityHubV2Input`)
     ///
@@ -3714,7 +3644,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisableSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in public preview and subject to change.
+    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubV2Input`)
     ///
@@ -4217,7 +4147,7 @@ extension SecurityHubClient {
 
     /// Performs the `EnableSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in public preview and subject to change.
+    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubV2Input`)
     ///
@@ -4357,7 +4287,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Returns the configuration of the specified Aggregator V2. This API is in public preview and subject to change.
+    /// Returns the configuration of the specified Aggregator V2.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAggregatorV2Input`)
     ///
@@ -4427,7 +4357,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Returns an automation rule for the V2 service. This API is in public preview and subject to change.
+    /// Returns an automation rule for the V2 service.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAutomationRuleV2Input`)
     ///
@@ -4640,7 +4570,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in public preview and subject to change.
+    /// Grants permission to retrieve details for a connectorV2 based on connector id.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConnectorV2Input`)
     ///
@@ -4922,7 +4852,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingStatisticsV2` operation on the `SecurityHub` service.
     ///
-    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action. This API is in public preview and subject to change.
+    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsV2Input`)
     ///
@@ -5065,7 +4995,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingsTrendsV2` operation on the `SecurityHub` service.
     ///
-    /// Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time. This API is in public preview and subject to change.
+    /// Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingsTrendsV2Input`)
     ///
@@ -5136,7 +5066,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingsV2` operation on the `SecurityHub` service.
     ///
-    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action. This API is in public preview and subject to change.
+    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingsV2Input`)
     ///
@@ -5559,7 +5489,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesStatisticsV2` operation on the `SecurityHub` service.
     ///
-    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in public preview and subject to change.
+    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesStatisticsV2Input`)
     ///
@@ -5632,7 +5562,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesTrendsV2` operation on the `SecurityHub` service.
     ///
-    /// Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time. This API is in public preview and subject to change.
+    /// Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesTrendsV2Input`)
     ///
@@ -5703,7 +5633,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesV2` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of resources. This API is in public preview and subject to change.
+    /// Returns a list of resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesV2Input`)
     ///
@@ -5918,7 +5848,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListAggregatorsV2` operation on the `SecurityHub` service.
     ///
-    /// Retrieves a list of V2 aggregators. This API is in public preview and subject to change.
+    /// Retrieves a list of V2 aggregators.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAggregatorsV2Input`)
     ///
@@ -6059,7 +5989,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListAutomationRulesV2` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of automation rules and metadata for the calling account. This API is in public preview and subject to change.
+    /// Returns a list of automation rules and metadata for the calling account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesV2Input`)
     ///
@@ -6271,7 +6201,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListConnectorsV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in public preview and subject to change.
+    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListConnectorsV2Input`)
     ///
@@ -6890,6 +6820,79 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RegisterConnectorV2` operation on the `SecurityHub` service.
+    ///
+    /// Grants permission to complete the authorization based on input parameters.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RegisterConnectorV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RegisterConnectorV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func registerConnectorV2(input: RegisterConnectorV2Input) async throws -> RegisterConnectorV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerConnectorV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterConnectorV2Input, RegisterConnectorV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(RegisterConnectorV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterConnectorV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterConnectorV2Output>(RegisterConnectorV2Output.httpOutput(from:), RegisterConnectorV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterConnectorV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterConnectorV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterConnectorV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterConnectorV2Input, RegisterConnectorV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterConnectorV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartConfigurationPolicyAssociation` operation on the `SecurityHub` service.
     ///
     /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
@@ -7247,7 +7250,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Udpates the configuration for the Aggregator V2. This API is in public preview and subject to change.
+    /// Udpates the configuration for the Aggregator V2.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAggregatorV2Input`)
     ///
@@ -7320,7 +7323,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Updates a V2 automation rule. This API is in public preview and subject to change.
+    /// Updates a V2 automation rule.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAutomationRuleV2Input`)
     ///
@@ -7467,7 +7470,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateConnectorV2` operation on the `SecurityHub` service.
     ///
-    /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in public preview and subject to change.
+    /// Grants permission to update a connectorV2 based on its id and input parameters.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConnectorV2Input`)
     ///
