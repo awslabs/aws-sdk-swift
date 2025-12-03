@@ -13,6 +13,7 @@ public class ConfigFileReader {
     
     var currentSection: ConfigFileSection?
     var isCurrentSectionValid = false
+    var newSection = false
     var sections: [String: ConfigFileSection] = [:]
     var currentSubSection: String?
     var currentProperty: String?
@@ -54,7 +55,6 @@ public class ConfigFileReader {
         guard line.range(of: regexPattern, options: .regularExpression) != nil else {
                 return nil
             }
-            
         var content = String(line).dropFirst().dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
         
         if let commentRange = content.range(of:commentPattern, options: .regularExpression) {
@@ -129,10 +129,12 @@ public class ConfigFileReader {
             guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && blankLine.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) == nil else{
                 continue
             }
+            if line.contains("["){
+                newSection = true
+            }
             switch line{
             case _ where definedSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 if let sectionHeader = parseSectionHeader(from: String(line)) {
-                // Pass currentLineNumber as a parameter
                     if !handleNewSectionFound(name: sectionHeader.name, lineNumber: currentLineNumber) {
                     continue
                     }
@@ -140,14 +142,21 @@ public class ConfigFileReader {
                 continue
             case _ where line.contains("="):
                 do {
-                    guard currentSection != nil, isCurrentSectionValid else {
-                            if currentSection == nil {
-                                throw MyError("Expected a section definition before defining properties")
-                            } else {
-                                print("Skipping line because previous section was invalid: \(line)")
-                                break
-                            }
-                        }
+//                    guard currentSection != nil, isCurrentSectionValid else {
+//                            if currentSection == nil {
+//                                throw MyError("Expected a section definition")
+//                            } else{
+//                                print("Skipping line because previous section was invalid: \(line)")
+//                                break
+//                            }
+//                        }
+                    if !isCurrentSectionValid, newSection {
+                        print("Skipping line because previous section was invalid: \(line)")
+                        break
+                    }
+                    guard currentSection != nil else {
+                        throw MyError("Expected a section definition")
+                    }
                     //Identify properties under section
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     let equalsIndex = line.firstIndex(of: "=")!
@@ -235,11 +244,11 @@ public class ConfigFileReader {
                         }
                     }
             } catch let error as MyError {
-                print("Local Error in Property Case")
+                print("Local Error: '\(error.localizedDescription)', in Property Case")
                 print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                 currentSection = nil
                 isCurrentSectionValid = false
-                throw error.localizedDescription
+                throw error
             }
                 continue
             case _ where !line.contains("=") && !line.hasPrefix("["):
@@ -276,21 +285,25 @@ public class ConfigFileReader {
                         throw MyError("Expected an '=' sign defining a property in sub-property")
                     }
                 } catch let error as MyError {
-                    print("Local Error in Property Continuation Case ")
+                    print("Local Error: '\(error.localizedDescription)', in Property Continuation Case ")
                     print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                    throw error.localizedDescription
+                    throw error
                 }
             default:
                 print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
                 do{
                     if line.hasPrefix("["){
                         guard line.hasSuffix("]") else{
-                            print("Local Error in Section Definition")
                             throw MyError("Section definition must end with ']'")
                         }
                         break
+                    } else if line.contains("="){
+                        guard currentSection != nil, isCurrentSectionValid else{
+                            throw MyError("Expected a section definition")
+                        }
                     }
                 } catch let error as MyError{
+                    print("Default Local Error: '\(error.localizedDescription)")
                     print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                     throw error
                 }
