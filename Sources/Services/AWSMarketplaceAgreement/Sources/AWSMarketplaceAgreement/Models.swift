@@ -501,6 +501,82 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
+    public enum PaymentRequestApprovalStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoApproveOnExpiration
+        case waitForApproval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentRequestApprovalStrategy] {
+            return [
+                .autoApproveOnExpiration,
+                .waitForApproval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoApproveOnExpiration: return "AUTO_APPROVE_ON_EXPIRATION"
+            case .waitForApproval: return "WAIT_FOR_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Additional parameters specified by the acceptor while accepting the variable payment term.
+    public struct VariablePaymentTermConfiguration: Swift.Sendable {
+        /// Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION. The duration is represented in the ISO_8601 format (e.g., P10D for 10 days).
+        public var expirationDuration: Swift.String?
+        /// Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL
+        /// This member is required.
+        public var paymentRequestApprovalStrategy: MarketplaceAgreementClientTypes.PaymentRequestApprovalStrategy?
+
+        public init(
+            expirationDuration: Swift.String? = nil,
+            paymentRequestApprovalStrategy: MarketplaceAgreementClientTypes.PaymentRequestApprovalStrategy? = nil
+        ) {
+            self.expirationDuration = expirationDuration
+            self.paymentRequestApprovalStrategy = paymentRequestApprovalStrategy
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Defines a payment model where sellers can submit variable payment requests up to a maximum charge amount, with configurable approval strategies and expiration timelines.
+    public struct VariablePaymentTerm: Swift.Sendable {
+        /// Additional parameters specified by the acceptor while accepting the term.
+        public var configuration: MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration?
+        /// Defines the currency for the prices mentioned in the term.
+        public var currencyCode: Swift.String?
+        /// The maximum total amount that can be charged to the customer through variable payment requests under this term.
+        public var maxTotalChargeAmount: Swift.String?
+        /// Type of the term.
+        public var type: Swift.String?
+
+        public init(
+            configuration: MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration? = nil,
+            currencyCode: Swift.String? = nil,
+            maxTotalChargeAmount: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.configuration = configuration
+            self.currencyCode = currencyCode
+            self.maxTotalChargeAmount = maxTotalChargeAmount
+            self.type = type
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// A subset of terms proposed by the proposer, which have been accepted by the acceptor as part of agreement creation.
     public enum AcceptedTerm: Swift.Sendable {
         /// Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).
@@ -525,6 +601,8 @@ extension MarketplaceAgreementClientTypes {
         case freetrialpricingterm(MarketplaceAgreementClientTypes.FreeTrialPricingTerm)
         /// Defines a pre-paid pricing model where the customers are charged a fixed upfront amount.
         case fixedupfrontpricingterm(MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm)
+        /// Defines a payment model where sellers can submit variable payment requests up to a maximum charge amount, with configurable approval strategies and expiration timelines.
+        case variablepaymentterm(MarketplaceAgreementClientTypes.VariablePaymentTerm)
         case sdkUnknown(Swift.String)
     }
 }
@@ -646,14 +724,18 @@ extension MarketplaceAgreementClientTypes {
     public struct ProposalSummary: Swift.Sendable {
         /// The unique identifier of the offer in AWS Marketplace.
         public var offerId: Swift.String?
+        /// A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+        public var offerSetId: Swift.String?
         /// The list of resources involved in the agreement.
         public var resources: [MarketplaceAgreementClientTypes.Resource]?
 
         public init(
             offerId: Swift.String? = nil,
+            offerSetId: Swift.String? = nil,
             resources: [MarketplaceAgreementClientTypes.Resource]? = nil
         ) {
             self.offerId = offerId
+            self.offerSetId = offerSetId
             self.resources = resources
         }
     }
@@ -676,7 +758,7 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
-    /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
+    /// A summary of the agreement, including top-level attributes (for example, the agreement ID, proposer, and acceptor).
     public struct AgreementViewSummary: Swift.Sendable {
         /// The date and time that the agreement was accepted.
         public var acceptanceTime: Foundation.Date?
@@ -684,7 +766,7 @@ extension MarketplaceAgreementClientTypes {
         public var acceptor: MarketplaceAgreementClientTypes.Acceptor?
         /// The unique identifier of the agreement.
         public var agreementId: Swift.String?
-        /// The type of agreement. Values are PurchaseAgreement or VendorInsightsAgreement.
+        /// The type of agreement. Value is PurchaseAgreement.
         public var agreementType: Swift.String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public var endTime: Foundation.Date?
@@ -1012,10 +1094,6 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     ///
     /// * REPLACED – The agreement was replaced using an agreement replacement offer.
     ///
-    /// * ROLLED_BACK (Only applicable to inactive agreement revisions) – The agreement revision has been rolled back because of an error. An earlier revision is now active.
-    ///
-    /// * SUPERCEDED (Only applicable to inactive agreement revisions) – The agreement revision is no longer active and another agreement revision is now active.
-    ///
     /// * TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
     public var status: MarketplaceAgreementClientTypes.AgreementStatus?
 
@@ -1153,9 +1231,9 @@ public struct SearchAgreementsInput: Swift.Sendable {
     ///
     /// * ResourceIdentifier – The unique identifier of the resource.
     ///
-    /// * ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, or SaaSProduct).
+    /// * ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).
     ///
-    /// * PartyType – The party type (either Acceptor or Proposer) of the caller. For agreements where the caller is the proposer, use the Proposer filter. For agreements where the caller is the acceptor, use the Acceptor filter.
+    /// * PartyType – The party type of the caller. For agreements where the caller is the proposer, use the Proposer filter.
     ///
     /// * AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.
     ///
@@ -1167,13 +1245,15 @@ public struct SearchAgreementsInput: Swift.Sendable {
     ///
     /// * AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.
     ///
-    /// * AgreementType – The type of agreement. Values include PurchaseAgreement or VendorInsightsAgreement.
+    /// * AgreementType – The type of agreement. Supported value includes PurchaseAgreement.
+    ///
+    /// * OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
     public var filters: [MarketplaceAgreementClientTypes.Filter]?
     /// The maximum number of agreements to return in the response.
     public var maxResults: Swift.Int?
     /// A token to specify where to start pagination.
     public var nextToken: Swift.String?
-    /// An object that contains the SortBy and SortOrder attributes.
+    /// An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
     public var sort: MarketplaceAgreementClientTypes.Sort?
 
     public init(
@@ -1192,7 +1272,7 @@ public struct SearchAgreementsInput: Swift.Sendable {
 }
 
 public struct SearchAgreementsOutput: Swift.Sendable {
-    /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
+    /// A summary of the agreement, including top-level attributes (for example, the agreement ID, proposer, and acceptor).
     public var agreementViewSummaries: [MarketplaceAgreementClientTypes.AgreementViewSummary]?
     /// The token used for pagination. The field is null if there are no more results.
     public var nextToken: Swift.String?
@@ -1469,6 +1549,7 @@ extension MarketplaceAgreementClientTypes.ProposalSummary {
         var value = MarketplaceAgreementClientTypes.ProposalSummary()
         value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.offerId = try reader["offerId"].readIfPresent()
+        value.offerSetId = try reader["offerSetId"].readIfPresent()
         return value
     }
 }
@@ -1512,9 +1593,35 @@ extension MarketplaceAgreementClientTypes.AcceptedTerm {
                 return .freetrialpricingterm(try reader["freeTrialPricingTerm"].read(with: MarketplaceAgreementClientTypes.FreeTrialPricingTerm.read(from:)))
             case "fixedUpfrontPricingTerm":
                 return .fixedupfrontpricingterm(try reader["fixedUpfrontPricingTerm"].read(with: MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm.read(from:)))
+            case "variablePaymentTerm":
+                return .variablepaymentterm(try reader["variablePaymentTerm"].read(with: MarketplaceAgreementClientTypes.VariablePaymentTerm.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MarketplaceAgreementClientTypes.VariablePaymentTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.VariablePaymentTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.maxTotalChargeAmount = try reader["maxTotalChargeAmount"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration()
+        value.paymentRequestApprovalStrategy = try reader["paymentRequestApprovalStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.expirationDuration = try reader["expirationDuration"].readIfPresent()
+        return value
     }
 }
 

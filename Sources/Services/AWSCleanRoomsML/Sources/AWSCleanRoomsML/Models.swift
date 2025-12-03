@@ -4159,6 +4159,202 @@ extension CleanRoomsMLClientTypes {
     }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    public enum MembershipInferenceAttackVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case distanceToClosestRecordV1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MembershipInferenceAttackVersion] {
+            return [
+                .distanceToClosestRecordV1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .distanceToClosestRecordV1: return "DISTANCE_TO_CLOSEST_RECORD_V1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// A score that measures the vulnerability of synthetic data to membership inference attacks and provides both the numerical score and the version of the attack methodology used for evaluation.
+    public struct MembershipInferenceAttackScore: Swift.Sendable {
+        /// The version of the membership inference attack, which consists of the attack type and its version number, used to generate this privacy score.
+        /// This member is required.
+        public var attackVersion: CleanRoomsMLClientTypes.MembershipInferenceAttackVersion?
+        /// The numerical score representing the vulnerability to membership inference attacks.
+        /// This member is required.
+        public var score: Swift.Double?
+
+        public init(
+            attackVersion: CleanRoomsMLClientTypes.MembershipInferenceAttackVersion? = nil,
+            score: Swift.Double? = nil
+        ) {
+            self.attackVersion = attackVersion
+            self.score = score
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Privacy evaluation scores that measure the privacy characteristics of the generated synthetic data, including assessments of potential privacy risks such as membership inference attacks.
+    public struct DataPrivacyScores: Swift.Sendable {
+        /// Scores that evaluate the vulnerability of the synthetic data to membership inference attacks, which attempt to determine whether a specific individual was a member of the original dataset.
+        /// This member is required.
+        public var membershipInferenceAttackScores: [CleanRoomsMLClientTypes.MembershipInferenceAttackScore]?
+
+        public init(
+            membershipInferenceAttackScores: [CleanRoomsMLClientTypes.MembershipInferenceAttackScore]? = nil
+        ) {
+            self.membershipInferenceAttackScores = membershipInferenceAttackScores
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Comprehensive evaluation metrics for synthetic data that assess both the utility of the generated data for machine learning tasks and its privacy preservation characteristics.
+    public struct SyntheticDataEvaluationScores: Swift.Sendable {
+        /// Privacy-specific evaluation scores that measure how well the synthetic data protects individual privacy, including assessments of potential privacy risks such as membership inference attacks.
+        /// This member is required.
+        public var dataPrivacyScores: CleanRoomsMLClientTypes.DataPrivacyScores?
+
+        public init(
+            dataPrivacyScores: CleanRoomsMLClientTypes.DataPrivacyScores? = nil
+        ) {
+            self.dataPrivacyScores = dataPrivacyScores
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum SyntheticDataColumnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case categorical
+        case numerical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyntheticDataColumnType] {
+            return [
+                .categorical,
+                .numerical
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .categorical: return "CATEGORICAL"
+            case .numerical: return "NUMERICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Properties that define how a specific data column should be handled during synthetic data generation, including its name, type, and role in predictive modeling.
+    public struct SyntheticDataColumnProperties: Swift.Sendable {
+        /// The name of the data column as it appears in the dataset.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The data type of the column, which determines how the synthetic data generation algorithm processes and synthesizes values for this column.
+        /// This member is required.
+        public var columnType: CleanRoomsMLClientTypes.SyntheticDataColumnType?
+        /// Indicates if this column contains predictive values that should be treated as target variables in machine learning models. This affects how the synthetic data generation preserves statistical relationships.
+        /// This member is required.
+        public var isPredictiveValue: Swift.Bool?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnType: CleanRoomsMLClientTypes.SyntheticDataColumnType? = nil,
+            isPredictiveValue: Swift.Bool? = nil
+        ) {
+            self.columnName = columnName
+            self.columnType = columnType
+            self.isPredictiveValue = isPredictiveValue
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Contains classification information for data columns, including mappings that specify how columns should be handled during synthetic data generation and privacy analysis.
+    public struct ColumnClassificationDetails: Swift.Sendable {
+        /// A mapping that defines the classification of data columns for synthetic data generation and specifies how each column should be handled during the privacy-preserving data synthesis process.
+        /// This member is required.
+        public var columnMapping: [CleanRoomsMLClientTypes.SyntheticDataColumnProperties]?
+
+        public init(
+            columnMapping: [CleanRoomsMLClientTypes.SyntheticDataColumnProperties]? = nil
+        ) {
+            self.columnMapping = columnMapping
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Parameters that control the generation of synthetic data for custom model training, including privacy settings and column classification details.
+    public struct MLSyntheticDataParameters: Swift.Sendable {
+        /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
+        /// This member is required.
+        public var columnClassification: CleanRoomsMLClientTypes.ColumnClassificationDetails?
+        /// The epsilon value for differential privacy, which controls the privacy-utility tradeoff in synthetic data generation. Lower values provide stronger privacy guarantees but may reduce data utility.
+        /// This member is required.
+        public var epsilon: Swift.Double?
+        /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
+        /// This member is required.
+        public var maxMembershipInferenceAttackScore: Swift.Double?
+
+        public init(
+            columnClassification: CleanRoomsMLClientTypes.ColumnClassificationDetails? = nil,
+            epsilon: Swift.Double? = nil,
+            maxMembershipInferenceAttackScore: Swift.Double? = nil
+        ) {
+            self.columnClassification = columnClassification
+            self.epsilon = epsilon
+            self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Configuration settings for synthetic data generation, including the parameters that control data synthesis and the evaluation scores that measure the quality and privacy characteristics of the generated synthetic data.
+    public struct SyntheticDataConfiguration: Swift.Sendable {
+        /// Evaluation scores that assess the quality and privacy characteristics of the generated synthetic data, providing metrics on data utility and privacy preservation.
+        public var syntheticDataEvaluationScores: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores?
+        /// The parameters that control how synthetic data is generated, including privacy settings, column classifications, and other configuration options that affect the data synthesis process.
+        /// This member is required.
+        public var syntheticDataParameters: CleanRoomsMLClientTypes.MLSyntheticDataParameters?
+
+        public init(
+            syntheticDataEvaluationScores: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores? = nil,
+            syntheticDataParameters: CleanRoomsMLClientTypes.MLSyntheticDataParameters? = nil
+        ) {
+            self.syntheticDataEvaluationScores = syntheticDataEvaluationScores
+            self.syntheticDataParameters = syntheticDataParameters
+        }
+    }
+}
+
 public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     /// The collaboration ID of the collaboration that contains the ML input channel.
     /// This member is required.
@@ -4195,6 +4391,8 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     public var status: CleanRoomsMLClientTypes.MLInputChannelStatus?
     /// Details about the status of a resource.
     public var statusDetails: CleanRoomsMLClientTypes.StatusDetails?
+    /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+    public var syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration?
     /// The most recent time at which the ML input channel was updated.
     /// This member is required.
     public var updateTime: Foundation.Date?
@@ -4213,6 +4411,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         retentionInDays: Swift.Int? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
+        syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration? = nil,
         updateTime: Foundation.Date? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
@@ -4228,6 +4427,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         self.retentionInDays = retentionInDays
         self.status = status
         self.statusDetails = statusDetails
+        self.syntheticDataConfiguration = syntheticDataConfiguration
         self.updateTime = updateTime
     }
 }
@@ -4293,6 +4493,8 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
     public var status: CleanRoomsMLClientTypes.MLInputChannelStatus?
     /// Details about the status of a resource.
     public var statusDetails: CleanRoomsMLClientTypes.StatusDetails?
+    /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+    public var syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration?
     /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50.
@@ -4331,6 +4533,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         sizeInGb: Swift.Double? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
+        syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
     ) {
@@ -4351,6 +4554,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         self.sizeInGb = sizeInGb
         self.status = status
         self.statusDetails = statusDetails
+        self.syntheticDataConfiguration = syntheticDataConfiguration
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -8239,6 +8443,7 @@ extension GetCollaborationMLInputChannelOutput {
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: CleanRoomsMLClientTypes.StatusDetails.read(from:))
+        value.syntheticDataConfiguration = try reader["syntheticDataConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataConfiguration.read(from:))
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -8395,6 +8600,7 @@ extension GetMLInputChannelOutput {
         value.sizeInGb = try reader["sizeInGb"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: CleanRoomsMLClientTypes.StatusDetails.read(from:))
+        value.syntheticDataConfiguration = try reader["syntheticDataConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -10266,6 +10472,82 @@ extension CleanRoomsMLClientTypes.AccessBudgetDetails {
         value.budget = try reader["budget"].readIfPresent() ?? 0
         value.budgetType = try reader["budgetType"].readIfPresent() ?? .sdkUnknown("")
         value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataConfiguration()
+        value.syntheticDataParameters = try reader["syntheticDataParameters"].readIfPresent(with: CleanRoomsMLClientTypes.MLSyntheticDataParameters.read(from:))
+        value.syntheticDataEvaluationScores = try reader["syntheticDataEvaluationScores"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataEvaluationScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataEvaluationScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataEvaluationScores()
+        value.dataPrivacyScores = try reader["dataPrivacyScores"].readIfPresent(with: CleanRoomsMLClientTypes.DataPrivacyScores.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.DataPrivacyScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.DataPrivacyScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.DataPrivacyScores()
+        value.membershipInferenceAttackScores = try reader["membershipInferenceAttackScores"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.MembershipInferenceAttackScore.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.MembershipInferenceAttackScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.MembershipInferenceAttackScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.MembershipInferenceAttackScore()
+        value.attackVersion = try reader["attackVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.MLSyntheticDataParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.MLSyntheticDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.MLSyntheticDataParameters()
+        value.epsilon = try reader["epsilon"].readIfPresent() ?? 0.0
+        value.maxMembershipInferenceAttackScore = try reader["maxMembershipInferenceAttackScore"].readIfPresent() ?? 0.0
+        value.columnClassification = try reader["columnClassification"].readIfPresent(with: CleanRoomsMLClientTypes.ColumnClassificationDetails.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.ColumnClassificationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ColumnClassificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.ColumnClassificationDetails()
+        value.columnMapping = try reader["columnMapping"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.SyntheticDataColumnProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataColumnProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataColumnProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataColumnProperties()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.columnType = try reader["columnType"].readIfPresent() ?? .sdkUnknown("")
+        value.isPredictiveValue = try reader["isPredictiveValue"].readIfPresent() ?? false
         return value
     }
 }

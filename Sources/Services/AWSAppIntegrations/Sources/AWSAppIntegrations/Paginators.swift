@@ -58,6 +58,7 @@ extension AppIntegrationsClient {
 extension ListApplicationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListApplicationsInput {
         return ListApplicationsInput(
+            applicationType: self.applicationType,
             maxResults: self.maxResults,
             nextToken: token
         )}

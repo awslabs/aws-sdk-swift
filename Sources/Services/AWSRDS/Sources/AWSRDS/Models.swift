@@ -243,6 +243,81 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    /// Contains details about an additional storage volume for a DB instance. RDS support additional storage volumes for RDS for Oracle and RDS for SQL Server.
+    public struct AdditionalStorageVolume: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
+        public var maxAllocatedStorage: Swift.Int?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3) storage type.
+        public var storageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The name of the additional storage volume. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4
+        /// This member is required.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.volumeName = volumeName
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains information about an additional storage volume for a DB instance.
+    public struct AdditionalStorageVolumeOutput: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
+        public var maxAllocatedStorage: Swift.Int?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps).
+        public var storageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The status of the additional storage volume. Valid Values: ACTIVE | CREATING | DELETING | MODIFYING | NOT-IN-USE | STORAGE-OPTIMIZATION | VOLUME-FULL
+        public var storageVolumeStatus: Swift.String?
+        /// The name of the additional storage volume.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            storageVolumeStatus: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.storageVolumeStatus = storageVolumeStatus
+            self.volumeName = volumeName
+        }
+    }
+}
+
 /// DBClusterIdentifier doesn't refer to an existing DB cluster.
 public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2226,14 +2301,14 @@ extension RDSClientTypes {
     ///
     /// If you call DescribeDBInstances, ProcessorFeature returns non-null values only if the following conditions are met:
     ///
-    /// * You are accessing an Oracle DB instance.
+    /// * You are accessing an Oracle or SQL Server DB instance.
     ///
-    /// * Your Oracle DB instance class supports configuring the number of CPU cores and threads per core.
+    /// * Your Oracle or SQL Server DB instance class supports configuring the number of CPU cores and threads per core.
     ///
     /// * The current number CPU cores and threads is set to a non-default value.
     ///
     ///
-    /// For more information, see [ Configuring the processor for a DB instance class in RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor) in the Amazon RDS User Guide.
+    /// For more information, see [ Configuring the processor for a DB instance class in RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor), [ Optimizing your RDS for SQL Server CPU](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/SQLServer.Concepts.General.OptimizeCPU.html), and [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide.
     public struct ProcessorFeature: Swift.Sendable {
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public var name: Swift.String?
@@ -2254,6 +2329,8 @@ extension RDSClientTypes {
 
     /// Contains the details of an Amazon RDS DB snapshot. This data type is used as a response element in the DescribeDBSnapshots action.
     public struct DBSnapshot: Swift.Sendable {
+        /// The additional storage volumes associated with the DB snapshot. RDS supports additional storage volumes for RDS for Oracle and RDS for SQL Server.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
         /// Specifies the allocated storage size in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
@@ -2330,6 +2407,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
@@ -2368,6 +2446,7 @@ extension RDSClientTypes {
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -3243,6 +3322,8 @@ public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError
 }
 
 public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-custom-installation-files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is 123456789012/cev1. If this setting isn't specified, no prefix is assumed.
@@ -3258,9 +3339,23 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
-    /// The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
+    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string*. For example, a valid CEV name is 19.my_cev1. For RDS for SQL Server and RDS Custom for SQL Server, the name format is major engine_version*.*minor_engine_version*.*customized_string*. For example, a valid CEV name is 16.00.4215.2.my_cev1. The CEV name is unique per customer per Amazon Web Services Regions.
     /// This member is required.
     public var engineVersion: Swift.String?
     /// The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the [DescribeDBEngineVersions](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBEngineVersions.html) operation.
@@ -3277,6 +3372,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
     public var useAwsProvidedLatestImage: Swift.Bool?
 
     public init(
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -3289,6 +3385,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         useAwsProvidedLatestImage: Swift.Bool? = nil
     ) {
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.description = description
@@ -3440,6 +3537,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -3462,6 +3561,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -3510,6 +3611,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -3521,6 +3623,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -3546,6 +3649,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -3557,6 +3661,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -5773,6 +5878,8 @@ public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
 ///
 public struct CreateDBInstanceInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume. Amazon RDS Custom Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
@@ -6120,6 +6227,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * postgres
     ///
+    /// * sqlserver-dev-ee
+    ///
     /// * sqlserver-ee
     ///
     /// * sqlserver-se
@@ -6301,6 +6410,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -6367,6 +6477,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         timezone: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -6437,7 +6548,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
 
 extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -6712,6 +6823,8 @@ extension RDSClientTypes {
 
     /// This data type is used as a response element in the ModifyDBInstance operation and contains changes that will be applied during the next maintenance window.
     public struct PendingModifiedValues: Swift.Sendable {
+        /// The additional storage volume modifications that are pending for the DB instance.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
         /// The allocated storage size for the DB instance specified in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// The automation mode of the RDS Custom DB instance: full or all-paused. If full, the DB instance automates monitoring and instance recovery. If all-paused, the instance pauses automation for the duration set by --resume-full-automation-mode-minutes.
@@ -6758,6 +6871,7 @@ extension RDSClientTypes {
         public var storageType: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             automationMode: RDSClientTypes.AutomationMode? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -6781,6 +6895,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.automationMode = automationMode
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -6809,7 +6924,7 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.PendingModifiedValues: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PendingModifiedValues(allocatedStorage: \(Swift.String(describing: allocatedStorage)), automationMode: \(Swift.String(describing: automationMode)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), resumeFullAutomationModeTime: \(Swift.String(describing: resumeFullAutomationModeTime)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "PendingModifiedValues(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), automationMode: \(Swift.String(describing: automationMode)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), resumeFullAutomationModeTime: \(Swift.String(describing: resumeFullAutomationModeTime)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -6855,6 +6970,8 @@ extension RDSClientTypes {
         public var activityStreamPolicyStatus: RDSClientTypes.ActivityStreamPolicyStatus?
         /// The status of the database activity stream.
         public var activityStreamStatus: RDSClientTypes.ActivityStreamStatus?
+        /// The additional storage volumes associated with the DB instance. RDS supports additional storage volumes for RDS for Oracle and RDS for SQL Server.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolumeOutput]?
         /// The amount of storage in gibibytes (GiB) allocated for the DB instance.
         public var allocatedStorage: Swift.Int?
         /// The Amazon Web Services Identity and Access Management (IAM) roles associated with the DB instance.
@@ -7027,6 +7144,8 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
         public var storageType: Swift.String?
+        /// The detailed status information for storage volumes associated with the DB instance. This information helps identify which specific volume is causing the instance to be in a storage-full state.
+        public var storageVolumeStatus: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
@@ -7051,6 +7170,7 @@ extension RDSClientTypes {
             activityStreamMode: RDSClientTypes.ActivityStreamMode? = nil,
             activityStreamPolicyStatus: RDSClientTypes.ActivityStreamPolicyStatus? = nil,
             activityStreamStatus: RDSClientTypes.ActivityStreamStatus? = nil,
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolumeOutput]? = nil,
             allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBInstanceRole]? = nil,
             autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -7128,6 +7248,7 @@ extension RDSClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            storageVolumeStatus: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
@@ -7140,6 +7261,7 @@ extension RDSClientTypes {
             self.activityStreamMode = activityStreamMode
             self.activityStreamPolicyStatus = activityStreamPolicyStatus
             self.activityStreamStatus = activityStreamStatus
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -7217,6 +7339,7 @@ extension RDSClientTypes {
             self.storageEncrypted = storageEncrypted
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.storageVolumeStatus = storageVolumeStatus
             self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
@@ -7261,6 +7384,8 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -7466,6 +7591,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -7514,6 +7640,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -7566,7 +7693,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
 
 extension CreateDBInstanceReadReplicaInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceReadReplicaInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
@@ -10057,6 +10184,20 @@ public struct DeleteCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -10078,6 +10219,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -10100,6 +10243,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -10148,6 +10293,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -10159,6 +10305,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -10184,6 +10331,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -10195,6 +10343,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -10783,7 +10932,9 @@ extension RDSClientTypes {
 
     /// An automated backup of a DB instance. It consists of system backups, transaction logs, and the database instance properties that existed at the time you deleted the source instance.
     public struct DBInstanceAutomatedBackup: Swift.Sendable {
-        /// The allocated storage size for the the automated backup in gibibytes (GiB).
+        /// The additional storage volumes associated with the automated backup. Valid Values: GP3 | IO2
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
+        /// The allocated storage size for the automated backup in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// The Availability Zone that the automated backup was created in. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZone: Swift.String?
@@ -10853,6 +11004,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
@@ -10885,6 +11037,7 @@ extension RDSClientTypes {
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
@@ -12453,6 +12606,8 @@ extension RDSClientTypes {
         public var createTime: Foundation.Date?
         /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
         public var customDBEngineVersionManifest: Swift.String?
+        /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+        public var databaseInstallationFiles: [Swift.String]?
         /// The name of the Amazon S3 bucket that contains your database installation files.
         public var databaseInstallationFilesS3BucketName: Swift.String?
         /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -12475,6 +12630,8 @@ extension RDSClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+        public var failureReason: Swift.String?
         /// The EC2 image
         public var image: RDSClientTypes.CustomDBEngineVersionAMI?
         /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -12523,6 +12680,7 @@ extension RDSClientTypes {
         public init(
             createTime: Foundation.Date? = nil,
             customDBEngineVersionManifest: Swift.String? = nil,
+            databaseInstallationFiles: [Swift.String]? = nil,
             databaseInstallationFilesS3BucketName: Swift.String? = nil,
             databaseInstallationFilesS3Prefix: Swift.String? = nil,
             dbEngineDescription: Swift.String? = nil,
@@ -12534,6 +12692,7 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
+            failureReason: Swift.String? = nil,
             image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
@@ -12559,6 +12718,7 @@ extension RDSClientTypes {
         ) {
             self.createTime = createTime
             self.customDBEngineVersionManifest = customDBEngineVersionManifest
+            self.databaseInstallationFiles = databaseInstallationFiles
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
             self.dbEngineDescription = dbEngineDescription
@@ -12570,6 +12730,7 @@ extension RDSClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.failureReason = failureReason
             self.image = image
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
@@ -15676,6 +15837,65 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
 
 extension RDSClientTypes {
 
+    /// Contains the available options for additional storage volumes for a DB instance class.
+    public struct AvailableAdditionalStorageVolumesOption: Swift.Sendable {
+        /// The maximum number of I/O operations per second (IOPS) that the additional storage volume supports.
+        public var maxIops: Swift.Int?
+        /// The maximum ratio of I/O operations per second (IOPS) to gibibytes (GiB) of storage for the additional storage volume.
+        public var maxIopsPerGib: Swift.Double?
+        /// The maximum amount of storage that you can allocate for the additional storage volume, in gibibytes (GiB).
+        public var maxStorageSize: Swift.Int?
+        /// The maximum storage throughput that the additional storage volume supports, in mebibytes per second (MiBps).
+        public var maxStorageThroughput: Swift.Int?
+        /// The minimum number of I/O operations per second (IOPS) that the additional storage volume supports.
+        public var minIops: Swift.Int?
+        /// The minimum ratio of I/O operations per second (IOPS) to gibibytes (GiB) of storage for the additional storage volume.
+        public var minIopsPerGib: Swift.Double?
+        /// The minimum amount of storage that you can allocate for the additional storage volume, in gibibytes (GiB).
+        public var minStorageSize: Swift.Int?
+        /// The minimum storage throughput that the additional storage volume supports, in mebibytes per second (MiBps).
+        public var minStorageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// Indicates whether the additional storage volume supports provisioned IOPS.
+        public var supportsIops: Swift.Bool?
+        /// Indicates whether the additional storage volume supports storage autoscaling.
+        public var supportsStorageAutoscaling: Swift.Bool?
+        /// Indicates whether the additional storage volume supports configurable storage throughput.
+        public var supportsStorageThroughput: Swift.Bool?
+
+        public init(
+            maxIops: Swift.Int? = nil,
+            maxIopsPerGib: Swift.Double? = nil,
+            maxStorageSize: Swift.Int? = nil,
+            maxStorageThroughput: Swift.Int? = nil,
+            minIops: Swift.Int? = nil,
+            minIopsPerGib: Swift.Double? = nil,
+            minStorageSize: Swift.Int? = nil,
+            minStorageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            supportsIops: Swift.Bool? = nil,
+            supportsStorageAutoscaling: Swift.Bool? = nil,
+            supportsStorageThroughput: Swift.Bool? = nil
+        ) {
+            self.maxIops = maxIops
+            self.maxIopsPerGib = maxIopsPerGib
+            self.maxStorageSize = maxStorageSize
+            self.maxStorageThroughput = maxStorageThroughput
+            self.minIops = minIops
+            self.minIopsPerGib = minIopsPerGib
+            self.minStorageSize = minStorageSize
+            self.minStorageThroughput = minStorageThroughput
+            self.storageType = storageType
+            self.supportsIops = supportsIops
+            self.supportsStorageAutoscaling = supportsStorageAutoscaling
+            self.supportsStorageThroughput = supportsStorageThroughput
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the available processor feature information for the DB instance class of a DB instance. For more information, see [Configuring the Processor of the DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor) in the Amazon RDS User Guide.
     public struct AvailableProcessorFeature: Swift.Sendable {
         /// The allowed values for the processor feature of the DB instance class.
@@ -15705,6 +15925,8 @@ extension RDSClientTypes {
         public var availabilityZoneGroup: Swift.String?
         /// A list of Availability Zones for a DB instance.
         public var availabilityZones: [RDSClientTypes.AvailabilityZone]?
+        /// The available options for additional storage volumes for the DB instance class.
+        public var availableAdditionalStorageVolumesOptions: [RDSClientTypes.AvailableAdditionalStorageVolumesOption]?
         /// A list of the available processor features for the DB instance class of a DB instance.
         public var availableProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]?
         /// The DB instance class for a DB instance.
@@ -15749,6 +15971,8 @@ extension RDSClientTypes {
         public var supportedEngineModes: [Swift.String]?
         /// The network types supported by the DB instance (IPV4 or DUAL). A DB instance can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide.
         public var supportedNetworkTypes: [Swift.String]?
+        /// Indicates whether the DB instance class supports additional storage volumes.
+        public var supportsAdditionalStorageVolumes: Swift.Bool?
         /// Indicates whether DB instances can be configured as a Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
         public var supportsClusters: Swift.Bool?
         /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
@@ -15779,6 +16003,7 @@ extension RDSClientTypes {
         public init(
             availabilityZoneGroup: Swift.String? = nil,
             availabilityZones: [RDSClientTypes.AvailabilityZone]? = nil,
+            availableAdditionalStorageVolumesOptions: [RDSClientTypes.AvailableAdditionalStorageVolumesOption]? = nil,
             availableProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil,
             dbInstanceClass: Swift.String? = nil,
             engine: Swift.String? = nil,
@@ -15801,6 +16026,7 @@ extension RDSClientTypes {
             supportedActivityStreamModes: [Swift.String]? = nil,
             supportedEngineModes: [Swift.String]? = nil,
             supportedNetworkTypes: [Swift.String]? = nil,
+            supportsAdditionalStorageVolumes: Swift.Bool? = nil,
             supportsClusters: Swift.Bool? = nil,
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
@@ -15817,6 +16043,7 @@ extension RDSClientTypes {
         ) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
+            self.availableAdditionalStorageVolumesOptions = availableAdditionalStorageVolumesOptions
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -15839,6 +16066,7 @@ extension RDSClientTypes {
             self.supportedActivityStreamModes = supportedActivityStreamModes
             self.supportedEngineModes = supportedEngineModes
             self.supportedNetworkTypes = supportedNetworkTypes
+            self.supportsAdditionalStorageVolumes = supportsAdditionalStorageVolumes
             self.supportsClusters = supportsClusters
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
@@ -16448,8 +16676,48 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    /// Contains the valid options for an additional storage volume.
+    public struct ValidVolumeOptions: Swift.Sendable {
+        /// The valid storage options for the additional storage volume.
+        public var storage: [RDSClientTypes.ValidStorageOptions]?
+        /// The name of the additional storage volume.
+        public var volumeName: Swift.String?
+
+        public init(
+            storage: [RDSClientTypes.ValidStorageOptions]? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.storage = storage
+            self.volumeName = volumeName
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains the valid options for additional storage volumes for a DB instance.
+    public struct ValidAdditionalStorageOptions: Swift.Sendable {
+        /// Indicates whether the DB instance supports additional storage volumes.
+        public var supportsAdditionalStorageVolumes: Swift.Bool?
+        /// The valid additional storage volume options for the DB instance.
+        public var volumes: [RDSClientTypes.ValidVolumeOptions]?
+
+        public init(
+            supportsAdditionalStorageVolumes: Swift.Bool? = nil,
+            volumes: [RDSClientTypes.ValidVolumeOptions]? = nil
+        ) {
+            self.supportsAdditionalStorageVolumes = supportsAdditionalStorageVolumes
+            self.volumes = volumes
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the DescribeValidDBInstanceModifications action. You can use this information when you call ModifyDBInstance.
     public struct ValidDBInstanceModificationsMessage: Swift.Sendable {
+        /// The valid additional storage options for the DB instance.
+        public var additionalStorage: RDSClientTypes.ValidAdditionalStorageOptions?
         /// Valid storage options for your DB instance.
         public var storage: [RDSClientTypes.ValidStorageOptions]?
         /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
@@ -16458,10 +16726,12 @@ extension RDSClientTypes {
         public var validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]?
 
         public init(
+            additionalStorage: RDSClientTypes.ValidAdditionalStorageOptions? = nil,
             storage: [RDSClientTypes.ValidStorageOptions]? = nil,
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil
         ) {
+            self.additionalStorage = additionalStorage
             self.storage = storage
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.validProcessorFeatures = validProcessorFeatures
@@ -16967,6 +17237,20 @@ public struct ModifyCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -16994,6 +17278,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -17016,6 +17302,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -17064,6 +17352,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -17075,6 +17364,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -17100,6 +17390,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -17111,6 +17402,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -17706,8 +17998,50 @@ public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+extension RDSClientTypes {
+
+    /// Contains details about the modification of an additional storage volume.
+    public struct ModifyAdditionalStorageVolume: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume. This setting is only supported for Provisioned IOPS SSD (io1 and io2) storage types.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume. You must provide a value greater than or equal to AllocatedStorage.
+        public var maxAllocatedStorage: Swift.Int?
+        /// Indicates whether to delete the additional storage volume. The value true schedules the volume for deletion. You can delete an additional storage volume only when it doesn't contain database files or other data.
+        public var setForDelete: Swift.Bool?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3) storage type.
+        public var storageThroughput: Swift.Int?
+        /// The new storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The name of the additional storage volume that you want to modify. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4
+        /// This member is required.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            setForDelete: Swift.Bool? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.setForDelete = setForDelete
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.volumeName = volumeName
+        }
+    }
+}
+
 ///
 public struct ModifyDBInstanceInput: Swift.Sendable {
+    /// A list of additional storage volumes to modify or delete for the DB instance. You can create up to 3 additional storage volumes. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.ModifyAdditionalStorageVolume]?
     /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance. Constraints:
     ///
     /// * When you increase the allocated storage for a DB instance that uses Provisioned IOPS (gp3, io1, or io2 storage type), you must also specify the Iops parameter. You can use the current value for Iops.
@@ -18054,6 +18388,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.ModifyAdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         allowMajorVersionUpgrade: Swift.Bool? = nil,
         applyImmediately: Swift.Bool? = nil,
@@ -18117,6 +18452,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
@@ -18184,7 +18520,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
 
 extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBInstanceOutput: Swift.Sendable {
@@ -20407,6 +20743,8 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -20619,6 +20957,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -20664,6 +21003,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -20713,7 +21053,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
 
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromDBSnapshotInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -20728,6 +21068,8 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
+    /// A list of additional storage volumes to modify or delete for the DB instance. You can modify or delete up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -20922,6 +21264,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -20975,6 +21318,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -21032,7 +21376,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
 
 extension RestoreDBInstanceFromS3Input: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromS3Input(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromS3Output: Swift.Sendable {
@@ -21071,6 +21415,8 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
+    /// A list of additional storage volumes to restore to the DB instance. You can restore up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -21315,6 +21661,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -21364,6 +21711,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -21417,7 +21765,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
 
 extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceToPointInTimeInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -23421,6 +23769,7 @@ extension CreateCustomDBEngineVersionInput {
 
     static func write(value: CreateCustomDBEngineVersionInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DatabaseInstallationFiles"].writeList(value.databaseInstallationFiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DatabaseInstallationFilesS3BucketName"].write(value.databaseInstallationFilesS3BucketName)
         try writer["DatabaseInstallationFilesS3Prefix"].write(value.databaseInstallationFilesS3Prefix)
         try writer["Description"].write(value.description)
@@ -23547,6 +23896,7 @@ extension CreateDBInstanceInput {
 
     static func write(value: CreateDBInstanceInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -23621,6 +23971,7 @@ extension CreateDBInstanceReadReplicaInput {
 
     static func write(value: CreateDBInstanceReadReplicaInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -24955,6 +25306,7 @@ extension ModifyDBInstanceInput {
 
     static func write(value: ModifyDBInstanceInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.ModifyAdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AllowMajorVersionUpgrade"].write(value.allowMajorVersionUpgrade)
         try writer["ApplyImmediately"].write(value.applyImmediately)
@@ -25507,6 +25859,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
 
     static func write(value: RestoreDBInstanceFromDBSnapshotInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -25560,6 +25913,7 @@ extension RestoreDBInstanceFromS3Input {
 
     static func write(value: RestoreDBInstanceFromS3Input?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -25621,6 +25975,7 @@ extension RestoreDBInstanceToPointInTimeInput {
 
     static func write(value: RestoreDBInstanceToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -26012,12 +26367,14 @@ extension CreateCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -26316,12 +26673,14 @@ extension DeleteCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -27315,12 +27674,14 @@ extension ModifyCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -32952,6 +33313,32 @@ extension RDSClientTypes.DBSnapshot {
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.AdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.AdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AdditionalStorageVolume()
+        value.volumeName = try reader["VolumeName"].readIfPresent() ?? ""
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -33534,6 +33921,24 @@ extension RDSClientTypes.DBInstance {
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.isStorageConfigUpgradeAvailable = try reader["IsStorageConfigUpgradeAvailable"].readIfPresent()
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolumeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.AdditionalStorageVolumeOutput {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -33623,6 +34028,7 @@ extension RDSClientTypes.PendingModifiedValues {
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -33926,6 +34332,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34090,6 +34497,8 @@ extension RDSClientTypes.DBEngineVersion {
         value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
         value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
         value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
 }
@@ -34625,6 +35034,29 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.supportsClusters = try reader["SupportsClusters"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
         value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
+        value.supportsAdditionalStorageVolumes = try reader["SupportsAdditionalStorageVolumes"].readIfPresent()
+        value.availableAdditionalStorageVolumesOptions = try reader["AvailableAdditionalStorageVolumesOptions"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableAdditionalStorageVolumesOption.read(from:), memberNodeInfo: "AvailableAdditionalStorageVolumesOption", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
+        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
+        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
+        value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
+        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
+        value.minIops = try reader["MinIops"].readIfPresent()
+        value.maxIops = try reader["MaxIops"].readIfPresent()
+        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
+        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
+        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
         return value
     }
 }
@@ -34717,6 +35149,29 @@ extension RDSClientTypes.ValidDBInstanceModificationsMessage {
         value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.ValidAdditionalStorageOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidAdditionalStorageOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ValidAdditionalStorageOptions()
+        value.supportsAdditionalStorageVolumes = try reader["SupportsAdditionalStorageVolumes"].readIfPresent()
+        value.volumes = try reader["Volumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidVolumeOptions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.ValidVolumeOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ValidVolumeOptions()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         return value
     }
 }
@@ -34811,6 +35266,20 @@ extension RDSClientTypes.CloudwatchLogsExportConfiguration {
         guard let value else { return }
         try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ModifyAdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["SetForDelete"].write(value.setForDelete)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
     }
 }
 

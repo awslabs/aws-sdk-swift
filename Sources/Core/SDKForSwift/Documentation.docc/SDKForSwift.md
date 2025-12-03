@@ -639,6 +639,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNotificationsContacts](../../../../../latest/api/awsnotificationscontacts/documentation/awsnotificationscontacts)
 
+[AWSNovaAct](../../../../../latest/api/awsnovaact/documentation/awsnovaact)
+
 [AWSOAM](../../../../../latest/api/awsoam/documentation/awsoam)
 
 [AWSOSIS](../../../../../latest/api/awsosis/documentation/awsosis)
@@ -662,6 +664,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../latest/api/awspi/documentation/awspi)
 
 [AWSPanorama](../../../../../latest/api/awspanorama/documentation/awspanorama)
+
+[AWSPartnerCentralAccount](../../../../../latest/api/awspartnercentralaccount/documentation/awspartnercentralaccount)
+
+[AWSPartnerCentralBenefits](../../../../../latest/api/awspartnercentralbenefits/documentation/awspartnercentralbenefits)
 
 [AWSPartnerCentralChannel](../../../../../latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
 
@@ -740,6 +746,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRoute53](../../../../../latest/api/awsroute53/documentation/awsroute53)
 
 [AWSRoute53Domains](../../../../../latest/api/awsroute53domains/documentation/awsroute53domains)
+
+[AWSRoute53GlobalResolver](../../../../../latest/api/awsroute53globalresolver/documentation/awsroute53globalresolver)
 
 [AWSRoute53Profiles](../../../../../latest/api/awsroute53profiles/documentation/awsroute53profiles)
 

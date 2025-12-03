@@ -76,6 +76,37 @@ extension PaginatorSequence where OperationStackInput == ListDomainLayoutsInput,
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListDomainObjectTypesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainObjectTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainObjectTypesOutput`
+    public func listDomainObjectTypesPaginated(input: ListDomainObjectTypesInput) -> ClientRuntime.PaginatorSequence<ListDomainObjectTypesInput, ListDomainObjectTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainObjectTypesInput, ListDomainObjectTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainObjectTypes(input:))
+    }
+}
+
+extension ListDomainObjectTypesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDomainObjectTypesInput {
+        return ListDomainObjectTypesInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDomainObjectTypesInput, OperationStackOutput == ListDomainObjectTypesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDomainObjectTypesPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.DomainObjectTypesListItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.DomainObjectTypesListItem]`
+    public func items() async throws -> [CustomerProfilesClientTypes.DomainObjectTypesListItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListEventStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -167,6 +198,67 @@ extension PaginatorSequence where OperationStackInput == ListObjectTypeAttribute
     /// - Returns: `[CustomerProfilesClientTypes.ListObjectTypeAttributeItem]`
     public func items() async throws -> [CustomerProfilesClientTypes.ListObjectTypeAttributeItem] {
         return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
+    /// Paginate over `[ListRecommenderRecipesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommenderRecipesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommenderRecipesOutput`
+    public func listRecommenderRecipesPaginated(input: ListRecommenderRecipesInput) -> ClientRuntime.PaginatorSequence<ListRecommenderRecipesInput, ListRecommenderRecipesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommenderRecipesInput, ListRecommenderRecipesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommenderRecipes(input:))
+    }
+}
+
+extension ListRecommenderRecipesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecommenderRecipesInput {
+        return ListRecommenderRecipesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecommenderRecipesInput, OperationStackOutput == ListRecommenderRecipesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommenderRecipesPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.RecommenderRecipe]`
+    /// - Returns: `[CustomerProfilesClientTypes.RecommenderRecipe]`
+    public func recommenderRecipes() async throws -> [CustomerProfilesClientTypes.RecommenderRecipe] {
+        return try await self.asyncCompactMap { item in item.recommenderRecipes }
+    }
+}
+extension CustomerProfilesClient {
+    /// Paginate over `[ListRecommendersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendersOutput`
+    public func listRecommendersPaginated(input: ListRecommendersInput) -> ClientRuntime.PaginatorSequence<ListRecommendersInput, ListRecommendersOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendersInput, ListRecommendersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommenders(input:))
+    }
+}
+
+extension ListRecommendersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecommendersInput {
+        return ListRecommendersInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecommendersInput, OperationStackOutput == ListRecommendersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommendersPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.RecommenderSummary]`
+    /// - Returns: `[CustomerProfilesClientTypes.RecommenderSummary]`
+    public func recommenders() async throws -> [CustomerProfilesClientTypes.RecommenderSummary] {
+        return try await self.asyncCompactMap { item in item.recommenders }
     }
 }
 extension CustomerProfilesClient {

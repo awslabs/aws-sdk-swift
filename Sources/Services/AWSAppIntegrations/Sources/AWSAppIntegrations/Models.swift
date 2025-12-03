@@ -288,6 +288,39 @@ extension AppIntegrationsClientTypes {
 
 extension AppIntegrationsClientTypes {
 
+    /// The type of application
+    public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mcpServer
+        case service
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationType] {
+            return [
+                .mcpServer,
+                .service,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mcpServer: return "MCP_SERVER"
+            case .service: return "SERVICE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
     /// The iframe configuration for the application.
     public struct IframeConfig: Swift.Sendable {
         /// The list of features that are allowed in the iframe.
@@ -356,6 +389,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The configuration for where the application should be loaded from.
     /// This member is required.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
+    /// The type of application.
+    public var applicationType: AppIntegrationsClientTypes.ApplicationType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the application.
@@ -365,6 +400,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The maximum time in milliseconds allowed to establish a connection with the workspace.
     public var initializationTimeout: Swift.Int?
     /// Indicates whether the application is a service.
+    @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
     public var isService: Swift.Bool?
     /// The name of the application.
     /// This member is required.
@@ -386,6 +422,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     public init(
         applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
+        applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
@@ -400,6 +437,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     ) {
         self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
+        self.applicationType = applicationType
         self.clientToken = clientToken
         self.description = description
         self.iframeConfig = iframeConfig
@@ -845,6 +883,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
+    /// The type of application.
+    public var applicationType: AppIntegrationsClientTypes.ApplicationType?
     /// The Amazon Resource Name (ARN) of the Application.
     public var arn: Swift.String?
     /// The created time of the Application.
@@ -858,6 +898,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     /// The maximum time in milliseconds allowed to establish a connection with the workspace.
     public var initializationTimeout: Swift.Int?
     /// Indicates whether the application is a service.
+    @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
     public var isService: Swift.Bool
     /// The last modified time of the Application.
     public var lastModifiedTime: Foundation.Date?
@@ -879,6 +920,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public init(
         applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
+        applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         arn: Swift.String? = nil,
         createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -896,6 +938,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     ) {
         self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
+        self.applicationType = applicationType
         self.arn = arn
         self.createdTime = createdTime
         self.description = description
@@ -1074,15 +1117,19 @@ public struct ListApplicationAssociationsOutput: Swift.Sendable {
 }
 
 public struct ListApplicationsInput: Swift.Sendable {
+    /// The type of application.
+    public var applicationType: AppIntegrationsClientTypes.ApplicationType?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init(
+        applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.applicationType = applicationType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1092,6 +1139,8 @@ extension AppIntegrationsClientTypes {
 
     /// Summary information about the Application.
     public struct ApplicationSummary: Swift.Sendable {
+        /// The type of application.
+        public var applicationType: AppIntegrationsClientTypes.ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public var arn: Swift.String?
         /// The time when the application was created.
@@ -1099,6 +1148,7 @@ extension AppIntegrationsClientTypes {
         /// A unique identifier for the Application.
         public var id: Swift.String?
         /// Indicates whether the application is a service.
+        @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
         public var isService: Swift.Bool
         /// The time when the application was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -1108,6 +1158,7 @@ extension AppIntegrationsClientTypes {
         public var namespace: Swift.String?
 
         public init(
+            applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
@@ -1116,6 +1167,7 @@ extension AppIntegrationsClientTypes {
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
         ) {
+            self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -1523,6 +1575,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
+    /// The type of application.
+    public var applicationType: AppIntegrationsClientTypes.ApplicationType?
     /// The Amazon Resource Name (ARN) of the Application.
     /// This member is required.
     public var arn: Swift.String?
@@ -1533,6 +1587,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The maximum time in milliseconds allowed to establish a connection with the workspace.
     public var initializationTimeout: Swift.Int?
     /// Indicates whether the application is a service.
+    @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
     public var isService: Swift.Bool?
     /// The name of the application.
     public var name: Swift.String?
@@ -1548,6 +1603,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public init(
         applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
+        applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
@@ -1560,6 +1616,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
     ) {
         self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
+        self.applicationType = applicationType
         self.arn = arn
         self.description = description
         self.iframeConfig = iframeConfig
@@ -1778,6 +1835,10 @@ extension ListApplicationsInput {
 
     static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let applicationType = value.applicationType {
+            let applicationTypeQueryItem = Smithy.URIQueryItem(name: "applicationType".urlPercentEncoding(), value: Swift.String(applicationType.rawValue).urlPercentEncoding())
+            items.append(applicationTypeQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -1983,6 +2044,7 @@ extension CreateApplicationInput {
         guard let value else { return }
         try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
+        try writer["ApplicationType"].write(value.applicationType)
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
         try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
@@ -2053,6 +2115,7 @@ extension UpdateApplicationInput {
         guard let value else { return }
         try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
+        try writer["ApplicationType"].write(value.applicationType)
         try writer["Description"].write(value.description)
         try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
         try writer["InitializationTimeout"].write(value.initializationTimeout)
@@ -2179,6 +2242,7 @@ extension GetApplicationOutput {
         var value = GetApplicationOutput()
         value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: AppIntegrationsClientTypes.ApplicationConfig.read(from:))
         value.applicationSourceConfig = try reader["ApplicationSourceConfig"].readIfPresent(with: AppIntegrationsClientTypes.ApplicationSourceConfig.read(from:))
+        value.applicationType = try reader["ApplicationType"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -3075,6 +3139,7 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.isService = try reader["IsService"].readIfPresent() ?? false
+        value.applicationType = try reader["ApplicationType"].readIfPresent()
         return value
     }
 }

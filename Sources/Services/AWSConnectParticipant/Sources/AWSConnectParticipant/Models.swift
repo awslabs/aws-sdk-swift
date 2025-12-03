@@ -923,6 +923,38 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes {
 
+    public enum MessageProcessingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case processing
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MessageProcessingStatus] {
+            return [
+                .failed,
+                .processing,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
     /// The receipt for the message delivered to the recipient.
     public struct Receipt: Swift.Sendable {
         /// The time when the message was delivered to the recipient.
@@ -950,14 +982,18 @@ extension ConnectParticipantClientTypes {
     public struct MessageMetadata: Swift.Sendable {
         /// The identifier of the message that contains the metadata information.
         public var messageId: Swift.String?
+        /// The status of Message Processing for the message.
+        public var messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus?
         /// The list of receipt information for a message for different recipients.
         public var receipts: [ConnectParticipantClientTypes.Receipt]?
 
         public init(
             messageId: Swift.String? = nil,
+            messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus? = nil,
             receipts: [ConnectParticipantClientTypes.Receipt]? = nil
         ) {
             self.messageId = messageId
+            self.messageProcessingStatus = messageProcessingStatus
             self.receipts = receipts
         }
     }
@@ -1218,18 +1254,37 @@ public struct SendMessageInput: Swift.Sendable {
     }
 }
 
+extension ConnectParticipantClientTypes {
+
+    /// Contains metadata for chat messages.
+    public struct MessageProcessingMetadata: Swift.Sendable {
+        /// The status of Message Processing for the message.
+        public var messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus?
+
+        public init(
+            messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus? = nil
+        ) {
+            self.messageProcessingStatus = messageProcessingStatus
+        }
+    }
+}
+
 public struct SendMessageOutput: Swift.Sendable {
     /// The time when the message was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
     public var absoluteTime: Swift.String?
     /// The ID of the message.
     public var id: Swift.String?
+    /// Contains metadata for the message.
+    public var messageMetadata: ConnectParticipantClientTypes.MessageProcessingMetadata?
 
     public init(
         absoluteTime: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        messageMetadata: ConnectParticipantClientTypes.MessageProcessingMetadata? = nil
     ) {
         self.absoluteTime = absoluteTime
         self.id = id
+        self.messageMetadata = messageMetadata
     }
 }
 
@@ -1709,6 +1764,7 @@ extension SendMessageOutput {
         var value = SendMessageOutput()
         value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageProcessingMetadata.read(from:))
         return value
     }
 }
@@ -2154,6 +2210,7 @@ extension ConnectParticipantClientTypes.MessageMetadata {
         var value = ConnectParticipantClientTypes.MessageMetadata()
         value.messageId = try reader["MessageId"].readIfPresent()
         value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
@@ -2179,6 +2236,16 @@ extension ConnectParticipantClientTypes.AttachmentItem {
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.attachmentName = try reader["AttachmentName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.MessageProcessingMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }

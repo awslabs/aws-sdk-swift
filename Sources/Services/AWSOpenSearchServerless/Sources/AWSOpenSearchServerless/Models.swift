@@ -628,6 +628,58 @@ extension OpenSearchServerlessClientTypes {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// Specifies whether serverless vector acceleration is enabled for the collection.
+    public enum ServerlessVectorAccelerationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Serverless vector acceleration is allowed but not enabled by default
+        case allowed
+        /// Serverless vector acceleration is disabled
+        case disabled
+        /// Serverless vector acceleration is enabled by default
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServerlessVectorAccelerationStatus] {
+            return [
+                .allowed,
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "ALLOWED"
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Configuration options for vector search capabilities in an OpenSearch Serverless collection.
+    public struct VectorOptions: Swift.Sendable {
+        /// Specifies whether serverless vector acceleration is enabled for the collection.
+        /// This member is required.
+        public var serverlessVectorAcceleration: OpenSearchServerlessClientTypes.ServerlessVectorAccelerationStatus?
+
+        public init(
+            serverlessVectorAcceleration: OpenSearchServerlessClientTypes.ServerlessVectorAccelerationStatus? = nil
+        ) {
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     /// Details about each OpenSearch Serverless collection, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints for federal government workloads.
     public struct CollectionDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the collection.
@@ -660,6 +712,8 @@ extension OpenSearchServerlessClientTypes {
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
         /// The type of collection.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public var vectorOptions: OpenSearchServerlessClientTypes.VectorOptions?
 
         public init(
             arn: Swift.String? = nil,
@@ -676,7 +730,8 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
-            type: OpenSearchServerlessClientTypes.CollectionType? = nil
+            type: OpenSearchServerlessClientTypes.CollectionType? = nil,
+            vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
         ) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
@@ -693,6 +748,7 @@ extension OpenSearchServerlessClientTypes {
             self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
     }
 }
@@ -1213,6 +1269,8 @@ public struct CreateCollectionInput: Swift.Sendable {
     public var tags: [OpenSearchServerlessClientTypes.Tag]?
     /// The type of collection.
     public var type: OpenSearchServerlessClientTypes.CollectionType?
+    /// Configuration options for vector search capabilities in the collection.
+    public var vectorOptions: OpenSearchServerlessClientTypes.VectorOptions?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -1220,7 +1278,8 @@ public struct CreateCollectionInput: Swift.Sendable {
         name: Swift.String? = nil,
         standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil,
-        type: OpenSearchServerlessClientTypes.CollectionType? = nil
+        type: OpenSearchServerlessClientTypes.CollectionType? = nil,
+        vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -1228,6 +1287,7 @@ public struct CreateCollectionInput: Swift.Sendable {
         self.standbyReplicas = standbyReplicas
         self.tags = tags
         self.type = type
+        self.vectorOptions = vectorOptions
     }
 }
 
@@ -1255,6 +1315,8 @@ extension OpenSearchServerlessClientTypes {
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
         /// The type of collection.
         public var type: OpenSearchServerlessClientTypes.CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public var vectorOptions: OpenSearchServerlessClientTypes.VectorOptions?
 
         public init(
             arn: Swift.String? = nil,
@@ -1266,7 +1328,8 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
-            type: OpenSearchServerlessClientTypes.CollectionType? = nil
+            type: OpenSearchServerlessClientTypes.CollectionType? = nil,
+            vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
         ) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1278,6 +1341,7 @@ extension OpenSearchServerlessClientTypes {
             self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
     }
 }
@@ -3348,6 +3412,7 @@ extension CreateCollectionInput {
         try writer["standbyReplicas"].write(value.standbyReplicas)
         try writer["tags"].writeList(value.tags, memberWritingClosure: OpenSearchServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
+        try writer["vectorOptions"].write(value.vectorOptions, with: OpenSearchServerlessClientTypes.VectorOptions.write(value:to:))
     }
 }
 
@@ -4730,6 +4795,7 @@ enum UpdateAccountSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4932,6 +4998,7 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
+        value.vectorOptions = try reader["vectorOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.VectorOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
@@ -4950,6 +5017,21 @@ extension OpenSearchServerlessClientTypes.FipsEndpoints {
         var value = OpenSearchServerlessClientTypes.FipsEndpoints()
         value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
         value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.VectorOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.VectorOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServerlessVectorAcceleration"].write(value.serverlessVectorAcceleration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VectorOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.VectorOptions()
+        value.serverlessVectorAcceleration = try reader["ServerlessVectorAcceleration"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5083,6 +5165,7 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail {
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
+        value.vectorOptions = try reader["vectorOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.VectorOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         return value

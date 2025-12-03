@@ -2980,7 +2980,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetKnowledgeBase` operation on the `BedrockAgent` service.
     ///
-    /// Gets information about a knoweldge base.
+    /// Gets information about a knowledge base.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetKnowledgeBaseInput`)
     ///

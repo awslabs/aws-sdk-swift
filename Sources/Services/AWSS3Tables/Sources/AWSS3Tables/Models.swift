@@ -54,12 +54,22 @@ public struct DeleteTableBucketPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteTableBucketReplicationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTableOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DeleteTablePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTableReplicationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -84,12 +94,22 @@ public struct PutTableBucketPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutTableBucketStorageClassOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutTableMaintenanceConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct PutTablePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutTableRecordExpirationConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -414,13 +434,17 @@ extension S3TablesClientTypes {
 
     /// Contains details about the metadata for an Iceberg table.
     public struct IcebergMetadata: Swift.Sendable {
+        /// Contains configuration properties for an Iceberg table.
+        public var properties: [Swift.String: Swift.String]?
         /// The schema for an Iceberg table.
         /// This member is required.
         public var schema: S3TablesClientTypes.IcebergSchema?
 
         public init(
+            properties: [Swift.String: Swift.String]? = nil,
             schema: S3TablesClientTypes.IcebergSchema? = nil
         ) {
+            self.properties = properties
             self.schema = schema
         }
     }
@@ -433,6 +457,51 @@ extension S3TablesClientTypes {
         /// Contains details about the metadata of an Iceberg table.
         case iceberg(S3TablesClientTypes.IcebergMetadata)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intelligentTiering
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageClass] {
+            return [
+                .intelligentTiering,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The configuration details for the storage class of tables or table buckets. This allows you to optimize storage costs by selecting the appropriate storage class based on your access patterns and performance requirements.
+    public struct StorageClassConfiguration: Swift.Sendable {
+        /// The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles.
+        /// This member is required.
+        public var storageClass: S3TablesClientTypes.StorageClass?
+
+        public init(
+            storageClass: S3TablesClientTypes.StorageClass? = nil
+        ) {
+            self.storageClass = storageClass
+        }
     }
 }
 
@@ -450,6 +519,8 @@ public struct CreateTableInput: Swift.Sendable {
     /// The namespace to associated with the table.
     /// This member is required.
     public var namespace: Swift.String?
+    /// The storage class configuration for the table. If not specified, the table inherits the storage class configuration from its table bucket. Specify this parameter to override the bucket's default storage class for this table.
+    public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
     /// The Amazon Resource Name (ARN) of the table bucket to create the table in.
     /// This member is required.
     public var tableBucketARN: Swift.String?
@@ -462,6 +533,7 @@ public struct CreateTableInput: Swift.Sendable {
         metadata: S3TablesClientTypes.TableMetadata? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil,
         tableBucketARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -470,6 +542,7 @@ public struct CreateTableInput: Swift.Sendable {
         self.metadata = metadata
         self.name = name
         self.namespace = namespace
+        self.storageClassConfiguration = storageClassConfiguration
         self.tableBucketARN = tableBucketARN
         self.tags = tags
     }
@@ -498,16 +571,20 @@ public struct CreateTableBucketInput: Swift.Sendable {
     /// The name for the table bucket.
     /// This member is required.
     public var name: Swift.String?
+    /// The default storage class configuration for the table bucket. This configuration will be applied to all new tables created in this bucket unless overridden at the table level. If not specified, the service default storage class will be used.
+    public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
     /// A map of user-defined tags that you would like to apply to the table bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permisson to create a table bucket with tags.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
+        storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.name = name
+        self.storageClassConfiguration = storageClassConfiguration
         self.tags = tags
     }
 }
@@ -615,6 +692,22 @@ public struct DeleteTableBucketPolicyInput: Swift.Sendable {
     }
 }
 
+public struct DeleteTableBucketReplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+    /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+    public var versionToken: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+        self.versionToken = versionToken
+    }
+}
+
 public struct DeleteTablePolicyInput: Swift.Sendable {
     /// The table name.
     /// This member is required.
@@ -634,6 +727,23 @@ public struct DeleteTablePolicyInput: Swift.Sendable {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct DeleteTableReplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+    /// A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+    /// This member is required.
+    public var versionToken: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+        self.versionToken = versionToken
     }
 }
 
@@ -714,6 +824,37 @@ public struct GetTableInput: Swift.Sendable {
 
 extension S3TablesClientTypes {
 
+    /// Contains information about the source of a replicated table.
+    public struct ReplicationInformation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source table from which this table is replicated.
+        /// This member is required.
+        public var sourceTableARN: Swift.String?
+
+        public init(
+            sourceTableARN: Swift.String? = nil
+        ) {
+            self.sourceTableARN = sourceTableARN
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains information about tables that are managed by S3 Tables, including replication information for replica tables.
+    public struct ManagedTableInformation: Swift.Sendable {
+        /// If this table is a replica, contains information about the source table from which it is replicated.
+        public var replicationInformation: S3TablesClientTypes.ReplicationInformation?
+
+        public init(
+            replicationInformation: S3TablesClientTypes.ReplicationInformation? = nil
+        ) {
+            self.replicationInformation = replicationInformation
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     public enum TableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case customer
@@ -753,6 +894,8 @@ public struct GetTableOutput: Swift.Sendable {
     public var format: S3TablesClientTypes.OpenTableFormat?
     /// The service that manages the table.
     public var managedByService: Swift.String?
+    /// If this table is managed by S3 Tables, contains additional information such as replication details.
+    public var managedTableInformation: S3TablesClientTypes.ManagedTableInformation?
     /// The metadata location of the table.
     public var metadataLocation: Swift.String?
     /// The date and time the table was last modified on.
@@ -792,6 +935,7 @@ public struct GetTableOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         format: S3TablesClientTypes.OpenTableFormat? = nil,
         managedByService: Swift.String? = nil,
+        managedTableInformation: S3TablesClientTypes.ManagedTableInformation? = nil,
         metadataLocation: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         modifiedBy: Swift.String? = nil,
@@ -809,6 +953,7 @@ public struct GetTableOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.format = format
         self.managedByService = managedByService
+        self.managedTableInformation = managedTableInformation
         self.metadataLocation = metadataLocation
         self.modifiedAt = modifiedAt
         self.modifiedBy = modifiedBy
@@ -1108,6 +1253,112 @@ public struct GetTableBucketPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetTableBucketReplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Specifies a destination table bucket for replication.
+    public struct ReplicationDestination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated.
+        /// This member is required.
+        public var destinationTableBucketARN: Swift.String?
+
+        public init(
+            destinationTableBucketARN: Swift.String? = nil
+        ) {
+            self.destinationTableBucketARN = destinationTableBucketARN
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines a rule for replicating tables from a source table bucket to one or more destination table buckets.
+    public struct TableBucketReplicationRule: Swift.Sendable {
+        /// An array of destination table buckets where tables should be replicated.
+        /// This member is required.
+        public var destinations: [S3TablesClientTypes.ReplicationDestination]?
+
+        public init(
+            destinations: [S3TablesClientTypes.ReplicationDestination]? = nil
+        ) {
+            self.destinations = destinations
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The replication configuration for a table bucket. This configuration defines how tables in the source bucket are replicated to destination table buckets, including the IAM role used for replication.
+    public struct TableBucketReplicationConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate tables on your behalf.
+        /// This member is required.
+        public var role: Swift.String?
+        /// An array of replication rules that define which tables to replicate and where to replicate them.
+        /// This member is required.
+        public var rules: [S3TablesClientTypes.TableBucketReplicationRule]?
+
+        public init(
+            role: Swift.String? = nil,
+            rules: [S3TablesClientTypes.TableBucketReplicationRule]? = nil
+        ) {
+            self.role = role
+            self.rules = rules
+        }
+    }
+}
+
+public struct GetTableBucketReplicationOutput: Swift.Sendable {
+    /// The replication configuration for the table bucket, including the IAM role and replication rules.
+    /// This member is required.
+    public var configuration: S3TablesClientTypes.TableBucketReplicationConfiguration?
+    /// A version token that represents the current state of the replication configuration. Use this token when updating the configuration to ensure consistency.
+    /// This member is required.
+    public var versionToken: Swift.String?
+
+    public init(
+        configuration: S3TablesClientTypes.TableBucketReplicationConfiguration? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.versionToken = versionToken
+    }
+}
+
+public struct GetTableBucketStorageClassInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableBucketStorageClassOutput: Swift.Sendable {
+    /// The storage class configuration for the table bucket.
+    /// This member is required.
+    public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
+
+    public init(
+        storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil
+    ) {
+        self.storageClassConfiguration = storageClassConfiguration
+    }
+}
+
 public struct GetTableEncryptionInput: Swift.Sendable {
     /// The name of the table.
     /// This member is required.
@@ -1280,7 +1531,7 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
-    /// Contains the values that define a maintenance configuration for a table.
+    /// The values that define a maintenance configuration for a table.
     public struct TableMaintenanceConfigurationValue: Swift.Sendable {
         /// Contains details about the settings for the maintenance configuration.
         public var settings: S3TablesClientTypes.TableMaintenanceSettings?
@@ -1521,6 +1772,425 @@ public struct GetTablePolicyOutput: Swift.Sendable {
     }
 }
 
+/// The requested operation is not allowed on this resource. This may occur when attempting to modify a resource that is managed by a service or has restrictions that prevent the operation.
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MethodNotAllowedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetTableRecordExpirationConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The record expiration setting that specifies when records expire and are automatically removed from a table.
+    public struct TableRecordExpirationSettings: Swift.Sendable {
+        /// If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365.
+        public var days: Swift.Int?
+
+        public init(
+            days: Swift.Int? = nil
+        ) {
+            self.days = days
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum TableRecordExpirationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableRecordExpirationStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled, records expire and are automatically removed after the number of days specified in the record expiration settings for the table.
+    public struct TableRecordExpirationConfigurationValue: Swift.Sendable {
+        /// The expiration settings for records in the table.
+        public var settings: S3TablesClientTypes.TableRecordExpirationSettings?
+        /// The status of the expiration settings for records in the table.
+        public var status: S3TablesClientTypes.TableRecordExpirationStatus?
+
+        public init(
+            settings: S3TablesClientTypes.TableRecordExpirationSettings? = nil,
+            status: S3TablesClientTypes.TableRecordExpirationStatus? = nil
+        ) {
+            self.settings = settings
+            self.status = status
+        }
+    }
+}
+
+public struct GetTableRecordExpirationConfigurationOutput: Swift.Sendable {
+    /// The record expiration configuration for the table, including the status and retention settings.
+    /// This member is required.
+    public var configuration: S3TablesClientTypes.TableRecordExpirationConfigurationValue?
+
+    public init(
+        configuration: S3TablesClientTypes.TableRecordExpirationConfigurationValue? = nil
+    ) {
+        self.configuration = configuration
+    }
+}
+
+public struct GetTableRecordExpirationJobStatusInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Provides metrics for the record expiration job that most recently ran for a table. The metrics provide insight into the amount of data that was removed when the job ran.
+    public struct TableRecordExpirationJobMetrics: Swift.Sendable {
+        /// The total number of data files that were removed when the job ran.
+        public var deletedDataFiles: Swift.Int?
+        /// The total number of records that were removed when the job ran.
+        public var deletedRecords: Swift.Int?
+        /// The total size (in bytes) of the data files that were removed when the job ran.
+        public var removedFilesSize: Swift.Int?
+
+        public init(
+            deletedDataFiles: Swift.Int? = nil,
+            deletedRecords: Swift.Int? = nil,
+            removedFilesSize: Swift.Int? = nil
+        ) {
+            self.deletedDataFiles = deletedDataFiles
+            self.deletedRecords = deletedRecords
+            self.removedFilesSize = removedFilesSize
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum TableRecordExpirationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case failed
+        case notYetRun
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableRecordExpirationJobStatus] {
+            return [
+                .disabled,
+                .failed,
+                .notYetRun,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .failed: return "Failed"
+            case .notYetRun: return "NotYetRun"
+            case .successful: return "Successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTableRecordExpirationJobStatusOutput: Swift.Sendable {
+    /// If the job failed, this field contains an error message describing the failure reason.
+    public var failureMessage: Swift.String?
+    /// The timestamp when the expiration job was last executed.
+    public var lastRunTimestamp: Foundation.Date?
+    /// Metrics about the most recent expiration job execution, including the number of records and files deleted.
+    public var metrics: S3TablesClientTypes.TableRecordExpirationJobMetrics?
+    /// The current status of the most recent expiration job.
+    /// This member is required.
+    public var status: S3TablesClientTypes.TableRecordExpirationJobStatus?
+
+    public init(
+        failureMessage: Swift.String? = nil,
+        lastRunTimestamp: Foundation.Date? = nil,
+        metrics: S3TablesClientTypes.TableRecordExpirationJobMetrics? = nil,
+        status: S3TablesClientTypes.TableRecordExpirationJobStatus? = nil
+    ) {
+        self.failureMessage = failureMessage
+        self.lastRunTimestamp = lastRunTimestamp
+        self.metrics = metrics
+        self.status = status
+    }
+}
+
+public struct GetTableReplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines a rule for replicating a table to one or more destination tables.
+    public struct TableReplicationRule: Swift.Sendable {
+        /// An array of destination table buckets where this table should be replicated.
+        /// This member is required.
+        public var destinations: [S3TablesClientTypes.ReplicationDestination]?
+
+        public init(
+            destinations: [S3TablesClientTypes.ReplicationDestination]? = nil
+        ) {
+            self.destinations = destinations
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The replication configuration for an individual table. This configuration defines how the table is replicated to destination tables.
+    public struct TableReplicationConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf.
+        /// This member is required.
+        public var role: Swift.String?
+        /// An array of replication rules that define where this table should be replicated.
+        /// This member is required.
+        public var rules: [S3TablesClientTypes.TableReplicationRule]?
+
+        public init(
+            role: Swift.String? = nil,
+            rules: [S3TablesClientTypes.TableReplicationRule]? = nil
+        ) {
+            self.role = role
+            self.rules = rules
+        }
+    }
+}
+
+public struct GetTableReplicationOutput: Swift.Sendable {
+    /// The replication configuration for the table, including the IAM role and replication rules.
+    /// This member is required.
+    public var configuration: S3TablesClientTypes.TableReplicationConfiguration?
+    /// A version token that represents the current state of the table's replication configuration. Use this token when updating the configuration to ensure consistency.
+    /// This member is required.
+    public var versionToken: Swift.String?
+
+    public init(
+        configuration: S3TablesClientTypes.TableReplicationConfiguration? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.versionToken = versionToken
+    }
+}
+
+public struct GetTableReplicationStatusInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains information about the most recent successful replication update to a destination.
+    public struct LastSuccessfulReplicatedUpdate: Swift.Sendable {
+        /// The S3 location of the metadata that was successfully replicated.
+        /// This member is required.
+        public var metadataLocation: Swift.String?
+        /// The timestamp when the replication update completed successfully.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            metadataLocation: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.metadataLocation = metadataLocation
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum ReplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "completed"
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains status information for a replication destination, including the current replication state, last successful update, and any error messages.
+    public struct ReplicationDestinationStatusModel: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination table.
+        public var destinationTableArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the destination table bucket.
+        /// This member is required.
+        public var destinationTableBucketArn: Swift.String?
+        /// If replication has failed, this field contains an error message describing the failure reason.
+        public var failureMessage: Swift.String?
+        /// Information about the most recent successful replication update to this destination.
+        public var lastSuccessfulReplicatedUpdate: S3TablesClientTypes.LastSuccessfulReplicatedUpdate?
+        /// The current status of replication to this destination.
+        /// This member is required.
+        public var replicationStatus: S3TablesClientTypes.ReplicationStatus?
+
+        public init(
+            destinationTableArn: Swift.String? = nil,
+            destinationTableBucketArn: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            lastSuccessfulReplicatedUpdate: S3TablesClientTypes.LastSuccessfulReplicatedUpdate? = nil,
+            replicationStatus: S3TablesClientTypes.ReplicationStatus? = nil
+        ) {
+            self.destinationTableArn = destinationTableArn
+            self.destinationTableBucketArn = destinationTableBucketArn
+            self.failureMessage = failureMessage
+            self.lastSuccessfulReplicatedUpdate = lastSuccessfulReplicatedUpdate
+            self.replicationStatus = replicationStatus
+        }
+    }
+}
+
+public struct GetTableReplicationStatusOutput: Swift.Sendable {
+    /// An array of status information for each replication destination, including the current state, last successful update, and any error messages.
+    /// This member is required.
+    public var destinations: [S3TablesClientTypes.ReplicationDestinationStatusModel]?
+    /// The Amazon Resource Name (ARN) of the source table being replicated.
+    /// This member is required.
+    public var sourceTableArn: Swift.String?
+
+    public init(
+        destinations: [S3TablesClientTypes.ReplicationDestinationStatusModel]? = nil,
+        sourceTableArn: Swift.String? = nil
+    ) {
+        self.destinations = destinations
+        self.sourceTableArn = sourceTableArn
+    }
+}
+
+public struct GetTableStorageClassInput: Swift.Sendable {
+    /// The name of the table.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The namespace associated with the table.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.name = name
+        self.namespace = namespace
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableStorageClassOutput: Swift.Sendable {
+    /// The storage class configuration for the table.
+    /// This member is required.
+    public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
+
+    public init(
+        storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil
+    ) {
+        self.storageClassConfiguration = storageClassConfiguration
+    }
+}
+
 public struct ListNamespacesInput: Swift.Sendable {
     /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     public var continuationToken: Swift.String?
@@ -1713,6 +2383,8 @@ extension S3TablesClientTypes {
         /// The date and time the table was created at.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The Amazon Web Services service managing this table, if applicable. For example, a replicated table is managed by the S3 Tables replication service.
+        public var managedByService: Swift.String?
         /// The date and time the table was last modified at.
         /// This member is required.
         public var modifiedAt: Foundation.Date?
@@ -1735,6 +2407,7 @@ extension S3TablesClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            managedByService: Swift.String? = nil,
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: [Swift.String]? = nil,
@@ -1744,6 +2417,7 @@ extension S3TablesClientTypes {
             type: S3TablesClientTypes.TableType? = nil
         ) {
             self.createdAt = createdAt
+            self.managedByService = managedByService
             self.modifiedAt = modifiedAt
             self.name = name
             self.namespace = namespace
@@ -1862,6 +2536,61 @@ public struct PutTableBucketPolicyInput: Swift.Sendable {
     }
 }
 
+public struct PutTableBucketReplicationInput: Swift.Sendable {
+    /// The replication configuration to apply, including the IAM role and replication rules.
+    /// This member is required.
+    public var configuration: S3TablesClientTypes.TableBucketReplicationConfiguration?
+    /// The Amazon Resource Name (ARN) of the source table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+    /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're updating the expected version of the configuration.
+    public var versionToken: Swift.String?
+
+    public init(
+        configuration: S3TablesClientTypes.TableBucketReplicationConfiguration? = nil,
+        tableBucketARN: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.tableBucketARN = tableBucketARN
+        self.versionToken = versionToken
+    }
+}
+
+public struct PutTableBucketReplicationOutput: Swift.Sendable {
+    /// The status of the replication configuration operation.
+    /// This member is required.
+    public var status: Swift.String?
+    /// A new version token representing the updated replication configuration.
+    /// This member is required.
+    public var versionToken: Swift.String?
+
+    public init(
+        status: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.status = status
+        self.versionToken = versionToken
+    }
+}
+
+public struct PutTableBucketStorageClassInput: Swift.Sendable {
+    /// The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket.
+    /// This member is required.
+    public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.storageClassConfiguration = storageClassConfiguration
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
 public struct PutTableMaintenanceConfigurationInput: Swift.Sendable {
     /// The name of the table.
     /// This member is required.
@@ -1918,6 +2647,61 @@ public struct PutTablePolicyInput: Swift.Sendable {
         self.namespace = namespace
         self.resourcePolicy = resourcePolicy
         self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct PutTableRecordExpirationConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+    /// The record expiration configuration to apply to the table, including the status (enabled or disabled) and retention period in days.
+    /// This member is required.
+    public var value: S3TablesClientTypes.TableRecordExpirationConfigurationValue?
+
+    public init(
+        tableArn: Swift.String? = nil,
+        value: S3TablesClientTypes.TableRecordExpirationConfigurationValue? = nil
+    ) {
+        self.tableArn = tableArn
+        self.value = value
+    }
+}
+
+public struct PutTableReplicationInput: Swift.Sendable {
+    /// The replication configuration to apply to the table, including the IAM role and replication rules.
+    /// This member is required.
+    public var configuration: S3TablesClientTypes.TableReplicationConfiguration?
+    /// The Amazon Resource Name (ARN) of the source table.
+    /// This member is required.
+    public var tableArn: Swift.String?
+    /// A version token from a previous GetTableReplication call. Use this token to ensure you're updating the expected version of the configuration.
+    public var versionToken: Swift.String?
+
+    public init(
+        configuration: S3TablesClientTypes.TableReplicationConfiguration? = nil,
+        tableArn: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.tableArn = tableArn
+        self.versionToken = versionToken
+    }
+}
+
+public struct PutTableReplicationOutput: Swift.Sendable {
+    /// The status of the replication configuration operation.
+    /// This member is required.
+    public var status: Swift.String?
+    /// A new version token representing the updated replication configuration.
+    /// This member is required.
+    public var versionToken: Swift.String?
+
+    public init(
+        status: Swift.String? = nil,
+        versionToken: Swift.String? = nil
+    ) {
+        self.status = status
+        self.versionToken = versionToken
     }
 }
 
@@ -2174,6 +2958,31 @@ extension DeleteTableBucketPolicyInput {
     }
 }
 
+extension DeleteTableBucketReplicationInput {
+
+    static func urlPathProvider(_ value: DeleteTableBucketReplicationInput) -> Swift.String? {
+        return "/table-bucket-replication"
+    }
+}
+
+extension DeleteTableBucketReplicationInput {
+
+    static func queryItemProvider(_ value: DeleteTableBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionToken = value.versionToken {
+            let versionTokenQueryItem = Smithy.URIQueryItem(name: "versionToken".urlPercentEncoding(), value: Swift.String(versionToken).urlPercentEncoding())
+            items.append(versionTokenQueryItem)
+        }
+        guard let tableBucketARN = value.tableBucketARN else {
+            let message = "Creating a URL Query Item failed. tableBucketARN is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+        items.append(tableBucketARNQueryItem)
+        return items
+    }
+}
+
 extension DeleteTablePolicyInput {
 
     static func urlPathProvider(_ value: DeleteTablePolicyInput) -> Swift.String? {
@@ -2187,6 +2996,33 @@ extension DeleteTablePolicyInput {
             return nil
         }
         return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteTableReplicationInput {
+
+    static func urlPathProvider(_ value: DeleteTableReplicationInput) -> Swift.String? {
+        return "/table-replication"
+    }
+}
+
+extension DeleteTableReplicationInput {
+
+    static func queryItemProvider(_ value: DeleteTableReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let versionToken = value.versionToken else {
+            let message = "Creating a URL Query Item failed. versionToken is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let versionTokenQueryItem = Smithy.URIQueryItem(name: "versionToken".urlPercentEncoding(), value: Swift.String(versionToken).urlPercentEncoding())
+        items.append(versionTokenQueryItem)
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
     }
 }
 
@@ -2284,6 +3120,37 @@ extension GetTableBucketPolicyInput {
     }
 }
 
+extension GetTableBucketReplicationInput {
+
+    static func urlPathProvider(_ value: GetTableBucketReplicationInput) -> Swift.String? {
+        return "/table-bucket-replication"
+    }
+}
+
+extension GetTableBucketReplicationInput {
+
+    static func queryItemProvider(_ value: GetTableBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableBucketARN = value.tableBucketARN else {
+            let message = "Creating a URL Query Item failed. tableBucketARN is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+        items.append(tableBucketARNQueryItem)
+        return items
+    }
+}
+
+extension GetTableBucketStorageClassInput {
+
+    static func urlPathProvider(_ value: GetTableBucketStorageClassInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/storage-class"
+    }
+}
+
 extension GetTableEncryptionInput {
 
     static func urlPathProvider(_ value: GetTableEncryptionInput) -> Swift.String? {
@@ -2361,6 +3228,106 @@ extension GetTablePolicyInput {
             return nil
         }
         return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension GetTableRecordExpirationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetTableRecordExpirationConfigurationInput) -> Swift.String? {
+        return "/table-record-expiration"
+    }
+}
+
+extension GetTableRecordExpirationConfigurationInput {
+
+    static func queryItemProvider(_ value: GetTableRecordExpirationConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
+extension GetTableRecordExpirationJobStatusInput {
+
+    static func urlPathProvider(_ value: GetTableRecordExpirationJobStatusInput) -> Swift.String? {
+        return "/table-record-expiration-job-status"
+    }
+}
+
+extension GetTableRecordExpirationJobStatusInput {
+
+    static func queryItemProvider(_ value: GetTableRecordExpirationJobStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
+extension GetTableReplicationInput {
+
+    static func urlPathProvider(_ value: GetTableReplicationInput) -> Swift.String? {
+        return "/table-replication"
+    }
+}
+
+extension GetTableReplicationInput {
+
+    static func queryItemProvider(_ value: GetTableReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
+extension GetTableReplicationStatusInput {
+
+    static func urlPathProvider(_ value: GetTableReplicationStatusInput) -> Swift.String? {
+        return "/replication-status"
+    }
+}
+
+extension GetTableReplicationStatusInput {
+
+    static func queryItemProvider(_ value: GetTableReplicationStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
+extension GetTableStorageClassInput {
+
+    static func urlPathProvider(_ value: GetTableStorageClassInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/storage-class"
     }
 }
 
@@ -2512,6 +3479,41 @@ extension PutTableBucketPolicyInput {
     }
 }
 
+extension PutTableBucketReplicationInput {
+
+    static func urlPathProvider(_ value: PutTableBucketReplicationInput) -> Swift.String? {
+        return "/table-bucket-replication"
+    }
+}
+
+extension PutTableBucketReplicationInput {
+
+    static func queryItemProvider(_ value: PutTableBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionToken = value.versionToken {
+            let versionTokenQueryItem = Smithy.URIQueryItem(name: "versionToken".urlPercentEncoding(), value: Swift.String(versionToken).urlPercentEncoding())
+            items.append(versionTokenQueryItem)
+        }
+        guard let tableBucketARN = value.tableBucketARN else {
+            let message = "Creating a URL Query Item failed. tableBucketARN is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+        items.append(tableBucketARNQueryItem)
+        return items
+    }
+}
+
+extension PutTableBucketStorageClassInput {
+
+    static func urlPathProvider(_ value: PutTableBucketStorageClassInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/storage-class"
+    }
+}
+
 extension PutTableMaintenanceConfigurationInput {
 
     static func urlPathProvider(_ value: PutTableMaintenanceConfigurationInput) -> Swift.String? {
@@ -2544,6 +3546,52 @@ extension PutTablePolicyInput {
             return nil
         }
         return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension PutTableRecordExpirationConfigurationInput {
+
+    static func urlPathProvider(_ value: PutTableRecordExpirationConfigurationInput) -> Swift.String? {
+        return "/table-record-expiration"
+    }
+}
+
+extension PutTableRecordExpirationConfigurationInput {
+
+    static func queryItemProvider(_ value: PutTableRecordExpirationConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
+extension PutTableReplicationInput {
+
+    static func urlPathProvider(_ value: PutTableReplicationInput) -> Swift.String? {
+        return "/table-replication"
+    }
+}
+
+extension PutTableReplicationInput {
+
+    static func queryItemProvider(_ value: PutTableReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionToken = value.versionToken {
+            let versionTokenQueryItem = Smithy.URIQueryItem(name: "versionToken".urlPercentEncoding(), value: Swift.String(versionToken).urlPercentEncoding())
+            items.append(versionTokenQueryItem)
+        }
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
     }
 }
 
@@ -2631,6 +3679,7 @@ extension CreateTableInput {
         try writer["format"].write(value.format)
         try writer["metadata"].write(value.metadata, with: S3TablesClientTypes.TableMetadata.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["storageClassConfiguration"].write(value.storageClassConfiguration, with: S3TablesClientTypes.StorageClassConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2641,6 +3690,7 @@ extension CreateTableBucketInput {
         guard let value else { return }
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["storageClassConfiguration"].write(value.storageClassConfiguration, with: S3TablesClientTypes.StorageClassConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2669,6 +3719,22 @@ extension PutTableBucketPolicyInput {
     }
 }
 
+extension PutTableBucketReplicationInput {
+
+    static func write(value: PutTableBucketReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: S3TablesClientTypes.TableBucketReplicationConfiguration.write(value:to:))
+    }
+}
+
+extension PutTableBucketStorageClassInput {
+
+    static func write(value: PutTableBucketStorageClassInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageClassConfiguration"].write(value.storageClassConfiguration, with: S3TablesClientTypes.StorageClassConfiguration.write(value:to:))
+    }
+}
+
 extension PutTableMaintenanceConfigurationInput {
 
     static func write(value: PutTableMaintenanceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -2682,6 +3748,22 @@ extension PutTablePolicyInput {
     static func write(value: PutTablePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourcePolicy"].write(value.resourcePolicy)
+    }
+}
+
+extension PutTableRecordExpirationConfigurationInput {
+
+    static func write(value: PutTableRecordExpirationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["value"].write(value.value, with: S3TablesClientTypes.TableRecordExpirationConfigurationValue.write(value:to:))
+    }
+}
+
+extension PutTableReplicationInput {
+
+    static func write(value: PutTableReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: S3TablesClientTypes.TableReplicationConfiguration.write(value:to:))
     }
 }
 
@@ -2792,10 +3874,24 @@ extension DeleteTableBucketPolicyOutput {
     }
 }
 
+extension DeleteTableBucketReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableBucketReplicationOutput {
+        return DeleteTableBucketReplicationOutput()
+    }
+}
+
 extension DeleteTablePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTablePolicyOutput {
         return DeleteTablePolicyOutput()
+    }
+}
+
+extension DeleteTableReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableReplicationOutput {
+        return DeleteTableReplicationOutput()
     }
 }
 
@@ -2827,6 +3923,7 @@ extension GetTableOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.managedByService = try reader["managedByService"].readIfPresent()
+        value.managedTableInformation = try reader["managedTableInformation"].readIfPresent(with: S3TablesClientTypes.ManagedTableInformation.read(from:))
         value.metadataLocation = try reader["metadataLocation"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedBy = try reader["modifiedBy"].readIfPresent() ?? ""
@@ -2910,6 +4007,31 @@ extension GetTableBucketPolicyOutput {
     }
 }
 
+extension GetTableBucketReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableBucketReplicationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: S3TablesClientTypes.TableBucketReplicationConfiguration.read(from:))
+        value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableBucketStorageClassOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketStorageClassOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableBucketStorageClassOutput()
+        value.storageClassConfiguration = try reader["storageClassConfiguration"].readIfPresent(with: S3TablesClientTypes.StorageClassConfiguration.read(from:))
+        return value
+    }
+}
+
 extension GetTableEncryptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableEncryptionOutput {
@@ -2970,6 +4092,71 @@ extension GetTablePolicyOutput {
         let reader = responseReader
         var value = GetTablePolicyOutput()
         value.resourcePolicy = try reader["resourcePolicy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableRecordExpirationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableRecordExpirationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableRecordExpirationConfigurationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: S3TablesClientTypes.TableRecordExpirationConfigurationValue.read(from:))
+        return value
+    }
+}
+
+extension GetTableRecordExpirationJobStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableRecordExpirationJobStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableRecordExpirationJobStatusOutput()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.lastRunTimestamp = try reader["lastRunTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metrics = try reader["metrics"].readIfPresent(with: S3TablesClientTypes.TableRecordExpirationJobMetrics.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetTableReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableReplicationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: S3TablesClientTypes.TableReplicationConfiguration.read(from:))
+        value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableReplicationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableReplicationStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableReplicationStatusOutput()
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.ReplicationDestinationStatusModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceTableArn = try reader["sourceTableArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableStorageClassOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableStorageClassOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableStorageClassOutput()
+        value.storageClassConfiguration = try reader["storageClassConfiguration"].readIfPresent(with: S3TablesClientTypes.StorageClassConfiguration.read(from:))
         return value
     }
 }
@@ -3053,6 +4240,26 @@ extension PutTableBucketPolicyOutput {
     }
 }
 
+extension PutTableBucketReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutTableBucketReplicationOutput()
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PutTableBucketStorageClassOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketStorageClassOutput {
+        return PutTableBucketStorageClassOutput()
+    }
+}
+
 extension PutTableMaintenanceConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableMaintenanceConfigurationOutput {
@@ -3064,6 +4271,26 @@ extension PutTablePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTablePolicyOutput {
         return PutTablePolicyOutput()
+    }
+}
+
+extension PutTableRecordExpirationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableRecordExpirationConfigurationOutput {
+        return PutTableRecordExpirationConfigurationOutput()
+    }
+}
+
+extension PutTableReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutTableReplicationOutput()
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -3275,6 +4502,26 @@ enum DeleteTableBucketPolicyOutputError {
     }
 }
 
+enum DeleteTableBucketReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTablePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3283,6 +4530,26 @@ enum DeleteTablePolicyOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTableReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3430,6 +4697,45 @@ enum GetTableBucketPolicyOutputError {
     }
 }
 
+enum GetTableBucketReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableBucketStorageClassOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTableEncryptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3516,6 +4822,102 @@ enum GetTablePolicyOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableRecordExpirationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableRecordExpirationJobStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableReplicationStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableStorageClassOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -3679,6 +5081,45 @@ enum PutTableBucketPolicyOutputError {
     }
 }
 
+enum PutTableBucketReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTableBucketStorageClassOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutTableMaintenanceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3706,6 +5147,45 @@ enum PutTablePolicyOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTableRecordExpirationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTableReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -3884,6 +5364,39 @@ extension AccessDeniedException {
     }
 }
 
+extension MethodNotAllowedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
+        let reader = baseError.errorBodyReader
+        var value = MethodNotAllowedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ManagedTableInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ManagedTableInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ManagedTableInformation()
+        value.replicationInformation = try reader["replicationInformation"].readIfPresent(with: S3TablesClientTypes.ReplicationInformation.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationInformation()
+        value.sourceTableARN = try reader["sourceTableARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension S3TablesClientTypes.EncryptionConfiguration {
 
     static func write(value: S3TablesClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3955,6 +5468,68 @@ extension S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings {
         var value = S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings()
         value.unreferencedDays = try reader["unreferencedDays"].readIfPresent()
         value.nonCurrentDays = try reader["nonCurrentDays"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableBucketReplicationConfiguration {
+
+    static func write(value: S3TablesClientTypes.TableBucketReplicationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["role"].write(value.role)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: S3TablesClientTypes.TableBucketReplicationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableBucketReplicationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableBucketReplicationConfiguration()
+        value.role = try reader["role"].readIfPresent() ?? ""
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.TableBucketReplicationRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableBucketReplicationRule {
+
+    static func write(value: S3TablesClientTypes.TableBucketReplicationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: S3TablesClientTypes.ReplicationDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableBucketReplicationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableBucketReplicationRule()
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.ReplicationDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationDestination {
+
+    static func write(value: S3TablesClientTypes.ReplicationDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTableBucketARN"].write(value.destinationTableBucketARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationDestination()
+        value.destinationTableBucketARN = try reader["destinationTableBucketARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension S3TablesClientTypes.StorageClassConfiguration {
+
+    static func write(value: S3TablesClientTypes.StorageClassConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageClass"].write(value.storageClass)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.StorageClassConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.StorageClassConfiguration()
+        value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4050,6 +5625,107 @@ extension S3TablesClientTypes.TableMaintenanceJobStatusValue {
     }
 }
 
+extension S3TablesClientTypes.TableRecordExpirationConfigurationValue {
+
+    static func write(value: S3TablesClientTypes.TableRecordExpirationConfigurationValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["settings"].write(value.settings, with: S3TablesClientTypes.TableRecordExpirationSettings.write(value:to:))
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableRecordExpirationConfigurationValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableRecordExpirationConfigurationValue()
+        value.status = try reader["status"].readIfPresent()
+        value.settings = try reader["settings"].readIfPresent(with: S3TablesClientTypes.TableRecordExpirationSettings.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableRecordExpirationSettings {
+
+    static func write(value: S3TablesClientTypes.TableRecordExpirationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["days"].write(value.days)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableRecordExpirationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableRecordExpirationSettings()
+        value.days = try reader["days"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableRecordExpirationJobMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableRecordExpirationJobMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableRecordExpirationJobMetrics()
+        value.deletedDataFiles = try reader["deletedDataFiles"].readIfPresent()
+        value.deletedRecords = try reader["deletedRecords"].readIfPresent()
+        value.removedFilesSize = try reader["removedFilesSize"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableReplicationConfiguration {
+
+    static func write(value: S3TablesClientTypes.TableReplicationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["role"].write(value.role)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: S3TablesClientTypes.TableReplicationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableReplicationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableReplicationConfiguration()
+        value.role = try reader["role"].readIfPresent() ?? ""
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.TableReplicationRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableReplicationRule {
+
+    static func write(value: S3TablesClientTypes.TableReplicationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: S3TablesClientTypes.ReplicationDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableReplicationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableReplicationRule()
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.ReplicationDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationDestinationStatusModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestinationStatusModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationDestinationStatusModel()
+        value.replicationStatus = try reader["replicationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.destinationTableBucketArn = try reader["destinationTableBucketArn"].readIfPresent() ?? ""
+        value.destinationTableArn = try reader["destinationTableArn"].readIfPresent()
+        value.lastSuccessfulReplicatedUpdate = try reader["lastSuccessfulReplicatedUpdate"].readIfPresent(with: S3TablesClientTypes.LastSuccessfulReplicatedUpdate.read(from:))
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.LastSuccessfulReplicatedUpdate()
+        value.metadataLocation = try reader["metadataLocation"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension S3TablesClientTypes.NamespaceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.NamespaceSummary {
@@ -4091,6 +5767,7 @@ extension S3TablesClientTypes.TableSummary {
         value.tableARN = try reader["tableARN"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.managedByService = try reader["managedByService"].readIfPresent()
         value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
@@ -4114,6 +5791,7 @@ extension S3TablesClientTypes.IcebergMetadata {
 
     static func write(value: S3TablesClientTypes.IcebergMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
     }
 }

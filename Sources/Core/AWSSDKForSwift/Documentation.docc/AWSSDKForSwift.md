@@ -639,6 +639,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNotificationsContacts](../../../../../swift/api/awsnotificationscontacts/latest)
 
+[AWSNovaAct](../../../../../swift/api/awsnovaact/latest)
+
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
@@ -662,6 +664,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
+
+[AWSPartnerCentralAccount](../../../../../swift/api/awspartnercentralaccount/latest)
+
+[AWSPartnerCentralBenefits](../../../../../swift/api/awspartnercentralbenefits/latest)
 
 [AWSPartnerCentralChannel](../../../../../swift/api/awspartnercentralchannel/latest)
 
@@ -740,6 +746,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRoute53](../../../../../swift/api/awsroute53/latest)
 
 [AWSRoute53Domains](../../../../../swift/api/awsroute53domains/latest)
+
+[AWSRoute53GlobalResolver](../../../../../swift/api/awsroute53globalresolver/latest)
 
 [AWSRoute53Profiles](../../../../../swift/api/awsroute53profiles/latest)
 

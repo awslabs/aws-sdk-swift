@@ -389,15 +389,48 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension PersonalizeClientTypes {
 
+    public enum RankingInfluenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case freshness
+        case popularity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RankingInfluenceType] {
+            return [
+                .freshness,
+                .popularity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .freshness: return "FRESHNESS"
+            case .popularity: return "POPULARITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PersonalizeClientTypes {
+
     /// The configuration details of a batch inference job.
     public struct BatchInferenceJobConfig: Swift.Sendable {
         /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html).
         public var itemExplorationConfig: [Swift.String: Swift.String]?
+        /// A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence.
+        public var rankingInfluence: [Swift.String: Swift.Double]?
 
         public init(
-            itemExplorationConfig: [Swift.String: Swift.String]? = nil
+            itemExplorationConfig: [Swift.String: Swift.String]? = nil,
+            rankingInfluence: [Swift.String: Swift.Double]? = nil
         ) {
             self.itemExplorationConfig = itemExplorationConfig
+            self.rankingInfluence = rankingInfluence
         }
     }
 }
@@ -703,16 +736,20 @@ extension PersonalizeClientTypes {
         public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe.
         public var itemExplorationConfig: [Swift.String: Swift.String]?
+        /// A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence.
+        public var rankingInfluence: [Swift.String: Swift.Double]?
         /// Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True, you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version. For more information about automatic campaign updates, see [Enabling automatic campaign updates](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
         public var syncWithLatestSolutionVersion: Swift.Bool?
 
         public init(
             enableMetadataWithRecommendations: Swift.Bool? = nil,
             itemExplorationConfig: [Swift.String: Swift.String]? = nil,
+            rankingInfluence: [Swift.String: Swift.Double]? = nil,
             syncWithLatestSolutionVersion: Swift.Bool? = nil
         ) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
+            self.rankingInfluence = rankingInfluence
             self.syncWithLatestSolutionVersion = syncWithLatestSolutionVersion
         }
     }
@@ -1081,7 +1118,6 @@ public struct CreateDatasetImportJobInput: Swift.Sendable {
     /// If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3
     public var publishAttributionMetricsToS3: Swift.Bool?
     /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the dataset import job.
     public var tags: [PersonalizeClientTypes.Tag]?
@@ -1284,11 +1320,15 @@ extension PersonalizeClientTypes {
     public struct TrainingDataConfig: Swift.Sendable {
         /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public var excludedDatasetColumns: [Swift.String: [Swift.String]]?
+        /// A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 characters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or underscore, and can contain only letters, numbers, and underscores.
+        public var includedDatasetColumns: [Swift.String: [Swift.String]]?
 
         public init(
-            excludedDatasetColumns: [Swift.String: [Swift.String]]? = nil
+            excludedDatasetColumns: [Swift.String: [Swift.String]]? = nil,
+            includedDatasetColumns: [Swift.String: [Swift.String]]? = nil
         ) {
             self.excludedDatasetColumns = excludedDatasetColumns
+            self.includedDatasetColumns = includedDatasetColumns
         }
     }
 }
@@ -1734,6 +1774,8 @@ public struct CreateSolutionInput: Swift.Sendable {
     public var performAutoTraining: Swift.Bool?
     /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
     public var performHPO: Swift.Bool?
+    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+    public var performIncrementalUpdate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
     public var recipeArn: Swift.String?
     /// The configuration properties for the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration. Amazon Personalize doesn't support configuring the hpoObjective at this time.
@@ -1748,6 +1790,7 @@ public struct CreateSolutionInput: Swift.Sendable {
         performAutoML: Swift.Bool? = false,
         performAutoTraining: Swift.Bool? = nil,
         performHPO: Swift.Bool? = nil,
+        performIncrementalUpdate: Swift.Bool? = nil,
         recipeArn: Swift.String? = nil,
         solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
@@ -1758,6 +1801,7 @@ public struct CreateSolutionInput: Swift.Sendable {
         self.performAutoML = performAutoML
         self.performAutoTraining = performAutoTraining
         self.performHPO = performHPO
+        self.performIncrementalUpdate = performIncrementalUpdate
         self.recipeArn = recipeArn
         self.solutionConfig = solutionConfig
         self.tags = tags
@@ -2234,7 +2278,7 @@ extension PersonalizeClientTypes {
         public var failureReason: Swift.String?
         /// The date and time (in Unix format) that the campaign was last updated.
         public var lastUpdatedDateTime: Foundation.Date?
-        /// Provides a summary of the properties of a campaign update. For a complete listing, call the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) API.
+        /// Provides a summary of the properties of a campaign update. For a complete listing, call the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) API. The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call.
         public var latestCampaignUpdate: PersonalizeClientTypes.CampaignUpdateSummary?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.
         public var minProvisionedTPS: Swift.Int?
@@ -2276,7 +2320,7 @@ extension PersonalizeClientTypes {
 }
 
 public struct DescribeCampaignOutput: Swift.Sendable {
-    /// The properties of the campaign.
+    /// The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call. The properties of the campaign. The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call.
     public var campaign: PersonalizeClientTypes.Campaign?
 
     public init(
@@ -3313,6 +3357,8 @@ extension PersonalizeClientTypes {
         public var lastUpdatedDateTime: Foundation.Date?
         /// Whether the solution automatically creates solution versions.
         public var performAutoTraining: Swift.Bool?
+        /// A Boolean value that indicates whether incremental training updates are performed on the model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+        public var performIncrementalUpdate: Swift.Bool?
         /// The configuration details of the solution.
         public var solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig?
         /// The status of the solution update. A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -3323,6 +3369,7 @@ extension PersonalizeClientTypes {
             failureReason: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             performAutoTraining: Swift.Bool? = nil,
+            performIncrementalUpdate: Swift.Bool? = nil,
             solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil,
             status: Swift.String? = nil
         ) {
@@ -3330,6 +3377,7 @@ extension PersonalizeClientTypes {
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.performAutoTraining = performAutoTraining
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.solutionUpdateConfig = solutionUpdateConfig
             self.status = status
         }
@@ -3432,6 +3480,8 @@ extension PersonalizeClientTypes {
         public var performAutoTraining: Swift.Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public var performHPO: Swift.Bool
+        /// A Boolean value that indicates whether incremental training updates are performed on the model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe
+        public var performIncrementalUpdate: Swift.Bool?
         /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
         public var recipeArn: Swift.String?
         /// The ARN of the solution.
@@ -3457,6 +3507,7 @@ extension PersonalizeClientTypes {
             performAutoML: Swift.Bool = false,
             performAutoTraining: Swift.Bool? = nil,
             performHPO: Swift.Bool = false,
+            performIncrementalUpdate: Swift.Bool? = nil,
             recipeArn: Swift.String? = nil,
             solutionArn: Swift.String? = nil,
             solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
@@ -3473,6 +3524,7 @@ extension PersonalizeClientTypes {
             self.performAutoML = performAutoML
             self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.solutionConfig = solutionConfig
@@ -3539,6 +3591,8 @@ extension PersonalizeClientTypes {
         public var performAutoML: Swift.Bool
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public var performHPO: Swift.Bool
+        /// Whether the solution version should perform an incremental update. When set to true, the training will process only the data that has changed since the latest training, similar to when trainingMode is set to UPDATE. This can only be used with solution versions that use the User-Personalization recipe.
+        public var performIncrementalUpdate: Swift.Bool?
         /// The ARN of the recipe used in the solution.
         public var recipeArn: Swift.String?
         /// The ARN of the solution.
@@ -3579,6 +3633,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             performAutoML: Swift.Bool = false,
             performHPO: Swift.Bool = false,
+            performIncrementalUpdate: Swift.Bool? = nil,
             recipeArn: Swift.String? = nil,
             solutionArn: Swift.String? = nil,
             solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
@@ -3597,6 +3652,7 @@ extension PersonalizeClientTypes {
             self.name = name
             self.performAutoML = performAutoML
             self.performHPO = performHPO
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.solutionConfig = solutionConfig
@@ -5161,6 +5217,8 @@ public struct UpdateRecommenderOutput: Swift.Sendable {
 public struct UpdateSolutionInput: Swift.Sendable {
     /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
     public var performAutoTraining: Swift.Bool?
+    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+    public var performIncrementalUpdate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the solution to update.
     /// This member is required.
     public var solutionArn: Swift.String?
@@ -5169,10 +5227,12 @@ public struct UpdateSolutionInput: Swift.Sendable {
 
     public init(
         performAutoTraining: Swift.Bool? = nil,
+        performIncrementalUpdate: Swift.Bool? = nil,
         solutionArn: Swift.String? = nil,
         solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil
     ) {
         self.performAutoTraining = performAutoTraining
+        self.performIncrementalUpdate = performIncrementalUpdate
         self.solutionArn = solutionArn
         self.solutionUpdateConfig = solutionUpdateConfig
     }
@@ -5858,6 +5918,7 @@ extension CreateSolutionInput {
         try writer["performAutoML"].write(value.performAutoML)
         try writer["performAutoTraining"].write(value.performAutoTraining)
         try writer["performHPO"].write(value.performHPO)
+        try writer["performIncrementalUpdate"].write(value.performIncrementalUpdate)
         try writer["recipeArn"].write(value.recipeArn)
         try writer["solutionConfig"].write(value.solutionConfig, with: PersonalizeClientTypes.SolutionConfig.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: PersonalizeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6363,6 +6424,7 @@ extension UpdateSolutionInput {
     static func write(value: UpdateSolutionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["performAutoTraining"].write(value.performAutoTraining)
+        try writer["performIncrementalUpdate"].write(value.performIncrementalUpdate)
         try writer["solutionArn"].write(value.solutionArn)
         try writer["solutionUpdateConfig"].write(value.solutionUpdateConfig, with: PersonalizeClientTypes.SolutionUpdateConfig.write(value:to:))
     }
@@ -8566,12 +8628,14 @@ extension PersonalizeClientTypes.BatchInferenceJobConfig {
     static func write(value: PersonalizeClientTypes.BatchInferenceJobConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["itemExplorationConfig"].writeMap(value.itemExplorationConfig, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["rankingInfluence"].writeMap(value.rankingInfluence, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.BatchInferenceJobConfig()
         value.itemExplorationConfig = try reader["itemExplorationConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.rankingInfluence = try reader["rankingInfluence"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8715,6 +8779,7 @@ extension PersonalizeClientTypes.CampaignConfig {
         guard let value else { return }
         try writer["enableMetadataWithRecommendations"].write(value.enableMetadataWithRecommendations)
         try writer["itemExplorationConfig"].writeMap(value.itemExplorationConfig, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["rankingInfluence"].writeMap(value.rankingInfluence, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["syncWithLatestSolutionVersion"].write(value.syncWithLatestSolutionVersion)
     }
 
@@ -8724,6 +8789,7 @@ extension PersonalizeClientTypes.CampaignConfig {
         value.itemExplorationConfig = try reader["itemExplorationConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.enableMetadataWithRecommendations = try reader["enableMetadataWithRecommendations"].readIfPresent()
         value.syncWithLatestSolutionVersion = try reader["syncWithLatestSolutionVersion"].readIfPresent()
+        value.rankingInfluence = try reader["rankingInfluence"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9028,12 +9094,14 @@ extension PersonalizeClientTypes.TrainingDataConfig {
     static func write(value: PersonalizeClientTypes.TrainingDataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["excludedDatasetColumns"].writeMap(value.excludedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["includedDatasetColumns"].writeMap(value.includedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TrainingDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.TrainingDataConfig()
         value.excludedDatasetColumns = try reader["excludedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.includedDatasetColumns = try reader["includedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9063,6 +9131,7 @@ extension PersonalizeClientTypes.Solution {
         value.performHPO = try reader["performHPO"].readIfPresent() ?? false
         value.performAutoML = try reader["performAutoML"].readIfPresent() ?? false
         value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
+        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
         value.recipeArn = try reader["recipeArn"].readIfPresent()
         value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
         value.eventType = try reader["eventType"].readIfPresent()
@@ -9085,6 +9154,7 @@ extension PersonalizeClientTypes.SolutionUpdateSummary {
         value.solutionUpdateConfig = try reader["solutionUpdateConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateConfig.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
+        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureReason = try reader["failureReason"].readIfPresent()
@@ -9388,6 +9458,7 @@ extension PersonalizeClientTypes.SolutionVersion {
         value.solutionArn = try reader["solutionArn"].readIfPresent()
         value.performHPO = try reader["performHPO"].readIfPresent() ?? false
         value.performAutoML = try reader["performAutoML"].readIfPresent() ?? false
+        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
         value.recipeArn = try reader["recipeArn"].readIfPresent()
         value.eventType = try reader["eventType"].readIfPresent()
         value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()

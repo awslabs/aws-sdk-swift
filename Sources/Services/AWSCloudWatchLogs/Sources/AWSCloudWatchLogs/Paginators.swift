@@ -528,3 +528,34 @@ extension PaginatorSequence where OperationStackInput == ListScheduledQueriesInp
         return try await self.asyncCompactMap { item in item.scheduledQueries }
     }
 }
+extension CloudWatchLogsClient {
+    /// Paginate over `[ListSourcesForS3TableIntegrationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSourcesForS3TableIntegrationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSourcesForS3TableIntegrationOutput`
+    public func listSourcesForS3TableIntegrationPaginated(input: ListSourcesForS3TableIntegrationInput) -> ClientRuntime.PaginatorSequence<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput> {
+        return ClientRuntime.PaginatorSequence<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSourcesForS3TableIntegration(input:))
+    }
+}
+
+extension ListSourcesForS3TableIntegrationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSourcesForS3TableIntegrationInput {
+        return ListSourcesForS3TableIntegrationInput(
+            integrationArn: self.integrationArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSourcesForS3TableIntegrationInput, OperationStackOutput == ListSourcesForS3TableIntegrationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSourcesForS3TableIntegrationPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.S3TableIntegrationSource]`
+    /// - Returns: `[CloudWatchLogsClientTypes.S3TableIntegrationSource]`
+    public func sources() async throws -> [CloudWatchLogsClientTypes.S3TableIntegrationSource] {
+        return try await self.asyncCompactMap { item in item.sources }
+    }
+}
