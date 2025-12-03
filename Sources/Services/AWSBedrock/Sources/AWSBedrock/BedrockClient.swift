@@ -7196,6 +7196,79 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCustomModelDeployment` operation on the `Bedrock` service.
+    ///
+    /// Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomModelDeploymentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCustomModelDeploymentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func updateCustomModelDeployment(input: UpdateCustomModelDeploymentInput) async throws -> UpdateCustomModelDeploymentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCustomModelDeployment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(UpdateCustomModelDeploymentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCustomModelDeploymentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomModelDeploymentOutput>(UpdateCustomModelDeploymentOutput.httpOutput(from:), UpdateCustomModelDeploymentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomModelDeploymentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCustomModelDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCustomModelDeployment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateGuardrail` operation on the `Bedrock` service.
     ///
     /// Updates a guardrail with the values you specify.

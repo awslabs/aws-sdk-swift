@@ -4109,6 +4109,59 @@ extension BedrockClientTypes {
     }
 }
 
+extension BedrockClientTypes {
+
+    public enum CustomModelDeploymentUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updateCompleted
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomModelDeploymentUpdateStatus] {
+            return [
+                .updateCompleted,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .updateCompleted: return "UpdateCompleted"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Details about an update to a custom model deployment, including the new custom model resource ARN and current update status.
+    public struct CustomModelDeploymentUpdateDetails: Swift.Sendable {
+        /// ARN of the new custom model being deployed as part of the update.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// Current status of the deployment update.
+        /// This member is required.
+        public var updateStatus: BedrockClientTypes.CustomModelDeploymentUpdateStatus?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            updateStatus: BedrockClientTypes.CustomModelDeploymentUpdateStatus? = nil
+        ) {
+            self.modelArn = modelArn
+            self.updateStatus = updateStatus
+        }
+    }
+}
+
 public struct GetCustomModelDeploymentOutput: Swift.Sendable {
     /// The date and time when the custom model deployment was created.
     /// This member is required.
@@ -4137,6 +4190,8 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
     /// * FAILED - The deployment failed to be created or became unavailable.
     /// This member is required.
     public var status: BedrockClientTypes.CustomModelDeploymentStatus?
+    /// Details about any pending or completed updates to the custom model deployment, including the new model ARN and update status.
+    public var updateDetails: BedrockClientTypes.CustomModelDeploymentUpdateDetails?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -4146,7 +4201,8 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         modelArn: Swift.String? = nil,
         modelDeploymentName: Swift.String? = nil,
-        status: BedrockClientTypes.CustomModelDeploymentStatus? = nil
+        status: BedrockClientTypes.CustomModelDeploymentStatus? = nil,
+        updateDetails: BedrockClientTypes.CustomModelDeploymentUpdateDetails? = nil
     ) {
         self.createdAt = createdAt
         self.customModelDeploymentArn = customModelDeploymentArn
@@ -4156,6 +4212,7 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
         self.modelArn = modelArn
         self.modelDeploymentName = modelDeploymentName
         self.status = status
+        self.updateDetails = updateDetails
     }
 }
 
@@ -4316,6 +4373,35 @@ public struct ListCustomModelDeploymentsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateCustomModelDeploymentInput: Swift.Sendable {
+    /// Identifier of the custom model deployment to update with the new custom model.
+    /// This member is required.
+    public var customModelDeploymentIdentifier: Swift.String?
+    /// ARN of the new custom model to deploy. This replaces the currently deployed model.
+    /// This member is required.
+    public var modelArn: Swift.String?
+
+    public init(
+        customModelDeploymentIdentifier: Swift.String? = nil,
+        modelArn: Swift.String? = nil
+    ) {
+        self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+        self.modelArn = modelArn
+    }
+}
+
+public struct UpdateCustomModelDeploymentOutput: Swift.Sendable {
+    /// ARN of the custom model deployment being updated.
+    /// This member is required.
+    public var customModelDeploymentArn: Swift.String?
+
+    public init(
+        customModelDeploymentArn: Swift.String? = nil
+    ) {
+        self.customModelDeploymentArn = customModelDeploymentArn
+    }
+}
+
 extension BedrockClientTypes {
 
     /// The Amazon S3 data source of the model to import.
@@ -4454,10 +4540,132 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Configuration for using an AWS Lambda function to grade model responses during reinforcement fine-tuning training.
+    public struct LambdaGraderConfig: Swift.Sendable {
+        /// ARN of the AWS Lambda function that will evaluate model responses and return reward scores for RFT training.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+
+        public init(
+            lambdaArn: Swift.String? = nil
+        ) {
+            self.lambdaArn = lambdaArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for the grader used in reinforcement fine-tuning to evaluate model responses and provide reward signals.
+    public enum GraderConfig: Swift.Sendable {
+        /// Configuration for using an AWS Lambda function as the grader for evaluating model responses and provide reward signals in reinforcement fine-tuning.
+        case lambdagrader(BedrockClientTypes.LambdaGraderConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ReasoningEffort: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReasoningEffort] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "high"
+            case .low: return "low"
+            case .medium: return "medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Hyperparameters for controlling the reinforcement fine-tuning training process, including learning settings and evaluation intervals.
+    public struct RFTHyperParameters: Swift.Sendable {
+        /// Number of training samples processed in each batch during reinforcement fine-tuning (RFT) training. Larger batches may improve training stability.
+        public var batchSize: Swift.Int?
+        /// Number of training epochs to run during reinforcement fine-tuning. Higher values may improve performance but increase training time.
+        public var epochCount: Swift.Int?
+        /// Interval between evaluation runs during RFT training, measured in training steps. More frequent evaluation provides better monitoring.
+        public var evalInterval: Swift.Int?
+        /// Maximum number of tokens the model can generate in response to each prompt during RFT training.
+        public var inferenceMaxTokens: Swift.Int?
+        /// Learning rate for the reinforcement fine-tuning. Controls how quickly the model adapts to reward signals.
+        public var learningRate: Swift.Float?
+        /// Maximum length of input prompts during RFT training, measured in tokens. Longer prompts allow more context but increase memory usage and training-time.
+        public var maxPromptLength: Swift.Int?
+        /// Level of reasoning effort applied during RFT training. Higher values may improve response quality but increase training time.
+        public var reasoningEffort: BedrockClientTypes.ReasoningEffort?
+        /// Number of response samples generated per prompt during RFT training. More samples provide better reward signal estimation.
+        public var trainingSamplePerPrompt: Swift.Int?
+
+        public init(
+            batchSize: Swift.Int? = nil,
+            epochCount: Swift.Int? = nil,
+            evalInterval: Swift.Int? = nil,
+            inferenceMaxTokens: Swift.Int? = nil,
+            learningRate: Swift.Float? = nil,
+            maxPromptLength: Swift.Int? = nil,
+            reasoningEffort: BedrockClientTypes.ReasoningEffort? = nil,
+            trainingSamplePerPrompt: Swift.Int? = nil
+        ) {
+            self.batchSize = batchSize
+            self.epochCount = epochCount
+            self.evalInterval = evalInterval
+            self.inferenceMaxTokens = inferenceMaxTokens
+            self.learningRate = learningRate
+            self.maxPromptLength = maxPromptLength
+            self.reasoningEffort = reasoningEffort
+            self.trainingSamplePerPrompt = trainingSamplePerPrompt
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration settings for reinforcement fine-tuning (RFT), including grader configuration and training hyperparameters.
+    public struct RFTConfig: Swift.Sendable {
+        /// Configuration for the grader that evaluates model responses and provides reward signals during RFT training.
+        public var graderConfig: BedrockClientTypes.GraderConfig?
+        /// Hyperparameters that control the reinforcement fine-tuning training process, including learning rate, batch size, and epoch count.
+        public var hyperParameters: BedrockClientTypes.RFTHyperParameters?
+
+        public init(
+            graderConfig: BedrockClientTypes.GraderConfig? = nil,
+            hyperParameters: BedrockClientTypes.RFTHyperParameters? = nil
+        ) {
+            self.graderConfig = graderConfig
+            self.hyperParameters = hyperParameters
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// A model customization configuration
     public enum CustomizationConfig: Swift.Sendable {
         /// The Distillation configuration for the custom model.
         case distillationconfig(BedrockClientTypes.DistillationConfig)
+        /// Configuration settings for reinforcement fine-tuning (RFT) model customization, including grader configuration and hyperparameters.
+        case rftconfig(BedrockClientTypes.RFTConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4469,6 +4677,7 @@ extension BedrockClientTypes {
         case distillation
         case fineTuning
         case imported
+        case reinforcementFineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomizationType] {
@@ -4476,7 +4685,8 @@ extension BedrockClientTypes {
                 .continuedPreTraining,
                 .distillation,
                 .fineTuning,
-                .imported
+                .imported,
+                .reinforcementFineTuning
             ]
         }
 
@@ -4491,6 +4701,7 @@ extension BedrockClientTypes {
             case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case .imported: return "IMPORTED"
+            case .reinforcementFineTuning: return "REINFORCEMENT_FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14429,6 +14640,16 @@ extension UpdateAutomatedReasoningPolicyTestCaseInput {
     }
 }
 
+extension UpdateCustomModelDeploymentInput {
+
+    static func urlPathProvider(_ value: UpdateCustomModelDeploymentInput) -> Swift.String? {
+        guard let customModelDeploymentIdentifier = value.customModelDeploymentIdentifier else {
+            return nil
+        }
+        return "/model-customization/custom-model-deployments/\(customModelDeploymentIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateGuardrailInput {
 
     static func urlPathProvider(_ value: UpdateGuardrailInput) -> Swift.String? {
@@ -14814,6 +15035,14 @@ extension UpdateAutomatedReasoningPolicyTestCaseInput {
         try writer["guardContent"].write(value.guardContent)
         try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["queryContent"].write(value.queryContent)
+    }
+}
+
+extension UpdateCustomModelDeploymentInput {
+
+    static func write(value: UpdateCustomModelDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
     }
 }
 
@@ -15364,6 +15593,7 @@ extension GetCustomModelDeploymentOutput {
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.modelDeploymentName = try reader["modelDeploymentName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateDetails = try reader["updateDetails"].readIfPresent(with: BedrockClientTypes.CustomModelDeploymentUpdateDetails.read(from:))
         return value
     }
 }
@@ -16090,6 +16320,18 @@ extension UpdateAutomatedReasoningPolicyTestCaseOutput {
         var value = UpdateAutomatedReasoningPolicyTestCaseOutput()
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         value.testCaseId = try reader["testCaseId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateCustomModelDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomModelDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCustomModelDeploymentOutput()
+        value.customModelDeploymentArn = try reader["customModelDeploymentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17871,6 +18113,24 @@ enum UpdateAutomatedReasoningPolicyTestCaseOutputError {
     }
 }
 
+enum UpdateCustomModelDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateGuardrailOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19335,6 +19595,8 @@ extension BedrockClientTypes.CustomizationConfig {
         switch value {
             case let .distillationconfig(distillationconfig):
                 try writer["distillationConfig"].write(distillationconfig, with: BedrockClientTypes.DistillationConfig.write(value:to:))
+            case let .rftconfig(rftconfig):
+                try writer["rftConfig"].write(rftconfig, with: BedrockClientTypes.RFTConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -19346,9 +19608,96 @@ extension BedrockClientTypes.CustomizationConfig {
         switch name {
             case "distillationConfig":
                 return .distillationconfig(try reader["distillationConfig"].read(with: BedrockClientTypes.DistillationConfig.read(from:)))
+            case "rftConfig":
+                return .rftconfig(try reader["rftConfig"].read(with: BedrockClientTypes.RFTConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.RFTConfig {
+
+    static func write(value: BedrockClientTypes.RFTConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["graderConfig"].write(value.graderConfig, with: BedrockClientTypes.GraderConfig.write(value:to:))
+        try writer["hyperParameters"].write(value.hyperParameters, with: BedrockClientTypes.RFTHyperParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RFTConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RFTConfig()
+        value.graderConfig = try reader["graderConfig"].readIfPresent(with: BedrockClientTypes.GraderConfig.read(from:))
+        value.hyperParameters = try reader["hyperParameters"].readIfPresent(with: BedrockClientTypes.RFTHyperParameters.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RFTHyperParameters {
+
+    static func write(value: BedrockClientTypes.RFTHyperParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchSize"].write(value.batchSize)
+        try writer["epochCount"].write(value.epochCount)
+        try writer["evalInterval"].write(value.evalInterval)
+        try writer["inferenceMaxTokens"].write(value.inferenceMaxTokens)
+        try writer["learningRate"].write(value.learningRate)
+        try writer["maxPromptLength"].write(value.maxPromptLength)
+        try writer["reasoningEffort"].write(value.reasoningEffort)
+        try writer["trainingSamplePerPrompt"].write(value.trainingSamplePerPrompt)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RFTHyperParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RFTHyperParameters()
+        value.epochCount = try reader["epochCount"].readIfPresent()
+        value.batchSize = try reader["batchSize"].readIfPresent()
+        value.learningRate = try reader["learningRate"].readIfPresent()
+        value.maxPromptLength = try reader["maxPromptLength"].readIfPresent()
+        value.trainingSamplePerPrompt = try reader["trainingSamplePerPrompt"].readIfPresent()
+        value.inferenceMaxTokens = try reader["inferenceMaxTokens"].readIfPresent()
+        value.reasoningEffort = try reader["reasoningEffort"].readIfPresent()
+        value.evalInterval = try reader["evalInterval"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.GraderConfig {
+
+    static func write(value: BedrockClientTypes.GraderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambdagrader(lambdagrader):
+                try writer["lambdaGrader"].write(lambdagrader, with: BedrockClientTypes.LambdaGraderConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GraderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambdaGrader":
+                return .lambdagrader(try reader["lambdaGrader"].read(with: BedrockClientTypes.LambdaGraderConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.LambdaGraderConfig {
+
+    static func write(value: BedrockClientTypes.LambdaGraderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaArn"].write(value.lambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.LambdaGraderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.LambdaGraderConfig()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -19380,6 +19729,17 @@ extension BedrockClientTypes.TeacherModelConfig {
         var value = BedrockClientTypes.TeacherModelConfig()
         value.teacherModelIdentifier = try reader["teacherModelIdentifier"].readIfPresent() ?? ""
         value.maxResponseLengthForInference = try reader["maxResponseLengthForInference"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomModelDeploymentUpdateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelDeploymentUpdateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelDeploymentUpdateDetails()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.updateStatus = try reader["updateStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
