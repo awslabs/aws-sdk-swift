@@ -350,6 +350,7 @@ extension CostExplorerClientTypes {
 
     public enum SupportedSavingsPlansType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case computeSp
+        case databaseSp
         case ec2InstanceSp
         case sagemakerSp
         case sdkUnknown(Swift.String)
@@ -357,6 +358,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [SupportedSavingsPlansType] {
             return [
                 .computeSp,
+                .databaseSp,
                 .ec2InstanceSp,
                 .sagemakerSp
             ]
@@ -370,6 +372,7 @@ extension CostExplorerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .computeSp: return "COMPUTE_SP"
+            case .databaseSp: return "DATABASE_SP"
             case .ec2InstanceSp: return "EC2_INSTANCE_SP"
             case .sagemakerSp: return "SAGEMAKER_SP"
             case let .sdkUnknown(s): return s
@@ -6579,7 +6582,7 @@ public struct GetCostForecastInput: Swift.Sendable {
     ///
     /// * SAVINGS_PLAN_ARN
     public var filter: CostExplorerClientTypes.Expression?
-    /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
+    /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
     /// This member is required.
     public var granularity: CostExplorerClientTypes.Granularity?
     /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values for a GetCostForecast call are the following:
@@ -7586,7 +7589,7 @@ public struct GetUsageForecastInput: Swift.Sendable {
     ///
     /// * SAVINGS_PLAN_ARN
     public var filter: CostExplorerClientTypes.Expression?
-    /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
+    /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
     /// This member is required.
     public var granularity: CostExplorerClientTypes.Granularity?
     /// Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:

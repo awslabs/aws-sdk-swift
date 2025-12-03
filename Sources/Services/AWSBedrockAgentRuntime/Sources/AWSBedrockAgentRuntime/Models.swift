@@ -2485,6 +2485,28 @@ extension BedrockAgentRuntimeClientTypes.FinalResponse: Swift.CustomDebugStringC
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information about an audio segment retrieved from a knowledge base, including its location and transcription. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the audio field
+    public struct AudioSegment: Swift.Sendable {
+        /// The S3 URI where this specific audio segment is stored in the multimodal storage destination.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// The text transcription of the audio segment content.
+        public var transcription: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil,
+            transcription: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+            self.transcription = transcription
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     public enum RetrievalResultContentColumnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blob
         case boolean
@@ -2556,16 +2578,20 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn: Swift.Cus
 extension BedrockAgentRuntimeClientTypes {
 
     public enum RetrievalResultContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
         case image
         case row
         case text
+        case video
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RetrievalResultContentType] {
             return [
+                .audio,
                 .image,
                 .row,
-                .text
+                .text,
+                .video
             ]
         }
 
@@ -2576,11 +2602,35 @@ extension BedrockAgentRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .audio: return "AUDIO"
             case .image: return "IMAGE"
             case .row: return "ROW"
             case .text: return "TEXT"
+            case .video: return "VIDEO"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a video segment retrieved from a knowledge base, including its location and summary. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the video field
+    public struct VideoSegment: Swift.Sendable {
+        /// The S3 URI where this specific video segment is stored in the multimodal storage destination.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// A text summary describing the content of the video segment.
+        public var summary: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil,
+            summary: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+            self.summary = summary
         }
     }
 }
@@ -2595,6 +2645,8 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the content field
     public struct RetrievalResultContent: Swift.Sendable {
+        /// Audio segment information when the retrieval result contains audio content.
+        public var audio: BedrockAgentRuntimeClientTypes.AudioSegment?
         /// A data URI with base64-encoded content from the data source. The URI is in the following format: returned in the following format: data:image/jpeg;base64,${base64-encoded string}.
         public var byteContent: Swift.String?
         /// Specifies information about the rows with the cells to return in retrieval.
@@ -2603,17 +2655,23 @@ extension BedrockAgentRuntimeClientTypes {
         public var text: Swift.String?
         /// The type of content in the retrieval result.
         public var type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType?
+        /// Video segment information when the retrieval result contains video content.
+        public var video: BedrockAgentRuntimeClientTypes.VideoSegment?
 
         public init(
+            audio: BedrockAgentRuntimeClientTypes.AudioSegment? = nil,
             byteContent: Swift.String? = nil,
             row: [BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn]? = nil,
             text: Swift.String? = "",
-            type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType? = nil
+            type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType? = nil,
+            video: BedrockAgentRuntimeClientTypes.VideoSegment? = nil
         ) {
+            self.audio = audio
             self.byteContent = byteContent
             self.row = row
             self.text = text
             self.type = type
+            self.video = video
         }
     }
 }
@@ -7722,7 +7780,7 @@ extension BedrockAgentRuntimeClientTypes {
     public struct RerankResult: Swift.Sendable {
         /// Contains information about the document.
         public var document: BedrockAgentRuntimeClientTypes.RerankDocument?
-        /// The ranking of the document. The lower a number, the higher the document is ranked.
+        /// The original index of the document from the input sources array.
         /// This member is required.
         public var index: Swift.Int?
         /// The relevance score of the document.
@@ -7768,7 +7826,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the input field
     public struct RetrieveAndGenerateInput: Swift.Sendable {
-        /// The query made to the knowledge base.
+        /// The query made to the knowledge base, in characters.
         /// This member is required.
         public var text: Swift.String?
 
@@ -7859,7 +7917,7 @@ extension BedrockAgentRuntimeClientTypes {
         ///
         /// * [Knowledge base prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html#kb-test-config-sysprompt)
         ///
-        /// * [Use XML tags with Anthropic Claude models](https://docs.anthropic.com/claude/docs/use-xml-tags)
+        /// * [Use XML tags with Anthropic Claude models](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
         public var textPromptTemplate: Swift.String?
 
         public init(
@@ -8361,18 +8419,117 @@ public struct RetrieveAndGenerateStreamOutput: Swift.Sendable {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    public enum InputImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gif
+        case jpeg
+        case png
+        case webp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputImageFormat] {
+            return [
+                .gif,
+                .jpeg,
+                .png,
+                .webp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gif: return "gif"
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case .webp: return "webp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains the image data for multimodal knowledge base queries, including format and content. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the image field
+    public struct InputImage: Swift.Sendable {
+        /// The format of the input image. Supported formats include png, gif, jpeg, and webp.
+        /// This member is required.
+        public var format: BedrockAgentRuntimeClientTypes.InputImageFormat?
+        /// The base64-encoded image data for inline image content. Maximum size is 5MB.
+        /// This member is required.
+        public var inlineContent: Foundation.Data?
+
+        public init(
+            format: BedrockAgentRuntimeClientTypes.InputImageFormat? = nil,
+            inlineContent: Foundation.Data? = nil
+        ) {
+            self.format = format
+            self.inlineContent = inlineContent
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InputImage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InputImage(format: \(Swift.String(describing: format)), inlineContent: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum KnowledgeBaseQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case image
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KnowledgeBaseQueryType] {
+            return [
+                .image,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .image: return "IMAGE"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains the query made to the knowledge base. This data type is used in the following API operations:
     ///
     /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the retrievalQuery field
     public struct KnowledgeBaseQuery: Swift.Sendable {
+        /// An image to include in the knowledge base query for multimodal retrieval.
+        public var image: BedrockAgentRuntimeClientTypes.InputImage?
         /// The text of the query made to the knowledge base.
-        /// This member is required.
         public var text: Swift.String?
+        /// The type of query being performed.
+        public var type: BedrockAgentRuntimeClientTypes.KnowledgeBaseQueryType?
 
         public init(
-            text: Swift.String? = nil
+            image: BedrockAgentRuntimeClientTypes.InputImage? = nil,
+            text: Swift.String? = "",
+            type: BedrockAgentRuntimeClientTypes.KnowledgeBaseQueryType? = .text
         ) {
+            self.image = image
             self.text = text
+            self.type = type
         }
     }
 }
@@ -12760,6 +12917,8 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent {
         value.type = try reader["type"].readIfPresent()
         value.text = try reader["text"].readIfPresent() ?? ""
         value.byteContent = try reader["byteContent"].readIfPresent()
+        value.video = try reader["video"].readIfPresent(with: BedrockAgentRuntimeClientTypes.VideoSegment.read(from:))
+        value.audio = try reader["audio"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AudioSegment.read(from:))
         value.row = try reader["row"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -12773,6 +12932,28 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn {
         value.columnName = try reader["columnName"].readIfPresent()
         value.columnValue = try reader["columnValue"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AudioSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AudioSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AudioSegment()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.transcription = try reader["transcription"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.VideoSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.VideoSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.VideoSegment()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.summary = try reader["summary"].readIfPresent()
         return value
     }
 }
@@ -14814,7 +14995,18 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery {
 
     static func write(value: BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["image"].write(value.image, with: BedrockAgentRuntimeClientTypes.InputImage.write(value:to:))
         try writer["text"].write(value.text)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InputImage {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.InputImage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["inlineContent"].write(value.inlineContent)
     }
 }
 

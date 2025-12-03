@@ -8283,7 +8283,7 @@ extension BedrockAgentClientTypes {
         public var knowledgeBaseId: Swift.String?
         /// The ingestion status of the document. The following statuses are possible:
         ///
-        /// * STARTED – You submitted the ingestion job containing the document.
+        /// * STARTING – You submitted the ingestion job containing the document.
         ///
         /// * PENDING – The document is waiting to be ingested.
         ///
@@ -9481,6 +9481,38 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Configuration for segmenting audio content during multimodal knowledge base ingestion. Determines how audio files are divided into chunks for processing.
+    public struct AudioSegmentationConfiguration: Swift.Sendable {
+        /// The duration in seconds for each audio segment. Audio files will be divided into chunks of this length for processing.
+        /// This member is required.
+        public var fixedLengthDuration: Swift.Int?
+
+        public init(
+            fixedLengthDuration: Swift.Int? = nil
+        ) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration settings for processing audio content in multimodal knowledge bases.
+    public struct AudioConfiguration: Swift.Sendable {
+        /// Configuration for segmenting audio content during processing.
+        /// This member is required.
+        public var segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration?
+
+        public init(
+            segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration? = nil
+        ) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Bedrock models embedding data type. Can be either float32 or binary.
     public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case binary
@@ -9511,19 +9543,59 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Configuration for segmenting video content during multimodal knowledge base ingestion. Determines how video files are divided into chunks for processing.
+    public struct VideoSegmentationConfiguration: Swift.Sendable {
+        /// The duration in seconds for each video segment. Video files will be divided into chunks of this length for processing.
+        /// This member is required.
+        public var fixedLengthDuration: Swift.Int?
+
+        public init(
+            fixedLengthDuration: Swift.Int? = nil
+        ) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration settings for processing video content in multimodal knowledge bases.
+    public struct VideoConfiguration: Swift.Sendable {
+        /// Configuration for segmenting video content during processing.
+        /// This member is required.
+        public var segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration?
+
+        public init(
+            segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration? = nil
+        ) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// The vector configuration details for the Bedrock embeddings model.
     public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
+        /// Configuration settings for processing audio content in multimodal knowledge bases.
+        public var audio: [BedrockAgentClientTypes.AudioConfiguration]?
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public var dimensions: Swift.Int?
         /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
         public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
+        /// Configuration settings for processing video content in multimodal knowledge bases.
+        public var video: [BedrockAgentClientTypes.VideoConfiguration]?
 
         public init(
+            audio: [BedrockAgentClientTypes.AudioConfiguration]? = nil,
             dimensions: Swift.Int? = nil,
-            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil
+            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil,
+            video: [BedrockAgentClientTypes.VideoConfiguration]? = nil
         ) {
+            self.audio = audio
             self.dimensions = dimensions
             self.embeddingDataType = embeddingDataType
+            self.video = video
         }
     }
 }
@@ -18959,8 +19031,10 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
 
     static func write(value: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audio"].writeList(value.audio, memberWritingClosure: BedrockAgentClientTypes.AudioConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dimensions"].write(value.dimensions)
         try writer["embeddingDataType"].write(value.embeddingDataType)
+        try writer["video"].writeList(value.video, memberWritingClosure: BedrockAgentClientTypes.VideoConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
@@ -18968,6 +19042,68 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
         var value = BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration()
         value.dimensions = try reader["dimensions"].readIfPresent()
         value.embeddingDataType = try reader["embeddingDataType"].readIfPresent()
+        value.audio = try reader["audio"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AudioConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.video = try reader["video"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.VideoConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VideoConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VideoConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["segmentationConfiguration"].write(value.segmentationConfiguration, with: BedrockAgentClientTypes.VideoSegmentationConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VideoConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VideoConfiguration()
+        value.segmentationConfiguration = try reader["segmentationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VideoSegmentationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VideoSegmentationConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VideoSegmentationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fixedLengthDuration"].write(value.fixedLengthDuration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VideoSegmentationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VideoSegmentationConfiguration()
+        value.fixedLengthDuration = try reader["fixedLengthDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.AudioConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.AudioConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["segmentationConfiguration"].write(value.segmentationConfiguration, with: BedrockAgentClientTypes.AudioSegmentationConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AudioConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AudioConfiguration()
+        value.segmentationConfiguration = try reader["segmentationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.AudioSegmentationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.AudioSegmentationConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.AudioSegmentationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fixedLengthDuration"].write(value.fixedLengthDuration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AudioSegmentationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AudioSegmentationConfiguration()
+        value.fixedLengthDuration = try reader["fixedLengthDuration"].readIfPresent() ?? 0
         return value
     }
 }

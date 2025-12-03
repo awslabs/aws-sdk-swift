@@ -67,6 +67,11 @@ public struct AssociateRoutingProfileQueuesOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct AssociateSecurityProfilesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct AssociateUserProficienciesOutput: Swift.Sendable {
 
     public init() { }
@@ -203,6 +208,11 @@ public struct DisassociateRoutingProfileQueuesOutput: Swift.Sendable {
 }
 
 public struct DisassociateSecurityKeyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateSecurityProfilesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -402,6 +412,32 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum AccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessType] {
+            return [
+                .allow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1348,7 +1384,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Can be used to define a list of preferred agents to target the contact to within the queue.  Note that agents must have the queue in their routing profile in order to be offered the  contact.
+    /// Can be used to define a list of preferred agents to target the contact to within the queue. Note that agents must have the queue in their routing profile in order to be offered the contact.
     public struct AgentsCriteria: Swift.Sendable {
         /// An object to specify a list of agents, by user ID.
         public var agentIds: [Swift.String]?
@@ -1687,6 +1723,58 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum AiUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentassistance
+        case selfservice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AiUseCase] {
+            return [
+                .agentassistance,
+                .selfservice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentassistance: return "AgentAssistance"
+            case .selfservice: return "SelfService"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information of the AI agent involved in the contact.
+    public struct AiAgentInfo: Swift.Sendable {
+        /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public var aiAgentEscalated: Swift.Bool
+        /// The unique identifier that specifies both the AI agent ID and its version number that was involved in the contact
+        public var aiAgentVersionId: Swift.String?
+        /// The use case or scenario for which the AI agent is involved in the contact
+        public var aiUseCase: ConnectClientTypes.AiUseCase?
+
+        public init(
+            aiAgentEscalated: Swift.Bool = false,
+            aiAgentVersionId: Swift.String? = nil,
+            aiUseCase: ConnectClientTypes.AiUseCase? = nil
+        ) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiAgentVersionId = aiAgentVersionId
+            self.aiUseCase = aiUseCase
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Configuration information of an email alias.
     public struct AliasConfiguration: Swift.Sendable {
         /// The email address ID.
@@ -1716,6 +1804,51 @@ extension ConnectClientTypes {
         ) {
             self.agent = agent
             self.customer = customer
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum FlowModuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowModuleType] {
+            return [
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A list of Flow Modules an AI Agent can invoke as a tool
+    public struct FlowModule: Swift.Sendable {
+        /// If of Flow Modules invocable as tool
+        public var flowModuleId: Swift.String?
+        /// Only Type we support is MCP.
+        public var type: ConnectClientTypes.FlowModuleType?
+
+        public init(
+            flowModuleId: Swift.String? = nil,
+            type: ConnectClientTypes.FlowModuleType? = nil
+        ) {
+            self.flowModuleId = flowModuleId
+            self.type = type
         }
     }
 }
@@ -2850,6 +2983,100 @@ public struct AssociateSecurityKeyOutput: Swift.Sendable {
     }
 }
 
+/// Request processing failed because dependent condition failed.
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiAgent
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityType] {
+            return [
+                .aiAgent,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aiAgent: return "AI_AGENT"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Security profile items.
+    public struct SecurityProfileItem: Swift.Sendable {
+        /// Id of a security profile item.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+public struct AssociateSecurityProfilesInput: Swift.Sendable {
+    /// Arn of a Q in Connect AI Agent.
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// Only supported type is AI_AGENT.
+    /// This member is required.
+    public var entityType: ConnectClientTypes.EntityType?
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// List of Security Profile Object.
+    /// This member is required.
+    public var securityProfiles: [ConnectClientTypes.SecurityProfileItem]?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        entityType: ConnectClientTypes.EntityType? = nil,
+        instanceId: Swift.String? = nil,
+        securityProfiles: [ConnectClientTypes.SecurityProfileItem]? = nil
+    ) {
+        self.entityArn = entityArn
+        self.entityType = entityType
+        self.instanceId = instanceId
+        self.securityProfiles = securityProfiles
+    }
+}
+
 public struct AssociateTrafficDistributionGroupUserInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -2922,6 +3149,104 @@ public struct AssociateUserProficienciesInput: Swift.Sendable {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
+    }
+}
+
+/// A resource with the specified name already exists.
+public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateResourceException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateWorkspaceInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles.
+    /// This member is required.
+    public var resourceArns: [Swift.String]?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.resourceArns = resourceArns
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a resource that failed to be associated with a workspace in a batch operation.
+    public struct FailedBatchAssociationSummary: Swift.Sendable {
+        /// The error code indicating why the association failed.
+        public var errorCode: Swift.String?
+        /// An error message describing why the association failed.
+        public var errorMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource that failed to be associated.
+        public var resourceArn: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a resource that was successfully associated with a workspace in a batch operation.
+    public struct SuccessfulBatchAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource that was successfully associated.
+        public var resourceArn: Swift.String?
+
+        public init(
+            resourceArn: Swift.String? = nil
+        ) {
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+public struct AssociateWorkspaceOutput: Swift.Sendable {
+    /// A list of resources that failed to be associated with the workspace, including error details.
+    public var failedList: [ConnectClientTypes.FailedBatchAssociationSummary]?
+    /// A list of resources that were successfully associated with the workspace.
+    public var successfulList: [ConnectClientTypes.SuccessfulBatchAssociationSummary]?
+
+    public init(
+        failedList: [ConnectClientTypes.FailedBatchAssociationSummary]? = nil,
+        successfulList: [ConnectClientTypes.SuccessfulBatchAssociationSummary]? = nil
+    ) {
+        self.failedList = failedList
+        self.successfulList = successfulList
     }
 }
 
@@ -3008,6 +3333,482 @@ public struct BatchAssociateAnalyticsDataSetOutput: Swift.Sendable {
     ) {
         self.created = created
         self.errors = errors
+    }
+}
+
+/// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains lock version information for different levels of a data table hierarchy. Used for optimistic locking to prevent concurrent modification conflicts. Each component has its own lock version that changes when that component is modified.
+    public struct DataTableLockVersion: Swift.Sendable {
+        /// The lock version for a specific attribute. When the ValueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated.
+        public var attribute: Swift.String?
+        /// The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure.
+        public var dataTable: Swift.String?
+        /// The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking.
+        public var primaryValues: Swift.String?
+        /// The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control.
+        public var value: Swift.String?
+
+        public init(
+            attribute: Swift.String? = nil,
+            dataTable: Swift.String? = nil,
+            primaryValues: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.attribute = attribute
+            self.dataTable = dataTable
+            self.primaryValues = primaryValues
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes.
+    public struct PrimaryValue: Swift.Sendable {
+        /// The name of the primary attribute that this value belongs to.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.attributeName = attributeName
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table value.
+    public struct DataTableValue: Swift.Sendable {
+        /// The value's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The value's last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// The value's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The value's lock version.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The value's primary values.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+        /// The value's value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.value = value
+        }
+    }
+}
+
+public struct BatchCreateDataTableValueInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If no alias is provided, the default behavior is identical to providing the $LATEST alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of values to create. Each value must specify the attribute name and optionally primary values if the table has primary attributes.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableValue]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableValue]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.values = values
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch create data table value failure result.
+    public struct BatchCreateDataTableValueFailureResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            message: Swift.String? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch create data table value success result.
+    public struct BatchCreateDataTableValueSuccessResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's lock version.
+        /// This member is required.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+        /// The result's record ID.
+        /// This member is required.
+        public var recordId: Swift.String?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil,
+            recordId: Swift.String? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+        }
+    }
+}
+
+public struct BatchCreateDataTableValueOutput: Swift.Sendable {
+    /// A list of values that failed to be created with error messages explaining the failure reason.
+    /// This member is required.
+    public var failed: [ConnectClientTypes.BatchCreateDataTableValueFailureResult]?
+    /// A list of successfully created values with their identifiers and lock versions.
+    /// This member is required.
+    public var successful: [ConnectClientTypes.BatchCreateDataTableValueSuccessResult]?
+
+    public init(
+        failed: [ConnectClientTypes.BatchCreateDataTableValueFailureResult]? = nil,
+        successful: [ConnectClientTypes.BatchCreateDataTableValueSuccessResult]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table delete value identifier.
+    public struct DataTableDeleteValueIdentifier: Swift.Sendable {
+        /// The identifier's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The identifier's lock version.
+        /// This member is required.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The identifier's primary values.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+public struct BatchDeleteDataTableValueInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of value identifiers to delete, each specifying primary values, attribute name, and lock version information.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableDeleteValueIdentifier]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableDeleteValueIdentifier]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.values = values
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch delete data table value failure result.
+    public struct BatchDeleteDataTableValueFailureResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            message: Swift.String? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch delete data table value success result.
+    public struct BatchDeleteDataTableValueSuccessResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's lock version.
+        /// This member is required.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+public struct BatchDeleteDataTableValueOutput: Swift.Sendable {
+    /// A list of values that failed to be deleted with error messages explaining the failure reason.
+    /// This member is required.
+    public var failed: [ConnectClientTypes.BatchDeleteDataTableValueFailureResult]?
+    /// A list of successfully deleted values with their identifiers and updated lock versions.
+    /// This member is required.
+    public var successful: [ConnectClientTypes.BatchDeleteDataTableValueSuccessResult]?
+
+    public init(
+        failed: [ConnectClientTypes.BatchDeleteDataTableValueFailureResult]? = nil,
+        successful: [ConnectClientTypes.BatchDeleteDataTableValueSuccessResult]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table value identifier.
+    public struct DataTableValueIdentifier: Swift.Sendable {
+        /// The identifier's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The identifier's primary values.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+public struct BatchDescribeDataTableValueInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of value identifiers to retrieve, each specifying primary values and attribute names.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableValueIdentifier]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableValueIdentifier]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.values = values
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch describe data table value failure result.
+    public struct BatchDescribeDataTableValueFailureResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            message: Swift.String? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A primary value response.
+    public struct PrimaryValueResponse: Swift.Sendable {
+        /// The value's attribute ID.
+        public var attributeId: Swift.String?
+        /// The value's attribute name.
+        public var attributeName: Swift.String?
+        /// The value's value.
+        public var value: Swift.String?
+
+        public init(
+            attributeId: Swift.String? = nil,
+            attributeName: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch describe data table value success result.
+    public struct BatchDescribeDataTableValueSuccessResult: Swift.Sendable {
+        /// The result's attribute ID.
+        /// This member is required.
+        public var attributeId: Swift.String?
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// The result's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The result's lock version.
+        /// This member is required.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValueResponse]?
+        /// The result's record ID.
+        /// This member is required.
+        public var recordId: Swift.String?
+        /// The result's value.
+        public var value: Swift.String?
+
+        public init(
+            attributeId: Swift.String? = nil,
+            attributeName: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValueResponse]? = nil,
+            recordId: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.value = value
+        }
+    }
+}
+
+public struct BatchDescribeDataTableValueOutput: Swift.Sendable {
+    /// A list of values that failed to be retrieved with error messages explaining the failure reason.
+    /// This member is required.
+    public var failed: [ConnectClientTypes.BatchDescribeDataTableValueFailureResult]?
+    /// A list of successfully retrieved values with their data, metadata, and lock version information.
+    /// This member is required.
+    public var successful: [ConnectClientTypes.BatchDescribeDataTableValueSuccessResult]?
+
+    public init(
+        failed: [ConnectClientTypes.BatchDescribeDataTableValueFailureResult]? = nil,
+        successful: [ConnectClientTypes.BatchDescribeDataTableValueSuccessResult]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 
@@ -3643,6 +4444,97 @@ public struct BatchPutContactOutput: Swift.Sendable {
     }
 }
 
+public struct BatchUpdateDataTableValueInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of values to update, each including the current lock version to ensure optimistic locking.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableValue]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableValue]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.values = values
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch update data table value failure result.
+    public struct BatchUpdateDataTableValueFailureResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            message: Swift.String? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A batch update data table value success result.
+    public struct BatchUpdateDataTableValueSuccessResult: Swift.Sendable {
+        /// The result's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The result's lock version.
+        /// This member is required.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The result's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+public struct BatchUpdateDataTableValueOutput: Swift.Sendable {
+    /// A list of values that failed to be updated with error messages explaining the failure reason.
+    /// This member is required.
+    public var failed: [ConnectClientTypes.BatchUpdateDataTableValueFailureResult]?
+    /// A list of successfully updated values with their new lock versions and identifiers.
+    /// This member is required.
+    public var successful: [ConnectClientTypes.BatchUpdateDataTableValueSuccessResult]?
+
+    public init(
+        failed: [ConnectClientTypes.BatchUpdateDataTableValueFailureResult]? = nil,
+        successful: [ConnectClientTypes.BatchUpdateDataTableValueSuccessResult]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
 public struct ClaimPhoneNumberInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     public var clientToken: Swift.String?
@@ -3719,29 +4611,6 @@ public struct CompleteAttachedFileUploadOutput: Swift.Sendable {
     public init() { }
 }
 
-/// A resource with the specified name already exists.
-public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DuplicateResourceException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct CreateAgentStatusInput: Swift.Sendable {
     /// The description of the status.
     public var description: Swift.String?
@@ -3788,29 +4657,6 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
     ) {
         self.agentStatusARN = agentStatusARN
         self.agentStatusId = agentStatusId
-    }
-}
-
-/// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -3892,6 +4738,7 @@ extension ConnectClientTypes {
         case date
         case email
         case emailMessage
+        case emailMessagePlainText
         case number
         case string
         case url
@@ -3904,6 +4751,7 @@ extension ConnectClientTypes {
                 .date,
                 .email,
                 .emailMessage,
+                .emailMessagePlainText,
                 .number,
                 .string,
                 .url
@@ -3922,6 +4770,7 @@ extension ConnectClientTypes {
             case .date: return "DATE"
             case .email: return "EMAIL"
             case .emailMessage: return "EMAIL_MESSAGE"
+            case .emailMessagePlainText: return "EMAIL_MESSAGE_PLAIN_TEXT"
             case .number: return "NUMBER"
             case .string: return "STRING"
             case .url: return "URL"
@@ -4405,6 +5254,304 @@ public struct CreateContactFlowVersionOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    public enum DataTableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataTableStatus] {
+            return [
+                .published
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .published: return "PUBLISHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DataTableLockLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attribute
+        case dataTable
+        case `none`
+        case primaryValue
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataTableLockLevel] {
+            return [
+                .attribute,
+                .dataTable,
+                .none,
+                .primaryValue,
+                .value
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attribute: return "ATTRIBUTE"
+            case .dataTable: return "DATA_TABLE"
+            case .none: return "NONE"
+            case .primaryValue: return "PRIMARY_VALUE"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDataTableInput: Swift.Sendable {
+    /// An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first.
+    public var description: Swift.String?
+    /// The unique identifier for the Amazon Connect instance where the data table will be created.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table.
+    /// This member is required.
+    public var status: ConnectClientTypes.DataTableStatus?
+    /// Key value pairs for attribute based access control (TBAC or ABAC). Optional tags to apply to the data table for organization and access control purposes.
+    public var tags: [Swift.String: Swift.String]?
+    /// The IANA timezone identifier to use when resolving time based dynamic values. Required even if no time slices are specified.
+    /// This member is required.
+    public var timeZone: Swift.String?
+    /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously.
+    /// This member is required.
+    public var valueLockLevel: ConnectClientTypes.DataTableLockLevel?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ConnectClientTypes.DataTableStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeZone: Swift.String? = nil,
+        valueLockLevel: ConnectClientTypes.DataTableLockLevel? = nil
+    ) {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.status = status
+        self.tags = tags
+        self.timeZone = timeZone
+        self.valueLockLevel = valueLockLevel
+    }
+}
+
+public struct CreateDataTableOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the created data table. Does not include the version alias.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier for the created data table. Does not include the version alias.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The lock version information for the created data table, used for optimistic locking and table versioning.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.lockVersion = lockVersion
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines enumeration validation for attribute values. Allows specifying a list of permitted values and whether custom values beyond the enumerated list are allowed.
+    public struct ValidationEnum: Swift.Sendable {
+        /// Boolean that defaults to false. When true, only values specified in the enum list are allowed. When false, custom values beyond the enumerated list are permitted.
+        public var strict: Swift.Bool
+        /// A list of predefined values that are allowed for this attribute. These values are always permitted regardless of the Strict setting.
+        public var values: [Swift.String]?
+
+        public init(
+            strict: Swift.Bool = false,
+            values: [Swift.String]? = nil
+        ) {
+            self.strict = strict
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines validation rules for data table attribute values. Based on JSON Schema Draft 2020-12 with additional Connect-specific validations. Validation rules ensure data integrity and consistency across the data table.
+    public struct Validation: Swift.Sendable {
+        /// Defines enumeration constraints for attribute values. Can specify a list of allowed values and whether custom values are permitted beyond the enumerated list.
+        public var `enum`: ConnectClientTypes.ValidationEnum?
+        /// The largest exclusive numeric value for NUMBER value type. Can be provided alongside Maximum where both operate independently. Must be greater than ExclusiveMinimum and Minimum. Applies to NUMBER and values within NUMBER_LIST.
+        public var exclusiveMaximum: Swift.Double
+        /// The smallest exclusive numeric value for NUMBER value type. Can be provided alongside Minimum where both operate independently. Must be less than ExclusiveMaximum and Maximum. Applies to NUMBER and values within NUMBER_LIST.
+        public var exclusiveMinimum: Swift.Double
+        /// Boolean that defaults to false. Applies to text lists and text primary attributes. When true, enforces case-insensitive uniqueness for primary attributes and allows case-insensitive lookups.
+        public var ignoreCase: Swift.Bool
+        /// The maximum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be greater than or equal to MinLength.
+        public var maxLength: Swift.Int
+        /// The maximum number of values in a list. Must be an integer greater than or equal to 0 and greater than or equal to MinValues. Applies to all list types.
+        public var maxValues: Swift.Int
+        /// The largest inclusive numeric value for NUMBER value type. Can be provided alongside ExclusiveMaximum where both operate independently. Must be greater than or equal to Minimum and greater than ExclusiveMinimum. Applies to NUMBER and values within NUMBER_LIST.
+        public var maximum: Swift.Double
+        /// The minimum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be less than or equal to MaxLength.
+        public var minLength: Swift.Int
+        /// The minimum number of values in a list. Must be an integer greater than or equal to 0 and less than or equal to MaxValues. Applies to all list types.
+        public var minValues: Swift.Int
+        /// The smallest inclusive numeric value for NUMBER value type. Cannot be provided when ExclusiveMinimum is also provided. Must be less than or equal to Maximum and less than ExclusiveMaximum. Applies to NUMBER and values within NUMBER_LIST.
+        public var minimum: Swift.Double
+        /// Specifies that numeric values must be multiples of this number. Must be greater than 0. The result of dividing a value by this multiple must result in an integer. Applies to NUMBER and values within NUMBER_LIST.
+        public var multipleOf: Swift.Double
+
+        public init(
+            `enum`: ConnectClientTypes.ValidationEnum? = nil,
+            exclusiveMaximum: Swift.Double = 0.0,
+            exclusiveMinimum: Swift.Double = 0.0,
+            ignoreCase: Swift.Bool = false,
+            maxLength: Swift.Int = 0,
+            maxValues: Swift.Int = 0,
+            maximum: Swift.Double = 0.0,
+            minLength: Swift.Int = 0,
+            minValues: Swift.Int = 0,
+            minimum: Swift.Double = 0.0,
+            multipleOf: Swift.Double = 0.0
+        ) {
+            self.`enum` = `enum`
+            self.exclusiveMaximum = exclusiveMaximum
+            self.exclusiveMinimum = exclusiveMinimum
+            self.ignoreCase = ignoreCase
+            self.maxLength = maxLength
+            self.maxValues = maxValues
+            self.maximum = maximum
+            self.minLength = minLength
+            self.minValues = minValues
+            self.minimum = minimum
+            self.multipleOf = multipleOf
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DataTableAttributeValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case number
+        case numberList
+        case text
+        case textList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataTableAttributeValueType] {
+            return [
+                .boolean,
+                .number,
+                .numberList,
+                .text,
+                .textList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "BOOLEAN"
+            case .number: return "NUMBER"
+            case .numberList: return "NUMBER_LIST"
+            case .text: return "TEXT"
+            case .textList: return "TEXT_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDataTableAttributeInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// An optional description for the attribute. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace trimmed before persisting.
+    public var description: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Whitespace trimmed before persisting. Must be unique for the data table using case-insensitive comparison.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attributes must not be expressions.
+    public var primary: Swift.Bool?
+    /// Optional validation rules for the attribute. Borrows heavily from JSON Schema - Draft 2020-12. The maximum length of arrays within validations and depth of validations is 5. There are default limits that apply to all types. Customer specified limits in excess of the default limits are not permitted.
+    public var validation: ConnectClientTypes.Validation?
+    /// The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN.
+    /// This member is required.
+    public var valueType: ConnectClientTypes.DataTableAttributeValueType?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        primary: Swift.Bool? = false,
+        validation: ConnectClientTypes.Validation? = nil,
+        valueType: ConnectClientTypes.DataTableAttributeValueType? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.primary = primary
+        self.validation = validation
+        self.valueType = valueType
+    }
+}
+
+public struct CreateDataTableAttributeOutput: Swift.Sendable {
+    /// The unique identifier assigned to the created attribute.
+    public var attributeId: Swift.String?
+    /// The lock version information for the data table and attribute, used for optimistic locking and versioning.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+    /// The name of the created attribute since it also serves as the identifier. This could be different than the parameter passed in since it will be trimmed for whitespace.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        attributeId: Swift.String? = nil,
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.attributeId = attributeId
+        self.lockVersion = lockVersion
+        self.name = name
+    }
+}
+
 public struct CreateEmailAddressInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -4506,12 +5653,16 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormItemSourceValuesComparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allIn
+        case exact
         case `in`
         case notIn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormItemSourceValuesComparator] {
             return [
+                .allIn,
+                .exact,
                 .in,
                 .notIn
             ]
@@ -4524,6 +5675,8 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .allIn: return "ALL_IN"
+            case .exact: return "EXACT"
             case .in: return "IN"
             case .notIn: return "NOT_IN"
             case let .sdkUnknown(s): return s
@@ -4682,6 +5835,8 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormQuestionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case datetime
+        case multiselect
         case numeric
         case singleselect
         case text
@@ -4689,6 +5844,8 @@ extension ConnectClientTypes {
 
         public static var allCases: [EvaluationFormQuestionType] {
             return [
+                .datetime,
+                .multiselect,
                 .numeric,
                 .singleselect,
                 .text
@@ -4702,6 +5859,8 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .datetime: return "DATETIME"
+            case .multiselect: return "MULTISELECT"
             case .numeric: return "NUMERIC"
             case .singleselect: return "SINGLESELECT"
             case .text: return "TEXT"
@@ -4758,11 +5917,175 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum MultiSelectQuestionRuleCategoryAutomationCondition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notPresent
+        case present
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiSelectQuestionRuleCategoryAutomationCondition] {
+            return [
+                .notPresent,
+                .present
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notPresent: return "NOT_PRESENT"
+            case .present: return "PRESENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Automation rule for multi-select questions based on rule categories.
+    public struct MultiSelectQuestionRuleCategoryAutomation: Swift.Sendable {
+        /// The category name for this automation rule.
+        /// This member is required.
+        public var category: Swift.String?
+        /// The condition for this automation rule.
+        /// This member is required.
+        public var condition: ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomationCondition?
+        /// Reference IDs of options for this automation rule.
+        /// This member is required.
+        public var optionRefIds: [Swift.String]?
+
+        public init(
+            category: Swift.String? = nil,
+            condition: ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomationCondition? = nil,
+            optionRefIds: [Swift.String]? = nil
+        ) {
+            self.category = category
+            self.condition = condition
+            self.optionRefIds = optionRefIds
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An automation option for a multi-select question.
+    public enum EvaluationFormMultiSelectQuestionAutomationOption: Swift.Sendable {
+        /// Rule category configuration for this automation option.
+        case rulecategory(ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Automation configuration for multi-select questions.
+    public struct EvaluationFormMultiSelectQuestionAutomation: Swift.Sendable {
+        /// A question automation answer.
+        public var answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?
+        /// Reference IDs of default options.
+        public var defaultOptionRefIds: [Swift.String]?
+        /// Automation options for the multi-select question.
+        public var options: [ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption]?
+
+        public init(
+            answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource? = nil,
+            defaultOptionRefIds: [Swift.String]? = nil,
+            options: [ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption]? = nil
+        ) {
+            self.answerSource = answerSource
+            self.defaultOptionRefIds = defaultOptionRefIds
+            self.options = options
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormMultiSelectQuestionDisplayMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case checkbox
+        case dropdown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormMultiSelectQuestionDisplayMode] {
+            return [
+                .checkbox,
+                .dropdown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .checkbox: return "CHECKBOX"
+            case .dropdown: return "DROPDOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An option for a multi-select question in an evaluation form.
+    public struct EvaluationFormMultiSelectQuestionOption: Swift.Sendable {
+        /// Reference identifier for this option.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// Display text for this option.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            refId: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.refId = refId
+            self.text = text
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Properties for a multi-select question in an evaluation form.
+    public struct EvaluationFormMultiSelectQuestionProperties: Swift.Sendable {
+        /// Automation configuration for this multi-select question.
+        public var automation: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation?
+        /// Display format for the multi-select question.
+        public var displayAs: ConnectClientTypes.EvaluationFormMultiSelectQuestionDisplayMode?
+        /// Options available for this multi-select question.
+        /// This member is required.
+        public var options: [ConnectClientTypes.EvaluationFormMultiSelectQuestionOption]?
+
+        public init(
+            automation: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation? = nil,
+            displayAs: ConnectClientTypes.EvaluationFormMultiSelectQuestionDisplayMode? = nil,
+            options: [ConnectClientTypes.EvaluationFormMultiSelectQuestionOption]? = nil
+        ) {
+            self.automation = automation
+            self.displayAs = displayAs
+            self.options = options
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum NumericQuestionPropertyAutomationLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentInteractionAndHoldDuration
         case agentInteractionDuration
         case contactDuration
         case customerHoldTime
+        case customerSentimentScoreWithoutAgent
+        case customerSentimentScoreWithAgent
         case longestHoldDuration
         case nonTalkTime
         case nonTalkTimePercentage
@@ -4778,6 +6101,8 @@ extension ConnectClientTypes {
                 .agentInteractionDuration,
                 .contactDuration,
                 .customerHoldTime,
+                .customerSentimentScoreWithoutAgent,
+                .customerSentimentScoreWithAgent,
                 .longestHoldDuration,
                 .nonTalkTime,
                 .nonTalkTimePercentage,
@@ -4799,6 +6124,8 @@ extension ConnectClientTypes {
             case .agentInteractionDuration: return "AGENT_INTERACTION_DURATION"
             case .contactDuration: return "CONTACT_DURATION"
             case .customerHoldTime: return "CUSTOMER_HOLD_TIME"
+            case .customerSentimentScoreWithoutAgent: return "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT"
+            case .customerSentimentScoreWithAgent: return "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT"
             case .longestHoldDuration: return "LONGEST_HOLD_DURATION"
             case .nonTalkTime: return "NON_TALK_TIME"
             case .nonTalkTimePercentage: return "NON_TALK_TIME_PERCENTAGE"
@@ -5139,7 +6466,65 @@ extension ConnectClientTypes {
         case singleselect(ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties)
         /// The properties of the text question.
         case text(ConnectClientTypes.EvaluationFormTextQuestionProperties)
+        /// Properties for multi-select question types.
+        case multiselect(ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deDe
+        case enUs
+        case esEs
+        case frFr
+        case itIt
+        case ptBr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormLanguageCode] {
+            return [
+                .deDe,
+                .enUs,
+                .esEs,
+                .frFr,
+                .itIt,
+                .ptBr
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deDe: return "de-DE"
+            case .enUs: return "en-US"
+            case .esEs: return "es-ES"
+            case .frFr: return "fr-FR"
+            case .itIt: return "it-IT"
+            case .ptBr: return "pt-BR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Language configuration for an evaluation form.
+    public struct EvaluationFormLanguageConfiguration: Swift.Sendable {
+        /// The language for the evaluation form.
+        public var formLanguage: ConnectClientTypes.EvaluationFormLanguageCode?
+
+        public init(
+            formLanguage: ConnectClientTypes.EvaluationFormLanguageCode? = nil
+        ) {
+            self.formLanguage = formLanguage
+        }
     }
 }
 
@@ -5218,6 +6603,51 @@ extension ConnectClientTypes {
         ) {
             self.mode = mode
             self.status = status
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ContactInteractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case automated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactInteractionType] {
+            return [
+                .agent,
+                .automated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .automated: return "AUTOMATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration that specifies the target for an evaluation form.
+    public struct EvaluationFormTargetConfiguration: Swift.Sendable {
+        /// The contact interaction type for this evaluation form.
+        /// This member is required.
+        public var contactInteractionType: ConnectClientTypes.ContactInteractionType?
+
+        public init(
+            contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil
+        ) {
+            self.contactInteractionType = contactInteractionType
         }
     }
 }
@@ -5620,6 +7050,7 @@ extension ConnectClientTypes {
         case cognitoUserPool
         case event
         case fileScanner
+        case messageProcessor
         case pinpointApp
         case qMessageTemplates
         case sesIdentity
@@ -5638,6 +7069,7 @@ extension ConnectClientTypes {
                 .cognitoUserPool,
                 .event,
                 .fileScanner,
+                .messageProcessor,
                 .pinpointApp,
                 .qMessageTemplates,
                 .sesIdentity,
@@ -5662,6 +7094,7 @@ extension ConnectClientTypes {
             case .cognitoUserPool: return "COGNITO_USER_POOL"
             case .event: return "EVENT"
             case .fileScanner: return "FILE_SCANNER"
+            case .messageProcessor: return "MESSAGE_PROCESSOR"
             case .pinpointApp: return "PINPOINT_APP"
             case .qMessageTemplates: return "Q_MESSAGE_TEMPLATES"
             case .sesIdentity: return "SES_IDENTITY"
@@ -6299,6 +7732,22 @@ public struct CreateQueueOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Configuration for quick connect.
+    public struct FlowQuickConnectConfig: Swift.Sendable {
+        /// The contact flow ID for the quick connect configuration.
+        /// This member is required.
+        public var contactFlowId: Swift.String?
+
+        public init(
+            contactFlowId: Swift.String? = nil
+        ) {
+            self.contactFlowId = contactFlowId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about a phone number for a quick connect.
     public struct PhoneNumberQuickConnectConfig: Swift.Sendable {
         /// The phone number in E.164 format.
@@ -6337,6 +7786,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum QuickConnectType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flow
         case phoneNumber
         case queue
         case user
@@ -6344,6 +7794,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [QuickConnectType] {
             return [
+                .flow,
                 .phoneNumber,
                 .queue,
                 .user
@@ -6357,6 +7808,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .flow: return "FLOW"
             case .phoneNumber: return "PHONE_NUMBER"
             case .queue: return "QUEUE"
             case .user: return "USER"
@@ -6391,6 +7843,8 @@ extension ConnectClientTypes {
 
     /// Contains configuration settings for a quick connect.
     public struct QuickConnectConfig: Swift.Sendable {
+        /// Flow configuration for quick connect setup.
+        public var flowConfig: ConnectClientTypes.FlowQuickConnectConfig?
         /// The phone configuration. This is required only if QuickConnectType is PHONE_NUMBER.
         public var phoneConfig: ConnectClientTypes.PhoneNumberQuickConnectConfig?
         /// The queue configuration. This is required only if QuickConnectType is QUEUE.
@@ -6402,11 +7856,13 @@ extension ConnectClientTypes {
         public var userConfig: ConnectClientTypes.UserQuickConnectConfig?
 
         public init(
+            flowConfig: ConnectClientTypes.FlowQuickConnectConfig? = nil,
             phoneConfig: ConnectClientTypes.PhoneNumberQuickConnectConfig? = nil,
             queueConfig: ConnectClientTypes.QueueQuickConnectConfig? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil,
             userConfig: ConnectClientTypes.UserQuickConnectConfig? = nil
         ) {
+            self.flowConfig = flowConfig
             self.phoneConfig = phoneConfig
             self.queueConfig = queueConfig
             self.quickConnectType = quickConnectType
@@ -7202,19 +8658,120 @@ public struct CreateRuleOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mcp
+        case thirdPartyApplication
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationType] {
+            return [
+                .mcp,
+                .thirdPartyApplication
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mcp: return "MCP"
+            case .thirdPartyApplication: return "THIRD_PARTY_APPLICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// This API is in preview release for Amazon Connect and is subject to change. A third-party application's metadata.
     public struct Application: Swift.Sendable {
-        /// The permissions that the agent is granted on the application. Only the ACCESS permission is supported.
+        /// The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identifiers accepted by MCP Server.
         public var applicationPermissions: [Swift.String]?
         /// Namespace of the application that you want to give access to.
         public var namespace: Swift.String?
+        /// Type of Application.
+        public var type: ConnectClientTypes.ApplicationType?
 
         public init(
             applicationPermissions: [Swift.String]? = nil,
-            namespace: Swift.String? = nil
+            namespace: Swift.String? = nil,
+            type: ConnectClientTypes.ApplicationType? = nil
         ) {
             self.applicationPermissions = applicationPermissions
             self.namespace = namespace
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A primary attribute value.
+    public struct PrimaryAttributeValue: Swift.Sendable {
+        /// The value's access type.
+        public var accessType: ConnectClientTypes.AccessType?
+        /// The value's attribute name.
+        public var attributeName: Swift.String?
+        /// The value's values.
+        public var values: [Swift.String]?
+
+        public init(
+            accessType: ConnectClientTypes.AccessType? = nil,
+            attributeName: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.accessType = accessType
+            self.attributeName = attributeName
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A primary attribute access control configuration item.
+    public struct PrimaryAttributeAccessControlConfigurationItem: Swift.Sendable {
+        /// The item's primary attribute values.
+        public var primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValue]?
+
+        public init(
+            primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValue]? = nil
+        ) {
+            self.primaryAttributeValues = primaryAttributeValues
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table access control configuration.
+    public struct DataTableAccessControlConfiguration: Swift.Sendable {
+        /// The configuration's primary attribute access control configuration.
+        public var primaryAttributeAccessControlConfiguration: ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem?
+
+        public init(
+            primaryAttributeAccessControlConfiguration: ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem? = nil
+        ) {
+            self.primaryAttributeAccessControlConfiguration = primaryAttributeAccessControlConfiguration
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains granular access control configuration for security profiles, including data table access permissions.
+    public struct GranularAccessControlConfiguration: Swift.Sendable {
+        /// The access control configuration for data tables.
+        public var dataTableAccessControlConfiguration: ConnectClientTypes.DataTableAccessControlConfiguration?
+
+        public init(
+            dataTableAccessControlConfiguration: ConnectClientTypes.DataTableAccessControlConfiguration? = nil
+        ) {
+            self.dataTableAccessControlConfiguration = dataTableAccessControlConfiguration
         }
     }
 }
@@ -7224,10 +8781,14 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String: Swift.String]?
-    /// A list of third-party applications that the security profile will give access to.
+    /// A list of Flow Modules an AI Agent can invoke as a tool.
+    public var allowedFlowModules: [ConnectClientTypes.FlowModule]?
+    /// A list of third-party applications or MCP Servers that the security profile will give access to.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
+    /// The granular access control configuration for the security profile, including data table permissions.
+    public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
     /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
     public var hierarchyRestrictedResources: [Swift.String]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -7246,8 +8807,10 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     public init(
         allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String: Swift.String]? = nil,
+        allowedFlowModules: [ConnectClientTypes.FlowModule]? = nil,
         applications: [ConnectClientTypes.Application]? = nil,
         description: Swift.String? = nil,
+        granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration? = nil,
         hierarchyRestrictedResources: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
@@ -7257,8 +8820,10 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
+        self.allowedFlowModules = allowedFlowModules
         self.applications = applications
         self.description = description
+        self.granularAccessControlConfiguration = granularAccessControlConfiguration
         self.hierarchyRestrictedResources = hierarchyRestrictedResources
         self.instanceId = instanceId
         self.permissions = permissions
@@ -8497,6 +10062,382 @@ public struct CreateVocabularyOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// Contains logo image configuration for workspace themes.
+    public struct ImagesLogo: Swift.Sendable {
+        /// The default logo image displayed in the workspace.
+        public var `default`: Swift.String?
+        /// The favicon image displayed in the browser tab.
+        public var favicon: Swift.String?
+
+        public init(
+            `default`: Swift.String? = nil,
+            favicon: Swift.String? = nil
+        ) {
+            self.`default` = `default`
+            self.favicon = favicon
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains image configuration for a workspace theme.
+    public struct WorkspaceThemeImages: Swift.Sendable {
+        /// The logo images used in the workspace.
+        public var logo: ConnectClientTypes.ImagesLogo?
+
+        public init(
+            logo: ConnectClientTypes.ImagesLogo? = nil
+        ) {
+            self.logo = logo
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains color configuration for canvas elements in a workspace theme.
+    public struct PaletteCanvas: Swift.Sendable {
+        /// The background color for active elements.
+        public var activeBackground: Swift.String?
+        /// The background color for container elements.
+        public var containerBackground: Swift.String?
+        /// The background color for page elements.
+        public var pageBackground: Swift.String?
+
+        public init(
+            activeBackground: Swift.String? = nil,
+            containerBackground: Swift.String? = nil,
+            pageBackground: Swift.String? = nil
+        ) {
+            self.activeBackground = activeBackground
+            self.containerBackground = containerBackground
+            self.pageBackground = pageBackground
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains color configuration for header elements in a workspace theme.
+    public struct PaletteHeader: Swift.Sendable {
+        /// The background color of the header.
+        public var background: Swift.String?
+        /// Whether to invert the colors of action buttons in the header.
+        public var invertActionsColors: Swift.Bool
+        /// The text color in the header.
+        public var text: Swift.String?
+        /// The text color when hovering over header elements.
+        public var textHover: Swift.String?
+
+        public init(
+            background: Swift.String? = nil,
+            invertActionsColors: Swift.Bool = false,
+            text: Swift.String? = nil,
+            textHover: Swift.String? = nil
+        ) {
+            self.background = background
+            self.invertActionsColors = invertActionsColors
+            self.text = text
+            self.textHover = textHover
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains color configuration for navigation elements in a workspace theme.
+    public struct PaletteNavigation: Swift.Sendable {
+        /// The background color of the navigation area.
+        public var background: Swift.String?
+        /// Whether to invert the colors of action buttons in the navigation area.
+        public var invertActionsColors: Swift.Bool
+        /// The text color in the navigation area.
+        public var text: Swift.String?
+        /// The text color for active navigation items.
+        public var textActive: Swift.String?
+        /// The background color for active navigation items.
+        public var textBackgroundActive: Swift.String?
+        /// The background color when hovering over navigation text.
+        public var textBackgroundHover: Swift.String?
+        /// The text color when hovering over navigation items.
+        public var textHover: Swift.String?
+
+        public init(
+            background: Swift.String? = nil,
+            invertActionsColors: Swift.Bool = false,
+            text: Swift.String? = nil,
+            textActive: Swift.String? = nil,
+            textBackgroundActive: Swift.String? = nil,
+            textBackgroundHover: Swift.String? = nil,
+            textHover: Swift.String? = nil
+        ) {
+            self.background = background
+            self.invertActionsColors = invertActionsColors
+            self.text = text
+            self.textActive = textActive
+            self.textBackgroundActive = textBackgroundActive
+            self.textBackgroundHover = textBackgroundHover
+            self.textHover = textHover
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains primary color configuration for a workspace theme.
+    public struct PalettePrimary: Swift.Sendable {
+        /// The primary color used for active states.
+        public var active: Swift.String?
+        /// The text color that contrasts with the primary color for readability.
+        public var contrastText: Swift.String?
+        /// The default primary color used throughout the workspace.
+        public var `default`: Swift.String?
+
+        public init(
+            active: Swift.String? = nil,
+            contrastText: Swift.String? = nil,
+            `default`: Swift.String? = nil
+        ) {
+            self.active = active
+            self.contrastText = contrastText
+            self.`default` = `default`
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains color palette configuration for different areas of a workspace.
+    public struct WorkspaceThemePalette: Swift.Sendable {
+        /// The color configuration for the canvas area.
+        public var canvas: ConnectClientTypes.PaletteCanvas?
+        /// The color configuration for the header area.
+        public var header: ConnectClientTypes.PaletteHeader?
+        /// The color configuration for the navigation area.
+        public var navigation: ConnectClientTypes.PaletteNavigation?
+        /// The primary color configuration used throughout the workspace.
+        public var primary: ConnectClientTypes.PalettePrimary?
+
+        public init(
+            canvas: ConnectClientTypes.PaletteCanvas? = nil,
+            header: ConnectClientTypes.PaletteHeader? = nil,
+            navigation: ConnectClientTypes.PaletteNavigation? = nil,
+            primary: ConnectClientTypes.PalettePrimary? = nil
+        ) {
+            self.canvas = canvas
+            self.header = header
+            self.navigation = navigation
+            self.primary = primary
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum WorkspaceFontFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arial
+        case courierNew
+        case georgia
+        case timesNewRoman
+        case trebuchet
+        case verdana
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceFontFamily] {
+            return [
+                .arial,
+                .courierNew,
+                .georgia,
+                .timesNewRoman,
+                .trebuchet,
+                .verdana
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arial: return "Arial"
+            case .courierNew: return "Courier New"
+            case .georgia: return "Georgia"
+            case .timesNewRoman: return "Times New Roman"
+            case .trebuchet: return "Trebuchet"
+            case .verdana: return "Verdana"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains font family configuration for workspace themes.
+    public struct FontFamily: Swift.Sendable {
+        /// The default font family to use in the workspace theme.
+        public var `default`: ConnectClientTypes.WorkspaceFontFamily?
+
+        public init(
+            `default`: ConnectClientTypes.WorkspaceFontFamily? = nil
+        ) {
+            self.`default` = `default`
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains typography configuration for a workspace theme.
+    public struct WorkspaceThemeTypography: Swift.Sendable {
+        /// The font family configuration for text in the workspace.
+        public var fontFamily: ConnectClientTypes.FontFamily?
+
+        public init(
+            fontFamily: ConnectClientTypes.FontFamily? = nil
+        ) {
+            self.fontFamily = fontFamily
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains detailed theme configuration for a workspace, including colors, images, and typography.
+    public struct WorkspaceThemeConfig: Swift.Sendable {
+        /// The image assets used in the workspace theme.
+        public var images: ConnectClientTypes.WorkspaceThemeImages?
+        /// The color palette configuration for the workspace theme.
+        public var palette: ConnectClientTypes.WorkspaceThemePalette?
+        /// The typography configuration for the workspace theme.
+        public var typography: ConnectClientTypes.WorkspaceThemeTypography?
+
+        public init(
+            images: ConnectClientTypes.WorkspaceThemeImages? = nil,
+            palette: ConnectClientTypes.WorkspaceThemePalette? = nil,
+            typography: ConnectClientTypes.WorkspaceThemeTypography? = nil
+        ) {
+            self.images = images
+            self.palette = palette
+            self.typography = typography
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains theme configuration for a workspace, supporting both light and dark modes.
+    public struct WorkspaceTheme: Swift.Sendable {
+        /// The theme configuration for dark mode.
+        public var dark: ConnectClientTypes.WorkspaceThemeConfig?
+        /// The theme configuration for light mode.
+        public var light: ConnectClientTypes.WorkspaceThemeConfig?
+
+        public init(
+            dark: ConnectClientTypes.WorkspaceThemeConfig? = nil,
+            light: ConnectClientTypes.WorkspaceThemeConfig? = nil
+        ) {
+            self.dark = dark
+            self.light = light
+        }
+    }
+}
+
+public struct CreateWorkspaceInput: Swift.Sendable {
+    /// The description of the workspace. Maximum length is 250 characters.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the workspace. Must be unique within the instance and can contain 1-127 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
+    /// The theme configuration for the workspace, including colors and styling.
+    public var theme: ConnectClientTypes.WorkspaceTheme?
+    /// The title displayed for the workspace.
+    public var title: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        theme: ConnectClientTypes.WorkspaceTheme? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.tags = tags
+        self.theme = theme
+        self.title = title
+    }
+}
+
+public struct CreateWorkspaceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the workspace.
+    /// This member is required.
+    public var workspaceArn: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        workspaceArn: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.workspaceArn = workspaceArn
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct CreateWorkspacePageInput: Swift.Sendable {
+    /// A JSON string containing input parameters for the view, validated against the view's input schema.
+    public var inputData: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The page identifier. Valid system pages include HOME and AGENT_EXPERIENCE. Custom pages cannot use the aws: or connect: prefixes.
+    /// This member is required.
+    public var page: Swift.String?
+    /// The Amazon Resource Name (ARN) of the view to associate with the page.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The URL-friendly identifier for the page.
+    public var slug: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        inputData: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        page: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        slug: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.inputData = inputData
+        self.instanceId = instanceId
+        self.page = page
+        self.resourceArn = resourceArn
+        self.slug = slug
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct CreateWorkspacePageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeactivateEvaluationFormInput: Swift.Sendable {
     /// The unique identifier for the evaluation form.
     /// This member is required.
@@ -8710,6 +10651,62 @@ public struct DeleteContactFlowVersionInput: Swift.Sendable {
 public struct DeleteContactFlowVersionOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteDataTableInput: Swift.Sendable {
+    /// The unique identifier for the data table to delete. Must also accept the table ARN. Fails with an error if the version is provided and is not $LATEST.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteDataTableOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteDataTableAttributeInput: Swift.Sendable {
+    /// The name of the attribute to delete.
+    /// This member is required.
+    public var attributeName: Swift.String?
+    /// The unique identifier for the data table.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        attributeName: Swift.String? = nil,
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.attributeName = attributeName
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteDataTableAttributeOutput: Swift.Sendable {
+    /// The updated lock version of the data table.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+
+    public init(
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil
+    ) {
+        self.lockVersion = lockVersion
+    }
 }
 
 public struct DeleteEmailAddressInput: Swift.Sendable {
@@ -9154,6 +11151,117 @@ public struct DeleteVocabularyOutput: Swift.Sendable {
         self.vocabularyArn = vocabularyArn
         self.vocabularyId = vocabularyId
     }
+}
+
+public struct DeleteWorkspaceInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DeleteWorkspaceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension ConnectClientTypes {
+
+    public enum MediaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case imageLogoDarkFavicon
+        case imageLogoDarkHorizontal
+        case imageLogoLightFavicon
+        case imageLogoLightHorizontal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaType] {
+            return [
+                .imageLogoDarkFavicon,
+                .imageLogoDarkHorizontal,
+                .imageLogoLightFavicon,
+                .imageLogoLightHorizontal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .imageLogoDarkFavicon: return "IMAGE_LOGO_DARK_FAVICON"
+            case .imageLogoDarkHorizontal: return "IMAGE_LOGO_DARK_HORIZONTAL"
+            case .imageLogoLightFavicon: return "IMAGE_LOGO_LIGHT_FAVICON"
+            case .imageLogoLightHorizontal: return "IMAGE_LOGO_LIGHT_HORIZONTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteWorkspaceMediaInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+    /// This member is required.
+    public var mediaType: ConnectClientTypes.MediaType?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        mediaType: ConnectClientTypes.MediaType? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.mediaType = mediaType
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DeleteWorkspaceMediaOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteWorkspacePageInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The page identifier.
+    /// This member is required.
+    public var page: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        page: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.page = page
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DeleteWorkspacePageOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DescribeAgentStatusInput: Swift.Sendable {
@@ -9681,6 +11789,92 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Contact data associated with quick connect operations.
+    public struct QuickConnectContactData: Swift.Sendable {
+        /// The contact ID for quick connect contact data.
+        public var contactId: Swift.String?
+        /// Timestamp when the quick connect contact was initiated.
+        public var initiationTimestamp: Foundation.Date?
+        /// The quick connect ID.
+        public var quickConnectId: Swift.String?
+        /// The name of the quick connect.
+        public var quickConnectName: Swift.String?
+        /// The type of the quick connect.
+        public var quickConnectType: ConnectClientTypes.QuickConnectType?
+
+        public init(
+            contactId: Swift.String? = nil,
+            initiationTimestamp: Foundation.Date? = nil,
+            quickConnectId: Swift.String? = nil,
+            quickConnectName: Swift.String? = nil,
+            quickConnectType: ConnectClientTypes.QuickConnectType? = nil
+        ) {
+            self.contactId = contactId
+            self.initiationTimestamp = initiationTimestamp
+            self.quickConnectId = quickConnectId
+            self.quickConnectName = quickConnectName
+            self.quickConnectType = quickConnectType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Metadata information for next contact.
+    public enum NextContactMetadata: Swift.Sendable {
+        /// Quick connect contact data for the next contact metadata.
+        case quickconnectcontactdata(ConnectClientTypes.QuickConnectContactData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum NextContactType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case quickConnect
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NextContactType] {
+            return [
+                .quickConnect
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .quickConnect: return "QUICK_CONNECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Entry representing the next contact in a sequence.
+    public struct NextContactEntry: Swift.Sendable {
+        /// Metadata for the next contact entry.
+        public var nextContactMetadata: ConnectClientTypes.NextContactMetadata?
+        /// The type of the next contact entry.
+        public var type: ConnectClientTypes.NextContactType?
+
+        public init(
+            nextContactMetadata: ConnectClientTypes.NextContactMetadata? = nil,
+            type: ConnectClientTypes.NextContactType? = nil
+        ) {
+            self.nextContactMetadata = nextContactMetadata
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about the quality of the Customer's media connection
     public struct CustomerQualityMetrics: Swift.Sendable {
         /// Information about the audio quality of the Customer
@@ -9826,6 +12020,8 @@ extension ConnectClientTypes {
         public var stopTimestamp: Foundation.Date?
         /// Where the recording/transcript is stored.
         public var storageType: ConnectClientTypes.StorageType?
+        /// The location, in Amazon S3, for the unprocessed transcript if any media processing was performed.
+        public var unprocessedTranscriptLocation: Swift.String?
 
         public init(
             deletionReason: Swift.String? = nil,
@@ -9837,7 +12033,8 @@ extension ConnectClientTypes {
             startTimestamp: Foundation.Date? = nil,
             status: ConnectClientTypes.RecordingStatus? = nil,
             stopTimestamp: Foundation.Date? = nil,
-            storageType: ConnectClientTypes.StorageType? = nil
+            storageType: ConnectClientTypes.StorageType? = nil,
+            unprocessedTranscriptLocation: Swift.String? = nil
         ) {
             self.deletionReason = deletionReason
             self.fragmentStartNumber = fragmentStartNumber
@@ -9849,6 +12046,7 @@ extension ConnectClientTypes {
             self.status = status
             self.stopTimestamp = stopTimestamp
             self.storageType = storageType
+            self.unprocessedTranscriptLocation = unprocessedTranscriptLocation
         }
     }
 }
@@ -9999,12 +12197,16 @@ extension ConnectClientTypes {
 
     /// Information about Amazon Connect Wisdom.
     public struct WisdomInfo: Swift.Sendable {
+        /// The array of AI agents involved in the contact.
+        public var aiAgents: [ConnectClientTypes.AiAgentInfo]?
         /// The Amazon Resource Name (ARN) of the Wisdom session.
         public var sessionArn: Swift.String?
 
         public init(
+            aiAgents: [ConnectClientTypes.AiAgentInfo]? = nil,
             sessionArn: Swift.String? = nil
         ) {
+            self.aiAgents = aiAgents
             self.sessionArn = sessionArn
         }
     }
@@ -10275,6 +12477,10 @@ extension ConnectClientTypes {
         case stringvalue(Swift.String)
         /// The numeric value for an answer in a contact evaluation.
         case numericvalue(Swift.Double)
+        /// String values provided as answers to evaluation questions.
+        case stringvalues([Swift.String])
+        /// Date and time value provided as an answer to an evaluation question.
+        case datetimevalue(Swift.String)
         /// The flag to mark the question as not applicable.
         case notapplicable(Swift.Bool)
         case sdkUnknown(Swift.String)
@@ -10445,8 +12651,61 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum ContactParticipantRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case customBot
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactParticipantRole] {
+            return [
+                .agent,
+                .customBot,
+                .system
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .customBot: return "CUSTOM_BOT"
+            case .system: return "SYSTEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a contact participant in the evaluation.
+    public struct EvaluationContactParticipant: Swift.Sendable {
+        /// The identifier for the contact participant.
+        public var contactParticipantId: Swift.String?
+        /// The role of the contact participant.
+        public var contactParticipantRole: ConnectClientTypes.ContactParticipantRole?
+
+        public init(
+            contactParticipantId: Swift.String? = nil,
+            contactParticipantRole: ConnectClientTypes.ContactParticipantRole? = nil
+        ) {
+            self.contactParticipantId = contactParticipantId
+            self.contactParticipantRole = contactParticipantRole
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about scores of a contact evaluation item (section or question).
     public struct EvaluationScore: Swift.Sendable {
+        /// Weight applied to this evaluation score.
+        public var appliedWeight: Swift.Double?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public var automaticFail: Swift.Bool
         /// The flag to mark the item as not applicable for scoring.
@@ -10455,10 +12714,12 @@ extension ConnectClientTypes {
         public var percentage: Swift.Double
 
         public init(
+            appliedWeight: Swift.Double? = nil,
             automaticFail: Swift.Bool = false,
             notApplicable: Swift.Bool = false,
             percentage: Swift.Double = 0.0
         ) {
+            self.appliedWeight = appliedWeight
             self.automaticFail = automaticFail
             self.notApplicable = notApplicable
             self.percentage = percentage
@@ -10481,9 +12742,13 @@ extension ConnectClientTypes {
         /// The identifier of the contact in this instance of Amazon Connect.
         /// This member is required.
         public var contactId: Swift.String?
+        /// Information about a contact participant in this evaluation.
+        public var contactParticipant: ConnectClientTypes.EvaluationContactParticipant?
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// Identifier of the sampling job.
+        public var samplingJobId: Swift.String?
         /// The overall score of the contact evaluation.
         public var score: ConnectClientTypes.EvaluationScore?
 
@@ -10493,7 +12758,9 @@ extension ConnectClientTypes {
             calibrationSessionId: Swift.String? = nil,
             contactAgentId: Swift.String? = nil,
             contactId: Swift.String? = nil,
+            contactParticipant: ConnectClientTypes.EvaluationContactParticipant? = nil,
             evaluatorArn: Swift.String? = nil,
+            samplingJobId: Swift.String? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil
         ) {
             self.acknowledgement = acknowledgement
@@ -10501,7 +12768,9 @@ extension ConnectClientTypes {
             self.calibrationSessionId = calibrationSessionId
             self.contactAgentId = contactAgentId
             self.contactId = contactId
+            self.contactParticipant = contactParticipant
             self.evaluatorArn = evaluatorArn
+            self.samplingJobId = samplingJobId
             self.score = score
         }
     }
@@ -10983,6 +13252,202 @@ public struct DescribeContactFlowModuleAliasOutput: Swift.Sendable {
         contactFlowModuleAlias: ConnectClientTypes.ContactFlowModuleAliasInfo? = nil
     ) {
         self.contactFlowModuleAlias = contactFlowModuleAlias
+    }
+}
+
+public struct DescribeDataTableInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If no alias is provided, the default behavior is identical to providing the $LATEST alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Represents a data table in Amazon Connect. A data table is a JSON-like data structure where attributes and values are dynamically set by customers. Customers can reference table values within call flows, applications, views, and workspaces to pinpoint dynamic configuration that changes their contact center's behavior in a predetermined and safe way.
+    public struct DataTable: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the data table. Does not include version aliases.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp when the data table was created.
+        public var createdTime: Foundation.Date?
+        /// An optional description of the data table's purpose and contents.
+        public var description: Swift.String?
+        /// The unique identifier for the data table. Does not include version aliases.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The AWS region where the data table was last modified, used for region replication.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the data table or any of its properties were last modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The lock version information used for optimistic locking and table versioning. Changes with each update to prevent concurrent modification conflicts.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The human-readable name of the data table. Must be unique within the instance and conform to Connect naming standards.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The current status of the data table. One of PUBLISHED or SAVED.
+        public var status: ConnectClientTypes.DataTableStatus?
+        /// Key-value pairs for attribute based access control (TBAC or ABAC) and organization.
+        public var tags: [Swift.String: Swift.String]?
+        /// The IANA timezone identifier used when resolving time based dynamic values. Required even if no time slices are specified.
+        /// This member is required.
+        public var timeZone: Swift.String?
+        /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Determines how concurrent edits are handled when multiple users attempt to modify values simultaneously.
+        public var valueLockLevel: ConnectClientTypes.DataTableLockLevel?
+        /// A unique identifier and alias for customer managed versions (not $LATEST or $SAVED).
+        public var version: Swift.String?
+        /// A description of the customer managed version.
+        public var versionDescription: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.DataTableStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            timeZone: Swift.String? = nil,
+            valueLockLevel: ConnectClientTypes.DataTableLockLevel? = nil,
+            version: Swift.String? = nil,
+            versionDescription: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.timeZone = timeZone
+            self.valueLockLevel = valueLockLevel
+            self.version = version
+            self.versionDescription = versionDescription
+        }
+    }
+}
+
+public struct DescribeDataTableOutput: Swift.Sendable {
+    /// The complete data table information including metadata, configuration, and versioning details.
+    /// This member is required.
+    public var dataTable: ConnectClientTypes.DataTable?
+
+    public init(
+        dataTable: ConnectClientTypes.DataTable? = nil
+    ) {
+        self.dataTable = dataTable
+    }
+}
+
+public struct DescribeDataTableAttributeInput: Swift.Sendable {
+    /// The name of the attribute to retrieve detailed information for.
+    /// This member is required.
+    public var attributeName: Swift.String?
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        attributeName: Swift.String? = nil,
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.attributeName = attributeName
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Represents an attribute (column) in a data table. Attributes define the schema and validation rules for values that can be stored in the table. They specify the data type, constraints, and whether the attribute is used as a primary key for record identification.
+    public struct DataTableAttribute: Swift.Sendable {
+        /// The unique identifier for the attribute within the data table.
+        public var attributeId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the data table that contains this attribute.
+        public var dataTableArn: Swift.String?
+        /// The unique identifier of the data table that contains this attribute.
+        public var dataTableId: Swift.String?
+        /// An optional description explaining the purpose and usage of this attribute.
+        public var description: Swift.String?
+        /// The AWS region where this attribute was last modified, used for region replication.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this attribute was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The lock version for this attribute, used for optimistic locking to prevent concurrent modification conflicts.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The human-readable name of the attribute. Must be unique within the data table and conform to Connect naming standards.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Boolean indicating whether this attribute is used as a primary key for record identification. Primary attributes must have unique value combinations and cannot contain expressions.
+        public var primary: Swift.Bool
+        /// The validation rules applied to values of this attribute. Based on JSON Schema Draft 2020-12 with additional Connect-specific validations for data integrity.
+        public var validation: ConnectClientTypes.Validation?
+        /// The type of value allowed for this attribute. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, or BOOLEAN. Determines how values are validated and processed.
+        /// This member is required.
+        public var valueType: ConnectClientTypes.DataTableAttributeValueType?
+        /// The version identifier for this attribute, used for versioning and change tracking.
+        public var version: Swift.String?
+
+        public init(
+            attributeId: Swift.String? = nil,
+            dataTableArn: Swift.String? = nil,
+            dataTableId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            name: Swift.String? = nil,
+            primary: Swift.Bool = false,
+            validation: ConnectClientTypes.Validation? = nil,
+            valueType: ConnectClientTypes.DataTableAttributeValueType? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.attributeId = attributeId
+            self.dataTableArn = dataTableArn
+            self.dataTableId = dataTableId
+            self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.name = name
+            self.primary = primary
+            self.validation = validation
+            self.valueType = valueType
+            self.version = version
+        }
+    }
+}
+
+public struct DescribeDataTableAttributeOutput: Swift.Sendable {
+    /// The complete attribute information including configuration, validation rules, lock version, and metadata.
+    /// This member is required.
+    public var attribute: ConnectClientTypes.DataTableAttribute?
+
+    public init(
+        attribute: ConnectClientTypes.DataTableAttribute? = nil
+    ) {
+        self.attribute = attribute
     }
 }
 
@@ -11488,6 +13953,7 @@ extension ConnectClientTypes {
         case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
+        case messageStreaming
         case multiPartyChatConference
         case multiPartyConference
         case outboundCalls
@@ -11504,6 +13970,7 @@ extension ConnectClientTypes {
                 .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
+                .messageStreaming,
                 .multiPartyChatConference,
                 .multiPartyConference,
                 .outboundCalls,
@@ -11526,6 +13993,7 @@ extension ConnectClientTypes {
             case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
+            case .messageStreaming: return "MESSAGE_STREAMING"
             case .multiPartyChatConference: return "MULTI_PARTY_CHAT_CONFERENCE"
             case .multiPartyConference: return "MULTI_PARTY_CONFERENCE"
             case .outboundCalls: return "OUTBOUND_CALLS"
@@ -13104,6 +15572,8 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The description of the security profile.
         public var description: Swift.String?
+        /// The granular access control configuration for the security profile, including data table permissions.
+        public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
         /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
         public var hierarchyRestrictedResources: [Swift.String]?
         /// The identifier for the security profile.
@@ -13126,6 +15596,7 @@ extension ConnectClientTypes {
             allowedAccessControlTags: [Swift.String: Swift.String]? = nil,
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
+            granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration? = nil,
             hierarchyRestrictedResources: [Swift.String]? = nil,
             id: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
@@ -13139,6 +15610,7 @@ extension ConnectClientTypes {
             self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
             self.description = description
+            self.granularAccessControlConfiguration = granularAccessControlConfiguration
             self.hierarchyRestrictedResources = hierarchyRestrictedResources
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -13696,6 +16168,122 @@ public struct DescribeVocabularyOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeWorkspaceInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case assigned
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Visibility] {
+            return [
+                .all,
+                .assigned,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .assigned: return "ASSIGNED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a workspace, which defines the user experience by mapping views to pages.
+    public struct Workspace: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The description of the workspace.
+        public var description: Swift.String?
+        /// The unique identifier of the workspace.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The AWS Region where the workspace was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the workspace was last modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the workspace.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The tags used to organize, track, or control access for the workspace.
+        public var tags: [Swift.String: Swift.String]?
+        /// The theme configuration for the workspace, including colors and styling.
+        public var theme: ConnectClientTypes.WorkspaceTheme?
+        /// The title displayed for the workspace.
+        public var title: Swift.String?
+        /// Controls who can access the workspace. Valid values are: ALL (all users), ASSIGNED (only assigned users and routing profiles), and NONE (not visible).
+        public var visibility: ConnectClientTypes.Visibility?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            theme: ConnectClientTypes.WorkspaceTheme? = nil,
+            title: Swift.String? = nil,
+            visibility: ConnectClientTypes.Visibility? = nil
+        ) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.tags = tags
+            self.theme = theme
+            self.title = title
+            self.visibility = visibility
+        }
+    }
+}
+
+public struct DescribeWorkspaceOutput: Swift.Sendable {
+    /// Information about the workspace.
+    /// This member is required.
+    public var workspace: ConnectClientTypes.Workspace?
+
+    public init(
+        workspace: ConnectClientTypes.Workspace? = nil
+    ) {
+        self.workspace = workspace
+    }
+}
+
 public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
     /// The identifier of the dataset to remove.
     /// This member is required.
@@ -13982,6 +16570,33 @@ public struct DisassociateSecurityKeyInput: Swift.Sendable {
     }
 }
 
+public struct DisassociateSecurityProfilesInput: Swift.Sendable {
+    /// ARN of a Q in Connect AI Agent.
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// Only supported type is AI_AGENT.
+    /// This member is required.
+    public var entityType: ConnectClientTypes.EntityType?
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// List of Security Profile Object.
+    /// This member is required.
+    public var securityProfiles: [ConnectClientTypes.SecurityProfileItem]?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        entityType: ConnectClientTypes.EntityType? = nil,
+        instanceId: Swift.String? = nil,
+        securityProfiles: [ConnectClientTypes.SecurityProfileItem]? = nil
+    ) {
+        self.entityArn = entityArn
+        self.entityType = entityType
+        self.instanceId = instanceId
+        self.securityProfiles = securityProfiles
+    }
+}
+
 public struct DisassociateTrafficDistributionGroupUserInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -14052,6 +16667,43 @@ public struct DisassociateUserProficienciesInput: Swift.Sendable {
     }
 }
 
+public struct DisassociateWorkspaceInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the resources to disassociate from the workspace.
+    /// This member is required.
+    public var resourceArns: [Swift.String]?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.resourceArns = resourceArns
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DisassociateWorkspaceOutput: Swift.Sendable {
+    /// A list of resources that failed to be disassociated from the workspace, including error details.
+    public var failedList: [ConnectClientTypes.FailedBatchAssociationSummary]?
+    /// A list of resources that were successfully disassociated from the workspace.
+    public var successfulList: [ConnectClientTypes.SuccessfulBatchAssociationSummary]?
+
+    public init(
+        failedList: [ConnectClientTypes.FailedBatchAssociationSummary]? = nil,
+        successfulList: [ConnectClientTypes.SuccessfulBatchAssociationSummary]? = nil
+    ) {
+        self.failedList = failedList
+        self.successfulList = successfulList
+    }
+}
+
 public struct DismissUserContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
@@ -14077,6 +16729,122 @@ public struct DismissUserContactInput: Swift.Sendable {
 public struct DismissUserContactOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table value evaluation set.
+    public struct DataTableValueEvaluationSet: Swift.Sendable {
+        /// The set's attribute names.
+        /// This member is required.
+        public var attributeNames: [Swift.String]?
+        /// The set's primary values.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+        public init(
+            attributeNames: [Swift.String]? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+        ) {
+            self.attributeNames = attributeNames
+            self.primaryValues = primaryValues
+        }
+    }
+}
+
+public struct EvaluateDataTableValuesInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data table values to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Optional IANA timezone identifier to use when resolving time based dynamic values. Defaults to the data table time zone if not provided.
+    public var timeZone: Swift.String?
+    /// A list of value evaluation sets specifying which primary values and attributes to evaluate.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableValueEvaluationSet]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        timeZone: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableValueEvaluationSet]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.timeZone = timeZone
+        self.values = values
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table evaluated value.
+    public struct DataTableEvaluatedValue: Swift.Sendable {
+        /// The value's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The value's error.
+        /// This member is required.
+        public var error: Swift.Bool
+        /// The value's evaluated value.
+        /// This member is required.
+        public var evaluatedValue: Swift.String?
+        /// The value's found.
+        /// This member is required.
+        public var found: Swift.Bool
+        /// The value's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+        /// The value's record ID.
+        /// This member is required.
+        public var recordId: Swift.String?
+        /// The value's value type.
+        /// This member is required.
+        public var valueType: ConnectClientTypes.DataTableAttributeValueType?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            error: Swift.Bool = false,
+            evaluatedValue: Swift.String? = nil,
+            found: Swift.Bool = false,
+            primaryValues: [ConnectClientTypes.PrimaryValue]? = nil,
+            recordId: Swift.String? = nil,
+            valueType: ConnectClientTypes.DataTableAttributeValueType? = nil
+        ) {
+            self.attributeName = attributeName
+            self.error = error
+            self.evaluatedValue = evaluatedValue
+            self.found = found
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.valueType = valueType
+        }
+    }
+}
+
+public struct EvaluateDataTableValuesOutput: Swift.Sendable {
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of evaluated values with their computed results, error information, and metadata.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableEvaluatedValue]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableEvaluatedValue]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.values = values
+    }
 }
 
 /// Request to GetAttachedFile API.
@@ -15465,19 +18233,64 @@ public struct GetMetricDataOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum FilterV2StringConditionComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notExists
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterV2StringConditionComparisonOperator] {
+            return [
+                .notExists
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notExists: return "NOT_EXISTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// System defined filtering condition. For example, the NOT_EXISTS StringCondition returns documents where the field specified by FilterKey does not exist in the document. When the NOT_EXISTS StringCondition is added to a FilterV2 object, FilterValues must be null or empty.
+    public struct FilterV2StringCondition: Swift.Sendable {
+        /// The string condition.
+        public var comparison: ConnectClientTypes.FilterV2StringConditionComparisonOperator?
+
+        public init(
+            comparison: ConnectClientTypes.FilterV2StringConditionComparisonOperator? = nil
+        ) {
+            self.comparison = comparison
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains the filter to apply when retrieving metrics with the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API.
     public struct FilterV2: Swift.Sendable {
         /// The key to use for filtering data. For example, QUEUE, ROUTING_PROFILE, AGENT, CHANNEL, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE. There must be at least 1 key and a maximum 5 keys.
         public var filterKey: Swift.String?
         /// The identifiers to use for filtering data. For example, if you have a filter key of QUEUE, you would add queue IDs or ARNs in FilterValues.
         public var filterValues: [Swift.String]?
+        /// System defined filtering condition. For example, the NOT_EXISTS StringCondition returns documents where the field specified by FilterKey does not exist in the document. When the NOT_EXISTS StringCondition is added to a FilterV2 object, FilterValues must be null or empty.
+        public var stringCondition: ConnectClientTypes.FilterV2StringCondition?
 
         public init(
             filterKey: Swift.String? = nil,
-            filterValues: [Swift.String]? = nil
+            filterValues: [Swift.String]? = nil,
+            stringCondition: ConnectClientTypes.FilterV2StringCondition? = nil
         ) {
             self.filterKey = filterKey
             self.filterValues = filterValues
+            self.stringCondition = stringCondition
         }
     }
 }
@@ -15614,21 +18427,25 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Contains information about the metric.
+    /// Contains information about the metric. Only one of either the Name or MetricId is required.
     public struct MetricV2: Swift.Sendable {
         /// Contains the filters to be used when returning data.
         public var metricFilters: [ConnectClientTypes.MetricFilterV2]?
-        /// The name of the metric. This parameter is required. The following Required = No is incorrect.
+        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Amazon Connect Arn or a UUID
+        public var metricId: Swift.String?
+        /// The name of the metric.
         public var name: Swift.String?
         /// Contains information about the threshold for service level metrics.
         public var threshold: [ConnectClientTypes.ThresholdV2]?
 
         public init(
             metricFilters: [ConnectClientTypes.MetricFilterV2]? = nil,
+            metricId: Swift.String? = nil,
             name: Swift.String? = nil,
             threshold: [ConnectClientTypes.ThresholdV2]? = nil
         ) {
             self.metricFilters = metricFilters
+            self.metricId = metricId
             self.name = name
             self.threshold = threshold
         }
@@ -15660,19 +18477,21 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     ///
     /// At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Amazon Connect Administrator Guide. Note the following limits:
     ///
-    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS |  BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE  | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |
+    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_FIVE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_ HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_TWO |  ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |  CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL |  contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType |  DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_ TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_ CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE
     ///
     /// * Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters. contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics. connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key. ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is. Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.
     ///
-    /// * TRUE includes all contacts that had Amazon Q in Connect enabled as part of the flow.
+    /// * TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.
     ///
-    /// * FALSE includes all contacts that did not have Amazon Q in Connect enabled as part of the flow
+    /// * FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow
+    ///
+    /// * EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filterValues for the contact/segmentAttributes/connect:ValidationTestType filter key
     ///
     ///
     /// This filter is available only for contact record-driven metrics. [Campaign](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-outbound-campaigns_Campaign.html) ARNs are valid filterValues for the CAMPAIGN filter key.
     /// This member is required.
     public var filters: [ConnectClientTypes.FilterV2]?
-    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION Type: Array of strings Array Members: Maximum number of 4 items Required: No
+    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
     public var groupings: [Swift.String]?
     /// The interval period and timezone to apply to returned metrics.
     ///
@@ -15697,7 +18516,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
+    /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. ACTIVE_AI_AGENTS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents AI_HANDOFF_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Handoff Rate AI_HANDOFFS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count AI_AGENT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Count AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count AI Agent Name Version is not a valid filter but a valid grouping. AI_RESPONSE_COMPLETION_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate AI_INVOLVED_CONTACTS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Contacts AI_PROMPT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Count AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Count AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_AGENT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Agent Conversation Turns AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Conversation Turns AVG_AI_PROMPT_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_TOOL_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency AI Agent Name Version is not a valid filter but a valid grouping. KNOWLEDGE_CONTENT_REFERENCES Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: KnowledgeBase Reference Count PROACTIVE_INTENT_ENGAGEMENT_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate PROACTIVE_INTENT_RESPONSE_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Response Rate PROACTIVE_INTENTS_ANSWERED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered PROACTIVE_INTENTS_DETECTED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected Unit: Valid groupings and filters: UI name: Unit: Valid groupings and filters: UI name: PROACTIVE_INTENTS_ENGAGED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: UI name: AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
     ///
     /// * Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED
     ///
@@ -15741,7 +18560,7 @@ extension ConnectClientTypes {
 
     /// Contains the name, thresholds, and metric filters.
     public struct MetricDataV2: Swift.Sendable {
-        /// The metric name, thresholds, and metric filters of the returned metric.
+        /// The metric name or metricId, thresholds, and metric filters of the returned metric.
         public var metric: ConnectClientTypes.MetricV2?
         /// The corresponding value of the metric returned in the response.
         public var value: Swift.Double?
@@ -16074,6 +18893,38 @@ public struct ImportPhoneNumberOutput: Swift.Sendable {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
+}
+
+public struct ImportWorkspaceMediaInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The media source. Can be an S3 presigned URL or a base64-encoded string.
+    /// This member is required.
+    public var mediaSource: Swift.String?
+    /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+    /// This member is required.
+    public var mediaType: ConnectClientTypes.MediaType?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        mediaSource: Swift.String? = nil,
+        mediaType: ConnectClientTypes.MediaType? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.mediaSource = mediaSource
+        self.mediaType = mediaType
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct ImportWorkspaceMediaOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct ListAgentStatusesInput: Swift.Sendable {
@@ -16544,6 +19395,8 @@ extension ConnectClientTypes {
         public var autoEvaluationStatus: ConnectClientTypes.AutoEvaluationStatus?
         /// The calibration session ID that this evaluation belongs to.
         public var calibrationSessionId: Swift.String?
+        /// Information about a contact participant in the evaluation.
+        public var contactParticipant: ConnectClientTypes.EvaluationContactParticipant?
         /// The timestamp for when the evaluation was created.
         /// This member is required.
         public var createdTime: Foundation.Date?
@@ -16578,6 +19431,7 @@ extension ConnectClientTypes {
             autoEvaluationEnabled: Swift.Bool = false,
             autoEvaluationStatus: ConnectClientTypes.AutoEvaluationStatus? = nil,
             calibrationSessionId: Swift.String? = nil,
+            contactParticipant: ConnectClientTypes.EvaluationContactParticipant? = nil,
             createdTime: Foundation.Date? = nil,
             evaluationArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
@@ -16593,6 +19447,7 @@ extension ConnectClientTypes {
             self.autoEvaluationEnabled = autoEvaluationEnabled
             self.autoEvaluationStatus = autoEvaluationStatus
             self.calibrationSessionId = calibrationSessionId
+            self.contactParticipant = contactParticipant
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationFormId = evaluationFormId
@@ -17141,6 +19996,8 @@ extension ConnectClientTypes {
         case attachment(ConnectClientTypes.AttachmentReference)
         /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
         case emailmessage(ConnectClientTypes.EmailMessageReference)
+        /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
+        case emailmessageplaintext(ConnectClientTypes.EmailMessageReference)
         /// Information about a reference when the referenceType is STRING. Otherwise, null.
         case string(ConnectClientTypes.StringReference)
         /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
@@ -17165,6 +20022,315 @@ public struct ListContactReferencesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.referenceSummaryList = referenceSummaryList
+    }
+}
+
+public struct ListDataTableAttributesInput: Swift.Sendable {
+    /// Optional list of specific attribute IDs to retrieve. Used for CloudFormation to effectively describe attributes by ID. If NextToken is provided, this parameter is ignored.
+    public var attributeIds: [Swift.String]?
+    /// The unique identifier for the data table whose attributes should be listed.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data table attributes to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attributeIds: [Swift.String]? = nil,
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attributeIds = attributeIds
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDataTableAttributesOutput: Swift.Sendable {
+    /// A list of data table attributes with their complete configuration and metadata.
+    /// This member is required.
+    public var attributes: [ConnectClientTypes.DataTableAttribute]?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attributes: [ConnectClientTypes.DataTableAttribute]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A primary attribute value filter.
+    public struct PrimaryAttributeValueFilter: Swift.Sendable {
+        /// The filter's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The filter's values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.attributeName = attributeName
+            self.values = values
+        }
+    }
+}
+
+public struct ListDataTablePrimaryValuesInput: Swift.Sendable {
+    /// The unique identifier for the data table whose primary values should be listed.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data table primary values to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Optional filter to retrieve primary values matching specific criteria.
+    public var primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValueFilter]?
+    /// Optional list of specific record IDs to retrieve. Used for CloudFormation to effectively describe records by ID. If NextToken is provided, this parameter is ignored.
+    public var recordIds: [Swift.String]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValueFilter]? = nil,
+        recordIds: [Swift.String]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.primaryAttributeValues = primaryAttributeValues
+        self.recordIds = recordIds
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A record primary value.
+    public struct RecordPrimaryValue: Swift.Sendable {
+        /// The value's last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// The value's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The value's primary values.
+        public var primaryValues: [ConnectClientTypes.PrimaryValueResponse]?
+        /// The value's record ID.
+        public var recordId: Swift.String?
+
+        public init(
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValueResponse]? = nil,
+            recordId: Swift.String? = nil
+        ) {
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+        }
+    }
+}
+
+public struct ListDataTablePrimaryValuesOutput: Swift.Sendable {
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of primary value combinations with their record IDs and modification metadata.
+    /// This member is required.
+    public var primaryValuesList: [ConnectClientTypes.RecordPrimaryValue]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        primaryValuesList: [ConnectClientTypes.RecordPrimaryValue]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.primaryValuesList = primaryValuesList
+    }
+}
+
+public struct ListDataTablesInput: Swift.Sendable {
+    /// The unique identifier for the Amazon Connect instance whose data tables should be listed.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data tables to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table summary.
+    public struct DataTableSummary: Swift.Sendable {
+        /// The summary's ARN.
+        public var arn: Swift.String?
+        /// The summary's ID.
+        public var id: Swift.String?
+        /// The summary's last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// The summary's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The summary's name.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+    }
+}
+
+public struct ListDataTablesOutput: Swift.Sendable {
+    /// A list of data table summaries containing basic information about each table including ID, ARN, name, and modification details.
+    /// This member is required.
+    public var dataTableSummaryList: [ConnectClientTypes.DataTableSummary]?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataTableSummaryList: [ConnectClientTypes.DataTableSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataTableSummaryList = dataTableSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDataTableValuesInput: Swift.Sendable {
+    /// The unique identifier for the data table whose values should be listed.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data table values to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Optional filter to retrieve values for records matching specific primary attribute criteria.
+    public var primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValueFilter]?
+    /// Optional list of specific record IDs to retrieve values for.
+    public var recordIds: [Swift.String]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        primaryAttributeValues: [ConnectClientTypes.PrimaryAttributeValueFilter]? = nil,
+        recordIds: [Swift.String]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.primaryAttributeValues = primaryAttributeValues
+        self.recordIds = recordIds
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table value summary.
+    public struct DataTableValueSummary: Swift.Sendable {
+        /// The summary's attribute ID.
+        public var attributeId: Swift.String?
+        /// The summary's attribute name.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The summary's last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// The summary's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The summary's lock version.
+        public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+        /// The summary's primary values.
+        /// This member is required.
+        public var primaryValues: [ConnectClientTypes.PrimaryValueResponse]?
+        /// The summary's record ID.
+        public var recordId: Swift.String?
+        /// The summary's value.
+        /// This member is required.
+        public var value: Swift.String?
+        /// The summary's value type.
+        /// This member is required.
+        public var valueType: ConnectClientTypes.DataTableAttributeValueType?
+
+        public init(
+            attributeId: Swift.String? = nil,
+            attributeName: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+            primaryValues: [ConnectClientTypes.PrimaryValueResponse]? = nil,
+            recordId: Swift.String? = nil,
+            value: Swift.String? = nil,
+            valueType: ConnectClientTypes.DataTableAttributeValueType? = nil
+        ) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.value = value
+            self.valueType = valueType
+        }
+    }
+}
+
+public struct ListDataTableValuesOutput: Swift.Sendable {
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of data table values with their associated metadata, lock versions, and modification details.
+    /// This member is required.
+    public var values: [ConnectClientTypes.DataTableValueSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        values: [ConnectClientTypes.DataTableValueSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.values = values
     }
 }
 
@@ -17236,6 +20402,51 @@ public struct ListDefaultVocabulariesOutput: Swift.Sendable {
     ) {
         self.defaultVocabularyList = defaultVocabularyList
         self.nextToken = nextToken
+    }
+}
+
+public struct ListEntitySecurityProfilesInput: Swift.Sendable {
+    /// ARN of a Q in Connect AI Agent.
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// Only supported type is AI_AGENT.
+    /// This member is required.
+    public var entityType: ConnectClientTypes.EntityType?
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        entityType: ConnectClientTypes.EntityType? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entityArn = entityArn
+        self.entityType = entityType
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEntitySecurityProfilesOutput: Swift.Sendable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// List of Security Profile Object.
+    public var securityProfiles: [ConnectClientTypes.SecurityProfileItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        securityProfiles: [ConnectClientTypes.SecurityProfileItem]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.securityProfiles = securityProfiles
     }
 }
 
@@ -19588,6 +22799,54 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListSecurityProfileFlowModulesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier for the security profile.
+    /// This member is required.
+    public var securityProfileId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        securityProfileId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.securityProfileId = securityProfileId
+    }
+}
+
+public struct ListSecurityProfileFlowModulesOutput: Swift.Sendable {
+    /// A list of Flow Modules an AI Agent can invoke as a tool.
+    public var allowedFlowModules: [ConnectClientTypes.FlowModule]?
+    /// The Region that flow module was last modified in.
+    public var lastModifiedRegion: Swift.String?
+    /// The time the flow module was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        allowedFlowModules: [ConnectClientTypes.FlowModule]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.allowedFlowModules = allowedFlowModules
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListSecurityProfilePermissionsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -20314,6 +23573,188 @@ public struct ListViewVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListWorkspaceMediaInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a media asset used in a workspace.
+    public struct MediaItem: Swift.Sendable {
+        /// The source URL or data for the media asset.
+        public var source: Swift.String?
+        /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+        public var type: ConnectClientTypes.MediaType?
+
+        public init(
+            source: Swift.String? = nil,
+            type: ConnectClientTypes.MediaType? = nil
+        ) {
+            self.source = source
+            self.type = type
+        }
+    }
+}
+
+public struct ListWorkspaceMediaOutput: Swift.Sendable {
+    /// A list of media assets for the workspace.
+    public var media: [ConnectClientTypes.MediaItem]?
+
+    public init(
+        media: [ConnectClientTypes.MediaItem]? = nil
+    ) {
+        self.media = media
+    }
+}
+
+public struct ListWorkspacePagesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceId = workspaceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a page configuration in a workspace, including the view assigned to the page.
+    public struct WorkspacePage: Swift.Sendable {
+        /// A JSON string containing input parameters passed to the view when the page is rendered.
+        public var inputData: Swift.String?
+        /// The page identifier. System pages include HOME and AGENT_EXPERIENCE.
+        public var page: Swift.String?
+        /// The Amazon Resource Name (ARN) of the view associated with this page.
+        public var resourceArn: Swift.String?
+        /// The URL-friendly identifier for the page.
+        public var slug: Swift.String?
+
+        public init(
+            inputData: Swift.String? = nil,
+            page: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            slug: Swift.String? = nil
+        ) {
+            self.inputData = inputData
+            self.page = page
+            self.resourceArn = resourceArn
+            self.slug = slug
+        }
+    }
+}
+
+public struct ListWorkspacePagesOutput: Swift.Sendable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of page configurations in the workspace.
+    /// This member is required.
+    public var workspacePageList: [ConnectClientTypes.WorkspacePage]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workspacePageList: [ConnectClientTypes.WorkspacePage]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.workspacePageList = workspacePageList
+    }
+}
+
+public struct ListWorkspacesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a workspace.
+    public struct WorkspaceSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public var arn: Swift.String?
+        /// The unique identifier of the workspace.
+        public var id: Swift.String?
+        /// The AWS Region where the workspace was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the workspace was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the workspace.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+    }
+}
+
+public struct ListWorkspacesOutput: Swift.Sendable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A summary list of workspaces.
+    /// This member is required.
+    public var workspaceSummaryList: [ConnectClientTypes.WorkspaceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workspaceSummaryList: [ConnectClientTypes.WorkspaceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.workspaceSummaryList = workspaceSummaryList
+    }
+}
+
 public struct MonitorContactInput: Swift.Sendable {
     /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge. AllowedMonitorCapabilities is required if barge is enabled.
     public var allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]?
@@ -20955,9 +24396,17 @@ extension ConnectClientTypes {
         /// The identifier of the contact in this instance of Amazon Connect.
         /// This member is required.
         public var contactId: Swift.String?
+        /// Identifier for a contact participant in the evaluation.
+        public var contactParticipantId: Swift.String?
+        /// Role of a contact participant in the evaluation.
+        public var contactParticipantRole: ConnectClientTypes.ContactParticipantRole?
         /// The Amazon Resource Name (ARN) of the person who evaluated the contact.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// Identifier for the review.
+        public var reviewId: Swift.String?
+        /// Identifier of the sampling job.
+        public var samplingJobId: Swift.String?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag is true.
         public var scoreAutomaticFail: Swift.Bool
         /// The flag to mark the item as not applicable for scoring.
@@ -20974,7 +24423,11 @@ extension ConnectClientTypes {
             calibrationSessionId: Swift.String? = nil,
             contactAgentId: Swift.String? = nil,
             contactId: Swift.String? = nil,
+            contactParticipantId: Swift.String? = nil,
+            contactParticipantRole: ConnectClientTypes.ContactParticipantRole? = nil,
             evaluatorArn: Swift.String? = nil,
+            reviewId: Swift.String? = nil,
+            samplingJobId: Swift.String? = nil,
             scoreAutomaticFail: Swift.Bool = false,
             scoreNotApplicable: Swift.Bool = false,
             scorePercentage: Swift.Double = 0.0
@@ -20987,7 +24440,11 @@ extension ConnectClientTypes {
             self.calibrationSessionId = calibrationSessionId
             self.contactAgentId = contactAgentId
             self.contactId = contactId
+            self.contactParticipantId = contactParticipantId
+            self.contactParticipantRole = contactParticipantRole
             self.evaluatorArn = evaluatorArn
+            self.reviewId = reviewId
+            self.samplingJobId = samplingJobId
             self.scoreAutomaticFail = scoreAutomaticFail
             self.scoreNotApplicable = scoreNotApplicable
             self.scorePercentage = scorePercentage
@@ -21007,6 +24464,8 @@ extension ConnectClientTypes {
         public var evaluationArn: Swift.String?
         /// The unique identifier for the evaluation form.
         public var evaluationFormId: Swift.String?
+        /// Title of the evaluation form.
+        public var evaluationFormTitle: Swift.String?
         /// A version of the evaluation form.
         /// This member is required.
         public var evaluationFormVersion: Swift.Int?
@@ -21031,6 +24490,7 @@ extension ConnectClientTypes {
             createdTime: Foundation.Date? = nil,
             evaluationArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
+            evaluationFormTitle: Swift.String? = nil,
             evaluationFormVersion: Swift.Int? = 0,
             evaluationId: Swift.String? = nil,
             evaluationType: ConnectClientTypes.EvaluationType? = nil,
@@ -21042,6 +24502,7 @@ extension ConnectClientTypes {
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationFormId = evaluationFormId
+            self.evaluationFormTitle = evaluationFormTitle
             self.evaluationFormVersion = evaluationFormVersion
             self.evaluationId = evaluationId
             self.evaluationType = evaluationType
@@ -21139,8 +24600,71 @@ public struct SearchContactFlowModulesOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The contact flow type condition.
+    public struct ContactFlowTypeCondition: Swift.Sendable {
+        /// Contact flow type of the contact flow type condition.
+        public var contactFlowType: ConnectClientTypes.ContactFlowType?
+
+        public init(
+            contactFlowType: ConnectClientTypes.ContactFlowType? = nil
+        ) {
+            self.contactFlowType = contactFlowType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A list of conditions which would be applied together with an AND condition.
+    public struct ContactFlowAttributeAndCondition: Swift.Sendable {
+        /// Contact flow type condition.
+        public var contactFlowTypeCondition: ConnectClientTypes.ContactFlowTypeCondition?
+        /// Tag-based conditions for contact flow filtering.
+        public var tagConditions: [ConnectClientTypes.TagCondition]?
+
+        public init(
+            contactFlowTypeCondition: ConnectClientTypes.ContactFlowTypeCondition? = nil,
+            tagConditions: [ConnectClientTypes.TagCondition]? = nil
+        ) {
+            self.contactFlowTypeCondition = contactFlowTypeCondition
+            self.tagConditions = tagConditions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Filter for contact flow attributes with multiple condition types.
+    public struct ContactFlowAttributeFilter: Swift.Sendable {
+        /// A list of conditions which would be applied together with a AND condition.
+        public var andCondition: ConnectClientTypes.ContactFlowAttributeAndCondition?
+        /// Contact flow type condition within attribute filter.
+        public var contactFlowTypeCondition: ConnectClientTypes.ContactFlowTypeCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.ContactFlowAttributeAndCondition]?
+        /// A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123.
+        public var tagCondition: ConnectClientTypes.TagCondition?
+
+        public init(
+            andCondition: ConnectClientTypes.ContactFlowAttributeAndCondition? = nil,
+            contactFlowTypeCondition: ConnectClientTypes.ContactFlowTypeCondition? = nil,
+            orConditions: [ConnectClientTypes.ContactFlowAttributeAndCondition]? = nil,
+            tagCondition: ConnectClientTypes.TagCondition? = nil
+        ) {
+            self.andCondition = andCondition
+            self.contactFlowTypeCondition = contactFlowTypeCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Filters to be applied to search results.
     public struct ContactFlowSearchFilter: Swift.Sendable {
+        /// Flow attribute filter for contact flow search operations.
+        public var flowAttributeFilter: ConnectClientTypes.ContactFlowAttributeFilter?
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -21149,8 +24673,10 @@ extension ConnectClientTypes {
         public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
 
         public init(
+            flowAttributeFilter: ConnectClientTypes.ContactFlowAttributeFilter? = nil,
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
         ) {
+            self.flowAttributeFilter = flowAttributeFilter
             self.tagFilter = tagFilter
         }
     }
@@ -21787,6 +25313,44 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// A data table search filter.
+    public struct DataTableSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+        ) {
+            self.attributeFilter = attributeFilter
+        }
+    }
+}
+
+public struct SearchDataTablesOutput: Swift.Sendable {
+    /// The approximate number of data tables that matched the search criteria.
+    public var approximateTotalCount: Swift.Int?
+    /// An array of data tables matching the search criteria with the same structure as DescribeTable except Version, VersionDescription, and LockVersion are omitted.
+    public var dataTables: [ConnectClientTypes.DataTable]?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        dataTables: [ConnectClientTypes.DataTable]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.dataTables = dataTables
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Filters to be applied to search results.
     public struct EmailAddressSearchFilter: Swift.Sendable {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
@@ -21890,6 +25454,8 @@ extension ConnectClientTypes {
         public var activeVersion: Swift.Int?
         /// Whether automated evaluation is enabled.
         public var autoEvaluationEnabled: Swift.Bool
+        /// The contact interaction type for this evaluation form.
+        public var contactInteractionType: ConnectClientTypes.ContactInteractionType?
         /// Who created the evaluation form.
         /// This member is required.
         public var createdBy: Swift.String?
@@ -21904,6 +25470,8 @@ extension ConnectClientTypes {
         /// The unique identifier for the evaluation form.
         /// This member is required.
         public var evaluationFormId: Swift.String?
+        /// The language of the evaluation form.
+        public var evaluationFormLanguage: ConnectClientTypes.EvaluationFormLanguageCode?
         /// The ID of user who last activated evaluation form.
         public var lastActivatedBy: Swift.String?
         /// When the evaluation format was last activated.
@@ -21929,11 +25497,13 @@ extension ConnectClientTypes {
         public init(
             activeVersion: Swift.Int? = 0,
             autoEvaluationEnabled: Swift.Bool = false,
+            contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil,
             createdBy: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             evaluationFormArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
+            evaluationFormLanguage: ConnectClientTypes.EvaluationFormLanguageCode? = nil,
             lastActivatedBy: Swift.String? = nil,
             lastActivatedTime: Foundation.Date? = nil,
             lastModifiedBy: Swift.String? = nil,
@@ -21945,11 +25515,13 @@ extension ConnectClientTypes {
         ) {
             self.activeVersion = activeVersion
             self.autoEvaluationEnabled = autoEvaluationEnabled
+            self.contactInteractionType = contactInteractionType
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
+            self.evaluationFormLanguage = evaluationFormLanguage
             self.lastActivatedBy = lastActivatedBy
             self.lastActivatedTime = lastActivatedTime
             self.lastModifiedBy = lastModifiedBy
@@ -22608,7 +26180,7 @@ extension ConnectClientTypes {
     public struct Condition: Swift.Sendable {
         /// A leaf node condition which can be used to specify a numeric condition.
         public var numberCondition: ConnectClientTypes.NumberCondition?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and  value.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and value.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -22843,6 +26415,44 @@ public struct SearchUsersOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// Defines filters to apply when searching for views, such as tag-based filters.
+    public struct ViewSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+        ) {
+            self.attributeFilter = attributeFilter
+        }
+    }
+}
+
+public struct SearchViewsOutput: Swift.Sendable {
+    /// The approximate total number of views that match the search criteria.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of views that match the search criteria.
+    public var views: [ConnectClientTypes.View]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        views: [ConnectClientTypes.View]? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.views = views
+    }
+}
+
 public struct SearchVocabulariesInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -22932,6 +26542,160 @@ public struct SearchVocabulariesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.vocabularySummaryList = vocabularySummaryList
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines filters to apply when searching for workspace associations, such as tag-based filters.
+    public struct WorkspaceAssociationSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+        ) {
+            self.attributeFilter = attributeFilter
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a workspace association with a user or routing profile.
+    public struct WorkspaceAssociationSearchSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the associated resource.
+        public var resourceArn: Swift.String?
+        /// The identifier of the associated resource (user or routing profile).
+        public var resourceId: Swift.String?
+        /// The name of the associated resource.
+        public var resourceName: Swift.String?
+        /// The type of resource associated with the workspace. Valid values are: USER and ROUTING_PROFILE.
+        public var resourceType: Swift.String?
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public var workspaceArn: Swift.String?
+        /// The identifier of the workspace.
+        public var workspaceId: Swift.String?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            workspaceArn: Swift.String? = nil,
+            workspaceId: Swift.String? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.workspaceArn = workspaceArn
+            self.workspaceId = workspaceId
+        }
+    }
+}
+
+public struct SearchWorkspaceAssociationsOutput: Swift.Sendable {
+    /// The approximate total number of workspace associations that match the search criteria.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of workspace associations that match the search criteria.
+    public var workspaceAssociations: [ConnectClientTypes.WorkspaceAssociationSearchSummary]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceAssociations: [ConnectClientTypes.WorkspaceAssociationSearchSummary]? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.workspaceAssociations = workspaceAssociations
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines filters to apply when searching for workspaces, such as tag-based filters.
+    public struct WorkspaceSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+        ) {
+            self.attributeFilter = attributeFilter
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a workspace returned from a search operation.
+    public struct WorkspaceSearchSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public var arn: Swift.String?
+        /// The timestamp when the workspace was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the workspace.
+        public var description: Swift.String?
+        /// The unique identifier of the workspace.
+        public var id: Swift.String?
+        /// The name of the workspace.
+        public var name: Swift.String?
+        /// The tags associated with the workspace.
+        public var tags: [Swift.String: Swift.String]?
+        /// The title displayed for the workspace.
+        public var title: Swift.String?
+        /// The visibility setting of the workspace.
+        public var visibility: ConnectClientTypes.Visibility?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            title: Swift.String? = nil,
+            visibility: ConnectClientTypes.Visibility? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.tags = tags
+            self.title = title
+            self.visibility = visibility
+        }
+    }
+}
+
+public struct SearchWorkspacesOutput: Swift.Sendable {
+    /// The approximate total number of workspaces that match the search criteria.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of workspaces that match the search criteria.
+    public var workspaces: [ConnectClientTypes.WorkspaceSearchSummary]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaces: [ConnectClientTypes.WorkspaceSearchSummary]? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.workspaces = workspaces
     }
 }
 
@@ -23507,6 +27271,50 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum ResponseMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseMode] {
+            return [
+                .complete,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration of the participant.
+    public struct ParticipantConfiguration: Swift.Sendable {
+        /// The mode in which responses should be sent to the participant.
+        public var responseMode: ConnectClientTypes.ResponseMode?
+
+        public init(
+            responseMode: ConnectClientTypes.ResponseMode? = nil
+        ) {
+            self.responseMode = responseMode
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
     public struct PersistentChat: Swift.Sendable {
         /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
@@ -23619,6 +27427,63 @@ public struct StartContactEvaluationOutput: Swift.Sendable {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
+}
+
+extension ConnectClientTypes {
+
+    public enum ContactMediaProcessingFailureMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deliverUnprocessedMessage
+        case doNotDeliverUnprocessedMessage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactMediaProcessingFailureMode] {
+            return [
+                .deliverUnprocessedMessage,
+                .doNotDeliverUnprocessedMessage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deliverUnprocessedMessage: return "DELIVER_UNPROCESSED_MESSAGE"
+            case .doNotDeliverUnprocessedMessage: return "DO_NOT_DELIVER_UNPROCESSED_MESSAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartContactMediaProcessingInput: Swift.Sendable {
+    /// The identifier of the contact.
+    public var contactId: Swift.String?
+    /// The desired behavior for failed message processing.
+    public var failureMode: ConnectClientTypes.ContactMediaProcessingFailureMode?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Lambda processor. You can find the Amazon Resource Name of the lambda in the lambda console.
+    public var processorArn: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        failureMode: ConnectClientTypes.ContactMediaProcessingFailureMode? = nil,
+        instanceId: Swift.String? = nil,
+        processorArn: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.failureMode = failureMode
+        self.instanceId = instanceId
+        self.processorArn = processorArn
+    }
+}
+
+public struct StartContactMediaProcessingOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ConnectClientTypes {
@@ -24493,6 +28358,26 @@ public struct StopContactOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct StopContactMediaProcessingInput: Swift.Sendable {
+    /// The identifier of the contact.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+public struct StopContactMediaProcessingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StopContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
@@ -25031,29 +28916,6 @@ public struct UpdateContactFlowMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Request processing failed because dependent condition failed.
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct UpdateContactFlowModuleAliasInput: Swift.Sendable {
     /// The identifier of the alias.
     /// This member is required.
@@ -25189,9 +29051,9 @@ public struct UpdateContactFlowNameOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Specify whether this routing criteria step should apply for only a limited amount of time,  or if it should never expire.
+    /// Specify whether this routing criteria step should apply for only a limited amount of time, or if it should never expire.
     public struct RoutingCriteriaInputStepExpiry: Swift.Sendable {
-        /// The number of seconds that the contact will be routed only to agents matching this routing  step, if expiry was configured for this routing step.
+        /// The number of seconds that the contact will be routed only to agents matching this routing step, if expiry was configured for this routing step.
         public var durationInSeconds: Swift.Int?
 
         public init(
@@ -25232,6 +29094,159 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
 public struct UpdateContactScheduleOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateDataTableAttributeInput: Swift.Sendable {
+    /// The current name of the attribute to update. Used as an identifier since attribute names can be changed.
+    /// This member is required.
+    public var attributeName: Swift.String?
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The updated description for the attribute.
+    public var description: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The new name for the attribute. Must conform to Connect human readable string specification and be unique within the data table.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Whether the attribute should be treated as a primary key. Converting to primary attribute requires existing values to maintain uniqueness.
+    public var primary: Swift.Bool?
+    /// The updated validation rules for the attribute. Changes do not affect existing values until they are modified.
+    public var validation: ConnectClientTypes.Validation?
+    /// The updated value type for the attribute. When changing value types, existing values are not deleted but may return default values if incompatible.
+    /// This member is required.
+    public var valueType: ConnectClientTypes.DataTableAttributeValueType?
+
+    public init(
+        attributeName: Swift.String? = nil,
+        dataTableId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        primary: Swift.Bool? = false,
+        validation: ConnectClientTypes.Validation? = nil,
+        valueType: ConnectClientTypes.DataTableAttributeValueType? = nil
+    ) {
+        self.attributeName = attributeName
+        self.dataTableId = dataTableId
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.primary = primary
+        self.validation = validation
+        self.valueType = valueType
+    }
+}
+
+public struct UpdateDataTableAttributeOutput: Swift.Sendable {
+    /// The new lock version for the attribute after the update.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+    /// The trimmed name and identifier for the updated attribute.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.lockVersion = lockVersion
+        self.name = name
+    }
+}
+
+public struct UpdateDataTableMetadataInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Providing any other alias fails with an error.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The updated description for the data table. Must conform to Connect human readable string specification and have 0-250 characters.
+    public var description: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The updated IANA timezone identifier to use when resolving time based dynamic values.
+    /// This member is required.
+    public var timeZone: Swift.String?
+    /// The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE.
+    /// This member is required.
+    public var valueLockLevel: ConnectClientTypes.DataTableLockLevel?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        timeZone: Swift.String? = nil,
+        valueLockLevel: ConnectClientTypes.DataTableLockLevel? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.timeZone = timeZone
+        self.valueLockLevel = valueLockLevel
+    }
+}
+
+public struct UpdateDataTableMetadataOutput: Swift.Sendable {
+    /// The new lock version for the data table after the update.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+
+    public init(
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil
+    ) {
+        self.lockVersion = lockVersion
+    }
+}
+
+public struct UpdateDataTablePrimaryValuesInput: Swift.Sendable {
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST.
+    /// This member is required.
+    public var dataTableId: Swift.String?
+    /// The unique identifier for the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The lock version information required for optimistic locking to prevent concurrent modifications.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+    /// The new primary values for the record. Required and must include values for all primary attributes. The combination must be unique within the table.
+    /// This member is required.
+    public var newPrimaryValues: [ConnectClientTypes.PrimaryValue]?
+    /// The current primary values for the record. Required and must include values for all primary attributes. Fails if the table has primary attributes and some primary values are omitted.
+    /// This member is required.
+    public var primaryValues: [ConnectClientTypes.PrimaryValue]?
+
+    public init(
+        dataTableId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil,
+        newPrimaryValues: [ConnectClientTypes.PrimaryValue]? = nil,
+        primaryValues: [ConnectClientTypes.PrimaryValue]? = nil
+    ) {
+        self.dataTableId = dataTableId
+        self.instanceId = instanceId
+        self.lockVersion = lockVersion
+        self.newPrimaryValues = newPrimaryValues
+        self.primaryValues = primaryValues
+    }
+}
+
+public struct UpdateDataTablePrimaryValuesOutput: Swift.Sendable {
+    /// The updated lock version information for the data table and affected components after the primary values change.
+    /// This member is required.
+    public var lockVersion: ConnectClientTypes.DataTableLockVersion?
+
+    public init(
+        lockVersion: ConnectClientTypes.DataTableLockVersion? = nil
+    ) {
+        self.lockVersion = lockVersion
+    }
 }
 
 public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
@@ -25381,7 +29396,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
 }
 
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -26119,10 +30134,14 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String: Swift.String]?
+    /// A list of Flow Modules an AI Agent can invoke as a tool
+    public var allowedFlowModules: [ConnectClientTypes.FlowModule]?
     /// A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
+    /// The granular access control configuration for the security profile, including data table permissions.
+    public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
     /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
     public var hierarchyRestrictedResources: [Swift.String]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -26139,8 +30158,10 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     public init(
         allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String: Swift.String]? = nil,
+        allowedFlowModules: [ConnectClientTypes.FlowModule]? = nil,
         applications: [ConnectClientTypes.Application]? = nil,
         description: Swift.String? = nil,
+        granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration? = nil,
         hierarchyRestrictedResources: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
@@ -26149,8 +30170,10 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
+        self.allowedFlowModules = allowedFlowModules
         self.applications = applications
         self.description = description
+        self.granularAccessControlConfiguration = granularAccessControlConfiguration
         self.hierarchyRestrictedResources = hierarchyRestrictedResources
         self.instanceId = instanceId
         self.permissions = permissions
@@ -26586,6 +30609,136 @@ public struct UpdateViewMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateWorkspaceMetadataInput: Swift.Sendable {
+    /// The description of the workspace.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the workspace.
+    public var name: Swift.String?
+    /// The title displayed for the workspace.
+    public var title: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        title: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.title = title
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateWorkspaceMetadataOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWorkspacePageInput: Swift.Sendable {
+    /// A JSON string containing input parameters for the view.
+    public var inputData: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The new page identifier, if changing the page name.
+    public var newPage: Swift.String?
+    /// The current page identifier.
+    /// This member is required.
+    public var page: Swift.String?
+    /// The Amazon Resource Name (ARN) of the view to associate with the page.
+    public var resourceArn: Swift.String?
+    /// The URL-friendly identifier for the page.
+    public var slug: Swift.String?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        inputData: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        newPage: Swift.String? = nil,
+        page: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        slug: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.inputData = inputData
+        self.instanceId = instanceId
+        self.newPage = newPage
+        self.page = page
+        self.resourceArn = resourceArn
+        self.slug = slug
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateWorkspacePageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWorkspaceThemeInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The theme configuration, including color schemes and visual styles.
+    public var theme: ConnectClientTypes.WorkspaceTheme?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        theme: ConnectClientTypes.WorkspaceTheme? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.theme = theme
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateWorkspaceThemeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWorkspaceVisibilityInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The visibility setting for the workspace. Valid values are: ALL (available to all users), ASSIGNED (available only to assigned users and routing profiles), and NONE (not visible to any users).
+    /// This member is required.
+    public var visibility: ConnectClientTypes.Visibility?
+    /// The identifier of the workspace.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        visibility: ConnectClientTypes.Visibility? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.visibility = visibility
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateWorkspaceVisibilityOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension ConnectClientTypes {
 
     /// A condition for item enablement.
@@ -26622,11 +30775,11 @@ extension ConnectClientTypes {
 
     /// The search criteria to be used to return agent statuses.
     public struct AgentStatusSearchCriteria: Swift.Sendable {
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, state, type, displayOrder, and resourceID.
         public var andConditions: [ConnectClientTypes.AgentStatusSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.AgentStatusSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, state, type, displayOrder, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -26703,6 +30856,29 @@ extension ConnectClientTypes {
             self.statusCondition = statusCondition
             self.stringCondition = stringCondition
             self.typeCondition = typeCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A data table search criteria.
+    public struct DataTableSearchCriteria: Swift.Sendable {
+        /// The criteria's and conditions.
+        public var andConditions: [ConnectClientTypes.DataTableSearchCriteria]?
+        /// The criteria's or conditions.
+        public var orConditions: [ConnectClientTypes.DataTableSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.DataTableSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.DataTableSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
         }
     }
 }
@@ -27087,7 +31263,7 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name,   parentId, levelId, and resourceID.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, parentId, levelId, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -27127,6 +31303,83 @@ extension ConnectClientTypes {
             self.andConditions = andConditions
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.listCondition = listCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the search criteria for filtering views.
+    public struct ViewSearchCriteria: Swift.Sendable {
+        /// A list of conditions that must all be satisfied.
+        public var andConditions: [ConnectClientTypes.ViewSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public var orConditions: [ConnectClientTypes.ViewSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+        /// A condition that filters views by their status.
+        public var viewStatusCondition: ConnectClientTypes.ViewStatus?
+        /// A condition that filters views by their type.
+        public var viewTypeCondition: ConnectClientTypes.ViewType?
+
+        public init(
+            andConditions: [ConnectClientTypes.ViewSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.ViewSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil,
+            viewStatusCondition: ConnectClientTypes.ViewStatus? = nil,
+            viewTypeCondition: ConnectClientTypes.ViewType? = nil
+        ) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+            self.viewStatusCondition = viewStatusCondition
+            self.viewTypeCondition = viewTypeCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the search criteria for filtering workspace associations.
+    public struct WorkspaceAssociationSearchCriteria: Swift.Sendable {
+        /// A list of conditions that must all be satisfied.
+        public var andConditions: [ConnectClientTypes.WorkspaceAssociationSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public var orConditions: [ConnectClientTypes.WorkspaceAssociationSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.WorkspaceAssociationSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.WorkspaceAssociationSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the search criteria for filtering workspaces.
+    public struct WorkspaceSearchCriteria: Swift.Sendable {
+        /// A list of conditions that must all be satisfied.
+        public var andConditions: [ConnectClientTypes.WorkspaceSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public var orConditions: [ConnectClientTypes.WorkspaceSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.WorkspaceSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.WorkspaceSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
         }
@@ -27324,6 +31577,34 @@ public struct SearchContactFlowsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.ContactFlowSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.ContactFlowSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchDataTablesInput: Swift.Sendable {
+    /// The unique identifier for the Amazon Connect instance to search within.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of data tables to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Search criteria including string conditions for matching table names, descriptions, or resource IDs. Supports STARTS_WITH, CONTAINS, and EXACT comparison types.
+    public var searchCriteria: ConnectClientTypes.DataTableSearchCriteria?
+    /// Optional filters to apply to the search results, such as tag-based filtering for attribute-based access control.
+    public var searchFilter: ConnectClientTypes.DataTableSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.DataTableSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.DataTableSearchFilter? = nil
     ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -27665,6 +31946,90 @@ public struct SearchUsersInput: Swift.Sendable {
     }
 }
 
+public struct SearchViewsInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria, including field names and comparison types.
+    public var searchCriteria: ConnectClientTypes.ViewSearchCriteria?
+    /// Filters to apply to the search, such as tag-based filters.
+    public var searchFilter: ConnectClientTypes.ViewSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.ViewSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.ViewSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchWorkspaceAssociationsInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria, including workspace ID, resource ID, or resource type.
+    public var searchCriteria: ConnectClientTypes.WorkspaceAssociationSearchCriteria?
+    /// Filters to apply to the search, such as tag-based filters.
+    public var searchFilter: ConnectClientTypes.WorkspaceAssociationSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.WorkspaceAssociationSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.WorkspaceAssociationSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchWorkspacesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria, including field names and comparison types.
+    public var searchCriteria: ConnectClientTypes.WorkspaceSearchCriteria?
+    /// Filters to apply to the search, such as tag-based filters.
+    public var searchFilter: ConnectClientTypes.WorkspaceSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.WorkspaceSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.WorkspaceSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
 extension ConnectClientTypes {
 
     /// The value of a segment attribute. This is structured as a map with a single key-value pair. The key 'valueString' indicates that the attribute type is a string, and its corresponding value is the actual string value of the segment attribute.
@@ -27781,6 +32146,8 @@ public struct StartChatContactInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The configuration of the participant.
+    public var participantConfiguration: ConnectClientTypes.ParticipantConfiguration?
     /// Information identifying the participant.
     /// This member is required.
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
@@ -27801,6 +32168,7 @@ public struct StartChatContactInput: Swift.Sendable {
         customerId: Swift.String? = nil,
         initialMessage: ConnectClientTypes.ChatMessage? = nil,
         instanceId: Swift.String? = nil,
+        participantConfiguration: ConnectClientTypes.ParticipantConfiguration? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
         persistentChat: ConnectClientTypes.PersistentChat? = nil,
         relatedContactId: Swift.String? = nil,
@@ -27814,6 +32182,7 @@ public struct StartChatContactInput: Swift.Sendable {
         self.customerId = customerId
         self.initialMessage = initialMessage
         self.instanceId = instanceId
+        self.participantConfiguration = participantConfiguration
         self.participantDetails = participantDetails
         self.persistentChat = persistentChat
         self.relatedContactId = relatedContactId
@@ -27824,7 +32193,7 @@ public struct StartChatContactInput: Swift.Sendable {
 
 extension StartChatContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantConfiguration: \(Swift.String(describing: participantConfiguration)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartEmailContactInput: Swift.Sendable {
@@ -28141,7 +32510,7 @@ extension ConnectClientTypes {
 
     /// An object to define the RoutingCriteria.
     public struct RoutingCriteriaInput: Swift.Sendable {
-        /// When Amazon Connect does not find an available agent meeting the requirements in a step for  a given step duration, the routing criteria will move on to the next step sequentially until a  join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public var steps: [ConnectClientTypes.RoutingCriteriaInputStep]?
 
         public init(
@@ -28212,6 +32581,8 @@ extension ConnectClientTypes {
         /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// Configuration for language settings of this evaluation form.
+        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
         /// This member is required.
         public var lastModifiedBy: Swift.String?
@@ -28228,6 +32599,8 @@ extension ConnectClientTypes {
         public var status: ConnectClientTypes.EvaluationFormVersionStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
+        /// Configuration that specifies the target for this evaluation form.
+        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         /// This member is required.
         public var title: Swift.String?
@@ -28241,12 +32614,14 @@ extension ConnectClientTypes {
             evaluationFormId: Swift.String? = nil,
             evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             locked: Swift.Bool = false,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
         ) {
             self.autoEvaluationConfiguration = autoEvaluationConfiguration
@@ -28257,12 +32632,14 @@ extension ConnectClientTypes {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.locked = locked
             self.scoringStrategy = scoringStrategy
             self.status = status
             self.tags = tags
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
     }
@@ -28288,8 +32665,12 @@ extension ConnectClientTypes {
         /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// Configuration for language settings of this evaluation form content.
+        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
         /// A scoring strategy of the evaluation form.
         public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+        /// Configuration that specifies the target for this evaluation form content.
+        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         /// This member is required.
         public var title: Swift.String?
@@ -28301,7 +32682,9 @@ extension ConnectClientTypes {
             evaluationFormId: Swift.String? = nil,
             evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
         ) {
             self.autoEvaluationConfiguration = autoEvaluationConfiguration
@@ -28310,13 +32693,17 @@ extension ConnectClientTypes {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.scoringStrategy = scoringStrategy
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
     }
 }
 
 public struct CreateEvaluationFormInput: Swift.Sendable {
+    /// A boolean flag indicating whether to create evaluation form in draft state.
+    public var asDraft: Swift.Bool?
     /// Configuration information about automated evaluations.
     public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -28329,31 +32716,41 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
     /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
     /// This member is required.
     public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// Configuration for language settings of the evaluation form.
+    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
+    /// Configuration that specifies the target for the evaluation form.
+    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
     /// A title of the evaluation form.
     /// This member is required.
     public var title: Swift.String?
 
     public init(
+        asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
     ) {
+        self.asDraft = asDraft
         self.autoEvaluationConfiguration = autoEvaluationConfiguration
         self.clientToken = clientToken
         self.description = description
         self.instanceId = instanceId
         self.items = items
+        self.languageConfiguration = languageConfiguration
         self.scoringStrategy = scoringStrategy
         self.tags = tags
+        self.targetConfiguration = targetConfiguration
         self.title = title
     }
 }
@@ -28369,7 +32766,7 @@ public struct UpdateContactRoutingDataInput: Swift.Sendable {
     public var queuePriority: Swift.Int?
     /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
     public var queueTimeAdjustmentSeconds: Swift.Int?
-    /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
+    /// Updates the routing criteria on the contact. These properties can be used to change how a contact is routed within the queue.
     public var routingCriteria: ConnectClientTypes.RoutingCriteriaInput?
 
     public init(
@@ -28388,6 +32785,8 @@ public struct UpdateContactRoutingDataInput: Swift.Sendable {
 }
 
 public struct UpdateEvaluationFormInput: Swift.Sendable {
+    /// A boolean flag indicating whether to update evaluation form to draft state.
+    public var asDraft: Swift.Bool?
     /// Whether automated evaluations are enabled.
     public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -28408,13 +32807,18 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
     /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
     /// This member is required.
     public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// Configuration for language settings of the evaluation form.
+    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    /// Configuration that specifies the target for the evaluation form.
+    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
     /// A title of the evaluation form.
     /// This member is required.
     public var title: Swift.String?
 
     public init(
+        asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
         createNewVersion: Swift.Bool? = false,
@@ -28423,9 +32827,12 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
     ) {
+        self.asDraft = asDraft
         self.autoEvaluationConfiguration = autoEvaluationConfiguration
         self.clientToken = clientToken
         self.createNewVersion = createNewVersion
@@ -28434,7 +32841,9 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
         self.items = items
+        self.languageConfiguration = languageConfiguration
         self.scoringStrategy = scoringStrategy
+        self.targetConfiguration = targetConfiguration
         self.title = title
     }
 }
@@ -28528,6 +32937,8 @@ extension ConnectClientTypes {
         public var lastUpdateTimestamp: Foundation.Date?
         /// The name of the contact.
         public var name: Swift.String?
+        /// List of next contact entries for the contact.
+        public var nextContacts: [ConnectClientTypes.NextContactEntry]?
         /// Information about the outbound strategy.
         public var outboundStrategy: ConnectClientTypes.OutboundStrategy?
         /// If this contact is not the first contact, this is the ID of the previous contact.
@@ -28594,6 +33005,7 @@ extension ConnectClientTypes {
             lastResumedTimestamp: Foundation.Date? = nil,
             lastUpdateTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            nextContacts: [ConnectClientTypes.NextContactEntry]? = nil,
             outboundStrategy: ConnectClientTypes.OutboundStrategy? = nil,
             previousContactId: Swift.String? = nil,
             qualityMetrics: ConnectClientTypes.QualityMetrics? = nil,
@@ -28641,6 +33053,7 @@ extension ConnectClientTypes {
             self.lastResumedTimestamp = lastResumedTimestamp
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
+            self.nextContacts = nextContacts
             self.outboundStrategy = outboundStrategy
             self.previousContactId = previousContactId
             self.qualityMetrics = qualityMetrics
@@ -28665,7 +33078,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -28939,6 +33352,16 @@ extension AssociateSecurityKeyInput {
     }
 }
 
+extension AssociateSecurityProfilesInput {
+
+    static func urlPathProvider(_ value: AssociateSecurityProfilesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/associate-security-profiles/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension AssociateTrafficDistributionGroupUserInput {
 
     static func urlPathProvider(_ value: AssociateTrafficDistributionGroupUserInput) -> Swift.String? {
@@ -28962,6 +33385,19 @@ extension AssociateUserProficienciesInput {
     }
 }
 
+extension AssociateWorkspaceInput {
+
+    static func urlPathProvider(_ value: AssociateWorkspaceInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/associate"
+    }
+}
+
 extension BatchAssociateAnalyticsDataSetInput {
 
     static func urlPathProvider(_ value: BatchAssociateAnalyticsDataSetInput) -> Swift.String? {
@@ -28969,6 +33405,45 @@ extension BatchAssociateAnalyticsDataSetInput {
             return nil
         }
         return "/analytics-data/instance/\(instanceId.urlPercentEncoding())/associations"
+    }
+}
+
+extension BatchCreateDataTableValueInput {
+
+    static func urlPathProvider(_ value: BatchCreateDataTableValueInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/create"
+    }
+}
+
+extension BatchDeleteDataTableValueInput {
+
+    static func urlPathProvider(_ value: BatchDeleteDataTableValueInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/delete"
+    }
+}
+
+extension BatchDescribeDataTableValueInput {
+
+    static func urlPathProvider(_ value: BatchDescribeDataTableValueInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/describe"
     }
 }
 
@@ -29023,6 +33498,19 @@ extension BatchPutContactInput {
             return nil
         }
         return "/contact/batch/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension BatchUpdateDataTableValueInput {
+
+    static func urlPathProvider(_ value: BatchUpdateDataTableValueInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/update"
     }
 }
 
@@ -29133,6 +33621,29 @@ extension CreateContactFlowVersionInput {
             return nil
         }
         return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version"
+    }
+}
+
+extension CreateDataTableInput {
+
+    static func urlPathProvider(_ value: CreateDataTableInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreateDataTableAttributeInput {
+
+    static func urlPathProvider(_ value: CreateDataTableAttributeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/attributes"
     }
 }
 
@@ -29379,6 +33890,29 @@ extension CreateVocabularyInput {
     }
 }
 
+extension CreateWorkspaceInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreateWorkspacePageInput {
+
+    static func urlPathProvider(_ value: CreateWorkspacePageInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/pages"
+    }
+}
+
 extension DeactivateEvaluationFormInput {
 
     static func urlPathProvider(_ value: DeactivateEvaluationFormInput) -> Swift.String? {
@@ -29503,6 +34037,35 @@ extension DeleteContactFlowVersionInput {
             return nil
         }
         return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version/\(contactFlowVersion)"
+    }
+}
+
+extension DeleteDataTableInput {
+
+    static func urlPathProvider(_ value: DeleteDataTableInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataTableAttributeInput {
+
+    static func urlPathProvider(_ value: DeleteDataTableAttributeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        guard let attributeName = value.attributeName else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/attributes/\(attributeName.urlPercentEncoding())"
     }
 }
 
@@ -29833,6 +34396,62 @@ extension DeleteVocabularyInput {
     }
 }
 
+extension DeleteWorkspaceInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteWorkspaceMediaInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceMediaInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/media"
+    }
+}
+
+extension DeleteWorkspaceMediaInput {
+
+    static func queryItemProvider(_ value: DeleteWorkspaceMediaInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let mediaType = value.mediaType else {
+            let message = "Creating a URL Query Item failed. mediaType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let mediaTypeQueryItem = Smithy.URIQueryItem(name: "mediaType".urlPercentEncoding(), value: Swift.String(mediaType.rawValue).urlPercentEncoding())
+        items.append(mediaTypeQueryItem)
+        return items
+    }
+}
+
+extension DeleteWorkspacePageInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspacePageInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let page = value.page else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/pages/\(page.urlPercentEncoding())"
+    }
+}
+
 extension DescribeAgentStatusInput {
 
     static func urlPathProvider(_ value: DescribeAgentStatusInput) -> Swift.String? {
@@ -29924,6 +34543,35 @@ extension DescribeContactFlowModuleAliasInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())/alias/\(aliasId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeDataTableInput {
+
+    static func urlPathProvider(_ value: DescribeDataTableInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeDataTableAttributeInput {
+
+    static func urlPathProvider(_ value: DescribeDataTableAttributeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        guard let attributeName = value.attributeName else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/attributes/\(attributeName.urlPercentEncoding())"
     }
 }
 
@@ -30217,6 +34865,19 @@ extension DescribeVocabularyInput {
     }
 }
 
+extension DescribeWorkspaceInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())"
+    }
+}
+
 extension DisassociateAnalyticsDataSetInput {
 
     static func urlPathProvider(_ value: DisassociateAnalyticsDataSetInput) -> Swift.String? {
@@ -30462,6 +35123,16 @@ extension DisassociateSecurityKeyInput {
     }
 }
 
+extension DisassociateSecurityProfilesInput {
+
+    static func urlPathProvider(_ value: DisassociateSecurityProfilesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/disassociate-security-profiles/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension DisassociateTrafficDistributionGroupUserInput {
 
     static func urlPathProvider(_ value: DisassociateTrafficDistributionGroupUserInput) -> Swift.String? {
@@ -30505,6 +35176,19 @@ extension DisassociateUserProficienciesInput {
     }
 }
 
+extension DisassociateWorkspaceInput {
+
+    static func urlPathProvider(_ value: DisassociateWorkspaceInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/disassociate"
+    }
+}
+
 extension DismissUserContactInput {
 
     static func urlPathProvider(_ value: DismissUserContactInput) -> Swift.String? {
@@ -30515,6 +35199,35 @@ extension DismissUserContactInput {
             return nil
         }
         return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/contact"
+    }
+}
+
+extension EvaluateDataTableValuesInput {
+
+    static func urlPathProvider(_ value: EvaluateDataTableValuesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/evaluate"
+    }
+}
+
+extension EvaluateDataTableValuesInput {
+
+    static func queryItemProvider(_ value: EvaluateDataTableValuesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -30717,6 +35430,19 @@ extension ImportPhoneNumberInput {
 
     static func urlPathProvider(_ value: ImportPhoneNumberInput) -> Swift.String? {
         return "/phone-number/import"
+    }
+}
+
+extension ImportWorkspaceMediaInput {
+
+    static func urlPathProvider(_ value: ImportWorkspaceMediaInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/media"
     }
 }
 
@@ -31134,6 +35860,119 @@ extension ListContactReferencesInput {
     }
 }
 
+extension ListDataTableAttributesInput {
+
+    static func urlPathProvider(_ value: ListDataTableAttributesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/attributes"
+    }
+}
+
+extension ListDataTableAttributesInput {
+
+    static func queryItemProvider(_ value: ListDataTableAttributesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataTablePrimaryValuesInput {
+
+    static func urlPathProvider(_ value: ListDataTablePrimaryValuesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/list-primary"
+    }
+}
+
+extension ListDataTablePrimaryValuesInput {
+
+    static func queryItemProvider(_ value: ListDataTablePrimaryValuesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataTablesInput {
+
+    static func urlPathProvider(_ value: ListDataTablesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListDataTablesInput {
+
+    static func queryItemProvider(_ value: ListDataTablesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataTableValuesInput {
+
+    static func urlPathProvider(_ value: ListDataTableValuesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/list"
+    }
+}
+
+extension ListDataTableValuesInput {
+
+    static func queryItemProvider(_ value: ListDataTableValuesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDefaultVocabulariesInput {
 
     static func urlPathProvider(_ value: ListDefaultVocabulariesInput) -> Swift.String? {
@@ -31141,6 +35980,16 @@ extension ListDefaultVocabulariesInput {
             return nil
         }
         return "/default-vocabulary-summary/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListEntitySecurityProfilesInput {
+
+    static func urlPathProvider(_ value: ListEntitySecurityProfilesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/entity-security-profiles-summary/\(instanceId.urlPercentEncoding())"
     }
 }
 
@@ -31827,6 +36676,35 @@ extension ListSecurityProfileApplicationsInput {
     }
 }
 
+extension ListSecurityProfileFlowModulesInput {
+
+    static func urlPathProvider(_ value: ListSecurityProfileFlowModulesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let securityProfileId = value.securityProfileId else {
+            return nil
+        }
+        return "/security-profiles-flow-modules/\(instanceId.urlPercentEncoding())/\(securityProfileId.urlPercentEncoding())"
+    }
+}
+
+extension ListSecurityProfileFlowModulesInput {
+
+    static func queryItemProvider(_ value: ListSecurityProfileFlowModulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSecurityProfilePermissionsInput {
 
     static func urlPathProvider(_ value: ListSecurityProfilePermissionsInput) -> Swift.String? {
@@ -32148,6 +37026,74 @@ extension ListViewVersionsInput {
     }
 }
 
+extension ListWorkspaceMediaInput {
+
+    static func urlPathProvider(_ value: ListWorkspaceMediaInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/media"
+    }
+}
+
+extension ListWorkspacePagesInput {
+
+    static func urlPathProvider(_ value: ListWorkspacePagesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/pages"
+    }
+}
+
+extension ListWorkspacePagesInput {
+
+    static func queryItemProvider(_ value: ListWorkspacePagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListWorkspacesInput {
+
+    static func urlPathProvider(_ value: ListWorkspacesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListWorkspacesInput {
+
+    static func queryItemProvider(_ value: ListWorkspacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension MonitorContactInput {
 
     static func urlPathProvider(_ value: MonitorContactInput) -> Swift.String? {
@@ -32263,6 +37209,13 @@ extension SearchContactsInput {
     }
 }
 
+extension SearchDataTablesInput {
+
+    static func urlPathProvider(_ value: SearchDataTablesInput) -> Swift.String? {
+        return "/search-data-tables"
+    }
+}
+
 extension SearchEmailAddressesInput {
 
     static func urlPathProvider(_ value: SearchEmailAddressesInput) -> Swift.String? {
@@ -32354,6 +37307,13 @@ extension SearchUsersInput {
     }
 }
 
+extension SearchViewsInput {
+
+    static func urlPathProvider(_ value: SearchViewsInput) -> Swift.String? {
+        return "/search-views"
+    }
+}
+
 extension SearchVocabulariesInput {
 
     static func urlPathProvider(_ value: SearchVocabulariesInput) -> Swift.String? {
@@ -32361,6 +37321,20 @@ extension SearchVocabulariesInput {
             return nil
         }
         return "/vocabulary-summary/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension SearchWorkspaceAssociationsInput {
+
+    static func urlPathProvider(_ value: SearchWorkspaceAssociationsInput) -> Swift.String? {
+        return "/search-workspace-associations"
+    }
+}
+
+extension SearchWorkspacesInput {
+
+    static func urlPathProvider(_ value: SearchWorkspacesInput) -> Swift.String? {
+        return "/search-workspaces"
     }
 }
 
@@ -32419,6 +37393,13 @@ extension StartContactEvaluationInput {
             return nil
         }
         return "/contact-evaluations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension StartContactMediaProcessingInput {
+
+    static func urlPathProvider(_ value: StartContactMediaProcessingInput) -> Swift.String? {
+        return "/contact/start-contact-media-processing"
     }
 }
 
@@ -32489,6 +37470,13 @@ extension StopContactInput {
 
     static func urlPathProvider(_ value: StopContactInput) -> Swift.String? {
         return "/contact/stop"
+    }
+}
+
+extension StopContactMediaProcessingInput {
+
+    static func urlPathProvider(_ value: StopContactMediaProcessingInput) -> Swift.String? {
+        return "/contact/stop-contact-media-processing"
     }
 }
 
@@ -32762,6 +37750,48 @@ extension UpdateContactScheduleInput {
 
     static func urlPathProvider(_ value: UpdateContactScheduleInput) -> Swift.String? {
         return "/contact/schedule"
+    }
+}
+
+extension UpdateDataTableAttributeInput {
+
+    static func urlPathProvider(_ value: UpdateDataTableAttributeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        guard let attributeName = value.attributeName else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/attributes/\(attributeName.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDataTableMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateDataTableMetadataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDataTablePrimaryValuesInput {
+
+    static func urlPathProvider(_ value: UpdateDataTablePrimaryValuesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let dataTableId = value.dataTableId else {
+            return nil
+        }
+        return "/data-tables/\(instanceId.urlPercentEncoding())/\(dataTableId.urlPercentEncoding())/values/update-primary"
     }
 }
 
@@ -33271,6 +38301,61 @@ extension UpdateViewMetadataInput {
     }
 }
 
+extension UpdateWorkspaceMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceMetadataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/metadata"
+    }
+}
+
+extension UpdateWorkspacePageInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspacePageInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let page = value.page else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/pages/\(page.urlPercentEncoding())"
+    }
+}
+
+extension UpdateWorkspaceThemeInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceThemeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/theme"
+    }
+}
+
+extension UpdateWorkspaceVisibilityInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceVisibilityInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(instanceId.urlPercentEncoding())/\(workspaceId.urlPercentEncoding())/visibility"
+    }
+}
+
 extension ActivateEvaluationFormInput {
 
     static func write(value: ActivateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
@@ -33405,6 +38490,16 @@ extension AssociateSecurityKeyInput {
     }
 }
 
+extension AssociateSecurityProfilesInput {
+
+    static func write(value: AssociateSecurityProfilesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityArn"].write(value.entityArn)
+        try writer["EntityType"].write(value.entityType)
+        try writer["SecurityProfiles"].writeList(value.securityProfiles, memberWritingClosure: ConnectClientTypes.SecurityProfileItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension AssociateTrafficDistributionGroupUserInput {
 
     static func write(value: AssociateTrafficDistributionGroupUserInput?, to writer: SmithyJSON.Writer) throws {
@@ -33422,12 +38517,44 @@ extension AssociateUserProficienciesInput {
     }
 }
 
+extension AssociateWorkspaceInput {
+
+    static func write(value: AssociateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchAssociateAnalyticsDataSetInput {
 
     static func write(value: BatchAssociateAnalyticsDataSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DataSetIds"].writeList(value.dataSetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TargetAccountId"].write(value.targetAccountId)
+    }
+}
+
+extension BatchCreateDataTableValueInput {
+
+    static func write(value: BatchCreateDataTableValueInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: ConnectClientTypes.DataTableValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDeleteDataTableValueInput {
+
+    static func write(value: BatchDeleteDataTableValueInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: ConnectClientTypes.DataTableDeleteValueIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDescribeDataTableValueInput {
+
+    static func write(value: BatchDescribeDataTableValueInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: ConnectClientTypes.DataTableValueIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -33463,6 +38590,14 @@ extension BatchPutContactInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactDataRequestList"].writeList(value.contactDataRequestList, memberWritingClosure: ConnectClientTypes.ContactDataRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateDataTableValueInput {
+
+    static func write(value: BatchUpdateDataTableValueInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: ConnectClientTypes.DataTableValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -33570,6 +38705,31 @@ extension CreateContactFlowVersionInput {
     }
 }
 
+extension CreateDataTableInput {
+
+    static func write(value: CreateDataTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TimeZone"].write(value.timeZone)
+        try writer["ValueLockLevel"].write(value.valueLockLevel)
+    }
+}
+
+extension CreateDataTableAttributeInput {
+
+    static func write(value: CreateDataTableAttributeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Primary"].write(value.primary)
+        try writer["Validation"].write(value.validation, with: ConnectClientTypes.Validation.write(value:to:))
+        try writer["ValueType"].write(value.valueType)
+    }
+}
+
 extension CreateEmailAddressInput {
 
     static func write(value: CreateEmailAddressInput?, to writer: SmithyJSON.Writer) throws {
@@ -33586,12 +38746,15 @@ extension CreateEvaluationFormInput {
 
     static func write(value: CreateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AsDraft"].write(value.asDraft)
         try writer["AutoEvaluationConfiguration"].write(value.autoEvaluationConfiguration, with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
     }
 }
@@ -33762,8 +38925,10 @@ extension CreateSecurityProfileInput {
         guard let value else { return }
         try writer["AllowedAccessControlHierarchyGroupId"].write(value.allowedAccessControlHierarchyGroupId)
         try writer["AllowedAccessControlTags"].writeMap(value.allowedAccessControlTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AllowedFlowModules"].writeList(value.allowedFlowModules, memberWritingClosure: ConnectClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Applications"].writeList(value.applications, memberWritingClosure: ConnectClientTypes.Application.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["GranularAccessControlConfiguration"].write(value.granularAccessControlConfiguration, with: ConnectClientTypes.GranularAccessControlConfiguration.write(value:to:))
         try writer["HierarchyRestrictedResources"].writeList(value.hierarchyRestrictedResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SecurityProfileName"].write(value.securityProfileName)
@@ -33869,6 +39034,29 @@ extension CreateVocabularyInput {
     }
 }
 
+extension CreateWorkspaceInput {
+
+    static func write(value: CreateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Theme"].write(value.theme, with: ConnectClientTypes.WorkspaceTheme.write(value:to:))
+        try writer["Title"].write(value.title)
+    }
+}
+
+extension CreateWorkspacePageInput {
+
+    static func write(value: CreateWorkspacePageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputData"].write(value.inputData)
+        try writer["Page"].write(value.page)
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["Slug"].write(value.slug)
+    }
+}
+
 extension DeactivateEvaluationFormInput {
 
     static func write(value: DeactivateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
@@ -33922,6 +39110,16 @@ extension DisassociateRoutingProfileQueuesInput {
     }
 }
 
+extension DisassociateSecurityProfilesInput {
+
+    static func write(value: DisassociateSecurityProfilesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityArn"].write(value.entityArn)
+        try writer["EntityType"].write(value.entityType)
+        try writer["SecurityProfiles"].writeList(value.securityProfiles, memberWritingClosure: ConnectClientTypes.SecurityProfileItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DisassociateUserProficienciesInput {
 
     static func write(value: DisassociateUserProficienciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -33930,11 +39128,28 @@ extension DisassociateUserProficienciesInput {
     }
 }
 
+extension DisassociateWorkspaceInput {
+
+    static func write(value: DisassociateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DismissUserContactInput {
 
     static func write(value: DismissUserContactInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
+    }
+}
+
+extension EvaluateDataTableValuesInput {
+
+    static func write(value: EvaluateDataTableValuesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimeZone"].write(value.timeZone)
+        try writer["Values"].writeList(value.values, memberWritingClosure: ConnectClientTypes.DataTableValueEvaluationSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -34013,11 +39228,57 @@ extension ImportPhoneNumberInput {
     }
 }
 
+extension ImportWorkspaceMediaInput {
+
+    static func write(value: ImportWorkspaceMediaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaSource"].write(value.mediaSource)
+        try writer["MediaType"].write(value.mediaType)
+    }
+}
+
+extension ListDataTableAttributesInput {
+
+    static func write(value: ListDataTableAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeIds"].writeList(value.attributeIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListDataTablePrimaryValuesInput {
+
+    static func write(value: ListDataTablePrimaryValuesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAttributeValues"].writeList(value.primaryAttributeValues, memberWritingClosure: ConnectClientTypes.PrimaryAttributeValueFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecordIds"].writeList(value.recordIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListDataTableValuesInput {
+
+    static func write(value: ListDataTableValuesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAttributeValues"].writeList(value.primaryAttributeValues, memberWritingClosure: ConnectClientTypes.PrimaryAttributeValueFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecordIds"].writeList(value.recordIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListDefaultVocabulariesInput {
 
     static func write(value: ListDefaultVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["LanguageCode"].write(value.languageCode)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListEntitySecurityProfilesInput {
+
+    static func write(value: ListEntitySecurityProfilesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityArn"].write(value.entityArn)
+        try writer["EntityType"].write(value.entityType)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -34184,6 +39445,18 @@ extension SearchContactsInput {
     }
 }
 
+extension SearchDataTablesInput {
+
+    static func write(value: SearchDataTablesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.DataTableSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.DataTableSearchFilter.write(value:to:))
+    }
+}
+
 extension SearchEmailAddressesInput {
 
     static func write(value: SearchEmailAddressesInput?, to writer: SmithyJSON.Writer) throws {
@@ -34339,6 +39612,18 @@ extension SearchUsersInput {
     }
 }
 
+extension SearchViewsInput {
+
+    static func write(value: SearchViewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.ViewSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.ViewSearchFilter.write(value:to:))
+    }
+}
+
 extension SearchVocabulariesInput {
 
     static func write(value: SearchVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
@@ -34348,6 +39633,30 @@ extension SearchVocabulariesInput {
         try writer["NameStartsWith"].write(value.nameStartsWith)
         try writer["NextToken"].write(value.nextToken)
         try writer["State"].write(value.state)
+    }
+}
+
+extension SearchWorkspaceAssociationsInput {
+
+    static func write(value: SearchWorkspaceAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.WorkspaceAssociationSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.WorkspaceAssociationSearchFilter.write(value:to:))
+    }
+}
+
+extension SearchWorkspacesInput {
+
+    static func write(value: SearchWorkspacesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.WorkspaceSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.WorkspaceSearchFilter.write(value:to:))
     }
 }
 
@@ -34402,6 +39711,7 @@ extension StartChatContactInput {
         try writer["CustomerId"].write(value.customerId)
         try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
+        try writer["ParticipantConfiguration"].write(value.participantConfiguration, with: ConnectClientTypes.ParticipantConfiguration.write(value:to:))
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
         try writer["PersistentChat"].write(value.persistentChat, with: ConnectClientTypes.PersistentChat.write(value:to:))
         try writer["RelatedContactId"].write(value.relatedContactId)
@@ -34419,6 +39729,17 @@ extension StartContactEvaluationInput {
         try writer["ContactId"].write(value.contactId)
         try writer["EvaluationFormId"].write(value.evaluationFormId)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartContactMediaProcessingInput {
+
+    static func write(value: StartContactMediaProcessingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
+        try writer["FailureMode"].write(value.failureMode)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["ProcessorArn"].write(value.processorArn)
     }
 }
 
@@ -34573,6 +39894,15 @@ extension StopContactInput {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
         try writer["DisconnectReason"].write(value.disconnectReason, with: ConnectClientTypes.DisconnectReason.write(value:to:))
+        try writer["InstanceId"].write(value.instanceId)
+    }
+}
+
+extension StopContactMediaProcessingInput {
+
+    static func write(value: StopContactMediaProcessingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
         try writer["InstanceId"].write(value.instanceId)
     }
 }
@@ -34787,6 +40117,39 @@ extension UpdateContactScheduleInput {
     }
 }
 
+extension UpdateDataTableAttributeInput {
+
+    static func write(value: UpdateDataTableAttributeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Primary"].write(value.primary)
+        try writer["Validation"].write(value.validation, with: ConnectClientTypes.Validation.write(value:to:))
+        try writer["ValueType"].write(value.valueType)
+    }
+}
+
+extension UpdateDataTableMetadataInput {
+
+    static func write(value: UpdateDataTableMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["TimeZone"].write(value.timeZone)
+        try writer["ValueLockLevel"].write(value.valueLockLevel)
+    }
+}
+
+extension UpdateDataTablePrimaryValuesInput {
+
+    static func write(value: UpdateDataTablePrimaryValuesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LockVersion"].write(value.lockVersion, with: ConnectClientTypes.DataTableLockVersion.write(value:to:))
+        try writer["NewPrimaryValues"].writeList(value.newPrimaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PrimaryValues"].writeList(value.primaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateEmailAddressMetadataInput {
 
     static func write(value: UpdateEmailAddressMetadataInput?, to writer: SmithyJSON.Writer) throws {
@@ -34801,13 +40164,16 @@ extension UpdateEvaluationFormInput {
 
     static func write(value: UpdateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AsDraft"].write(value.asDraft)
         try writer["AutoEvaluationConfiguration"].write(value.autoEvaluationConfiguration, with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
         try writer["CreateNewVersion"].write(value.createNewVersion)
         try writer["Description"].write(value.description)
         try writer["EvaluationFormVersion"].write(value.evaluationFormVersion)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
+        try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
     }
 }
@@ -35036,8 +40402,10 @@ extension UpdateSecurityProfileInput {
         guard let value else { return }
         try writer["AllowedAccessControlHierarchyGroupId"].write(value.allowedAccessControlHierarchyGroupId)
         try writer["AllowedAccessControlTags"].writeMap(value.allowedAccessControlTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AllowedFlowModules"].writeList(value.allowedFlowModules, memberWritingClosure: ConnectClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Applications"].writeList(value.applications, memberWritingClosure: ConnectClientTypes.Application.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["GranularAccessControlConfiguration"].write(value.granularAccessControlConfiguration, with: ConnectClientTypes.GranularAccessControlConfiguration.write(value:to:))
         try writer["HierarchyRestrictedResources"].writeList(value.hierarchyRestrictedResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagRestrictedResources"].writeList(value.tagRestrictedResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -35148,6 +40516,43 @@ extension UpdateViewMetadataInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateWorkspaceMetadataInput {
+
+    static func write(value: UpdateWorkspaceMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Title"].write(value.title)
+    }
+}
+
+extension UpdateWorkspacePageInput {
+
+    static func write(value: UpdateWorkspacePageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputData"].write(value.inputData)
+        try writer["NewPage"].write(value.newPage)
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["Slug"].write(value.slug)
+    }
+}
+
+extension UpdateWorkspaceThemeInput {
+
+    static func write(value: UpdateWorkspaceThemeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Theme"].write(value.theme, with: ConnectClientTypes.WorkspaceTheme.write(value:to:))
+    }
+}
+
+extension UpdateWorkspaceVisibilityInput {
+
+    static func write(value: UpdateWorkspaceVisibilityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Visibility"].write(value.visibility)
     }
 }
 
@@ -35281,6 +40686,13 @@ extension AssociateSecurityKeyOutput {
     }
 }
 
+extension AssociateSecurityProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSecurityProfilesOutput {
+        return AssociateSecurityProfilesOutput()
+    }
+}
+
 extension AssociateTrafficDistributionGroupUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateTrafficDistributionGroupUserOutput {
@@ -35295,6 +40707,19 @@ extension AssociateUserProficienciesOutput {
     }
 }
 
+extension AssociateWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateWorkspaceOutput()
+        value.failedList = try reader["FailedList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FailedBatchAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulList = try reader["SuccessfulList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SuccessfulBatchAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchAssociateAnalyticsDataSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAssociateAnalyticsDataSetOutput {
@@ -35304,6 +40729,45 @@ extension BatchAssociateAnalyticsDataSetOutput {
         var value = BatchAssociateAnalyticsDataSetOutput()
         value.created = try reader["Created"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AnalyticsDataAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ErrorResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchCreateDataTableValueOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchCreateDataTableValueOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchCreateDataTableValueOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchCreateDataTableValueFailureResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchCreateDataTableValueSuccessResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchDeleteDataTableValueOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteDataTableValueOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteDataTableValueOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchDeleteDataTableValueFailureResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchDeleteDataTableValueSuccessResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchDescribeDataTableValueOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDescribeDataTableValueOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDescribeDataTableValueOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchDescribeDataTableValueFailureResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchDescribeDataTableValueSuccessResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -35355,6 +40819,19 @@ extension BatchPutContactOutput {
         var value = BatchPutContactOutput()
         value.failedRequestList = try reader["FailedRequestList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FailedRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.successfulRequestList = try reader["SuccessfulRequestList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SuccessfulRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchUpdateDataTableValueOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateDataTableValueOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateDataTableValueOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchUpdateDataTableValueFailureResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: ConnectClientTypes.BatchUpdateDataTableValueSuccessResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -35467,6 +40944,34 @@ extension CreateContactFlowVersionOutput {
         var value = CreateContactFlowVersionOutput()
         value.contactFlowArn = try reader["ContactFlowArn"].readIfPresent()
         value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateDataTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataTableOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
+    }
+}
+
+extension CreateDataTableAttributeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataTableAttributeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataTableAttributeOutput()
+        value.attributeId = try reader["AttributeId"].readIfPresent()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -35773,6 +41278,26 @@ extension CreateVocabularyOutput {
     }
 }
 
+extension CreateWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWorkspaceOutput()
+        value.workspaceArn = try reader["WorkspaceArn"].readIfPresent() ?? ""
+        value.workspaceId = try reader["WorkspaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateWorkspacePageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWorkspacePageOutput {
+        return CreateWorkspacePageOutput()
+    }
+}
+
 extension DeactivateEvaluationFormOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeactivateEvaluationFormOutput {
@@ -35833,6 +41358,25 @@ extension DeleteContactFlowVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowVersionOutput {
         return DeleteContactFlowVersionOutput()
+    }
+}
+
+extension DeleteDataTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataTableOutput {
+        return DeleteDataTableOutput()
+    }
+}
+
+extension DeleteDataTableAttributeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataTableAttributeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDataTableAttributeOutput()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
     }
 }
 
@@ -35997,6 +41541,27 @@ extension DeleteVocabularyOutput {
     }
 }
 
+extension DeleteWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspaceOutput {
+        return DeleteWorkspaceOutput()
+    }
+}
+
+extension DeleteWorkspaceMediaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspaceMediaOutput {
+        return DeleteWorkspaceMediaOutput()
+    }
+}
+
+extension DeleteWorkspacePageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspacePageOutput {
+        return DeleteWorkspacePageOutput()
+    }
+}
+
 extension DescribeAgentStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAgentStatusOutput {
@@ -36078,6 +41643,30 @@ extension DescribeContactFlowModuleAliasOutput {
         let reader = responseReader
         var value = DescribeContactFlowModuleAliasOutput()
         value.contactFlowModuleAlias = try reader["ContactFlowModuleAlias"].readIfPresent(with: ConnectClientTypes.ContactFlowModuleAliasInfo.read(from:))
+        return value
+    }
+}
+
+extension DescribeDataTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDataTableOutput()
+        value.dataTable = try reader["DataTable"].readIfPresent(with: ConnectClientTypes.DataTable.read(from:))
+        return value
+    }
+}
+
+extension DescribeDataTableAttributeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataTableAttributeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDataTableAttributeOutput()
+        value.attribute = try reader["Attribute"].readIfPresent(with: ConnectClientTypes.DataTableAttribute.read(from:))
         return value
     }
 }
@@ -36343,6 +41932,18 @@ extension DescribeVocabularyOutput {
     }
 }
 
+extension DescribeWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeWorkspaceOutput()
+        value.workspace = try reader["Workspace"].readIfPresent(with: ConnectClientTypes.Workspace.read(from:))
+        return value
+    }
+}
+
 extension DisassociateAnalyticsDataSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAnalyticsDataSetOutput {
@@ -36427,6 +42028,13 @@ extension DisassociateSecurityKeyOutput {
     }
 }
 
+extension DisassociateSecurityProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSecurityProfilesOutput {
+        return DisassociateSecurityProfilesOutput()
+    }
+}
+
 extension DisassociateTrafficDistributionGroupUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateTrafficDistributionGroupUserOutput {
@@ -36441,10 +42049,36 @@ extension DisassociateUserProficienciesOutput {
     }
 }
 
+extension DisassociateWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateWorkspaceOutput()
+        value.failedList = try reader["FailedList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FailedBatchAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulList = try reader["SuccessfulList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SuccessfulBatchAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DismissUserContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DismissUserContactOutput {
         return DismissUserContactOutput()
+    }
+}
+
+extension EvaluateDataTableValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EvaluateDataTableValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EvaluateDataTableValuesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DataTableEvaluatedValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -36661,6 +42295,13 @@ extension ImportPhoneNumberOutput {
     }
 }
 
+extension ImportWorkspaceMediaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportWorkspaceMediaOutput {
+        return ImportWorkspaceMediaOutput()
+    }
+}
+
 extension ListAgentStatusesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentStatusesOutput {
@@ -36843,6 +42484,58 @@ extension ListContactReferencesOutput {
     }
 }
 
+extension ListDataTableAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataTableAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataTableAttributesOutput()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DataTableAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataTablePrimaryValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataTablePrimaryValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataTablePrimaryValuesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.primaryValuesList = try reader["PrimaryValuesList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RecordPrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListDataTablesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataTablesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataTablesOutput()
+        value.dataTableSummaryList = try reader["DataTableSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DataTableSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataTableValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataTableValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataTableValuesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DataTableValueSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListDefaultVocabulariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDefaultVocabulariesOutput {
@@ -36852,6 +42545,19 @@ extension ListDefaultVocabulariesOutput {
         var value = ListDefaultVocabulariesOutput()
         value.defaultVocabularyList = try reader["DefaultVocabularyList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DefaultVocabulary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEntitySecurityProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntitySecurityProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEntitySecurityProfilesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.securityProfiles = try reader["SecurityProfiles"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SecurityProfileItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37193,6 +42899,21 @@ extension ListSecurityProfileApplicationsOutput {
     }
 }
 
+extension ListSecurityProfileFlowModulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSecurityProfileFlowModulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSecurityProfileFlowModulesOutput()
+        value.allowedFlowModules = try reader["AllowedFlowModules"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FlowModule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListSecurityProfilePermissionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSecurityProfilePermissionsOutput {
@@ -37352,6 +43073,44 @@ extension ListViewVersionsOutput {
     }
 }
 
+extension ListWorkspaceMediaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkspaceMediaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspaceMediaOutput()
+        value.media = try reader["Media"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MediaItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListWorkspacePagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkspacePagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspacePagesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.workspacePageList = try reader["WorkspacePageList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkspacePage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListWorkspacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkspacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspacesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.workspaceSummaryList = try reader["WorkspaceSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkspaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension MonitorContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> MonitorContactOutput {
@@ -37492,6 +43251,20 @@ extension SearchContactsOutput {
         value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactSearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.totalCount = try reader["TotalCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SearchDataTablesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchDataTablesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchDataTablesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.dataTables = try reader["DataTables"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DataTable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -37677,6 +43450,20 @@ extension SearchUsersOutput {
     }
 }
 
+extension SearchViewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchViewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchViewsOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.views = try reader["Views"].readListIfPresent(memberReadingClosure: ConnectClientTypes.View.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SearchVocabulariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchVocabulariesOutput {
@@ -37686,6 +43473,34 @@ extension SearchVocabulariesOutput {
         var value = SearchVocabulariesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.vocabularySummaryList = try reader["VocabularySummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.VocabularySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SearchWorkspaceAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchWorkspaceAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchWorkspaceAssociationsOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.workspaceAssociations = try reader["WorkspaceAssociations"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkspaceAssociationSearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SearchWorkspacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchWorkspacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchWorkspacesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.workspaces = try reader["Workspaces"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkspaceSearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37752,6 +43567,13 @@ extension StartContactEvaluationOutput {
         value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
         value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension StartContactMediaProcessingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartContactMediaProcessingOutput {
+        return StartContactMediaProcessingOutput()
     }
 }
 
@@ -37860,6 +43682,13 @@ extension StopContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopContactOutput {
         return StopContactOutput()
+    }
+}
+
+extension StopContactMediaProcessingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopContactMediaProcessingOutput {
+        return StopContactMediaProcessingOutput()
     }
 }
 
@@ -38032,6 +43861,43 @@ extension UpdateContactScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactScheduleOutput {
         return UpdateContactScheduleOutput()
+    }
+}
+
+extension UpdateDataTableAttributeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataTableAttributeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataTableAttributeOutput()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateDataTableMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataTableMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataTableMetadataOutput()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
+    }
+}
+
+extension UpdateDataTablePrimaryValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataTablePrimaryValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataTablePrimaryValuesOutput()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
     }
 }
 
@@ -38355,6 +44221,34 @@ extension UpdateViewMetadataOutput {
     }
 }
 
+extension UpdateWorkspaceMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceMetadataOutput {
+        return UpdateWorkspaceMetadataOutput()
+    }
+}
+
+extension UpdateWorkspacePageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspacePageOutput {
+        return UpdateWorkspacePageOutput()
+    }
+}
+
+extension UpdateWorkspaceThemeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceThemeOutput {
+        return UpdateWorkspaceThemeOutput()
+    }
+}
+
+extension UpdateWorkspaceVisibilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceVisibilityOutput {
+        return UpdateWorkspaceVisibilityOutput()
+    }
+}
+
 enum ActivateEvaluationFormOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38642,6 +44536,26 @@ enum AssociateSecurityKeyOutputError {
     }
 }
 
+enum AssociateSecurityProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateTrafficDistributionGroupUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38679,6 +44593,26 @@ enum AssociateUserProficienciesOutputError {
     }
 }
 
+enum AssociateWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchAssociateAnalyticsDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38687,6 +44621,67 @@ enum BatchAssociateAnalyticsDataSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchCreateDataTableValueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteDataTableValueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDescribeDataTableValueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -38766,6 +44761,26 @@ enum BatchPutContactOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateDataTableValueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -38949,6 +44964,50 @@ enum CreateContactFlowVersionOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataTableAttributeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -39430,6 +45489,51 @@ enum CreateVocabularyOutputError {
     }
 }
 
+enum CreateWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateWorkspacePageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeactivateEvaluationFormOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -39569,6 +45673,46 @@ enum DeleteContactFlowVersionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataTableAttributeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -39984,6 +46128,63 @@ enum DeleteVocabularyOutputError {
     }
 }
 
+enum DeleteWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWorkspaceMediaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWorkspacePageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAgentStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40094,6 +46295,44 @@ enum DescribeContactFlowModuleOutputError {
 }
 
 enum DescribeContactFlowModuleAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDataTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDataTableAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -40489,6 +46728,25 @@ enum DescribeVocabularyOutputError {
     }
 }
 
+enum DescribeWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateAnalyticsDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40707,6 +46965,26 @@ enum DisassociateSecurityKeyOutputError {
     }
 }
 
+enum DisassociateSecurityProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateTrafficDistributionGroupUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40744,7 +47022,45 @@ enum DisassociateUserProficienciesOutputError {
     }
 }
 
+enum DisassociateWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DismissUserContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EvaluateDataTableValuesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -41017,6 +47333,24 @@ enum ImportPhoneNumberOutputError {
     }
 }
 
+enum ImportWorkspaceMediaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAgentStatusesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -41271,6 +47605,82 @@ enum ListContactReferencesOutputError {
     }
 }
 
+enum ListDataTableAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataTablePrimaryValuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataTablesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataTableValuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDefaultVocabulariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -41282,6 +47692,24 @@ enum ListDefaultVocabulariesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEntitySecurityProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -41734,6 +48162,24 @@ enum ListSecurityProfileApplicationsOutputError {
     }
 }
 
+enum ListSecurityProfileFlowModulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSecurityProfilePermissionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -41945,6 +48391,63 @@ enum ListViewVersionsOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWorkspaceMediaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWorkspacePagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWorkspacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -42177,6 +48680,24 @@ enum SearchContactFlowsOutputError {
 }
 
 enum SearchContactsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchDataTablesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -42430,6 +48951,25 @@ enum SearchUsersOutputError {
     }
 }
 
+enum SearchViewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchVocabulariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -42441,6 +48981,44 @@ enum SearchVocabulariesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchWorkspaceAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchWorkspacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -42536,6 +49114,26 @@ enum StartContactEvaluationOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartContactMediaProcessingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -42724,6 +49322,25 @@ enum StopContactOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopContactMediaProcessingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -43130,6 +49747,69 @@ enum UpdateContactScheduleOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataTableAttributeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataTableMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataTablePrimaryValuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -43866,6 +50546,85 @@ enum UpdateViewMetadataOutputError {
     }
 }
 
+enum UpdateWorkspaceMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWorkspacePageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWorkspaceThemeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWorkspaceVisibilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension InternalServiceException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
@@ -43990,6 +50749,19 @@ extension IdempotencyException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IdempotencyException {
         let reader = baseError.errorBodyReader
         var value = IdempotencyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConditionalOperationFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConditionalOperationFailedException {
+        let reader = baseError.errorBodyReader
+        var value = ConditionalOperationFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -44196,15 +50968,24 @@ extension ContactNotFoundException {
     }
 }
 
-extension ConditionalOperationFailedException {
+extension ConnectClientTypes.SuccessfulBatchAssociationSummary {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConditionalOperationFailedException {
-        let reader = baseError.errorBodyReader
-        var value = ConditionalOperationFailedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SuccessfulBatchAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.SuccessfulBatchAssociationSummary()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.FailedBatchAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FailedBatchAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.FailedBatchAssociationSummary()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -44230,6 +51011,134 @@ extension ConnectClientTypes.ErrorResult {
         var value = ConnectClientTypes.ErrorResult()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchCreateDataTableValueSuccessResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchCreateDataTableValueSuccessResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchCreateDataTableValueSuccessResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.recordId = try reader["RecordId"].readIfPresent() ?? ""
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableLockVersion {
+
+    static func write(value: ConnectClientTypes.DataTableLockVersion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+        try writer["DataTable"].write(value.dataTable)
+        try writer["PrimaryValues"].write(value.primaryValues)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableLockVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableLockVersion()
+        value.dataTable = try reader["DataTable"].readIfPresent()
+        value.attribute = try reader["Attribute"].readIfPresent()
+        value.primaryValues = try reader["PrimaryValues"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PrimaryValue {
+
+    static func write(value: ConnectClientTypes.PrimaryValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PrimaryValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PrimaryValue()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchCreateDataTableValueFailureResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchCreateDataTableValueFailureResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchCreateDataTableValueFailureResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchDeleteDataTableValueSuccessResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchDeleteDataTableValueSuccessResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchDeleteDataTableValueSuccessResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchDeleteDataTableValueFailureResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchDeleteDataTableValueFailureResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchDeleteDataTableValueFailureResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchDescribeDataTableValueSuccessResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchDescribeDataTableValueSuccessResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchDescribeDataTableValueSuccessResult()
+        value.recordId = try reader["RecordId"].readIfPresent() ?? ""
+        value.attributeId = try reader["AttributeId"].readIfPresent() ?? ""
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValueResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PrimaryValueResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PrimaryValueResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PrimaryValueResponse()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeId = try reader["AttributeId"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchDescribeDataTableValueFailureResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchDescribeDataTableValueFailureResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchDescribeDataTableValueFailureResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -44324,6 +51233,30 @@ extension ConnectClientTypes.FailedRequest {
         value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
         value.failureReasonCode = try reader["FailureReasonCode"].readIfPresent()
         value.failureReasonMessage = try reader["FailureReasonMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchUpdateDataTableValueSuccessResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchUpdateDataTableValueSuccessResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchUpdateDataTableValueSuccessResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.BatchUpdateDataTableValueFailureResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.BatchUpdateDataTableValueFailureResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.BatchUpdateDataTableValueFailureResult()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -44466,6 +51399,46 @@ extension ConnectClientTypes.Contact {
         value.contactDetails = try reader["ContactDetails"].readIfPresent(with: ConnectClientTypes.ContactDetails.read(from:))
         value.outboundStrategy = try reader["OutboundStrategy"].readIfPresent(with: ConnectClientTypes.OutboundStrategy.read(from:))
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.nextContacts = try reader["NextContacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.NextContactEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.NextContactEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.NextContactEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.NextContactEntry()
+        value.type = try reader["Type"].readIfPresent()
+        value.nextContactMetadata = try reader["NextContactMetadata"].readIfPresent(with: ConnectClientTypes.NextContactMetadata.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.NextContactMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.NextContactMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "QuickConnectContactData":
+                return .quickconnectcontactdata(try reader["QuickConnectContactData"].read(with: ConnectClientTypes.QuickConnectContactData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectClientTypes.QuickConnectContactData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuickConnectContactData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QuickConnectContactData()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        value.initiationTimestamp = try reader["InitiationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.quickConnectId = try reader["QuickConnectId"].readIfPresent()
+        value.quickConnectName = try reader["QuickConnectName"].readIfPresent()
+        value.quickConnectType = try reader["QuickConnectType"].readIfPresent()
         return value
     }
 }
@@ -44602,6 +51575,7 @@ extension ConnectClientTypes.RecordingInfo {
         value.stopTimestamp = try reader["StopTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
         value.deletionReason = try reader["DeletionReason"].readIfPresent()
+        value.unprocessedTranscriptLocation = try reader["UnprocessedTranscriptLocation"].readIfPresent()
         return value
     }
 }
@@ -44962,6 +51936,19 @@ extension ConnectClientTypes.WisdomInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.WisdomInfo()
         value.sessionArn = try reader["SessionArn"].readIfPresent()
+        value.aiAgents = try reader["AiAgents"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AiAgentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.AiAgentInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AiAgentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AiAgentInfo()
+        value.aiUseCase = try reader["AiUseCase"].readIfPresent()
+        value.aiAgentVersionId = try reader["AiAgentVersionId"].readIfPresent()
+        value.aiAgentEscalated = try reader["AiAgentEscalated"].readIfPresent() ?? false
         return value
     }
 }
@@ -45063,6 +52050,7 @@ extension ConnectClientTypes.EvaluationScore {
         value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         value.notApplicable = try reader["NotApplicable"].readIfPresent() ?? false
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
+        value.appliedWeight = try reader["AppliedWeight"].readIfPresent()
         return value
     }
 }
@@ -45193,12 +52181,16 @@ extension ConnectClientTypes.EvaluationAnswerData {
     static func write(value: ConnectClientTypes.EvaluationAnswerData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .datetimevalue(datetimevalue):
+                try writer["DateTimeValue"].write(datetimevalue)
             case let .notapplicable(notapplicable):
                 try writer["NotApplicable"].write(notapplicable)
             case let .numericvalue(numericvalue):
                 try writer["NumericValue"].write(numericvalue)
             case let .stringvalue(stringvalue):
                 try writer["StringValue"].write(stringvalue)
+            case let .stringvalues(stringvalues):
+                try writer["StringValues"].writeList(stringvalues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -45212,6 +52204,10 @@ extension ConnectClientTypes.EvaluationAnswerData {
                 return .stringvalue(try reader["StringValue"].read())
             case "NumericValue":
                 return .numericvalue(try reader["NumericValue"].read())
+            case "StringValues":
+                return .stringvalues(try reader["StringValues"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "DateTimeValue":
+                return .datetimevalue(try reader["DateTimeValue"].read())
             case "NotApplicable":
                 return .notapplicable(try reader["NotApplicable"].read())
             default:
@@ -45232,6 +52228,19 @@ extension ConnectClientTypes.EvaluationMetadata {
         value.score = try reader["Score"].readIfPresent(with: ConnectClientTypes.EvaluationScore.read(from:))
         value.autoEvaluation = try reader["AutoEvaluation"].readIfPresent(with: ConnectClientTypes.AutoEvaluationDetails.read(from:))
         value.acknowledgement = try reader["Acknowledgement"].readIfPresent(with: ConnectClientTypes.EvaluationAcknowledgement.read(from:))
+        value.contactParticipant = try reader["ContactParticipant"].readIfPresent(with: ConnectClientTypes.EvaluationContactParticipant.read(from:))
+        value.samplingJobId = try reader["SamplingJobId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationContactParticipant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationContactParticipant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationContactParticipant()
+        value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
+        value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
         return value
     }
 }
@@ -45272,6 +52281,38 @@ extension ConnectClientTypes.EvaluationFormContent {
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scoringStrategy = try reader["ScoringStrategy"].readIfPresent(with: ConnectClientTypes.EvaluationFormScoringStrategy.read(from:))
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
+        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
+        value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormLanguageConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationFormLanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FormLanguage"].write(value.formLanguage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormLanguageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormLanguageConfiguration()
+        value.formLanguage = try reader["FormLanguage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormTargetConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationFormTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactInteractionType"].write(value.contactInteractionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormTargetConfiguration()
+        value.contactInteractionType = try reader["ContactInteractionType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -45487,6 +52528,8 @@ extension ConnectClientTypes.EvaluationFormQuestionTypeProperties {
     static func write(value: ConnectClientTypes.EvaluationFormQuestionTypeProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .multiselect(multiselect):
+                try writer["MultiSelect"].write(multiselect, with: ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties.write(value:to:))
             case let .numeric(numeric):
                 try writer["Numeric"].write(numeric, with: ConnectClientTypes.EvaluationFormNumericQuestionProperties.write(value:to:))
             case let .singleselect(singleselect):
@@ -45508,9 +52551,124 @@ extension ConnectClientTypes.EvaluationFormQuestionTypeProperties {
                 return .singleselect(try reader["SingleSelect"].read(with: ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties.read(from:)))
             case "Text":
                 return .text(try reader["Text"].read(with: ConnectClientTypes.EvaluationFormTextQuestionProperties.read(from:)))
+            case "MultiSelect":
+                return .multiselect(try reader["MultiSelect"].read(with: ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties {
+
+    static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Automation"].write(value.automation, with: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation.write(value:to:))
+        try writer["DisplayAs"].write(value.displayAs)
+        try writer["Options"].writeList(value.options, memberWritingClosure: ConnectClientTypes.EvaluationFormMultiSelectQuestionOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties()
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormMultiSelectQuestionOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.displayAs = try reader["DisplayAs"].readIfPresent()
+        value.automation = try reader["Automation"].readIfPresent(with: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation {
+
+    static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnswerSource"].write(value.answerSource, with: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource.write(value:to:))
+        try writer["DefaultOptionRefIds"].writeList(value.defaultOptionRefIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Options"].writeList(value.options, memberWritingClosure: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomation()
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultOptionRefIds = try reader["DefaultOptionRefIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.answerSource = try reader["AnswerSource"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
+
+    static func write(value: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption {
+
+    static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rulecategory(rulecategory):
+                try writer["RuleCategory"].write(rulecategory, with: ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormMultiSelectQuestionAutomationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RuleCategory":
+                return .rulecategory(try reader["RuleCategory"].read(with: ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation {
+
+    static func write(value: ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Category"].write(value.category)
+        try writer["Condition"].write(value.condition)
+        try writer["OptionRefIds"].writeList(value.optionRefIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MultiSelectQuestionRuleCategoryAutomation()
+        value.category = try reader["Category"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        value.optionRefIds = try reader["OptionRefIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
+
+    static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RefId"].write(value.refId)
+        try writer["Text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormMultiSelectQuestionOption()
+        value.refId = try reader["RefId"].readIfPresent() ?? ""
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -45540,21 +52698,6 @@ extension ConnectClientTypes.EvaluationFormTextQuestionAutomation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormTextQuestionAutomation()
         value.answerSource = try reader["AnswerSource"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource.read(from:))
-        return value
-    }
-}
-
-extension ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
-
-    static func write(value: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceType"].write(value.sourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource()
-        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -45865,6 +53008,102 @@ extension ConnectClientTypes.ContactFlowModuleAliasInfo {
     }
 }
 
+extension ConnectClientTypes.DataTable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTable()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.timeZone = try reader["TimeZone"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.valueLockLevel = try reader["ValueLockLevel"].readIfPresent()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.version = try reader["Version"].readIfPresent()
+        value.versionDescription = try reader["VersionDescription"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableAttribute()
+        value.attributeId = try reader["AttributeId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["Description"].readIfPresent()
+        value.dataTableId = try reader["DataTableId"].readIfPresent()
+        value.dataTableArn = try reader["DataTableArn"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
+        value.version = try reader["Version"].readIfPresent()
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.validation = try reader["Validation"].readIfPresent(with: ConnectClientTypes.Validation.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.Validation {
+
+    static func write(value: ConnectClientTypes.Validation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enum"].write(value.`enum`, with: ConnectClientTypes.ValidationEnum.write(value:to:))
+        try writer["ExclusiveMaximum"].write(value.exclusiveMaximum)
+        try writer["ExclusiveMinimum"].write(value.exclusiveMinimum)
+        try writer["IgnoreCase"].write(value.ignoreCase)
+        try writer["MaxLength"].write(value.maxLength)
+        try writer["MaxValues"].write(value.maxValues)
+        try writer["Maximum"].write(value.maximum)
+        try writer["MinLength"].write(value.minLength)
+        try writer["MinValues"].write(value.minValues)
+        try writer["Minimum"].write(value.minimum)
+        try writer["MultipleOf"].write(value.multipleOf)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Validation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Validation()
+        value.minLength = try reader["MinLength"].readIfPresent() ?? 0
+        value.maxLength = try reader["MaxLength"].readIfPresent() ?? 0
+        value.minValues = try reader["MinValues"].readIfPresent() ?? 0
+        value.maxValues = try reader["MaxValues"].readIfPresent() ?? 0
+        value.ignoreCase = try reader["IgnoreCase"].readIfPresent() ?? false
+        value.minimum = try reader["Minimum"].readIfPresent() ?? 0
+        value.maximum = try reader["Maximum"].readIfPresent() ?? 0
+        value.exclusiveMinimum = try reader["ExclusiveMinimum"].readIfPresent() ?? 0
+        value.exclusiveMaximum = try reader["ExclusiveMaximum"].readIfPresent() ?? 0
+        value.multipleOf = try reader["MultipleOf"].readIfPresent() ?? 0
+        value.`enum` = try reader["Enum"].readIfPresent(with: ConnectClientTypes.ValidationEnum.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ValidationEnum {
+
+    static func write(value: ConnectClientTypes.ValidationEnum?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Strict"].write(value.strict)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ValidationEnum {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ValidationEnum()
+        value.strict = try reader["Strict"].readIfPresent() ?? false
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConnectClientTypes.AliasConfiguration {
 
     static func write(value: ConnectClientTypes.AliasConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -45900,6 +53139,8 @@ extension ConnectClientTypes.EvaluationForm {
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
+        value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
         return value
     }
 }
@@ -46360,6 +53601,7 @@ extension ConnectClientTypes.QuickConnectConfig {
 
     static func write(value: ConnectClientTypes.QuickConnectConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["FlowConfig"].write(value.flowConfig, with: ConnectClientTypes.FlowQuickConnectConfig.write(value:to:))
         try writer["PhoneConfig"].write(value.phoneConfig, with: ConnectClientTypes.PhoneNumberQuickConnectConfig.write(value:to:))
         try writer["QueueConfig"].write(value.queueConfig, with: ConnectClientTypes.QueueQuickConnectConfig.write(value:to:))
         try writer["QuickConnectType"].write(value.quickConnectType)
@@ -46373,6 +53615,22 @@ extension ConnectClientTypes.QuickConnectConfig {
         value.userConfig = try reader["UserConfig"].readIfPresent(with: ConnectClientTypes.UserQuickConnectConfig.read(from:))
         value.queueConfig = try reader["QueueConfig"].readIfPresent(with: ConnectClientTypes.QueueQuickConnectConfig.read(from:))
         value.phoneConfig = try reader["PhoneConfig"].readIfPresent(with: ConnectClientTypes.PhoneNumberQuickConnectConfig.read(from:))
+        value.flowConfig = try reader["FlowConfig"].readIfPresent(with: ConnectClientTypes.FlowQuickConnectConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.FlowQuickConnectConfig {
+
+    static func write(value: ConnectClientTypes.FlowQuickConnectConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactFlowId"].write(value.contactFlowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FlowQuickConnectConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.FlowQuickConnectConfig()
+        value.contactFlowId = try reader["ContactFlowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -46838,6 +54096,71 @@ extension ConnectClientTypes.SecurityProfile {
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.hierarchyRestrictedResources = try reader["HierarchyRestrictedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedAccessControlHierarchyGroupId = try reader["AllowedAccessControlHierarchyGroupId"].readIfPresent()
+        value.granularAccessControlConfiguration = try reader["GranularAccessControlConfiguration"].readIfPresent(with: ConnectClientTypes.GranularAccessControlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.GranularAccessControlConfiguration {
+
+    static func write(value: ConnectClientTypes.GranularAccessControlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataTableAccessControlConfiguration"].write(value.dataTableAccessControlConfiguration, with: ConnectClientTypes.DataTableAccessControlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.GranularAccessControlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.GranularAccessControlConfiguration()
+        value.dataTableAccessControlConfiguration = try reader["DataTableAccessControlConfiguration"].readIfPresent(with: ConnectClientTypes.DataTableAccessControlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableAccessControlConfiguration {
+
+    static func write(value: ConnectClientTypes.DataTableAccessControlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAttributeAccessControlConfiguration"].write(value.primaryAttributeAccessControlConfiguration, with: ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableAccessControlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableAccessControlConfiguration()
+        value.primaryAttributeAccessControlConfiguration = try reader["PrimaryAttributeAccessControlConfiguration"].readIfPresent(with: ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem {
+
+    static func write(value: ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAttributeValues"].writeList(value.primaryAttributeValues, memberWritingClosure: ConnectClientTypes.PrimaryAttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PrimaryAttributeAccessControlConfigurationItem()
+        value.primaryAttributeValues = try reader["PrimaryAttributeValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryAttributeValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.PrimaryAttributeValue {
+
+    static func write(value: ConnectClientTypes.PrimaryAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessType"].write(value.accessType)
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PrimaryAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PrimaryAttributeValue()
+        value.accessType = try reader["AccessType"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -47013,6 +54336,246 @@ extension ConnectClientTypes.Vocabulary {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.content = try reader["Content"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.Workspace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Workspace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Workspace()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.theme = try reader["Theme"].readIfPresent(with: ConnectClientTypes.WorkspaceTheme.read(from:))
+        value.title = try reader["Title"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceTheme {
+
+    static func write(value: ConnectClientTypes.WorkspaceTheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dark"].write(value.dark, with: ConnectClientTypes.WorkspaceThemeConfig.write(value:to:))
+        try writer["Light"].write(value.light, with: ConnectClientTypes.WorkspaceThemeConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceTheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceTheme()
+        value.light = try reader["Light"].readIfPresent(with: ConnectClientTypes.WorkspaceThemeConfig.read(from:))
+        value.dark = try reader["Dark"].readIfPresent(with: ConnectClientTypes.WorkspaceThemeConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceThemeConfig {
+
+    static func write(value: ConnectClientTypes.WorkspaceThemeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Images"].write(value.images, with: ConnectClientTypes.WorkspaceThemeImages.write(value:to:))
+        try writer["Palette"].write(value.palette, with: ConnectClientTypes.WorkspaceThemePalette.write(value:to:))
+        try writer["Typography"].write(value.typography, with: ConnectClientTypes.WorkspaceThemeTypography.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceThemeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceThemeConfig()
+        value.palette = try reader["Palette"].readIfPresent(with: ConnectClientTypes.WorkspaceThemePalette.read(from:))
+        value.images = try reader["Images"].readIfPresent(with: ConnectClientTypes.WorkspaceThemeImages.read(from:))
+        value.typography = try reader["Typography"].readIfPresent(with: ConnectClientTypes.WorkspaceThemeTypography.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceThemeTypography {
+
+    static func write(value: ConnectClientTypes.WorkspaceThemeTypography?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontFamily"].write(value.fontFamily, with: ConnectClientTypes.FontFamily.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceThemeTypography {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceThemeTypography()
+        value.fontFamily = try reader["FontFamily"].readIfPresent(with: ConnectClientTypes.FontFamily.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.FontFamily {
+
+    static func write(value: ConnectClientTypes.FontFamily?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Default"].write(value.`default`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FontFamily {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.FontFamily()
+        value.`default` = try reader["Default"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceThemeImages {
+
+    static func write(value: ConnectClientTypes.WorkspaceThemeImages?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Logo"].write(value.logo, with: ConnectClientTypes.ImagesLogo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceThemeImages {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceThemeImages()
+        value.logo = try reader["Logo"].readIfPresent(with: ConnectClientTypes.ImagesLogo.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ImagesLogo {
+
+    static func write(value: ConnectClientTypes.ImagesLogo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Default"].write(value.`default`)
+        try writer["Favicon"].write(value.favicon)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ImagesLogo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ImagesLogo()
+        value.`default` = try reader["Default"].readIfPresent()
+        value.favicon = try reader["Favicon"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceThemePalette {
+
+    static func write(value: ConnectClientTypes.WorkspaceThemePalette?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Canvas"].write(value.canvas, with: ConnectClientTypes.PaletteCanvas.write(value:to:))
+        try writer["Header"].write(value.header, with: ConnectClientTypes.PaletteHeader.write(value:to:))
+        try writer["Navigation"].write(value.navigation, with: ConnectClientTypes.PaletteNavigation.write(value:to:))
+        try writer["Primary"].write(value.primary, with: ConnectClientTypes.PalettePrimary.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceThemePalette {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceThemePalette()
+        value.header = try reader["Header"].readIfPresent(with: ConnectClientTypes.PaletteHeader.read(from:))
+        value.navigation = try reader["Navigation"].readIfPresent(with: ConnectClientTypes.PaletteNavigation.read(from:))
+        value.canvas = try reader["Canvas"].readIfPresent(with: ConnectClientTypes.PaletteCanvas.read(from:))
+        value.primary = try reader["Primary"].readIfPresent(with: ConnectClientTypes.PalettePrimary.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.PalettePrimary {
+
+    static func write(value: ConnectClientTypes.PalettePrimary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Active"].write(value.active)
+        try writer["ContrastText"].write(value.contrastText)
+        try writer["Default"].write(value.`default`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PalettePrimary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PalettePrimary()
+        value.`default` = try reader["Default"].readIfPresent()
+        value.active = try reader["Active"].readIfPresent()
+        value.contrastText = try reader["ContrastText"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PaletteCanvas {
+
+    static func write(value: ConnectClientTypes.PaletteCanvas?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActiveBackground"].write(value.activeBackground)
+        try writer["ContainerBackground"].write(value.containerBackground)
+        try writer["PageBackground"].write(value.pageBackground)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PaletteCanvas {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PaletteCanvas()
+        value.containerBackground = try reader["ContainerBackground"].readIfPresent()
+        value.pageBackground = try reader["PageBackground"].readIfPresent()
+        value.activeBackground = try reader["ActiveBackground"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PaletteNavigation {
+
+    static func write(value: ConnectClientTypes.PaletteNavigation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Background"].write(value.background)
+        try writer["InvertActionsColors"].write(value.invertActionsColors)
+        try writer["Text"].write(value.text)
+        try writer["TextActive"].write(value.textActive)
+        try writer["TextBackgroundActive"].write(value.textBackgroundActive)
+        try writer["TextBackgroundHover"].write(value.textBackgroundHover)
+        try writer["TextHover"].write(value.textHover)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PaletteNavigation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PaletteNavigation()
+        value.background = try reader["Background"].readIfPresent()
+        value.textBackgroundHover = try reader["TextBackgroundHover"].readIfPresent()
+        value.textBackgroundActive = try reader["TextBackgroundActive"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.textHover = try reader["TextHover"].readIfPresent()
+        value.textActive = try reader["TextActive"].readIfPresent()
+        value.invertActionsColors = try reader["InvertActionsColors"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.PaletteHeader {
+
+    static func write(value: ConnectClientTypes.PaletteHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Background"].write(value.background)
+        try writer["InvertActionsColors"].write(value.invertActionsColors)
+        try writer["Text"].write(value.text)
+        try writer["TextHover"].write(value.textHover)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PaletteHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PaletteHeader()
+        value.background = try reader["Background"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.textHover = try reader["TextHover"].readIfPresent()
+        value.invertActionsColors = try reader["InvertActionsColors"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableEvaluatedValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableEvaluatedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableEvaluatedValue()
+        value.recordId = try reader["RecordId"].readIfPresent() ?? ""
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.found = try reader["Found"].readIfPresent() ?? false
+        value.error = try reader["Error"].readIfPresent() ?? false
+        value.evaluatedValue = try reader["EvaluatedValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -47344,6 +54907,7 @@ extension ConnectClientTypes.MetricV2 {
     static func write(value: ConnectClientTypes.MetricV2?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MetricFilters"].writeList(value.metricFilters, memberWritingClosure: ConnectClientTypes.MetricFilterV2.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricId"].write(value.metricId)
         try writer["Name"].write(value.name)
         try writer["Threshold"].writeList(value.threshold, memberWritingClosure: ConnectClientTypes.ThresholdV2.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -47353,6 +54917,7 @@ extension ConnectClientTypes.MetricV2 {
         var value = ConnectClientTypes.MetricV2()
         value.name = try reader["Name"].readIfPresent()
         value.threshold = try reader["Threshold"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ThresholdV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricId = try reader["MetricId"].readIfPresent()
         value.metricFilters = try reader["MetricFilters"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MetricFilterV2.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -47738,6 +55303,7 @@ extension ConnectClientTypes.EvaluationSummary {
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.contactParticipant = try reader["ContactParticipant"].readIfPresent(with: ConnectClientTypes.EvaluationContactParticipant.read(from:))
         return value
     }
 }
@@ -47833,6 +55399,8 @@ extension ConnectClientTypes.ReferenceSummary {
                 return .attachment(try reader["Attachment"].read(with: ConnectClientTypes.AttachmentReference.read(from:)))
             case "EmailMessage":
                 return .emailmessage(try reader["EmailMessage"].read(with: ConnectClientTypes.EmailMessageReference.read(from:)))
+            case "EmailMessagePlainText":
+                return .emailmessageplaintext(try reader["EmailMessagePlainText"].read(with: ConnectClientTypes.EmailMessageReference.read(from:)))
             case "String":
                 return .string(try reader["String"].read(with: ConnectClientTypes.StringReference.read(from:)))
             case "Number":
@@ -47926,6 +55494,51 @@ extension ConnectClientTypes.UrlReference {
     }
 }
 
+extension ConnectClientTypes.RecordPrimaryValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RecordPrimaryValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RecordPrimaryValue()
+        value.recordId = try reader["RecordId"].readIfPresent()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValueResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.DataTableValueSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DataTableValueSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DataTableValueSummary()
+        value.recordId = try reader["RecordId"].readIfPresent()
+        value.attributeId = try reader["AttributeId"].readIfPresent()
+        value.primaryValues = try reader["PrimaryValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PrimaryValueResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.lockVersion = try reader["LockVersion"].readIfPresent(with: ConnectClientTypes.DataTableLockVersion.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.DefaultVocabulary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DefaultVocabulary {
@@ -47935,6 +55548,21 @@ extension ConnectClientTypes.DefaultVocabulary {
         value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
         value.vocabularyId = try reader["VocabularyId"].readIfPresent() ?? ""
         value.vocabularyName = try reader["VocabularyName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectClientTypes.SecurityProfileItem {
+
+    static func write(value: ConnectClientTypes.SecurityProfileItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SecurityProfileItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.SecurityProfileItem()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
@@ -48407,6 +56035,7 @@ extension ConnectClientTypes.Application {
         guard let value else { return }
         try writer["ApplicationPermissions"].writeList(value.applicationPermissions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Namespace"].write(value.namespace)
+        try writer["Type"].write(value.type)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Application {
@@ -48414,6 +56043,24 @@ extension ConnectClientTypes.Application {
         var value = ConnectClientTypes.Application()
         value.namespace = try reader["Namespace"].readIfPresent()
         value.applicationPermissions = try reader["ApplicationPermissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.FlowModule {
+
+    static func write(value: ConnectClientTypes.FlowModule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FlowModuleId"].write(value.flowModuleId)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FlowModule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.FlowModule()
+        value.type = try reader["Type"].readIfPresent()
+        value.flowModuleId = try reader["FlowModuleId"].readIfPresent()
         return value
     }
 }
@@ -48549,6 +56196,44 @@ extension ConnectClientTypes.ViewVersionSummary {
     }
 }
 
+extension ConnectClientTypes.MediaItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MediaItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MediaItem()
+        value.type = try reader["Type"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspacePage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspacePage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspacePage()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.page = try reader["Page"].readIfPresent()
+        value.slug = try reader["Slug"].readIfPresent()
+        value.inputData = try reader["InputData"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.AvailableNumberSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AvailableNumberSummary {
@@ -48570,6 +56255,7 @@ extension ConnectClientTypes.EvaluationSearchSummary {
         value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
         value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent()
+        value.evaluationFormTitle = try reader["EvaluationFormTitle"].readIfPresent()
         value.metadata = try reader["Metadata"].readIfPresent(with: ConnectClientTypes.EvaluationSearchMetadata.read(from:))
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
@@ -48597,6 +56283,10 @@ extension ConnectClientTypes.EvaluationSearchMetadata {
         value.acknowledgedTime = try reader["AcknowledgedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.acknowledgedBy = try reader["AcknowledgedBy"].readIfPresent()
         value.acknowledgerComment = try reader["AcknowledgerComment"].readIfPresent()
+        value.samplingJobId = try reader["SamplingJobId"].readIfPresent()
+        value.reviewId = try reader["ReviewId"].readIfPresent()
+        value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
+        value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
         return value
     }
 }
@@ -48691,6 +56381,8 @@ extension ConnectClientTypes.EvaluationFormSearchSummary {
         value.latestVersion = try reader["LatestVersion"].readIfPresent()
         value.activeVersion = try reader["ActiveVersion"].readIfPresent()
         value.autoEvaluationEnabled = try reader["AutoEvaluationEnabled"].readIfPresent() ?? false
+        value.evaluationFormLanguage = try reader["EvaluationFormLanguage"].readIfPresent()
+        value.contactInteractionType = try reader["ContactInteractionType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -48764,6 +56456,38 @@ extension ConnectClientTypes.VocabularySummary {
         value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceAssociationSearchSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceAssociationSearchSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceAssociationSearchSummary()
+        value.workspaceId = try reader["WorkspaceId"].readIfPresent()
+        value.workspaceArn = try reader["WorkspaceArn"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkspaceSearchSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkspaceSearchSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkspaceSearchSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -48926,6 +56650,38 @@ extension ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig {
     }
 }
 
+extension ConnectClientTypes.DataTableValue {
+
+    static func write(value: ConnectClientTypes.DataTableValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["LastModifiedRegion"].write(value.lastModifiedRegion)
+        try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LockVersion"].write(value.lockVersion, with: ConnectClientTypes.DataTableLockVersion.write(value:to:))
+        try writer["PrimaryValues"].writeList(value.primaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ConnectClientTypes.DataTableDeleteValueIdentifier {
+
+    static func write(value: ConnectClientTypes.DataTableDeleteValueIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["LockVersion"].write(value.lockVersion, with: ConnectClientTypes.DataTableLockVersion.write(value:to:))
+        try writer["PrimaryValues"].writeList(value.primaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.DataTableValueIdentifier {
+
+    static func write(value: ConnectClientTypes.DataTableValueIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["PrimaryValues"].writeList(value.primaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ConnectClientTypes.ContactDataRequest {
 
     static func write(value: ConnectClientTypes.ContactDataRequest?, to writer: SmithyJSON.Writer) throws {
@@ -49003,6 +56759,15 @@ extension ConnectClientTypes.UserProficiencyDisassociate {
     }
 }
 
+extension ConnectClientTypes.DataTableValueEvaluationSet {
+
+    static func write(value: ConnectClientTypes.DataTableValueEvaluationSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PrimaryValues"].writeList(value.primaryValues, memberWritingClosure: ConnectClientTypes.PrimaryValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ConnectClientTypes.ContactMetricInfo {
 
     static func write(value: ConnectClientTypes.ContactMetricInfo?, to writer: SmithyJSON.Writer) throws {
@@ -49067,6 +56832,24 @@ extension ConnectClientTypes.FilterV2 {
         guard let value else { return }
         try writer["FilterKey"].write(value.filterKey)
         try writer["FilterValues"].writeList(value.filterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.FilterV2StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.FilterV2StringCondition {
+
+    static func write(value: ConnectClientTypes.FilterV2StringCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comparison"].write(value.comparison)
+    }
+}
+
+extension ConnectClientTypes.PrimaryAttributeValueFilter {
+
+    static func write(value: ConnectClientTypes.PrimaryAttributeValueFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -49223,7 +57006,36 @@ extension ConnectClientTypes.ContactFlowSearchFilter {
 
     static func write(value: ConnectClientTypes.ContactFlowSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["FlowAttributeFilter"].write(value.flowAttributeFilter, with: ConnectClientTypes.ContactFlowAttributeFilter.write(value:to:))
         try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ContactFlowAttributeFilter {
+
+    static func write(value: ConnectClientTypes.ContactFlowAttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndCondition"].write(value.andCondition, with: ConnectClientTypes.ContactFlowAttributeAndCondition.write(value:to:))
+        try writer["ContactFlowTypeCondition"].write(value.contactFlowTypeCondition, with: ConnectClientTypes.ContactFlowTypeCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ContactFlowAttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagCondition"].write(value.tagCondition, with: ConnectClientTypes.TagCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ContactFlowTypeCondition {
+
+    static func write(value: ConnectClientTypes.ContactFlowTypeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactFlowType"].write(value.contactFlowType)
+    }
+}
+
+extension ConnectClientTypes.ContactFlowAttributeAndCondition {
+
+    static func write(value: ConnectClientTypes.ContactFlowAttributeAndCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactFlowTypeCondition"].write(value.contactFlowTypeCondition, with: ConnectClientTypes.ContactFlowTypeCondition.write(value:to:))
+        try writer["TagConditions"].writeList(value.tagConditions, memberWritingClosure: ConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -49410,6 +57222,24 @@ extension ConnectClientTypes.Sort {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Order"].write(value.order)
+    }
+}
+
+extension ConnectClientTypes.DataTableSearchFilter {
+
+    static func write(value: ConnectClientTypes.DataTableSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.DataTableSearchCriteria {
+
+    static func write(value: ConnectClientTypes.DataTableSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.DataTableSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.DataTableSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
     }
 }
 
@@ -49697,6 +57527,62 @@ extension ConnectClientTypes.Condition {
     }
 }
 
+extension ConnectClientTypes.ViewSearchFilter {
+
+    static func write(value: ConnectClientTypes.ViewSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ViewSearchCriteria {
+
+    static func write(value: ConnectClientTypes.ViewSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.ViewSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ViewSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+        try writer["ViewStatusCondition"].write(value.viewStatusCondition)
+        try writer["ViewTypeCondition"].write(value.viewTypeCondition)
+    }
+}
+
+extension ConnectClientTypes.WorkspaceAssociationSearchFilter {
+
+    static func write(value: ConnectClientTypes.WorkspaceAssociationSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.WorkspaceAssociationSearchCriteria {
+
+    static func write(value: ConnectClientTypes.WorkspaceAssociationSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.WorkspaceAssociationSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.WorkspaceAssociationSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.WorkspaceSearchFilter {
+
+    static func write(value: ConnectClientTypes.WorkspaceSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.WorkspaceSearchCriteria {
+
+    static func write(value: ConnectClientTypes.WorkspaceSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.WorkspaceSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.WorkspaceSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
 extension ConnectClientTypes.ChatEvent {
 
     static func write(value: ConnectClientTypes.ChatEvent?, to writer: SmithyJSON.Writer) throws {
@@ -49796,6 +57682,14 @@ extension ConnectClientTypes.SourceCampaign {
         guard let value else { return }
         try writer["CampaignId"].write(value.campaignId)
         try writer["OutboundRequestId"].write(value.outboundRequestId)
+    }
+}
+
+extension ConnectClientTypes.ParticipantConfiguration {
+
+    static func write(value: ConnectClientTypes.ParticipantConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResponseMode"].write(value.responseMode)
     }
 }
 

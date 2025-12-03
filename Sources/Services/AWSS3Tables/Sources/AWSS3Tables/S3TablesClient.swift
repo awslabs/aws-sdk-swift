@@ -452,7 +452,9 @@ extension S3TablesClient {
     ///
     /// * If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.
     ///
-    /// * You must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission to create a table with tags.
+    /// * If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableStorageClass permission.
+    ///
+    /// * To create a table with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission.
     ///
     ///
     /// Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
@@ -534,7 +536,9 @@ extension S3TablesClient {
     ///
     /// * If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
     ///
-    /// * You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permission to create a table bucket with tags.
+    /// * If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass permission.
+    ///
+    /// * To create a table bucket with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permission.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateTableBucketInput`)
     ///
@@ -1026,6 +1030,78 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteTableBucketReplication` operation on the `S3Tables` service.
+    ///
+    /// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableBucketReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTableBucketReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func deleteTableBucketReplication(input: DeleteTableBucketReplicationInput) async throws -> DeleteTableBucketReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTableBucketReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>(DeleteTableBucketReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>(DeleteTableBucketReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableBucketReplicationOutput>(DeleteTableBucketReplicationOutput.httpOutput(from:), DeleteTableBucketReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableBucketReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableBucketReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableBucketReplicationInput, DeleteTableBucketReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTableBucketReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteTablePolicy` operation on the `S3Tables` service.
     ///
     /// Deletes a table policy. For more information, see [Deleting a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-delete) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation.
@@ -1084,6 +1160,78 @@ extension S3TablesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTablePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTableReplication` operation on the `S3Tables` service.
+    ///
+    /// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTableReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func deleteTableReplication(input: DeleteTableReplicationInput) async throws -> DeleteTableReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTableReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTableReplicationInput, DeleteTableReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>(DeleteTableReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>(DeleteTableReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableReplicationOutput>(DeleteTableReplicationOutput.httpOutput(from:), DeleteTableReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableReplicationInput, DeleteTableReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTableReplication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1590,6 +1738,148 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTableBucketReplication` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken, and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableBucketReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableBucketReplication(input: GetTableBucketReplicationInput) async throws -> GetTableBucketReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableBucketReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableBucketReplicationInput, GetTableBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>(GetTableBucketReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>(GetTableBucketReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketReplicationOutput>(GetTableBucketReplicationOutput.httpOutput(from:), GetTableBucketReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableBucketReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableBucketReplicationInput, GetTableBucketReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableBucketReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableBucketStorageClass` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration. Permissions You must have the s3tables:GetTableBucketStorageClass permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketStorageClassInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableBucketStorageClassOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableBucketStorageClass(input: GetTableBucketStorageClassInput) async throws -> GetTableBucketStorageClassOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableBucketStorageClass")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>(GetTableBucketStorageClassInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketStorageClassOutput>(GetTableBucketStorageClassOutput.httpOutput(from:), GetTableBucketStorageClassOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketStorageClassOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableBucketStorageClassOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableBucketStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableBucketStorageClassInput, GetTableBucketStorageClassOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableBucketStorageClass")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTableEncryption` operation on the `S3Tables` service.
     ///
     /// Gets the encryption configuration for a table. Permissions You must have the s3tables:GetTableEncryption permission to use this operation.
@@ -1932,6 +2222,361 @@ extension S3TablesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTablePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableRecordExpirationConfiguration` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled, records expire and are automatically removed from the table after the specified number of days. Permissions You must have the s3tables:GetTableRecordExpirationConfiguration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableRecordExpirationConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableRecordExpirationConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `MethodNotAllowedException` : The requested operation is not allowed on this resource. This may occur when attempting to modify a resource that is managed by a service or has restrictions that prevent the operation.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableRecordExpirationConfiguration(input: GetTableRecordExpirationConfigurationInput) async throws -> GetTableRecordExpirationConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableRecordExpirationConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>(GetTableRecordExpirationConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>(GetTableRecordExpirationConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableRecordExpirationConfigurationOutput>(GetTableRecordExpirationConfigurationOutput.httpOutput(from:), GetTableRecordExpirationConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableRecordExpirationConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableRecordExpirationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableRecordExpirationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableRecordExpirationConfigurationInput, GetTableRecordExpirationConfigurationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableRecordExpirationConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableRecordExpirationJobStatus` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the status, metrics, and details of the latest record expiration job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed. Permissions You must have the s3tables:GetTableRecordExpirationJobStatus permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableRecordExpirationJobStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableRecordExpirationJobStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `MethodNotAllowedException` : The requested operation is not allowed on this resource. This may occur when attempting to modify a resource that is managed by a service or has restrictions that prevent the operation.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableRecordExpirationJobStatus(input: GetTableRecordExpirationJobStatusInput) async throws -> GetTableRecordExpirationJobStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableRecordExpirationJobStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>(GetTableRecordExpirationJobStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>(GetTableRecordExpirationJobStatusInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableRecordExpirationJobStatusOutput>(GetTableRecordExpirationJobStatusOutput.httpOutput(from:), GetTableRecordExpirationJobStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableRecordExpirationJobStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableRecordExpirationJobStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableRecordExpirationJobStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableRecordExpirationJobStatusInput, GetTableRecordExpirationJobStatusOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableRecordExpirationJobStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableReplication` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the replication configuration for a specific table. Permissions You must have the s3tables:GetTableReplication permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableReplication(input: GetTableReplicationInput) async throws -> GetTableReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableReplicationInput, GetTableReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableReplicationInput, GetTableReplicationOutput>(GetTableReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableReplicationInput, GetTableReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableReplicationInput, GetTableReplicationOutput>(GetTableReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableReplicationOutput>(GetTableReplicationOutput.httpOutput(from:), GetTableReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableReplicationInput, GetTableReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableReplicationInput, GetTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableReplicationInput, GetTableReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableReplicationInput, GetTableReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableReplicationStatus` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress. Permissions You must have the s3tables:GetTableReplicationStatus permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableReplicationStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableReplicationStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableReplicationStatus(input: GetTableReplicationStatusInput) async throws -> GetTableReplicationStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableReplicationStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableReplicationStatusInput, GetTableReplicationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>(GetTableReplicationStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>(GetTableReplicationStatusInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableReplicationStatusOutput>(GetTableReplicationStatusOutput.httpOutput(from:), GetTableReplicationStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableReplicationStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableReplicationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableReplicationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableReplicationStatusInput, GetTableReplicationStatusOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableReplicationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTableStorageClass` operation on the `S3Tables` service.
+    ///
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration. Permissions You must have the s3tables:GetTableStorageClass permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableStorageClassInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableStorageClassOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableStorageClass(input: GetTableStorageClassInput) async throws -> GetTableStorageClassOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableStorageClass")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableStorageClassInput, GetTableStorageClassOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>(GetTableStorageClassInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableStorageClassOutput>(GetTableStorageClassOutput.httpOutput(from:), GetTableStorageClassOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableStorageClassOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableStorageClassOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableStorageClassInput, GetTableStorageClassOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableStorageClass")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2518,6 +3163,175 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutTableBucketReplication` operation on the `S3Tables` service.
+    ///
+    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts. Permissions
+    ///
+    /// * You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination buckets.
+    ///
+    /// * You must also have the following permissions:
+    ///
+    /// * s3tables:GetTable permission on the source table.
+    ///
+    /// * s3tables:ListTables permission on the bucket containing the table.
+    ///
+    /// * s3tables:CreateTable permission for the destination.
+    ///
+    /// * s3tables:CreateNamespace permission for the destination.
+    ///
+    /// * s3tables:GetTableMaintenanceConfig permission for the source bucket.
+    ///
+    /// * s3tables:PutTableMaintenanceConfig permission for the destination bucket.
+    ///
+    ///
+    ///
+    ///
+    /// * You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutTableBucketReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutTableBucketReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func putTableBucketReplication(input: PutTableBucketReplicationInput) async throws -> PutTableBucketReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTableBucketReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTableBucketReplicationInput, PutTableBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(PutTableBucketReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(PutTableBucketReplicationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTableBucketReplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableBucketReplicationOutput>(PutTableBucketReplicationOutput.httpOutput(from:), PutTableBucketReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTableBucketReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTableBucketReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTableBucketReplicationInput, PutTableBucketReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTableBucketReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTableBucketStorageClass` operation on the `S3Tables` service.
+    ///
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutTableBucketStorageClassInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutTableBucketStorageClassOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func putTableBucketStorageClass(input: PutTableBucketStorageClassInput) async throws -> PutTableBucketStorageClassOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTableBucketStorageClass")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>(PutTableBucketStorageClassInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTableBucketStorageClassInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableBucketStorageClassOutput>(PutTableBucketStorageClassOutput.httpOutput(from:), PutTableBucketStorageClassOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTableBucketStorageClassOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTableBucketStorageClassOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTableBucketStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTableBucketStorageClassInput, PutTableBucketStorageClassOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTableBucketStorageClass")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
@@ -2652,6 +3466,174 @@ extension S3TablesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTablePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTableRecordExpirationConfiguration` operation on the `S3Tables` service.
+    ///
+    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutTableRecordExpirationConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutTableRecordExpirationConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `MethodNotAllowedException` : The requested operation is not allowed on this resource. This may occur when attempting to modify a resource that is managed by a service or has restrictions that prevent the operation.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func putTableRecordExpirationConfiguration(input: PutTableRecordExpirationConfigurationInput) async throws -> PutTableRecordExpirationConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTableRecordExpirationConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(PutTableRecordExpirationConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(PutTableRecordExpirationConfigurationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTableRecordExpirationConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableRecordExpirationConfigurationOutput>(PutTableRecordExpirationConfigurationOutput.httpOutput(from:), PutTableRecordExpirationConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTableRecordExpirationConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTableRecordExpirationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTableRecordExpirationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTableRecordExpirationConfigurationInput, PutTableRecordExpirationConfigurationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTableRecordExpirationConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTableReplication` operation on the `S3Tables` service.
+    ///
+    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions
+    ///
+    /// * You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables.
+    ///
+    /// * You must also have the following permissions:
+    ///
+    /// * s3tables:GetTable permission on the source table being replicated.
+    ///
+    /// * s3tables:CreateTable permission for the destination.
+    ///
+    /// * s3tables:CreateNamespace permission for the destination.
+    ///
+    /// * s3tables:GetTableMaintenanceConfig permission for the source table.
+    ///
+    /// * s3tables:PutTableMaintenanceConfig permission for the destination table.
+    ///
+    ///
+    ///
+    ///
+    /// * You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutTableReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutTableReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func putTableReplication(input: PutTableReplicationInput) async throws -> PutTableReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTableReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTableReplicationInput, PutTableReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(PutTableReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTableReplicationInput, PutTableReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(PutTableReplicationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTableReplicationInput, PutTableReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTableReplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableReplicationInput, PutTableReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableReplicationOutput>(PutTableReplicationOutput.httpOutput(from:), PutTableReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTableReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTableReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTableReplicationInput, PutTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTableReplicationInput, PutTableReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTableReplication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

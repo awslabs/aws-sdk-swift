@@ -528,35 +528,82 @@ extension MarketplaceAgreementClient {
 
     /// Performs the `SearchAgreements` operation on the `MarketplaceAgreement` service.
     ///
-    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported:
+    /// Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceIdentifier
+    /// * AgreementType
     ///
-    /// * PartyType as Proposer + AgreementType + OfferId
+    /// * AgreementType + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId
+    /// * AgreementType + ResourceType
     ///
-    /// * PartyType as Proposer + AgreementType + Status
+    /// * AgreementType + ResourceType + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceIdentifier + Status
+    /// * AgreementType + ResourceType + Status
     ///
-    /// * PartyType as Proposer + AgreementType + OfferId + Status
+    /// * AgreementType + ResourceType + Status + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + Status
+    /// * AgreementType + ResourceId
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceType + Status
+    /// * AgreementType + ResourceId + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType + Status
+    /// * AgreementType + ResourceId + Status
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + OfferId
+    /// * AgreementType + ResourceId + Status + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + OfferId + Status
+    /// * AgreementType + AcceptorAccountId
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceIdentifier
+    /// * AgreementType + AcceptorAccountId + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceIdentifier + Status
+    /// * AgreementType + AcceptorAccountId + Status
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType
+    /// * AgreementType + AcceptorAccountId + Status + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId + Status + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + Status + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + Status + EndTime
+    ///
+    /// * AgreementType + Status
+    ///
+    /// * AgreementType + Status + EndTime
+    ///
+    /// * AgreementType + OfferId
+    ///
+    /// * AgreementType + OfferId + EndTime
+    ///
+    /// * AgreementType + OfferId + Status
+    ///
+    /// * AgreementType + OfferId + Status + EndTime
+    ///
+    /// * AgreementType + OfferSetId
+    ///
+    /// * AgreementType + OfferSetId + EndTime
+    ///
+    /// * AgreementType + OfferSetId + Status
+    ///
+    /// * AgreementType + OfferSetId + Status + EndTime
+    ///
+    ///
+    /// To filter by EndTime, you can use either BeforeEndTime or AfterEndTime. Only EndTime is supported for sorting.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchAgreementsInput`)
     ///

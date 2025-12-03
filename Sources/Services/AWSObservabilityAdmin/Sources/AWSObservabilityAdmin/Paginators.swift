@@ -112,6 +112,36 @@ extension PaginatorSequence where OperationStackInput == ListResourceTelemetryFo
     }
 }
 extension ObservabilityAdminClient {
+    /// Paginate over `[ListS3TableIntegrationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListS3TableIntegrationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListS3TableIntegrationsOutput`
+    public func listS3TableIntegrationsPaginated(input: ListS3TableIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listS3TableIntegrations(input:))
+    }
+}
+
+extension ListS3TableIntegrationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListS3TableIntegrationsInput {
+        return ListS3TableIntegrationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListS3TableIntegrationsInput, OperationStackOutput == ListS3TableIntegrationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listS3TableIntegrationsPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.IntegrationSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.IntegrationSummary]`
+    public func integrationSummaries() async throws -> [ObservabilityAdminClientTypes.IntegrationSummary] {
+        return try await self.asyncCompactMap { item in item.integrationSummaries }
+    }
+}
+extension ObservabilityAdminClient {
     /// Paginate over `[ListTelemetryRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

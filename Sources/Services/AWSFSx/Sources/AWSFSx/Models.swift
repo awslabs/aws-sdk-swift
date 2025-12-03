@@ -3766,6 +3766,112 @@ public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
 extension FSxClientTypes {
 
+    public enum OntapFileSystemUserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case unix
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OntapFileSystemUserType] {
+            return [
+                .unix,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .unix: return "UNIX"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The FSx for ONTAP UNIX file system user that is used for authorizing all file access requests that are made using the S3 access point.
+    public struct OntapUnixFileSystemUser: Swift.Sendable {
+        /// The name of the UNIX user. The name can be up to 256 characters long.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The FSx for ONTAP Windows file system user that is used for authorizing all file access requests that are made using the S3 access point.
+    public struct OntapWindowsFileSystemUser: Swift.Sendable {
+        /// The name of the Windows user. The name can be up to 256 characters long and supports Active Directory users.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the file system user identity that will be used for authorizing all file access requests that are made using the S3 access point. The identity can be either a UNIX user or a Windows user.
+    public struct OntapFileSystemIdentity: Swift.Sendable {
+        /// Specifies the FSx for ONTAP user identity type. Valid values are UNIX and WINDOWS.
+        /// This member is required.
+        public var type: FSxClientTypes.OntapFileSystemUserType?
+        /// Specifies the UNIX user identity for file system operations.
+        public var unixUser: FSxClientTypes.OntapUnixFileSystemUser?
+        /// Specifies the Windows user identity for file system operations.
+        public var windowsUser: FSxClientTypes.OntapWindowsFileSystemUser?
+
+        public init(
+            type: FSxClientTypes.OntapFileSystemUserType? = nil,
+            unixUser: FSxClientTypes.OntapUnixFileSystemUser? = nil,
+            windowsUser: FSxClientTypes.OntapWindowsFileSystemUser? = nil
+        ) {
+            self.type = type
+            self.unixUser = unixUser
+            self.windowsUser = windowsUser
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity.
+    public struct CreateAndAttachS3AccessPointOntapConfiguration: Swift.Sendable {
+        /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
+        /// This member is required.
+        public var fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume to which you want the S3 access point attached.
+        /// This member is required.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// The FSx for OpenZFS file system user that is used for authorizing all file access requests that are made using the S3 access point.
     public struct OpenZFSPosixFileSystemUser: Swift.Sendable {
         /// The GID of the file system user.
@@ -3893,11 +3999,13 @@ extension FSxClientTypes {
 extension FSxClientTypes {
 
     public enum S3AccessPointAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ontap
         case openzfs
         case sdkUnknown(Swift.String)
 
         public static var allCases: [S3AccessPointAttachmentType] {
             return [
+                .ontap,
                 .openzfs
             ]
         }
@@ -3909,6 +4017,7 @@ extension FSxClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .ontap: return "ONTAP"
             case .openzfs: return "OPENZFS"
             case let .sdkUnknown(s): return s
             }
@@ -3922,6 +4031,8 @@ public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
     /// The name you want to assign to this S3 access point.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity.
+    public var ontapConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration?
     /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
     public var openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?
     /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more information, see [Creating access points restricted to a virtual private cloud](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-vpc.html).
@@ -3933,12 +4044,14 @@ public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        ontapConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil,
         s3AccessPoint: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration? = nil,
         type: FSxClientTypes.S3AccessPointAttachmentType? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
+        self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.s3AccessPoint = s3AccessPoint
         self.type = type
@@ -3952,6 +4065,7 @@ extension FSxClientTypes {
         case creating
         case deleting
         case failed
+        case misconfigured
         case updating
         case sdkUnknown(Swift.String)
 
@@ -3961,6 +4075,7 @@ extension FSxClientTypes {
                 .creating,
                 .deleting,
                 .failed,
+                .misconfigured,
                 .updating
             ]
         }
@@ -3976,9 +4091,29 @@ extension FSxClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .misconfigured: return "MISCONFIGURED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the FSx for ONTAP attachment configuration of an S3 access point attachment.
+    public struct S3AccessPointOntapConfiguration: Swift.Sendable {
+        /// The file system identity used to authorize file access requests made using the S3 access point.
+        public var fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume that the S3 access point is attached to.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
         }
     }
 }
@@ -4047,6 +4182,8 @@ extension FSxClientTypes {
         public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
         /// The name of the S3 access point attachment; also used for the name of the S3 access point.
         public var name: Swift.String?
+        /// The ONTAP configuration of the S3 access point attachment.
+        public var ontapConfiguration: FSxClientTypes.S3AccessPointOntapConfiguration?
         /// The OpenZFSConfiguration of the S3 access point attachment.
         public var openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration?
         /// The S3 access point configuration of the S3 access point attachment.
@@ -4059,6 +4196,7 @@ extension FSxClientTypes {
             lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle? = nil,
             lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
             name: Swift.String? = nil,
+            ontapConfiguration: FSxClientTypes.S3AccessPointOntapConfiguration? = nil,
             openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration? = nil,
             s3AccessPoint: FSxClientTypes.S3AccessPoint? = nil,
             type: FSxClientTypes.S3AccessPointAttachmentType? = nil
@@ -4067,6 +4205,7 @@ extension FSxClientTypes {
             self.lifecycle = lifecycle
             self.lifecycleTransitionReason = lifecycleTransitionReason
             self.name = name
+            self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.s3AccessPoint = s3AccessPoint
             self.type = type
@@ -10472,6 +10611,7 @@ extension CreateAndAttachS3AccessPointInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["Name"].write(value.name)
+        try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration.write(value:to:))
         try writer["S3AccessPoint"].write(value.s3AccessPoint, with: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration.write(value:to:))
         try writer["Type"].write(value.type)
@@ -13672,6 +13812,7 @@ extension FSxClientTypes.S3AccessPointAttachment {
         value.name = try reader["Name"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOpenZFSConfiguration.read(from:))
+        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOntapConfiguration.read(from:))
         value.s3AccessPoint = try reader["S3AccessPoint"].readIfPresent(with: FSxClientTypes.S3AccessPoint.read(from:))
         return value
     }
@@ -13700,6 +13841,66 @@ extension FSxClientTypes.S3AccessPointVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.S3AccessPointVpcConfiguration()
         value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointOntapConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOntapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointOntapConfiguration()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OntapFileSystemIdentity.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapFileSystemIdentity {
+
+    static func write(value: FSxClientTypes.OntapFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["UnixUser"].write(value.unixUser, with: FSxClientTypes.OntapUnixFileSystemUser.write(value:to:))
+        try writer["WindowsUser"].write(value.windowsUser, with: FSxClientTypes.OntapWindowsFileSystemUser.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapFileSystemIdentity()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.unixUser = try reader["UnixUser"].readIfPresent(with: FSxClientTypes.OntapUnixFileSystemUser.read(from:))
+        value.windowsUser = try reader["WindowsUser"].readIfPresent(with: FSxClientTypes.OntapWindowsFileSystemUser.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapWindowsFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapWindowsFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapWindowsFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapWindowsFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapUnixFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapUnixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapUnixFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapUnixFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14136,6 +14337,15 @@ extension FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration {
     static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OpenZFSFileSystemIdentity.write(value:to:))
+        try writer["VolumeId"].write(value.volumeId)
+    }
+}
+
+extension FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration {
+
+    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OntapFileSystemIdentity.write(value:to:))
         try writer["VolumeId"].write(value.volumeId)
     }
 }

@@ -3476,7 +3476,7 @@ extension SecurityHubClientTypes {
         public var placementTenancy: Swift.String?
         /// The identifier of the RAM disk associated with the AMI.
         public var ramdiskId: Swift.String?
-        /// The security groups to assign to the instances in the Auto Scaling group.
+        /// The security groups to assign to the instances in the Amazon EC2 Auto Scaling group.
         public var securityGroups: [Swift.String]?
         /// The maximum hourly price to be paid for any Spot Instance that is launched to fulfill the request.
         public var spotPrice: Swift.String?
@@ -4478,7 +4478,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A complex type that describes the Amazon S3 bucket, HTTP server (for example, a web server), Elemental MediaStore, or other server from which CloudFront gets your files.
+    /// A complex type that describes the Amazon S3 bucket, HTTP server (for example, a web server), or other server from which CloudFront gets your files.
     public struct AwsCloudFrontDistributionOriginItem: Swift.Sendable {
         /// An origin that is not an Amazon S3 bucket, with one exception. If the Amazon S3 bucket is configured with static website hosting, use this attribute. If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
         public var customOriginConfig: SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConfig?
@@ -8892,7 +8892,7 @@ extension SecurityHubClientTypes {
         public var containerPort: Swift.Int?
         /// The name of the load balancer to associate with the Amazon ECS service or task set. Only specified when using a Classic Load Balancer. For an Application Load Balancer or a Network Load Balancer, the load balancer name is omitted.
         public var loadBalancerName: Swift.String?
-        /// The ARN of the Elastic Load Balancing target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
+        /// The ARN of the ELB target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
         public var targetGroupArn: Swift.String?
 
         public init(
@@ -9030,7 +9030,7 @@ extension SecurityHubClientTypes {
         public var enableEcsManagedTags: Swift.Bool?
         /// Whether the execute command functionality is enabled for the service.
         public var enableExecuteCommand: Swift.Bool?
-        /// After a task starts, the amount of time in seconds that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks.
+        /// After a task starts, the amount of time in seconds that the Amazon ECS service scheduler ignores unhealthy ELB target health checks.
         public var healthCheckGracePeriodSeconds: Swift.Int?
         /// The launch type that the service uses. Valid values: EC2 | FARGATE | EXTERNAL
         public var launchType: Swift.String?
@@ -9048,7 +9048,7 @@ extension SecurityHubClientTypes {
         public var platformVersion: Swift.String?
         /// Indicates whether to propagate the tags from the task definition to the task or from the service to the task. If no value is provided, then tags are not propagated. Valid values: TASK_DEFINITION | SERVICE
         public var propagateTags: Swift.String?
-        /// The ARN of the IAM role that is associated with the service. The role allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
+        /// The ARN of the IAM role that is associated with the service. The role allows the Amazon ECS container agent to register container instances with an ELB load balancer.
         public var role: Swift.String?
         /// The scheduling strategy to use for the service. The REPLICA scheduling strategy places and maintains the desired number of tasks across the cluster. By default, the service scheduler spreads tasks across Availability Zones. Task placement strategies and constraints are used to customize task placement decisions. The DAEMON scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that are specified in the cluster. The service scheduler also evaluates the task placement constraints for running tasks and stops tasks that don't meet the placement constraints. Valid values: REPLICA | DAEMON
         public var schedulingStrategy: Swift.String?
@@ -22996,6 +22996,8 @@ extension SecurityHubClientTypes {
         case resourcesImageInUseCount
         case severityId
         case statusId
+        case vendorAttributesSeverityId
+        case vulnerabilitiesCveCvssBaseScore
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OcsfNumberField] {
@@ -23011,7 +23013,9 @@ extension SecurityHubClientTypes {
                 .findingInfoRelatedEventsCount,
                 .resourcesImageInUseCount,
                 .severityId,
-                .statusId
+                .statusId,
+                .vendorAttributesSeverityId,
+                .vulnerabilitiesCveCvssBaseScore
             ]
         }
 
@@ -23034,6 +23038,8 @@ extension SecurityHubClientTypes {
             case .resourcesImageInUseCount: return "resources.image.in_use_count"
             case .severityId: return "severity_id"
             case .statusId: return "status_id"
+            case .vendorAttributesSeverityId: return "vendor_attributes.severity_id"
+            case .vulnerabilitiesCveCvssBaseScore: return "vulnerabilities.cve.cvss.base_score"
             case let .sdkUnknown(s): return s
             }
         }
@@ -23094,6 +23100,7 @@ extension SecurityHubClientTypes {
         case findingInfoDesc
         case findingInfoRelatedEventsProductUid
         case findingInfoRelatedEventsTitle
+        case findingInfoRelatedEventsTraitsCategory
         case findingInfoRelatedEventsUid
         case findingInfoSrcUrl
         case findingInfoTitle
@@ -23125,6 +23132,7 @@ extension SecurityHubClientTypes {
         case resourcesVpcUid
         case severity
         case status
+        case vendorAttributesSeverity
         case vulnerabilitiesAffectedCodeFilePath
         case vulnerabilitiesAffectedPackagesName
         case vulnerabilitiesCveEpssScore
@@ -23167,6 +23175,7 @@ extension SecurityHubClientTypes {
                 .findingInfoDesc,
                 .findingInfoRelatedEventsProductUid,
                 .findingInfoRelatedEventsTitle,
+                .findingInfoRelatedEventsTraitsCategory,
                 .findingInfoRelatedEventsUid,
                 .findingInfoSrcUrl,
                 .findingInfoTitle,
@@ -23198,6 +23207,7 @@ extension SecurityHubClientTypes {
                 .resourcesVpcUid,
                 .severity,
                 .status,
+                .vendorAttributesSeverity,
                 .vulnerabilitiesAffectedCodeFilePath,
                 .vulnerabilitiesAffectedPackagesName,
                 .vulnerabilitiesCveEpssScore,
@@ -23246,6 +23256,7 @@ extension SecurityHubClientTypes {
             case .findingInfoDesc: return "finding_info.desc"
             case .findingInfoRelatedEventsProductUid: return "finding_info.related_events.product.uid"
             case .findingInfoRelatedEventsTitle: return "finding_info.related_events.title"
+            case .findingInfoRelatedEventsTraitsCategory: return "finding_info.related_events.traits.category"
             case .findingInfoRelatedEventsUid: return "finding_info.related_events.uid"
             case .findingInfoSrcUrl: return "finding_info.src_url"
             case .findingInfoTitle: return "finding_info.title"
@@ -23277,6 +23288,7 @@ extension SecurityHubClientTypes {
             case .resourcesVpcUid: return "resources.vpc_uid"
             case .severity: return "severity"
             case .status: return "status"
+            case .vendorAttributesSeverity: return "vendor_attributes.severity"
             case .vulnerabilitiesAffectedCodeFilePath: return "vulnerabilities.affected_code.file.path"
             case .vulnerabilitiesAffectedPackagesName: return "vulnerabilities.affected_packages.name"
             case .vulnerabilitiesCveEpssScore: return "vulnerabilities.cve.epss.score"
@@ -23590,39 +23602,6 @@ extension SecurityHubClientTypes {
     }
 }
 
-public struct ConnectorRegistrationsV2Input: Swift.Sendable {
-    /// The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
-    /// This member is required.
-    public var authCode: Swift.String?
-    /// The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
-    /// This member is required.
-    public var authState: Swift.String?
-
-    public init(
-        authCode: Swift.String? = nil,
-        authState: Swift.String? = nil
-    ) {
-        self.authCode = authCode
-        self.authState = authState
-    }
-}
-
-public struct ConnectorRegistrationsV2Output: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the connectorV2.
-    public var connectorArn: Swift.String?
-    /// The UUID of the connectorV2 to identify connectorV2 resource.
-    /// This member is required.
-    public var connectorId: Swift.String?
-
-    public init(
-        connectorArn: Swift.String? = nil,
-        connectorId: Swift.String? = nil
-    ) {
-        self.connectorArn = connectorArn
-        self.connectorId = connectorId
-    }
-}
-
 extension SecurityHubClientTypes {
 
     public enum ConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -23802,6 +23781,32 @@ public struct CreateActionTargetOutput: Swift.Sendable {
         actionTargetArn: Swift.String? = nil
     ) {
         self.actionTargetArn = actionTargetArn
+    }
+}
+
+/// The request was rejected because it would exceed the service quota limit.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
     }
 }
 
@@ -24076,31 +24081,21 @@ extension SecurityHubClientTypes {
 
     /// The initial configuration settings required to establish an integration between Security Hub and ServiceNow ITSM.
     public struct ServiceNowProviderConfiguration: Swift.Sendable {
-        /// The client ID of ServiceNow ITSM.
-        /// This member is required.
-        public var clientId: Swift.String?
-        /// The client secret of ServiceNow ITSM.
-        /// This member is required.
-        public var clientSecret: Swift.String?
         /// The instance name of ServiceNow ITSM.
         /// This member is required.
         public var instanceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials.
+        /// This member is required.
+        public var secretArn: Swift.String?
 
         public init(
-            clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil,
-            instanceName: Swift.String? = nil
+            instanceName: Swift.String? = nil,
+            secretArn: Swift.String? = nil
         ) {
-            self.clientId = clientId
-            self.clientSecret = clientSecret
             self.instanceName = instanceName
+            self.secretArn = secretArn
         }
     }
-}
-
-extension SecurityHubClientTypes.ServiceNowProviderConfiguration: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ServiceNowProviderConfiguration(clientId: \(Swift.String(describing: clientId)), instanceName: \(Swift.String(describing: instanceName)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension SecurityHubClientTypes {
@@ -24152,19 +24147,24 @@ public struct CreateConnectorV2Output: Swift.Sendable {
     /// The Url provide to customers for OAuth auth code flow.
     public var authUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the connectorV2.
+    /// This member is required.
     public var connectorArn: Swift.String?
     /// The UUID of the connectorV2 to identify connectorV2 resource.
     /// This member is required.
     public var connectorId: Swift.String?
+    /// The current status of the connectorV2.
+    public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
 
     public init(
         authUrl: Swift.String? = nil,
         connectorArn: Swift.String? = nil,
-        connectorId: Swift.String? = nil
+        connectorId: Swift.String? = nil,
+        connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil
     ) {
         self.authUrl = authUrl
         self.connectorArn = connectorArn
         self.connectorId = connectorId
+        self.connectorStatus = connectorStatus
     }
 }
 
@@ -24291,6 +24291,33 @@ public struct CreateMembersOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    /// The mode for creating a ticket.
+    public enum TicketCreationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dryrun
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TicketCreationMode] {
+            return [
+                .dryrun
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dryrun: return "DRYRUN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateTicketV2Input: Swift.Sendable {
     /// The client idempotency token.
     public var clientToken: Swift.String?
@@ -24300,15 +24327,19 @@ public struct CreateTicketV2Input: Swift.Sendable {
     /// The the unique ID for the finding.
     /// This member is required.
     public var findingMetadataUid: Swift.String?
+    /// The mode for ticket creation. When set to DRYRUN, the ticket is created using a Security Hub owned template test finding to verify the integration is working correctly.
+    public var mode: SecurityHubClientTypes.TicketCreationMode?
 
     public init(
         clientToken: Swift.String? = nil,
         connectorId: Swift.String? = nil,
-        findingMetadataUid: Swift.String? = nil
+        findingMetadataUid: Swift.String? = nil,
+        mode: SecurityHubClientTypes.TicketCreationMode? = nil
     ) {
         self.clientToken = clientToken
         self.connectorId = connectorId
         self.findingMetadataUid = findingMetadataUid
+        self.mode = mode
     }
 }
 
@@ -25819,22 +25850,23 @@ extension SecurityHubClientTypes {
 
     /// Information about a ServiceNow ITSM integration.
     public struct ServiceNowDetail: Swift.Sendable {
-        /// The status of the authorization between Jira Cloud and the service.
+        /// The status of the authorization between ServiceNow and the service.
         /// This member is required.
         public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
-        /// The clientId of ServiceNow ITSM.
-        public var clientId: Swift.String?
         /// The instanceName of ServiceNow ITSM.
         public var instanceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials.
+        /// This member is required.
+        public var secretArn: Swift.String?
 
         public init(
             authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
-            clientId: Swift.String? = nil,
-            instanceName: Swift.String? = nil
+            instanceName: Swift.String? = nil,
+            secretArn: Swift.String? = nil
         ) {
             self.authStatus = authStatus
-            self.clientId = clientId
             self.instanceName = instanceName
+            self.secretArn = secretArn
         }
     }
 }
@@ -26113,6 +26145,7 @@ extension SecurityHubClientTypes {
         case complianceStandards
         case complianceStatus
         case findingInfoAnalyticName
+        case findingInfoRelatedEventsTraitsCategory
         case findingInfoTitle
         case findingInfoTypes
         case metadataProductName
@@ -26121,6 +26154,7 @@ extension SecurityHubClientTypes {
         case resourcesUid
         case severity
         case status
+        case vendorAttributesSeverity
         case vulnerabilitiesAffectedPackagesName
         case vulnerabilitiesFixCoverage
         case sdkUnknown(Swift.String)
@@ -26138,6 +26172,7 @@ extension SecurityHubClientTypes {
                 .complianceStandards,
                 .complianceStatus,
                 .findingInfoAnalyticName,
+                .findingInfoRelatedEventsTraitsCategory,
                 .findingInfoTitle,
                 .findingInfoTypes,
                 .metadataProductName,
@@ -26146,6 +26181,7 @@ extension SecurityHubClientTypes {
                 .resourcesUid,
                 .severity,
                 .status,
+                .vendorAttributesSeverity,
                 .vulnerabilitiesAffectedPackagesName,
                 .vulnerabilitiesFixCoverage
             ]
@@ -26169,6 +26205,7 @@ extension SecurityHubClientTypes {
             case .complianceStandards: return "compliance.standards"
             case .complianceStatus: return "compliance.status"
             case .findingInfoAnalyticName: return "finding_info.analytic.name"
+            case .findingInfoRelatedEventsTraitsCategory: return "finding_info.related_events.traits.category"
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
             case .metadataProductName: return "metadata.product.name"
@@ -26177,6 +26214,7 @@ extension SecurityHubClientTypes {
             case .resourcesUid: return "resources.uid"
             case .severity: return "severity"
             case .status: return "status"
+            case .vendorAttributesSeverity: return "vendor_attributes.severity"
             case .vulnerabilitiesAffectedPackagesName: return "vulnerabilities.affected_packages.name"
             case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
             case let .sdkUnknown(s): return s
@@ -27424,7 +27462,6 @@ extension SecurityHubClientTypes {
     /// The parameters used to modify an existing Jira Cloud integration.
     public struct JiraCloudUpdateConfiguration: Swift.Sendable {
         /// The project key for a JiraCloud instance.
-        /// This member is required.
         public var projectKey: Swift.String?
 
         public init(
@@ -27937,11 +27974,61 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    /// The parameters used to modify an existing ServiceNow integration.
+    public struct ServiceNowUpdateConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// The parameters required to update the configuration of an integration provider.
     public enum ProviderUpdateConfiguration: Swift.Sendable {
         /// The parameters required to update the configuration for a Jira Cloud integration.
         case jiracloud(SecurityHubClientTypes.JiraCloudUpdateConfiguration)
+        /// The parameters required to update the configuration for a ServiceNow integration.
+        case servicenow(SecurityHubClientTypes.ServiceNowUpdateConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+public struct RegisterConnectorV2Input: Swift.Sendable {
+    /// The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    /// This member is required.
+    public var authCode: Swift.String?
+    /// The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    /// This member is required.
+    public var authState: Swift.String?
+
+    public init(
+        authCode: Swift.String? = nil,
+        authState: Swift.String? = nil
+    ) {
+        self.authCode = authCode
+        self.authState = authState
+    }
+}
+
+public struct RegisterConnectorV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connectorV2.
+    public var connectorArn: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
     }
 }
 
@@ -28226,8 +28313,6 @@ public struct UpdateConfigurationPolicyOutput: Swift.Sendable {
 }
 
 public struct UpdateConnectorV2Input: Swift.Sendable {
-    /// The clientSecret of ServiceNow.
-    public var clientSecret: Swift.String?
     /// The UUID of the connectorV2 to identify connectorV2 resource.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -28237,21 +28322,14 @@ public struct UpdateConnectorV2Input: Swift.Sendable {
     public var provider: SecurityHubClientTypes.ProviderUpdateConfiguration?
 
     public init(
-        clientSecret: Swift.String? = nil,
         connectorId: Swift.String? = nil,
         description: Swift.String? = nil,
         provider: SecurityHubClientTypes.ProviderUpdateConfiguration? = nil
     ) {
-        self.clientSecret = clientSecret
         self.connectorId = connectorId
         self.description = description
         self.provider = provider
     }
-}
-
-extension UpdateConnectorV2Input: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateConnectorV2Input(connectorId: \(Swift.String(describing: connectorId)), description: \(Swift.String(describing: description)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateConnectorV2Output: Swift.Sendable {
@@ -29077,13 +29155,6 @@ extension BatchUpdateStandardsControlAssociationsInput {
 
     static func urlPathProvider(_ value: BatchUpdateStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations"
-    }
-}
-
-extension ConnectorRegistrationsV2Input {
-
-    static func urlPathProvider(_ value: ConnectorRegistrationsV2Input) -> Swift.String? {
-        return "/connectorsv2/registrations"
     }
 }
 
@@ -29979,6 +30050,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension RegisterConnectorV2Input {
+
+    static func urlPathProvider(_ value: RegisterConnectorV2Input) -> Swift.String? {
+        return "/connectorsv2/register"
+    }
+}
+
 extension StartConfigurationPolicyAssociationInput {
 
     static func urlPathProvider(_ value: StartConfigurationPolicyAssociationInput) -> Swift.String? {
@@ -30261,15 +30339,6 @@ extension BatchUpdateStandardsControlAssociationsInput {
     }
 }
 
-extension ConnectorRegistrationsV2Input {
-
-    static func write(value: ConnectorRegistrationsV2Input?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthCode"].write(value.authCode)
-        try writer["AuthState"].write(value.authState)
-    }
-}
-
 extension CreateActionTargetInput {
 
     static func write(value: CreateActionTargetInput?, to writer: SmithyJSON.Writer) throws {
@@ -30379,6 +30448,7 @@ extension CreateTicketV2Input {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorId"].write(value.connectorId)
         try writer["FindingMetadataUid"].write(value.findingMetadataUid)
+        try writer["Mode"].write(value.mode)
     }
 }
 
@@ -30611,6 +30681,15 @@ extension ListConfigurationPolicyAssociationsInput {
     }
 }
 
+extension RegisterConnectorV2Input {
+
+    static func write(value: RegisterConnectorV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthCode"].write(value.authCode)
+        try writer["AuthState"].write(value.authState)
+    }
+}
+
 extension StartConfigurationPolicyAssociationInput {
 
     static func write(value: StartConfigurationPolicyAssociationInput?, to writer: SmithyJSON.Writer) throws {
@@ -30683,7 +30762,6 @@ extension UpdateConnectorV2Input {
 
     static func write(value: UpdateConnectorV2Input?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClientSecret"].write(value.clientSecret)
         try writer["Description"].write(value.description)
         try writer["Provider"].write(value.provider, with: SecurityHubClientTypes.ProviderUpdateConfiguration.write(value:to:))
     }
@@ -30925,19 +31003,6 @@ extension BatchUpdateStandardsControlAssociationsOutput {
     }
 }
 
-extension ConnectorRegistrationsV2Output {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ConnectorRegistrationsV2Output {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = ConnectorRegistrationsV2Output()
-        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
-        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension CreateActionTargetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateActionTargetOutput {
@@ -31016,8 +31081,9 @@ extension CreateConnectorV2Output {
         let reader = responseReader
         var value = CreateConnectorV2Output()
         value.authUrl = try reader["AuthUrl"].readIfPresent()
-        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent() ?? ""
         value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
         return value
     }
 }
@@ -31874,6 +31940,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension RegisterConnectorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterConnectorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterConnectorV2Output()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StartConfigurationPolicyAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartConfigurationPolicyAssociationOutput {
@@ -32274,25 +32353,6 @@ enum BatchUpdateStandardsControlAssociationsOutputError {
     }
 }
 
-enum ConnectorRegistrationsV2OutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
-            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum CreateActionTargetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32323,6 +32383,7 @@ enum CreateAggregatorV2OutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -32359,6 +32420,7 @@ enum CreateAutomationRuleV2OutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -32397,6 +32459,7 @@ enum CreateConnectorV2OutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -33657,6 +33720,25 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum RegisterConnectorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartConfigurationPolicyAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34098,6 +34180,20 @@ extension ResourceConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -35319,7 +35415,7 @@ extension SecurityHubClientTypes.ServiceNowDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ServiceNowDetail()
         value.instanceName = try reader["InstanceName"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
         value.authStatus = try reader["AuthStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -49683,9 +49779,8 @@ extension SecurityHubClientTypes.ServiceNowProviderConfiguration {
 
     static func write(value: SecurityHubClientTypes.ServiceNowProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClientId"].write(value.clientId)
-        try writer["ClientSecret"].write(value.clientSecret)
         try writer["InstanceName"].write(value.instanceName)
+        try writer["SecretArn"].write(value.secretArn)
     }
 }
 
@@ -49864,9 +49959,19 @@ extension SecurityHubClientTypes.ProviderUpdateConfiguration {
         switch value {
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudUpdateConfiguration.write(value:to:))
+            case let .servicenow(servicenow):
+                try writer["ServiceNow"].write(servicenow, with: SecurityHubClientTypes.ServiceNowUpdateConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension SecurityHubClientTypes.ServiceNowUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.ServiceNowUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
     }
 }
 
