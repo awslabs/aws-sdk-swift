@@ -41,7 +41,7 @@ let package = Package(
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
-        .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "1.0.0"),
+        .package(url: "git@github.com:smithy-lang/smithy-swift-opentelemetry.git", from: "1.0.0"),
         .package(url: "https://github.com/open-telemetry/opentelemetry-swift.git", from: "1.13.0"),
     ],
     targets: integrationTestTargets
