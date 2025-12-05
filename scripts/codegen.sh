@@ -24,6 +24,7 @@ rm -rf ServiceClients/*
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
 rm -rf SmokeTests/*
+rm -rf Sources/Core/AWSSDKIdentity/InternalClients/*
 
 # Regenerate code
 ./gradlew -p codegen/sdk-codegen build

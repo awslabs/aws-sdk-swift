@@ -10,8 +10,12 @@ import AWSCLIUtils
 
 /// Builds the contents of the package manifest file.
 struct PackageManifestBuilder {
+
     struct Service {
-        let name: String
+        let moduleName: String
+        let codegenName: String
+        let dependencies: [String]
+        let isInternal: Bool
     }
 
     let clientRuntimeVersion: Version
@@ -107,13 +111,6 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
-            // Add the dependencies for the internal clients
-            buildInternalAWSSTSDependencies(),
-            buildInternalAWSSSODependencies(),
-            buildInternalAWSSSOOIDCDependencies(),
-            buildInternalAWSCognitoIdentityDependencies(),
-            buildInternalAWSSignInDependencies(),
-            "",
         ]
         return contents.joined(separator: .newline)
     }
@@ -147,51 +144,32 @@ struct PackageManifestBuilder {
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
         guard !services.isEmpty else {
-            return "let serviceTargets: [String: [Target.Dependency]] = [:]"
+            return "private let serviceClientData: [ServiceClientData] = []"
         }
         var lines: [String] = []
-        lines += ["let serviceTargets: [String: [Target.Dependency]] = ["]
-        lines += services.map {
-            let jsonFilePath = "Sources/Services/\($0.name)/Dependencies.json"
-            let dependencies = clientDependencies(service: $0, jsonFilePath: jsonFilePath)
-            return "    \($0.name.wrappedInQuotes()): \(dependencies),"
-        }
+        lines += ["private let serviceClientData: [ServiceClientData] = ["]
+        lines += services.map { serviceTargetData(service: $0) }
         lines += ["]"]
         return lines.joined(separator: .newline)
     }
 
-    private func buildInternalAWSSTSDependencies() -> String {
-        buildInternalClientDependencies(name: "AWSSTS")
+    private func serviceTargetData(service: Service) -> String {
+        var lines = [String]()
+        lines += ["    .init("]
+        lines += ["        \(service.moduleName.wrappedInQuotes()),"]
+        lines += ["        \(service.codegenName.wrappedInQuotes()),"]
+        if service.isInternal {
+            lines += ["        \(clientDependencies(service: service)),"]
+            lines += ["        .internalUse"]
+        } else {
+            lines += ["        \(clientDependencies(service: service))"]
+        }
+        lines += ["    ),"]
+        return lines.joined(separator: "\n")
     }
 
-    private func buildInternalAWSSSODependencies() -> String {
-        buildInternalClientDependencies(name: "AWSSSO")
-    }
-
-    private func buildInternalAWSSSOOIDCDependencies() -> String {
-        buildInternalClientDependencies(name: "AWSSSOOIDC")
-    }
-
-    private func buildInternalAWSCognitoIdentityDependencies() -> String {
-        buildInternalClientDependencies(name: "AWSCognitoIdentity")
-    }
-
-    private func buildInternalAWSSignInDependencies() -> String {
-        buildInternalClientDependencies(name: "AWSSignin")
-    }
-
-    private func buildInternalClientDependencies(name: String) -> String {
-        let jsonFilePath = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Dependencies.json"
-        let service = Service(name: name)
-        let dependencies = clientDependencies(service: service, jsonFilePath: jsonFilePath)
-        return "let internal\(name)Dependencies: [Target.Dependency] = \(dependencies)"
-    }
-
-    private func clientDependencies(service: Service, jsonFilePath: String) -> String {
-        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath) ?? Data("[]".utf8)
-        let dependencies = try! JSONDecoder().decode([String].self, from: jsonFileData)
-            .filter { $0 != "SmithyTestUtil" }  // links to test files only
-        return "[" + dependencies.map { ".\($0)" }.joined(separator: ", ") + "]"
+    private func clientDependencies(service: Service) -> String {
+        return "[" + service.dependencies.map { ".\($0)" }.joined(separator: ", ") + "]"
     }
 }
 
