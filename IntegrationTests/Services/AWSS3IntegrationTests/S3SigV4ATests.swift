@@ -150,7 +150,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertNotNil(response.contents?.first { $0.key == key })
+        XCTAssertNotNil(response.contents?.first { $0.key == key + "-wrong" })
     }
 
     // MARK: - HELPER FUNCTIONS

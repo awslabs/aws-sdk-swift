@@ -84,7 +84,7 @@ public enum AWSClockSkewProvider {
 
         // Calculate & return clock skew if more than the threshold, else return nil.
         let clockSkew = serverDate.timeIntervalSince(clientDate)
-        return abs(clockSkew) > absoluteThreshold ? nil : clockSkew
+        return abs(clockSkew) > absoluteThreshold ? clockSkew : nil
     }
 }
 
