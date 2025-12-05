@@ -5,6 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-// Code is auto-generated. DO NOT EDIT!
-
-public let packageVersion = "1.6.10"
+struct ExampleDoc {
+    let sdkId: String
+    let category: String
+    let title: String
+    let link: String
+}
