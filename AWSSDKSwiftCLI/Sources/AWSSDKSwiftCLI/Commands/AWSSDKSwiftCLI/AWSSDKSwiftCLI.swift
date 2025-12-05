@@ -20,6 +20,7 @@ struct AWSSDKSwiftCLI: ParsableCommand {
             GenerateSmokeTestsPackageManifestCommand.self,
             GeneratePartitionsCommand.self,
             GeneratePackageVersionCommand.self,
+            GenerateCodeExampleLinksCommand.self,
         ]
     )
 }
