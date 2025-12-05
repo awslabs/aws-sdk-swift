@@ -676,7 +676,8 @@ private var runtimeTargets: [Target] {
         .target(
             name: "InternalAWSSignin",
             dependencies: internalAWSSigninDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSignin/Sources/InternalAWSSignin"
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSignin/Sources/InternalAWSSignin",
+            plugins: [.SmithyCodeGenerator]
         ),
         .target(
             name: "AWSSDKChecksums",
