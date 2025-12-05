@@ -4029,6 +4029,8 @@ extension IAMClientTypes {
         public var delegationRequestId: Swift.String?
         /// Description of the delegation request. This is a message that is provided by the Amazon Web Services partner that filed the delegation request.
         public var description: Swift.String?
+        /// The expiry time of this delegation request See the [Understanding the Request Lifecycle] for details on the life time of a delegation request at each state.
+        public var expirationTime: Foundation.Date?
         /// Notes added to this delegation request, if this request was updated via the [UpdateDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateDelegationRequest.html) API.
         public var notes: Swift.String?
         /// A flag indicating whether the [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html) must be called by the owner of this delegation request. This is set by the requesting partner.
@@ -4065,6 +4067,7 @@ extension IAMClientTypes {
             createDate: Foundation.Date? = nil,
             delegationRequestId: Swift.String? = nil,
             description: Swift.String? = nil,
+            expirationTime: Foundation.Date? = nil,
             notes: Swift.String? = nil,
             onlySendByOwner: Swift.Bool = false,
             ownerAccountId: Swift.String? = nil,
@@ -4085,6 +4088,7 @@ extension IAMClientTypes {
             self.createDate = createDate
             self.delegationRequestId = delegationRequestId
             self.description = description
+            self.expirationTime = expirationTime
             self.notes = notes
             self.onlySendByOwner = onlySendByOwner
             self.ownerAccountId = ownerAccountId
@@ -17868,6 +17872,7 @@ extension IAMClientTypes.DelegationRequest {
         value.ownerId = try reader["OwnerId"].readIfPresent()
         value.approverId = try reader["ApproverId"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.requestorId = try reader["RequestorId"].readIfPresent()
         value.requestorName = try reader["RequestorName"].readIfPresent()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
