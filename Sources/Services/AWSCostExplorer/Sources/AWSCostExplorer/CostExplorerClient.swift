@@ -509,7 +509,7 @@ extension CostExplorerClient {
 
     /// Performs the `CreateCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Creates a new Cost Category with the requested name and rules.
+    /// Creates a new cost category with the requested name and rules.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateCostCategoryDefinitionInput`)
     ///
@@ -719,7 +719,7 @@ extension CostExplorerClient {
 
     /// Performs the `DeleteCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteCostCategoryDefinitionInput`)
     ///
@@ -789,7 +789,7 @@ extension CostExplorerClient {
 
     /// Performs the `DescribeCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
+    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeCostCategoryDefinitionInput`)
     ///
@@ -1435,7 +1435,7 @@ extension CostExplorerClient {
 
     /// Performs the `GetCostCategories` operation on the `CostExplorer` service.
     ///
-    /// Retrieves an array of Cost Category names and values incurred cost. If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
+    /// Retrieves an array of cost category names and values incurred cost. If some cost category names and values are not associated with any cost, they will not be returned by this API.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetCostCategoriesInput`)
     ///
@@ -1730,7 +1730,7 @@ extension CostExplorerClient {
 
     /// Performs the `GetReservationCoverage` operation on the `CostExplorer` service.
     ///
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
     ///
     /// * AZ
     ///
@@ -2110,7 +2110,7 @@ extension CostExplorerClient {
 
     /// Performs the `GetSavingsPlansCoverage` operation on the `CostExplorer` service.
     ///
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
     ///
     /// * LINKED_ACCOUNT
     ///
@@ -2762,7 +2762,7 @@ extension CostExplorerClient {
 
     /// Performs the `ListCostCategoryDefinitions` operation on the `CostExplorer` service.
     ///
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCostCategoryDefinitionsInput`)
     ///
@@ -2817,6 +2817,76 @@ extension CostExplorerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostExplorer")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCostCategoryDefinitions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCostCategoryResourceAssociations` operation on the `CostExplorer` service.
+    ///
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCostCategoryResourceAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCostCategoryResourceAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    public func listCostCategoryResourceAssociations(input: ListCostCategoryResourceAssociationsInput) async throws -> ListCostCategoryResourceAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCostCategoryResourceAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ce")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsOutput.httpOutput(from:), ListCostCategoryResourceAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCostCategoryResourceAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Explorer", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostCategoryResourceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(xAmzTarget: "AWSInsightsIndexService.ListCostCategoryResourceAssociations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostCategoryResourceAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(serviceID: serviceName, version: CostExplorerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostExplorer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCostCategoryResourceAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3606,7 +3676,7 @@ extension CostExplorerClient {
 
     /// Performs the `UpdateCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    /// Updates an existing cost category. Changes made to the cost category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateCostCategoryDefinitionInput`)
     ///
