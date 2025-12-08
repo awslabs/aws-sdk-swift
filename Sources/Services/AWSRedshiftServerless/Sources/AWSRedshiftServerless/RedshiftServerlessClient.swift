@@ -1983,6 +1983,81 @@ extension RedshiftServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIdentityCenterAuthToken` operation on the `RedshiftServerless` service.
+    ///
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityCenterAuthTokenInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIdentityCenterAuthTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func getIdentityCenterAuthToken(input: GetIdentityCenterAuthTokenInput) async throws -> GetIdentityCenterAuthTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityCenterAuthToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift-serverless")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenOutput.httpOutput(from:), GetIdentityCenterAuthTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityCenterAuthTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityCenterAuthTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(xAmzTarget: "RedshiftServerless.GetIdentityCenterAuthToken"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityCenterAuthTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(serviceID: serviceName, version: RedshiftServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityCenterAuthToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetNamespace` operation on the `RedshiftServerless` service.
     ///
     /// Returns information about a namespace in Amazon Redshift Serverless.
@@ -2566,6 +2641,7 @@ extension RedshiftServerlessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.

@@ -2292,6 +2292,45 @@ public struct GetCustomDomainAssociationOutput: Swift.Sendable {
     }
 }
 
+public struct GetIdentityCenterAuthTokenInput: Swift.Sendable {
+    /// A list of workgroup names for which to generate the Identity Center authentication token. Constraints:
+    ///
+    /// * Must contain between 1 and 20 workgroup names.
+    ///
+    /// * Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier.
+    ///
+    /// * All specified workgroups must have Identity Center integration enabled.
+    /// This member is required.
+    public var workgroupNames: [Swift.String]?
+
+    public init(
+        workgroupNames: [Swift.String]? = nil
+    ) {
+        self.workgroupNames = workgroupNames
+    }
+}
+
+public struct GetIdentityCenterAuthTokenOutput: Swift.Sendable {
+    /// The date and time when the Identity Center authentication token expires. After this time, a new token must be requested for continued access.
+    public var expirationTime: Foundation.Date?
+    /// The Identity Center authentication token that can be used to access data in the specified workgroups. This token contains the Identity Center identity information and is encrypted for secure transmission.
+    public var token: Swift.String?
+
+    public init(
+        expirationTime: Foundation.Date? = nil,
+        token: Swift.String? = nil
+    ) {
+        self.expirationTime = expirationTime
+        self.token = token
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct GetNamespaceInput: Swift.Sendable {
     /// The name of the namespace to retrieve information for.
     /// This member is required.
@@ -4208,6 +4247,13 @@ extension GetEndpointAccessInput {
     }
 }
 
+extension GetIdentityCenterAuthTokenInput {
+
+    static func urlPathProvider(_ value: GetIdentityCenterAuthTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetNamespaceInput {
 
     static func urlPathProvider(_ value: GetNamespaceInput) -> Swift.String? {
@@ -4735,6 +4781,14 @@ extension GetEndpointAccessInput {
     static func write(value: GetEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpointName"].write(value.endpointName)
+    }
+}
+
+extension GetIdentityCenterAuthTokenInput {
+
+    static func write(value: GetIdentityCenterAuthTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupNames"].writeList(value.workgroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5438,6 +5492,19 @@ extension GetEndpointAccessOutput {
         let reader = responseReader
         var value = GetEndpointAccessOutput()
         value.endpoint = try reader["endpoint"].readIfPresent(with: RedshiftServerlessClientTypes.EndpointAccess.read(from:))
+        return value
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityCenterAuthTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIdentityCenterAuthTokenOutput()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.token = try reader["token"].readIfPresent()
         return value
     }
 }
@@ -6352,6 +6419,26 @@ enum GetEndpointAccessOutputError {
     }
 }
 
+enum GetIdentityCenterAuthTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DryRunException": return try DryRunException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6492,6 +6579,7 @@ enum GetTrackOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DryRunException": return try DryRunException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7197,11 +7285,11 @@ extension Ipv6CidrBlockNotFoundException {
     }
 }
 
-extension InvalidPaginationException {
+extension DryRunException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPaginationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunException {
         let reader = baseError.errorBodyReader
-        var value = InvalidPaginationException()
+        var value = DryRunException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7210,11 +7298,11 @@ extension InvalidPaginationException {
     }
 }
 
-extension DryRunException {
+extension InvalidPaginationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPaginationException {
         let reader = baseError.errorBodyReader
-        var value = DryRunException()
+        var value = InvalidPaginationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -4858,6 +4858,7 @@ extension LambdaClientTypes {
     public enum LastUpdateStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityproviderscalinglimitexceeded
         case disabledkmskey
+        case disallowedbyvpcencryptioncontrol
         case ec2requestlimitexceeded
         case efsioerror
         case efsmountconnectivityerror
@@ -4895,6 +4896,7 @@ extension LambdaClientTypes {
             return [
                 .capacityproviderscalinglimitexceeded,
                 .disabledkmskey,
+                .disallowedbyvpcencryptioncontrol,
                 .ec2requestlimitexceeded,
                 .efsioerror,
                 .efsmountconnectivityerror,
@@ -4938,6 +4940,7 @@ extension LambdaClientTypes {
             switch self {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .disabledkmskey: return "DisabledKMSKey"
+            case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
             case .efsioerror: return "EFSIOError"
             case .efsmountconnectivityerror: return "EFSMountConnectivityError"
@@ -5099,6 +5102,7 @@ extension LambdaClientTypes {
         case capacityproviderscalinglimitexceeded
         case creating
         case disabledkmskey
+        case disallowedbyvpcencryptioncontrol
         case drainingdurableexecutions
         case ec2requestlimitexceeded
         case efsioerror
@@ -5140,6 +5144,7 @@ extension LambdaClientTypes {
                 .capacityproviderscalinglimitexceeded,
                 .creating,
                 .disabledkmskey,
+                .disallowedbyvpcencryptioncontrol,
                 .drainingdurableexecutions,
                 .ec2requestlimitexceeded,
                 .efsioerror,
@@ -5187,6 +5192,7 @@ extension LambdaClientTypes {
             case .capacityproviderscalinglimitexceeded: return "CapacityProviderScalingLimitExceeded"
             case .creating: return "Creating"
             case .disabledkmskey: return "DisabledKMSKey"
+            case .disallowedbyvpcencryptioncontrol: return "DisallowedByVpcEncryptionControl"
             case .drainingdurableexecutions: return "DrainingDurableExecutions"
             case .ec2requestlimitexceeded: return "EC2RequestLimitExceeded"
             case .efsioerror: return "EFSIOError"
