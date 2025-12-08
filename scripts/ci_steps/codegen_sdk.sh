@@ -6,6 +6,9 @@ set -e
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
 
+# Point Smithy to latest partitions.json
+export AWS_PARTITIONS_FILE_OVERRIDE=codegen/sdk-codegen/sdk-partitions.json
+
 # Code-generate and stage the SDK, then shut down Gradle
 ./gradlew -p codegen/sdk-codegen build
 ./gradlew -p codegen/sdk-codegen stageSdks
