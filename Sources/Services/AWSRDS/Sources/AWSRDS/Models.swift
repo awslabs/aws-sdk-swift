@@ -4229,6 +4229,29 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    /// The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail.
+    public struct TagSpecification: Swift.Sendable {
+        /// The type of resource to tag on creation. Valid Values:
+        ///
+        /// * auto-backup - The DB instance's automated backup.
+        ///
+        /// * cluster-auto-backup - The DB cluster's automated backup.
+        public var resourceType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tags: [RDSClientTypes.Tag]?
+
+        public init(
+            resourceType: Swift.String? = nil,
+            tags: [RDSClientTypes.Tag]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+    }
+}
+
 ///
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
@@ -4493,6 +4516,10 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// When you create an Aurora DB cluster with the storage type set to aurora-iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to aurora.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// Tags to assign to the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -4554,6 +4581,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageEncrypted: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -4612,6 +4640,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageEncrypted = storageEncrypted
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -4619,7 +4648,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
 
 extension CreateDBClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -6398,6 +6427,10 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// Tags to assign to the DB instance.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
@@ -6471,6 +6504,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         storageEncrypted: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
@@ -6538,6 +6572,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.storageEncrypted = storageEncrypted
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
@@ -6548,7 +6583,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
 
 extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -7581,6 +7616,10 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
@@ -7635,6 +7674,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         sourceDBInstanceIdentifier: Swift.String? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         upgradeStorageConfig: Swift.Bool? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
@@ -7684,6 +7724,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.upgradeStorageConfig = upgradeStorageConfig
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
@@ -7693,7 +7734,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
 
 extension CreateDBInstanceReadReplicaInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
@@ -10567,6 +10608,8 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
         /// The VPC ID associated with the DB cluster.
         public var vpcId: Swift.String?
 
@@ -10595,6 +10638,7 @@ extension RDSClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.allocatedStorage = allocatedStorage
@@ -10621,6 +10665,7 @@ extension RDSClientTypes {
             self.storageEncrypted = storageEncrypted
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.tagList = tagList
             self.vpcId = vpcId
         }
     }
@@ -10996,6 +11041,8 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the automated backup.
         public var storageType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the automated backup is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
         /// The time zone of the automated backup. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified.
@@ -11033,6 +11080,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
@@ -11066,6 +11114,7 @@ extension RDSClientTypes {
             self.status = status
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
             self.vpcId = vpcId
@@ -18369,6 +18418,10 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3 you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to gp2 (General Purpose SSD), gp3, or Provisioned IOPS (io1), or from these storage types to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     public var tdeCredentialArn: Swift.String?
     /// The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom DB instances.
@@ -18447,6 +18500,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         rotateMasterUserPassword: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
@@ -18511,6 +18565,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.rotateMasterUserPassword = rotateMasterUserPassword
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
@@ -18520,7 +18575,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
 
 extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBInstanceOutput: Swift.Sendable {
@@ -19376,15 +19431,21 @@ public struct PromoteReadReplicaInput: Swift.Sendable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredBackupWindow: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
 
     public init(
         backupRetentionPeriod: Swift.Int? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
-        preferredBackupWindow: Swift.String? = nil
+        preferredBackupWindow: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil
     ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.preferredBackupWindow = preferredBackupWindow
+        self.tagSpecifications = tagSpecifications
     }
 }
 
@@ -20107,6 +20168,10 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var storageEncrypted: Swift.Bool?
     /// Specifies the storage type to be associated with the DB cluster. Valid Values: aurora, aurora-iopt1 Default: aurora Valid for: Aurora DB clusters only
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with the restored DB cluster.
@@ -20148,6 +20213,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         sourceEngineVersion: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -20186,6 +20252,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         self.sourceEngineVersion = sourceEngineVersion
         self.storageEncrypted = storageEncrypted
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -20193,7 +20260,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
 
 extension RestoreDBClusterFromS3Input: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBClusterFromS3Input(availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBClusterFromS3Input(availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBClusterFromS3Output: Swift.Sendable {
@@ -20398,6 +20465,10 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var snapshotIdentifier: Swift.String?
     /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// The tags to be assigned to the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
     /// A list of VPC security groups that the new DB cluster will belong to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -20437,6 +20508,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -20473,6 +20545,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -20648,6 +20721,10 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var sourceDbClusterResourceId: Swift.String?
     /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -20688,6 +20765,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         sourceDBClusterIdentifier: Swift.String? = nil,
         sourceDbClusterResourceId: Swift.String? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -20724,6 +20802,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.sourceDbClusterResourceId = sourceDbClusterResourceId
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.useLatestRestorableTime = useLatestRestorableTime
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -20945,6 +21024,10 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp3
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
@@ -20997,6 +21080,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
@@ -21043,6 +21127,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.publiclyAccessible = publiclyAccessible
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
@@ -21053,7 +21138,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
 
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -21256,6 +21341,10 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags to associate with this DB instance. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether the DB instance class of the DB instance uses its default processor features.
@@ -21314,6 +21403,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         storageEncrypted: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -21368,6 +21458,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         self.storageEncrypted = storageEncrypted
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -21376,7 +21467,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
 
 extension RestoreDBInstanceFromS3Input: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromS3Output: Swift.Sendable {
@@ -21636,6 +21727,10 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The name of the new DB instance to create. Constraints:
@@ -21703,6 +21798,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         sourceDbiResourceId: Swift.String? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil,
         tdeCredentialArn: Swift.String? = nil,
@@ -21753,6 +21849,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.sourceDbiResourceId = sourceDbiResourceId
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
         self.tdeCredentialArn = tdeCredentialArn
@@ -21765,7 +21862,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
 
 extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -21936,23 +22033,27 @@ public struct StartDBInstanceAutomatedBackupsReplicationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
     /// This member is required.
     public var sourceDBInstanceArn: Swift.String?
+    /// A list of tags to associate with the replicated automated backups.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         backupRetentionPeriod: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
-        sourceDBInstanceArn: Swift.String? = nil
+        sourceDBInstanceArn: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
         self.sourceDBInstanceArn = sourceDBInstanceArn
+        self.tags = tags
     }
 }
 
 extension StartDBInstanceAutomatedBackupsReplicationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDBInstanceAutomatedBackupsReplicationInput(backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sourceDBInstanceArn: \(Swift.String(describing: sourceDBInstanceArn)), preSignedUrl: \"CONTENT_REDACTED\")"}
+        "StartDBInstanceAutomatedBackupsReplicationInput(backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sourceDBInstanceArn: \(Swift.String(describing: sourceDBInstanceArn)), tags: \(Swift.String(describing: tags)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDBInstanceAutomatedBackupsReplicationOutput: Swift.Sendable {
@@ -23845,6 +23946,7 @@ extension CreateDBClusterInput {
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: RDSClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("CreateDBCluster")
@@ -23957,6 +24059,7 @@ extension CreateDBInstanceInput {
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
@@ -24015,6 +24118,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["SourceDBInstanceIdentifier"].write(value.sourceDBInstanceIdentifier)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UpgradeStorageConfig"].write(value.upgradeStorageConfig)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
@@ -25365,6 +25469,7 @@ extension ModifyDBInstanceInput {
         try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
@@ -25568,6 +25673,7 @@ extension PromoteReadReplicaInput {
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Action"].write("PromoteReadReplica")
         try writer["Version"].write("2014-10-31")
     }
@@ -25760,6 +25866,7 @@ extension RestoreDBClusterFromS3Input {
         try writer["SourceEngineVersion"].write(value.sourceEngineVersion)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("RestoreDBClusterFromS3")
@@ -25804,6 +25911,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: RDSClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("RestoreDBClusterFromSnapshot")
@@ -25847,6 +25955,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["SourceDbClusterResourceId"].write(value.sourceDbClusterResourceId)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UseLatestRestorableTime"].write(value.useLatestRestorableTime)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
@@ -25899,6 +26008,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
@@ -25963,6 +26073,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
@@ -26017,6 +26128,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["SourceDbiResourceId"].write(value.sourceDbiResourceId)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetDBInstanceIdentifier"].write(value.targetDBInstanceIdentifier)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
@@ -26085,6 +26197,7 @@ extension StartDBInstanceAutomatedBackupsReplicationInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
         try writer["SourceDBInstanceArn"].write(value.sourceDBInstanceArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("StartDBInstanceAutomatedBackupsReplication")
         try writer["Version"].write("2014-10-31")
     }
@@ -34281,6 +34394,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup {
         value.iops = try reader["Iops"].readIfPresent()
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -34331,6 +34445,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.backupTarget = try reader["BackupTarget"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -35235,6 +35350,15 @@ extension RDSClientTypes.ServerlessV2ScalingConfiguration {
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MinCapacity"].write(value.minCapacity)
         try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
+    }
+}
+
+extension RDSClientTypes.TagSpecification {
+
+    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
