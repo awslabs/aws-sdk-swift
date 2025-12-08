@@ -89,6 +89,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 extension PartnerCentralAccountClientTypes {
 
     public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountAlreadyVerified
         case conflictClientToken
         case duplicateConnection
         case duplicateConnectionInvitation
@@ -99,10 +100,12 @@ extension PartnerCentralAccountClientTypes {
         case incompatibleConnectionState
         case incompatiblePartnerProfileTaskState
         case incompatibleProfileState
+        case verificationAlreadyInProgress
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConflictExceptionReason] {
             return [
+                .accountAlreadyVerified,
                 .conflictClientToken,
                 .duplicateConnection,
                 .duplicateConnectionInvitation,
@@ -112,7 +115,8 @@ extension PartnerCentralAccountClientTypes {
                 .incompatibleConnectionPreferencesRevision,
                 .incompatibleConnectionState,
                 .incompatiblePartnerProfileTaskState,
-                .incompatibleProfileState
+                .incompatibleProfileState,
+                .verificationAlreadyInProgress
             ]
         }
 
@@ -123,6 +127,7 @@ extension PartnerCentralAccountClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accountAlreadyVerified: return "ACCOUNT_ALREADY_VERIFIED"
             case .conflictClientToken: return "CONFLICT_CLIENT_TOKEN"
             case .duplicateConnection: return "DUPLICATE_CONNECTION"
             case .duplicateConnectionInvitation: return "DUPLICATE_CONNECTION_INVITATION"
@@ -133,6 +138,7 @@ extension PartnerCentralAccountClientTypes {
             case .incompatibleConnectionState: return "INCOMPATIBLE_CONNECTION_STATE"
             case .incompatiblePartnerProfileTaskState: return "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE"
             case .incompatibleProfileState: return "INCOMPATIBLE_PROFILE_STATE"
+            case .verificationAlreadyInProgress: return "VERIFICATION_ALREADY_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -203,6 +209,7 @@ extension PartnerCentralAccountClientTypes {
         case partnerProfileTaskNotFound
         case receiverProfileNotFound
         case senderProfileNotFound
+        case verificationNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceNotFoundExceptionReason] {
@@ -214,7 +221,8 @@ extension PartnerCentralAccountClientTypes {
                 .partnerProfileNotFound,
                 .partnerProfileTaskNotFound,
                 .receiverProfileNotFound,
-                .senderProfileNotFound
+                .senderProfileNotFound,
+                .verificationNotFound
             ]
         }
 
@@ -233,6 +241,7 @@ extension PartnerCentralAccountClientTypes {
             case .partnerProfileTaskNotFound: return "PARTNER_PROFILE_TASK_NOT_FOUND"
             case .receiverProfileNotFound: return "RECEIVER_PROFILE_NOT_FOUND"
             case .senderProfileNotFound: return "SENDER_PROFILE_NOT_FOUND"
+            case .verificationNotFound: return "VERIFICATION_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
         }
@@ -928,6 +937,57 @@ extension AssociateAwsTrainingCertificationEmailDomainInput: Swift.CustomDebugSt
 public struct AssociateAwsTrainingCertificationEmailDomainOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// Contains the business information required for verifying a company's legal status and registration details within AWS Partner Central.
+    public struct BusinessVerificationDetails: Swift.Sendable {
+        /// The ISO 3166-1 alpha-2 country code where the business is legally registered and operates.
+        /// This member is required.
+        public var countryCode: Swift.String?
+        /// The specific legal jurisdiction or state where the business was incorporated or registered, providing additional location context beyond the country code.
+        public var jurisdictionOfIncorporation: Swift.String?
+        /// The official legal name of the business as registered with the appropriate government authorities.
+        /// This member is required.
+        public var legalName: Swift.String?
+        /// The unique business registration identifier assigned by the government or regulatory authority, such as a company registration number or tax identification number.
+        /// This member is required.
+        public var registrationId: Swift.String?
+
+        public init(
+            countryCode: Swift.String? = nil,
+            jurisdictionOfIncorporation: Swift.String? = nil,
+            legalName: Swift.String? = nil,
+            registrationId: Swift.String? = nil
+        ) {
+            self.countryCode = countryCode
+            self.jurisdictionOfIncorporation = jurisdictionOfIncorporation
+            self.legalName = legalName
+            self.registrationId = registrationId
+        }
+    }
+}
+
+extension PartnerCentralAccountClientTypes.BusinessVerificationDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BusinessVerificationDetails(countryCode: \(Swift.String(describing: countryCode)), jurisdictionOfIncorporation: \(Swift.String(describing: jurisdictionOfIncorporation)), legalName: \"CONTENT_REDACTED\", registrationId: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// Contains the response information and results from a business verification process, including any verification-specific data returned by the verification service.
+    public struct BusinessVerificationResponse: Swift.Sendable {
+        /// The business verification details that were processed and verified, potentially including additional information discovered during the verification process.
+        /// This member is required.
+        public var businessVerificationDetails: PartnerCentralAccountClientTypes.BusinessVerificationDetails?
+
+        public init(
+            businessVerificationDetails: PartnerCentralAccountClientTypes.BusinessVerificationDetails? = nil
+        ) {
+            self.businessVerificationDetails = businessVerificationDetails
+        }
+    }
 }
 
 public struct CancelConnectionInput: Swift.Sendable {
@@ -2807,6 +2867,153 @@ public struct GetProfileVisibilityOutput: Swift.Sendable {
     }
 }
 
+extension PartnerCentralAccountClientTypes {
+
+    public enum VerificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessVerification
+        case registrantVerification
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationType] {
+            return [
+                .businessVerification,
+                .registrantVerification
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessVerification: return "BUSINESS_VERIFICATION"
+            case .registrantVerification: return "REGISTRANT_VERIFICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetVerificationInput: Swift.Sendable {
+    /// The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation.
+    /// This member is required.
+    public var verificationType: PartnerCentralAccountClientTypes.VerificationType?
+
+    public init(
+        verificationType: PartnerCentralAccountClientTypes.VerificationType? = nil
+    ) {
+        self.verificationType = verificationType
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// Contains the response information from a registrant verification process, including any verification-specific data and next steps for the individual verification workflow.
+    public struct RegistrantVerificationResponse: Swift.Sendable {
+        /// A secure URL where the registrant can complete additional verification steps, such as document upload or identity confirmation through a third-party verification service.
+        /// This member is required.
+        public var completionUrl: Swift.String?
+        /// The timestamp when the completion URL expires and is no longer valid for accessing the verification workflow.
+        /// This member is required.
+        public var completionUrlExpiresAt: Foundation.Date?
+
+        public init(
+            completionUrl: Swift.String? = nil,
+            completionUrlExpiresAt: Foundation.Date? = nil
+        ) {
+            self.completionUrl = completionUrl
+            self.completionUrlExpiresAt = completionUrlExpiresAt
+        }
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// A union structure containing the response details specific to different types of verification processes, providing type-specific information and results.
+    public enum VerificationResponseDetails: Swift.Sendable {
+        /// The response details from a business verification process, including verification results and any additional business information discovered.
+        case businessverificationresponse(PartnerCentralAccountClientTypes.BusinessVerificationResponse)
+        /// The response details from a registrant verification process, including verification results and any additional steps required for identity confirmation.
+        case registrantverificationresponse(PartnerCentralAccountClientTypes.RegistrantVerificationResponse)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case pendingCustomerAction
+        case rejected
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .pendingCustomerAction,
+                .rejected,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pendingCustomerAction: return "PENDING_CUSTOMER_ACTION"
+            case .rejected: return "REJECTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetVerificationOutput: Swift.Sendable {
+    /// The timestamp when the verification process was completed. This field is null if the verification is still in progress.
+    public var completedAt: Foundation.Date?
+    /// The timestamp when the verification process was initiated.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// Detailed response information specific to the type of verification performed, including any verification-specific data or results.
+    /// This member is required.
+    public var verificationResponseDetails: PartnerCentralAccountClientTypes.VerificationResponseDetails?
+    /// The current status of the verification process. Possible values include pending, in-progress, completed, failed, or expired.
+    /// This member is required.
+    public var verificationStatus: PartnerCentralAccountClientTypes.VerificationStatus?
+    /// Additional information explaining the current verification status, particularly useful when the status indicates a failure or requires additional action.
+    public var verificationStatusReason: Swift.String?
+    /// The type of verification that was requested and processed.
+    /// This member is required.
+    public var verificationType: PartnerCentralAccountClientTypes.VerificationType?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        startedAt: Foundation.Date? = nil,
+        verificationResponseDetails: PartnerCentralAccountClientTypes.VerificationResponseDetails? = nil,
+        verificationStatus: PartnerCentralAccountClientTypes.VerificationStatus? = nil,
+        verificationStatusReason: Swift.String? = nil,
+        verificationType: PartnerCentralAccountClientTypes.VerificationType? = nil
+    ) {
+        self.completedAt = completedAt
+        self.startedAt = startedAt
+        self.verificationResponseDetails = verificationResponseDetails
+        self.verificationStatus = verificationStatus
+        self.verificationStatusReason = verificationStatusReason
+        self.verificationType = verificationType
+    }
+}
+
 public struct ListPartnersInput: Swift.Sendable {
     /// The catalog identifier to list partners from.
     /// This member is required.
@@ -3118,6 +3325,77 @@ public struct SendEmailVerificationCodeOutput: Swift.Sendable {
     public init() { }
 }
 
+extension PartnerCentralAccountClientTypes {
+
+    /// Contains the personal information required for verifying an individual's identity as part of the partner registration process in AWS Partner Central.
+    public struct RegistrantVerificationDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension PartnerCentralAccountClientTypes {
+
+    /// A union structure containing the specific details required for different types of verification processes supported by AWS Partner Central.
+    public enum VerificationDetails: Swift.Sendable {
+        /// The business verification details to be used when starting a business verification process.
+        case businessverificationdetails(PartnerCentralAccountClientTypes.BusinessVerificationDetails)
+        /// The registrant verification details to be used when starting an individual identity verification process.
+        case registrantverificationdetails(PartnerCentralAccountClientTypes.RegistrantVerificationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartVerificationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This prevents duplicate verification processes from being started accidentally.
+    public var clientToken: Swift.String?
+    /// The specific details required for the verification process, including business information for business verification or personal information for registrant verification.
+    public var verificationDetails: PartnerCentralAccountClientTypes.VerificationDetails?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        verificationDetails: PartnerCentralAccountClientTypes.VerificationDetails? = nil
+    ) {
+        self.clientToken = clientToken
+        self.verificationDetails = verificationDetails
+    }
+}
+
+public struct StartVerificationOutput: Swift.Sendable {
+    /// The timestamp when the verification process was completed. This field is typically null for newly started verifications unless they complete immediately.
+    public var completedAt: Foundation.Date?
+    /// The timestamp when the verification process was successfully initiated.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// Initial response details specific to the type of verification started, which may include next steps or additional requirements.
+    /// This member is required.
+    public var verificationResponseDetails: PartnerCentralAccountClientTypes.VerificationResponseDetails?
+    /// The initial status of the verification process after it has been started. Typically this will be pending or in-progress.
+    /// This member is required.
+    public var verificationStatus: PartnerCentralAccountClientTypes.VerificationStatus?
+    /// Additional information about the initial verification status, including any immediate feedback about the submitted verification details.
+    public var verificationStatusReason: Swift.String?
+    /// The type of verification that was started based on the provided verification details.
+    /// This member is required.
+    public var verificationType: PartnerCentralAccountClientTypes.VerificationType?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        startedAt: Foundation.Date? = nil,
+        verificationResponseDetails: PartnerCentralAccountClientTypes.VerificationResponseDetails? = nil,
+        verificationStatus: PartnerCentralAccountClientTypes.VerificationStatus? = nil,
+        verificationStatusReason: Swift.String? = nil,
+        verificationType: PartnerCentralAccountClientTypes.VerificationType? = nil
+    ) {
+        self.completedAt = completedAt
+        self.startedAt = startedAt
+        self.verificationResponseDetails = verificationResponseDetails
+        self.verificationStatus = verificationStatus
+        self.verificationStatusReason = verificationStatusReason
+        self.verificationType = verificationType
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
@@ -3267,6 +3545,13 @@ extension GetProfileVisibilityInput {
     }
 }
 
+extension GetVerificationInput {
+
+    static func urlPathProvider(_ value: GetVerificationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListConnectionInvitationsInput {
 
     static func urlPathProvider(_ value: ListConnectionInvitationsInput) -> Swift.String? {
@@ -3326,6 +3611,13 @@ extension SendEmailVerificationCodeInput {
 extension StartProfileUpdateTaskInput {
 
     static func urlPathProvider(_ value: StartProfileUpdateTaskInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartVerificationInput {
+
+    static func urlPathProvider(_ value: StartVerificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3507,6 +3799,14 @@ extension GetProfileVisibilityInput {
     }
 }
 
+extension GetVerificationInput {
+
+    static func write(value: GetVerificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VerificationType"].write(value.verificationType)
+    }
+}
+
 extension ListConnectionInvitationsInput {
 
     static func write(value: ListConnectionInvitationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -3599,6 +3899,15 @@ extension StartProfileUpdateTaskInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["Identifier"].write(value.identifier)
         try writer["TaskDetails"].write(value.taskDetails, with: PartnerCentralAccountClientTypes.TaskDetails.write(value:to:))
+    }
+}
+
+extension StartVerificationInput {
+
+    static func write(value: StartVerificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["VerificationDetails"].write(value.verificationDetails, with: PartnerCentralAccountClientTypes.VerificationDetails.write(value:to:))
     }
 }
 
@@ -3891,6 +4200,23 @@ extension GetProfileVisibilityOutput {
     }
 }
 
+extension GetVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVerificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVerificationOutput()
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.verificationResponseDetails = try reader["VerificationResponseDetails"].readIfPresent(with: PartnerCentralAccountClientTypes.VerificationResponseDetails.read(from:))
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.verificationStatusReason = try reader["VerificationStatusReason"].readIfPresent()
+        value.verificationType = try reader["VerificationType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ListConnectionInvitationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionInvitationsOutput {
@@ -4022,6 +4348,23 @@ extension StartProfileUpdateTaskOutput {
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.taskDetails = try reader["TaskDetails"].readIfPresent(with: PartnerCentralAccountClientTypes.TaskDetails.read(from:))
         value.taskId = try reader["TaskId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartVerificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartVerificationOutput()
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.verificationResponseDetails = try reader["VerificationResponseDetails"].readIfPresent(with: PartnerCentralAccountClientTypes.VerificationResponseDetails.read(from:))
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.verificationStatusReason = try reader["VerificationStatusReason"].readIfPresent()
+        value.verificationType = try reader["VerificationType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4332,6 +4675,24 @@ enum GetProfileVisibilityOutputError {
     }
 }
 
+enum GetVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListConnectionInvitationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4486,6 +4847,25 @@ enum StartProfileUpdateTaskOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4843,6 +5223,64 @@ extension PartnerCentralAccountClientTypes.AllianceLeadContact {
     }
 }
 
+extension PartnerCentralAccountClientTypes.VerificationResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralAccountClientTypes.VerificationResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "BusinessVerificationResponse":
+                return .businessverificationresponse(try reader["BusinessVerificationResponse"].read(with: PartnerCentralAccountClientTypes.BusinessVerificationResponse.read(from:)))
+            case "RegistrantVerificationResponse":
+                return .registrantverificationresponse(try reader["RegistrantVerificationResponse"].read(with: PartnerCentralAccountClientTypes.RegistrantVerificationResponse.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralAccountClientTypes.RegistrantVerificationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralAccountClientTypes.RegistrantVerificationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralAccountClientTypes.RegistrantVerificationResponse()
+        value.completionUrl = try reader["CompletionUrl"].readIfPresent() ?? ""
+        value.completionUrlExpiresAt = try reader["CompletionUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PartnerCentralAccountClientTypes.BusinessVerificationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralAccountClientTypes.BusinessVerificationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralAccountClientTypes.BusinessVerificationResponse()
+        value.businessVerificationDetails = try reader["BusinessVerificationDetails"].readIfPresent(with: PartnerCentralAccountClientTypes.BusinessVerificationDetails.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralAccountClientTypes.BusinessVerificationDetails {
+
+    static func write(value: PartnerCentralAccountClientTypes.BusinessVerificationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["JurisdictionOfIncorporation"].write(value.jurisdictionOfIncorporation)
+        try writer["LegalName"].write(value.legalName)
+        try writer["RegistrationId"].write(value.registrationId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralAccountClientTypes.BusinessVerificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralAccountClientTypes.BusinessVerificationDetails()
+        value.legalName = try reader["LegalName"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? ""
+        value.jurisdictionOfIncorporation = try reader["JurisdictionOfIncorporation"].readIfPresent()
+        return value
+    }
+}
+
 extension PartnerCentralAccountClientTypes.ConnectionInvitationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralAccountClientTypes.ConnectionInvitationSummary {
@@ -4956,6 +5394,29 @@ extension PartnerCentralAccountClientTypes.FieldValidationError {
         value.message = try reader["Message"].readIfPresent() ?? ""
         value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension PartnerCentralAccountClientTypes.VerificationDetails {
+
+    static func write(value: PartnerCentralAccountClientTypes.VerificationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .businessverificationdetails(businessverificationdetails):
+                try writer["BusinessVerificationDetails"].write(businessverificationdetails, with: PartnerCentralAccountClientTypes.BusinessVerificationDetails.write(value:to:))
+            case let .registrantverificationdetails(registrantverificationdetails):
+                try writer["RegistrantVerificationDetails"].write(registrantverificationdetails, with: PartnerCentralAccountClientTypes.RegistrantVerificationDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PartnerCentralAccountClientTypes.RegistrantVerificationDetails {
+
+    static func write(value: PartnerCentralAccountClientTypes.RegistrantVerificationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 

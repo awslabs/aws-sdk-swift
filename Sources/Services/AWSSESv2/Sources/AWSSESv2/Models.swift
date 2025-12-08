@@ -9816,7 +9816,7 @@ extension PutEmailIdentityDkimSigningAttributesInput {
         guard let emailIdentity = value.emailIdentity else {
             return nil
         }
-        return "/v1/email/identities/\(emailIdentity.urlPercentEncoding())/dkim/signing"
+        return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/dkim/signing"
     }
 }
 

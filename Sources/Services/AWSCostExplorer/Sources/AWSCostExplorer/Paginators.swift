@@ -252,6 +252,15 @@ extension ListCostAllocationTagBackfillHistoryInput: ClientRuntime.PaginateToken
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListCostAllocationTagBackfillHistoryInput, OperationStackOutput == ListCostAllocationTagBackfillHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCostAllocationTagBackfillHistoryPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostAllocationTagBackfillRequest]`
+    /// - Returns: `[CostExplorerClientTypes.CostAllocationTagBackfillRequest]`
+    public func backfillRequests() async throws -> [CostExplorerClientTypes.CostAllocationTagBackfillRequest] {
+        return try await self.asyncCompactMap { item in item.backfillRequests }
+    }
+}
 extension CostExplorerClient {
     /// Paginate over `[ListCostAllocationTagsOutput]` results.
     ///
@@ -276,6 +285,15 @@ extension ListCostAllocationTagsInput: ClientRuntime.PaginateToken {
             type: self.type
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListCostAllocationTagsInput, OperationStackOutput == ListCostAllocationTagsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCostAllocationTagsPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostAllocationTag]`
+    /// - Returns: `[CostExplorerClientTypes.CostAllocationTag]`
+    public func costAllocationTags() async throws -> [CostExplorerClientTypes.CostAllocationTag] {
+        return try await self.asyncCompactMap { item in item.costAllocationTags }
+    }
+}
 extension CostExplorerClient {
     /// Paginate over `[ListCostCategoryDefinitionsOutput]` results.
     ///
@@ -295,6 +313,47 @@ extension ListCostCategoryDefinitionsInput: ClientRuntime.PaginateToken {
         return ListCostCategoryDefinitionsInput(
             effectiveOn: self.effectiveOn,
             maxResults: self.maxResults,
+            nextToken: token,
+            supportedResourceTypes: self.supportedResourceTypes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCostCategoryDefinitionsInput, OperationStackOutput == ListCostCategoryDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCostCategoryDefinitionsPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostCategoryReference]`
+    /// - Returns: `[CostExplorerClientTypes.CostCategoryReference]`
+    public func costCategoryReferences() async throws -> [CostExplorerClientTypes.CostCategoryReference] {
+        return try await self.asyncCompactMap { item in item.costCategoryReferences }
+    }
+}
+extension CostExplorerClient {
+    /// Paginate over `[ListCostCategoryResourceAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCostCategoryResourceAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCostCategoryResourceAssociationsOutput`
+    public func listCostCategoryResourceAssociationsPaginated(input: ListCostCategoryResourceAssociationsInput) -> ClientRuntime.PaginatorSequence<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCostCategoryResourceAssociations(input:))
+    }
+}
+
+extension ListCostCategoryResourceAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCostCategoryResourceAssociationsInput {
+        return ListCostCategoryResourceAssociationsInput(
+            costCategoryArn: self.costCategoryArn,
+            maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCostCategoryResourceAssociationsInput, OperationStackOutput == ListCostCategoryResourceAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCostCategoryResourceAssociationsPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostCategoryResourceAssociation]`
+    /// - Returns: `[CostExplorerClientTypes.CostCategoryResourceAssociation]`
+    public func costCategoryResourceAssociations() async throws -> [CostExplorerClientTypes.CostCategoryResourceAssociation] {
+        return try await self.asyncCompactMap { item in item.costCategoryResourceAssociations }
+    }
 }
