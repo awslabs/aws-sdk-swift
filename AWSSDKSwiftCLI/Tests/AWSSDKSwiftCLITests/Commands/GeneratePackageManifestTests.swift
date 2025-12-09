@@ -26,17 +26,40 @@ class GeneratePackageManifestTests: CLITestCase {
     
     func createServiceFolders(_ services: [String]) {
         services.forEach {
+            let path = "Sources/Services/\($0)"
             try! FileManager.default.createDirectory(
-                atPath: "Sources/Services/\($0)",
+                atPath: path,
                 withIntermediateDirectories: true
             )
+            createDependencyJSON(service: $0, path: path)
         }
+
+        let internalServices = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"]
+        internalServices.forEach {
+            let path = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\($0)"
+            try! FileManager.default.createDirectory(
+                atPath: path,
+                withIntermediateDirectories: true
+            )
+            createDependencyJSON(service: $0, path: path)
+        }
+
         try! FileManager.default.createDirectory(
             atPath: "IntegrationTests/Services",
             withIntermediateDirectories: true
         )
     }
-    
+
+    func createDependencyJSON(service: String, path: String) {
+        let json = Data("""
+            {
+              "modelPath": "codegen/sdk-codegen/aws-models/\(service.lowercased()).json",
+              "dependencies": []
+            }
+            """.utf8)
+        FileManager.default.createFile(atPath: "\(path)/Dependencies.json", contents: json)
+    }
+
     // MARK: - Tests
     
     // MARK: Golden Path
@@ -50,13 +73,13 @@ class GeneratePackageManifestTests: CLITestCase {
             clientRuntimeVersion: clientRuntimeVersion
         )
         createServiceFolders(services)
-        
+
         let subject = GeneratePackageManifest.mock(buildPackageManifest: { _clientRuntimeVersion, _crtVersion, services in
-            "\(_clientRuntimeVersion)-\(_crtVersion)-\(services.map(\.name).joined(separator: "-"))"
+            "\(_clientRuntimeVersion)-\(_crtVersion)-\(services.map(\.moduleName).joined(separator: "-"))"
         })
         try! subject.run()
         let result = try! String(contentsOfFile: "Package.swift", encoding: .utf8)
-        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3")
+        XCTAssertEqual(result, "1.2.3-3.2.1-EC2-S3-InternalAWSCognitoIdentity-InternalAWSSSO-InternalAWSSSOOIDC-InternalAWSSTS-InternalAWSSignin")
     }
     
     // MARK: resolveVersions()

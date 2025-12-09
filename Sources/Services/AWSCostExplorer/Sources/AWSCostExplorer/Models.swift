@@ -872,11 +872,11 @@ extension CostExplorerClientTypes {
 
     /// The Cost Categories values used for filtering the costs. If Values and Key are not specified, the ABSENTMatchOption is applied to all Cost Categories. That is, it filters on resources that aren't mapped to any Cost Categories. If Values is provided and Key isn't specified, the ABSENTMatchOption is applied to the Cost Categories Key only. That is, it filters on resources without the given Cost Categories key.
     public struct CostCategoryValues: Swift.Sendable {
-        /// The unique name of the Cost Category.
+        /// The unique name of the cost category.
         public var key: Swift.String?
         /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
-        /// The specific value of the Cost Category.
+        /// The specific value of the cost category.
         public var values: [Swift.String]?
 
         public init(
@@ -1025,7 +1025,7 @@ extension CostExplorerClientTypes {
     public struct DimensionValues: Swift.Sendable {
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
         public var key: CostExplorerClientTypes.Dimension?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public var values: [Swift.String]?
@@ -1048,7 +1048,7 @@ extension CostExplorerClientTypes {
     public struct TagValues: Swift.Sendable {
         /// The key for the tag.
         public var key: Swift.String?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
         /// The specific value of the tag.
         public var values: [Swift.String]?
@@ -1429,7 +1429,7 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    /// The rule schema version in this particular Cost Category.
+    /// The rule schema version in this particular cost category.
     public enum CostCategoryRuleVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case costcategoryexpressionv1
         case sdkUnknown(Swift.String)
@@ -1535,17 +1535,17 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    /// Use the split charge rule to split the cost of one Cost Category value across several other target values.
+    /// Use the split charge rule to split the cost of one cost category value across several other target values.
     public struct CostCategorySplitChargeRule: Swift.Sendable {
         /// The method that's used to define how to split your source costs across your targets. Proportional - Allocates charges across your targets based on the proportional weighted cost of each target. Fixed - Allocates charges across your targets based on your defined allocation percentage. >Even - Allocates costs evenly across all targets.
         /// This member is required.
         public var method: CostExplorerClientTypes.CostCategorySplitChargeMethod?
         /// The parameters for a split charge method. This is only required for the FIXED method.
         public var parameters: [CostExplorerClientTypes.CostCategorySplitChargeRuleParameter]?
-        /// The Cost Category value that you want to split. That value can't be used as a source or a target in other split charge rules. To indicate uncategorized costs, you can use an empty string as the source.
+        /// The cost category value that you want to split. That value can't be used as a source or a target in other split charge rules. To indicate uncategorized costs, you can use an empty string as the source.
         /// This member is required.
         public var source: Swift.String?
-        /// The Cost Category values that you want to split costs across. These values can't be used as a source in other split charge rules.
+        /// The cost category values that you want to split costs across. These values can't be used as a source in other split charge rules.
         /// This member is required.
         public var targets: [Swift.String]?
 
@@ -1564,9 +1564,9 @@ extension CostExplorerClientTypes {
 }
 
 public struct CreateCostCategoryDefinitionOutput: Swift.Sendable {
-    /// The unique identifier for your newly created Cost Category.
+    /// The unique identifier for your newly created cost category.
     public var costCategoryArn: Swift.String?
-    /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
+    /// The cost category's effective start date. It can only be a billing start date (first day of the month).
     public var effectiveStart: Swift.String?
 
     public init(
@@ -1662,7 +1662,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct DeleteCostCategoryDefinitionInput: Swift.Sendable {
-    /// The unique identifier for your Cost Category.
+    /// The unique identifier for your cost category.
     /// This member is required.
     public var costCategoryArn: Swift.String?
 
@@ -1674,9 +1674,9 @@ public struct DeleteCostCategoryDefinitionInput: Swift.Sendable {
 }
 
 public struct DeleteCostCategoryDefinitionOutput: Swift.Sendable {
-    /// The unique identifier for your Cost Category.
+    /// The unique identifier for your cost category.
     public var costCategoryArn: Swift.String?
-    /// The effective end date of the Cost Category as a result of deleting it. No costs after this date is categorized by the deleted Cost Category.
+    /// The effective end date of the cost category as a result of deleting it. No costs after this date is categorized by the deleted cost category.
     public var effectiveEnd: Swift.String?
 
     public init(
@@ -1689,10 +1689,10 @@ public struct DeleteCostCategoryDefinitionOutput: Swift.Sendable {
 }
 
 public struct DescribeCostCategoryDefinitionInput: Swift.Sendable {
-    /// The unique identifier for your Cost Category.
+    /// The unique identifier for your cost category.
     /// This member is required.
     public var costCategoryArn: Swift.String?
-    /// The date when the Cost Category was effective.
+    /// The date when the cost category was effective.
     public var effectiveOn: Swift.String?
 
     public init(
@@ -2435,9 +2435,9 @@ extension CostExplorerClientTypes {
 }
 
 public struct GetCostCategoriesOutput: Swift.Sendable {
-    /// The names of the Cost Categories.
+    /// The names of the cost categories.
     public var costCategoryNames: [Swift.String]?
-    /// The Cost Category values. If the CostCategoryName key isn't specified in the request, the CostCategoryValues fields aren't returned.
+    /// The cost category values. If the CostCategoryName key isn't specified in the request, the CostCategoryValues fields aren't returned.
     public var costCategoryValues: [Swift.String]?
     /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextPageToken: Swift.String?
@@ -5230,42 +5230,48 @@ public struct ListCostAllocationTagsOutput: Swift.Sendable {
 }
 
 public struct ListCostCategoryDefinitionsInput: Swift.Sendable {
-    /// The date when the Cost Category was effective.
+    /// The date when the cost category was effective.
     public var effectiveOn: Swift.String?
     /// The number of entries a paginated response contains.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
+    /// Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
+    public var supportedResourceTypes: [Swift.String]?
 
     public init(
         effectiveOn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        supportedResourceTypes: [Swift.String]? = nil
     ) {
         self.effectiveOn = effectiveOn
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.supportedResourceTypes = supportedResourceTypes
     }
 }
 
 extension CostExplorerClientTypes {
 
-    /// A reference to a Cost Category containing only enough information to identify the Cost Category. You can use this information to retrieve the full Cost Category information using DescribeCostCategory.
+    /// A reference to a cost category containing only enough information to identify the Cost Category. You can use this information to retrieve the full cost category information using DescribeCostCategory.
     public struct CostCategoryReference: Swift.Sendable {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public var costCategoryArn: Swift.String?
         /// The default value for the cost category.
         public var defaultValue: Swift.String?
-        /// The Cost Category's effective end date.
+        /// The cost category's effective end date.
         public var effectiveEnd: Swift.String?
-        /// The Cost Category's effective start date.
+        /// The cost category's effective start date.
         public var effectiveStart: Swift.String?
-        /// The unique name of the Cost Category.
+        /// The unique name of the cost category.
         public var name: Swift.String?
-        /// The number of rules that are associated with a specific Cost Category.
+        /// The number of rules that are associated with a specific cost category.
         public var numberOfRules: Swift.Int
         /// The list of processing statuses for Cost Management products for a specific cost category.
         public var processingStatus: [CostExplorerClientTypes.CostCategoryProcessingStatus]?
+        /// The resource types supported by a specific cost category.
+        public var supportedResourceTypes: [Swift.String]?
         /// A list of unique cost category values in a specific cost category.
         public var values: [Swift.String]?
 
@@ -5277,6 +5283,7 @@ extension CostExplorerClientTypes {
             name: Swift.String? = nil,
             numberOfRules: Swift.Int = 0,
             processingStatus: [CostExplorerClientTypes.CostCategoryProcessingStatus]? = nil,
+            supportedResourceTypes: [Swift.String]? = nil,
             values: [Swift.String]? = nil
         ) {
             self.costCategoryArn = costCategoryArn
@@ -5286,13 +5293,14 @@ extension CostExplorerClientTypes {
             self.name = name
             self.numberOfRules = numberOfRules
             self.processingStatus = processingStatus
+            self.supportedResourceTypes = supportedResourceTypes
             self.values = values
         }
     }
 }
 
 public struct ListCostCategoryDefinitionsOutput: Swift.Sendable {
-    /// A reference to a Cost Category that contains enough information to identify the Cost Category.
+    /// A reference to a cost category that contains enough information to identify the Cost Category.
     public var costCategoryReferences: [CostExplorerClientTypes.CostCategoryReference]?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
@@ -5302,6 +5310,63 @@ public struct ListCostCategoryDefinitionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.costCategoryReferences = costCategoryReferences
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCostCategoryResourceAssociationsInput: Swift.Sendable {
+    /// The unique identifier for your cost category.
+    public var costCategoryArn: Swift.String?
+    /// The number of entries a paginated response contains.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+
+    public init(
+        costCategoryArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.costCategoryArn = costCategoryArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// A reference to a cost category association that contains information on an associated resource.
+    public struct CostCategoryResourceAssociation: Swift.Sendable {
+        /// The unique identifier for your cost category.
+        public var costCategoryArn: Swift.String?
+        /// The unique name of the cost category.
+        public var costCategoryName: Swift.String?
+        /// The unique identifier for an associated resource.
+        public var resourceArn: Swift.String?
+
+        public init(
+            costCategoryArn: Swift.String? = nil,
+            costCategoryName: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.costCategoryArn = costCategoryArn
+            self.costCategoryName = costCategoryName
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+public struct ListCostCategoryResourceAssociationsOutput: Swift.Sendable {
+    /// A reference to a cost category association that contains information on an associated resource.
+    public var costCategoryResourceAssociations: [CostExplorerClientTypes.CostCategoryResourceAssociation]?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+
+    public init(
+        costCategoryResourceAssociations: [CostExplorerClientTypes.CostCategoryResourceAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.costCategoryResourceAssociations = costCategoryResourceAssociations
         self.nextToken = nextToken
     }
 }
@@ -5778,9 +5843,9 @@ public struct UpdateCostAllocationTagsStatusOutput: Swift.Sendable {
 }
 
 public struct UpdateCostCategoryDefinitionOutput: Swift.Sendable {
-    /// The unique identifier for your Cost Category.
+    /// The unique identifier for your cost category.
     public var costCategoryArn: Swift.String?
-    /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
+    /// The cost category's effective start date. It can only be a billing start date (first day of the month).
     public var effectiveStart: Swift.String?
 
     public init(
@@ -6068,11 +6133,11 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    /// Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value.
+    /// Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that cost category value.
     public struct CostCategoryRule: Swift.Sendable {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public var inheritedValue: CostExplorerClientTypes.CostCategoryInheritedValueDimension?
-        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for cost category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
         public var rule: CostExplorerClientTypes.Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public var type: CostExplorerClientTypes.CostCategoryRuleType?
@@ -6299,7 +6364,7 @@ public struct GetCostAndUsageInput: Swift.Sendable {
 public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
-    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     /// This member is required.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
@@ -6337,7 +6402,7 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
 public struct GetCostCategoriesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
-    /// The unique name of the Cost Category.
+    /// The unique name of the cost category.
     public var costCategoryName: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
@@ -6395,7 +6460,7 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
     public var nextPageToken: Swift.String?
-    /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
+    /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter cost category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter cost category values that match the SearchString pattern.
     public var searchString: Swift.String?
     /// The value that you sort the data by. The key represents the cost and usage metrics. The following values are supported:
     ///
@@ -7731,28 +7796,28 @@ extension CostExplorerClientTypes {
 
     /// The structure of Cost Categories. This includes detailed metadata and the set of rules for the CostCategory object.
     public struct CostCategory: Swift.Sendable {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         /// This member is required.
         public var costCategoryArn: Swift.String?
         /// The default value for the cost category.
         public var defaultValue: Swift.String?
-        /// The effective end date of your Cost Category.
+        /// The effective end date of your cost category.
         public var effectiveEnd: Swift.String?
-        /// The effective start date of your Cost Category.
+        /// The effective start date of your cost category.
         /// This member is required.
         public var effectiveStart: Swift.String?
-        /// The unique name of the Cost Category.
+        /// The unique name of the cost category.
         /// This member is required.
         public var name: Swift.String?
         /// The list of processing statuses for Cost Management products for a specific cost category.
         public var processingStatus: [CostExplorerClientTypes.CostCategoryProcessingStatus]?
-        /// The rule schema version in this particular Cost Category.
+        /// The rule schema version in this particular cost category.
         /// This member is required.
         public var ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion?
-        /// The rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value.
+        /// The rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that cost category value.
         /// This member is required.
         public var rules: [CostExplorerClientTypes.CostCategoryRule]?
-        /// The split charge rules that are used to allocate your charges between your Cost Category values.
+        /// The split charge rules that are used to allocate your charges between your cost category values.
         public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
         public init(
@@ -7782,9 +7847,9 @@ extension CostExplorerClientTypes {
 public struct CreateCostCategoryDefinitionInput: Swift.Sendable {
     /// The default value for the cost category.
     public var defaultValue: Swift.String?
-    /// The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+    /// The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
     public var effectiveStart: Swift.String?
-    /// The unique name of the Cost Category.
+    /// The unique name of the cost category.
     /// This member is required.
     public var name: Swift.String?
     /// An optional list of tags to associate with the specified [CostCategory](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html). You can use resource tags to control access to your cost category using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:
@@ -7803,13 +7868,13 @@ public struct CreateCostCategoryDefinitionInput: Swift.Sendable {
     ///
     /// * Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
     public var resourceTags: [CostExplorerClientTypes.ResourceTag]?
-    /// The rule schema version in this particular Cost Category.
+    /// The rule schema version in this particular cost category.
     /// This member is required.
     public var ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion?
-    /// The Cost Category rules used to categorize costs. For more information, see [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
+    /// The cost category rules used to categorize costs. For more information, see [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
     /// This member is required.
     public var rules: [CostExplorerClientTypes.CostCategoryRule]?
-    /// The split charge rules used to allocate your charges between your Cost Category values.
+    /// The split charge rules used to allocate your charges between your cost category values.
     public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
     public init(
@@ -7898,20 +7963,20 @@ public struct GetCostComparisonDriversOutput: Swift.Sendable {
 }
 
 public struct UpdateCostCategoryDefinitionInput: Swift.Sendable {
-    /// The unique identifier for your Cost Category.
+    /// The unique identifier for your cost category.
     /// This member is required.
     public var costCategoryArn: Swift.String?
     /// The default value for the cost category.
     public var defaultValue: Swift.String?
-    /// The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+    /// The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
     public var effectiveStart: Swift.String?
-    /// The rule schema version in this particular Cost Category.
+    /// The rule schema version in this particular cost category.
     /// This member is required.
     public var ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion?
     /// The Expression object used to categorize costs. For more information, see [CostCategoryRule ](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
     /// This member is required.
     public var rules: [CostExplorerClientTypes.CostCategoryRule]?
-    /// The split charge rules used to allocate your charges between your Cost Category values.
+    /// The split charge rules used to allocate your charges between your cost category values.
     public var splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]?
 
     public init(
@@ -8176,6 +8241,13 @@ extension ListCostAllocationTagsInput {
 extension ListCostCategoryDefinitionsInput {
 
     static func urlPathProvider(_ value: ListCostCategoryDefinitionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListCostCategoryResourceAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCostCategoryResourceAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8668,6 +8740,17 @@ extension ListCostCategoryDefinitionsInput {
     static func write(value: ListCostCategoryDefinitionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EffectiveOn"].write(value.effectiveOn)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SupportedResourceTypes"].writeList(value.supportedResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListCostCategoryResourceAssociationsInput {
+
+    static func write(value: ListCostCategoryResourceAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CostCategoryArn"].write(value.costCategoryArn)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -9237,6 +9320,19 @@ extension ListCostCategoryDefinitionsOutput {
         let reader = responseReader
         var value = ListCostCategoryDefinitionsOutput()
         value.costCategoryReferences = try reader["CostCategoryReferences"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCostCategoryResourceAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCostCategoryResourceAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCostCategoryResourceAssociationsOutput()
+        value.costCategoryResourceAssociations = try reader["CostCategoryResourceAssociations"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryResourceAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -9930,6 +10026,21 @@ enum ListCostCategoryDefinitionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCostCategoryResourceAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11756,6 +11867,19 @@ extension CostExplorerClientTypes.CostCategoryReference {
         value.processingStatus = try reader["ProcessingStatus"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.supportedResourceTypes = try reader["SupportedResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostCategoryResourceAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryResourceAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostCategoryResourceAssociation()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.costCategoryName = try reader["CostCategoryName"].readIfPresent()
+        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
         return value
     }
 }

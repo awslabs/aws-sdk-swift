@@ -1862,205 +1862,75 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum EngagementScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case high
-        case low
-        case medium
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EngagementScore] {
-            return [
-                .high,
-                .low,
-                .medium
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .high: return "High"
-            case .low: return "Low"
-            case .medium: return "Medium"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
-    public struct AwsOpportunityInsights: Swift.Sendable {
-        /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
-        public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
-        /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
-        public var nextBestActions: Swift.String?
-
-        public init(
-            engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
-            nextBestActions: Swift.String? = nil
-        ) {
-            self.engagementScore = engagementScore
-            self.nextBestActions = nextBestActions
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Tracks the history of next steps associated with the opportunity. This field captures the actions planned for the future and their timeline.
-    public struct ProfileNextStepsHistory: Swift.Sendable {
-        /// Indicates the date and time when a particular next step was recorded or planned. This helps in managing the timeline for the opportunity.
+    /// Details for a specific optimization recommendation
+    public struct AwsProductOptimization: Swift.Sendable {
+        /// Human-readable explanation of the optimization strategy
         /// This member is required.
-        public var time: Foundation.Date?
-        /// Represents the details of the next step recorded, such as follow-up actions or decisions made. This field helps in tracking progress and ensuring alignment with project goals.
+        public var description: Swift.String?
+        /// Quantified cost savings achievable by implementing this optimization
         /// This member is required.
-        public var value: Swift.String?
+        public var savingsAmount: Swift.String?
 
         public init(
-            time: Foundation.Date? = nil,
-            value: Swift.String? = nil
+            description: Swift.String? = nil,
+            savingsAmount: Swift.String? = nil
         ) {
-            self.time = time
-            self.value = value
+            self.description = description
+            self.savingsAmount = savingsAmount
         }
     }
 }
 
-extension PartnerCentralSellingClientTypes {
-
-    public enum AwsOpportunityStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case buildingIntegration
-        case businessValidation
-        case closedIncomplete
-        case closedLost
-        case committed
-        case completed
-        case contractNegotiation
-        case deferredToPartner
-        case engaged
-        case evaluating
-        case identified
-        case inProgress
-        case launched
-        case notStarted
-        case onboarding
-        case onHold
-        case prospect
-        case qualified
-        case qualify
-        case research
-        case sellerEngaged
-        case sellerRegistered
-        case technicalValidation
-        case termSheetNegotiation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AwsOpportunityStage] {
-            return [
-                .buildingIntegration,
-                .businessValidation,
-                .closedIncomplete,
-                .closedLost,
-                .committed,
-                .completed,
-                .contractNegotiation,
-                .deferredToPartner,
-                .engaged,
-                .evaluating,
-                .identified,
-                .inProgress,
-                .launched,
-                .notStarted,
-                .onboarding,
-                .onHold,
-                .prospect,
-                .qualified,
-                .qualify,
-                .research,
-                .sellerEngaged,
-                .sellerRegistered,
-                .technicalValidation,
-                .termSheetNegotiation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .buildingIntegration: return "Building Integration"
-            case .businessValidation: return "Business Validation"
-            case .closedIncomplete: return "Closed Incomplete"
-            case .closedLost: return "Closed Lost"
-            case .committed: return "Committed"
-            case .completed: return "Completed"
-            case .contractNegotiation: return "Contract Negotiation"
-            case .deferredToPartner: return "Deferred to Partner"
-            case .engaged: return "Engaged"
-            case .evaluating: return "Evaluating"
-            case .identified: return "Identified"
-            case .inProgress: return "In Progress"
-            case .launched: return "Launched"
-            case .notStarted: return "Not Started"
-            case .onboarding: return "Onboarding"
-            case .onHold: return "On-hold"
-            case .prospect: return "Prospect"
-            case .qualified: return "Qualified"
-            case .qualify: return "Qualify"
-            case .research: return "Research"
-            case .sellerEngaged: return "Seller Engaged"
-            case .sellerRegistered: return "Seller Registered"
-            case .technicalValidation: return "Technical Validation"
-            case .termSheetNegotiation: return "Term Sheet Negotiation"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Tracks the lifecycle of the AWS opportunity, including stages such as qualification, validation, and closure. This field helps partners understand the current status and progression of the opportunity.
-    public struct AwsOpportunityLifeCycle: Swift.Sendable {
-        /// Indicates the reason why an opportunity was marked as Closed Lost. This helps in understanding the context behind the lost opportunity and aids in refining future strategies.
-        public var closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason?
-        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS guidance and the current stage of the opportunity.
-        public var nextSteps: Swift.String?
-        /// Provides a historical log of previous next steps that were taken to move the opportunity forward. This helps in tracking the decision-making process and identifying any delays or obstacles encountered.
-        public var nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]?
-        /// Represents the current stage of the opportunity in its lifecycle, such as Qualification, Validation, or Closed Won. This helps in understanding the opportunity's progress.
-        public var stage: PartnerCentralSellingClientTypes.AwsOpportunityStage?
-        /// Indicates the expected date by which the opportunity is projected to close. This field helps in planning resources and timelines for both the partner and AWS.
-        public var targetCloseDate: Swift.String?
-
-        public init(
-            closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason? = nil,
-            nextSteps: Swift.String? = nil,
-            nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]? = nil,
-            stage: PartnerCentralSellingClientTypes.AwsOpportunityStage? = nil,
-            targetCloseDate: Swift.String? = nil
-        ) {
-            self.closedLostReason = closedLostReason
-            self.nextSteps = nextSteps
-            self.nextStepsHistory = nextStepsHistory
-            self.stage = stage
-            self.targetCloseDate = targetCloseDate
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle: Swift.CustomDebugStringConvertible {
+extension PartnerCentralSellingClientTypes.AwsProductOptimization: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AwsOpportunityLifeCycle(closedLostReason: \(Swift.String(describing: closedLostReason)), nextStepsHistory: \(Swift.String(describing: nextStepsHistory)), stage: \(Swift.String(describing: stage)), targetCloseDate: \(Swift.String(describing: targetCloseDate)), nextSteps: \"CONTENT_REDACTED\")"}
+        "AwsProductOptimization(description: \(Swift.String(describing: description)), savingsAmount: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// AWS services with program eligibility indicators (MAP, modernization pathways), cost estimates, and optimization recommendations.
+    public struct AwsProductDetails: Swift.Sendable {
+        /// Baseline service cost before optimizations (may be null for AWS-sourced predictions)
+        public var amount: Swift.String?
+        /// List of program and pathway categories this product is eligible for
+        /// This member is required.
+        public var categories: [Swift.String]?
+        /// List of specific optimization recommendations for this product
+        /// This member is required.
+        public var optimizations: [PartnerCentralSellingClientTypes.AwsProductOptimization]?
+        /// Service cost after applying optimizations (may be null for AWS-sourced predictions)
+        public var optimizedAmount: Swift.String?
+        /// Service-specific cost reduction through optimizations (may be null for AWS-sourced predictions)
+        public var potentialSavingsAmount: Swift.String?
+        /// AWS Partner Central product identifier used for opportunity association
+        /// This member is required.
+        public var productCode: Swift.String?
+        /// Pricing Calculator service code (links to original calculator URL)
+        public var serviceCode: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            categories: [Swift.String]? = nil,
+            optimizations: [PartnerCentralSellingClientTypes.AwsProductOptimization]? = nil,
+            optimizedAmount: Swift.String? = nil,
+            potentialSavingsAmount: Swift.String? = nil,
+            productCode: Swift.String? = nil,
+            serviceCode: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.categories = categories
+            self.optimizations = optimizations
+            self.optimizedAmount = optimizedAmount
+            self.potentialSavingsAmount = potentialSavingsAmount
+            self.productCode = productCode
+            self.serviceCode = serviceCode
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsProductDetails(categories: \(Swift.String(describing: categories)), optimizations: \(Swift.String(describing: optimizations)), productCode: \(Swift.String(describing: productCode)), serviceCode: \(Swift.String(describing: serviceCode)), amount: \"CONTENT_REDACTED\", optimizedAmount: \"CONTENT_REDACTED\", potentialSavingsAmount: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -2618,10 +2488,283 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Comprehensive spend analysis for a single source (AWS or Partner) including total amounts, optimization savings, program category breakdowns, and detailed product-level insights.
+    public struct AwsProductInsights: Swift.Sendable {
+        /// Product-level details including costs and optimization recommendations
+        /// This member is required.
+        public var awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]?
+        /// ISO 4217 currency code (e.g., "USD") ensuring consistent representation across calculations
+        /// This member is required.
+        public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
+        /// Time period for spend amounts: "Monthly" or "Annually"
+        /// This member is required.
+        public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
+        /// Total estimated spend for this source before optimizations
+        public var totalAmount: Swift.String?
+        /// Spend amounts mapped to AWS programs and modernization pathways
+        /// This member is required.
+        public var totalAmountByCategory: [Swift.String: Swift.String]?
+        /// Total estimated spend after applying recommended optimizations
+        public var totalOptimizedAmount: Swift.String?
+        /// Quantified savings achievable through implementing optimizations
+        public var totalPotentialSavingsAmount: Swift.String?
+
+        public init(
+            awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]? = nil,
+            currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil,
+            frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
+            totalAmount: Swift.String? = nil,
+            totalAmountByCategory: [Swift.String: Swift.String]? = nil,
+            totalOptimizedAmount: Swift.String? = nil,
+            totalPotentialSavingsAmount: Swift.String? = nil
+        ) {
+            self.awsProducts = awsProducts
+            self.currencyCode = currencyCode
+            self.frequency = frequency
+            self.totalAmount = totalAmount
+            self.totalAmountByCategory = totalAmountByCategory
+            self.totalOptimizedAmount = totalOptimizedAmount
+            self.totalPotentialSavingsAmount = totalPotentialSavingsAmount
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductInsights: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsProductInsights(awsProducts: \(Swift.String(describing: awsProducts)), frequency: \(Swift.String(describing: frequency)), currencyCode: \"CONTENT_REDACTED\", totalAmount: \"CONTENT_REDACTED\", totalAmountByCategory: [keys: \(Swift.String(describing: totalAmountByCategory?.keys)), values: \"CONTENT_REDACTED\"], totalOptimizedAmount: \"CONTENT_REDACTED\", totalPotentialSavingsAmount: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+    public struct AwsProductsSpendInsightsBySource: Swift.Sendable {
+        /// AI-generated insights including recommended products from AWS
+        public var aws: PartnerCentralSellingClientTypes.AwsProductInsights?
+        /// Partner-sourced insights derived from Pricing Calculator URLs including detailed service costs and optimizations
+        public var partner: PartnerCentralSellingClientTypes.AwsProductInsights?
+
+        public init(
+            aws: PartnerCentralSellingClientTypes.AwsProductInsights? = nil,
+            partner: PartnerCentralSellingClientTypes.AwsProductInsights? = nil
+        ) {
+            self.aws = aws
+            self.partner = partner
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum EngagementScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngagementScore] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
+    public struct AwsOpportunityInsights: Swift.Sendable {
+        /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+        public var awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource?
+        /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
+        public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
+        /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
+        public var nextBestActions: Swift.String?
+
+        public init(
+            awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource? = nil,
+            engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
+            nextBestActions: Swift.String? = nil
+        ) {
+            self.awsProductsSpendInsightsBySource = awsProductsSpendInsightsBySource
+            self.engagementScore = engagementScore
+            self.nextBestActions = nextBestActions
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Tracks the history of next steps associated with the opportunity. This field captures the actions planned for the future and their timeline.
+    public struct ProfileNextStepsHistory: Swift.Sendable {
+        /// Indicates the date and time when a particular next step was recorded or planned. This helps in managing the timeline for the opportunity.
+        /// This member is required.
+        public var time: Foundation.Date?
+        /// Represents the details of the next step recorded, such as follow-up actions or decisions made. This field helps in tracking progress and ensuring alignment with project goals.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            time: Foundation.Date? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.time = time
+            self.value = value
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum AwsOpportunityStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildingIntegration
+        case businessValidation
+        case closedIncomplete
+        case closedLost
+        case committed
+        case completed
+        case contractNegotiation
+        case deferredToPartner
+        case engaged
+        case evaluating
+        case identified
+        case inProgress
+        case launched
+        case notStarted
+        case onboarding
+        case onHold
+        case prospect
+        case qualified
+        case qualify
+        case research
+        case sellerEngaged
+        case sellerRegistered
+        case technicalValidation
+        case termSheetNegotiation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsOpportunityStage] {
+            return [
+                .buildingIntegration,
+                .businessValidation,
+                .closedIncomplete,
+                .closedLost,
+                .committed,
+                .completed,
+                .contractNegotiation,
+                .deferredToPartner,
+                .engaged,
+                .evaluating,
+                .identified,
+                .inProgress,
+                .launched,
+                .notStarted,
+                .onboarding,
+                .onHold,
+                .prospect,
+                .qualified,
+                .qualify,
+                .research,
+                .sellerEngaged,
+                .sellerRegistered,
+                .technicalValidation,
+                .termSheetNegotiation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildingIntegration: return "Building Integration"
+            case .businessValidation: return "Business Validation"
+            case .closedIncomplete: return "Closed Incomplete"
+            case .closedLost: return "Closed Lost"
+            case .committed: return "Committed"
+            case .completed: return "Completed"
+            case .contractNegotiation: return "Contract Negotiation"
+            case .deferredToPartner: return "Deferred to Partner"
+            case .engaged: return "Engaged"
+            case .evaluating: return "Evaluating"
+            case .identified: return "Identified"
+            case .inProgress: return "In Progress"
+            case .launched: return "Launched"
+            case .notStarted: return "Not Started"
+            case .onboarding: return "Onboarding"
+            case .onHold: return "On-hold"
+            case .prospect: return "Prospect"
+            case .qualified: return "Qualified"
+            case .qualify: return "Qualify"
+            case .research: return "Research"
+            case .sellerEngaged: return "Seller Engaged"
+            case .sellerRegistered: return "Seller Registered"
+            case .technicalValidation: return "Technical Validation"
+            case .termSheetNegotiation: return "Term Sheet Negotiation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Tracks the lifecycle of the AWS opportunity, including stages such as qualification, validation, and closure. This field helps partners understand the current status and progression of the opportunity.
+    public struct AwsOpportunityLifeCycle: Swift.Sendable {
+        /// Indicates the reason why an opportunity was marked as Closed Lost. This helps in understanding the context behind the lost opportunity and aids in refining future strategies.
+        public var closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason?
+        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS guidance and the current stage of the opportunity.
+        public var nextSteps: Swift.String?
+        /// Provides a historical log of previous next steps that were taken to move the opportunity forward. This helps in tracking the decision-making process and identifying any delays or obstacles encountered.
+        public var nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]?
+        /// Represents the current stage of the opportunity in its lifecycle, such as Qualification, Validation, or Closed Won. This helps in understanding the opportunity's progress.
+        public var stage: PartnerCentralSellingClientTypes.AwsOpportunityStage?
+        /// Indicates the expected date by which the opportunity is projected to close. This field helps in planning resources and timelines for both the partner and AWS.
+        public var targetCloseDate: Swift.String?
+
+        public init(
+            closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason? = nil,
+            nextSteps: Swift.String? = nil,
+            nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]? = nil,
+            stage: PartnerCentralSellingClientTypes.AwsOpportunityStage? = nil,
+            targetCloseDate: Swift.String? = nil
+        ) {
+            self.closedLostReason = closedLostReason
+            self.nextSteps = nextSteps
+            self.nextStepsHistory = nextStepsHistory
+            self.stage = stage
+            self.targetCloseDate = targetCloseDate
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsOpportunityLifeCycle(closedLostReason: \(Swift.String(describing: closedLostReason)), nextStepsHistory: \(Swift.String(describing: nextStepsHistory)), stage: \(Swift.String(describing: stage)), targetCloseDate: \(Swift.String(describing: targetCloseDate)), nextSteps: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Provides an estimate of the revenue that the partner is expected to generate from the opportunity. This information helps partners assess the financial value of the project.
     public struct ExpectedCustomerSpend: Swift.Sendable {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
-        /// This member is required.
         public var amount: Swift.String?
         /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
         /// This member is required.
@@ -2636,7 +2779,7 @@ extension PartnerCentralSellingClientTypes {
         public var targetCompany: Swift.String?
 
         public init(
-            amount: Swift.String? = nil,
+            amount: Swift.String? = "",
             currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil,
             estimationUrl: Swift.String? = nil,
             frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
@@ -2653,7 +2796,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExpectedCustomerSpend(frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), amount: \"CONTENT_REDACTED\", currencyCode: \"CONTENT_REDACTED\", estimationUrl: \"CONTENT_REDACTED\")"}
+        "ExpectedCustomerSpend(estimationUrl: \(Swift.String(describing: estimationUrl)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), amount: \"CONTENT_REDACTED\", currencyCode: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -10450,6 +10593,61 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityInsights {
         var value = PartnerCentralSellingClientTypes.AwsOpportunityInsights()
         value.nextBestActions = try reader["NextBestActions"].readIfPresent()
         value.engagementScore = try reader["EngagementScore"].readIfPresent()
+        value.awsProductsSpendInsightsBySource = try reader["AwsProductsSpendInsightsBySource"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource()
+        value.partner = try reader["Partner"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        value.aws = try reader["AWS"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductInsights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductInsights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductInsights()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        value.totalOptimizedAmount = try reader["TotalOptimizedAmount"].readIfPresent()
+        value.totalPotentialSavingsAmount = try reader["TotalPotentialSavingsAmount"].readIfPresent()
+        value.totalAmountByCategory = try reader["TotalAmountByCategory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductDetails()
+        value.productCode = try reader["ProductCode"].readIfPresent() ?? ""
+        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.amount = try reader["Amount"].readIfPresent()
+        value.optimizedAmount = try reader["OptimizedAmount"].readIfPresent()
+        value.potentialSavingsAmount = try reader["PotentialSavingsAmount"].readIfPresent()
+        value.optimizations = try reader["Optimizations"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductOptimization.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductOptimization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductOptimization()
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.savingsAmount = try reader["SavingsAmount"].readIfPresent() ?? ""
         return value
     }
 }

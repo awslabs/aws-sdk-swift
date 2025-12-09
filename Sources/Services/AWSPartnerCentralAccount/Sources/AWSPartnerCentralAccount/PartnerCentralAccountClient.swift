@@ -1478,6 +1478,79 @@ extension PartnerCentralAccountClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetVerification` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetVerificationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetVerificationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. This may occur when referencing a resource that does not exist or has been deleted.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func getVerification(input: GetVerificationInput) async throws -> GetVerificationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVerification")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetVerificationInput, GetVerificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVerificationInput, GetVerificationOutput>(GetVerificationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVerificationInput, GetVerificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVerificationInput, GetVerificationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVerificationOutput>(GetVerificationOutput.httpOutput(from:), GetVerificationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVerificationInput, GetVerificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetVerificationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVerificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVerificationInput, GetVerificationOutput>(xAmzTarget: "PartnerCentralAccount.GetVerification"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetVerificationInput, GetVerificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVerificationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVerificationInput, GetVerificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVerificationInput, GetVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVerificationInput, GetVerificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVerificationInput, GetVerificationOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVerification")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListConnectionInvitations` operation on the `PartnerCentralAccount` service.
     ///
     /// Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
@@ -2124,6 +2197,81 @@ extension PartnerCentralAccountClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartProfileUpdateTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartVerification` operation on the `PartnerCentralAccount` service.
+    ///
+    /// Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartVerificationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartVerificationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions. The caller does not have the required permissions to perform this operation.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This typically occurs when trying to create a resource that already exists or modify a resource that has been changed by another process.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This is typically a temporary condition and the request may be retried.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it would exceed a service quota or limit. This may occur when trying to create more resources than allowed by the service limits.
+    /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period of time. The client should implement exponential backoff and retry the request.
+    /// - `ValidationException` : The request failed validation. One or more input parameters are invalid, missing, or do not meet the required format or constraints.
+    public func startVerification(input: StartVerificationInput) async throws -> StartVerificationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startVerification")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartVerificationInput, StartVerificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartVerificationInput, StartVerificationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartVerificationInput, StartVerificationOutput>(StartVerificationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartVerificationInput, StartVerificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVerificationInput, StartVerificationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVerificationOutput>(StartVerificationOutput.httpOutput(from:), StartVerificationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVerificationInput, StartVerificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartVerificationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartVerificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartVerificationInput, StartVerificationOutput>(xAmzTarget: "PartnerCentralAccount.StartVerification"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartVerificationInput, StartVerificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartVerificationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartVerificationInput, StartVerificationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartVerificationInput, StartVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartVerificationInput, StartVerificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartVerificationInput, StartVerificationOutput>(serviceID: serviceName, version: PartnerCentralAccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralAccount")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartVerification")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

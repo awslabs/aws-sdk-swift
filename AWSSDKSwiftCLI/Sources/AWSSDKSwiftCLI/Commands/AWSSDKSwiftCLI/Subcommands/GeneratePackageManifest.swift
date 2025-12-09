@@ -96,10 +96,42 @@ struct GeneratePackageManifest {
     ///
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
+
+        struct ServiceClientInfo: Decodable {
+            let modelPath: String
+            let dependencies: [String]
+        }
+
+        func loadService(name: String, basePath: String, isInternal: Bool) throws -> PackageManifestBuilder.Service {
+            let fileURL = URL(fileURLWithPath: "\(basePath)/\(name)/Dependencies.json")
+            let data = try Data(contentsOf: fileURL)
+            let info = try JSONDecoder().decode(ServiceClientInfo.self, from: data)
+            let modelFileName = URL(fileURLWithPath: info.modelPath).lastPathComponent
+            return PackageManifestBuilder.Service(
+                moduleName: name,
+                codegenName: modelFileName,
+                dependencies: info.dependencies,
+                isInternal: isInternal
+            )
+        }
+
         let versions = try resolveVersions()
-        let services = try resolveServices().map { PackageManifestBuilder.Service(name: $0) }
+
+        let serviceNames = try resolveServices().sorted()
+        let services = try serviceNames.map {
+            try loadService(name: $0, basePath: "Sources/Services", isInternal: false)
+        }
+
+        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity", "AWSSignin"].sorted()
+        let internalServices = try internalServiceNames.map {
+            let name = "Internal\($0)"
+            let basePath = "Sources/Core/AWSSDKIdentity/InternalClients"
+            return try loadService(name: name, basePath: basePath, isInternal: true)
+        }
+        log("Resolved \(internalServices.count) internal service clients")
+
         log("Creating package manifest contents...")
-        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
+        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services + internalServices)
         log("Successfully created package manifest contents")
         return contents
     }
