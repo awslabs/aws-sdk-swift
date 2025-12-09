@@ -36,7 +36,7 @@ struct GenerateDocIndexCommand: ParsableCommand {
     func convertToNewFormat(_ content: String) -> String {
         var result = content.replacingOccurrences(
             of: "../../../../../swift/api/",
-            with: "../../../../../latest/api/"
+            with: "/sdk-for-swift/latest/api/"
         ).replacingOccurrences(
             of: "# ``AWSSDKForSwift``",
             with: "# ``SDKForSwift``"
