@@ -178,7 +178,7 @@ public struct CreateProfileInput: Swift.Sendable {
     /// The name of the profile.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether instance properties are required in temporary credential requests with this profile.
+    /// Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
     public var requireInstanceProperties: Swift.Bool?
     /// A list of IAM roles that this profile can assume in a temporary credential request.
     /// This member is required.
@@ -235,7 +235,7 @@ extension RolesAnywhereClientTypes {
         public var profileArn: Swift.String?
         /// The unique identifier of the profile.
         public var profileId: Swift.String?
-        /// Specifies whether instance properties are required in temporary credential requests with this profile.
+        /// Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
         public var requireInstanceProperties: Swift.Bool?
         /// A list of IAM roles that this profile can assume in a temporary credential request.
         public var roleArns: [Swift.String]?

@@ -405,6 +405,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -454,6 +455,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -509,6 +511,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
@@ -880,6 +883,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -929,6 +933,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -984,6 +989,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
@@ -1477,6 +1483,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -1519,6 +1526,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -1567,6 +1575,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"

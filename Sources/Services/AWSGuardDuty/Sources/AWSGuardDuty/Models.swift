@@ -17307,7 +17307,7 @@ extension GuardDutyClientTypes.Ec2LaunchTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Ec2LaunchTemplate()
         value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["Version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
