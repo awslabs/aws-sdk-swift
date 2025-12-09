@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/kinesis.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -14,7 +16,7 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTestUtil",
     "SmithyTimestamps",
     "SmithyWaitersAPI"
-]
+  ]
+}

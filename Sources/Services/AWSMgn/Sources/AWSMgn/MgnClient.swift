@@ -4070,7 +4070,7 @@ extension MgnClient {
 
     /// Performs the `StartReplication` operation on the `Mgn` service.
     ///
-    /// Starts replication for SNAPSHOT_SHIPPING agents.
+    /// Start replication for source server irrespective of its replication type.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartReplicationInput`)
     ///
@@ -5131,7 +5131,7 @@ extension MgnClient {
 
     /// Performs the `UpdateSourceServerReplicationType` operation on the `Mgn` service.
     ///
-    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
+    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type. SNAPSHOT_SHIPPING should be used for agentless replication.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSourceServerReplicationTypeInput`)
     ///

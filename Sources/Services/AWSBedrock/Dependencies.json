@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/bedrock.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -13,6 +15,6 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTestUtil",
     "SmithyTimestamps"
-]
+  ]
+}
