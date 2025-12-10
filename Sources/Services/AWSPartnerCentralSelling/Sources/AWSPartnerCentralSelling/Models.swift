@@ -2762,6 +2762,32 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle: Swift.Custom
 
 extension PartnerCentralSellingClientTypes {
 
+    public enum AwsPartition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsEusc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsPartition] {
+            return [
+                .awsEusc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsEusc: return "aws-eusc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Provides an estimate of the revenue that the partner is expected to generate from the opportunity. This information helps partners assess the financial value of the project.
     public struct ExpectedCustomerSpend: Swift.Sendable {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
@@ -2803,12 +2829,16 @@ extension PartnerCentralSellingClientTypes {
 
     /// Captures details about the project associated with the opportunity, including objectives, scope, and customer requirements.
     public struct AwsOpportunityProject: Swift.Sendable {
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Indicates the expected spending by the customer over the course of the project. This value helps partners and AWS estimate the financial impact of the opportunity. Use the [AWS Pricing Calculator](https://calculator.aws/#/) to create an estimate of the customer’s total spend. If only annual recurring revenue (ARR) is available, distribute it across 12 months to provide an average monthly value.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
 
         public init(
+            awsPartition: PartnerCentralSellingClientTypes.AwsPartition? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil
         ) {
+            self.awsPartition = awsPartition
             self.expectedCustomerSpend = expectedCustomerSpend
         }
     }
@@ -5894,6 +5924,8 @@ extension PartnerCentralSellingClientTypes {
         public var additionalComments: Swift.String?
         /// Specifies the Amazon Partner Network (APN) program that influenced the Opportunity. APN programs refer to specific partner programs or initiatives that can impact the Opportunity. Valid values: APN Immersion Days | APN Solution Space | ATO (Authority to Operate) | AWS Marketplace Campaign | IS Immersion Day SFID Program | ISV Workload Migration | Migration Acceleration Program | P3 | Partner Launch Initiative | Partner Opportunity Acceleration Funded | The Next Smart | VMware Cloud on AWS | Well-Architected | Windows | Workspaces/AppStream Accelerator Program | WWPS NDPP
         public var apnPrograms: [Swift.String]?
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public var competitorName: PartnerCentralSellingClientTypes.CompetitorName?
         /// Describes the problem the end customer has, and how the partner is helping. Utilize this field to provide a concise narrative that outlines the customer's business challenge or issue. Elaborate on how the partner's solution or offerings align to resolve the customer's business problem. Include relevant information about the partner's value proposition, unique selling points, and expertise to tackle the issue. Offer insights on how the proposed solution meets the customer's needs and provides value. Use concise language and precise descriptions to convey the context and significance of the Opportunity. The content in this field helps Amazon Web Services understand the nature of the Opportunity and the strategic fit of the partner's solution.
@@ -5946,6 +5978,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             additionalComments: Swift.String? = nil,
             apnPrograms: [Swift.String]? = nil,
+            awsPartition: PartnerCentralSellingClientTypes.AwsPartition? = nil,
             competitorName: PartnerCentralSellingClientTypes.CompetitorName? = nil,
             customerBusinessProblem: Swift.String? = nil,
             customerUseCase: Swift.String? = nil,
@@ -5959,6 +5992,7 @@ extension PartnerCentralSellingClientTypes {
         ) {
             self.additionalComments = additionalComments
             self.apnPrograms = apnPrograms
+            self.awsPartition = awsPartition
             self.competitorName = competitorName
             self.customerBusinessProblem = customerBusinessProblem
             self.customerUseCase = customerUseCase
@@ -5975,7 +6009,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.Project: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), awsPartition: \(Swift.String(describing: awsPartition)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -10702,6 +10736,7 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.AwsOpportunityProject()
         value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsPartition = try reader["AwsPartition"].readIfPresent()
         return value
     }
 }
@@ -11233,6 +11268,7 @@ extension PartnerCentralSellingClientTypes.Project {
         guard let value else { return }
         try writer["AdditionalComments"].write(value.additionalComments)
         try writer["ApnPrograms"].writeList(value.apnPrograms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AwsPartition"].write(value.awsPartition)
         try writer["CompetitorName"].write(value.competitorName)
         try writer["CustomerBusinessProblem"].write(value.customerBusinessProblem)
         try writer["CustomerUseCase"].write(value.customerUseCase)
@@ -11260,6 +11296,7 @@ extension PartnerCentralSellingClientTypes.Project {
         value.otherCompetitorNames = try reader["OtherCompetitorNames"].readIfPresent()
         value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()
         value.additionalComments = try reader["AdditionalComments"].readIfPresent()
+        value.awsPartition = try reader["AwsPartition"].readIfPresent()
         return value
     }
 }

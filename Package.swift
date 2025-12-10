@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.176.0"
+let clientRuntimeVersion: Version = "0.177.0"
 let crtVersion: Version = "0.54.2"
 
 let excludeRuntimeUnitTests = false
@@ -401,7 +401,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSCloudWatch",
         "cloudwatch.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyFormURL, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI, .SmithyXML]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyCBOR, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI]
     ),
     .init(
         "AWSCloudWatchEvents",
