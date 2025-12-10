@@ -73,7 +73,7 @@ public class ConfigFileReader {
             return (name: name.trimmingCharacters(in: .whitespaces), type: type)
         }
         if content.contains("profile") == false && content.contains("sso-session") == false && content.contains("services") == false {
-                return (name: content, type: "profile") // Assume it's just a profile name if no type keyword found
+                return (name: content.trimmingCharacters(in: .whitespaces), type: "profile") // Assume it's just a profile name if no type keyword found
             }
         return nil
     }
@@ -87,16 +87,132 @@ public class ConfigFileReader {
             currentProperty = nil
             currentSubProperty = nil
             isCurrentSectionValid = true
-            return true // Signal to continue processing this line's content if needed (though sections usually end the line's work)
+            return true
         } else {
             print("Found duplicate section matching current section on line number: '\(lineNumber)' current section will remain unchanged: '\(sectionName)' ")
             isCurrentSectionValid = true
             currentProperty = nil
             currentSubProperty = nil
-            // If a duplicate is found, we want the loop to immediately move to the next line.
             return false
         }
     }
+    
+    // Extension to strip comments and trim whitespace from raw strings
+    private func cleanedValue(from rawString: String) -> String {
+        let commentPattern = " +[#;]" // Regex to match comments to end of line
+        if currentSubSection != nil && rawString.hasPrefix(" ") {
+            let cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
+            return cleanString
+        } else if currentPropertyValue != nil || currentSubProperty != nil {
+            let cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
+            return cleanString
+        } else {
+            var cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
+            if let commentRange = cleanString.range(of: commentPattern, options: .regularExpression) {
+                cleanString = String(cleanString[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
+            }
+            return cleanString
+        }
+    }
+    
+    // Simple check for indentation
+    private func isIndented(line: String) -> Bool {
+        return line.hasPrefix(" ") || line.hasPrefix("\t")
+    }
+    
+    private func handleStandardProperty(key: String, value: String, lineNumber: Int) throws {
+            guard let sectionName = currentSection?.name else { throw MyError("Expected a section definition") }
+        
+            currentProperty = key
+            currentPropertyValue = value
+            currentSection?.properties[key] = value
+            sections[sectionName] = currentSection
+            
+            print("  Added new property '\(key)' = '\(value)' to section '\(sectionName)'")
+            print("  The current section contains '\(currentSection!)'")
+        }
+        
+        private func handleSubProperty(key: String, value: String, lineNumber: Int) throws {
+            guard let sectionName = currentSection?.name,
+                  let currentSubSectionName = currentSubSection,
+                  let currentProp = currentProperty else {
+                throw MyError("Property did not have a name in sub-property")
+            }
+
+            // The logic for subproperties isolated in this function
+            currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
+            var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
+            var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
+            subpropertyKeysAndValues[key] = value
+            subproperties[currentSubSectionName] = subpropertyKeysAndValues
+            currentSection?.subproperties = subproperties
+            sections[sectionName] = currentSection
+            
+            print("  Added sub-property key and value '\(key)' = '\(value)' under subsection '\(currentSubSectionName)'")
+            print("  The current section contains '\(currentSection!)'")
+        }
+        
+        private func handleStandardKeyWithoutValue(key: String, lineNumber: Int) throws {
+            guard let sectionName = currentSection?.name else { throw MyError("Expected a section definition") }
+            
+            currentSubSection = key
+            currentProperty = key
+            currentPropertyValue = ""
+            currentSection?.properties[key] = ""
+            sections[sectionName] = currentSection
+            
+            print("  Added new property '\(key)' with no value to section '\(sectionName)'")
+            print("  The current section contains '\(currentSection!)'")
+        }
+    
+        private func handleSubProptertyKeyWithoutValue(key: String, lineNumber: Int) throws {
+            guard let sectionName = currentSection?.name,
+                  let currentSubSectionName = currentSubSection,
+                  let currentProp = currentProperty else {
+                throw MyError("Property did not have a name in sub-property")
+            }
+
+            currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
+            var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
+            var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
+            subpropertyKeysAndValues[key] = ""
+            subproperties[currentSubSectionName] = subpropertyKeysAndValues
+            currentSection?.subproperties = subproperties
+            sections[sectionName] = currentSection
+            
+            print("  Added sub-property key: '\(key)' with no value under subsection '\(currentSubSectionName)'")
+            print("  The current section contains '\(currentSection!)'")
+        }
+    
+    private func handleLineContinuation(forKey key: String, value: String) throws {
+        guard let sectionName = currentSection?.name else { throw MyError("No current section for continuation") }
+
+        let cleanedValue = self.cleanedValue(from: value)
+
+        if currentSubProperty != nil, let subSectionName = currentSubSection {
+            var subprops = currentSection?.subproperties ?? [:]
+            var subKeyValues = subprops[subSectionName] ?? [:]
+            
+            if let existingValue = subKeyValues[key] {
+                subKeyValues[key] = existingValue + "\n" + cleanedValue
+            } else {
+                subKeyValues[key] = cleanedValue
+            }
+            subprops[subSectionName] = subKeyValues
+            currentSection?.subproperties = subprops
+
+        } else {
+            if let existingValue = currentSection?.properties[key] {
+                currentSection?.properties[key] = existingValue + "\n" + cleanedValue
+            } else {
+                currentSection?.properties[key] = cleanedValue
+            }
+        }
+        
+        sections[sectionName] = currentSection
+        print("  Appended value '\(cleanedValue)' to key '\(key)' within section '\(sectionName)'")
+    }
+
     
     func config() throws -> FileBasedConfigurationSectionProviding? {
         
@@ -104,213 +220,149 @@ public class ConfigFileReader {
         guard let stringConfigData = readAndDecodeFile(atPath: configFilePath, fileDescription: "Configuration") else {
             return nil // Stop if the main config file fails
         }
-
+        
         // Use the helper function for the credentials file (handle it optionally, if it fails, stringCredentialsData is nil)
         let stringCredentialsData = readAndDecodeFile(atPath: credentialsFilePath, fileDescription: "Credentials")
-        
-        print("Successfully read configuration file at: \(configFilePath)")
-        print("Successfully read credentials file at: \(credentialsFilePath)")
         
         print("Configuration File contents:", stringConfigData.split(whereSeparator: \.isNewline))
         print("Credential File contents:", stringCredentialsData?.split(whereSeparator: \.isNewline) as Any)
         
-        let arrayData: [Substring]
-        if stringCredentialsData == nil {
-           arrayData = stringConfigData.split(whereSeparator: \.isNewline)
-        } else {
-           arrayData = stringConfigData.split(whereSeparator: \.isNewline) + stringCredentialsData!.split(whereSeparator: \.isNewline)
-        }
+                let fileLines: [Substring]
+                if stringCredentialsData == nil {
+                   fileLines = stringConfigData.split(whereSeparator: \.isNewline)
+                } else {
+                   fileLines = stringConfigData.split(whereSeparator: \.isNewline) + stringCredentialsData!.split(whereSeparator: \.isNewline)
+                }
         
-        let definedSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile", "default", "sso-services", and "services"        
-        for line in arrayData{
-            var currentLineNumber: Int = 0
-            currentLineNumber += 1
-            let blankLine = try! NSRegularExpression(pattern: "^\\s*$", options: [])
-            guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && blankLine.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) == nil else{
-                continue
-            }
-            if line.contains("["){
-                newSection = true
-            }
-            switch line{
-            case _ where definedSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                if let sectionHeader = parseSectionHeader(from: String(line)) {
-                    if !handleNewSectionFound(name: sectionHeader.name, lineNumber: currentLineNumber) {
+//        let configLines = stringConfigData.split(whereSeparator: \.isNewline)
+//        let credentialsLines = stringCredentialsData?.split(whereSeparator: \.isNewline)
+        
+        // Create an array that holds one or two separate arrays of Substrings
+//        var arrayOfLineArrays: [[Substring]] = [configLines]
+//        if let creds = credentialsLines {
+//            arrayOfLineArrays.append(creds)
+//        }
+        let validCharactersRegex = try! NSRegularExpression(pattern: "[a-zA-Z0-9_.-/.%@:+]+")
+        let definedSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?)|sso-session\\s+(.+?)|services\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile", "default", "sso-services", and "services"
+//        for fileLines in arrayOfLineArrays {
+//            print("\n--- Starting new file processing block ---")
+            for line in fileLines{
+                var currentLineNumber: Int = 0
+                currentLineNumber += 1
+                let blankLine = try! NSRegularExpression(pattern: "^\\s*$", options: [])
+                guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && blankLine.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) == nil else{
                     continue
-                    }
                 }
-                continue
-            case _ where line.contains("="):
-                do {
-//                    guard currentSection != nil, isCurrentSectionValid else {
-//                            if currentSection == nil {
-//                                throw MyError("Expected a section definition")
-//                            } else{
-//                                print("Skipping line because previous section was invalid: \(line)")
-//                                break
-//                            }
-//                        }
-                    if !isCurrentSectionValid, newSection {
-                        print("Skipping line because previous section was invalid: \(line)")
-                        break
-                    }
-                    guard currentSection != nil else {
-                        throw MyError("Expected a section definition")
-                    }
-                    //Identify properties under section
-                    let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                    let equalsIndex = line.firstIndex(of: "=")!
-                    let keyRange = line.startIndex..<equalsIndex
-                    let valueRange = line.index(after: equalsIndex)..<line.endIndex
-                    if components.count == 1{
-                        let commentPattern = " +[#;]"
-                        var propertyName: String!
-                        let key = line[keyRange]
-                        if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
-                            guard !key.isEmpty else {
-                                throw MyError("Property did not have a name")
-                            }
-                            propertyName = String(key.trimmingCharacters(in: .whitespaces))
-                            // Check for and remove the first comment character found
-                            if let commentRange = propertyName.range(of:commentPattern, options: .regularExpression) {
-                                propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
-                            }
-                            currentProperty = propertyName
-                            currentPropertyValue = nil
-                            currentSection?.properties[propertyName] = ""
-                            sections[currentSection!.name] = currentSection
-                            let subSectionName = String(propertyName)
-                            let subSection = ConfigFileSection(name: subSectionName)
-                            sections[subSectionName] = subSection
-                            currentSubSection = subSectionName
-                            print("Found new property key with no value: '\(subSectionName)' on line number: '\(currentLineNumber)', added to section: '\(currentSection!.name)' as a new subsection")
-                        } else if line.hasPrefix(" ") || line.hasPrefix("\t") {
-                            let subKey = key
-                            guard !subKey.isEmpty else {
-                                throw MyError("Property did not have a name")
-                            }
-                            propertyName = String(subKey.trimmingCharacters(in: .whitespaces))
-                            // Check for and remove the first comment character found
-                            if let commentRange = propertyName.range(of:commentPattern, options: .regularExpression) {
-                                propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
-                            }
-                            currentSection?.properties[currentProperty!] = nil
-                            currentSubProperty = propertyName //Start of a sub-property
-                            var subprops = currentSection?.subproperties ?? [String: [String: String]]()
-                            var subKeyValues = subprops[currentSubProperty!] ?? [String: String]()
-                            subKeyValues[propertyName] = "" // Add the blank value
-                            subprops[currentProperty!] = subKeyValues
-                            currentSection?.subproperties = subprops
-                            sections[currentSection!.name] = currentSection
-                            print("Found new sub-property key with no value: '\(currentSubProperty!)' on line number: '\(currentLineNumber)', added to section: '\(currentSection!.name)'")
-                        } else{
-                            throw MyError("Property did not have a name")
-                        }
-                        print("  The current section contains '\(currentSection!)'")
-                    } else if components.count == 2{
-                        // This handles properties key-value pairs within a section
-                        let key = String(line[keyRange].trimmingCharacters(in: .whitespaces).lowercased())
-                        var value = String(line[valueRange].trimmingCharacters(in: .whitespaces))
-                        let commentPattern = " +[#;]"
-                        if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
-                            if let commentRange = value.range(of:commentPattern, options: .regularExpression) {
-                                value = String(value[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
-                            }
-                            // key-value pair aren't indented
-                            currentSubSection = nil // End of subsection if no indent
-                            currentProperty = key
-                            currentPropertyValue = value
-                            currentSubProperty = value
-                            currentSection?.properties[key] = value
-                            sections[currentSection!.name] = currentSection
-                            print("  Added new property key and value '\(key)' = '\(value)' to section '\(currentSection!.name)'")
-                            print("  The current section contains '\(currentSection!)'")
-                        } else{
-                            // key-value pair are indented
-                            guard let currentSectionName = currentSection?.name,
-                                  let currentSubSectionName = currentSubSection,
-                                  !key.isEmpty else {
-                                throw MyError("Property did not have a name in sub-property")
-                            }
-                            currentSection?.properties[currentProperty!] = nil
-                            var subproperties = currentSection?.subproperties
-                            var subpropertyKeysAndValues = subproperties![currentSubSectionName] ?? [String: String]()
-                            subpropertyKeysAndValues[key] = value
-                            subproperties![currentSubSectionName] = subpropertyKeysAndValues
-                            currentSection?.subproperties = subproperties!
-                            sections[currentSectionName] = currentSection
-                            print("  Added sub-property key and value '\(key)' = '\(value)' under subsection '\(currentSubSectionName)' in section: \(currentSection!.name)")
-                            print("  The current section contains '\(currentSection!)'")
-                        }
-                    }
-            } catch let error as MyError {
-                print("Local Error: '\(error.localizedDescription)', in Property Case")
-                print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                currentSection = nil
-                isCurrentSectionValid = false
-                throw error
-            }
-                continue
-            case _ where !line.contains("=") && !line.hasPrefix("["):
-                do {
-                    guard currentSection != nil else{
-                        throw MyError("Expected a section definition")
-                    }
-                    if !isCurrentSectionValid {
-                            print("Skipping line because previous section was invalid")
-                            continue // Skip this line and move to the next iteration
-                        }
-                    if currentProperty != nil && currentPropertyValue != nil {
-                        guard let currentKeyPropertyName = currentSection?.properties.keys.first else {
-                            throw MyError("Property key did not have a name")
-                        }
-                        let components = String(line.trimmingCharacters(in: .whitespacesAndNewlines))
-                        let value = components
-                        if currentSection?.properties[currentKeyPropertyName] != nil {
-                            currentSection?.properties[currentKeyPropertyName]?.append("\n" + value)
-                            sections[currentSection!.name] = currentSection
-                        } else {
-                            currentSection?.properties[currentKeyPropertyName] = value
-                            sections[currentSection!.name] = currentSection
-                        }
-                        print("  Added new value '\(value)' to key '\(currentKeyPropertyName)' within section '\(currentSection!.name)'")
-                        print("  The current section contains '\(currentSection!)")
-                    } else if currentProperty == nil {
-                        if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
-                            throw MyError("Expected a property definition")
-                        }else {
-                            throw MyError("Expected a property definition, found continuation")
-                        }
-                    } else if currentPropertyValue == nil {
-                        throw MyError("Expected an '=' sign defining a property in sub-property")
-                    }
-                } catch let error as MyError {
-                    print("Local Error: '\(error.localizedDescription)', in Property Continuation Case ")
-                    print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                    throw error
+                if line.contains("["){
+                    newSection = true
                 }
-            default:
-                print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
-                do{
-                    if line.hasPrefix("["){
-                        guard line.hasSuffix("]") else{
-                            throw MyError("Section definition must end with ']'")
+                switch line{
+                case _ where definedSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                    if let sectionHeader = parseSectionHeader(from: String(line)) {
+                        if !handleNewSectionFound(name: sectionHeader.name, lineNumber: currentLineNumber) {
+                            continue
                         }
-                        break
-                    } else if line.contains("="){
-                        guard currentSection != nil, isCurrentSectionValid else{
+                    }
+                    continue
+                case _ where line.contains("="):
+                    do {
+                        if !isCurrentSectionValid, newSection {
+                            print("Skipping line because previous section was invalid: \(line)")
+                            break
+                        }
+                        guard currentSection != nil else {
                             throw MyError("Expected a section definition")
                         }
+                        
+                        let components = line.split(separator: "=", maxSplits: 1)
+                        let equalsIndex = line.firstIndex(of: "=")!
+                        let keyRange = line.startIndex..<equalsIndex
+                        let valueRange = line.index(after: equalsIndex)..<line.endIndex
+                        let key = cleanedValue(from: String(line[keyRange].lowercased()))
+                        let value = cleanedValue(from: String(line[valueRange]))
+                        
+                        guard !key.isEmpty else {
+                            throw MyError("Property did not have a name")
+                            }
+                        
+                        guard components.count == 2 else {
+                            // This path handles keys with no values (e.g., just `key=`)
+                            if isIndented(line: String(line)) {
+                                try handleSubProptertyKeyWithoutValue(key: key, lineNumber: currentLineNumber)
+                                } else {
+                                    try handleStandardKeyWithoutValue(key: key, lineNumber: currentLineNumber)
+                                        }
+                            continue
+                            }
+
+                        if isIndented(line: String(line)) {
+                            try handleSubProperty(key: key, value: value, lineNumber: currentLineNumber)
+                            } else {
+                                try handleStandardProperty(key: key, value: value, lineNumber: currentLineNumber)
+                                    }
+                                            
+                    } catch let error as MyError {
+                        print("Local Error: '\(error.localizedDescription)', in Property Case")
+                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
+                        currentSection = nil
+                        isCurrentSectionValid = false
+                        throw error
                     }
-                } catch let error as MyError{
-                    print("Default Local Error: '\(error.localizedDescription)")
-                    print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                    throw error
+                    continue
+                case _ where !line.contains("=") && !line.hasPrefix("["):
+                    do {
+                        let lineString = String(line)
+                                
+                        guard currentSection != nil else {
+                            throw MyError("Expected a section definition but found a value continuation on line: \(currentLineNumber)")
+                        }
+                                
+                        guard isCurrentSectionValid else {
+                            print("Skipping line because previous section was invalid: \(lineString)")
+                            continue
+                        }
+                        guard let currentPropKey = currentProperty else {
+                            // This happens if the continuation line is the very first line after a section header
+                            if isIndented(line: lineString) {
+                                throw MyError("Expected a property definition, found indented continuation on line: \(currentLineNumber)")
+                            } else {
+                                throw MyError("Expected a property definition on line: \(currentLineNumber)")
+                                }
+                            }
+                        guard currentPropertyValue != "" else {
+                            throw MyError("Expected an '=' sign defining a property in sub-property on line: \(currentLineNumber)")
+                        }
+                        try handleLineContinuation(forKey: currentPropKey, value: lineString)
+                        
+                    } catch let error as MyError {
+                        print("Local Error: '\(error.localizedDescription)', in Property Continuation Case ")
+                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
+                        throw error
+                    }
+                default:
+                    print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
+                    do{
+                        if line.hasPrefix("["){
+                            guard line.hasSuffix("]") else{
+                                throw MyError("Section definition must end with ']'")
+                            }
+                            break
+                        } else if line.contains("="){
+                            guard currentSection != nil, isCurrentSectionValid else{
+                                throw MyError("Expected a section definition")
+                            }
+                        }
+                    } catch let error as MyError{
+                        print("Default Local Error: '\(error.localizedDescription)")
+                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
+                        throw error
+                    }
                 }
             }
+            return ConfigFile(sections: sections)
         }
-        return ConfigFile(sections: sections)
-    }
+//        return ConfigFile(sections: sections)
+//    }
 }
 
 @_spi(FileBasedConfig)
@@ -377,3 +429,9 @@ struct MyError: Error {
         self.localizedDescription = msg
     }
 }
+
+struct ParsableFile {
+        let type: String
+        // The 'lines' property *is* an array of Substrings
+        let lines: [Substring]
+    }

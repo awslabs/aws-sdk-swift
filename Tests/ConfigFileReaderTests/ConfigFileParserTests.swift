@@ -61,7 +61,7 @@ class ConfigFileParserTests: XCTestCase {
         let allTests = try JSONDecoder().decode(ParserTests.self, from: testData)
 
         // Run each test
-        for test in allTests.tests.filter({ $0.name == "Invalid profile names are ignored." }){
+        for test in allTests.tests{
 
             // If config file contents were given, write them to a file on disk for use during the test.
             // If no config file contents were given, the file will not exist.
