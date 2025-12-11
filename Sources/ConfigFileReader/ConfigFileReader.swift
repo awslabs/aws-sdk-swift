@@ -52,9 +52,7 @@ public class ConfigFileReader {
         let regexPattern = "\\[\\s*(?:(default)|(profile)\\s+(.+?)|(sso-session)\\s+(.+?)|(services)\\s+(.+?))\\s*\\]"
         let commentPattern = " *[#;]"
             
-        guard line.range(of: regexPattern, options: .regularExpression) != nil else {
-                return nil
-            }
+        guard line.range(of: regexPattern, options: .regularExpression) != nil else { return nil }
         var content = String(line).dropFirst().dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
         
         if let commentRange = content.range(of:commentPattern, options: .regularExpression) {
@@ -64,6 +62,11 @@ public class ConfigFileReader {
         if content.hasSuffix("]"){
             content = String(content.dropLast())
         }
+        
+//        guard content.rangeOfCharacter(from: .whitespaces) == nil else {
+//            // If there's whitespace in the name, this header is invalid, so return nil
+//            return nil
+//        }
 
         if content == "default" {
             return (name: "default", type: "profile")
@@ -121,6 +124,8 @@ public class ConfigFileReader {
     }
     
     private func handleStandardProperty(key: String, value: String, lineNumber: Int) throws {
+            guard key.rangeOfCharacter(from: .whitespaces) == nil else { return }
+        
             guard let sectionName = currentSection?.name else { throw MyError("Expected a section definition") }
         
             currentProperty = key
@@ -213,7 +218,6 @@ public class ConfigFileReader {
         print("  Appended value '\(cleanedValue)' to key '\(key)' within section '\(sectionName)'")
     }
 
-    
     func config() throws -> FileBasedConfigurationSectionProviding? {
         
         // Use the helper function for the config file (which is mandatory)
