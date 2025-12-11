@@ -1474,6 +1474,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 public struct CreateApiInput: Swift.Sendable {
     /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    /// This member is required.
     public var eventConfig: AppSyncClientTypes.EventConfig?
     /// The name for the Api.
     /// This member is required.
@@ -5326,6 +5327,7 @@ public struct UpdateApiInput: Swift.Sendable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The new event configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    /// This member is required.
     public var eventConfig: AppSyncClientTypes.EventConfig?
     /// The name of the Api.
     /// This member is required.

@@ -352,6 +352,7 @@ extension BillingconductorClientTypes {
         case illegalAccounts
         case illegalAccountId
         case illegalBillingEntity
+        case illegalBillingGroupPricingPlan
         case illegalBillingGroupType
         case illegalBillingPeriod
         case illegalBillingPeriodRange
@@ -421,6 +422,7 @@ extension BillingconductorClientTypes {
                 .illegalAccounts,
                 .illegalAccountId,
                 .illegalBillingEntity,
+                .illegalBillingGroupPricingPlan,
                 .illegalBillingGroupType,
                 .illegalBillingPeriod,
                 .illegalBillingPeriodRange,
@@ -496,6 +498,7 @@ extension BillingconductorClientTypes {
             case .illegalAccounts: return "ILLEGAL_ACCOUNTS"
             case .illegalAccountId: return "ILLEGAL_ACCOUNT_ID"
             case .illegalBillingEntity: return "ILLEGAL_BILLING_ENTITY"
+            case .illegalBillingGroupPricingPlan: return "ILLEGAL_BILLING_GROUP_PRICING_PLAN"
             case .illegalBillingGroupType: return "ILLEGAL_BILLING_GROUP_TYPE"
             case .illegalBillingPeriod: return "ILLEGAL_BILLING_PERIOD"
             case .illegalBillingPeriodRange: return "ILLEGAL_BILLING_PERIOD_RANGE"
@@ -1370,11 +1373,13 @@ extension BillingconductorClientTypes {
 
     public enum LineItemFilterAttributeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lineItemType
+        case service
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LineItemFilterAttributeName] {
             return [
-                .lineItemType
+                .lineItemType,
+                .service
             ]
         }
 
@@ -1386,6 +1391,7 @@ extension BillingconductorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lineItemType: return "LINE_ITEM_TYPE"
+            case .service: return "SERVICE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1395,11 +1401,13 @@ extension BillingconductorClientTypes {
 extension BillingconductorClientTypes {
 
     public enum MatchOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equal
         case notEqual
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MatchOption] {
             return [
+                .equal,
                 .notEqual
             ]
         }
@@ -1411,6 +1419,7 @@ extension BillingconductorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .equal: return "EQUAL"
             case .notEqual: return "NOT_EQUAL"
             case let .sdkUnknown(s): return s
             }
@@ -1451,19 +1460,22 @@ extension BillingconductorClientTypes {
         /// The attribute of the line item filter. This specifies what attribute that you can filter on.
         /// This member is required.
         public var attribute: BillingconductorClientTypes.LineItemFilterAttributeName?
+        /// The values of the line item filter. This specifies the values to filter on.
+        public var attributeValues: [Swift.String]?
         /// The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost.
         /// This member is required.
         public var matchOption: BillingconductorClientTypes.MatchOption?
         /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plans discounts.
-        /// This member is required.
         public var values: [BillingconductorClientTypes.LineItemFilterValue]?
 
         public init(
             attribute: BillingconductorClientTypes.LineItemFilterAttributeName? = nil,
+            attributeValues: [Swift.String]? = nil,
             matchOption: BillingconductorClientTypes.MatchOption? = nil,
-            values: [BillingconductorClientTypes.LineItemFilterValue]? = nil
+            values: [BillingconductorClientTypes.LineItemFilterValue]? = []
         ) {
             self.attribute = attribute
+            self.attributeValues = attributeValues
             self.matchOption = matchOption
             self.values = values
         }
@@ -1552,11 +1564,13 @@ extension BillingconductorClientTypes {
     /// The display settings of the custom line item
     public enum ComputationRuleEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case consolidated
+        case itemized
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComputationRuleEnum] {
             return [
-                .consolidated
+                .consolidated,
+                .itemized
             ]
         }
 
@@ -1568,6 +1582,7 @@ extension BillingconductorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .consolidated: return "CONSOLIDATED"
+            case .itemized: return "ITEMIZED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5415,6 +5430,7 @@ extension BillingconductorClientTypes.LineItemFilter {
     static func write(value: BillingconductorClientTypes.LineItemFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Attribute"].write(value.attribute)
+        try writer["AttributeValues"].writeList(value.attributeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MatchOption"].write(value.matchOption)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BillingconductorClientTypes.LineItemFilterValue>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5425,6 +5441,7 @@ extension BillingconductorClientTypes.LineItemFilter {
         value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
         value.matchOption = try reader["MatchOption"].readIfPresent() ?? .sdkUnknown("")
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BillingconductorClientTypes.LineItemFilterValue>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

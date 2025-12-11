@@ -734,7 +734,7 @@ extension IVSRealTimeClientTypes {
 
     /// Object specifying a participant token in a stage. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
     public struct ParticipantToken: Swift.Sendable {
-        /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var attributes: [Swift.String: Swift.String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
@@ -2753,6 +2753,7 @@ extension IVSRealTimeClientTypes {
         case subscribeError
         case subscribeStarted
         case subscribeStopped
+        case tokenExchanged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventName] {
@@ -2767,7 +2768,8 @@ extension IVSRealTimeClientTypes {
                 .replicationStopped,
                 .subscribeError,
                 .subscribeStarted,
-                .subscribeStopped
+                .subscribeStopped,
+                .tokenExchanged
             ]
         }
 
@@ -2789,8 +2791,36 @@ extension IVSRealTimeClientTypes {
             case .subscribeError: return "SUBSCRIBE_ERROR"
             case .subscribeStarted: return "SUBSCRIBE_STARTED"
             case .subscribeStopped: return "SUBSCRIBE_STOPPED"
+            case .tokenExchanged: return "TOKEN_EXCHANGED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// Object specifying an exchanged participant token in a stage, created when an original participant token is updated. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
+    public struct ExchangedParticipantToken: Swift.Sendable {
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var attributes: [Swift.String: Swift.String]?
+        /// Set of capabilities that the user is allowed to perform in the stage.
+        public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
+        /// ISO 8601 timestamp (returned as a string) for when this token expires.
+        public var expirationTime: Foundation.Date?
+        /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var userId: Swift.String?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
+            expirationTime: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.capabilities = capabilities
+            self.expirationTime = expirationTime
+            self.userId = userId
         }
     }
 }
@@ -2837,8 +2867,12 @@ extension IVSRealTimeClientTypes {
         public var eventTime: Foundation.Date?
         /// The name of the event.
         public var name: IVSRealTimeClientTypes.EventName?
+        /// Participant token created during TOKEN_EXCHANGED event.
+        public var newToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the participant who triggered the event. This is assigned by IVS.
         public var participantId: Swift.String?
+        /// Source participant token for TOKEN_EXCHANGED event.
+        public var previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
         /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
@@ -2850,7 +2884,9 @@ extension IVSRealTimeClientTypes {
             errorCode: IVSRealTimeClientTypes.EventErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
             name: IVSRealTimeClientTypes.EventName? = nil,
+            newToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             participantId: Swift.String? = nil,
+            previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             remoteParticipantId: Swift.String? = nil,
             replica: Swift.Bool = false
         ) {
@@ -2859,7 +2895,9 @@ extension IVSRealTimeClientTypes {
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
+            self.newToken = newToken
             self.participantId = participantId
+            self.previousToken = previousToken
             self.remoteParticipantId = remoteParticipantId
             self.replica = replica
         }
@@ -6259,6 +6297,21 @@ extension IVSRealTimeClientTypes.Event {
         value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
         value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
         value.replica = try reader["replica"].readIfPresent() ?? false
+        value.previousToken = try reader["previousToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
+        value.newToken = try reader["newToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ExchangedParticipantToken {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ExchangedParticipantToken {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ExchangedParticipantToken()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.userId = try reader["userId"].readIfPresent()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

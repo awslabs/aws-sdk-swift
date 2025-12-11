@@ -2077,6 +2077,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var dataSources: [OpenSearchClientTypes.DataSource]?
     /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application.
+    public var kmsKeyArn: Swift.String?
     /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
     /// This member is required.
     public var name: Swift.String?
@@ -2088,6 +2090,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
     ) {
@@ -2095,6 +2098,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.clientToken = clientToken
         self.dataSources = dataSources
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.tagList = tagList
     }
@@ -2140,6 +2144,8 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
     /// The unique identifier assigned to the OpenSearch application.
     public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+    public var kmsKeyArn: Swift.String?
     /// The name of the OpenSearch application.
     public var name: Swift.String?
     /// A list of tags attached to a domain.
@@ -2152,6 +2158,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
         id: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
     ) {
@@ -2161,6 +2168,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         self.dataSources = dataSources
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.tagList = tagList
     }
@@ -7219,6 +7227,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
     /// The unique identifier of the OpenSearch application.
     public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+    public var kmsKeyArn: Swift.String?
     /// The timestamp of the last update to the OpenSearch application.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the OpenSearch application.
@@ -7234,6 +7244,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
         id: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: OpenSearchClientTypes.ApplicationStatus? = nil
@@ -7245,6 +7256,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
+        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.status = status
@@ -10663,6 +10675,7 @@ extension CreateApplicationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["tagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -11098,6 +11111,7 @@ extension CreateApplicationOutput {
         value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -11507,6 +11521,7 @@ extension GetApplicationOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
