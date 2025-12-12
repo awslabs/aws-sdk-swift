@@ -64,7 +64,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ManagedBlockchainQueryClient: AWSClientRuntime.AWSServiceClient {
+public class ManagedBlockchainQueryClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ManagedBlockchainQueryClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
@@ -88,7 +88,7 @@ public class ManagedBlockchainQueryClient: AWSClientRuntime.AWSServiceClient {
 
 extension ManagedBlockchainQueryClient {
 
-    public class ManagedBlockchainQueryClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class ManagedBlockchainQueryClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

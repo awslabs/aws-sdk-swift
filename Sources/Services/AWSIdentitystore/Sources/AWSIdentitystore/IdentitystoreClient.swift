@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IdentitystoreClient: AWSClientRuntime.AWSServiceClient {
+public class IdentitystoreClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "IdentitystoreClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IdentitystoreClient.IdentitystoreClientConfiguration
@@ -91,7 +91,7 @@ public class IdentitystoreClient: AWSClientRuntime.AWSServiceClient {
 
 extension IdentitystoreClient {
 
-    public class IdentitystoreClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class IdentitystoreClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

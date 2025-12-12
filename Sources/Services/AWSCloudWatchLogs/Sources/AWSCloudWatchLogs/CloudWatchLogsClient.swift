@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient {
+public class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CloudWatchLogsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchLogsClient.CloudWatchLogsClientConfiguration
@@ -90,7 +90,7 @@ public class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient {
 
 extension CloudWatchLogsClient {
 
-    public class CloudWatchLogsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class CloudWatchLogsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

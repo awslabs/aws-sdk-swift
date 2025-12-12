@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MarketplaceCatalogClient: AWSClientRuntime.AWSServiceClient {
+public class MarketplaceCatalogClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "MarketplaceCatalogClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceCatalogClient.MarketplaceCatalogClientConfiguration
@@ -91,7 +91,7 @@ public class MarketplaceCatalogClient: AWSClientRuntime.AWSServiceClient {
 
 extension MarketplaceCatalogClient {
 
-    public class MarketplaceCatalogClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class MarketplaceCatalogClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

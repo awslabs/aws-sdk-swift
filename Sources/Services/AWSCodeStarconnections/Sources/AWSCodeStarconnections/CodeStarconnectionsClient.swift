@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeStarconnectionsClient: AWSClientRuntime.AWSServiceClient {
+public class CodeStarconnectionsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CodeStarconnectionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeStarconnectionsClient.CodeStarconnectionsClientConfiguration
@@ -89,7 +89,7 @@ public class CodeStarconnectionsClient: AWSClientRuntime.AWSServiceClient {
 
 extension CodeStarconnectionsClient {
 
-    public class CodeStarconnectionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class CodeStarconnectionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

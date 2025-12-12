@@ -78,7 +78,7 @@ extension DefaultEndpointResolver {
     }
 }
 
-extension DefaultEndpointResolver: EndpointResolver {}
+extension DefaultEndpointResolver: EndpointResolver where Params == EndpointParams {}
 
 typealias StaticEndpointResolver = ClientRuntime.StaticEndpointResolver<EndpointParams>
 

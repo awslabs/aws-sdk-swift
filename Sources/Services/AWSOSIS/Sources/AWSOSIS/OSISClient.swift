@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OSISClient: AWSClientRuntime.AWSServiceClient {
+public class OSISClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "OSISClient"
     let client: ClientRuntime.SdkHttpClient
     let config: OSISClient.OSISClientConfiguration
@@ -89,7 +89,7 @@ public class OSISClient: AWSClientRuntime.AWSServiceClient {
 
 extension OSISClient {
 
-    public class OSISClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class OSISClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

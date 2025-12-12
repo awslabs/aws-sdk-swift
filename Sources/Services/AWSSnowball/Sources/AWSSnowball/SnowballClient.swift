@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SnowballClient: AWSClientRuntime.AWSServiceClient {
+public class SnowballClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SnowballClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SnowballClient.SnowballClientConfiguration
@@ -90,7 +90,7 @@ public class SnowballClient: AWSClientRuntime.AWSServiceClient {
 
 extension SnowballClient {
 
-    public class SnowballClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SnowballClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

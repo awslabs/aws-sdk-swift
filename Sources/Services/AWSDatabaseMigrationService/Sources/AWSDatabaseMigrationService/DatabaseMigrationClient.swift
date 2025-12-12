@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient {
+public class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "DatabaseMigrationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DatabaseMigrationClient.DatabaseMigrationClientConfiguration
@@ -90,7 +90,7 @@ public class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient {
 
 extension DatabaseMigrationClient {
 
-    public class DatabaseMigrationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class DatabaseMigrationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

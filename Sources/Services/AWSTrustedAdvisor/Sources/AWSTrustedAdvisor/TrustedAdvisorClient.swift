@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TrustedAdvisorClient: AWSClientRuntime.AWSServiceClient {
+public class TrustedAdvisorClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "TrustedAdvisorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TrustedAdvisorClient.TrustedAdvisorClientConfiguration
@@ -90,7 +90,7 @@ public class TrustedAdvisorClient: AWSClientRuntime.AWSServiceClient {
 
 extension TrustedAdvisorClient {
 
-    public class TrustedAdvisorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class TrustedAdvisorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

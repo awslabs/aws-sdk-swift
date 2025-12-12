@@ -69,7 +69,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MedicalImagingClient: AWSClientRuntime.AWSServiceClient {
+public class MedicalImagingClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "MedicalImagingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
@@ -93,7 +93,7 @@ public class MedicalImagingClient: AWSClientRuntime.AWSServiceClient {
 
 extension MedicalImagingClient {
 
-    public class MedicalImagingClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class MedicalImagingClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

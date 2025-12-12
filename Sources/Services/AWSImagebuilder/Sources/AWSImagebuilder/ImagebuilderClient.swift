@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ImagebuilderClient: AWSClientRuntime.AWSServiceClient {
+public class ImagebuilderClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ImagebuilderClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ImagebuilderClient.ImagebuilderClientConfiguration
@@ -91,7 +91,7 @@ public class ImagebuilderClient: AWSClientRuntime.AWSServiceClient {
 
 extension ImagebuilderClient {
 
-    public class ImagebuilderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class ImagebuilderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

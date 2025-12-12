@@ -64,7 +64,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SNSClient: AWSClientRuntime.AWSServiceClient {
+public class SNSClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SNSClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SNSClient.SNSClientConfiguration
@@ -88,7 +88,7 @@ public class SNSClient: AWSClientRuntime.AWSServiceClient {
 
 extension SNSClient {
 
-    public class SNSClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SNSClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

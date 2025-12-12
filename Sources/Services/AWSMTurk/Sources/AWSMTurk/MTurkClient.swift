@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MTurkClient: AWSClientRuntime.AWSServiceClient {
+public class MTurkClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "MTurkClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MTurkClient.MTurkClientConfiguration
@@ -90,7 +90,7 @@ public class MTurkClient: AWSClientRuntime.AWSServiceClient {
 
 extension MTurkClient {
 
-    public class MTurkClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class MTurkClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

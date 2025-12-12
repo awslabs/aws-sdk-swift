@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BedrockAgentRuntimeClient: AWSClientRuntime.AWSServiceClient {
+public class BedrockAgentRuntimeClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BedrockAgentRuntimeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
@@ -91,7 +91,7 @@ public class BedrockAgentRuntimeClient: AWSClientRuntime.AWSServiceClient {
 
 extension BedrockAgentRuntimeClient {
 
-    public class BedrockAgentRuntimeClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class BedrockAgentRuntimeClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

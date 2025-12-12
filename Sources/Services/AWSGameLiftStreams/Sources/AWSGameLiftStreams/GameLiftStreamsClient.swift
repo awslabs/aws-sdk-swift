@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GameLiftStreamsClient: AWSClientRuntime.AWSServiceClient {
+public class GameLiftStreamsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "GameLiftStreamsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GameLiftStreamsClient.GameLiftStreamsClientConfiguration
@@ -91,7 +91,7 @@ public class GameLiftStreamsClient: AWSClientRuntime.AWSServiceClient {
 
 extension GameLiftStreamsClient {
 
-    public class GameLiftStreamsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class GameLiftStreamsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

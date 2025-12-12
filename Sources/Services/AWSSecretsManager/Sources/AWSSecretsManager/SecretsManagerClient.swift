@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecretsManagerClient: AWSClientRuntime.AWSServiceClient {
+public class SecretsManagerClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SecretsManagerClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SecretsManagerClient.SecretsManagerClientConfiguration
@@ -91,7 +91,7 @@ public class SecretsManagerClient: AWSClientRuntime.AWSServiceClient {
 
 extension SecretsManagerClient {
 
-    public class SecretsManagerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SecretsManagerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

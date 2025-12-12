@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeGuruReviewerClient: AWSClientRuntime.AWSServiceClient {
+public class CodeGuruReviewerClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CodeGuruReviewerClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration
@@ -90,7 +90,7 @@ public class CodeGuruReviewerClient: AWSClientRuntime.AWSServiceClient {
 
 extension CodeGuruReviewerClient {
 
-    public class CodeGuruReviewerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class CodeGuruReviewerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

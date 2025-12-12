@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTJobsDataPlaneClient: AWSClientRuntime.AWSServiceClient {
+public class IoTJobsDataPlaneClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "IoTJobsDataPlaneClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
@@ -90,7 +90,7 @@ public class IoTJobsDataPlaneClient: AWSClientRuntime.AWSServiceClient {
 
 extension IoTJobsDataPlaneClient {
 
-    public class IoTJobsDataPlaneClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class IoTJobsDataPlaneClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

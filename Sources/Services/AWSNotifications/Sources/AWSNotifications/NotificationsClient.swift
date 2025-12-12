@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NotificationsClient: AWSClientRuntime.AWSServiceClient {
+public class NotificationsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "NotificationsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsClient.NotificationsClientConfiguration
@@ -90,7 +90,7 @@ public class NotificationsClient: AWSClientRuntime.AWSServiceClient {
 
 extension NotificationsClient {
 
-    public class NotificationsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class NotificationsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

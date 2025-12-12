@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkspacesInstancesClient: AWSClientRuntime.AWSServiceClient {
+public class WorkspacesInstancesClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "WorkspacesInstancesClient"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkspacesInstancesClient.WorkspacesInstancesClientConfiguration
@@ -90,7 +90,7 @@ public class WorkspacesInstancesClient: AWSClientRuntime.AWSServiceClient {
 
 extension WorkspacesInstancesClient {
 
-    public class WorkspacesInstancesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class WorkspacesInstancesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

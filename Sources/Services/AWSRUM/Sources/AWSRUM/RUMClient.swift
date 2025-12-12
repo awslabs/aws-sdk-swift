@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RUMClient: AWSClientRuntime.AWSServiceClient {
+public class RUMClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "RUMClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RUMClient.RUMClientConfiguration
@@ -89,7 +89,7 @@ public class RUMClient: AWSClientRuntime.AWSServiceClient {
 
 extension RUMClient {
 
-    public class RUMClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class RUMClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LakeFormationClient: AWSClientRuntime.AWSServiceClient {
+public class LakeFormationClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "LakeFormationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LakeFormationClient.LakeFormationClientConfiguration
@@ -90,7 +90,7 @@ public class LakeFormationClient: AWSClientRuntime.AWSServiceClient {
 
 extension LakeFormationClient {
 
-    public class LakeFormationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class LakeFormationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

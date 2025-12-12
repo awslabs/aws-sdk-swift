@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
+public class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "KinesisVideoMediaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration
@@ -89,7 +89,7 @@ public class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
 
 extension KinesisVideoMediaClient {
 
-    public class KinesisVideoMediaClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class KinesisVideoMediaClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

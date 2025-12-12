@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BatchClient: AWSClientRuntime.AWSServiceClient {
+public class BatchClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BatchClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BatchClient.BatchClientConfiguration
@@ -90,7 +90,7 @@ public class BatchClient: AWSClientRuntime.AWSServiceClient {
 
 extension BatchClient {
 
-    public class BatchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class BatchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PinpointEmailClient: AWSClientRuntime.AWSServiceClient {
+public class PinpointEmailClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "PinpointEmailClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointEmailClient.PinpointEmailClientConfiguration
@@ -90,7 +90,7 @@ public class PinpointEmailClient: AWSClientRuntime.AWSServiceClient {
 
 extension PinpointEmailClient {
 
-    public class PinpointEmailClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class PinpointEmailClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

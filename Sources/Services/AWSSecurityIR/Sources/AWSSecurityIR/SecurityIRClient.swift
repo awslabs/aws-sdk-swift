@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecurityIRClient: AWSClientRuntime.AWSServiceClient {
+public class SecurityIRClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SecurityIRClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityIRClient.SecurityIRClientConfiguration
@@ -91,7 +91,7 @@ public class SecurityIRClient: AWSClientRuntime.AWSServiceClient {
 
 extension SecurityIRClient {
 
-    public class SecurityIRClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SecurityIRClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

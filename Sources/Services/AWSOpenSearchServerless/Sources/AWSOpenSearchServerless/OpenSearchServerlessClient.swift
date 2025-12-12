@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OpenSearchServerlessClient: AWSClientRuntime.AWSServiceClient {
+public class OpenSearchServerlessClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "OpenSearchServerlessClient"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration
@@ -91,7 +91,7 @@ public class OpenSearchServerlessClient: AWSClientRuntime.AWSServiceClient {
 
 extension OpenSearchServerlessClient {
 
-    public class OpenSearchServerlessClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class OpenSearchServerlessClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

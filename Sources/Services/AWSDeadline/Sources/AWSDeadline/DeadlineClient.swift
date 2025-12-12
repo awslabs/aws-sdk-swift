@@ -69,7 +69,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DeadlineClient: AWSClientRuntime.AWSServiceClient {
+public class DeadlineClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "DeadlineClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DeadlineClient.DeadlineClientConfiguration
@@ -93,7 +93,7 @@ public class DeadlineClient: AWSClientRuntime.AWSServiceClient {
 
 extension DeadlineClient {
 
-    public class DeadlineClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class DeadlineClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

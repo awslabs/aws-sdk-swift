@@ -64,7 +64,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PersonalizeEventsClient: AWSClientRuntime.AWSServiceClient {
+public class PersonalizeEventsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "PersonalizeEventsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
@@ -88,7 +88,7 @@ public class PersonalizeEventsClient: AWSClientRuntime.AWSServiceClient {
 
 extension PersonalizeEventsClient {
 
-    public class PersonalizeEventsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class PersonalizeEventsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

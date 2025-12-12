@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IotDeviceAdvisorClient: AWSClientRuntime.AWSServiceClient {
+public class IotDeviceAdvisorClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "IotDeviceAdvisorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfiguration
@@ -91,7 +91,7 @@ public class IotDeviceAdvisorClient: AWSClientRuntime.AWSServiceClient {
 
 extension IotDeviceAdvisorClient {
 
-    public class IotDeviceAdvisorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class IotDeviceAdvisorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

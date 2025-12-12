@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WAFRegionalClient: AWSClientRuntime.AWSServiceClient {
+public class WAFRegionalClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "WAFRegionalClient"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFRegionalClient.WAFRegionalClientConfiguration
@@ -89,7 +89,7 @@ public class WAFRegionalClient: AWSClientRuntime.AWSServiceClient {
 
 extension WAFRegionalClient {
 
-    public class WAFRegionalClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class WAFRegionalClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -69,7 +69,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudFrontKeyValueStoreClient: AWSClientRuntime.AWSServiceClient {
+public class CloudFrontKeyValueStoreClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CloudFrontKeyValueStoreClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
@@ -93,7 +93,7 @@ public class CloudFrontKeyValueStoreClient: AWSClientRuntime.AWSServiceClient {
 
 extension CloudFrontKeyValueStoreClient {
 
-    public class CloudFrontKeyValueStoreClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class CloudFrontKeyValueStoreClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

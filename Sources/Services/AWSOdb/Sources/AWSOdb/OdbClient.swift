@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OdbClient: AWSClientRuntime.AWSServiceClient {
+public class OdbClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "OdbClient"
     let client: ClientRuntime.SdkHttpClient
     let config: OdbClient.OdbClientConfiguration
@@ -90,7 +90,7 @@ public class OdbClient: AWSClientRuntime.AWSServiceClient {
 
 extension OdbClient {
 
-    public class OdbClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class OdbClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

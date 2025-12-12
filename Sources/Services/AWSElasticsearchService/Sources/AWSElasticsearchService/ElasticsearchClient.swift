@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticsearchClient: AWSClientRuntime.AWSServiceClient {
+public class ElasticsearchClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ElasticsearchClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticsearchClient.ElasticsearchClientConfiguration
@@ -89,7 +89,7 @@ public class ElasticsearchClient: AWSClientRuntime.AWSServiceClient {
 
 extension ElasticsearchClient {
 
-    public class ElasticsearchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class ElasticsearchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

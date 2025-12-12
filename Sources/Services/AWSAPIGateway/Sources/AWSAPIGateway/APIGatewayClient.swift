@@ -70,7 +70,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class APIGatewayClient: AWSClientRuntime.AWSServiceClient {
+public class APIGatewayClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "APIGatewayClient"
     let client: ClientRuntime.SdkHttpClient
     let config: APIGatewayClient.APIGatewayClientConfiguration
@@ -94,7 +94,7 @@ public class APIGatewayClient: AWSClientRuntime.AWSServiceClient {
 
 extension APIGatewayClient {
 
-    public class APIGatewayClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class APIGatewayClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

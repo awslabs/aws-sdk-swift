@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSServiceClient {
+public class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ComputeOptimizerAutomationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfiguration
@@ -91,7 +91,7 @@ public class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSServiceClient
 
 extension ComputeOptimizerAutomationClient {
 
-    public class ComputeOptimizerAutomationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class ComputeOptimizerAutomationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

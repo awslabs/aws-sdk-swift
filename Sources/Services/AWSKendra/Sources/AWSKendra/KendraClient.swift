@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KendraClient: AWSClientRuntime.AWSServiceClient {
+public class KendraClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "KendraClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraClient.KendraClientConfiguration
@@ -91,7 +91,7 @@ public class KendraClient: AWSClientRuntime.AWSServiceClient {
 
 extension KendraClient {
 
-    public class KendraClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class KendraClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

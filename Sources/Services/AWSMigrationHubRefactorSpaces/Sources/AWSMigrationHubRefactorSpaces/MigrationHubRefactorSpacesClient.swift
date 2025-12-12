@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MigrationHubRefactorSpacesClient: AWSClientRuntime.AWSServiceClient {
+public class MigrationHubRefactorSpacesClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "MigrationHubRefactorSpacesClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubRefactorSpacesClient.MigrationHubRefactorSpacesClientConfiguration
@@ -91,7 +91,7 @@ public class MigrationHubRefactorSpacesClient: AWSClientRuntime.AWSServiceClient
 
 extension MigrationHubRefactorSpacesClient {
 
-    public class MigrationHubRefactorSpacesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class MigrationHubRefactorSpacesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

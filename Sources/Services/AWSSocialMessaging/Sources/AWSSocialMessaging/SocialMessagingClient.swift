@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SocialMessagingClient: AWSClientRuntime.AWSServiceClient {
+public class SocialMessagingClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SocialMessagingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration
@@ -90,7 +90,7 @@ public class SocialMessagingClient: AWSClientRuntime.AWSServiceClient {
 
 extension SocialMessagingClient {
 
-    public class SocialMessagingClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SocialMessagingClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeCommitClient: AWSClientRuntime.AWSServiceClient {
+public class CodeCommitClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CodeCommitClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCommitClient.CodeCommitClientConfiguration
@@ -91,7 +91,7 @@ public class CodeCommitClient: AWSClientRuntime.AWSServiceClient {
 
 extension CodeCommitClient {
 
-    public class CodeCommitClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class CodeCommitClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
