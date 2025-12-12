@@ -2328,12 +2328,7 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentityAPI,
                 .SmithyHTTPAPI,
                 .AWSSDKCommon,
-                "InternalAWSSTS",
-                "InternalAWSSSO",
-                "InternalAWSSSOOIDC",
-                "InternalAWSCognitoIdentity",
-                "InternalAWSSignin"
-            ],
+            ] + internalClientDependencies,
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
         .target(
@@ -2351,6 +2346,10 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
     ] + internalServiceTargets
+}
+
+private var internalClientDependencies: [Target.Dependency] {
+    serviceClientData.filter { $0.serviceType == .internalUse }.map { .byNameItem(name: $0.name, condition: nil) }
 }
 
 private var internalServiceTargets: [Target] {
