@@ -6097,7 +6097,13 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDashboardSnapshotJob` operation on the `QuickSight` service.
     ///
-    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
+    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus. Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenarios:
+    ///
+    /// * The credentials have expired.
+    ///
+    /// * Job has been started by a different user.
+    ///
+    /// * Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobInput`)
     ///
@@ -6166,7 +6172,31 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDashboardSnapshotJobResult` operation on the `QuickSight` service.
     ///
-    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state..
+    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state.. Registered user support This API can be called as before to get the result of a job started by the same Quick Sight user. The result for the user will be returned in RegisteredUsers response attribute. The attribute will contain a list with at most one object in it. Possible error scenarios The request fails with an Access Denied error in the following scenarios:
+    ///
+    /// * The credentials have expired.
+    ///
+    /// * The job was started by a different user.
+    ///
+    /// * The registered user doesn't have access to the specified dashboard.
+    ///
+    ///
+    /// The request succeeds but the job fails in the following scenarios:
+    ///
+    /// * DASHBOARD_ACCESS_DENIED - The registered user lost access to the dashboard.
+    ///
+    /// * CAPABILITY_RESTRICTED - The registered user is restricted from exporting data in all selected formats.
+    ///
+    ///
+    /// The request succeeds but the response contains an error code in the following scenarios:
+    ///
+    /// * CAPABILITY_RESTRICTED - The registered user is restricted from exporting data in some selected formats.
+    ///
+    /// * RLS_CHANGED - Row-level security settings have changed. Re-run the job with current settings.
+    ///
+    /// * CLS_CHANGED - Column-level security settings have changed. Re-run the job with current settings.
+    ///
+    /// * DATASET_DELETED - The dataset has been deleted. Verify the dataset exists before re-running the job.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobResultInput`)
     ///
@@ -9082,6 +9112,95 @@ extension QuickSightClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFlowPermissions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIdentityContext` operation on the `QuickSight` service.
+    ///
+    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Credentials
+    ///
+    /// * [StartDashboardSnapshotJob](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_StartDashboardSnapshotJob.html)
+    ///
+    /// * [DescribeDashboardSnapshotJob](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJob.html)
+    ///
+    /// * [DescribeDashboardSnapshotJobResult](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJobResult.html)
+    ///
+    ///
+    /// Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory users. For Quick Sight users authenticated by Amazon Web Services Identity Center, see [Identity Center documentation on identity-enhanced IAM role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). Getting Identity-Enhanced Credentials To obtain identity-enhanced credentials, follow these steps:
+    ///
+    /// * Call the GetIdentityContext API to retrieve an identity token for the specified user.
+    ///
+    /// * Use the identity token with the [STS AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) to obtain identity-enhanced IAM role session credentials.
+    ///
+    ///
+    /// Usage with STS AssumeRole The identity token returned by this API should be used with the STS AssumeRole API to obtain credentials for an identity-enhanced IAM role session. When calling AssumeRole, include the identity token in the ProvidedContexts parameter with ProviderArn set to arn:aws:iam::aws:contextProvider/QuickSight and ContextAssertion set to the identity token received from this API. The assumed role must allow the sts:SetContext action in addition to sts:AssumeRole in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
+    ///
+    /// - Parameter input: ///////////////////////// ///////////////////////// (Type: `GetIdentityContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIdentityContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func getIdentityContext(input: GetIdentityContextInput) async throws -> GetIdentityContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityContextInput, GetIdentityContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(GetIdentityContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityContextInput, GetIdentityContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityContextOutput>(GetIdentityContextOutput.httpOutput(from:), GetIdentityContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityContext")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -12864,6 +12983,38 @@ extension QuickSightClient {
     /// * The number of formats and snapshots that are requested in the job configuration.
     ///
     /// * The size of the generated snapshots.
+    ///
+    ///
+    /// Registered user support You can generate snapshots for registered Quick Sight users by using the Snapshot Job APIs with [identity-enhanced IAM role session credentials](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). This approach allows you to create snapshots on behalf of specific Quick Sight users while respecting their row-level security (RLS), column-level security (CLS), dynamic default parameters and dashboard parameter/filter settings. To generate snapshots for registered Quick Sight users, you need to:
+    ///
+    /// * Obtain identity-enhanced IAM role session credentials from AWS Security Token Service (STS).
+    ///
+    /// * Use these credentials to call the Snapshot Job APIs.
+    ///
+    ///
+    /// Identity-enhanced credentials are credentials that contain information about the end user (e.g., registered Quick Sight user). If your Quick Sight users are backed by [AWS Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html), then you need to set up a [trusted token issuer](https://docs.aws.amazon.com/singlesignon/latest/userguide/setuptrustedtokenissuer.html). Then, getting identity-enhanced IAM credentials for a Quick Sight user will look like the following:
+    ///
+    /// * Authenticate user with your OIDC compliant Identity Provider. You should get auth tokens back.
+    ///
+    /// * Use the OIDC API, [CreateTokenWithIAM](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateTokenWithIAM.html), to exchange auth tokens to IAM tokens. One of the resulted tokens will be identity token.
+    ///
+    /// * Call STS AssumeRole API as you normally would, but provide an extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/IdentityCenter while ContextAssertion will be the identity token you received in response from CreateTokenWithIAM
+    ///
+    ///
+    /// For more details, see [IdC documentation on Identity-enhanced IAM role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). To obtain Identity-enhanced credentials for Quick Sight native users, IAM federated users, or Active Directory users, follow the steps below:
+    ///
+    /// * Call Quick Sight [GetIdentityContext API](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetIdentityContext.html) to get identity token.
+    ///
+    /// * Call STS AssumeRole API as you normally would, but provide extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/QuickSight while ContextAssertion will be the identity token you received in response from GetIdentityContext
+    ///
+    ///
+    /// After obtaining the identity-enhanced IAM role session credentials, you can use them to start a job, describe the job and describe job result. You can use the same credentials as long as they haven't expired. All API requests made with these credentials are considered to be made by the impersonated Quick Sight user. When using identity-enhanced session credentials, set the UserConfiguration request attribute to null. Otherwise, the request will be invalid. Possible error scenarios The request fails with an Access Denied error in the following scenarios:
+    ///
+    /// * The credentials have expired.
+    ///
+    /// * The impersonated Quick Sight user doesn't have access to the specified dashboard.
+    ///
+    /// * The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see [Customizing access to Amazon Quick Sight capabilities](https://docs.aws.amazon.com/quicksuite/latest/userguide/create-custom-permisions-profile.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDashboardSnapshotJobInput`)
     ///
