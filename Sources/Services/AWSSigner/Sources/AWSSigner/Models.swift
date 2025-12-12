@@ -228,7 +228,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct AddProfilePermissionInput: Swift.Sendable {
-    /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see [Using cross-account signing with signing profiles](https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html) in the AWS Signer Developer Guide. You can designate the following actions to an account.
+    /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see [Using cross-account signing with signing profiles](http://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html) in the AWS Signer Developer Guide. You can designate the following actions to an account.
     ///
     /// * signer:StartSigningJob. This action isn't supported for container image workflows. For details, see [StartSigningJob].
     ///

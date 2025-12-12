@@ -1079,6 +1079,41 @@ extension GetSecretValueOutput: Swift.CustomDebugStringConvertible {
 
 extension SecretsManagerClientTypes {
 
+    public enum SortByType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createdDate
+        case lastAccessedDate
+        case lastChangedDate
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortByType] {
+            return [
+                .createdDate,
+                .lastAccessedDate,
+                .lastChangedDate,
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdDate: return "created-date"
+            case .lastAccessedDate: return "last-accessed-date"
+            case .lastChangedDate: return "last-changed-date"
+            case .name: return "name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecretsManagerClientTypes {
+
     public enum SortOrderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asc
         case desc
@@ -1115,6 +1150,8 @@ public struct ListSecretsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecrets again with this value.
     public var nextToken: Swift.String?
+    /// If not specified, secrets are listed by CreatedDate.
+    public var sortBy: SecretsManagerClientTypes.SortByType?
     /// Secrets are listed by CreatedDate.
     public var sortOrder: SecretsManagerClientTypes.SortOrderType?
 
@@ -1123,12 +1160,14 @@ public struct ListSecretsInput: Swift.Sendable {
         includePlannedDeletion: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        sortBy: SecretsManagerClientTypes.SortByType? = nil,
         sortOrder: SecretsManagerClientTypes.SortOrderType? = nil
     ) {
         self.filters = filters
         self.includePlannedDeletion = includePlannedDeletion
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.sortBy = sortBy
         self.sortOrder = sortOrder
     }
 }
@@ -2084,6 +2123,7 @@ extension ListSecretsInput {
         try writer["IncludePlannedDeletion"].write(value.includePlannedDeletion)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
     }
 }

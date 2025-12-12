@@ -2959,6 +2959,12 @@ extension SESv2ClientTypes {
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
+        /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+        ///     selector2._domainkey.yourdomain.com CNAME selector2.
+        ///
+        ///
+        ///     selector3._domainkey.yourdomain.com CNAME selector3.
+        public var signingHostedZone: Swift.String?
         /// Describes whether or not Amazon SES has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:
         ///
         /// * PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.
@@ -2980,6 +2986,7 @@ extension SESv2ClientTypes {
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil,
             signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil,
             signingEnabled: Swift.Bool = false,
+            signingHostedZone: Swift.String? = nil,
             status: SESv2ClientTypes.DkimStatus? = nil,
             tokens: [Swift.String]? = nil
         ) {
@@ -2988,6 +2995,7 @@ extension SESv2ClientTypes {
             self.nextSigningKeyLength = nextSigningKeyLength
             self.signingAttributesOrigin = signingAttributesOrigin
             self.signingEnabled = signingEnabled
+            self.signingHostedZone = signingHostedZone
             self.status = status
             self.tokens = tokens
         }
@@ -8171,13 +8179,21 @@ public struct PutEmailIdentityDkimSigningAttributesOutput: Swift.Sendable {
     public var dkimStatus: SESv2ClientTypes.DkimStatus?
     /// If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector that's associated with your public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
     public var dkimTokens: [Swift.String]?
+    /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+    ///     selector2._domainkey.yourdomain.com CNAME selector2.
+    ///
+    ///
+    ///     selector3._domainkey.yourdomain.com CNAME selector3.
+    public var signingHostedZone: Swift.String?
 
     public init(
         dkimStatus: SESv2ClientTypes.DkimStatus? = nil,
-        dkimTokens: [Swift.String]? = nil
+        dkimTokens: [Swift.String]? = nil,
+        signingHostedZone: Swift.String? = nil
     ) {
         self.dkimStatus = dkimStatus
         self.dkimTokens = dkimTokens
+        self.signingHostedZone = signingHostedZone
     }
 }
 
@@ -11607,6 +11623,7 @@ extension PutEmailIdentityDkimSigningAttributesOutput {
         var value = PutEmailIdentityDkimSigningAttributesOutput()
         value.dkimStatus = try reader["DkimStatus"].readIfPresent()
         value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
         return value
     }
 }
@@ -13732,6 +13749,7 @@ extension SESv2ClientTypes.DkimAttributes {
         value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
         value.status = try reader["Status"].readIfPresent()
         value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
         value.signingAttributesOrigin = try reader["SigningAttributesOrigin"].readIfPresent()
         value.nextSigningKeyLength = try reader["NextSigningKeyLength"].readIfPresent()
         value.currentSigningKeyLength = try reader["CurrentSigningKeyLength"].readIfPresent()
