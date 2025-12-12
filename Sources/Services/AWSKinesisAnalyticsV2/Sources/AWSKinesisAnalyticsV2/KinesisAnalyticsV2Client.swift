@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisAnalyticsV2Client: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class KinesisAnalyticsV2Client: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "KinesisAnalyticsV2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration
@@ -90,7 +90,7 @@ public class KinesisAnalyticsV2Client: AWSClientRuntime.AWSServiceClient, Sendab
 
 extension KinesisAnalyticsV2Client {
 
-    public class KinesisAnalyticsV2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class KinesisAnalyticsV2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

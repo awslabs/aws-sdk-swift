@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ARCRegionswitchClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration
@@ -91,7 +91,7 @@ public class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient, Sendable 
 
 extension ARCRegionswitchClient {
 
-    public class ARCRegionswitchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ARCRegionswitchClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

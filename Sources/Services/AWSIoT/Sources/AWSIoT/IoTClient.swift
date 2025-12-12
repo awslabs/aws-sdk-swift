@@ -69,7 +69,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class IoTClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "IoTClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTClient.IoTClientConfiguration
@@ -93,7 +93,7 @@ public class IoTClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension IoTClient {
 
-    public class IoTClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class IoTClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

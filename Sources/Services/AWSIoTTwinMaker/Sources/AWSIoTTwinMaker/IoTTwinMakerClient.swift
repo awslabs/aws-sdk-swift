@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTTwinMakerClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class IoTTwinMakerClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "IoTTwinMakerClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTTwinMakerClient.IoTTwinMakerClientConfiguration
@@ -90,7 +90,7 @@ public class IoTTwinMakerClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension IoTTwinMakerClient {
 
-    public class IoTTwinMakerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class IoTTwinMakerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NetworkFlowMonitorClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class NetworkFlowMonitorClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "NetworkFlowMonitorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFlowMonitorClient.NetworkFlowMonitorClientConfiguration
@@ -91,7 +91,7 @@ public class NetworkFlowMonitorClient: AWSClientRuntime.AWSServiceClient, Sendab
 
 extension NetworkFlowMonitorClient {
 
-    public class NetworkFlowMonitorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class NetworkFlowMonitorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

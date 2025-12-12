@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3VectorsClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class S3VectorsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "S3VectorsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: S3VectorsClient.S3VectorsClientConfiguration
@@ -90,7 +90,7 @@ public class S3VectorsClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension S3VectorsClient {
 
-    public class S3VectorsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class S3VectorsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

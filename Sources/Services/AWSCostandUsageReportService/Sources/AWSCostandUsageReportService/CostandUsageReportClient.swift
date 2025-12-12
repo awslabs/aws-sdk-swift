@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CostandUsageReportClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CostandUsageReportClient.CostandUsageReportClientConfiguration
@@ -89,7 +89,7 @@ public class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient, Sendab
 
 extension CostandUsageReportClient {
 
-    public class CostandUsageReportClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class CostandUsageReportClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

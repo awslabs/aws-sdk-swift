@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BCMRecommendedActionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration
@@ -89,7 +89,7 @@ public class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient, Sen
 
 extension BCMRecommendedActionsClient {
 
-    public class BCMRecommendedActionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class BCMRecommendedActionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

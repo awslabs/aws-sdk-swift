@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "TimestreamInfluxDBClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
@@ -89,7 +89,7 @@ public class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient, Sendab
 
 extension TimestreamInfluxDBClient {
 
-    public class TimestreamInfluxDBClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class TimestreamInfluxDBClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BraketClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class BraketClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BraketClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BraketClient.BraketClientConfiguration
@@ -91,7 +91,7 @@ public class BraketClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension BraketClient {
 
-    public class BraketClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class BraketClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

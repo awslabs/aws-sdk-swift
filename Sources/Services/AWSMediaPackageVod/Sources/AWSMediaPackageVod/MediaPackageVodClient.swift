@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaPackageVodClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class MediaPackageVodClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "MediaPackageVodClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageVodClient.MediaPackageVodClientConfiguration
@@ -89,7 +89,7 @@ public class MediaPackageVodClient: AWSClientRuntime.AWSServiceClient, Sendable 
 
 extension MediaPackageVodClient {
 
-    public class MediaPackageVodClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class MediaPackageVodClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

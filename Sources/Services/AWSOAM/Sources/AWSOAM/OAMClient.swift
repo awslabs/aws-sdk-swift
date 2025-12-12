@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OAMClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class OAMClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "OAMClient"
     let client: ClientRuntime.SdkHttpClient
     let config: OAMClient.OAMClientConfiguration
@@ -89,7 +89,7 @@ public class OAMClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension OAMClient {
 
-    public class OAMClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class OAMClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

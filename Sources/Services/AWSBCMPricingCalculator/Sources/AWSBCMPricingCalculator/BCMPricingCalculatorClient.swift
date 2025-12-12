@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BCMPricingCalculatorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
@@ -91,7 +91,7 @@ public class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient, Send
 
 extension BCMPricingCalculatorClient {
 
-    public class BCMPricingCalculatorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class BCMPricingCalculatorClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

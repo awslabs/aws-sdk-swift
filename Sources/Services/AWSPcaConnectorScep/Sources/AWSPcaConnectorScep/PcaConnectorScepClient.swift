@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "PcaConnectorScepClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration
@@ -90,7 +90,7 @@ public class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient, Sendable
 
 extension PcaConnectorScepClient {
 
-    public class PcaConnectorScepClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class PcaConnectorScepClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMDataExportsClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class BCMDataExportsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "BCMDataExportsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMDataExportsClient.BCMDataExportsClientConfiguration
@@ -89,7 +89,7 @@ public class BCMDataExportsClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension BCMDataExportsClient {
 
-    public class BCMDataExportsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class BCMDataExportsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

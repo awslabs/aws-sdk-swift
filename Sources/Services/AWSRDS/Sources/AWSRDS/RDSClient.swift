@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RDSClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class RDSClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "RDSClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
@@ -89,7 +89,7 @@ public class RDSClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension RDSClient {
 
-    public class RDSClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class RDSClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

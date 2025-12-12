@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ChimeSDKMediaPipelinesClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ChimeSDKMediaPipelinesClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ChimeSDKMediaPipelinesClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfiguration
@@ -90,7 +90,7 @@ public class ChimeSDKMediaPipelinesClient: AWSClientRuntime.AWSServiceClient, Se
 
 extension ChimeSDKMediaPipelinesClient {
 
-    public class ChimeSDKMediaPipelinesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ChimeSDKMediaPipelinesClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

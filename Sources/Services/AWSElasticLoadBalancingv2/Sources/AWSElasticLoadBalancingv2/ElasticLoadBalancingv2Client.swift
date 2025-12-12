@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticLoadBalancingv2Client: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ElasticLoadBalancingv2Client: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ElasticLoadBalancingv2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticLoadBalancingv2Client.ElasticLoadBalancingv2ClientConfiguration
@@ -89,7 +89,7 @@ public class ElasticLoadBalancingv2Client: AWSClientRuntime.AWSServiceClient, Se
 
 extension ElasticLoadBalancingv2Client {
 
-    public class ElasticLoadBalancingv2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ElasticLoadBalancingv2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

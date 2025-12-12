@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LicenseManagerUserSubscriptionsClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class LicenseManagerUserSubscriptionsClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "LicenseManagerUserSubscriptionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfiguration
@@ -89,7 +89,7 @@ public class LicenseManagerUserSubscriptionsClient: AWSClientRuntime.AWSServiceC
 
 extension LicenseManagerUserSubscriptionsClient {
 
-    public class LicenseManagerUserSubscriptionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class LicenseManagerUserSubscriptionsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

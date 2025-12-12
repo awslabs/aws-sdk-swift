@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerFeatureStoreRuntimeClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class SageMakerFeatureStoreRuntimeClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "SageMakerFeatureStoreRuntimeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfiguration
@@ -89,7 +89,7 @@ public class SageMakerFeatureStoreRuntimeClient: AWSClientRuntime.AWSServiceClie
 
 extension SageMakerFeatureStoreRuntimeClient {
 
-    public class SageMakerFeatureStoreRuntimeClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class SageMakerFeatureStoreRuntimeClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

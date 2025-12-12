@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PinpointSMSVoiceClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class PinpointSMSVoiceClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "PinpointSMSVoiceClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration
@@ -89,7 +89,7 @@ public class PinpointSMSVoiceClient: AWSClientRuntime.AWSServiceClient, Sendable
 
 extension PinpointSMSVoiceClient {
 
-    public class PinpointSMSVoiceClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class PinpointSMSVoiceClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

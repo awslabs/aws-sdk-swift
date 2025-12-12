@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CognitoIdentityProviderClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class CognitoIdentityProviderClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "CognitoIdentityProviderClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
@@ -91,7 +91,7 @@ public class CognitoIdentityProviderClient: AWSClientRuntime.AWSServiceClient, S
 
 extension CognitoIdentityProviderClient {
 
-    public class CognitoIdentityProviderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class CognitoIdentityProviderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

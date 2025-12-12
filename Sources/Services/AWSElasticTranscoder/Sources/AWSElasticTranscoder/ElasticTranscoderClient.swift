@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticTranscoderClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ElasticTranscoderClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ElasticTranscoderClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticTranscoderClient.ElasticTranscoderClientConfiguration
@@ -89,7 +89,7 @@ public class ElasticTranscoderClient: AWSClientRuntime.AWSServiceClient, Sendabl
 
 extension ElasticTranscoderClient {
 
-    public class ElasticTranscoderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ElasticTranscoderClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

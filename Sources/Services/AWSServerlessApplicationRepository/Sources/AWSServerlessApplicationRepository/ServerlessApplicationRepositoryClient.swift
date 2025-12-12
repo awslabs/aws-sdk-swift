@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ServerlessApplicationRepositoryClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ServerlessApplicationRepositoryClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ServerlessApplicationRepositoryClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfiguration
@@ -89,7 +89,7 @@ public class ServerlessApplicationRepositoryClient: AWSClientRuntime.AWSServiceC
 
 extension ServerlessApplicationRepositoryClient {
 
-    public class ServerlessApplicationRepositoryClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ServerlessApplicationRepositoryClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

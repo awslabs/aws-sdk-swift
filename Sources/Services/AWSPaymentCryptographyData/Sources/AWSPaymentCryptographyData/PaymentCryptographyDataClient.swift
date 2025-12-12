@@ -64,7 +64,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PaymentCryptographyDataClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class PaymentCryptographyDataClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "PaymentCryptographyDataClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration
@@ -88,7 +88,7 @@ public class PaymentCryptographyDataClient: AWSClientRuntime.AWSServiceClient, S
 
 extension PaymentCryptographyDataClient {
 
-    public class PaymentCryptographyDataClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class PaymentCryptographyDataClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?

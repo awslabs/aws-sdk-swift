@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53RecoveryClusterClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class Route53RecoveryClusterClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "Route53RecoveryClusterClient"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration
@@ -89,7 +89,7 @@ public class Route53RecoveryClusterClient: AWSClientRuntime.AWSServiceClient, Se
 
 extension Route53RecoveryClusterClient {
 
-    public class Route53RecoveryClusterClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class Route53RecoveryClusterClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
