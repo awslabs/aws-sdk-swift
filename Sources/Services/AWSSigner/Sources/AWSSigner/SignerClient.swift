@@ -446,7 +446,7 @@ extension SignerClient {
 
     /// Performs the `CancelSigningProfile` operation on the `Signer` service.
     ///
-    /// Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
+    /// Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See [Data Retention](https://docs.aws.amazon.com/signer/latest/developerguide/retention.html) for more information on scheduled deletion of a canceled signing profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelSigningProfileInput`)
     ///
@@ -617,7 +617,7 @@ extension SignerClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(GetRevocationStatusInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(hostPrefix: "verification."))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(hostPrefix: "data-"))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(GetRevocationStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevocationStatusOutput>(GetRevocationStatusOutput.httpOutput(from:), GetRevocationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(clientLogMode: config.clientLogMode))
@@ -1347,7 +1347,7 @@ extension SignerClient {
 
     /// Performs the `RevokeSigningProfile` operation on the `Signer` service.
     ///
-    /// Changes the state of a signing profile to REVOKED. This indicates that signatures generated using the signing profile after an effective start date are no longer valid.
+    /// Changes the state of a signing profile to REVOKED. This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See [Data Retention](https://docs.aws.amazon.com/signer/latest/developerguide/retention.html) for more information on scheduled deletion of a revoked signing profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `RevokeSigningProfileInput`)
     ///
@@ -1491,7 +1491,7 @@ extension SignerClient {
 
     /// Performs the `StartSigningJob` operation on the `Signer` service.
     ///
-    /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation for two years after they are performed. Note the following requirements:
+    /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements:
     ///
     /// * You must create an Amazon S3 source bucket. For more information, see [Creating a Bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html) in the Amazon S3 Getting Started Guide.
     ///

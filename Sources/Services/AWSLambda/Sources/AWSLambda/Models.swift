@@ -4283,6 +4283,7 @@ extension LambdaClientTypes {
 extension LambdaClientTypes {
 
     public enum Runtime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dotnet10
         case dotnet6
         case dotnet8
         case dotnetcore10
@@ -4331,6 +4332,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [Runtime] {
             return [
+                .dotnet10,
                 .dotnet6,
                 .dotnet8,
                 .dotnetcore10,
@@ -4385,6 +4387,7 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dotnet10: return "dotnet10"
             case .dotnet6: return "dotnet6"
             case .dotnet8: return "dotnet8"
             case .dotnetcore10: return "dotnetcore1.0"

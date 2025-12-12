@@ -683,7 +683,9 @@ extension OrganizationsClient {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     ///
     ///
     /// You can only call this operation from the management account or a member account that is a delegated administrator.
