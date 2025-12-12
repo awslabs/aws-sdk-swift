@@ -58,7 +58,7 @@ extension ExplicitBlobInput {
         val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-public class ExampleClient: AWSClientRuntime.AWSServiceClient, Sendable {
+public final class ExampleClient: AWSClientRuntime.AWSServiceClient, Sendable {
     public static let clientName = "ExampleClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ExampleClient.ExampleClientConfiguration
@@ -82,7 +82,7 @@ public class ExampleClient: AWSClientRuntime.AWSServiceClient, Sendable {
 
 extension ExampleClient {
 
-    public class ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public final class ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, @unchecked Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
