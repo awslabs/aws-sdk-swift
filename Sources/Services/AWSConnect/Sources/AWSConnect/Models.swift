@@ -27244,6 +27244,32 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum DisconnectOnCustomerExitParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisconnectOnCustomerExitParticipantType] {
+            return [
+                .agent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// A chat message.
     public struct ChatMessage: Swift.Sendable {
         /// The content of the chat message.
@@ -32141,6 +32167,8 @@ public struct StartChatContactInput: Swift.Sendable {
     public var contactFlowId: Swift.String?
     /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
     public var customerId: Swift.String?
+    /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
+    public var disconnectOnCustomerExit: [ConnectClientTypes.DisconnectOnCustomerExitParticipantType]?
     /// The initial message to be sent to the newly created chat.
     public var initialMessage: ConnectClientTypes.ChatMessage?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -32166,6 +32194,7 @@ public struct StartChatContactInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
         customerId: Swift.String? = nil,
+        disconnectOnCustomerExit: [ConnectClientTypes.DisconnectOnCustomerExitParticipantType]? = nil,
         initialMessage: ConnectClientTypes.ChatMessage? = nil,
         instanceId: Swift.String? = nil,
         participantConfiguration: ConnectClientTypes.ParticipantConfiguration? = nil,
@@ -32180,6 +32209,7 @@ public struct StartChatContactInput: Swift.Sendable {
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
         self.customerId = customerId
+        self.disconnectOnCustomerExit = disconnectOnCustomerExit
         self.initialMessage = initialMessage
         self.instanceId = instanceId
         self.participantConfiguration = participantConfiguration
@@ -32193,7 +32223,7 @@ public struct StartChatContactInput: Swift.Sendable {
 
 extension StartChatContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantConfiguration: \(Swift.String(describing: participantConfiguration)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), disconnectOnCustomerExit: \(Swift.String(describing: disconnectOnCustomerExit)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantConfiguration: \(Swift.String(describing: participantConfiguration)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartEmailContactInput: Swift.Sendable {
@@ -39709,6 +39739,7 @@ extension StartChatContactInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
         try writer["CustomerId"].write(value.customerId)
+        try writer["DisconnectOnCustomerExit"].writeList(value.disconnectOnCustomerExit, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.DisconnectOnCustomerExitParticipantType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["ParticipantConfiguration"].write(value.participantConfiguration, with: ConnectClientTypes.ParticipantConfiguration.write(value:to:))

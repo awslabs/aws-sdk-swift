@@ -149,6 +149,8 @@ extension BCMRecommendedActionsClientTypes {
         case reviewBudgetAlerts
         case reviewExpiringRi
         case reviewExpiringSp
+        case reviewFreetierCreditsRemaining
+        case reviewFreetierDaysRemaining
         case reviewFreetierUsageAlerts
         case reviewSavingsOpportunityRecommendations
         case updateExpiredPaymentMethod
@@ -171,6 +173,8 @@ extension BCMRecommendedActionsClientTypes {
                 .reviewBudgetAlerts,
                 .reviewExpiringRi,
                 .reviewExpiringSp,
+                .reviewFreetierCreditsRemaining,
+                .reviewFreetierDaysRemaining,
                 .reviewFreetierUsageAlerts,
                 .reviewSavingsOpportunityRecommendations,
                 .updateExpiredPaymentMethod,
@@ -199,6 +203,8 @@ extension BCMRecommendedActionsClientTypes {
             case .reviewBudgetAlerts: return "REVIEW_BUDGET_ALERTS"
             case .reviewExpiringRi: return "REVIEW_EXPIRING_RI"
             case .reviewExpiringSp: return "REVIEW_EXPIRING_SP"
+            case .reviewFreetierCreditsRemaining: return "REVIEW_FREETIER_CREDITS_REMAINING"
+            case .reviewFreetierDaysRemaining: return "REVIEW_FREETIER_DAYS_REMAINING"
             case .reviewFreetierUsageAlerts: return "REVIEW_FREETIER_USAGE_ALERTS"
             case .reviewSavingsOpportunityRecommendations: return "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS"
             case .updateExpiredPaymentMethod: return "UPDATE_EXPIRED_PAYMENT_METHOD"
