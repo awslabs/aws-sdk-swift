@@ -97,8 +97,8 @@ class EventBridgeSigV4ATests: XCTestCase {
             if retrievedEndpointId != nil {
                 break
             }
-            let delay = pow(2.0, Double(attempt + 1))
-            try await Task.sleep(nanoseconds: UInt64(delay * Double(NSEC_PER_SEC)))
+            let delay = UInt64(2 << attempt)
+            try await Task.sleep(nanoseconds: delay * UInt64(NSEC_PER_SEC))
         }
         endpointId = retrievedEndpointId
     }
