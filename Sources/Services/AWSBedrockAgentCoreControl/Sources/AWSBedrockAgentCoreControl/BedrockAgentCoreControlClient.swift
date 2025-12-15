@@ -1197,7 +1197,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreatePolicy` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the [GetPolicy](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_GetPolicy.html) operation to poll the status field to track completion.
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the [GetPolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_GetPolicy.html) operation to poll the status field to track completion.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePolicyInput`)
     ///
@@ -1272,7 +1272,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreatePolicyEngine` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the [GetPolicyEngine](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_GetPolicyEngine.html) operation to poll the status field to track completion.
+    /// Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the [GetPolicyEngine](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_GetPolicyEngine.html) operation to poll the status field to track completion.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePolicyEngineInput`)
     ///

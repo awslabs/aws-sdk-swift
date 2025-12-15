@@ -5433,6 +5433,7 @@ extension S3ClientTypes {
         case intelligenttieringaccesstier
         case ismultipartuploaded
         case lastmodifieddate
+        case lifecycleexpirationdate
         case objectaccesscontrollist
         case objectlocklegalholdstatus
         case objectlockmode
@@ -5452,6 +5453,7 @@ extension S3ClientTypes {
                 .intelligenttieringaccesstier,
                 .ismultipartuploaded,
                 .lastmodifieddate,
+                .lifecycleexpirationdate,
                 .objectaccesscontrollist,
                 .objectlocklegalholdstatus,
                 .objectlockmode,
@@ -5477,6 +5479,7 @@ extension S3ClientTypes {
             case .intelligenttieringaccesstier: return "IntelligentTieringAccessTier"
             case .ismultipartuploaded: return "IsMultipartUploaded"
             case .lastmodifieddate: return "LastModifiedDate"
+            case .lifecycleexpirationdate: return "LifecycleExpirationDate"
             case .objectaccesscontrollist: return "ObjectAccessControlList"
             case .objectlocklegalholdstatus: return "ObjectLockLegalHoldStatus"
             case .objectlockmode: return "ObjectLockMode"

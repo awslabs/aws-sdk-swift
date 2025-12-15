@@ -991,6 +991,106 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum CompressionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompressionMethod] {
+            return [
+                .gzip,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum Method: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `get`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Method] {
+            return [
+                .get,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// HTTP request configuration parameters that define how MediaTailor communicates with the ad decision server.
+    public struct HttpRequest: Swift.Sendable {
+        /// The request body content to send with HTTP requests to the ad decision server. This value is only eligible for POST requests.
+        public var body: Swift.String?
+        /// The compression method to apply to requests sent to the ad decision server. Supported values are NONE and GZIP. This value is only eligible for POST requests.
+        public var compressRequest: MediaTailorClientTypes.CompressionMethod?
+        /// Custom HTTP headers to include in requests to the ad decision server. Specify headers as key-value pairs. This value is only eligible for POST requests.
+        public var headers: [Swift.String: Swift.String]?
+        /// The HTTP method to use when making requests to the ad decision server. Supported values are GET and POST.
+        public var method: MediaTailorClientTypes.Method?
+
+        public init(
+            body: Swift.String? = nil,
+            compressRequest: MediaTailorClientTypes.CompressionMethod? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            method: MediaTailorClientTypes.Method? = nil
+        ) {
+            self.body = body
+            self.compressRequest = compressRequest
+            self.headers = headers
+            self.method = method
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// Configuration parameters for customizing HTTP requests sent to the ad decision server (ADS). This allows you to specify the HTTP method, headers, request body, and compression settings for ADS requests.
+    public struct AdDecisionServerConfiguration: Swift.Sendable {
+        /// The HTTP request configuration parameters for the ad decision server.
+        public var httpRequest: MediaTailorClientTypes.HttpRequest?
+
+        public init(
+            httpRequest: MediaTailorClientTypes.HttpRequest? = nil
+        ) {
+            self.httpRequest = httpRequest
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum FillPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullAvailOnly
         case partialAvail
@@ -1445,6 +1545,8 @@ extension MediaTailorClientTypes {
     public struct PlaybackConfiguration: Swift.Sendable {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+        /// Configuration parameters for customizing HTTP requests sent to the ad decision server (ADS). This allows you to specify the HTTP method, headers, request body, and compression settings for ADS requests.
+        public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -1488,6 +1590,7 @@ extension MediaTailorClientTypes {
 
         public init(
             adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+            adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -1510,6 +1613,7 @@ extension MediaTailorClientTypes {
             videoContentSourceUrl: Swift.String? = nil
         ) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1579,7 +1683,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// The configuration that tells Elemental MediaTailor how to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
+    /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
     public struct TrafficShapingRetrievalWindow: Swift.Sendable {
         /// The amount of time, in seconds, that MediaTailor spreads prefetch requests to the ADS.
         public var retrievalWindowDurationSeconds: Swift.Int?
@@ -1594,7 +1698,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users, providing more intuitive capacity management compared to time-window based traffic shaping.
+    /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
     public struct TrafficShapingTpsConfiguration: Swift.Sendable {
         /// The expected peak number of concurrent viewers for your content. MediaTailor uses this value along with peak TPS to determine how to distribute prefetch requests across the available capacity without exceeding your ADS limits.
         public var peakConcurrentUsers: Swift.Int?
@@ -1648,11 +1752,11 @@ extension MediaTailorClientTypes {
         public var delayAfterAvailEndSeconds: Swift.Int?
         /// The dynamic variables to use for substitution during prefetch requests to the ADS.
         public var dynamicVariables: [Swift.String: Swift.String]?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
         public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
-        /// Indicates the type of traffic shaping used for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
@@ -1712,11 +1816,11 @@ extension MediaTailorClientTypes {
         public var endTime: Foundation.Date?
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         public var startTime: Foundation.Date?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
         public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
-        /// Indicates the type of traffic shaping used for prefetch traffic shaping and limiting the number of requests to the ADS at one time.
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
@@ -3815,6 +3919,8 @@ public struct GetPlaybackConfigurationInput: Swift.Sendable {
 public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3858,6 +3964,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3880,6 +3987,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -4282,6 +4390,8 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
 public struct PutPlaybackConfigurationInput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -4316,6 +4426,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -4333,6 +4444,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -4354,6 +4466,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -4397,6 +4511,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -4419,6 +4534,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -5325,6 +5441,7 @@ extension PutPlaybackConfigurationInput {
     static func write(value: PutPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdConditioningConfiguration"].write(value.adConditioningConfiguration, with: MediaTailorClientTypes.AdConditioningConfiguration.write(value:to:))
+        try writer["AdDecisionServerConfiguration"].write(value.adDecisionServerConfiguration, with: MediaTailorClientTypes.AdDecisionServerConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
@@ -5742,6 +5859,7 @@ extension GetPlaybackConfigurationOutput {
         let reader = responseReader
         var value = GetPlaybackConfigurationOutput()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -5903,6 +6021,7 @@ extension PutPlaybackConfigurationOutput {
         let reader = responseReader
         var value = PutPlaybackConfigurationOutput()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -7388,6 +7507,42 @@ extension MediaTailorClientTypes.AdConditioningConfiguration {
     }
 }
 
+extension MediaTailorClientTypes.AdDecisionServerConfiguration {
+
+    static func write(value: MediaTailorClientTypes.AdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HttpRequest"].write(value.httpRequest, with: MediaTailorClientTypes.HttpRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdDecisionServerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdDecisionServerConfiguration()
+        value.httpRequest = try reader["HttpRequest"].readIfPresent(with: MediaTailorClientTypes.HttpRequest.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.HttpRequest {
+
+    static func write(value: MediaTailorClientTypes.HttpRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["CompressRequest"].write(value.compressRequest)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Method"].write(value.method)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.HttpRequest()
+        value.method = try reader["Method"].readIfPresent()
+        value.body = try reader["Body"].readIfPresent()
+        value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.compressRequest = try reader["CompressRequest"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.Alert {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
@@ -7466,6 +7621,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         return value
     }
 }
