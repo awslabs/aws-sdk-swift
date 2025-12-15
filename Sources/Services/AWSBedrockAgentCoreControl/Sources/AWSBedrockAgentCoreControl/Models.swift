@@ -8660,7 +8660,7 @@ extension GetPolicyEngineOutput: Swift.CustomDebugStringConvertible {
 public struct ListPolicyEnginesInput: Swift.Sendable {
     /// The maximum number of policy engines to return in a single response. If not specified, the default is 10 policy engines per page, with a maximum of 100 per page.
     public var maxResults: Swift.Int?
-    /// A pagination token returned from a previous [ListPolicyEngines](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_ListPolicyEngines.html) call. Use this token to retrieve the next page of results when the response is paginated.
+    /// A pagination token returned from a previous [ListPolicyEngines](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyEngines.html) call. Use this token to retrieve the next page of results when the response is paginated.
     public var nextToken: Swift.String?
 
     public init(
@@ -8728,7 +8728,7 @@ extension BedrockAgentCoreControlClientTypes.PolicyEngine: Swift.CustomDebugStri
 }
 
 public struct ListPolicyEnginesOutput: Swift.Sendable {
-    /// A pagination token that can be used in subsequent [ListPolicyEngines](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_ListPolicyEngines.html) calls to retrieve additional results. This token is only present when there are more results available.
+    /// A pagination token that can be used in subsequent [ListPolicyEngines](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyEngines.html) calls to retrieve additional results. This token is only present when there are more results available.
     public var nextToken: Swift.String?
     /// An array of policy engine objects that exist in the account. Each policy engine object contains the engine metadata, status, and key identifiers for further operations.
     /// This member is required.
@@ -8819,7 +8819,7 @@ public struct GetPolicyGenerationInput: Swift.Sendable {
     /// The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation.
     /// This member is required.
     public var policyEngineId: Swift.String?
-    /// The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous [StartPolicyGeneration](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_StartPolicyGeneration.html) call.
+    /// The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous [StartPolicyGeneration](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_StartPolicyGeneration.html) call.
     /// This member is required.
     public var policyGenerationId: Swift.String?
 
@@ -8936,12 +8936,12 @@ public struct GetPolicyGenerationOutput: Swift.Sendable {
 public struct ListPolicyGenerationAssetsInput: Swift.Sendable {
     /// The maximum number of policy generation assets to return in a single response. If not specified, the default is 10 assets per page, with a maximum of 100 per page. This helps control response size when dealing with policy generations that produce many alternative policy options.
     public var maxResults: Swift.Int?
-    /// A pagination token returned from a previous [ListPolicyGenerationAssets](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_ListPolicyGenerationAssets.html) call. Use this token to retrieve the next page of assets when the response is paginated due to large numbers of generated policy options.
+    /// A pagination token returned from a previous [ListPolicyGenerationAssets](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationAssets.html) call. Use this token to retrieve the next page of assets when the response is paginated due to large numbers of generated policy options.
     public var nextToken: Swift.String?
     /// The unique identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine.
     /// This member is required.
     public var policyEngineId: Swift.String?
-    /// The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous [StartPolicyGeneration](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_StartPolicyGeneration.html) call that has completed processing.
+    /// The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous [StartPolicyGeneration](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_StartPolicyGeneration.html) call that has completed processing.
     /// This member is required.
     public var policyGenerationId: Swift.String?
 
@@ -9078,7 +9078,7 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct ListPolicyGenerationAssetsOutput: Swift.Sendable {
-    /// A pagination token that can be used in subsequent [ListPolicyGenerationAssets](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_ListPolicyGenerationAssets.html) calls to retrieve additional assets. This token is only present when there are more generated policy assets available beyond the current response.
+    /// A pagination token that can be used in subsequent [ListPolicyGenerationAssets](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationAssets.html) calls to retrieve additional assets. This token is only present when there are more generated policy assets available beyond the current response.
     public var nextToken: Swift.String?
     /// An array of generated policy assets including Cedar policies and related artifacts from the AI-powered policy generation process. Each asset represents a different policy option or variation generated from the original natural language input.
     public var policyGenerationAssets: [BedrockAgentCoreControlClientTypes.PolicyGenerationAsset]?
@@ -9617,7 +9617,7 @@ extension GetPolicyOutput: Swift.CustomDebugStringConvertible {
 public struct ListPoliciesInput: Swift.Sendable {
     /// The maximum number of policies to return in a single response. If not specified, the default is 10 policies per page, with a maximum of 100 per page.
     public var maxResults: Swift.Int?
-    /// A pagination token returned from a previous [ListPolicies](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/API_ListPolicies.html) call. Use this token to retrieve the next page of results when the response is paginated.
+    /// A pagination token returned from a previous [ListPolicies](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicies.html) call. Use this token to retrieve the next page of results when the response is paginated.
     public var nextToken: Swift.String?
     /// The identifier of the policy engine whose policies to retrieve.
     /// This member is required.
