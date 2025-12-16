@@ -32315,6 +32315,8 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
     public var destinationEndpoint: ConnectClientTypes.Endpoint?
     /// A chat message.
     public var initialSystemMessage: ConnectClientTypes.ChatMessage?
+    /// Information about template message configuration.
+    public var initialTemplatedSystemMessage: ConnectClientTypes.TemplatedMessageConfig?
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -32359,6 +32361,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         destinationEndpoint: ConnectClientTypes.Endpoint? = nil,
         initialSystemMessage: ConnectClientTypes.ChatMessage? = nil,
+        initialTemplatedSystemMessage: ConnectClientTypes.TemplatedMessageConfig? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
         relatedContactId: Swift.String? = nil,
@@ -32372,6 +32375,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
         self.contactFlowId = contactFlowId
         self.destinationEndpoint = destinationEndpoint
         self.initialSystemMessage = initialSystemMessage
+        self.initialTemplatedSystemMessage = initialTemplatedSystemMessage
         self.instanceId = instanceId
         self.participantDetails = participantDetails
         self.relatedContactId = relatedContactId
@@ -39827,6 +39831,7 @@ extension StartOutboundChatContactInput {
         try writer["ContactFlowId"].write(value.contactFlowId)
         try writer["DestinationEndpoint"].write(value.destinationEndpoint, with: ConnectClientTypes.Endpoint.write(value:to:))
         try writer["InitialSystemMessage"].write(value.initialSystemMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
+        try writer["InitialTemplatedSystemMessage"].write(value.initialTemplatedSystemMessage, with: ConnectClientTypes.TemplatedMessageConfig.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
         try writer["RelatedContactId"].write(value.relatedContactId)

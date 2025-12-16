@@ -1112,6 +1112,27 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
+    /// Specifies the configuration for integrating with Customer Profiles. This configuration enables Entity Resolution to send matched output directly to Customer Profiles instead of Amazon S3, creating a unified customer view by automatically updating customer profiles based on match clusters.
+    public struct CustomerProfilesIntegrationConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Customer Profiles domain where the matched output will be sent.
+        /// This member is required.
+        public var domainArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Customer Profiles object type that defines the structure for the matched customer data.
+        /// This member is required.
+        public var objectTypeArn: Swift.String?
+
+        public init(
+            domainArn: Swift.String? = nil,
+            objectTypeArn: Swift.String? = nil
+        ) {
+            self.domainArn = domainArn
+            self.objectTypeArn = objectTypeArn
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
     /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
     public struct OutputAttribute: Swift.Sendable {
         /// Enables the ability to hash the column values in the output.
@@ -1136,22 +1157,25 @@ extension EntityResolutionClientTypes {
     public struct OutputSource: Swift.Sendable {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public var applyNormalization: Swift.Bool?
+        /// Specifies the Customer Profiles integration configuration for sending matched output directly to Customer Profiles. When configured, Entity Resolution automatically creates and updates customer profiles based on match clusters, eliminating the need for manual Amazon S3 integration setup.
+        public var customerProfilesIntegrationConfig: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig?
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public var kmsArn: Swift.String?
         /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
         /// This member is required.
         public var output: [EntityResolutionClientTypes.OutputAttribute]?
         /// The S3 path to which Entity Resolution will write the output table.
-        /// This member is required.
         public var outputS3Path: Swift.String?
 
         public init(
             applyNormalization: Swift.Bool? = nil,
+            customerProfilesIntegrationConfig: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig? = nil,
             kmsArn: Swift.String? = nil,
             output: [EntityResolutionClientTypes.OutputAttribute]? = nil,
-            outputS3Path: Swift.String? = nil
+            outputS3Path: Swift.String? = ""
         ) {
             self.applyNormalization = applyNormalization
+            self.customerProfilesIntegrationConfig = customerProfilesIntegrationConfig
             self.kmsArn = kmsArn
             self.output = output
             self.outputS3Path = outputS3Path
@@ -5811,8 +5835,8 @@ extension EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowOutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6022,6 +6046,7 @@ extension EntityResolutionClientTypes.OutputSource {
         guard let value else { return }
         try writer["KMSArn"].write(value.kmsArn)
         try writer["applyNormalization"].write(value.applyNormalization)
+        try writer["customerProfilesIntegrationConfig"].write(value.customerProfilesIntegrationConfig, with: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig.write(value:to:))
         try writer["output"].writeList(value.output, memberWritingClosure: EntityResolutionClientTypes.OutputAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputS3Path"].write(value.outputS3Path)
     }
@@ -6029,10 +6054,28 @@ extension EntityResolutionClientTypes.OutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.OutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.OutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.output = try reader["output"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.applyNormalization = try reader["applyNormalization"].readIfPresent()
+        value.customerProfilesIntegrationConfig = try reader["customerProfilesIntegrationConfig"].readIfPresent(with: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig.read(from:))
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.CustomerProfilesIntegrationConfig {
+
+    static func write(value: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+        try writer["objectTypeArn"].write(value.objectTypeArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.CustomerProfilesIntegrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.CustomerProfilesIntegrationConfig()
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.objectTypeArn = try reader["objectTypeArn"].readIfPresent() ?? ""
         return value
     }
 }
