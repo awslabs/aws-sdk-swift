@@ -12,7 +12,6 @@ public class ConfigFileReader {
     public let credentialsFilePath: String
     
     var currentSection: ConfigFileSection?
-    var currentSectionType: String?
     var isCurrentSectionValid = false
     var newSection = false
     var sections: [String: ConfigFileSection] = [:]
@@ -101,7 +100,6 @@ public class ConfigFileReader {
             case .services:
                 typePrefix = "services"
             }
-        currentSectionType = typePrefix
         
         let fullSectionKey = "\(typePrefix) \(sectionName)"
         if targetDictionary[fullSectionKey] == nil {
@@ -162,26 +160,29 @@ public class ConfigFileReader {
         
         private func handleSubProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
             
-            guard key.rangeOfCharacter(from: .whitespaces) == nil else {
-                    print("Warning: Silently ignoring subproperty key '\(key)' on line \(lineNumber) because it contains whitespace.")
-                    return // Exit the function silently
-                }
-            
             guard let sectionName = currentSection?.name,
                   let currentSubSectionName = currentSubSection,
                   let currentProp = currentProperty else {
                 throw MyError("Property did not have a name in sub-property")
             }
 
-            // The logic for subproperties isolated in this function
-            currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
-            var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
-            var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
-            subpropertyKeysAndValues[key] = value
-            subproperties[currentSubSectionName] = subpropertyKeysAndValues
-            currentSection?.subproperties = subproperties
-            targetDictionary[sectionName] = currentSection
-            
+            if key.rangeOfCharacter(from: .whitespaces) == nil {
+                // The logic for subproperties isolated in this function
+                currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
+                var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
+                var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
+                subpropertyKeysAndValues[key] = value
+                subproperties[currentSubSectionName] = subpropertyKeysAndValues
+                currentSection?.subproperties = subproperties
+                targetDictionary[sectionName] = currentSection
+            } else {
+                currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
+                var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
+                let subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [:]
+                subproperties[currentSubSectionName] = subpropertyKeysAndValues
+                currentSection?.subproperties = subproperties
+                targetDictionary[sectionName] = currentSection
+            }
             print("  Added sub-property key and value '\(key)' = '\(value)' under subsection '\(currentSubSectionName)'")
             print("  The current section contains '\(currentSection!)'")
         }
@@ -196,6 +197,7 @@ public class ConfigFileReader {
             targetDictionary[sectionName] = currentSection
             
             print("  Added new property '\(key)' with no value to section '\(sectionName)'")
+            print("  Added property '\(key)' as a subsection to current section")
             print("  The current section contains '\(currentSection!)'")
         }
     
@@ -227,7 +229,6 @@ public class ConfigFileReader {
         guard let sectionName = currentSection?.name else { throw MyError("No current section for continuation") }
 
         let cleanedValue = self.cleanedValue(from: value)
-
         if currentSubProperty != nil, let subSectionName = currentSubSection {
             var subprops = currentSection?.subproperties ?? [:]
             var subKeyValues = subprops[subSectionName] ?? [:]
@@ -239,7 +240,6 @@ public class ConfigFileReader {
             }
             subprops[subSectionName] = subKeyValues
             currentSection?.subproperties = subprops
-
         } else {
             if let existingValue = currentSection?.properties[key] {
                 currentSection?.properties[key] = existingValue + "\n" + cleanedValue
@@ -247,7 +247,6 @@ public class ConfigFileReader {
                 currentSection?.properties[key] = cleanedValue
             }
         }
-        
         targetDictionary[sectionName] = currentSection
         print("  Appended value '\(cleanedValue)' to key '\(key)' within section '\(sectionName)'")
     }
@@ -283,9 +282,7 @@ public class ConfigFileReader {
     func config() throws -> FileBasedConfigurationSectionProviding? {
         
         // Use the helper function for the config file (which is mandatory)
-        guard let stringConfigData = readAndDecodeFile(atPath: configFilePath, fileDescription: "Configuration") else {
-            return nil // Stop if the main config file fails
-        }
+        let stringConfigData = readAndDecodeFile(atPath: configFilePath, fileDescription: "Configuration") ?? ""
         
         // Use the helper function for the credentials file (handle it optionally, if it fails, stringCredentialsData is nil)
         let stringCredentialsData = readAndDecodeFile(atPath: credentialsFilePath, fileDescription: "Credentials")
@@ -298,7 +295,7 @@ public class ConfigFileReader {
                 sources.append(ParsableFile(type: "credentials", lines: creds))
             }
 
-        // Initialize separate temporary dictionaries
+        // Initialize separate temporary dictionaries for each file type
         var configSections = [String: ConfigFileSection]()
         var credentialSections = [String: ConfigFileSection]()
         for source in sources {
@@ -309,7 +306,7 @@ public class ConfigFileReader {
             } else {
                 print("Credential File contents:", stringCredentialsData?.split(whereSeparator: \.isNewline) as Any)
             }
-            
+            // Initialize a temp dictionary for the inner loop
             var tempDictionary: [String: ConfigFileSection]!
                     if source.type == "config" {
                         tempDictionary = configSections
@@ -355,8 +352,6 @@ public class ConfigFileReader {
                             throw MyError("Property did not have a name")
                             }
                         
-                        guard key.rangeOfCharacter(from: .whitespaces) == nil else { break }
-                        
                         guard components.count == 2 else {
                             // This path handles keys with no values (e.g., just `key=`)
                             if isIndented(line: String(line)) {
@@ -370,6 +365,7 @@ public class ConfigFileReader {
                         if isIndented(line: String(line)) {
                             try handleSubProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
                             } else {
+                                guard key.rangeOfCharacter(from: .whitespaces) == nil else { break }
                                 try handleStandardProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
                                     }
                                             
@@ -451,7 +447,7 @@ public class ConfigFileReader {
                 mergedSections[fullSectionKey] = credSection
             }
         }
-        print("\n---Results after the merge sections--- \n\(mergedSections)")
+        print("\n---Results after the merge of sections--- \n\(mergedSections)\n")
         return ConfigFile(sections: mergedSections)
     }
 }
