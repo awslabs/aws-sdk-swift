@@ -798,6 +798,29 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    /// Configuration settings for batching.
+    public struct BatchConfig: Swift.Sendable {
+        /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
+        public var maxBatchOpenMs: Swift.Int?
+        /// The maximum number of messages that are batched together in a single action execution.
+        public var maxBatchSize: Swift.Int?
+        /// Maximum size of a message batch, in bytes.
+        public var maxBatchSizeBytes: Swift.Int?
+
+        public init(
+            maxBatchOpenMs: Swift.Int? = nil,
+            maxBatchSize: Swift.Int? = nil,
+            maxBatchSizeBytes: Swift.Int? = nil
+        ) {
+            self.maxBatchOpenMs = maxBatchOpenMs
+            self.maxBatchSize = maxBatchSize
+            self.maxBatchSizeBytes = maxBatchSizeBytes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The HTTP action header.
     public struct HttpActionHeader: Swift.Sendable {
         /// The HTTP header key.
@@ -823,8 +846,12 @@ extension IoTClientTypes {
     public struct HttpAction: Swift.Sendable {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public var auth: IoTClientTypes.HttpAuthorization?
+        /// The configuration settings for batching. For more information, see [Batching HTTP action messages].
+        public var batchConfig: IoTClientTypes.BatchConfig?
         /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public var confirmationUrl: Swift.String?
+        /// Whether to process the HTTP action messages into a single request. Value can be true or false.
+        public var enableBatching: Swift.Bool?
         /// The HTTP headers to send with the message data.
         public var headers: [IoTClientTypes.HttpActionHeader]?
         /// The endpoint URL. If substitution templates are used in the URL, you must also specify a confirmationUrl. If this is a new destination, a new TopicRuleDestination is created if possible.
@@ -833,12 +860,16 @@ extension IoTClientTypes {
 
         public init(
             auth: IoTClientTypes.HttpAuthorization? = nil,
+            batchConfig: IoTClientTypes.BatchConfig? = nil,
             confirmationUrl: Swift.String? = nil,
+            enableBatching: Swift.Bool? = nil,
             headers: [IoTClientTypes.HttpActionHeader]? = nil,
             url: Swift.String? = nil
         ) {
             self.auth = auth
+            self.batchConfig = batchConfig
             self.confirmationUrl = confirmationUrl
+            self.enableBatching = enableBatching
             self.headers = headers
             self.url = url
         }
@@ -36685,7 +36716,9 @@ extension IoTClientTypes.HttpAction {
     static func write(value: IoTClientTypes.HttpAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["auth"].write(value.auth, with: IoTClientTypes.HttpAuthorization.write(value:to:))
+        try writer["batchConfig"].write(value.batchConfig, with: IoTClientTypes.BatchConfig.write(value:to:))
         try writer["confirmationUrl"].write(value.confirmationUrl)
+        try writer["enableBatching"].write(value.enableBatching)
         try writer["headers"].writeList(value.headers, memberWritingClosure: IoTClientTypes.HttpActionHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["url"].write(value.url)
     }
@@ -36697,6 +36730,27 @@ extension IoTClientTypes.HttpAction {
         value.confirmationUrl = try reader["confirmationUrl"].readIfPresent()
         value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: IoTClientTypes.HttpActionHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.auth = try reader["auth"].readIfPresent(with: IoTClientTypes.HttpAuthorization.read(from:))
+        value.enableBatching = try reader["enableBatching"].readIfPresent()
+        value.batchConfig = try reader["batchConfig"].readIfPresent(with: IoTClientTypes.BatchConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.BatchConfig {
+
+    static func write(value: IoTClientTypes.BatchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBatchOpenMs"].write(value.maxBatchOpenMs)
+        try writer["maxBatchSize"].write(value.maxBatchSize)
+        try writer["maxBatchSizeBytes"].write(value.maxBatchSizeBytes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.BatchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.BatchConfig()
+        value.maxBatchOpenMs = try reader["maxBatchOpenMs"].readIfPresent()
+        value.maxBatchSize = try reader["maxBatchSize"].readIfPresent()
+        value.maxBatchSizeBytes = try reader["maxBatchSizeBytes"].readIfPresent()
         return value
     }
 }

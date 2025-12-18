@@ -53,30 +53,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// This exception is thrown when there is a conflict performing an operation
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Non Blank String
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// This exception is thrown if there was an unexpected error during processing of request
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -101,8 +77,8 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// This exception is thrown when a request is made beyond the service quota
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// This exception is thrown when a resource referenced by the operation does not exist
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// Non Blank String
@@ -110,7 +86,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -198,6 +174,142 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+/// Structure for request of GetBlueprintOptimizationStatus API.
+public struct GetBlueprintOptimizationStatusInput: Swift.Sendable {
+    /// Invocation arn.
+    /// This member is required.
+    public var invocationArn: Swift.String?
+
+    public init(
+        invocationArn: Swift.String? = nil
+    ) {
+        self.invocationArn = invocationArn
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// S3 object
+    public struct S3Object: Swift.Sendable {
+        /// S3 uri.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// S3 object version.
+        public var version: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+            self.version = version
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Blueprint Optimization Output configuration.
+    public struct BlueprintOptimizationOutputConfiguration: Swift.Sendable {
+        /// S3 object.
+        /// This member is required.
+        public var s3Object: BedrockDataAutomationClientTypes.S3Object?
+
+        public init(
+            s3Object: BedrockDataAutomationClientTypes.S3Object? = nil
+        ) {
+            self.s3Object = s3Object
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// List of status supported by optimization jobs
+    public enum BlueprintOptimizationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientError
+        case created
+        case inProgress
+        case serviceError
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlueprintOptimizationJobStatus] {
+            return [
+                .clientError,
+                .created,
+                .inProgress,
+                .serviceError,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientError: return "ClientError"
+            case .created: return "Created"
+            case .inProgress: return "InProgress"
+            case .serviceError: return "ServiceError"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response of GetBlueprintOptimizationStatus API.
+public struct GetBlueprintOptimizationStatusOutput: Swift.Sendable {
+    /// Error Message.
+    public var errorMessage: Swift.String?
+    /// Error Type.
+    public var errorType: Swift.String?
+    /// Output configuration.
+    public var outputConfiguration: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration?
+    /// Job Status.
+    public var status: BedrockDataAutomationClientTypes.BlueprintOptimizationJobStatus?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        errorType: Swift.String? = nil,
+        outputConfiguration: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration? = nil,
+        status: BedrockDataAutomationClientTypes.BlueprintOptimizationJobStatus? = nil
+    ) {
+        self.errorMessage = errorMessage
+        self.errorType = errorType
+        self.outputConfiguration = outputConfiguration
+        self.status = status
+    }
+}
+
+/// This exception is thrown when a request is made beyond the service quota
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Non Blank String
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension BedrockDataAutomationClientTypes {
 
     /// Stage of the Blueprint
@@ -230,6 +342,26 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Structure for single blueprint entity.
+    public struct BlueprintOptimizationObject: Swift.Sendable {
+        /// Arn of blueprint.
+        /// This member is required.
+        public var blueprintArn: Swift.String?
+        /// Stage of blueprint.
+        public var stage: BedrockDataAutomationClientTypes.BlueprintStage?
+
+        public init(
+            blueprintArn: Swift.String? = nil,
+            stage: BedrockDataAutomationClientTypes.BlueprintStage? = nil
+        ) {
+            self.blueprintArn = blueprintArn
+            self.stage = stage
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// KMS Encryption Configuration
     public struct EncryptionConfiguration: Swift.Sendable {
         /// KMS Encryption Context
@@ -244,6 +376,27 @@ extension BedrockDataAutomationClientTypes {
         ) {
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Blueprint Recommendation Sample
+    public struct BlueprintOptimizationSample: Swift.Sendable {
+        /// S3 Object of the asset
+        /// This member is required.
+        public var assetS3Object: BedrockDataAutomationClientTypes.S3Object?
+        /// Ground truth for the Blueprint and Asset combination
+        /// This member is required.
+        public var groundTruthS3Object: BedrockDataAutomationClientTypes.S3Object?
+
+        public init(
+            assetS3Object: BedrockDataAutomationClientTypes.S3Object? = nil,
+            groundTruthS3Object: BedrockDataAutomationClientTypes.S3Object? = nil
+        ) {
+            self.assetS3Object = assetS3Object
+            self.groundTruthS3Object = groundTruthS3Object
         }
     }
 }
@@ -266,6 +419,79 @@ extension BedrockDataAutomationClientTypes {
             self.key = key
             self.value = value
         }
+    }
+}
+
+/// Invoke Blueprint Optimization Async Request
+public struct InvokeBlueprintOptimizationAsyncInput: Swift.Sendable {
+    /// Blueprint to be optimized
+    /// This member is required.
+    public var blueprint: BedrockDataAutomationClientTypes.BlueprintOptimizationObject?
+    /// Data automation profile ARN
+    /// This member is required.
+    public var dataAutomationProfileArn: Swift.String?
+    /// Encryption configuration.
+    public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
+    /// Output configuration where the results should be placed
+    /// This member is required.
+    public var outputConfiguration: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration?
+    /// List of Blueprint Optimization Samples
+    /// This member is required.
+    public var samples: [BedrockDataAutomationClientTypes.BlueprintOptimizationSample]?
+    /// List of tags.
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
+
+    public init(
+        blueprint: BedrockDataAutomationClientTypes.BlueprintOptimizationObject? = nil,
+        dataAutomationProfileArn: Swift.String? = nil,
+        encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
+        outputConfiguration: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration? = nil,
+        samples: [BedrockDataAutomationClientTypes.BlueprintOptimizationSample]? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
+    ) {
+        self.blueprint = blueprint
+        self.dataAutomationProfileArn = dataAutomationProfileArn
+        self.encryptionConfiguration = encryptionConfiguration
+        self.outputConfiguration = outputConfiguration
+        self.samples = samples
+        self.tags = tags
+    }
+}
+
+/// Invoke Blueprint Optimization Async Response
+public struct InvokeBlueprintOptimizationAsyncOutput: Swift.Sendable {
+    /// ARN of the blueprint optimization job
+    /// This member is required.
+    public var invocationArn: Swift.String?
+
+    public init(
+        invocationArn: Swift.String? = nil
+    ) {
+        self.invocationArn = invocationArn
+    }
+}
+
+/// This exception is thrown when there is a conflict performing an operation
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Non Blank String
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -373,6 +599,10 @@ extension BedrockDataAutomationClientTypes {
         /// Time Stamp
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
+        /// List of Blueprint Optimization Samples
+        public var optimizationSamples: [BedrockDataAutomationClientTypes.BlueprintOptimizationSample]?
+        /// Time Stamp
+        public var optimizationTime: Foundation.Date?
         /// Schema of the blueprint
         /// This member is required.
         public var schema: Swift.String?
@@ -389,6 +619,8 @@ extension BedrockDataAutomationClientTypes {
             kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            optimizationSamples: [BedrockDataAutomationClientTypes.BlueprintOptimizationSample]? = nil,
+            optimizationTime: Foundation.Date? = nil,
             schema: Swift.String? = nil,
             type: BedrockDataAutomationClientTypes.ModelType? = nil
         ) {
@@ -400,6 +632,8 @@ extension BedrockDataAutomationClientTypes {
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
+            self.optimizationSamples = optimizationSamples
+            self.optimizationTime = optimizationTime
             self.schema = schema
             self.type = type
         }
@@ -408,7 +642,7 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes.Blueprint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Blueprint(blueprintArn: \(Swift.String(describing: blueprintArn)), blueprintStage: \(Swift.String(describing: blueprintStage)), blueprintVersion: \(Swift.String(describing: blueprintVersion)), creationTime: \(Swift.String(describing: creationTime)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), type: \(Swift.String(describing: type)), blueprintName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\")"}
+        "Blueprint(blueprintArn: \(Swift.String(describing: blueprintArn)), blueprintStage: \(Swift.String(describing: blueprintStage)), blueprintVersion: \(Swift.String(describing: blueprintVersion)), creationTime: \(Swift.String(describing: creationTime)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), optimizationSamples: \(Swift.String(describing: optimizationSamples)), optimizationTime: \(Swift.String(describing: optimizationTime)), type: \(Swift.String(describing: type)), blueprintName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\")"}
 }
 
 /// Create Blueprint Response
@@ -421,30 +655,6 @@ public struct CreateBlueprintOutput: Swift.Sendable {
         blueprint: BedrockDataAutomationClientTypes.Blueprint? = nil
     ) {
         self.blueprint = blueprint
-    }
-}
-
-/// This exception is thrown when a resource referenced by the operation does not exist
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Non Blank String
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -751,6 +961,39 @@ public struct UpdateBlueprintOutput: Swift.Sendable {
     ) {
         self.blueprint = blueprint
     }
+}
+
+/// CopyBlueprintStage Request
+public struct CopyBlueprintStageInput: Swift.Sendable {
+    /// Blueprint to be copied
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// Client token for idempotency
+    public var clientToken: Swift.String?
+    /// Source stage to copy from
+    /// This member is required.
+    public var sourceStage: BedrockDataAutomationClientTypes.BlueprintStage?
+    /// Target stage to copy to
+    /// This member is required.
+    public var targetStage: BedrockDataAutomationClientTypes.BlueprintStage?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        sourceStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
+        targetStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.clientToken = clientToken
+        self.sourceStage = sourceStage
+        self.targetStage = targetStage
+    }
+}
+
+/// CopyBlueprintStage Response
+public struct CopyBlueprintStageOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Create Blueprint Version Request
@@ -2776,6 +3019,16 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension CopyBlueprintStageInput {
+
+    static func urlPathProvider(_ value: CopyBlueprintStageInput) -> Swift.String? {
+        guard let blueprintArn = value.blueprintArn else {
+            return nil
+        }
+        return "/blueprints/\(blueprintArn.urlPercentEncoding())/copy-stage"
+    }
+}
+
 extension CreateBlueprintInput {
 
     static func urlPathProvider(_ value: CreateBlueprintInput) -> Swift.String? {
@@ -2842,6 +3095,16 @@ extension GetBlueprintInput {
     }
 }
 
+extension GetBlueprintOptimizationStatusInput {
+
+    static func urlPathProvider(_ value: GetBlueprintOptimizationStatusInput) -> Swift.String? {
+        guard let invocationArn = value.invocationArn else {
+            return nil
+        }
+        return "/getBlueprintOptimizationStatus/\(invocationArn.urlPercentEncoding())"
+    }
+}
+
 extension GetDataAutomationProjectInput {
 
     static func urlPathProvider(_ value: GetDataAutomationProjectInput) -> Swift.String? {
@@ -2849,6 +3112,13 @@ extension GetDataAutomationProjectInput {
             return nil
         }
         return "/data-automation-projects/\(projectArn.urlPercentEncoding())"
+    }
+}
+
+extension InvokeBlueprintOptimizationAsyncInput {
+
+    static func urlPathProvider(_ value: InvokeBlueprintOptimizationAsyncInput) -> Swift.String? {
+        return "/invokeBlueprintOptimizationAsync"
     }
 }
 
@@ -2907,6 +3177,16 @@ extension UpdateDataAutomationProjectInput {
     }
 }
 
+extension CopyBlueprintStageInput {
+
+    static func write(value: CopyBlueprintStageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["sourceStage"].write(value.sourceStage)
+        try writer["targetStage"].write(value.targetStage)
+    }
+}
+
 extension CreateBlueprintInput {
 
     static func write(value: CreateBlueprintInput?, to writer: SmithyJSON.Writer) throws {
@@ -2960,6 +3240,19 @@ extension GetDataAutomationProjectInput {
     static func write(value: GetDataAutomationProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["projectStage"].write(value.projectStage)
+    }
+}
+
+extension InvokeBlueprintOptimizationAsyncInput {
+
+    static func write(value: InvokeBlueprintOptimizationAsyncInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprint"].write(value.blueprint, with: BedrockDataAutomationClientTypes.BlueprintOptimizationObject.write(value:to:))
+        try writer["dataAutomationProfileArn"].write(value.dataAutomationProfileArn)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration.write(value:to:))
+        try writer["samples"].writeList(value.samples, memberWritingClosure: BedrockDataAutomationClientTypes.BlueprintOptimizationSample.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3037,6 +3330,13 @@ extension UpdateDataAutomationProjectInput {
     }
 }
 
+extension CopyBlueprintStageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CopyBlueprintStageOutput {
+        return CopyBlueprintStageOutput()
+    }
+}
+
 extension CreateBlueprintOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBlueprintOutput {
@@ -3107,6 +3407,21 @@ extension GetBlueprintOutput {
     }
 }
 
+extension GetBlueprintOptimizationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBlueprintOptimizationStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBlueprintOptimizationStatusOutput()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetDataAutomationProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataAutomationProjectOutput {
@@ -3115,6 +3430,18 @@ extension GetDataAutomationProjectOutput {
         let reader = responseReader
         var value = GetDataAutomationProjectOutput()
         value.project = try reader["project"].readIfPresent(with: BedrockDataAutomationClientTypes.DataAutomationProject.read(from:))
+        return value
+    }
+}
+
+extension InvokeBlueprintOptimizationAsyncOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeBlueprintOptimizationAsyncOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeBlueprintOptimizationAsyncOutput()
+        value.invocationArn = try reader["invocationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3194,6 +3521,24 @@ extension UpdateDataAutomationProjectOutput {
         value.projectStage = try reader["projectStage"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
+    }
+}
+
+enum CopyBlueprintStageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -3308,6 +3653,24 @@ enum GetBlueprintOutputError {
     }
 }
 
+enum GetBlueprintOptimizationStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataAutomationProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3319,6 +3682,25 @@ enum GetDataAutomationProjectOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeBlueprintOptimizationAsyncOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3469,19 +3851,6 @@ extension AccessDeniedException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -3495,11 +3864,11 @@ extension InternalServerException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3535,11 +3904,24 @@ extension ValidationException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3563,6 +3945,57 @@ extension BedrockDataAutomationClientTypes.Blueprint {
         value.blueprintStage = try reader["blueprintStage"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.optimizationSamples = try reader["optimizationSamples"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintOptimizationSample.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.optimizationTime = try reader["optimizationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationSample?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetS3Object"].write(value.assetS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+        try writer["groundTruthS3Object"].write(value.groundTruthS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationSample()
+        value.assetS3Object = try reader["assetS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
+        value.groundTruthS3Object = try reader["groundTruthS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.S3Object {
+
+    static func write(value: BedrockDataAutomationClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.S3Object()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Object"].write(value.s3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration()
+        value.s3Object = try reader["s3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
         return value
     }
 }
@@ -4332,6 +4765,15 @@ extension BedrockDataAutomationClientTypes.EncryptionConfiguration {
         guard let value else { return }
         try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationObject {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["stage"].write(value.stage)
     }
 }
 

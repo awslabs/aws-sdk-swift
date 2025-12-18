@@ -6207,13 +6207,15 @@ extension OpenSearchClientTypes {
         case data
         case master
         case ultrawarm
+        case warm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NodeType] {
             return [
                 .data,
                 .master,
-                .ultrawarm
+                .ultrawarm,
+                .warm
             ]
         }
 
@@ -6227,6 +6229,7 @@ extension OpenSearchClientTypes {
             case .data: return "Data"
             case .master: return "Master"
             case .ultrawarm: return "Ultrawarm"
+            case .warm: return "Warm"
             case let .sdkUnknown(s): return s
             }
         }

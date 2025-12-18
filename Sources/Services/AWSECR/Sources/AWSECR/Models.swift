@@ -1518,12 +1518,14 @@ public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 extension ECRClientTypes {
 
     public enum RCTAppliedFor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createOnPush
         case pullThroughCache
         case replication
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RCTAppliedFor] {
             return [
+                .createOnPush,
                 .pullThroughCache,
                 .replication
             ]
@@ -1536,6 +1538,7 @@ extension ECRClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createOnPush: return "CREATE_ON_PUSH"
             case .pullThroughCache: return "PULL_THROUGH_CACHE"
             case .replication: return "REPLICATION"
             case let .sdkUnknown(s): return s
@@ -1565,7 +1568,7 @@ extension ECRClientTypes {
 }
 
 public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
-    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     /// This member is required.
     public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
     /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
@@ -1617,7 +1620,7 @@ extension ECRClientTypes {
 
     /// The details of the repository creation template associated with the request.
     public struct RepositoryCreationTemplate: Swift.Sendable {
-        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
         public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
         /// The date and time, in JavaScript date format, when the repository creation template was created.
         public var createdAt: Foundation.Date?
@@ -5563,7 +5566,7 @@ public struct UpdatePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
-    /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
     /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
     public var customRoleArn: Swift.String?

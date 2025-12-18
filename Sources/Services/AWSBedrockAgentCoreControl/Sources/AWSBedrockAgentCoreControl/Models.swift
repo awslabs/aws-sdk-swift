@@ -4492,6 +4492,29 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for HTTP header and query parameter propagation between the gateway and target servers.
+    public struct MetadataConfiguration: Swift.Sendable {
+        /// A list of URL query parameters that are allowed to be propagated from incoming gateway URL to the target.
+        public var allowedQueryParameters: [Swift.String]?
+        /// A list of HTTP headers that are allowed to be propagated from incoming client requests to the target.
+        public var allowedRequestHeaders: [Swift.String]?
+        /// A list of HTTP headers that are allowed to be propagated from the target response back to the client.
+        public var allowedResponseHeaders: [Swift.String]?
+
+        public init(
+            allowedQueryParameters: [Swift.String]? = nil,
+            allowedRequestHeaders: [Swift.String]? = nil,
+            allowedResponseHeaders: [Swift.String]? = nil
+        ) {
+            self.allowedQueryParameters = allowedQueryParameters
+            self.allowedRequestHeaders = allowedRequestHeaders
+            self.allowedResponseHeaders = allowedResponseHeaders
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum RestApiMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delete
         case `get`
@@ -10290,6 +10313,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var gatewayArn: Swift.String?
         /// The last synchronization time.
         public var lastSynchronizedAt: Foundation.Date?
+        /// The metadata configuration for HTTP header and query parameter propagation to and from this gateway target.
+        public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
         /// The name of the gateway target.
         /// This member is required.
         public var name: Swift.String?
@@ -10314,6 +10339,7 @@ extension BedrockAgentCoreControlClientTypes {
             description: Swift.String? = nil,
             gatewayArn: Swift.String? = nil,
             lastSynchronizedAt: Foundation.Date? = nil,
+            metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
             name: Swift.String? = nil,
             status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
             statusReasons: [Swift.String]? = nil,
@@ -10326,6 +10352,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -10338,7 +10365,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.GatewayTarget: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GatewayTarget(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GatewayTarget(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetInput: Swift.Sendable {
@@ -10351,6 +10378,8 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
     /// The identifier of the gateway to create a target for.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
+    /// Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
     /// The name of the gateway target. The name must be unique within the gateway.
     /// This member is required.
     public var name: Swift.String?
@@ -10363,6 +10392,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayIdentifier: Swift.String? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil
     ) {
@@ -10370,6 +10400,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayIdentifier = gatewayIdentifier
+        self.metadataConfiguration = metadataConfiguration
         self.name = name
         self.targetConfiguration = targetConfiguration
     }
@@ -10377,7 +10408,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
 
 extension CreateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetOutput: Swift.Sendable {
@@ -10394,6 +10425,8 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     public var gatewayArn: Swift.String?
     /// The last synchronization of the target.
     public var lastSynchronizedAt: Foundation.Date?
+    /// The metadata configuration that was applied to the created gateway target.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
     /// The name of the target.
     /// This member is required.
     public var name: Swift.String?
@@ -10418,6 +10451,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
         lastSynchronizedAt: Foundation.Date? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -10430,6 +10464,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         self.description = description
         self.gatewayArn = gatewayArn
         self.lastSynchronizedAt = lastSynchronizedAt
+        self.metadataConfiguration = metadataConfiguration
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -10441,7 +10476,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
 extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
@@ -10458,6 +10493,8 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     public var gatewayArn: Swift.String?
     /// The last synchronization of the target.
     public var lastSynchronizedAt: Foundation.Date?
+    /// The metadata configuration for HTTP header and query parameter propagation for the retrieved gateway target.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
     /// The name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
@@ -10482,6 +10519,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
         lastSynchronizedAt: Foundation.Date? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -10494,6 +10532,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         self.description = description
         self.gatewayArn = gatewayArn
         self.lastSynchronizedAt = lastSynchronizedAt
+        self.metadataConfiguration = metadataConfiguration
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -10505,7 +10544,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
 extension GetGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetInput: Swift.Sendable {
@@ -10516,6 +10555,8 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
     /// The unique identifier of the gateway associated with the target.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
+    /// Configuration for HTTP header and query parameter propagation to the gateway target.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
     /// The updated name for the gateway target.
     /// This member is required.
     public var name: Swift.String?
@@ -10530,6 +10571,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayIdentifier: Swift.String? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil
@@ -10537,6 +10579,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayIdentifier = gatewayIdentifier
+        self.metadataConfiguration = metadataConfiguration
         self.name = name
         self.targetConfiguration = targetConfiguration
         self.targetId = targetId
@@ -10545,7 +10588,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
 
 extension UpdateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetOutput: Swift.Sendable {
@@ -10562,6 +10605,8 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     public var gatewayArn: Swift.String?
     /// The date and time at which the targets were last synchronized.
     public var lastSynchronizedAt: Foundation.Date?
+    /// The metadata configuration that was applied to the gateway target.
+    public var metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration?
     /// The updated name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
@@ -10586,6 +10631,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
         lastSynchronizedAt: Foundation.Date? = nil,
+        metadataConfiguration: BedrockAgentCoreControlClientTypes.MetadataConfiguration? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -10598,6 +10644,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         self.description = description
         self.gatewayArn = gatewayArn
         self.lastSynchronizedAt = lastSynchronizedAt
+        self.metadataConfiguration = metadataConfiguration
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -10609,7 +10656,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
 extension UpdateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
@@ -11793,6 +11840,7 @@ extension CreateGatewayTargetInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
@@ -12078,6 +12126,7 @@ extension UpdateGatewayTargetInput {
         guard let value else { return }
         try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
     }
@@ -12282,6 +12331,7 @@ extension CreateGatewayTargetOutput {
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12759,6 +12809,7 @@ extension GetGatewayTargetOutput {
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -13343,6 +13394,7 @@ extension UpdateGatewayTargetOutput {
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15833,6 +15885,25 @@ extension BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.MetadataConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.MetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedQueryParameters"].writeList(value.allowedQueryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedRequestHeaders"].writeList(value.allowedRequestHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResponseHeaders"].writeList(value.allowedResponseHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MetadataConfiguration()
+        value.allowedRequestHeaders = try reader["allowedRequestHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedQueryParameters = try reader["allowedQueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedResponseHeaders = try reader["allowedResponseHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Memory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Memory {
@@ -17307,6 +17378,7 @@ extension BedrockAgentCoreControlClientTypes.GatewayTarget {
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.read(from:))
         return value
     }
 }
