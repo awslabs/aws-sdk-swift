@@ -2546,6 +2546,54 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum ApprovalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case denied
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApprovalStatus] {
+            return [
+                .approved,
+                .denied,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .denied: return "DENIED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains detailed information about the approval state of a given member in the collaboration for a given collaboration change request.
+    public struct ApprovalStatusDetails: Swift.Sendable {
+        /// The approval status of a member's vote on the change request. Valid values are PENDING (if they haven't voted), APPROVED, or DENIED.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.ApprovalStatus?
+
+        public init(
+            status: CleanRoomsClientTypes.ApprovalStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum CommercialRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
@@ -2704,11 +2752,15 @@ extension CleanRoomsClientTypes {
 
     public enum AutoApprovedChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case addMember
+        case grantReceiveResultsAbility
+        case revokeReceiveResultsAbility
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutoApprovedChangeType] {
             return [
-                .addMember
+                .addMember,
+                .grantReceiveResultsAbility,
+                .revokeReceiveResultsAbility
             ]
         }
 
@@ -2720,6 +2772,8 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .addMember: return "ADD_MEMBER"
+            case .grantReceiveResultsAbility: return "GRANT_RECEIVE_RESULTS_ABILITY"
+            case .revokeReceiveResultsAbility: return "REVOKE_RECEIVE_RESULTS_ABILITY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3966,6 +4020,21 @@ public struct CreateCollaborationOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// Defines the specific changes being requested for a collaboration, including configuration modifications and approval requirements.
+    public struct CollaborationChangeSpecification: Swift.Sendable {
+        /// Defines requested updates to properties of the collaboration. Currently, this only supports modifying which change types are auto-approved for the collaboration.
+        public var autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]?
+
+        public init(
+            autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil
+        ) {
+            self.autoApprovedChangeTypes = autoApprovedChangeTypes
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Specifies changes to collaboration membership, including adding new members with their abilities and display names.
     public struct MemberChangeSpecification: Swift.Sendable {
         /// The Amazon Web Services account ID of the member to add to the collaboration.
@@ -3995,6 +4064,8 @@ extension CleanRoomsClientTypes {
     public enum ChangeSpecification: Swift.Sendable {
         /// The member change specification when the change type is MEMBER.
         case member(CleanRoomsClientTypes.MemberChangeSpecification)
+        /// The collaboration configuration changes being requested. Currently, this only supports modifying which change types are auto-approved for the collaboration.
+        case collaboration(CleanRoomsClientTypes.CollaborationChangeSpecification)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4002,11 +4073,13 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
 
     public enum ChangeSpecificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case collaboration
         case member
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChangeSpecificationType] {
             return [
+                .collaboration,
                 .member
             ]
         }
@@ -4018,6 +4091,7 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .collaboration: return "COLLABORATION"
             case .member: return "MEMBER"
             case let .sdkUnknown(s): return s
             }
@@ -4067,11 +4141,17 @@ extension CleanRoomsClientTypes {
 
     public enum ChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case addMember
+        case editAutoApprovedChangeTypes
+        case grantReceiveResultsAbility
+        case revokeReceiveResultsAbility
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChangeType] {
             return [
-                .addMember
+                .addMember,
+                .editAutoApprovedChangeTypes,
+                .grantReceiveResultsAbility,
+                .revokeReceiveResultsAbility
             ]
         }
 
@@ -4083,6 +4163,9 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .addMember: return "ADD_MEMBER"
+            case .editAutoApprovedChangeTypes: return "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+            case .grantReceiveResultsAbility: return "GRANT_RECEIVE_RESULTS_ABILITY"
+            case .revokeReceiveResultsAbility: return "REVOKE_RECEIVE_RESULTS_ABILITY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4157,6 +4240,8 @@ extension CleanRoomsClientTypes {
 
     /// Represents a request to modify a collaboration. Change requests enable structured modifications to collaborations after they have been created.
     public struct CollaborationChangeRequest: Swift.Sendable {
+        /// A list of approval details from collaboration members, including approval status and multi-party approval workflow information.
+        public var approvals: [Swift.String: CleanRoomsClientTypes.ApprovalStatusDetails]?
         /// The list of changes specified in this change request.
         /// This member is required.
         public var changes: [CleanRoomsClientTypes.Change]?
@@ -4180,6 +4265,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            approvals: [Swift.String: CleanRoomsClientTypes.ApprovalStatusDetails]? = nil,
             changes: [CleanRoomsClientTypes.Change]? = nil,
             collaborationId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
@@ -4188,6 +4274,7 @@ extension CleanRoomsClientTypes {
             status: CleanRoomsClientTypes.ChangeRequestStatus? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.approvals = approvals
             self.changes = changes
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -4944,6 +5031,8 @@ extension CleanRoomsClientTypes {
 
     /// Summary information about a collaboration change request.
     public struct CollaborationChangeRequestSummary: Swift.Sendable {
+        /// Summary of approval statuses from all collaboration members for this change request.
+        public var approvals: [Swift.String: CleanRoomsClientTypes.ApprovalStatusDetails]?
         /// Summary of the changes in this change request.
         /// This member is required.
         public var changes: [CleanRoomsClientTypes.Change]?
@@ -4967,6 +5056,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            approvals: [Swift.String: CleanRoomsClientTypes.ApprovalStatusDetails]? = nil,
             changes: [CleanRoomsClientTypes.Change]? = nil,
             collaborationId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
@@ -4975,6 +5065,7 @@ extension CleanRoomsClientTypes {
             status: CleanRoomsClientTypes.ChangeRequestStatus? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.approvals = approvals
             self.changes = changes
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -5857,6 +5948,75 @@ public struct UpdateCollaborationOutput: Swift.Sendable {
         collaboration: CleanRoomsClientTypes.Collaboration? = nil
     ) {
         self.collaboration = collaboration
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ChangeRequestAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approve
+        case cancel
+        case commit
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeRequestAction] {
+            return [
+                .approve,
+                .cancel,
+                .commit,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approve: return "APPROVE"
+            case .cancel: return "CANCEL"
+            case .commit: return "COMMIT"
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateCollaborationChangeRequestInput: Swift.Sendable {
+    /// The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    /// This member is required.
+    public var action: CleanRoomsClientTypes.ChangeRequestAction?
+    /// The unique identifier of the specific change request to be updated within the collaboration.
+    /// This member is required.
+    public var changeRequestIdentifier: Swift.String?
+    /// The unique identifier of the collaboration that contains the change request to be updated.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+
+    public init(
+        action: CleanRoomsClientTypes.ChangeRequestAction? = nil,
+        changeRequestIdentifier: Swift.String? = nil,
+        collaborationIdentifier: Swift.String? = nil
+    ) {
+        self.action = action
+        self.changeRequestIdentifier = changeRequestIdentifier
+        self.collaborationIdentifier = collaborationIdentifier
+    }
+}
+
+public struct UpdateCollaborationChangeRequestOutput: Swift.Sendable {
+    /// Represents a request to modify a collaboration. Change requests enable structured modifications to collaborations after they have been created.
+    /// This member is required.
+    public var collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest?
+
+    public init(
+        collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest? = nil
+    ) {
+        self.collaborationChangeRequest = collaborationChangeRequest
     }
 }
 
@@ -12053,6 +12213,19 @@ extension UpdateCollaborationInput {
     }
 }
 
+extension UpdateCollaborationChangeRequestInput {
+
+    static func urlPathProvider(_ value: UpdateCollaborationChangeRequestInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
+            return nil
+        }
+        guard let changeRequestIdentifier = value.changeRequestIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/changeRequests/\(changeRequestIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateConfiguredAudienceModelAssociationInput {
 
     static func urlPathProvider(_ value: UpdateConfiguredAudienceModelAssociationInput) -> Swift.String? {
@@ -12428,6 +12601,14 @@ extension UpdateCollaborationInput {
         try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateCollaborationChangeRequestInput {
+
+    static func write(value: UpdateCollaborationChangeRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
     }
 }
 
@@ -13394,6 +13575,18 @@ extension UpdateCollaborationOutput {
         let reader = responseReader
         var value = UpdateCollaborationOutput()
         value.collaboration = try reader["collaboration"].readIfPresent(with: CleanRoomsClientTypes.Collaboration.read(from:))
+        return value
+    }
+}
+
+extension UpdateCollaborationChangeRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCollaborationChangeRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCollaborationChangeRequestOutput()
+        value.collaborationChangeRequest = try reader["collaborationChangeRequest"].readIfPresent(with: CleanRoomsClientTypes.CollaborationChangeRequest.read(from:))
         return value
     }
 }
@@ -14914,6 +15107,25 @@ enum UpdateCollaborationOutputError {
     }
 }
 
+enum UpdateCollaborationChangeRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateConfiguredAudienceModelAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16144,6 +16356,17 @@ extension CleanRoomsClientTypes.CollaborationChangeRequest {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.isAutoApproved = try reader["isAutoApproved"].readIfPresent() ?? false
         value.changes = try reader["changes"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.approvals = try reader["approvals"].readMapIfPresent(valueReadingClosure: CleanRoomsClientTypes.ApprovalStatusDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ApprovalStatusDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ApprovalStatusDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ApprovalStatusDetails()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16165,6 +16388,8 @@ extension CleanRoomsClientTypes.ChangeSpecification {
     static func write(value: CleanRoomsClientTypes.ChangeSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .collaboration(collaboration):
+                try writer["collaboration"].write(collaboration, with: CleanRoomsClientTypes.CollaborationChangeSpecification.write(value:to:))
             case let .member(member):
                 try writer["member"].write(member, with: CleanRoomsClientTypes.MemberChangeSpecification.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -16178,9 +16403,26 @@ extension CleanRoomsClientTypes.ChangeSpecification {
         switch name {
             case "member":
                 return .member(try reader["member"].read(with: CleanRoomsClientTypes.MemberChangeSpecification.read(from:)))
+            case "collaboration":
+                return .collaboration(try reader["collaboration"].read(with: CleanRoomsClientTypes.CollaborationChangeSpecification.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.CollaborationChangeSpecification {
+
+    static func write(value: CleanRoomsClientTypes.CollaborationChangeSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoApprovedChangeTypes"].writeList(value.autoApprovedChangeTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationChangeSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.CollaborationChangeSpecification()
+        value.autoApprovedChangeTypes = try reader["autoApprovedChangeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -17595,6 +17837,7 @@ extension CleanRoomsClientTypes.CollaborationChangeRequestSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.isAutoApproved = try reader["isAutoApproved"].readIfPresent() ?? false
         value.changes = try reader["changes"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.approvals = try reader["approvals"].readMapIfPresent(valueReadingClosure: CleanRoomsClientTypes.ApprovalStatusDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

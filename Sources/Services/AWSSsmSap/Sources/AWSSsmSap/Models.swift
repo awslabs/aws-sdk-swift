@@ -1224,6 +1224,7 @@ extension SsmSapClientTypes {
         case running
         case starting
         case stopped
+        case stopping
         case unknown
         case warning
         case sdkUnknown(Swift.String)
@@ -1234,6 +1235,7 @@ extension SsmSapClientTypes {
                 .running,
                 .starting,
                 .stopped,
+                .stopping,
                 .unknown,
                 .warning
             ]
@@ -1250,6 +1252,7 @@ extension SsmSapClientTypes {
             case .running: return "RUNNING"
             case .starting: return "STARTING"
             case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
             case .unknown: return "UNKNOWN"
             case .warning: return "WARNING"
             case let .sdkUnknown(s): return s
