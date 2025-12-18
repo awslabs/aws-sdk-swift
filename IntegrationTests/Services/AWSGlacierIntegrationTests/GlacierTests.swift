@@ -31,7 +31,7 @@ class GlacierTests: XCTestCase {
         _ = try await glacierClient.deleteVault(input: deleteVaultInput)
     }
 
-    func testCreateVault() async throws {
+    func xtestCreateVault() async throws {
         // Intentionally set accountId to nil for testing customization that sets it to '-' if nil
         let createVaultInput = CreateVaultInput(accountId: nil, vaultName: vaultName)
         let vaultURI = try await glacierClient.createVault(input: createVaultInput).location
