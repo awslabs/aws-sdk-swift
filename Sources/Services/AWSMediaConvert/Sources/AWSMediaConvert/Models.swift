@@ -5397,7 +5397,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+    /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
     public enum AudioDefaultSelection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case notDefault
@@ -5498,7 +5498,7 @@ extension MediaConvertClientTypes {
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public var customLanguageCode: Swift.String?
-        /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+        /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
         public var defaultSelection: MediaConvertClientTypes.AudioDefaultSelection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public var externalAudioFileInput: Swift.String?
@@ -5967,6 +5967,7 @@ extension MediaConvertClientTypes {
         case stl
         case teletext
         case ttml
+        case tt3gpp
         case webvtt
         case sdkUnknown(Swift.String)
 
@@ -5985,6 +5986,7 @@ extension MediaConvertClientTypes {
                 .stl,
                 .teletext,
                 .ttml,
+                .tt3gpp,
                 .webvtt
             ]
         }
@@ -6009,6 +6011,7 @@ extension MediaConvertClientTypes {
             case .stl: return "STL"
             case .teletext: return "TELETEXT"
             case .ttml: return "TTML"
+            case .tt3gpp: return "TT_3GPP"
             case .webvtt: return "WEBVTT"
             case let .sdkUnknown(s): return s
             }
@@ -6644,6 +6647,8 @@ extension MediaConvertClientTypes {
         public var framerateNumerator: Swift.Int?
         /// Specify the height, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a height: Enter an even integer from 32 to 8192. When you do, you must also specify a value for width.
         public var height: Swift.Int?
+        /// Specify the HTTP, HTTPS, or Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
+        public var imageInput: Swift.String?
         /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input. Enter an integer from 32000 to 48000.
         public var sampleRate: Swift.Int?
         /// Specify the width, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a width: Enter an even integer from 32 to 8192. When you do, you must also specify a value for height.
@@ -6655,6 +6660,7 @@ extension MediaConvertClientTypes {
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
             height: Swift.Int? = nil,
+            imageInput: Swift.String? = nil,
             sampleRate: Swift.Int? = nil,
             width: Swift.Int? = nil
         ) {
@@ -6663,6 +6669,7 @@ extension MediaConvertClientTypes {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.height = height
+            self.imageInput = imageInput
             self.sampleRate = sampleRate
             self.width = width
         }
@@ -6788,6 +6795,8 @@ extension MediaConvertClientTypes {
 
     /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
     public struct VideoOverlayInput: Swift.Sendable {
+        /// Use Audio selectors to specify audio to use during your Video overlay. You can use multiple Audio selectors per Video overlay. When you include an Audio selector within a Video overlay, MediaConvert mutes any Audio selectors with the same name from the underlying input. For example, if your underlying input has Audio selector 1 and Audio selector 2, and your Video overlay only has Audio selector 1, then MediaConvert replaces all audio for Audio selector 1 during the Video overlay. To replace all audio for all Audio selectors from the underlying input by using a single Audio selector in your overlay, set DefaultSelection to DEFAULT (Check "Use as default" in the MediaConvert console).
+        public var audioSelectors: [Swift.String: MediaConvertClientTypes.AudioSelector]?
         /// Specify the input file S3, HTTP, or HTTPS URL for your video overlay. To specify one or more Transitions for your base input video instead: Leave blank.
         public var fileInput: Swift.String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
@@ -6798,11 +6807,13 @@ extension MediaConvertClientTypes {
         public var timecodeStart: Swift.String?
 
         public init(
+            audioSelectors: [Swift.String: MediaConvertClientTypes.AudioSelector]? = nil,
             fileInput: Swift.String? = nil,
             inputClippings: [MediaConvertClientTypes.VideoOverlayInputClipping]? = nil,
             timecodeSource: MediaConvertClientTypes.InputTimecodeSource? = nil,
             timecodeStart: Swift.String? = nil
         ) {
+            self.audioSelectors = audioSelectors
             self.fileInput = fileInput
             self.inputClippings = inputClippings
             self.timecodeSource = timecodeSource
@@ -16535,6 +16546,66 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+    public enum H265MvOverPictureBoundaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvOverPictureBoundaries] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+    public enum H265MvTemporalPredictor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvTemporalPredictor] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
     public enum H265ParControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case initializeFromSource
@@ -16903,6 +16974,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+    public enum H265TilePadding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case padded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TilePadding] {
+            return [
+                .none,
+                .padded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .padded: return "PADDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
     public enum H265Tiles: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -16925,6 +17026,36 @@ extension MediaConvertClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+    public enum H265TreeBlockSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case treeSize32x32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TreeBlockSize] {
+            return [
+                .auto,
+                .treeSize32x32
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .treeSize32x32: return "TREE_SIZE_32X32"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17043,6 +17174,10 @@ extension MediaConvertClientTypes {
         public var maxBitrate: Swift.Int?
         /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public var minIInterval: Swift.Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public var mvOverPictureBoundaries: MediaConvertClientTypes.H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public var mvTemporalPredictor: MediaConvertClientTypes.H265MvTemporalPredictor?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
@@ -17079,8 +17214,16 @@ extension MediaConvertClientTypes {
         public var temporalAdaptiveQuantization: MediaConvertClientTypes.H265TemporalAdaptiveQuantization?
         /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers are supported depending on GOP structure: I- and P-frames form one layer, reference B-frames can form a second layer and non-reference b-frames can form a third layer. Decoders can optionally decode only the lower temporal layers to generate a lower frame rate output. For example, given a bitstream with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a decoder could decode all the frames for full frame rate output or only the I and P frames (lowest temporal layer) for a half frame rate output.
         public var temporalIds: MediaConvertClientTypes.H265TemporalIds?
+        /// Set this field to set up the picture as a tile. You must also set TileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 or less. If the tile width and height are specified, MediaConvert will override the video codec slices field with a value that MediaConvert calculates.
+        public var tileHeight: Swift.Int?
+        /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public var tilePadding: MediaConvertClientTypes.H265TilePadding?
+        /// Set this field to set up the picture as a tile. See TileHeight for more information.
+        public var tileWidth: Swift.Int?
         /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
         public var tiles: MediaConvertClientTypes.H265Tiles?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public var treeBlockSize: MediaConvertClientTypes.H265TreeBlockSize?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public var unregisteredSeiTimecode: MediaConvertClientTypes.H265UnregisteredSeiTimecode?
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
@@ -17111,6 +17254,8 @@ extension MediaConvertClientTypes {
             interlaceMode: MediaConvertClientTypes.H265InterlaceMode? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            mvOverPictureBoundaries: MediaConvertClientTypes.H265MvOverPictureBoundaries? = nil,
+            mvTemporalPredictor: MediaConvertClientTypes.H265MvTemporalPredictor? = nil,
             numberBFramesBetweenReferenceFrames: Swift.Int? = nil,
             numberReferenceFrames: Swift.Int? = nil,
             parControl: MediaConvertClientTypes.H265ParControl? = nil,
@@ -17129,7 +17274,11 @@ extension MediaConvertClientTypes {
             telecine: MediaConvertClientTypes.H265Telecine? = nil,
             temporalAdaptiveQuantization: MediaConvertClientTypes.H265TemporalAdaptiveQuantization? = nil,
             temporalIds: MediaConvertClientTypes.H265TemporalIds? = nil,
+            tileHeight: Swift.Int? = nil,
+            tilePadding: MediaConvertClientTypes.H265TilePadding? = nil,
+            tileWidth: Swift.Int? = nil,
             tiles: MediaConvertClientTypes.H265Tiles? = nil,
+            treeBlockSize: MediaConvertClientTypes.H265TreeBlockSize? = nil,
             unregisteredSeiTimecode: MediaConvertClientTypes.H265UnregisteredSeiTimecode? = nil,
             writeMp4PackagingType: MediaConvertClientTypes.H265WriteMp4PackagingType? = nil
         ) {
@@ -17157,6 +17306,8 @@ extension MediaConvertClientTypes {
             self.interlaceMode = interlaceMode
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
             self.numberReferenceFrames = numberReferenceFrames
             self.parControl = parControl
@@ -17175,7 +17326,11 @@ extension MediaConvertClientTypes {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.temporalIds = temporalIds
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
+            self.tileWidth = tileWidth
             self.tiles = tiles
+            self.treeBlockSize = treeBlockSize
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
             self.writeMp4PackagingType = writeMp4PackagingType
         }
@@ -27779,6 +27934,8 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["interlaceMode"].write(value.interlaceMode)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["minIInterval"].write(value.minIInterval)
+        try writer["mvOverPictureBoundaries"].write(value.mvOverPictureBoundaries)
+        try writer["mvTemporalPredictor"].write(value.mvTemporalPredictor)
         try writer["numberBFramesBetweenReferenceFrames"].write(value.numberBFramesBetweenReferenceFrames)
         try writer["numberReferenceFrames"].write(value.numberReferenceFrames)
         try writer["parControl"].write(value.parControl)
@@ -27797,7 +27954,11 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["telecine"].write(value.telecine)
         try writer["temporalAdaptiveQuantization"].write(value.temporalAdaptiveQuantization)
         try writer["temporalIds"].write(value.temporalIds)
+        try writer["tileHeight"].write(value.tileHeight)
+        try writer["tilePadding"].write(value.tilePadding)
+        try writer["tileWidth"].write(value.tileWidth)
         try writer["tiles"].write(value.tiles)
+        try writer["treeBlockSize"].write(value.treeBlockSize)
         try writer["unregisteredSeiTimecode"].write(value.unregisteredSeiTimecode)
         try writer["writeMp4PackagingType"].write(value.writeMp4PackagingType)
     }
@@ -27829,6 +27990,8 @@ extension MediaConvertClientTypes.H265Settings {
         value.interlaceMode = try reader["interlaceMode"].readIfPresent()
         value.maxBitrate = try reader["maxBitrate"].readIfPresent()
         value.minIInterval = try reader["minIInterval"].readIfPresent()
+        value.mvOverPictureBoundaries = try reader["mvOverPictureBoundaries"].readIfPresent()
+        value.mvTemporalPredictor = try reader["mvTemporalPredictor"].readIfPresent()
         value.numberBFramesBetweenReferenceFrames = try reader["numberBFramesBetweenReferenceFrames"].readIfPresent()
         value.numberReferenceFrames = try reader["numberReferenceFrames"].readIfPresent()
         value.parControl = try reader["parControl"].readIfPresent()
@@ -27847,7 +28010,11 @@ extension MediaConvertClientTypes.H265Settings {
         value.telecine = try reader["telecine"].readIfPresent()
         value.temporalAdaptiveQuantization = try reader["temporalAdaptiveQuantization"].readIfPresent()
         value.temporalIds = try reader["temporalIds"].readIfPresent()
+        value.tileHeight = try reader["tileHeight"].readIfPresent()
+        value.tilePadding = try reader["tilePadding"].readIfPresent()
+        value.tileWidth = try reader["tileWidth"].readIfPresent()
         value.tiles = try reader["tiles"].readIfPresent()
+        value.treeBlockSize = try reader["treeBlockSize"].readIfPresent()
         value.unregisteredSeiTimecode = try reader["unregisteredSeiTimecode"].readIfPresent()
         value.writeMp4PackagingType = try reader["writeMp4PackagingType"].readIfPresent()
         return value
@@ -30608,6 +30775,7 @@ extension MediaConvertClientTypes.VideoOverlayInput {
 
     static func write(value: MediaConvertClientTypes.VideoOverlayInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioSelectors"].writeMap(value.audioSelectors, valueWritingClosure: MediaConvertClientTypes.AudioSelector.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["fileInput"].write(value.fileInput)
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.VideoOverlayInputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timecodeSource"].write(value.timecodeSource)
@@ -30617,6 +30785,7 @@ extension MediaConvertClientTypes.VideoOverlayInput {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoOverlayInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoOverlayInput()
+        value.audioSelectors = try reader["audioSelectors"].readMapIfPresent(valueReadingClosure: MediaConvertClientTypes.AudioSelector.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.fileInput = try reader["fileInput"].readIfPresent()
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.VideoOverlayInputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timecodeSource = try reader["timecodeSource"].readIfPresent()
@@ -30638,6 +30807,64 @@ extension MediaConvertClientTypes.VideoOverlayInputClipping {
         var value = MediaConvertClientTypes.VideoOverlayInputClipping()
         value.endTimecode = try reader["endTimecode"].readIfPresent()
         value.startTimecode = try reader["startTimecode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioSelector {
+
+    static func write(value: MediaConvertClientTypes.AudioSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioDurationCorrection"].write(value.audioDurationCorrection)
+        try writer["customLanguageCode"].write(value.customLanguageCode)
+        try writer["defaultSelection"].write(value.defaultSelection)
+        try writer["externalAudioFileInput"].write(value.externalAudioFileInput)
+        try writer["hlsRenditionGroupSettings"].write(value.hlsRenditionGroupSettings, with: MediaConvertClientTypes.HlsRenditionGroupSettings.write(value:to:))
+        try writer["languageCode"].write(value.languageCode)
+        try writer["offset"].write(value.offset)
+        try writer["pids"].writeList(value.pids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["programSelection"].write(value.programSelection)
+        try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
+        try writer["selectorType"].write(value.selectorType)
+        try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioSelector()
+        value.audioDurationCorrection = try reader["audioDurationCorrection"].readIfPresent()
+        value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
+        value.defaultSelection = try reader["defaultSelection"].readIfPresent()
+        value.externalAudioFileInput = try reader["externalAudioFileInput"].readIfPresent()
+        value.hlsRenditionGroupSettings = try reader["hlsRenditionGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsRenditionGroupSettings.read(from:))
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent()
+        value.pids = try reader["pids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.programSelection = try reader["programSelection"].readIfPresent()
+        value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
+        value.selectorType = try reader["selectorType"].readIfPresent()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.HlsRenditionGroupSettings {
+
+    static func write(value: MediaConvertClientTypes.HlsRenditionGroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["renditionGroupId"].write(value.renditionGroupId)
+        try writer["renditionLanguageCode"].write(value.renditionLanguageCode)
+        try writer["renditionName"].write(value.renditionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsRenditionGroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.HlsRenditionGroupSettings()
+        value.renditionGroupId = try reader["renditionGroupId"].readIfPresent()
+        value.renditionLanguageCode = try reader["renditionLanguageCode"].readIfPresent()
+        value.renditionName = try reader["renditionName"].readIfPresent()
         return value
     }
 }
@@ -30674,6 +30901,7 @@ extension MediaConvertClientTypes.InputVideoGenerator {
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
         try writer["height"].write(value.height)
+        try writer["imageInput"].write(value.imageInput)
         try writer["sampleRate"].write(value.sampleRate)
         try writer["width"].write(value.width)
     }
@@ -30686,6 +30914,7 @@ extension MediaConvertClientTypes.InputVideoGenerator {
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         value.height = try reader["height"].readIfPresent()
+        value.imageInput = try reader["imageInput"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
         return value
@@ -30970,64 +31199,6 @@ extension MediaConvertClientTypes.AncillarySourceSettings {
         value.convert608To708 = try reader["convert608To708"].readIfPresent()
         value.sourceAncillaryChannelNumber = try reader["sourceAncillaryChannelNumber"].readIfPresent()
         value.terminateCaptions = try reader["terminateCaptions"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConvertClientTypes.AudioSelector {
-
-    static func write(value: MediaConvertClientTypes.AudioSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioDurationCorrection"].write(value.audioDurationCorrection)
-        try writer["customLanguageCode"].write(value.customLanguageCode)
-        try writer["defaultSelection"].write(value.defaultSelection)
-        try writer["externalAudioFileInput"].write(value.externalAudioFileInput)
-        try writer["hlsRenditionGroupSettings"].write(value.hlsRenditionGroupSettings, with: MediaConvertClientTypes.HlsRenditionGroupSettings.write(value:to:))
-        try writer["languageCode"].write(value.languageCode)
-        try writer["offset"].write(value.offset)
-        try writer["pids"].writeList(value.pids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["programSelection"].write(value.programSelection)
-        try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
-        try writer["selectorType"].write(value.selectorType)
-        try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConvertClientTypes.AudioSelector()
-        value.audioDurationCorrection = try reader["audioDurationCorrection"].readIfPresent()
-        value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
-        value.defaultSelection = try reader["defaultSelection"].readIfPresent()
-        value.externalAudioFileInput = try reader["externalAudioFileInput"].readIfPresent()
-        value.hlsRenditionGroupSettings = try reader["hlsRenditionGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsRenditionGroupSettings.read(from:))
-        value.languageCode = try reader["languageCode"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent()
-        value.pids = try reader["pids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.programSelection = try reader["programSelection"].readIfPresent()
-        value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
-        value.selectorType = try reader["selectorType"].readIfPresent()
-        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaConvertClientTypes.HlsRenditionGroupSettings {
-
-    static func write(value: MediaConvertClientTypes.HlsRenditionGroupSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["renditionGroupId"].write(value.renditionGroupId)
-        try writer["renditionLanguageCode"].write(value.renditionLanguageCode)
-        try writer["renditionName"].write(value.renditionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsRenditionGroupSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConvertClientTypes.HlsRenditionGroupSettings()
-        value.renditionGroupId = try reader["renditionGroupId"].readIfPresent()
-        value.renditionLanguageCode = try reader["renditionLanguageCode"].readIfPresent()
-        value.renditionName = try reader["renditionName"].readIfPresent()
         return value
     }
 }
