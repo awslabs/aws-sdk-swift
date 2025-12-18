@@ -2047,6 +2047,38 @@ public struct ListRoute53HealthChecksInput: Swift.Sendable {
 
 extension ARCRegionswitchClientTypes {
 
+    public enum Route53HealthCheckStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Route53HealthCheckStatus] {
+            return [
+                .healthy,
+                .unhealthy,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "healthy"
+            case .unhealthy: return "unhealthy"
+            case .unknown: return "unknown"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// The Amazon Route 53 health check.
     public struct Route53HealthCheck: Swift.Sendable {
         /// The Amazon Route 53 health check ID.
@@ -2060,22 +2092,93 @@ extension ARCRegionswitchClientTypes {
         /// The Amazon Route 53 Region.
         /// This member is required.
         public var region: Swift.String?
+        /// The Amazon Route 53 health check status.
+        public var status: ARCRegionswitchClientTypes.Route53HealthCheckStatus?
 
         public init(
             healthCheckId: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             recordName: Swift.String? = nil,
-            region: Swift.String? = nil
+            region: Swift.String? = nil,
+            status: ARCRegionswitchClientTypes.Route53HealthCheckStatus? = nil
         ) {
             self.healthCheckId = healthCheckId
             self.hostedZoneId = hostedZoneId
             self.recordName = recordName
             self.region = region
+            self.status = status
         }
     }
 }
 
 public struct ListRoute53HealthChecksOutput: Swift.Sendable {
+    /// List of the health checks requested.
+    public var healthChecks: [ARCRegionswitchClientTypes.Route53HealthCheck]?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        healthChecks: [ARCRegionswitchClientTypes.Route53HealthCheck]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.healthChecks = healthChecks
+        self.nextToken = nextToken
+    }
+}
+
+/// The request processing has an invalid argument.
+public struct IllegalArgumentException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IllegalArgumentException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct ListRoute53HealthChecksInRegionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The hosted zone ID for the health checks.
+    public var hostedZoneId: Swift.String?
+    /// The number of objects that you want to return with this call.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The record name for the health checks.
+    public var recordName: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        hostedZoneId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recordName: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.hostedZoneId = hostedZoneId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recordName = recordName
+    }
+}
+
+public struct ListRoute53HealthChecksInRegionOutput: Swift.Sendable {
     /// List of the health checks requested.
     public var healthChecks: [ARCRegionswitchClientTypes.Route53HealthCheck]?
     /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
@@ -2238,30 +2341,6 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The request processing has an invalid argument.
-public struct IllegalArgumentException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "IllegalArgumentException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct StartPlanExecutionInput: Swift.Sendable {
@@ -2936,6 +3015,13 @@ extension ListRoute53HealthChecksInput {
     }
 }
 
+extension ListRoute53HealthChecksInRegionInput {
+
+    static func urlPathProvider(_ value: ListRoute53HealthChecksInRegionInput) -> Swift.String? {
+        return "/service/ArcRegionSwitch/operation/ListRoute53HealthChecksInRegion"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -3114,6 +3200,18 @@ extension ListPlansInRegionInput {
 extension ListRoute53HealthChecksInput {
 
     static func write(value: ListRoute53HealthChecksInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["hostedZoneId"].write(value.hostedZoneId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["recordName"].write(value.recordName)
+    }
+}
+
+extension ListRoute53HealthChecksInRegionInput {
+
+    static func write(value: ListRoute53HealthChecksInRegionInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["hostedZoneId"].write(value.hostedZoneId)
@@ -3359,6 +3457,19 @@ extension ListRoute53HealthChecksOutput {
         let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListRoute53HealthChecksOutput()
+        value.healthChecks = try reader["healthChecks"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Route53HealthCheck.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRoute53HealthChecksInRegionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRoute53HealthChecksInRegionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRoute53HealthChecksInRegionOutput()
         value.healthChecks = try reader["healthChecks"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Route53HealthCheck.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
@@ -3616,6 +3727,23 @@ enum ListRoute53HealthChecksOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRoute53HealthChecksInRegionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4533,6 +4661,7 @@ extension ARCRegionswitchClientTypes.Route53HealthCheck {
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent() ?? ""
         value.recordName = try reader["recordName"].readIfPresent() ?? ""
         value.healthCheckId = try reader["healthCheckId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         value.region = try reader["region"].readIfPresent() ?? ""
         return value
     }

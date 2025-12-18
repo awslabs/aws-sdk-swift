@@ -369,6 +369,79 @@ extension BedrockDataAutomationClient {
 }
 
 extension BedrockDataAutomationClient {
+    /// Performs the `CopyBlueprintStage` operation on the `BedrockDataAutomation` service.
+    ///
+    /// Copies a Blueprint from one stage to another
+    ///
+    /// - Parameter input: CopyBlueprintStage Request (Type: `CopyBlueprintStageInput`)
+    ///
+    /// - Returns: CopyBlueprintStage Response (Type: `CopyBlueprintStageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    public func copyBlueprintStage(input: CopyBlueprintStageInput) async throws -> CopyBlueprintStageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "copyBlueprintStage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CopyBlueprintStageInput, CopyBlueprintStageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(CopyBlueprintStageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyBlueprintStageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyBlueprintStageOutput>(CopyBlueprintStageOutput.httpOutput(from:), CopyBlueprintStageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CopyBlueprintStageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Data Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyBlueprintStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyBlueprintStageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CopyBlueprintStageInput, CopyBlueprintStageOutput>(serviceID: serviceName, version: BedrockDataAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockDataAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyBlueprintStage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateBlueprint` operation on the `BedrockDataAutomation` service.
     ///
     /// Creates an Amazon Bedrock Data Automation Blueprint
@@ -802,6 +875,75 @@ extension BedrockDataAutomationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetBlueprintOptimizationStatus` operation on the `BedrockDataAutomation` service.
+    ///
+    /// API used to get blueprint optimization status.
+    ///
+    /// - Parameter input: Structure for request of GetBlueprintOptimizationStatus API. (Type: `GetBlueprintOptimizationStatusInput`)
+    ///
+    /// - Returns: Response of GetBlueprintOptimizationStatus API. (Type: `GetBlueprintOptimizationStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    public func getBlueprintOptimizationStatus(input: GetBlueprintOptimizationStatusInput) async throws -> GetBlueprintOptimizationStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getBlueprintOptimizationStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>(GetBlueprintOptimizationStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintOptimizationStatusOutput>(GetBlueprintOptimizationStatusOutput.httpOutput(from:), GetBlueprintOptimizationStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintOptimizationStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Data Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlueprintOptimizationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlueprintOptimizationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBlueprintOptimizationStatusInput, GetBlueprintOptimizationStatusOutput>(serviceID: serviceName, version: BedrockDataAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockDataAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBlueprintOptimizationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDataAutomationProject` operation on the `BedrockDataAutomation` service.
     ///
     /// Gets an existing Amazon Bedrock Data Automation Project
@@ -862,6 +1004,79 @@ extension BedrockDataAutomationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockDataAutomation")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataAutomationProject")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `InvokeBlueprintOptimizationAsync` operation on the `BedrockDataAutomation` service.
+    ///
+    /// Invoke an async job to perform Blueprint Optimization
+    ///
+    /// - Parameter input: Invoke Blueprint Optimization Async Request (Type: `InvokeBlueprintOptimizationAsyncInput`)
+    ///
+    /// - Returns: Invoke Blueprint Optimization Async Response (Type: `InvokeBlueprintOptimizationAsyncOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    public func invokeBlueprintOptimizationAsync(input: InvokeBlueprintOptimizationAsyncInput) async throws -> InvokeBlueprintOptimizationAsyncOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "invokeBlueprintOptimizationAsync")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>(InvokeBlueprintOptimizationAsyncInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InvokeBlueprintOptimizationAsyncInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeBlueprintOptimizationAsyncOutput>(InvokeBlueprintOptimizationAsyncOutput.httpOutput(from:), InvokeBlueprintOptimizationAsyncOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InvokeBlueprintOptimizationAsyncOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Data Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeBlueprintOptimizationAsyncOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeBlueprintOptimizationAsyncOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeBlueprintOptimizationAsyncInput, InvokeBlueprintOptimizationAsyncOutput>(serviceID: serviceName, version: BedrockDataAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockDataAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InvokeBlueprintOptimizationAsync")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

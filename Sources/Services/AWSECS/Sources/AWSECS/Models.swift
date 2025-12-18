@@ -654,6 +654,35 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum CapacityOptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case spot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityOptionType] {
+            return [
+                .onDemand,
+                .spot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .spot: return "SPOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case excluded
         case included
@@ -1149,6 +1178,15 @@ extension ECSClientTypes {
 
     /// The launch template configuration for Amazon ECS Managed Instances. This defines how Amazon ECS launches Amazon EC2 instances, including the instance profile for your tasks, network and storage configuration, capacity options, and instance requirements for flexible instance type selection.
     public struct InstanceLaunchTemplate: Swift.Sendable {
+        /// The capacity option type. This determines whether Amazon ECS launches On-Demand or Spot Instances for your managed instance capacity provider. Valid values are:
+        ///
+        /// * ON_DEMAND - Launches standard On-Demand Instances. On-Demand Instances provide predictable pricing and availability.
+        ///
+        /// * SPOT - Launches Spot Instances that use spare Amazon EC2 capacity at reduced cost. Spot Instances can be interrupted by Amazon EC2 with a two-minute notification when the capacity is needed back.
+        ///
+        ///
+        /// The default is On-Demand For more information about Amazon EC2 capacity options, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon EC2 User Guide.
+        public var capacityOptionType: ECSClientTypes.CapacityOptionType?
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var ec2InstanceProfileArn: Swift.String?
@@ -1170,12 +1208,14 @@ extension ECSClientTypes {
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
         public init(
+            capacityOptionType: ECSClientTypes.CapacityOptionType? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
+            self.capacityOptionType = capacityOptionType
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
@@ -4735,6 +4775,7 @@ extension ECSClientTypes {
         case containerInsights
         case containerInstanceLongArnFormat
         case defaultLogDriverMode
+        case fargateEventWindows
         case fargateFipsMode
         case fargateTaskRetirementWaitPeriod
         case guardDutyActivate
@@ -4749,6 +4790,7 @@ extension ECSClientTypes {
                 .containerInsights,
                 .containerInstanceLongArnFormat,
                 .defaultLogDriverMode,
+                .fargateEventWindows,
                 .fargateFipsMode,
                 .fargateTaskRetirementWaitPeriod,
                 .guardDutyActivate,
@@ -4769,6 +4811,7 @@ extension ECSClientTypes {
             case .containerInsights: return "containerInsights"
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
             case .defaultLogDriverMode: return "defaultLogDriverMode"
+            case .fargateEventWindows: return "fargateEventWindows"
             case .fargateFipsMode: return "fargateFIPSMode"
             case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
             case .guardDutyActivate: return "guardDutyActivate"
@@ -10638,6 +10681,8 @@ public struct PutAccountSettingInput: Swift.Sendable {
     ///
     /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
     ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
+    ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
     ///
     /// * defaultLogDriverMode - Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
@@ -10704,6 +10749,8 @@ public struct PutAccountSettingDefaultInput: Swift.Sendable {
     /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
     ///
     /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
     ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
     ///
@@ -16127,6 +16174,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
 
     static func write(value: ECSClientTypes.InstanceLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capacityOptionType"].write(value.capacityOptionType)
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
@@ -16141,6 +16189,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesNetworkConfiguration.read(from:))
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesStorageConfiguration.read(from:))
         value.monitoring = try reader["monitoring"].readIfPresent()
+        value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
         value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: ECSClientTypes.InstanceRequirementsRequest.read(from:))
         return value
     }
