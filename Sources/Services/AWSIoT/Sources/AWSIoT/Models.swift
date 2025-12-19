@@ -846,7 +846,7 @@ extension IoTClientTypes {
     public struct HttpAction: Swift.Sendable {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public var auth: IoTClientTypes.HttpAuthorization?
-        /// The configuration settings for batching. For more information, see [Batching HTTP action messages].
+        /// The configuration settings for batching. For more information, see [ Batching HTTP action messages](https://docs.aws.amazon.com/iot/latest/developerguide/http_batching.html).
         public var batchConfig: IoTClientTypes.BatchConfig?
         /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public var confirmationUrl: Swift.String?
@@ -13890,8 +13890,38 @@ public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 public struct GetV2LoggingOptionsInput: Swift.Sendable {
+    /// The flag is used to get all the event types and their respective configuration that event-based logging supports.
+    public var verbose: Swift.Bool?
 
-    public init() { }
+    public init(
+        verbose: Swift.Bool? = false
+    ) {
+        self.verbose = verbose
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Configuration for event-based logging that specifies which event types to log and their logging settings. Used for account-level logging overrides.
+    public struct LogEventConfiguration: Swift.Sendable {
+        /// The type of event to log. These include event types like Connect, Publish, and Disconnect.
+        /// This member is required.
+        public var eventType: Swift.String?
+        /// CloudWatch Log Group for event-based logging. Specifies where log events should be sent. The log destination for event-based logging overrides default Log Group for the specified event type and applies to all resources associated with that event.
+        public var logDestination: Swift.String?
+        /// The logging level for the specified event type. Determines the verbosity of log messages generated for this event type.
+        public var logLevel: IoTClientTypes.LogLevel?
+
+        public init(
+            eventType: Swift.String? = nil,
+            logDestination: Swift.String? = nil,
+            logLevel: IoTClientTypes.LogLevel? = nil
+        ) {
+            self.eventType = eventType
+            self.logDestination = logDestination
+            self.logLevel = logLevel
+        }
+    }
 }
 
 public struct GetV2LoggingOptionsOutput: Swift.Sendable {
@@ -13899,16 +13929,20 @@ public struct GetV2LoggingOptionsOutput: Swift.Sendable {
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// Disables all logs.
     public var disableAllLogs: Swift.Bool
+    /// The list of event configurations that override account-level logging.
+    public var eventConfigurations: [IoTClientTypes.LogEventConfiguration]?
     /// The IAM role ARN IoT uses to write to your CloudWatch logs.
     public var roleArn: Swift.String?
 
     public init(
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool = false,
+        eventConfigurations: [IoTClientTypes.LogEventConfiguration]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
+        self.eventConfigurations = eventConfigurations
         self.roleArn = roleArn
     }
 }
@@ -18392,16 +18426,20 @@ public struct SetV2LoggingOptionsInput: Swift.Sendable {
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// If true all logs are disabled. The default is false.
     public var disableAllLogs: Swift.Bool?
+    /// The list of event configurations that override account-level logging.
+    public var eventConfigurations: [IoTClientTypes.LogEventConfiguration]?
     /// The ARN of the role that allows IoT to write to Cloudwatch logs.
     public var roleArn: Swift.String?
 
     public init(
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool? = false,
+        eventConfigurations: [IoTClientTypes.LogEventConfiguration]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
+        self.eventConfigurations = eventConfigurations
         self.roleArn = roleArn
     }
 }
@@ -22165,6 +22203,18 @@ extension GetV2LoggingOptionsInput {
     }
 }
 
+extension GetV2LoggingOptionsInput {
+
+    static func queryItemProvider(_ value: GetV2LoggingOptionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let verbose = value.verbose {
+            let verboseQueryItem = Smithy.URIQueryItem(name: "verbose".urlPercentEncoding(), value: Swift.String(verbose).urlPercentEncoding())
+            items.append(verboseQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListActiveViolationsInput {
 
     static func urlPathProvider(_ value: ListActiveViolationsInput) -> Swift.String? {
@@ -25437,6 +25487,7 @@ extension SetV2LoggingOptionsInput {
         guard let value else { return }
         try writer["defaultLogLevel"].write(value.defaultLogLevel)
         try writer["disableAllLogs"].write(value.disableAllLogs)
+        try writer["eventConfigurations"].writeList(value.eventConfigurations, memberWritingClosure: IoTClientTypes.LogEventConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -27643,6 +27694,7 @@ extension GetV2LoggingOptionsOutput {
         var value = GetV2LoggingOptionsOutput()
         value.defaultLogLevel = try reader["defaultLogLevel"].readIfPresent()
         value.disableAllLogs = try reader["disableAllLogs"].readIfPresent() ?? false
+        value.eventConfigurations = try reader["eventConfigurations"].readListIfPresent(memberReadingClosure: IoTClientTypes.LogEventConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
@@ -37379,6 +37431,25 @@ extension IoTClientTypes.DynamoDBAction {
         value.rangeKeyValue = try reader["rangeKeyValue"].readIfPresent()
         value.rangeKeyType = try reader["rangeKeyType"].readIfPresent()
         value.payloadField = try reader["payloadField"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.LogEventConfiguration {
+
+    static func write(value: IoTClientTypes.LogEventConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventType"].write(value.eventType)
+        try writer["logDestination"].write(value.logDestination)
+        try writer["logLevel"].write(value.logLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LogEventConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.LogEventConfiguration()
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        value.logLevel = try reader["logLevel"].readIfPresent()
+        value.logDestination = try reader["logDestination"].readIfPresent()
         return value
     }
 }

@@ -10945,6 +10945,7 @@ extension IoTClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(GetV2LoggingOptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(GetV2LoggingOptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetV2LoggingOptionsOutput>(GetV2LoggingOptionsOutput.httpOutput(from:), GetV2LoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
