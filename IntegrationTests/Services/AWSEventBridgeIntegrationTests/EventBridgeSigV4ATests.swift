@@ -90,7 +90,17 @@ class EventBridgeSigV4ATests: XCTestCase {
         let seconds = 20.0
         try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
 
-        endpointId = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName)).endpointId
+        // Retry getting endpointId to ensure it's properly set with exponential backoff
+        var retrievedEndpointId: String?
+        for attempt in 0..<3 {
+            retrievedEndpointId = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName)).endpointId
+            if retrievedEndpointId != nil {
+                break
+            }
+            let delay = UInt64(2 << attempt)
+            try await Task.sleep(nanoseconds: delay * UInt64(NSEC_PER_SEC))
+        }
+        endpointId = retrievedEndpointId
     }
 
     override func tearDown() async throws {
@@ -104,6 +114,9 @@ class EventBridgeSigV4ATests: XCTestCase {
     }
 
     func testEventBridgeSigV4A() async throws {
+        // Ensure endpointId is set before proceeding
+        let unwrappedEndpointId = try XCTUnwrap(endpointId, "endpointId should be set in setUp")
+
         // Call putEvents with EventBridge client that only has SigV4a auth scheme configured
         let event = EventBridgeClientTypes.PutEventsRequestEntry(
             detail: "{}",
@@ -112,7 +125,7 @@ class EventBridgeSigV4ATests: XCTestCase {
             source: "test"
         )
         let response = try await sigv4aEventBridgeClient.putEvents(input: PutEventsInput(
-            endpointId: endpointId,
+            endpointId: unwrappedEndpointId,
             entries: [event]
         ))
         // Confirm that returned response has 0 failed entries

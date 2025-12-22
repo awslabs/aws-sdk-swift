@@ -202,3 +202,36 @@ extension PaginatorSequence where OperationStackInput == ListRoute53HealthChecks
         return try await self.asyncCompactMap { item in item.healthChecks }
     }
 }
+extension ARCRegionswitchClient {
+    /// Paginate over `[ListRoute53HealthChecksInRegionOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRoute53HealthChecksInRegionInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRoute53HealthChecksInRegionOutput`
+    public func listRoute53HealthChecksInRegionPaginated(input: ListRoute53HealthChecksInRegionInput) -> ClientRuntime.PaginatorSequence<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput> {
+        return ClientRuntime.PaginatorSequence<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoute53HealthChecksInRegion(input:))
+    }
+}
+
+extension ListRoute53HealthChecksInRegionInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRoute53HealthChecksInRegionInput {
+        return ListRoute53HealthChecksInRegionInput(
+            arn: self.arn,
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recordName: self.recordName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRoute53HealthChecksInRegionInput, OperationStackOutput == ListRoute53HealthChecksInRegionOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRoute53HealthChecksInRegionPaginated`
+    /// to access the nested member `[ARCRegionswitchClientTypes.Route53HealthCheck]`
+    /// - Returns: `[ARCRegionswitchClientTypes.Route53HealthCheck]`
+    public func healthChecks() async throws -> [ARCRegionswitchClientTypes.Route53HealthCheck] {
+        return try await self.asyncCompactMap { item in item.healthChecks }
+    }
+}

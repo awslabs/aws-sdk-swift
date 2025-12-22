@@ -901,6 +901,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSWellArchitected](/sdk-for-swift/latest/api/awswellarchitected/documentation/awswellarchitected)
 
+[AWSWickr](/sdk-for-swift/latest/api/awswickr/documentation/awswickr)
+
 [AWSWisdom](/sdk-for-swift/latest/api/awswisdom/documentation/awswisdom)
 
 [AWSWorkDocs](/sdk-for-swift/latest/api/awsworkdocs/documentation/awsworkdocs)

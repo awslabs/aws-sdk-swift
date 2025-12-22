@@ -4920,6 +4920,8 @@ public struct CreateUserSettingsInput: Swift.Sendable {
     /// Specifies whether the user can upload files from the local device to the streaming session.
     /// This member is required.
     public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
+    /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+    public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
     public init(
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
@@ -4936,7 +4938,8 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
-        uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
+        uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+        webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.brandingConfigurationInput = brandingConfigurationInput
@@ -4953,12 +4956,13 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         self.tags = tags
         self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
+        self.webAuthnAllowed = webAuthnAllowed
     }
 }
 
 extension CreateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserSettingsOutput: Swift.Sendable {
@@ -5037,6 +5041,8 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the user settings.
         /// This member is required.
         public var userSettingsArn: Swift.String?
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
         public init(
             additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
@@ -5053,7 +5059,8 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-            userSettingsArn: Swift.String? = nil
+            userSettingsArn: Swift.String? = nil,
+            webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
         ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
@@ -5070,13 +5077,14 @@ extension WorkSpacesWebClientTypes {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetUserSettingsOutput: Swift.Sendable {
@@ -5134,6 +5142,8 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the user settings.
         /// This member is required.
         public var userSettingsArn: Swift.String?
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
         public init(
             brandingConfiguration: WorkSpacesWebClientTypes.BrandingConfiguration? = nil,
@@ -5147,7 +5157,8 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-            userSettingsArn: Swift.String? = nil
+            userSettingsArn: Swift.String? = nil,
+            webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
         ) {
             self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -5161,13 +5172,14 @@ extension WorkSpacesWebClientTypes {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettingsSummary(brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettingsSummary(brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUserSettingsOutput: Swift.Sendable {
@@ -5253,6 +5265,8 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
     /// The ARN of the user settings.
     /// This member is required.
     public var userSettingsArn: Swift.String?
+    /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+    public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
     public init(
         brandingConfigurationInput: WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput? = nil,
@@ -5267,7 +5281,8 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-        userSettingsArn: Swift.String? = nil
+        userSettingsArn: Swift.String? = nil,
+        webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     ) {
         self.brandingConfigurationInput = brandingConfigurationInput
         self.clientToken = clientToken
@@ -5282,12 +5297,13 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
         self.userSettingsArn = userSettingsArn
+        self.webAuthnAllowed = webAuthnAllowed
     }
 }
 
 extension UpdateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserSettingsInput(brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateUserSettingsInput(brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserSettingsOutput: Swift.Sendable {
@@ -6485,6 +6501,7 @@ extension CreateUserSettingsInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
+        try writer["webAuthnAllowed"].write(value.webAuthnAllowed)
     }
 }
 
@@ -6607,6 +6624,7 @@ extension UpdateUserSettingsInput {
         try writer["printAllowed"].write(value.printAllowed)
         try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
+        try writer["webAuthnAllowed"].write(value.webAuthnAllowed)
     }
 }
 
@@ -9324,6 +9342,7 @@ extension WorkSpacesWebClientTypes.UserSettings {
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
         value.brandingConfiguration = try reader["brandingConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.BrandingConfiguration.read(from:))
+        value.webAuthnAllowed = try reader["webAuthnAllowed"].readIfPresent()
         return value
     }
 }
@@ -9624,6 +9643,7 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary {
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
         value.brandingConfiguration = try reader["brandingConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.BrandingConfiguration.read(from:))
+        value.webAuthnAllowed = try reader["webAuthnAllowed"].readIfPresent()
         return value
     }
 }

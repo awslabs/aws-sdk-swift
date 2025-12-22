@@ -935,6 +935,42 @@ public struct ListReportsOutput: Swift.Sendable {
     }
 }
 
+public struct ListReportVersionsInput: Swift.Sendable {
+    /// Maximum number of resources to return in the paginated response.
+    public var maxResults: Swift.Int?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+    /// Unique resource ID for the report resource.
+    /// This member is required.
+    public var reportId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        reportId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.reportId = reportId
+    }
+}
+
+public struct ListReportVersionsOutput: Swift.Sendable {
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+    /// List of report resources.
+    /// This member is required.
+    public var reports: [ArtifactClientTypes.ReportSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reports: [ArtifactClientTypes.ReportSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reports = reports
+    }
+}
+
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
@@ -1069,6 +1105,35 @@ extension ListReportsInput {
     }
 }
 
+extension ListReportVersionsInput {
+
+    static func urlPathProvider(_ value: ListReportVersionsInput) -> Swift.String? {
+        return "/v1/report/listVersions"
+    }
+}
+
+extension ListReportVersionsInput {
+
+    static func queryItemProvider(_ value: ListReportVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let reportId = value.reportId else {
+            let message = "Creating a URL Query Item failed. reportId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let reportIdQueryItem = Smithy.URIQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
+        items.append(reportIdQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension PutAccountSettingsInput {
 
     static func urlPathProvider(_ value: PutAccountSettingsInput) -> Swift.String? {
@@ -1155,6 +1220,19 @@ extension ListReportsOutput {
         var value = ListReportsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.reports = try reader["reports"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.ReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListReportVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReportVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReportVersionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.reports = try reader["reports"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.ReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1268,6 +1346,25 @@ enum ListCustomerAgreementsOutputError {
 }
 
 enum ListReportsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListReportVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

@@ -611,6 +611,36 @@ extension KafkaConnectClientTypes {
 
 extension KafkaConnectClientTypes {
 
+    /// The network type of a connector.
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
     /// Details about a custom plugin.
     public struct CustomPluginDescription: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the custom plugin.
@@ -690,6 +720,8 @@ extension KafkaConnectClientTypes {
         public var kafkaConnectVersion: Swift.String?
         /// The settings for delivering connector logs to Amazon CloudWatch Logs.
         public var logDelivery: KafkaConnectClientTypes.LogDeliveryDescription?
+        /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+        public var networkType: KafkaConnectClientTypes.NetworkType?
         /// Specifies which plugins were used for this connector.
         public var plugins: [KafkaConnectClientTypes.PluginDescription]?
         /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access Amazon Web Services resources.
@@ -710,6 +742,7 @@ extension KafkaConnectClientTypes {
             kafkaClusterEncryptionInTransit: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitDescription? = nil,
             kafkaConnectVersion: Swift.String? = nil,
             logDelivery: KafkaConnectClientTypes.LogDeliveryDescription? = nil,
+            networkType: KafkaConnectClientTypes.NetworkType? = nil,
             plugins: [KafkaConnectClientTypes.PluginDescription]? = nil,
             serviceExecutionRoleArn: Swift.String? = nil,
             workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationDescription? = nil
@@ -726,6 +759,7 @@ extension KafkaConnectClientTypes {
             self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
             self.kafkaConnectVersion = kafkaConnectVersion
             self.logDelivery = logDelivery
+            self.networkType = networkType
             self.plugins = plugins
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
             self.workerConfiguration = workerConfiguration
@@ -1691,6 +1725,8 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var kafkaConnectVersion: Swift.String?
     /// Details about log delivery.
     public var logDelivery: KafkaConnectClientTypes.LogDelivery?
+    /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+    public var networkType: KafkaConnectClientTypes.NetworkType?
     /// Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together. Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object.
     /// This member is required.
     public var plugins: [KafkaConnectClientTypes.Plugin]?
@@ -1712,6 +1748,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         kafkaClusterEncryptionInTransit: KafkaConnectClientTypes.KafkaClusterEncryptionInTransit? = nil,
         kafkaConnectVersion: Swift.String? = nil,
         logDelivery: KafkaConnectClientTypes.LogDelivery? = nil,
+        networkType: KafkaConnectClientTypes.NetworkType? = nil,
         plugins: [KafkaConnectClientTypes.Plugin]? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1726,6 +1763,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
         self.kafkaConnectVersion = kafkaConnectVersion
         self.logDelivery = logDelivery
+        self.networkType = networkType
         self.plugins = plugins
         self.serviceExecutionRoleArn = serviceExecutionRoleArn
         self.tags = tags
@@ -1735,7 +1773,7 @@ public struct CreateConnectorInput: Swift.Sendable {
 
 extension CreateConnectorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), tags: \(Swift.String(describing: tags)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), networkType: \(Swift.String(describing: networkType)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), tags: \(Swift.String(describing: tags)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateConnectorOutput: Swift.Sendable {
@@ -2051,6 +2089,8 @@ public struct DescribeConnectorOutput: Swift.Sendable {
     public var kafkaConnectVersion: Swift.String?
     /// Details about delivering logs to Amazon CloudWatch Logs.
     public var logDelivery: KafkaConnectClientTypes.LogDeliveryDescription?
+    /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+    public var networkType: KafkaConnectClientTypes.NetworkType?
     /// Specifies which plugins were used for this connector.
     public var plugins: [KafkaConnectClientTypes.PluginDescription]?
     /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access Amazon Web Services resources.
@@ -2074,6 +2114,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
         kafkaClusterEncryptionInTransit: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitDescription? = nil,
         kafkaConnectVersion: Swift.String? = nil,
         logDelivery: KafkaConnectClientTypes.LogDeliveryDescription? = nil,
+        networkType: KafkaConnectClientTypes.NetworkType? = nil,
         plugins: [KafkaConnectClientTypes.PluginDescription]? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
         stateDescription: KafkaConnectClientTypes.StateDescription? = nil,
@@ -2092,6 +2133,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
         self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
         self.kafkaConnectVersion = kafkaConnectVersion
         self.logDelivery = logDelivery
+        self.networkType = networkType
         self.plugins = plugins
         self.serviceExecutionRoleArn = serviceExecutionRoleArn
         self.stateDescription = stateDescription
@@ -2101,7 +2143,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
 
 extension DescribeConnectorOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeConnectorOutput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), connectorState: \(Swift.String(describing: connectorState)), creationTime: \(Swift.String(describing: creationTime)), currentVersion: \(Swift.String(describing: currentVersion)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), stateDescription: \(Swift.String(describing: stateDescription)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
+        "DescribeConnectorOutput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), connectorState: \(Swift.String(describing: connectorState)), creationTime: \(Swift.String(describing: creationTime)), currentVersion: \(Swift.String(describing: currentVersion)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), networkType: \(Swift.String(describing: networkType)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), stateDescription: \(Swift.String(describing: stateDescription)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeConnectorOperationInput: Swift.Sendable {
@@ -2859,6 +2901,7 @@ extension CreateConnectorInput {
         try writer["kafkaClusterEncryptionInTransit"].write(value.kafkaClusterEncryptionInTransit, with: KafkaConnectClientTypes.KafkaClusterEncryptionInTransit.write(value:to:))
         try writer["kafkaConnectVersion"].write(value.kafkaConnectVersion)
         try writer["logDelivery"].write(value.logDelivery, with: KafkaConnectClientTypes.LogDelivery.write(value:to:))
+        try writer["networkType"].write(value.networkType)
         try writer["plugins"].writeList(value.plugins, memberWritingClosure: KafkaConnectClientTypes.Plugin.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3010,6 +3053,7 @@ extension DescribeConnectorOutput {
         value.kafkaClusterEncryptionInTransit = try reader["kafkaClusterEncryptionInTransit"].readIfPresent(with: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitDescription.read(from:))
         value.kafkaConnectVersion = try reader["kafkaConnectVersion"].readIfPresent()
         value.logDelivery = try reader["logDelivery"].readIfPresent(with: KafkaConnectClientTypes.LogDeliveryDescription.read(from:))
+        value.networkType = try reader["networkType"].readIfPresent()
         value.plugins = try reader["plugins"].readListIfPresent(memberReadingClosure: KafkaConnectClientTypes.PluginDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceExecutionRoleArn = try reader["serviceExecutionRoleArn"].readIfPresent()
         value.stateDescription = try reader["stateDescription"].readIfPresent(with: KafkaConnectClientTypes.StateDescription.read(from:))
@@ -3968,6 +4012,7 @@ extension KafkaConnectClientTypes.ConnectorSummary {
         value.kafkaClusterEncryptionInTransit = try reader["kafkaClusterEncryptionInTransit"].readIfPresent(with: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitDescription.read(from:))
         value.kafkaConnectVersion = try reader["kafkaConnectVersion"].readIfPresent()
         value.logDelivery = try reader["logDelivery"].readIfPresent(with: KafkaConnectClientTypes.LogDeliveryDescription.read(from:))
+        value.networkType = try reader["networkType"].readIfPresent()
         value.plugins = try reader["plugins"].readListIfPresent(memberReadingClosure: KafkaConnectClientTypes.PluginDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceExecutionRoleArn = try reader["serviceExecutionRoleArn"].readIfPresent()
         value.workerConfiguration = try reader["workerConfiguration"].readIfPresent(with: KafkaConnectClientTypes.WorkerConfigurationDescription.read(from:))
