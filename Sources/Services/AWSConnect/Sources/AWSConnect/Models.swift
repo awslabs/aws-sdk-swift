@@ -13286,7 +13286,7 @@ extension ConnectClientTypes {
         /// The unique identifier for the data table. Does not include version aliases.
         /// This member is required.
         public var id: Swift.String?
-        /// The AWS region where the data table was last modified, used for region replication.
+        /// The Amazon Web Services Region where the data table was last modified, used for region replication.
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when the data table or any of its properties were last modified.
         /// This member is required.
@@ -13390,7 +13390,7 @@ extension ConnectClientTypes {
         public var dataTableId: Swift.String?
         /// An optional description explaining the purpose and usage of this attribute.
         public var description: Swift.String?
-        /// The AWS region where this attribute was last modified, used for region replication.
+        /// The Amazon Web Services Region where this attribute was last modified, used for region replication.
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when this attribute was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -16229,7 +16229,7 @@ extension ConnectClientTypes {
         /// The unique identifier of the workspace.
         /// This member is required.
         public var id: Swift.String?
-        /// The AWS Region where the workspace was last modified.
+        /// The Amazon Web Services Region where the workspace was last modified.
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when the workspace was last modified.
         /// This member is required.
@@ -17185,17 +17185,21 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Contains information about a real-time metric. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Contains information about a real-time metric. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. Only one of either the Name or MetricId is required.
     public struct CurrentMetric: Swift.Sendable {
+        /// Out of the box current metrics or custom metrics can be referenced via this field. This field is a valid AWS Connect Arn or a UUID.
+        public var metricId: Swift.String?
         /// The name of the metric.
         public var name: ConnectClientTypes.CurrentMetricName?
-        /// The unit for the metric.
+        /// The Unit parameter is not supported for custom metrics. The unit for the metric.
         public var unit: ConnectClientTypes.Unit?
 
         public init(
+            metricId: Swift.String? = nil,
             name: ConnectClientTypes.CurrentMetricName? = nil,
             unit: ConnectClientTypes.Unit? = nil
         ) {
+            self.metricId = metricId
             self.name = name
             self.unit = unit
         }
@@ -17216,19 +17220,27 @@ extension ConnectClientTypes {
         public var routingProfiles: [Swift.String]?
         /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
         public var routingStepExpressions: [Swift.String]?
+        /// A list of up to 10 subtypes can be provided.
+        public var subtypes: [Swift.String]?
+        /// A list of up to 10 validationTestTypes can be provided.
+        public var validationTestTypes: [Swift.String]?
 
         public init(
             agentStatuses: [Swift.String]? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
-            routingStepExpressions: [Swift.String]? = nil
+            routingStepExpressions: [Swift.String]? = nil,
+            subtypes: [Swift.String]? = nil,
+            validationTestTypes: [Swift.String]? = nil
         ) {
             self.agentStatuses = agentStatuses
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
             self.routingStepExpressions = routingStepExpressions
+            self.subtypes = subtypes
+            self.validationTestTypes = validationTestTypes
         }
     }
 }
@@ -17241,6 +17253,8 @@ extension ConnectClientTypes {
         case queue
         case routingProfile
         case routingStepExpression
+        case subtype
+        case validationTestType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Grouping] {
@@ -17249,7 +17263,9 @@ extension ConnectClientTypes {
                 .channel,
                 .queue,
                 .routingProfile,
-                .routingStepExpression
+                .routingStepExpression,
+                .subtype,
+                .validationTestType
             ]
         }
 
@@ -17265,6 +17281,8 @@ extension ConnectClientTypes {
             case .queue: return "QUEUE"
             case .routingProfile: return "ROUTING_PROFILE"
             case .routingStepExpression: return "ROUTING_STEP_EXPRESSION"
+            case .subtype: return "SUBTYPE"
+            case .validationTestType: return "VALIDATION_TEST_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17320,7 +17338,7 @@ extension ConnectClientTypes {
 }
 
 public struct GetCurrentMetricDataInput: Swift.Sendable {
-    /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
+    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
     /// The filters to apply to returned metrics. You can filter up to the following limits:
@@ -17335,8 +17353,12 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
     ///
     /// * AgentStatuses: 50
     ///
+    /// * Subtypes: 10
     ///
-    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
+    /// * ValidationTestTypes: 10
+    ///
+    ///
+    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
     /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.
@@ -17344,6 +17366,8 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
     /// * If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.
     ///
     /// * If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.
+    ///
+    /// * If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as primary grouping and use Queue as filter
     ///
     /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.
     ///
@@ -17432,19 +17456,27 @@ extension ConnectClientTypes {
         public var routingProfile: ConnectClientTypes.RoutingProfileReference?
         /// The expression of a step in a routing criteria.
         public var routingStepExpression: Swift.String?
+        /// The subtype of the channel used for the contact.
+        public var subtype: Swift.String?
+        /// The testing and simulation type
+        public var validationTestType: Swift.String?
 
         public init(
             agentStatus: ConnectClientTypes.AgentStatusIdentifier? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             queue: ConnectClientTypes.QueueReference? = nil,
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
-            routingStepExpression: Swift.String? = nil
+            routingStepExpression: Swift.String? = nil,
+            subtype: Swift.String? = nil,
+            validationTestType: Swift.String? = nil
         ) {
             self.agentStatus = agentStatus
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
             self.routingStepExpression = routingStepExpression
+            self.subtype = subtype
+            self.validationTestType = validationTestType
         }
     }
 }
@@ -21191,7 +21223,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
 }
 
 public struct ListPhoneNumbersV2Input: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
+    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -23716,7 +23748,7 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The unique identifier of the workspace.
         public var id: Swift.String?
-        /// The AWS Region where the workspace was last modified.
+        /// The Amazon Web Services Region where the workspace was last modified.
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when the workspace was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -32167,7 +32199,7 @@ public struct StartChatContactInput: Swift.Sendable {
     public var contactFlowId: Swift.String?
     /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
     public var customerId: Swift.String?
-    /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
+    /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms.
     public var disconnectOnCustomerExit: [ConnectClientTypes.DisconnectOnCustomerExitParticipantType]?
     /// The initial message to be sent to the newly created chat.
     public var initialMessage: ConnectClientTypes.ChatMessage?
@@ -32303,7 +32335,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
     public var attributes: [Swift.String: Swift.String]?
     /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     public var chatDurationInMinutes: Swift.Int?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
     public var clientToken: Swift.String?
     /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
     ///
@@ -32328,7 +32360,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
     ///
     /// * Attribute keys can include only alphanumeric, -, and _.
     ///
-    /// * This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
+    /// * This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
     /// This member is required.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
     /// Information about the endpoint.
@@ -54678,6 +54710,7 @@ extension ConnectClientTypes.CurrentMetric {
 
     static func write(value: ConnectClientTypes.CurrentMetric?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MetricId"].write(value.metricId)
         try writer["Name"].write(value.name)
         try writer["Unit"].write(value.unit)
     }
@@ -54686,6 +54719,7 @@ extension ConnectClientTypes.CurrentMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.CurrentMetric()
         value.name = try reader["Name"].readIfPresent()
+        value.metricId = try reader["MetricId"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
         return value
     }
@@ -54701,6 +54735,8 @@ extension ConnectClientTypes.Dimensions {
         value.routingProfile = try reader["RoutingProfile"].readIfPresent(with: ConnectClientTypes.RoutingProfileReference.read(from:))
         value.routingStepExpression = try reader["RoutingStepExpression"].readIfPresent()
         value.agentStatus = try reader["AgentStatus"].readIfPresent(with: ConnectClientTypes.AgentStatusIdentifier.read(from:))
+        value.subtype = try reader["Subtype"].readIfPresent()
+        value.validationTestType = try reader["ValidationTestType"].readIfPresent()
         return value
     }
 }
@@ -56821,6 +56857,8 @@ extension ConnectClientTypes.Filters {
         try writer["Queues"].writeList(value.queues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RoutingProfiles"].writeList(value.routingProfiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RoutingStepExpressions"].writeList(value.routingStepExpressions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subtypes"].writeList(value.subtypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationTestTypes"].writeList(value.validationTestTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

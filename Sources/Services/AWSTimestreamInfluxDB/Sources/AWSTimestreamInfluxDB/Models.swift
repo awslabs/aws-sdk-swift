@@ -567,7 +567,11 @@ extension TimestreamInfluxDBClientTypes {
         case deleting
         case failed
         case maintenance
+        case partiallyAvailable
+        case rebooting
+        case rebootFailed
         case updating
+        case updatingInstanceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterStatus] {
@@ -578,7 +582,11 @@ extension TimestreamInfluxDBClientTypes {
                 .deleting,
                 .failed,
                 .maintenance,
-                .updating
+                .partiallyAvailable,
+                .rebooting,
+                .rebootFailed,
+                .updating,
+                .updatingInstanceType
             ]
         }
 
@@ -595,7 +603,11 @@ extension TimestreamInfluxDBClientTypes {
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .maintenance: return "MAINTENANCE"
+            case .partiallyAvailable: return "PARTIALLY_AVAILABLE"
+            case .rebooting: return "REBOOTING"
+            case .rebootFailed: return "REBOOT_FAILED"
             case .updating: return "UPDATING"
+            case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -974,6 +986,8 @@ extension TimestreamInfluxDBClientTypes {
         case failed
         case maintenance
         case modifying
+        case rebooting
+        case rebootFailed
         case updating
         case updatingDeploymentType
         case updatingInstanceType
@@ -988,6 +1002,8 @@ extension TimestreamInfluxDBClientTypes {
                 .failed,
                 .maintenance,
                 .modifying,
+                .rebooting,
+                .rebootFailed,
                 .updating,
                 .updatingDeploymentType,
                 .updatingInstanceType
@@ -1008,6 +1024,8 @@ extension TimestreamInfluxDBClientTypes {
             case .failed: return "FAILED"
             case .maintenance: return "MAINTENANCE"
             case .modifying: return "MODIFYING"
+            case .rebooting: return "REBOOTING"
+            case .rebootFailed: return "REBOOT_FAILED"
             case .updating: return "UPDATING"
             case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"
             case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
@@ -1096,6 +1114,33 @@ public struct ListDbInstancesForClusterOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct RebootDbClusterInput: Swift.Sendable {
+    /// Service-generated unique identifier of the DB cluster to reboot.
+    /// This member is required.
+    public var dbClusterId: Swift.String?
+    /// A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot.
+    public var instanceIds: [Swift.String]?
+
+    public init(
+        dbClusterId: Swift.String? = nil,
+        instanceIds: [Swift.String]? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+        self.instanceIds = instanceIds
+    }
+}
+
+public struct RebootDbClusterOutput: Swift.Sendable {
+    /// The status of the DB Cluster.
+    public var dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus?
+
+    public init(
+        dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus? = nil
+    ) {
+        self.dbClusterStatus = dbClusterStatus
     }
 }
 
@@ -1641,6 +1686,117 @@ public struct ListDbInstancesOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct RebootDbInstanceInput: Swift.Sendable {
+    /// The id of the DB instance to reboot.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct RebootDbInstanceOutput: Swift.Sendable {
+    /// The amount of storage allocated for your DB storage type (in gibibytes).
+    public var allocatedStorage: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the DB instance.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Availability Zone in which the DB instance resides.
+    public var availabilityZone: Swift.String?
+    /// Specifies the DbCluster to which this DbInstance belongs to.
+    public var dbClusterId: Swift.String?
+    /// The Timestream for InfluxDB instance type that InfluxDB runs on.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The id of the DB parameter group assigned to your DB instance.
+    public var dbParameterGroupIdentifier: Swift.String?
+    /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// Specifies whether the Timestream for InfluxDB is deployed as Single-AZ or with a MultiAZ Standby for High availability.
+    public var deploymentType: TimestreamInfluxDBClientTypes.DeploymentType?
+    /// The endpoint used to connect to InfluxDB. The default InfluxDB port is 8086.
+    public var endpoint: Swift.String?
+    /// A service-generated unique identifier.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    public var influxAuthParametersSecretArn: Swift.String?
+    /// Specifies the DbInstance's role in the cluster.
+    public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+    /// Specifies the DbInstance's roles in the cluster.
+    public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number on which InfluxDB accepts connections.
+    public var port: Swift.Int?
+    /// Indicates if the DB instance has a public IP to facilitate access.
+    public var publiclyAccessible: Swift.Bool?
+    /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
+    public var secondaryAvailabilityZone: Swift.String?
+    /// The status of the DB instance.
+    public var status: TimestreamInfluxDBClientTypes.Status?
+    /// A list of VPC security group IDs associated with the DB instance.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// A list of VPC subnet IDs associated with the DB instance.
+    /// This member is required.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
+        dbClusterId: Swift.String? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupIdentifier: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
+        endpoint: Swift.String? = nil,
+        id: Swift.String? = nil,
+        influxAuthParametersSecretArn: Swift.String? = nil,
+        instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+        instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        secondaryAvailabilityZone: Swift.String? = nil,
+        status: TimestreamInfluxDBClientTypes.Status? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.arn = arn
+        self.availabilityZone = availabilityZone
+        self.dbClusterId = dbClusterId
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.endpoint = endpoint
+        self.id = id
+        self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.instanceMode = instanceMode
+        self.instanceModes = instanceModes
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.secondaryAvailabilityZone = secondaryAvailabilityZone
+        self.status = status
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
     }
 }
 
@@ -2828,6 +2984,20 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension RebootDbClusterInput {
+
+    static func urlPathProvider(_ value: RebootDbClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RebootDbInstanceInput {
+
+    static func urlPathProvider(_ value: RebootDbInstanceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -2998,6 +3168,23 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
+extension RebootDbClusterInput {
+
+    static func write(value: RebootDbClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dbClusterId"].write(value.dbClusterId)
+        try writer["instanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RebootDbInstanceInput {
+
+    static func write(value: RebootDbInstanceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
     }
 }
 
@@ -3298,6 +3485,51 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension RebootDbClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RebootDbClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RebootDbClusterOutput()
+        value.dbClusterStatus = try reader["dbClusterStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RebootDbInstanceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RebootDbInstanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RebootDbInstanceOutput()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
+        value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -3590,6 +3822,44 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RebootDbClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RebootDbInstanceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

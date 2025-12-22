@@ -834,10 +834,12 @@ extension AppStreamClientTypes {
         case amazonLinux2
         case rhel8
         case rockyLinux8
+        case ubuntuPro2404
         case windows
         case windowsServer2016
         case windowsServer2019
         case windowsServer2022
+        case windowsServer2025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformType] {
@@ -845,10 +847,12 @@ extension AppStreamClientTypes {
                 .amazonLinux2,
                 .rhel8,
                 .rockyLinux8,
+                .ubuntuPro2404,
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022
+                .windowsServer2022,
+                .windowsServer2025
             ]
         }
 
@@ -862,10 +866,12 @@ extension AppStreamClientTypes {
             case .amazonLinux2: return "AMAZON_LINUX2"
             case .rhel8: return "RHEL8"
             case .rockyLinux8: return "ROCKY_LINUX8"
+            case .ubuntuPro2404: return "UBUNTU_PRO_2404"
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
             case .windowsServer2022: return "WINDOWS_SERVER_2022"
+            case .windowsServer2025: return "WINDOWS_SERVER_2025"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2030,7 +2036,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The name of the application. This name is visible to users when display name is not specified.
     /// This member is required.
     public var name: Swift.String?
-    /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     /// This member is required.
     public var platforms: [AppStreamClientTypes.PlatformType]?
     /// The tags assigned to the application.
@@ -2600,14 +2606,6 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * stream.memory.z1d.12xlarge
     ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
-    ///
     /// * stream.graphics.g4dn.xlarge
     ///
     /// * stream.graphics.g4dn.2xlarge
@@ -2685,7 +2683,7 @@ public struct CreateFleetInput: Swift.Sendable {
     /// A unique name for the fleet.
     /// This member is required.
     public var name: Swift.String?
-    /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
     /// The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
     public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
@@ -2878,14 +2876,6 @@ extension AppStreamClientTypes {
         /// * stream.memory.z1d.6xlarge
         ///
         /// * stream.memory.z1d.12xlarge
-        ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
         ///
         /// * stream.graphics.g4dn.xlarge
         ///
@@ -3094,14 +3084,6 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.memory.z1d.6xlarge
     ///
     /// * stream.memory.z1d.12xlarge
-    ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
     ///
     /// * stream.graphics.g4dn.xlarge
     ///
@@ -3535,14 +3517,6 @@ extension AppStreamClientTypes {
         /// * stream.memory.z1d.6xlarge
         ///
         /// * stream.memory.z1d.12xlarge
-        ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
         ///
         /// * stream.graphics.g4dn.xlarge
         ///
@@ -4096,15 +4070,11 @@ extension AppStreamClientTypes {
         ///
         /// * Memory Optimized
         ///
-        /// * Graphics
-        ///
-        /// * Graphics Design
-        ///
-        /// * Graphics Pro
-        ///
         /// * Graphics G4
         ///
         /// * Graphics G5
+        ///
+        /// * Graphics G6
         public var supportedInstanceFamilies: [Swift.String]?
         /// Indicates whether the image is public or private.
         public var visibility: AppStreamClientTypes.VisibilityType?
@@ -7226,14 +7196,6 @@ public struct UpdateFleetInput: Swift.Sendable {
     ///
     /// * stream.memory.z1d.12xlarge
     ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
-    ///
     /// * stream.graphics.g4dn.xlarge
     ///
     /// * stream.graphics.g4dn.2xlarge
@@ -7309,7 +7271,7 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
     public var name: Swift.String?
-    /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
     /// The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
     public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?

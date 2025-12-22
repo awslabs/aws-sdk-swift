@@ -1600,7 +1600,7 @@ extension KafkaConnectClient {
 
     /// Performs the `UpdateConnector` operation on the `KafkaConnect` service.
     ///
-    /// Updates the specified connector.
+    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///

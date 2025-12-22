@@ -798,6 +798,29 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    /// Configuration settings for batching.
+    public struct BatchConfig: Swift.Sendable {
+        /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
+        public var maxBatchOpenMs: Swift.Int?
+        /// The maximum number of messages that are batched together in a single action execution.
+        public var maxBatchSize: Swift.Int?
+        /// Maximum size of a message batch, in bytes.
+        public var maxBatchSizeBytes: Swift.Int?
+
+        public init(
+            maxBatchOpenMs: Swift.Int? = nil,
+            maxBatchSize: Swift.Int? = nil,
+            maxBatchSizeBytes: Swift.Int? = nil
+        ) {
+            self.maxBatchOpenMs = maxBatchOpenMs
+            self.maxBatchSize = maxBatchSize
+            self.maxBatchSizeBytes = maxBatchSizeBytes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The HTTP action header.
     public struct HttpActionHeader: Swift.Sendable {
         /// The HTTP header key.
@@ -823,8 +846,12 @@ extension IoTClientTypes {
     public struct HttpAction: Swift.Sendable {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public var auth: IoTClientTypes.HttpAuthorization?
+        /// The configuration settings for batching. For more information, see [ Batching HTTP action messages](https://docs.aws.amazon.com/iot/latest/developerguide/http_batching.html).
+        public var batchConfig: IoTClientTypes.BatchConfig?
         /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public var confirmationUrl: Swift.String?
+        /// Whether to process the HTTP action messages into a single request. Value can be true or false.
+        public var enableBatching: Swift.Bool?
         /// The HTTP headers to send with the message data.
         public var headers: [IoTClientTypes.HttpActionHeader]?
         /// The endpoint URL. If substitution templates are used in the URL, you must also specify a confirmationUrl. If this is a new destination, a new TopicRuleDestination is created if possible.
@@ -833,12 +860,16 @@ extension IoTClientTypes {
 
         public init(
             auth: IoTClientTypes.HttpAuthorization? = nil,
+            batchConfig: IoTClientTypes.BatchConfig? = nil,
             confirmationUrl: Swift.String? = nil,
+            enableBatching: Swift.Bool? = nil,
             headers: [IoTClientTypes.HttpActionHeader]? = nil,
             url: Swift.String? = nil
         ) {
             self.auth = auth
+            self.batchConfig = batchConfig
             self.confirmationUrl = confirmationUrl
+            self.enableBatching = enableBatching
             self.headers = headers
             self.url = url
         }
@@ -4491,7 +4522,7 @@ public struct CreateCertificateProviderOutput: Swift.Sendable {
 
 extension IoTClientTypes {
 
-    /// The range of possible values that's used to describe a specific command parameter. The commandParameterValue can only have one of the below fields listed.
+    /// The value of a command parameter used to create a command execution. The commandParameterValue can only have one of the below fields listed.
     public struct CommandParameterValue: Swift.Sendable {
         /// An attribute of type Boolean. For example: "BOOL": true
         public var b: Swift.Bool?
@@ -4530,6 +4561,176 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum CommandParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binary
+        case boolean
+        case double
+        case integer
+        case long
+        case string
+        case unsignedlong
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandParameterType] {
+            return [
+                .binary,
+                .boolean,
+                .double,
+                .integer,
+                .long,
+                .string,
+                .unsignedlong
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .boolean: return "BOOLEAN"
+            case .double: return "DOUBLE"
+            case .integer: return "INTEGER"
+            case .long: return "LONG"
+            case .string: return "STRING"
+            case .unsignedlong: return "UNSIGNEDLONG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum CommandParameterValueComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case greaterThan
+        case greaterThanEquals
+        case inRange
+        case inSet
+        case lessThan
+        case lessThanEquals
+        case notEquals
+        case notInRange
+        case notInSet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandParameterValueComparisonOperator] {
+            return [
+                .equals,
+                .greaterThan,
+                .greaterThanEquals,
+                .inRange,
+                .inSet,
+                .lessThan,
+                .lessThanEquals,
+                .notEquals,
+                .notInRange,
+                .notInSet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanEquals: return "GREATER_THAN_EQUALS"
+            case .inRange: return "IN_RANGE"
+            case .inSet: return "IN_SET"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanEquals: return "LESS_THAN_EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case .notInRange: return "NOT_IN_RANGE"
+            case .notInSet: return "NOT_IN_SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The numerical range value type to compare a command parameter value against.
+    public struct CommandParameterValueNumberRange: Swift.Sendable {
+        /// The maximum value of a numerical range of a command parameter value.
+        /// This member is required.
+        public var max: Swift.String?
+        /// The minimum value of a numerical range of a command parameter value.
+        /// This member is required.
+        public var min: Swift.String?
+
+        public init(
+            max: Swift.String? = nil,
+            min: Swift.String? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The comparison operand used to compare the defined value against the value supplied in request.
+    public struct CommandParameterValueComparisonOperand: Swift.Sendable {
+        /// An operand of number value type, defined as a string.
+        public var number: Swift.String?
+        /// An operand of numerical range value type.
+        public var numberRange: IoTClientTypes.CommandParameterValueNumberRange?
+        /// A List of operands of numerical value type, defined as strings.
+        public var numbers: [Swift.String]?
+        /// An operand of string value type.
+        public var string: Swift.String?
+        /// A List of operands of string value type.
+        public var strings: [Swift.String]?
+
+        public init(
+            number: Swift.String? = nil,
+            numberRange: IoTClientTypes.CommandParameterValueNumberRange? = nil,
+            numbers: [Swift.String]? = nil,
+            string: Swift.String? = nil,
+            strings: [Swift.String]? = nil
+        ) {
+            self.number = number
+            self.numberRange = numberRange
+            self.numbers = numbers
+            self.string = string
+            self.strings = strings
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// A condition for the command parameter that must be evaluated to true for successful creation of a command execution.
+    public struct CommandParameterValueCondition: Swift.Sendable {
+        /// The comparison operator for the command parameter. IN_RANGE, and NOT_IN_RANGE operators include boundary values.
+        /// This member is required.
+        public var comparisonOperator: IoTClientTypes.CommandParameterValueComparisonOperator?
+        /// The comparison operand for the command parameter.
+        /// This member is required.
+        public var operand: IoTClientTypes.CommandParameterValueComparisonOperand?
+
+        public init(
+            comparisonOperator: IoTClientTypes.CommandParameterValueComparisonOperator? = nil,
+            operand: IoTClientTypes.CommandParameterValueComparisonOperand? = nil
+        ) {
+            self.comparisonOperator = comparisonOperator
+            self.operand = operand
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// A map of key-value pairs that describe the command.
     public struct CommandParameter: Swift.Sendable {
         /// The default value used to describe the command. This is the value assumed by the parameter if no other value is assigned to it.
@@ -4539,19 +4740,27 @@ extension IoTClientTypes {
         /// The name of a specific parameter used in a command and command execution.
         /// This member is required.
         public var name: Swift.String?
-        /// The value used to describe the command. When you assign a value to a parameter, it will override any default value that you had already specified.
+        /// The type of the command parameter.
+        public var type: IoTClientTypes.CommandParameterType?
+        /// Parameter value that overrides the default value, if set.
         public var value: IoTClientTypes.CommandParameterValue?
+        /// The list of conditions that a command parameter value must satisfy to create a command execution.
+        public var valueConditions: [IoTClientTypes.CommandParameterValueCondition]?
 
         public init(
             defaultValue: IoTClientTypes.CommandParameterValue? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
-            value: IoTClientTypes.CommandParameterValue? = nil
+            type: IoTClientTypes.CommandParameterType? = nil,
+            value: IoTClientTypes.CommandParameterValue? = nil,
+            valueConditions: [IoTClientTypes.CommandParameterValueCondition]? = nil
         ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
+            self.type = type
             self.value = value
+            self.valueConditions = valueConditions
         }
     }
 }
@@ -4604,6 +4813,66 @@ extension IoTClientTypes {
     }
 }
 
+extension IoTClientTypes {
+
+    public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cbor
+        case json
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputFormat] {
+            return [
+                .cbor,
+                .json
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cbor: return "CBOR"
+            case .json: return "JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Configures the command to treat the payloadTemplate as a JSON document for preprocessing. This preprocessor substitutes placeholders with parameter values to generate the command execution request payload.
+    public struct AwsJsonSubstitutionCommandPreprocessorConfig: Swift.Sendable {
+        /// Converts the command preprocessor result to the format defined by this parameter, before sending it to the device.
+        /// This member is required.
+        public var outputFormat: IoTClientTypes.OutputFormat?
+
+        public init(
+            outputFormat: IoTClientTypes.OutputFormat? = nil
+        ) {
+            self.outputFormat = outputFormat
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Configuration that determines how the payloadTemplate is processed by the service to generate the final payload sent to devices at StartCommandExecution API invocation.
+    public struct CommandPreprocessor: Swift.Sendable {
+        /// Configuration for the JSON substitution preprocessor.
+        public var awsJsonSubstitution: IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig?
+
+        public init(
+            awsJsonSubstitution: IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig? = nil
+        ) {
+            self.awsJsonSubstitution = awsJsonSubstitution
+        }
+    }
+}
+
 public struct CreateCommandInput: Swift.Sendable {
     /// A unique identifier for the command. We recommend using UUID. Alpha-numeric characters, hyphens, and underscores are valid for use here.
     /// This member is required.
@@ -4612,13 +4881,17 @@ public struct CreateCommandInput: Swift.Sendable {
     public var description: Swift.String?
     /// The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
     public var displayName: Swift.String?
-    /// A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+    /// A list of parameters that are used by StartCommandExecution API for execution payload generation.
     public var mandatoryParameters: [IoTClientTypes.CommandParameter]?
     /// The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
     public var namespace: IoTClientTypes.CommandNamespace?
-    /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+    /// The payload object for the static command. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
     public var payload: IoTClientTypes.CommandPayload?
-    /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
+    /// The payload template for the dynamic command. This parameter is required for dynamic commands where the command execution placeholders are supplied either from mandatoryParameters or when StartCommandExecution is invoked.
+    public var payloadTemplate: Swift.String?
+    /// Configuration that determines how payloadTemplate is processed to generate command execution payload. This parameter is required for dynamic commands, along with payloadTemplate, and mandatoryParameters.
+    public var preprocessor: IoTClientTypes.CommandPreprocessor?
+    /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources for generating the payload for the command. This field is not supported when you use the AWS-IoT namespace.
     public var roleArn: Swift.String?
     /// Name-value pairs that are used as metadata to manage a command.
     public var tags: [IoTClientTypes.Tag]?
@@ -4630,6 +4903,8 @@ public struct CreateCommandInput: Swift.Sendable {
         mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
         namespace: IoTClientTypes.CommandNamespace? = nil,
         payload: IoTClientTypes.CommandPayload? = nil,
+        payloadTemplate: Swift.String? = nil,
+        preprocessor: IoTClientTypes.CommandPreprocessor? = nil,
         roleArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
     ) {
@@ -4639,6 +4914,8 @@ public struct CreateCommandInput: Swift.Sendable {
         self.mandatoryParameters = mandatoryParameters
         self.namespace = namespace
         self.payload = payload
+        self.payloadTemplate = payloadTemplate
+        self.preprocessor = preprocessor
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -10066,9 +10343,9 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
-    /// The encryption configuration details that include the status information of the Amazon Web Services Key Management Service (KMS) key and the KMS access role.
+    /// The encryption configuration details that include the status information of the Key Management Service (KMS) key and the KMS access role.
     public struct ConfigurationDetails: Swift.Sendable {
-        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer-managed KMS key, the value of configurationStatus must be HEALTHY.
+        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer managed KMS key, the value of configurationStatus must be HEALTHY.
         public var configurationStatus: IoTClientTypes.ConfigurationStatus?
         /// The error code that indicates either the KMS key or the KMS access role is UNHEALTHY. Valid values: KMS_KEY_VALIDATION_ERROR and ROLE_VALIDATION_ERROR.
         public var errorCode: Swift.String?
@@ -10119,11 +10396,11 @@ extension IoTClientTypes {
 public struct DescribeEncryptionConfigurationOutput: Swift.Sendable {
     /// The encryption configuration details that include the status information of the KMS key and the KMS access role.
     public var configurationDetails: IoTClientTypes.ConfigurationDetails?
-    /// The type of the Amazon Web Services Key Management Service (KMS) key.
+    /// The type of the KMS key.
     public var encryptionType: IoTClientTypes.EncryptionType?
-    /// The ARN of the customer-managed KMS key.
-    public var kmsAccessRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+    public var kmsAccessRoleArn: Swift.String?
+    /// The ARN of the customer managed KMS key.
     public var kmsKeyArn: Swift.String?
     /// The date when encryption configuration is last updated.
     public var lastModifiedDate: Foundation.Date?
@@ -12151,8 +12428,12 @@ public struct GetCommandOutput: Swift.Sendable {
     public var namespace: IoTClientTypes.CommandNamespace?
     /// The payload object that you provided for the command.
     public var payload: IoTClientTypes.CommandPayload?
+    /// The payload template for the dynamic command.
+    public var payloadTemplate: Swift.String?
     /// Indicates whether the command is being deleted.
     public var pendingDeletion: Swift.Bool?
+    /// Configuration that determines how payloadTemplate is processed to generate command execution payload.
+    public var preprocessor: IoTClientTypes.CommandPreprocessor?
     /// The IAM role that you provided when creating the command with AWS-IoT-FleetWise as the namespace.
     public var roleArn: Swift.String?
 
@@ -12167,7 +12448,9 @@ public struct GetCommandOutput: Swift.Sendable {
         mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
         namespace: IoTClientTypes.CommandNamespace? = nil,
         payload: IoTClientTypes.CommandPayload? = nil,
+        payloadTemplate: Swift.String? = nil,
         pendingDeletion: Swift.Bool? = nil,
+        preprocessor: IoTClientTypes.CommandPreprocessor? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.commandArn = commandArn
@@ -12180,7 +12463,9 @@ public struct GetCommandOutput: Swift.Sendable {
         self.mandatoryParameters = mandatoryParameters
         self.namespace = namespace
         self.payload = payload
+        self.payloadTemplate = payloadTemplate
         self.pendingDeletion = pendingDeletion
+        self.preprocessor = preprocessor
         self.roleArn = roleArn
     }
 }
@@ -13605,8 +13890,38 @@ public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 public struct GetV2LoggingOptionsInput: Swift.Sendable {
+    /// The flag is used to get all the event types and their respective configuration that event-based logging supports.
+    public var verbose: Swift.Bool?
 
-    public init() { }
+    public init(
+        verbose: Swift.Bool? = false
+    ) {
+        self.verbose = verbose
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Configuration for event-based logging that specifies which event types to log and their logging settings. Used for account-level logging overrides.
+    public struct LogEventConfiguration: Swift.Sendable {
+        /// The type of event to log. These include event types like Connect, Publish, and Disconnect.
+        /// This member is required.
+        public var eventType: Swift.String?
+        /// CloudWatch Log Group for event-based logging. Specifies where log events should be sent. The log destination for event-based logging overrides default Log Group for the specified event type and applies to all resources associated with that event.
+        public var logDestination: Swift.String?
+        /// The logging level for the specified event type. Determines the verbosity of log messages generated for this event type.
+        public var logLevel: IoTClientTypes.LogLevel?
+
+        public init(
+            eventType: Swift.String? = nil,
+            logDestination: Swift.String? = nil,
+            logLevel: IoTClientTypes.LogLevel? = nil
+        ) {
+            self.eventType = eventType
+            self.logDestination = logDestination
+            self.logLevel = logLevel
+        }
+    }
 }
 
 public struct GetV2LoggingOptionsOutput: Swift.Sendable {
@@ -13614,16 +13929,20 @@ public struct GetV2LoggingOptionsOutput: Swift.Sendable {
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// Disables all logs.
     public var disableAllLogs: Swift.Bool
+    /// The list of event configurations that override account-level logging.
+    public var eventConfigurations: [IoTClientTypes.LogEventConfiguration]?
     /// The IAM role ARN IoT uses to write to your CloudWatch logs.
     public var roleArn: Swift.String?
 
     public init(
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool = false,
+        eventConfigurations: [IoTClientTypes.LogEventConfiguration]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
+        self.eventConfigurations = eventConfigurations
         self.roleArn = roleArn
     }
 }
@@ -18107,16 +18426,20 @@ public struct SetV2LoggingOptionsInput: Swift.Sendable {
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// If true all logs are disabled. The default is false.
     public var disableAllLogs: Swift.Bool?
+    /// The list of event configurations that override account-level logging.
+    public var eventConfigurations: [IoTClientTypes.LogEventConfiguration]?
     /// The ARN of the role that allows IoT to write to Cloudwatch logs.
     public var roleArn: Swift.String?
 
     public init(
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool? = false,
+        eventConfigurations: [IoTClientTypes.LogEventConfiguration]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
+        self.eventConfigurations = eventConfigurations
         self.roleArn = roleArn
     }
 }
@@ -18344,7 +18667,7 @@ public struct TestAuthorizationInput: Swift.Sendable {
     public var policyNamesToAdd: [Swift.String]?
     /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
     public var policyNamesToSkip: [Swift.String]?
-    /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+    /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId) and CognitoId (region:id).
     public var principal: Swift.String?
 
     public init(
@@ -19104,12 +19427,12 @@ public struct UpdateDynamicThingGroupOutput: Swift.Sendable {
 }
 
 public struct UpdateEncryptionConfigurationInput: Swift.Sendable {
-    /// The type of the Amazon Web Services Key Management Service (KMS) key.
+    /// The type of the KMS key.
     /// This member is required.
     public var encryptionType: IoTClientTypes.EncryptionType?
     /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
     public var kmsAccessRoleArn: Swift.String?
-    /// The ARN of the customer-managed KMS key.
+    /// The ARN of the customer managedKMS key.
     public var kmsKeyArn: Swift.String?
 
     public init(
@@ -21880,6 +22203,18 @@ extension GetV2LoggingOptionsInput {
     }
 }
 
+extension GetV2LoggingOptionsInput {
+
+    static func queryItemProvider(_ value: GetV2LoggingOptionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let verbose = value.verbose {
+            let verboseQueryItem = Smithy.URIQueryItem(name: "verbose".urlPercentEncoding(), value: Swift.String(verbose).urlPercentEncoding())
+            items.append(verboseQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListActiveViolationsInput {
 
     static func urlPathProvider(_ value: ListActiveViolationsInput) -> Swift.String? {
@@ -24593,6 +24928,8 @@ extension CreateCommandInput {
         try writer["mandatoryParameters"].writeList(value.mandatoryParameters, memberWritingClosure: IoTClientTypes.CommandParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespace"].write(value.namespace)
         try writer["payload"].write(value.payload, with: IoTClientTypes.CommandPayload.write(value:to:))
+        try writer["payloadTemplate"].write(value.payloadTemplate)
+        try writer["preprocessor"].write(value.preprocessor, with: IoTClientTypes.CommandPreprocessor.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -25150,6 +25487,7 @@ extension SetV2LoggingOptionsInput {
         guard let value else { return }
         try writer["defaultLogLevel"].write(value.defaultLogLevel)
         try writer["disableAllLogs"].write(value.disableAllLogs)
+        try writer["eventConfigurations"].writeList(value.eventConfigurations, memberWritingClosure: IoTClientTypes.LogEventConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -27087,7 +27425,9 @@ extension GetCommandOutput {
         value.mandatoryParameters = try reader["mandatoryParameters"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.namespace = try reader["namespace"].readIfPresent()
         value.payload = try reader["payload"].readIfPresent(with: IoTClientTypes.CommandPayload.read(from:))
+        value.payloadTemplate = try reader["payloadTemplate"].readIfPresent()
         value.pendingDeletion = try reader["pendingDeletion"].readIfPresent()
+        value.preprocessor = try reader["preprocessor"].readIfPresent(with: IoTClientTypes.CommandPreprocessor.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
@@ -27354,6 +27694,7 @@ extension GetV2LoggingOptionsOutput {
         var value = GetV2LoggingOptionsOutput()
         value.defaultLogLevel = try reader["defaultLogLevel"].readIfPresent()
         value.disableAllLogs = try reader["disableAllLogs"].readIfPresent() ?? false
+        value.eventConfigurations = try reader["eventConfigurations"].readListIfPresent(memberReadingClosure: IoTClientTypes.LogEventConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
@@ -35593,16 +35934,77 @@ extension IoTClientTypes.CommandParameter {
         try writer["defaultValue"].write(value.defaultValue, with: IoTClientTypes.CommandParameterValue.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
         try writer["value"].write(value.value, with: IoTClientTypes.CommandParameterValue.write(value:to:))
+        try writer["valueConditions"].writeList(value.valueConditions, memberWritingClosure: IoTClientTypes.CommandParameterValueCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.CommandParameter()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
         value.value = try reader["value"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
         value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
+        value.valueConditions = try reader["valueConditions"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandParameterValueCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameterValueCondition {
+
+    static func write(value: IoTClientTypes.CommandParameterValueCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparisonOperator"].write(value.comparisonOperator)
+        try writer["operand"].write(value.operand, with: IoTClientTypes.CommandParameterValueComparisonOperand.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameterValueCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameterValueCondition()
+        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.operand = try reader["operand"].readIfPresent(with: IoTClientTypes.CommandParameterValueComparisonOperand.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameterValueComparisonOperand {
+
+    static func write(value: IoTClientTypes.CommandParameterValueComparisonOperand?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["number"].write(value.number)
+        try writer["numberRange"].write(value.numberRange, with: IoTClientTypes.CommandParameterValueNumberRange.write(value:to:))
+        try writer["numbers"].writeList(value.numbers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["string"].write(value.string)
+        try writer["strings"].writeList(value.strings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameterValueComparisonOperand {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameterValueComparisonOperand()
+        value.number = try reader["number"].readIfPresent()
+        value.numbers = try reader["numbers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.string = try reader["string"].readIfPresent()
+        value.strings = try reader["strings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberRange = try reader["numberRange"].readIfPresent(with: IoTClientTypes.CommandParameterValueNumberRange.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameterValueNumberRange {
+
+    static func write(value: IoTClientTypes.CommandParameterValueNumberRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameterValueNumberRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameterValueNumberRange()
+        value.min = try reader["min"].readIfPresent() ?? ""
+        value.max = try reader["max"].readIfPresent() ?? ""
         return value
     }
 }
@@ -35647,6 +36049,36 @@ extension IoTClientTypes.CommandPayload {
         var value = IoTClientTypes.CommandPayload()
         value.content = try reader["content"].readIfPresent()
         value.contentType = try reader["contentType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandPreprocessor {
+
+    static func write(value: IoTClientTypes.CommandPreprocessor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsJsonSubstitution"].write(value.awsJsonSubstitution, with: IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandPreprocessor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandPreprocessor()
+        value.awsJsonSubstitution = try reader["awsJsonSubstitution"].readIfPresent(with: IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig {
+
+    static func write(value: IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputFormat"].write(value.outputFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.AwsJsonSubstitutionCommandPreprocessorConfig()
+        value.outputFormat = try reader["outputFormat"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -36336,7 +36768,9 @@ extension IoTClientTypes.HttpAction {
     static func write(value: IoTClientTypes.HttpAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["auth"].write(value.auth, with: IoTClientTypes.HttpAuthorization.write(value:to:))
+        try writer["batchConfig"].write(value.batchConfig, with: IoTClientTypes.BatchConfig.write(value:to:))
         try writer["confirmationUrl"].write(value.confirmationUrl)
+        try writer["enableBatching"].write(value.enableBatching)
         try writer["headers"].writeList(value.headers, memberWritingClosure: IoTClientTypes.HttpActionHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["url"].write(value.url)
     }
@@ -36348,6 +36782,27 @@ extension IoTClientTypes.HttpAction {
         value.confirmationUrl = try reader["confirmationUrl"].readIfPresent()
         value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: IoTClientTypes.HttpActionHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.auth = try reader["auth"].readIfPresent(with: IoTClientTypes.HttpAuthorization.read(from:))
+        value.enableBatching = try reader["enableBatching"].readIfPresent()
+        value.batchConfig = try reader["batchConfig"].readIfPresent(with: IoTClientTypes.BatchConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.BatchConfig {
+
+    static func write(value: IoTClientTypes.BatchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBatchOpenMs"].write(value.maxBatchOpenMs)
+        try writer["maxBatchSize"].write(value.maxBatchSize)
+        try writer["maxBatchSizeBytes"].write(value.maxBatchSizeBytes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.BatchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.BatchConfig()
+        value.maxBatchOpenMs = try reader["maxBatchOpenMs"].readIfPresent()
+        value.maxBatchSize = try reader["maxBatchSize"].readIfPresent()
+        value.maxBatchSizeBytes = try reader["maxBatchSizeBytes"].readIfPresent()
         return value
     }
 }
@@ -36976,6 +37431,25 @@ extension IoTClientTypes.DynamoDBAction {
         value.rangeKeyValue = try reader["rangeKeyValue"].readIfPresent()
         value.rangeKeyType = try reader["rangeKeyType"].readIfPresent()
         value.payloadField = try reader["payloadField"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.LogEventConfiguration {
+
+    static func write(value: IoTClientTypes.LogEventConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventType"].write(value.eventType)
+        try writer["logDestination"].write(value.logDestination)
+        try writer["logLevel"].write(value.logLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LogEventConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.LogEventConfiguration()
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        value.logLevel = try reader["logLevel"].readIfPresent()
+        value.logDestination = try reader["logDestination"].readIfPresent()
         return value
     }
 }

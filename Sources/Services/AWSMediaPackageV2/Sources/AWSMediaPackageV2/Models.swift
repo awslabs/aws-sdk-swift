@@ -299,12 +299,15 @@ extension MediaPackageV2ClientTypes {
     public enum ValidationExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case batchGetSecretValueDenied
         case cencIvIncompatible
+        case certificateAccessDenied
+        case certificateResourceNotFound
         case clipStartTimeWithStartOrEnd
         case cmafContainerTypeWithMssManifest
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
         case dashDvbAttributesWithoutDvbDashProfile
         case decryptSecretFailed
+        case describeCertificateFailed
         case describeSecretDenied
         case directModeWithTimingSource
         case drmSignalingMismatchSegmentEncryptionStatus
@@ -326,6 +329,10 @@ extension MediaPackageV2ClientTypes {
         case incompatibleDashCompactnessConfiguration
         case incompatibleDashProfileDvbDashConfiguration
         case incompatibleXmlEncoding
+        case invalidArn
+        case invalidCertificateKeyAlgorithm
+        case invalidCertificateSignatureAlgorithm
+        case invalidCertificateStatus
         case invalidDrmSettings
         case invalidHarvestJobDuration
         case invalidManifestFilter
@@ -354,6 +361,7 @@ extension MediaPackageV2ClientTypes {
         case memberMinLength
         case memberMinValue
         case memberMissing
+        case missingCertificateDomainName
         case noneModeWithTimingSource
         case numManifestsHigh
         case numManifestsLow
@@ -362,6 +370,7 @@ extension MediaPackageV2ClientTypes {
         case onlyCmafInputTypeAllowMqcsOutputConfiguration
         case onlyCmafInputTypeAllowPreferredInputConfiguration
         case periodTriggersNoneSpecifiedWithAdditionalValues
+        case resourceNotInSameRegion
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
@@ -392,12 +401,15 @@ extension MediaPackageV2ClientTypes {
             return [
                 .batchGetSecretValueDenied,
                 .cencIvIncompatible,
+                .certificateAccessDenied,
+                .certificateResourceNotFound,
                 .clipStartTimeWithStartOrEnd,
                 .cmafContainerTypeWithMssManifest,
                 .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
                 .dashDvbAttributesWithoutDvbDashProfile,
                 .decryptSecretFailed,
+                .describeCertificateFailed,
                 .describeSecretDenied,
                 .directModeWithTimingSource,
                 .drmSignalingMismatchSegmentEncryptionStatus,
@@ -419,6 +431,10 @@ extension MediaPackageV2ClientTypes {
                 .incompatibleDashCompactnessConfiguration,
                 .incompatibleDashProfileDvbDashConfiguration,
                 .incompatibleXmlEncoding,
+                .invalidArn,
+                .invalidCertificateKeyAlgorithm,
+                .invalidCertificateSignatureAlgorithm,
+                .invalidCertificateStatus,
                 .invalidDrmSettings,
                 .invalidHarvestJobDuration,
                 .invalidManifestFilter,
@@ -447,6 +463,7 @@ extension MediaPackageV2ClientTypes {
                 .memberMinLength,
                 .memberMinValue,
                 .memberMissing,
+                .missingCertificateDomainName,
                 .noneModeWithTimingSource,
                 .numManifestsHigh,
                 .numManifestsLow,
@@ -455,6 +472,7 @@ extension MediaPackageV2ClientTypes {
                 .onlyCmafInputTypeAllowMqcsOutputConfiguration,
                 .onlyCmafInputTypeAllowPreferredInputConfiguration,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
+                .resourceNotInSameRegion,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
@@ -491,12 +509,15 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .batchGetSecretValueDenied: return "BATCH_GET_SECRET_VALUE_DENIED"
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
+            case .certificateAccessDenied: return "CERTIFICATE_ACCESS_DENIED"
+            case .certificateResourceNotFound: return "CERTIFICATE_RESOURCE_NOT_FOUND"
             case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
             case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .decryptSecretFailed: return "DECRYPT_SECRET_FAILED"
+            case .describeCertificateFailed: return "DESCRIBE_CERTIFICATE_FAILED"
             case .describeSecretDenied: return "DESCRIBE_SECRET_DENIED"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
             case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
@@ -518,6 +539,10 @@ extension MediaPackageV2ClientTypes {
             case .incompatibleDashCompactnessConfiguration: return "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
             case .incompatibleDashProfileDvbDashConfiguration: return "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
             case .incompatibleXmlEncoding: return "INCOMPATIBLE_XML_ENCODING"
+            case .invalidArn: return "INVALID_ARN"
+            case .invalidCertificateKeyAlgorithm: return "INVALID_CERTIFICATE_KEY_ALGORITHM"
+            case .invalidCertificateSignatureAlgorithm: return "INVALID_CERTIFICATE_SIGNATURE_ALGORITHM"
+            case .invalidCertificateStatus: return "INVALID_CERTIFICATE_STATUS"
             case .invalidDrmSettings: return "INVALID_DRM_SETTINGS"
             case .invalidHarvestJobDuration: return "INVALID_HARVEST_JOB_DURATION"
             case .invalidManifestFilter: return "INVALID_MANIFEST_FILTER"
@@ -546,6 +571,7 @@ extension MediaPackageV2ClientTypes {
             case .memberMinLength: return "MEMBER_MIN_LENGTH"
             case .memberMinValue: return "MEMBER_MIN_VALUE"
             case .memberMissing: return "MEMBER_MISSING"
+            case .missingCertificateDomainName: return "MISSING_CERTIFICATE_DOMAIN_NAME"
             case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
@@ -554,6 +580,7 @@ extension MediaPackageV2ClientTypes {
             case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
             case .onlyCmafInputTypeAllowPreferredInputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
+            case .resourceNotInSameRegion: return "RESOURCE_NOT_IN_SAME_REGION"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
@@ -2280,6 +2307,8 @@ extension MediaPackageV2ClientTypes {
 
     /// The parameters for the SPEKE key provider.
     public struct SpekeKeyProvider: Swift.Sendable {
+        /// The ARN for the certificate that you imported to AWS Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
+        public var certificateArn: Swift.String?
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.
         public var drmSystems: [MediaPackageV2ClientTypes.DrmSystem]?
@@ -2297,12 +2326,14 @@ extension MediaPackageV2ClientTypes {
         public var url: Swift.String?
 
         public init(
+            certificateArn: Swift.String? = nil,
             drmSystems: [MediaPackageV2ClientTypes.DrmSystem]? = nil,
             encryptionContractConfiguration: MediaPackageV2ClientTypes.EncryptionContractConfiguration? = nil,
             resourceId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.certificateArn = certificateArn
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -6471,6 +6502,7 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider {
 
     static func write(value: MediaPackageV2ClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
         try writer["DrmSystems"].writeList(value.drmSystems, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
@@ -6486,6 +6518,7 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider {
         value.drmSystems = try reader["DrmSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.url = try reader["Url"].readIfPresent() ?? ""
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
         return value
     }
 }

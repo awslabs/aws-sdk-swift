@@ -233,12 +233,14 @@ extension InspectorScanClientTypes {
     public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cycloneDx15
         case inspector
+        case inspectorAlt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OutputFormat] {
             return [
                 .cycloneDx15,
-                .inspector
+                .inspector,
+                .inspectorAlt
             ]
         }
 
@@ -251,6 +253,7 @@ extension InspectorScanClientTypes {
             switch self {
             case .cycloneDx15: return "CYCLONE_DX_1_5"
             case .inspector: return "INSPECTOR"
+            case .inspectorAlt: return "INSPECTOR_ALT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -260,7 +263,7 @@ extension InspectorScanClientTypes {
 public struct ScanSbomInput: Swift.Sendable {
     /// The output format for the vulnerability report.
     public var outputFormat: InspectorScanClientTypes.OutputFormat?
-    /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
+    /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format. This format limits you to passing 2000 components before throwing a ValidException error.
     /// This member is required.
     public var sbom: Smithy.Document?
 
