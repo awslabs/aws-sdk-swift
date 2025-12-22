@@ -93,7 +93,7 @@ extension PCSClientTypes {
     public struct Accounting: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
         public var defaultPurgeTimeInDays: Swift.Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.AccountingMode?
 
@@ -113,7 +113,7 @@ extension PCSClientTypes {
     public struct AccountingRequest: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
         public var defaultPurgeTimeInDays: Swift.Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.AccountingMode?
 
@@ -1226,7 +1226,7 @@ extension PCSClientTypes {
 
     /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
     public struct SlurmRestRequest: Swift.Sendable {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.SlurmRestMode?
 
@@ -1473,12 +1473,12 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
-    /// The JWT key stored in AWS Secrets Manager for Slurm REST API authentication.
+    /// The JWT key stored in Amazon Web Services Secrets Manager for Slurm REST API authentication.
     public struct JwtKey: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the JWT key.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the JWT key.
         /// This member is required.
         public var secretArn: Swift.String?
-        /// The version of the AWS Secrets Manager secret containing the JWT key.
+        /// The version of the Amazon Web Services Secrets Manager secret containing the JWT key.
         /// This member is required.
         public var secretVersion: Swift.String?
 
@@ -1511,7 +1511,7 @@ extension PCSClientTypes {
 
     /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
     public struct SlurmRest: Swift.Sendable {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.SlurmRestMode?
 
@@ -2248,7 +2248,7 @@ extension PCSClientTypes {
     public struct UpdateAccountingRequest: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
         public var defaultPurgeTimeInDays: Swift.Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         public var mode: PCSClientTypes.AccountingMode?
 
         public init(
@@ -2265,7 +2265,7 @@ extension PCSClientTypes {
 
     /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API.
     public struct UpdateSlurmRestRequest: Swift.Sendable {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         public var mode: PCSClientTypes.SlurmRestMode?
 
         public init(
