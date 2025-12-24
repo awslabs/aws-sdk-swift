@@ -239,7 +239,7 @@ service Waiters {
                 state: "success"
                 matcher: {
                     output: {
-                        path: "booleanProperty || stringProperty == 'match'"
+                        path: "booleanProperty == `true` || stringProperty == 'match'"
                         expected: "true"
                         comparator: "booleanEquals"
                     }
