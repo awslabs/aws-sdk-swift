@@ -5154,6 +5154,93 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The values for the role for a linked channel.
+    public enum LinkedChannelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followingChannel
+        case primaryChannel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LinkedChannelType] {
+            return [
+                .followingChannel,
+                .primaryChannel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followingChannel: return "FOLLOWING_CHANNEL"
+            case .primaryChannel: return "PRIMARY_CHANNEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Details of a follower channel in a linked pair
+    public struct DescribeFollowerChannelSettings: Swift.Sendable {
+        /// Specifies this as a follower channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+        /// The ARN of the primary channel this channel follows
+        public var primaryChannelArn: Swift.String?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil,
+            primaryChannelArn: Swift.String? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Details of a primary (leader) channel in a linked pair
+    public struct DescribePrimaryChannelSettings: Swift.Sendable {
+        /// The ARNs of the following channels for this primary channel
+        public var followingChannelArns: [Swift.String]?
+        /// Specifies this as a primary channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+
+        public init(
+            followingChannelArns: [Swift.String]? = nil,
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil
+        ) {
+            self.followingChannelArns = followingChannelArns
+            self.linkedChannelType = linkedChannelType
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Linked channel configuration details
+    public struct DescribeLinkedChannelSettings: Swift.Sendable {
+        /// Details of a follower channel in a linked pair
+        public var followerChannelSettings: MediaLiveClientTypes.DescribeFollowerChannelSettings?
+        /// Details of a primary (leader) channel in a linked pair
+        public var primaryChannelSettings: MediaLiveClientTypes.DescribePrimaryChannelSettings?
+
+        public init(
+            followerChannelSettings: MediaLiveClientTypes.DescribeFollowerChannelSettings? = nil,
+            primaryChannelSettings: MediaLiveClientTypes.DescribePrimaryChannelSettings? = nil
+        ) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// The log level the user wants for their channel.
     public enum LogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case debug
@@ -5371,6 +5458,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public var logLevel: MediaLiveClientTypes.LogLevel?
         /// Maintenance settings for this channel.
@@ -5401,6 +5490,7 @@ extension MediaLiveClientTypes {
             id: Swift.String? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
             name: Swift.String? = nil,
@@ -5421,6 +5511,7 @@ extension MediaLiveClientTypes {
             self.id = id
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -19925,10 +20016,46 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Pipeline Locking Method
+    public enum PipelineLockingMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sourceTimecode
+        case videoAlignment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineLockingMethod] {
+            return [
+                .sourceTimecode,
+                .videoAlignment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sourceTimecode: return "SOURCE_TIMECODE"
+            case .videoAlignment: return "VIDEO_ALIGNMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Pipeline Locking Settings
     public struct PipelineLockingSettings: Swift.Sendable {
+        /// The method to use to lock the video frames in the pipelines. sourceTimecode (default): Use the timecode in the source. videoAlignment: Lock frames that the encoder identifies as having matching content. If videoAlignment is selected, existing timecodes will not be used for any locking decisions.
+        public var pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod?
 
-        public init() { }
+        public init(
+            pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod? = nil
+        ) {
+            self.pipelineLockingMethod = pipelineLockingMethod
+        }
     }
 }
 
@@ -20369,6 +20496,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public var logLevel: MediaLiveClientTypes.LogLevel?
         /// Maintenance settings for this channel.
@@ -20400,6 +20529,7 @@ extension MediaLiveClientTypes {
             id: Swift.String? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
             name: Swift.String? = nil,
@@ -20421,6 +20551,7 @@ extension MediaLiveClientTypes {
             self.id = id
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -20534,6 +20665,59 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Settings for a follower channel in a linked pair
+    public struct FollowerChannelSettings: Swift.Sendable {
+        /// Specifies this as a follower channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+        /// The ARN of the primary channel to follow
+        public var primaryChannelArn: Swift.String?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil,
+            primaryChannelArn: Swift.String? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Settings for a primary (leader) channel in a linked pair
+    public struct PrimaryChannelSettings: Swift.Sendable {
+        /// Specifies this as a primary channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configuration for linked channel relationships
+    public struct LinkedChannelSettings: Swift.Sendable {
+        /// Settings for a follower channel in a linked pair
+        public var followerChannelSettings: MediaLiveClientTypes.FollowerChannelSettings?
+        /// Settings for a primary (leader) channel in a linked pair
+        public var primaryChannelSettings: MediaLiveClientTypes.PrimaryChannelSettings?
+
+        public init(
+            followerChannelSettings: MediaLiveClientTypes.FollowerChannelSettings? = nil,
+            primaryChannelSettings: MediaLiveClientTypes.PrimaryChannelSettings? = nil
+        ) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for MaintenanceCreateSettings
     public struct MaintenanceCreateSettings: Swift.Sendable {
         /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
@@ -20595,6 +20779,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// The linked channel settings for the channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -20623,6 +20809,7 @@ public struct CreateChannelInput: Swift.Sendable {
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceCreateSettings? = nil,
         name: Swift.String? = nil,
@@ -20641,6 +20828,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -22293,6 +22481,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -22324,6 +22514,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -22345,6 +22536,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -23007,6 +23199,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -23038,6 +23232,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -23059,6 +23254,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -25447,6 +25643,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -25480,6 +25678,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         maintenanceStatus: Swift.String? = nil,
@@ -25502,6 +25701,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.maintenanceStatus = maintenanceStatus
@@ -25552,6 +25752,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -25583,6 +25785,7 @@ public struct StartChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -25604,6 +25807,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -26059,6 +26263,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -26090,6 +26296,7 @@ public struct StopChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -26111,6 +26318,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -26279,6 +26487,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// The linked channel settings for the channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -26298,6 +26508,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceUpdateSettings? = nil,
         name: Swift.String? = nil,
@@ -26312,6 +26523,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -29216,6 +29428,7 @@ extension CreateChannelInput {
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceCreateSettings.write(value:to:))
         try writer["name"].write(value.name)
@@ -29522,6 +29735,7 @@ extension UpdateChannelInput {
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceUpdateSettings.write(value:to:))
         try writer["name"].write(value.name)
@@ -30092,6 +30306,7 @@ extension DeleteChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -30354,6 +30569,7 @@ extension DescribeChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -31143,6 +31359,7 @@ extension RestartChannelPipelinesOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.maintenanceStatus = try reader["maintenanceStatus"].readIfPresent()
@@ -31175,6 +31392,7 @@ extension StartChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -31328,6 +31546,7 @@ extension StopChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -34946,6 +35165,40 @@ extension MediaLiveClientTypes.Channel {
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeLinkedChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeLinkedChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeLinkedChannelSettings()
+        value.followerChannelSettings = try reader["followerChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeFollowerChannelSettings.read(from:))
+        value.primaryChannelSettings = try reader["primaryChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribePrimaryChannelSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribePrimaryChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribePrimaryChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribePrimaryChannelSettings()
+        value.followingChannelArns = try reader["followingChannelArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linkedChannelType = try reader["linkedChannelType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeFollowerChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeFollowerChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeFollowerChannelSettings()
+        value.linkedChannelType = try reader["linkedChannelType"].readIfPresent()
+        value.primaryChannelArn = try reader["primaryChannelArn"].readIfPresent()
         return value
     }
 }
@@ -37876,13 +38129,15 @@ extension MediaLiveClientTypes.OutputLockingSettings {
 extension MediaLiveClientTypes.PipelineLockingSettings {
 
     static func write(value: MediaLiveClientTypes.PipelineLockingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["pipelineLockingMethod"].write(value.pipelineLockingMethod)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.PipelineLockingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.PipelineLockingSettings()
+        var value = MediaLiveClientTypes.PipelineLockingSettings()
+        value.pipelineLockingMethod = try reader["pipelineLockingMethod"].readIfPresent()
+        return value
     }
 }
 
@@ -39773,6 +40028,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.usedChannelEngineVersions = try reader["usedChannelEngineVersions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         return value
     }
 }
@@ -40162,6 +40418,32 @@ extension MediaLiveClientTypes.ChannelEngineVersionRequest {
     static func write(value: MediaLiveClientTypes.ChannelEngineVersionRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["version"].write(value.version)
+    }
+}
+
+extension MediaLiveClientTypes.LinkedChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.LinkedChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["followerChannelSettings"].write(value.followerChannelSettings, with: MediaLiveClientTypes.FollowerChannelSettings.write(value:to:))
+        try writer["primaryChannelSettings"].write(value.primaryChannelSettings, with: MediaLiveClientTypes.PrimaryChannelSettings.write(value:to:))
+    }
+}
+
+extension MediaLiveClientTypes.PrimaryChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.PrimaryChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linkedChannelType"].write(value.linkedChannelType)
+    }
+}
+
+extension MediaLiveClientTypes.FollowerChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.FollowerChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linkedChannelType"].write(value.linkedChannelType)
+        try writer["primaryChannelArn"].write(value.primaryChannelArn)
     }
 }
 
