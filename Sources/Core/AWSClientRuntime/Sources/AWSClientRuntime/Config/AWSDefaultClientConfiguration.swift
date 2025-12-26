@@ -12,15 +12,15 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     /// The AWS credential identity resolver to be used for AWS credentials.
     ///
     /// If no resolver is supplied, `AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain` gets used by default.
-    var awsCredentialIdentityResolver: any AWSCredentialIdentityResolver { get set }
+    var awsCredentialIdentityResolver: any AWSCredentialIdentityResolver { get }
 
-    var authSchemePreference: [String]? { get set }
+    var authSchemePreference: [String]? { get }
 
     /// Specifies whether FIPS endpoints should be used.
-    var useFIPS: Bool? { get set }
+    var useFIPS: Bool? { get }
 
     /// Specifies whether dual-stack endpoints should be used.
-    var useDualStack: Bool? { get set }
+    var useDualStack: Bool? { get }
 
     /// An identifying string for the application using the SDK.
     ///
@@ -28,7 +28,7 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     ///
     /// The application ID may be retrieved from the environment variable `AWS_SDK_UA_APP_ID` or from the
     /// configuration file field `sdk_ua_app_id` if it is not set here.
-    var appID: String? { get set }
+    var appID: String? { get }
 
     /// The AWS retry mode to be used.
     ///
@@ -38,7 +38,7 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     ///
     /// This value is set after resolving retry mode from the standard progression of potential sources.
     /// Default mode is `legacy`.
-    var awsRetryMode: AWSRetryMode { get set }
+    var awsRetryMode: AWSRetryMode { get }
 
     /// The max number of times to attempt the request until success.
     ///
@@ -46,7 +46,7 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     /// For example, value of 3 for this config variable would mean maximum of 2 retries.
     ///
     /// If set, this value gets used when resolving max attempts value from the standard progression of potential sources. If no value could be resolved, the SDK uses max attempts value of 3 by default.
-    var maxAttempts: Int? { get set }
+    var maxAttempts: Int? { get }
 
     /// The AWS request checksum calculation mode to use.
     ///
@@ -56,7 +56,7 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     /// Default mode is `.whenSupported`.
     ///
     /// If no algorithm was chosen and no checksum was provided, CRC32 checksum algorithm is used by default.
-    var requestChecksumCalculation: AWSChecksumCalculationMode { get set }
+    var requestChecksumCalculation: AWSChecksumCalculationMode { get }
 
     /// The AWS response checksum calculation mode to use.
     ///
@@ -64,7 +64,7 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     /// If `.whenSupported`, the client validates checksum of the response if the operation supports it and SDK supports at least one of the checksum algorithms returend by service.
     ///
     /// Default mode is `.whenSupported`.
-    var responseChecksumValidation: AWSChecksumCalculationMode { get set }
+    var responseChecksumValidation: AWSChecksumCalculationMode { get }
 
     /// Specifies whether the endpoint configured via environment variables or shared config file should be used by the service client.
     ///
@@ -88,8 +88,8 @@ public protocol AWSDefaultClientConfiguration: Sendable {
     ///     4. If this flag was not set anywhere, the AWS Swift SDK defaults to the `false` case and attempts to resolve configured endpoint.
     /// Note: For the profile name used in resolution step 3, the value of`AWS_PROFILE` environment variable is used if set. Otherwise, `default` is used.
     ///
-    /// For more information on endpoint configuration via environment variables and the shared config file, see the [official AWS documentation](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html).
+    /// For more information on endpoint configuration via environment variables and shared config file, see the [official AWS documentation](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html).
     ///
     /// For the list of valid `<SERVICE>` values for the services, refer to [the official list](https://docs.aws.amazon.com/sdkref/latest/guide/ss-endpoints-table.html).
-    var ignoreConfiguredEndpointURLs: Bool? { get set }
+    var ignoreConfiguredEndpointURLs: Bool? { get }
 }

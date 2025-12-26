@@ -177,10 +177,11 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
         }
 
         // Call CreateOAuth2Token with SignIn client to refresh token.
-        let clientConfig = try await SigninClient.SigninClientConfiguration()
-        clientConfig.addInterceptorProvider(DPoPInterceptorProvider(dpopKey: loginToken.dpopKey))
-        clientConfig.addInterceptorProvider(
-            CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)
+        let clientConfig = try await SigninClient.SigninClientConfiguration(
+            httpInterceptorProviders: [
+                DPoPInterceptorProvider(dpopKey: loginToken.dpopKey),
+                CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)
+            ]
         )
         let client = SigninClient(config: clientConfig)
         let output = try await client.createOAuth2Token(input: CreateOAuth2TokenInput(
@@ -346,7 +347,7 @@ private extension Data {
     }
 }
 
-class DPoPInterceptor<InputType, OutputType>: Interceptor {
+struct DPoPInterceptor<InputType, OutputType>: Interceptor {
     typealias RequestType = SmithyHTTPAPI.HTTPRequest
     typealias ResponseType = HTTPResponse
 
@@ -412,7 +413,7 @@ class DPoPInterceptor<InputType, OutputType>: Interceptor {
 
 }
 
-class DPoPInterceptorProvider: HttpInterceptorProvider {
+struct DPoPInterceptorProvider: HttpInterceptorProvider {
     let dpopKey: String
 
     init(dpopKey: String) {

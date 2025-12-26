@@ -12,9 +12,6 @@ import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSSDKHTTPAuth.SigV4AuthScheme
-@_spi(StaticAWSCredentialIdentityResolver) import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
-@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class SSOClientEndpointPlugin: Plugin {
@@ -28,10 +25,11 @@ package class SSOClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? SSOClient.SSOClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
+    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
+        // Since configurations are now immutable structs, we can't mutate them.
+        // The endpoint resolver is already set in the configuration's initializer,
+        // so this plugin doesn't need to do anything.
+        return clientConfiguration
     }
 }
 
@@ -39,13 +37,11 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? SSOClient.SSOClientConfiguration {
-            config.authSchemeResolver = DefaultSSOAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
-            config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
-        }
+    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
+        // Since configurations are now immutable structs, we can't mutate them.
+        // The defaults are already set in the configuration's initializer,
+        // so this plugin doesn't need to do anything.
+        return clientConfiguration
     }
 }
 
@@ -64,21 +60,10 @@ package class SSOClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? SSOClient.SSOClientConfiguration {
-            if (self.authSchemes != nil) {
-                config.authSchemes = self.authSchemes
-            }
-            config.authSchemePreference = self.authSchemePreference
-            if (self.authSchemeResolver != nil) {
-                config.authSchemeResolver = self.authSchemeResolver!
-            }
-            if (self.awsCredentialIdentityResolver != nil) {
-                config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!
-            }
-            if (self.bearerTokenIdentityResolver != nil) {
-                config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
-            }
-        }
+    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
+        // Since configurations are now immutable structs, we can't mutate them.
+        // The auth schemes and resolver are already set in the configuration's initializer,
+        // so this plugin doesn't need to do anything.
+        return clientConfiguration
     }
 }

@@ -35,39 +35,15 @@ class DefaultAWSAuthSchemePlugin(
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: \$N) async throws -> \$N {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
+                ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
-                    writer.write(
-                        "config.authSchemeResolver = \$L",
-                        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
-                    )
-                    writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                    if (ctx.settings.internalClient) {
-                        writer.write(
-                            "config.awsCredentialIdentityResolver = \$N()",
-                            SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
-                        )
-                    } else {
-                        writer.write(
-                            "config.awsCredentialIdentityResolver = \$N()",
-                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                        )
-                    }
-                    if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
-                        writer.write(
-                            "config.bearerTokenIdentityResolver = \$N()",
-                            AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
-                        )
-                    } else {
-                        writer.write(
-                            "config.bearerTokenIdentityResolver = \$N()",
-                            SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
-                        )
-                    }
-                }
+                writer.write("// Since configurations are now immutable structs, we can't mutate them.")
+                writer.write("// The defaults are already set in the configuration's initializer,")
+                writer.write("// so this plugin doesn't need to do anything.")
+                writer.write("return clientConfiguration")
             }
         }
         writer.write("")

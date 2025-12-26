@@ -14,14 +14,10 @@ public class DefaultAWSClientPlugin: Plugin {
         self.clientName = clientName
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) throws {
-        if var config = clientConfiguration as? (DefaultClientConfiguration
-            & AWSDefaultClientConfiguration
-            & AWSRegionClientConfiguration) {
-            config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
-                config.awsRetryMode,
-                config.maxAttempts
-            )
-        }
+    public func configureClient(clientConfiguration: ClientConfiguration) async throws -> ClientConfiguration {
+        // Since configurations are now immutable structs, we can't mutate them.
+        // The defaults are already set in the configuration's initializer,
+        // so this plugin doesn't need to do anything.
+        return clientConfiguration
     }
 }

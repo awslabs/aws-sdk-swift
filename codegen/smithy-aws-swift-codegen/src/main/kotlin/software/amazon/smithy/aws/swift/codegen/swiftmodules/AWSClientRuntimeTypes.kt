@@ -53,22 +53,22 @@ object AWSClientRuntimeTypes {
         val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON", SwiftDeclaration.LET)
         val AWSDefaultClientConfiguration = runtimeSymbol("AWSDefaultClientConfiguration", SwiftDeclaration.PROTOCOL)
         val AWSRegionClientConfiguration = runtimeSymbol("AWSRegionClientConfiguration", SwiftDeclaration.PROTOCOL)
-        val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", SwiftDeclaration.CLASS)
-        val DefaultAWSClientPlugin = runtimeSymbol("DefaultAWSClientPlugin", SwiftDeclaration.CLASS)
+        val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", null)
+        val DefaultAWSClientPlugin = runtimeSymbol("DefaultAWSClientPlugin", null)
         val Route53TrimHostedZoneMiddleware = runtimeSymbol("Route53TrimHostedZoneMiddleware", SwiftDeclaration.STRUCT)
         val FlexibleChecksumsRequestMiddleware =
             runtimeSymbol("FlexibleChecksumsRequestMiddleware", SwiftDeclaration.STRUCT)
         val FlexibleChecksumsResponseMiddleware =
             runtimeSymbol("FlexibleChecksumsResponseMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkInvocationIdMiddleware = runtimeSymbol("AmzSdkInvocationIdMiddleware", SwiftDeclaration.STRUCT)
-        val AmzSdkRequestMiddleware = runtimeSymbol("AmzSdkRequestMiddleware", SwiftDeclaration.CLASS)
+        val AmzSdkRequestMiddleware = runtimeSymbol("AmzSdkRequestMiddleware", null)
         val AWSServiceClient = runtimeSymbol("AWSServiceClient", SwiftDeclaration.PROTOCOL)
     }
 }
 
 private fun runtimeSymbol(
     name: String,
-    declaration: SwiftDeclaration,
+    declaration: SwiftDeclaration?,
     spiNames: List<String> = emptyList(),
 ): Symbol =
     SwiftSymbol.make(

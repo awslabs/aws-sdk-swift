@@ -153,37 +153,37 @@ class AWSHttpProtocolServiceClient(
      */
     private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
-            "public convenience init(region: \$N) throws {",
+            "public init(region: \$N) throws {",
             "}",
             SwiftTypes.String,
         ) {
-            writer.openBlock("self.init(", ")") {
+            writer.openBlock("try self.init(", ")") {
                 properties.forEach { property ->
                     when (property.name) {
                         "region", "signingRegion" -> {
-                            writer.write("region,")
+                            writer.write("\$L: region,", property.name)
                         }
                         "awsCredentialIdentityResolver" -> {
                             if (ctx.settings.internalClient) {
-                                writer.write("\$N(),", SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
+                                writer.write("\$L: \$N(),", property.name, SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
                             } else {
-                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                                writer.write("\$L: \$N(),", property.name, AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                             }
                         }
                         "retryStrategyOptions" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),", property.name)
                         }
                         "requestChecksumCalculation" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),", property.name)
                         }
                         "responseChecksumValidation" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),", property.name)
                         }
                         "httpClientEngine" -> {
-                            writer.write("AWSClientConfigDefaultsProvider.httpClientEngine(),")
+                            writer.write("\$L: AWSClientConfigDefaultsProvider.httpClientEngine(),", property.name)
                         }
                         else -> {
-                            writer.write("\$L,", property.default?.render(writer) ?: "nil")
+                            writer.write("\$L: \$L,", property.name, property.default?.render(writer) ?: "nil")
                         }
                     }
                 }
