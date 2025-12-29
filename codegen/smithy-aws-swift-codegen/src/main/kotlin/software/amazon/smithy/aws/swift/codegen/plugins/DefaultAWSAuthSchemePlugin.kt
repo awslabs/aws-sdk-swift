@@ -1,18 +1,12 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
-import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.traits.HttpBearerAuthTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
-import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
 class DefaultAWSAuthSchemePlugin(
     private val serviceConfig: ServiceConfig,
