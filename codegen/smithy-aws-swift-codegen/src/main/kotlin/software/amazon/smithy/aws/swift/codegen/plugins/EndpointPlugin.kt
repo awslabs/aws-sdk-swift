@@ -36,9 +36,9 @@ class EndpointPlugin(
             }
             writer.write("")
             writer.openBlock("public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {", "}") {
-                writer.write("// Since configurations are now immutable structs, we can't mutate them.")
-                writer.write("// The endpoint resolver is already set in the configuration's initializer,")
-                writer.write("// so this plugin doesn't need to do anything.")
+                writer.write("// Configurations are now value-type structs. While they have mutable properties,")
+                writer.write("// we can't effectively mutate through a protocol reference and return the changes.")
+                writer.write("// The endpoint resolver is set in the configuration's initializer instead.")
                 writer.write("return clientConfiguration")
             }
         }

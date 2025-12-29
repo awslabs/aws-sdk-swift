@@ -66,9 +66,9 @@ class AuthSchemePlugin(
                 ClientRuntimeTypes.Core.ClientConfiguration,
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.write("// Since configurations are now immutable structs, we can't mutate them.")
-                writer.write("// The auth schemes and resolver are already set in the configuration's initializer,")
-                writer.write("// so this plugin doesn't need to do anything.")
+                writer.write("// Configurations are now value-type structs. While they have mutable properties,")
+                writer.write("// we can't effectively mutate through a protocol reference and return the changes.")
+                writer.write("// Auth schemes and resolver are set in the configuration's initializer instead.")
                 writer.write("return clientConfiguration")
             }
         }

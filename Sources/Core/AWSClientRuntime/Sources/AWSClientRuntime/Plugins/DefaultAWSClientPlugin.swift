@@ -15,9 +15,9 @@ public class DefaultAWSClientPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientConfiguration) async throws -> ClientConfiguration {
-        // Since configurations are now immutable structs, we can't mutate them.
-        // The defaults are already set in the configuration's initializer,
-        // so this plugin doesn't need to do anything.
+        // Configurations are now value-type structs. While they have mutable properties,
+        // we can't effectively mutate through a protocol reference and return the changes.
+        // Defaults are set in the configuration's initializer instead.
         return clientConfiguration
     }
 }
