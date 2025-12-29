@@ -11789,6 +11789,29 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about the global resiliency configuration for the contact, including traffic distribution details.
+    public struct GlobalResiliencyMetadata: Swift.Sendable {
+        /// The current AWS region in which the contact is active. This indicates where the contact is being processed in real-time.
+        public var activeRegion: Swift.String?
+        /// The AWS region where the contact was originally created and initiated. This may differ from the ActiveRegion if the contact has been transferred across regions.
+        public var originRegion: Swift.String?
+        /// The identifier of the traffic distribution group.
+        public var trafficDistributionGroupId: Swift.String?
+
+        public init(
+            activeRegion: Swift.String? = nil,
+            originRegion: Swift.String? = nil,
+            trafficDistributionGroupId: Swift.String? = nil
+        ) {
+            self.activeRegion = activeRegion
+            self.originRegion = originRegion
+            self.trafficDistributionGroupId = trafficDistributionGroupId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contact data associated with quick connect operations.
     public struct QuickConnectContactData: Swift.Sendable {
         /// The contact ID for quick connect contact data.
@@ -23973,6 +23996,29 @@ public struct ResumeContactOutput: Swift.Sendable {
     public init() { }
 }
 
+/// This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
+public struct InvalidActiveRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidActiveRegionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension ConnectClientTypes {
 
     public enum ContactRecordingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -32987,6 +33033,8 @@ extension ConnectClientTypes {
         public var disconnectReason: Swift.String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public var disconnectTimestamp: Foundation.Date?
+        /// Information about the global resiliency configuration for the contact, including traffic distribution details.
+        public var globalResiliencyMetadata: ConnectClientTypes.GlobalResiliencyMetadata?
         /// The identifier for the contact.
         public var id: Swift.String?
         /// If this contact is related to other contacts, this is the ID of the initial contact.
@@ -33063,6 +33111,7 @@ extension ConnectClientTypes {
             disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
             disconnectReason: Swift.String? = nil,
             disconnectTimestamp: Foundation.Date? = nil,
+            globalResiliencyMetadata: ConnectClientTypes.GlobalResiliencyMetadata? = nil,
             id: Swift.String? = nil,
             initialContactId: Swift.String? = nil,
             initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
@@ -33111,6 +33160,7 @@ extension ConnectClientTypes {
             self.disconnectDetails = disconnectDetails
             self.disconnectReason = disconnectReason
             self.disconnectTimestamp = disconnectTimestamp
+            self.globalResiliencyMetadata = globalResiliencyMetadata
             self.id = id
             self.initialContactId = initialContactId
             self.initiationMethod = initiationMethod
@@ -33144,7 +33194,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -48651,6 +48701,7 @@ enum ResumeContactRecordingOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -49216,6 +49267,7 @@ enum StartContactRecordingOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49388,6 +49440,7 @@ enum StopContactOutputError {
         switch baseError.code {
             case "ContactNotFoundException": return try ContactNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49424,6 +49477,7 @@ enum StopContactRecordingOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -49475,6 +49529,7 @@ enum SuspendContactRecordingOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -49491,6 +49546,7 @@ enum TagContactOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49547,6 +49603,7 @@ enum UntagContactOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49623,6 +49680,7 @@ enum UpdateContactOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49641,6 +49699,7 @@ enum UpdateContactAttributesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -49794,6 +49853,7 @@ enum UpdateContactRoutingDataOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidActiveRegionException": return try InvalidActiveRegionException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -50984,6 +51044,19 @@ extension OutputTypeNotFoundException {
     }
 }
 
+extension InvalidActiveRegionException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidActiveRegionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidActiveRegionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MaximumResultReturnedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaximumResultReturnedException {
@@ -51468,6 +51541,19 @@ extension ConnectClientTypes.Contact {
         value.outboundStrategy = try reader["OutboundStrategy"].readIfPresent(with: ConnectClientTypes.OutboundStrategy.read(from:))
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.nextContacts = try reader["NextContacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.NextContactEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.GlobalResiliencyMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.GlobalResiliencyMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.GlobalResiliencyMetadata()
+        value.activeRegion = try reader["ActiveRegion"].readIfPresent()
+        value.originRegion = try reader["OriginRegion"].readIfPresent()
+        value.trafficDistributionGroupId = try reader["TrafficDistributionGroupId"].readIfPresent()
         return value
     }
 }
