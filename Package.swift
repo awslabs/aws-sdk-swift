@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.177.0"
+let clientRuntimeVersion: Version = "0.178.0"
 let crtVersion: Version = "0.54.2"
 
 let excludeRuntimeUnitTests = false
@@ -757,11 +757,6 @@ private let serviceClientData: [ServiceClientData] = [
         "AWSElasticLoadBalancingv2",
         "elastic-load-balancing-v2.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyFormURL, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI, .SmithyXML]
-    ),
-    .init(
-        "AWSElasticTranscoder",
-        "elastic-transcoder.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSElasticsearchService",
@@ -2054,6 +2049,11 @@ private let serviceClientData: [ServiceClientData] = [
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
     ),
     .init(
+        "AWSWickr",
+        "wickr.json",
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+    ),
+    .init(
         "AWSWisdom",
         "wisdom.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
@@ -2328,12 +2328,7 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentityAPI,
                 .SmithyHTTPAPI,
                 .AWSSDKCommon,
-                "InternalAWSSTS",
-                "InternalAWSSSO",
-                "InternalAWSSSOOIDC",
-                "InternalAWSCognitoIdentity",
-                "InternalAWSSignin"
-            ],
+            ] + internalClientDependencies,
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
         .target(
@@ -2351,6 +2346,10 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
     ] + internalServiceTargets
+}
+
+private var internalClientDependencies: [Target.Dependency] {
+    serviceClientData.filter { $0.serviceType == .internalUse }.map { .byNameItem(name: $0.name, condition: nil) }
 }
 
 private var internalServiceTargets: [Target] {

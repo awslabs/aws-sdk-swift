@@ -7668,6 +7668,8 @@ extension GuardDutyClientTypes {
         public var dbInstanceArn: Swift.String?
         /// The identifier associated to the database instance that was involved in the finding.
         public var dbInstanceIdentifier: Swift.String?
+        /// The unique ID of the database resource involved in the activity that prompted GuardDuty to generate the finding.
+        public var dbiResourceId: Swift.String?
         /// The database engine of the database instance involved in the finding.
         public var engine: Swift.String?
         /// The version of the database engine that was involved in the finding.
@@ -7679,6 +7681,7 @@ extension GuardDutyClientTypes {
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
+            dbiResourceId: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil
@@ -7686,6 +7689,7 @@ extension GuardDutyClientTypes {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbiResourceId = dbiResourceId
             self.engine = engine
             self.engineVersion = engineVersion
             self.tags = tags
@@ -10174,6 +10178,7 @@ public struct GetOrganizationStatisticsOutput: Swift.Sendable {
 
 public struct GetRemainingFreeTrialDaysInput: Swift.Sendable {
     /// A list of account identifiers of the GuardDuty member account.
+    /// This member is required.
     public var accountIds: [Swift.String]?
     /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -18277,6 +18282,7 @@ extension GuardDutyClientTypes.RdsDbInstanceDetails {
         value.engineVersion = try reader["engineVersion"].readIfPresent()
         value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
         value.dbInstanceArn = try reader["dbInstanceArn"].readIfPresent()
+        value.dbiResourceId = try reader["dbiResourceId"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

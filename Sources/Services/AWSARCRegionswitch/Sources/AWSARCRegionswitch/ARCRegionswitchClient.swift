@@ -1234,6 +1234,81 @@ extension ARCRegionswitchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRoute53HealthChecksInRegion` operation on the `ARCRegionswitch` service.
+    ///
+    /// List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRoute53HealthChecksInRegionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRoute53HealthChecksInRegionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// - `IllegalArgumentException` : The request processing has an invalid argument.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. HTTP Status Code: 500
+    /// - `ResourceNotFoundException` : The specified resource was not found. HTTP Status Code: 404
+    public func listRoute53HealthChecksInRegion(input: ListRoute53HealthChecksInRegionInput) async throws -> ListRoute53HealthChecksInRegionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRoute53HealthChecksInRegion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "arc-region-switch")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionOutput.httpOutput(from:), ListRoute53HealthChecksInRegionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRoute53HealthChecksInRegionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Region switch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRoute53HealthChecksInRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRoute53HealthChecksInRegionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(serviceID: serviceName, version: ARCRegionswitchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCRegionswitch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRoute53HealthChecksInRegion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `ARCRegionswitch` service.
     ///
     /// Lists the tags attached to a Region switch resource.

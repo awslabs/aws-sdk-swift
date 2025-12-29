@@ -206,6 +206,21 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
+    /// The configuration object that enables job level cost allocation.
+    public struct JobLevelCostAllocationConfiguration: Swift.Sendable {
+        /// Enables job level cost allocation for the application.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
     /// The maximum allowed cumulative resources for an application. No new resources will be created once the limit is hit.
     public struct MaximumAllowedResources: Swift.Sendable {
         /// The maximum allowed CPU for an application.
@@ -1521,6 +1536,8 @@ extension EMRServerlessClientTypes {
         public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases for an application.
         public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -1563,6 +1580,7 @@ extension EMRServerlessClientTypes {
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
             interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+            jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
             maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
             name: Swift.String? = nil,
@@ -1587,6 +1605,7 @@ extension EMRServerlessClientTypes {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -1641,6 +1660,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The interactive configuration object that enables the interactive use cases to use when running an application.
     public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+    /// The configuration object that enables job level cost allocation.
+    public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
     /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -1673,6 +1694,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         name: Swift.String? = nil,
@@ -1692,6 +1714,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
+        self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.name = name
@@ -1726,6 +1749,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The interactive configuration object that contains new interactive use cases when the application is updated.
     public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+    /// The configuration object that enables job level cost allocation.
+    public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
     /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -1751,6 +1776,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
@@ -1768,6 +1794,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
+        self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.networkConfiguration = networkConfiguration
@@ -2308,6 +2335,7 @@ extension CreateApplicationInput {
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
+        try writer["jobLevelCostAllocationConfiguration"].write(value.jobLevelCostAllocationConfiguration, with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["name"].write(value.name)
@@ -2358,6 +2386,7 @@ extension UpdateApplicationInput {
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
+        try writer["jobLevelCostAllocationConfiguration"].write(value.jobLevelCostAllocationConfiguration, with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
@@ -2893,6 +2922,22 @@ extension EMRServerlessClientTypes.Application {
         value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
         value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRServerlessClientTypes.SchedulerConfiguration.read(from:))
         value.identityCenterConfiguration = try reader["identityCenterConfiguration"].readIfPresent(with: EMRServerlessClientTypes.IdentityCenterConfiguration.read(from:))
+        value.jobLevelCostAllocationConfiguration = try reader["jobLevelCostAllocationConfiguration"].readIfPresent(with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobLevelCostAllocationConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }

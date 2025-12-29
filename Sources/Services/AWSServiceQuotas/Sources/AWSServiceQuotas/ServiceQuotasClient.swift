@@ -823,6 +823,79 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetQuotaUtilizationReport` operation on the `ServiceQuotas` service.
+    ///
+    /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and retrieve results when the report is ready. Each report contains up to 1,000 quota records per page. Use the NextToken parameter to retrieve additional pages of results. Reports are automatically deleted after 15 minutes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetQuotaUtilizationReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetQuotaUtilizationReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func getQuotaUtilizationReport(input: GetQuotaUtilizationReportInput) async throws -> GetQuotaUtilizationReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getQuotaUtilizationReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(GetQuotaUtilizationReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuotaUtilizationReportOutput>(GetQuotaUtilizationReportOutput.httpOutput(from:), GetQuotaUtilizationReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetQuotaUtilizationReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQuotaUtilizationReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(xAmzTarget: "ServiceQuotasV20190624.GetQuotaUtilizationReport"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQuotaUtilizationReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQuotaUtilizationReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQuotaUtilizationReportInput, GetQuotaUtilizationReportOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQuotaUtilizationReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRequestedServiceQuotaChange` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves information about the specified quota increase request.
@@ -1780,6 +1853,80 @@ extension ServiceQuotasClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAutoManagement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartQuotaUtilizationReport` operation on the `ServiceQuotas` service.
+    ///
+    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the number of quotas in your account. Use the GetQuotaUtilizationReport operation to check the status and retrieve the results when the report is ready.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartQuotaUtilizationReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartQuotaUtilizationReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func startQuotaUtilizationReport(input: StartQuotaUtilizationReportInput) async throws -> StartQuotaUtilizationReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startQuotaUtilizationReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(StartQuotaUtilizationReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQuotaUtilizationReportOutput>(StartQuotaUtilizationReportOutput.httpOutput(from:), StartQuotaUtilizationReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartQuotaUtilizationReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartQuotaUtilizationReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(xAmzTarget: "ServiceQuotasV20190624.StartQuotaUtilizationReport"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartQuotaUtilizationReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartQuotaUtilizationReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartQuotaUtilizationReportInput, StartQuotaUtilizationReportOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartQuotaUtilizationReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

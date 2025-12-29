@@ -383,8 +383,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticLoadBalancingv2](/sdk-for-swift/latest/api/awselasticloadbalancingv2/documentation/awselasticloadbalancingv2)
 
-[AWSElasticTranscoder](/sdk-for-swift/latest/api/awselastictranscoder/documentation/awselastictranscoder)
-
 [AWSElasticsearchService](/sdk-for-swift/latest/api/awselasticsearchservice/documentation/awselasticsearchservice)
 
 [AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
@@ -900,6 +898,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWAFV2](/sdk-for-swift/latest/api/awswafv2/documentation/awswafv2)
 
 [AWSWellArchitected](/sdk-for-swift/latest/api/awswellarchitected/documentation/awswellarchitected)
+
+[AWSWickr](/sdk-for-swift/latest/api/awswickr/documentation/awswickr)
 
 [AWSWisdom](/sdk-for-swift/latest/api/awswisdom/documentation/awswisdom)
 

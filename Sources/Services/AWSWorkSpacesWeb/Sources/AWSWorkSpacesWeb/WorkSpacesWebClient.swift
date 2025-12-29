@@ -1550,6 +1550,7 @@ extension WorkSpacesWebClient {
     /// - `AccessDeniedException` : Access is denied.
     /// - `ConflictException` : There is a conflict.
     /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.

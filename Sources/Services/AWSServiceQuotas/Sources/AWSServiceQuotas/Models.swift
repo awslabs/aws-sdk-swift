@@ -905,6 +905,155 @@ public struct GetAWSDefaultServiceQuotaOutput: Swift.Sendable {
     }
 }
 
+public struct GetQuotaUtilizationReportInput: Swift.Sendable {
+    /// The maximum number of results to return per page. The default value is 1,000 and the maximum allowed value is 1,000.
+    public var maxResults: Swift.Int?
+    /// A token that indicates the next page of results to retrieve. This token is returned in the response when there are more results available. Omit this parameter for the first request.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the quota utilization report. This identifier is returned by the StartQuotaUtilizationReport operation.
+    /// This member is required.
+    public var reportId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        reportId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.reportId = reportId
+    }
+}
+
+extension ServiceQuotasClientTypes {
+
+    /// Information about a quota's utilization, including the quota code, service information, current usage, and applied limits.
+    public struct QuotaUtilizationInfo: Swift.Sendable {
+        /// Indicates whether the quota value can be increased.
+        public var adjustable: Swift.Bool
+        /// The applied value of the quota, which may be higher than the default value if a quota increase has been requested and approved.
+        public var appliedValue: Swift.Double?
+        /// The default value of the quota.
+        public var defaultValue: Swift.Double?
+        /// The namespace of the metric used to track quota usage.
+        public var namespace: Swift.String?
+        /// The quota identifier.
+        public var quotaCode: Swift.String?
+        /// The quota name.
+        public var quotaName: Swift.String?
+        /// The service identifier.
+        public var serviceCode: Swift.String?
+        /// The service name.
+        public var serviceName: Swift.String?
+        /// The utilization percentage of the quota, calculated as (current usage / applied value) × 100. Values range from 0.0 to 100.0 or higher if usage exceeds the quota limit.
+        public var utilization: Swift.Double?
+
+        public init(
+            adjustable: Swift.Bool = false,
+            appliedValue: Swift.Double? = nil,
+            defaultValue: Swift.Double? = nil,
+            namespace: Swift.String? = nil,
+            quotaCode: Swift.String? = nil,
+            quotaName: Swift.String? = nil,
+            serviceCode: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            utilization: Swift.Double? = nil
+        ) {
+            self.adjustable = adjustable
+            self.appliedValue = appliedValue
+            self.defaultValue = defaultValue
+            self.namespace = namespace
+            self.quotaCode = quotaCode
+            self.quotaName = quotaName
+            self.serviceCode = serviceCode
+            self.serviceName = serviceName
+            self.utilization = utilization
+        }
+    }
+}
+
+extension ServiceQuotasClientTypes {
+
+    public enum ReportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReportStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQuotaUtilizationReportOutput: Swift.Sendable {
+    /// An error code indicating the reason for failure when the report status is FAILED. This field is only present when the status is FAILED.
+    public var errorCode: Swift.String?
+    /// A detailed error message describing the failure when the report status is FAILED. This field is only present when the status is FAILED.
+    public var errorMessage: Swift.String?
+    /// The timestamp when the report was generated, in ISO 8601 format.
+    public var generatedAt: Foundation.Date?
+    /// A token that indicates more results are available. Include this token in the next request to retrieve the next page of results. If this field is not present, you have retrieved all available results.
+    public var nextToken: Swift.String?
+    /// A list of quota utilization records, sorted by utilization percentage in descending order. Each record includes the quota code, service code, service name, quota name, namespace, utilization percentage, default value, applied value, and whether the quota is adjustable. Up to 1,000 records are returned per page.
+    public var quotas: [ServiceQuotasClientTypes.QuotaUtilizationInfo]?
+    /// The unique identifier for the quota utilization report.
+    public var reportId: Swift.String?
+    /// The current status of the report generation. Possible values are:
+    ///
+    /// * PENDING - The report generation is in progress. Retry this operation after a few seconds.
+    ///
+    /// * IN_PROGRESS - The report is being processed. Continue polling until the status changes to COMPLETED.
+    ///
+    /// * COMPLETED - The report is ready and quota utilization data is available in the response.
+    ///
+    /// * FAILED - The report generation failed. Check the ErrorCode and ErrorMessage fields for details.
+    public var status: ServiceQuotasClientTypes.ReportStatus?
+    /// The total number of quotas included in the report across all pages.
+    public var totalCount: Swift.Int?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        generatedAt: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        quotas: [ServiceQuotasClientTypes.QuotaUtilizationInfo]? = nil,
+        reportId: Swift.String? = nil,
+        status: ServiceQuotasClientTypes.ReportStatus? = nil,
+        totalCount: Swift.Int? = nil
+    ) {
+        self.errorCode = errorCode
+        self.errorMessage = errorMessage
+        self.generatedAt = generatedAt
+        self.nextToken = nextToken
+        self.quotas = quotas
+        self.reportId = reportId
+        self.status = status
+        self.totalCount = totalCount
+    }
+}
+
 public struct GetRequestedServiceQuotaChangeInput: Swift.Sendable {
     /// Specifies the ID of the quota increase request.
     /// This member is required.
@@ -914,6 +1063,32 @@ public struct GetRequestedServiceQuotaChangeInput: Swift.Sendable {
         requestId: Swift.String? = nil
     ) {
         self.requestId = requestId
+    }
+}
+
+extension ServiceQuotasClientTypes {
+
+    public enum RequestType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automaticmanagement
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RequestType] {
+            return [
+                .automaticmanagement
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automaticmanagement: return "AutomaticManagement"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -987,6 +1162,13 @@ extension ServiceQuotasClientTypes {
         public var quotaName: Swift.String?
         /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
+        /// The type of quota increase request. Possible values include:
+        ///
+        /// * AutomaticManagement - The request was automatically created by Service Quotas Automatic Management when quota utilization approached the limit.
+        ///
+        ///
+        /// If this field is not present, the request was manually created by a user.
+        public var requestType: ServiceQuotasClientTypes.RequestType?
         /// The IAM identity of the requester.
         public var requester: Swift.String?
         /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
@@ -1024,6 +1206,7 @@ extension ServiceQuotasClientTypes {
             quotaContext: ServiceQuotasClientTypes.QuotaContextInfo? = nil,
             quotaName: Swift.String? = nil,
             quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
+            requestType: ServiceQuotasClientTypes.RequestType? = nil,
             requester: Swift.String? = nil,
             serviceCode: Swift.String? = nil,
             serviceName: Swift.String? = nil,
@@ -1041,6 +1224,7 @@ extension ServiceQuotasClientTypes {
             self.quotaContext = quotaContext
             self.quotaName = quotaName
             self.quotaRequestedAtLevel = quotaRequestedAtLevel
+            self.requestType = requestType
             self.requester = requester
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -1623,6 +1807,30 @@ public struct StartAutoManagementOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct StartQuotaUtilizationReportInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StartQuotaUtilizationReportOutput: Swift.Sendable {
+    /// An optional message providing additional information about the report generation status. This field may contain details about the report initiation or indicate if an existing recent report is being reused.
+    public var message: Swift.String?
+    /// A unique identifier for the quota utilization report. Use this identifier with the GetQuotaUtilizationReport operation to retrieve the report results.
+    public var reportId: Swift.String?
+    /// The current status of the report generation. The status will be PENDING when the report is first initiated.
+    public var status: ServiceQuotasClientTypes.ReportStatus?
+
+    public init(
+        message: Swift.String? = nil,
+        reportId: Swift.String? = nil,
+        status: ServiceQuotasClientTypes.ReportStatus? = nil
+    ) {
+        self.message = message
+        self.reportId = reportId
+        self.status = status
+    }
+}
+
 public struct StopAutoManagementInput: Swift.Sendable {
 
     public init() { }
@@ -1796,6 +2004,13 @@ extension GetAWSDefaultServiceQuotaInput {
     }
 }
 
+extension GetQuotaUtilizationReportInput {
+
+    static func urlPathProvider(_ value: GetQuotaUtilizationReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetRequestedServiceQuotaChangeInput {
 
     static func urlPathProvider(_ value: GetRequestedServiceQuotaChangeInput) -> Swift.String? {
@@ -1887,6 +2102,13 @@ extension StartAutoManagementInput {
     }
 }
 
+extension StartQuotaUtilizationReportInput {
+
+    static func urlPathProvider(_ value: StartQuotaUtilizationReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopAutoManagementInput {
 
     static func urlPathProvider(_ value: StopAutoManagementInput) -> Swift.String? {
@@ -1971,6 +2193,16 @@ extension GetAWSDefaultServiceQuotaInput {
         guard let value else { return }
         try writer["QuotaCode"].write(value.quotaCode)
         try writer["ServiceCode"].write(value.serviceCode)
+    }
+}
+
+extension GetQuotaUtilizationReportInput {
+
+    static func write(value: GetQuotaUtilizationReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ReportId"].write(value.reportId)
     }
 }
 
@@ -2111,6 +2343,14 @@ extension StartAutoManagementInput {
     }
 }
 
+extension StartQuotaUtilizationReportInput {
+
+    static func write(value: StartQuotaUtilizationReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension StopAutoManagementInput {
 
     static func write(value: StopAutoManagementInput?, to writer: SmithyJSON.Writer) throws {
@@ -2211,6 +2451,25 @@ extension GetAWSDefaultServiceQuotaOutput {
         let reader = responseReader
         var value = GetAWSDefaultServiceQuotaOutput()
         value.quota = try reader["Quota"].readIfPresent(with: ServiceQuotasClientTypes.ServiceQuota.read(from:))
+        return value
+    }
+}
+
+extension GetQuotaUtilizationReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQuotaUtilizationReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQuotaUtilizationReportOutput()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.generatedAt = try reader["GeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.quotas = try reader["Quotas"].readListIfPresent(memberReadingClosure: ServiceQuotasClientTypes.QuotaUtilizationInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportId = try reader["ReportId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.totalCount = try reader["TotalCount"].readIfPresent()
         return value
     }
 }
@@ -2372,6 +2631,20 @@ extension StartAutoManagementOutput {
     }
 }
 
+extension StartQuotaUtilizationReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartQuotaUtilizationReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartQuotaUtilizationReportOutput()
+        value.message = try reader["Message"].readIfPresent()
+        value.reportId = try reader["ReportId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension StopAutoManagementOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopAutoManagementOutput {
@@ -2525,6 +2798,24 @@ enum GetAutoManagementConfigurationOutputError {
 }
 
 enum GetAWSDefaultServiceQuotaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "NoSuchResourceException": return try NoSuchResourceException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQuotaUtilizationReportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2788,6 +3079,25 @@ enum StartAutoManagementOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "NoSuchResourceException": return try NoSuchResourceException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartQuotaUtilizationReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InvalidPaginationTokenException": return try InvalidPaginationTokenException.makeError(baseError: baseError)
             case "NoSuchResourceException": return try NoSuchResourceException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -3173,12 +3483,31 @@ extension ServiceQuotasClientTypes.MetricInfo {
     }
 }
 
+extension ServiceQuotasClientTypes.QuotaUtilizationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.QuotaUtilizationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceQuotasClientTypes.QuotaUtilizationInfo()
+        value.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.quotaName = try reader["QuotaName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.utilization = try reader["Utilization"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.appliedValue = try reader["AppliedValue"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.adjustable = try reader["Adjustable"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension ServiceQuotasClientTypes.RequestedServiceQuotaChange {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.RequestedServiceQuotaChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceQuotasClientTypes.RequestedServiceQuotaChange()
         value.id = try reader["Id"].readIfPresent()
+        value.requestType = try reader["RequestType"].readIfPresent()
         value.caseId = try reader["CaseId"].readIfPresent()
         value.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.serviceName = try reader["ServiceName"].readIfPresent()
