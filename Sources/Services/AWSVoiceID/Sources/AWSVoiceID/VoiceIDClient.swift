@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class VoiceIDClient: AWSClientRuntime.AWSServiceClient {
+public final class VoiceIDClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VoiceIDClient"
     let client: ClientRuntime.SdkHttpClient
     let config: VoiceIDClient.VoiceIDClientConfiguration

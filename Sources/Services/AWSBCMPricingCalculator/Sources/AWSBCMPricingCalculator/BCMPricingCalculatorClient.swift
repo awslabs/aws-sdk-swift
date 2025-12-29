@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient {
+public final class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMPricingCalculatorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration

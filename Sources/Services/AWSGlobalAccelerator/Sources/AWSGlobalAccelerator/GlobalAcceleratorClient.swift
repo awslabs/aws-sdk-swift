@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GlobalAcceleratorClient: AWSClientRuntime.AWSServiceClient {
+public final class GlobalAcceleratorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlobalAcceleratorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration

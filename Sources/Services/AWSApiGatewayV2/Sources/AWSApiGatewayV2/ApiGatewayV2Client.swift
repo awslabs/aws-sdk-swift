@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApiGatewayV2Client: AWSClientRuntime.AWSServiceClient {
+public final class ApiGatewayV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApiGatewayV2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: ApiGatewayV2Client.ApiGatewayV2ClientConfiguration

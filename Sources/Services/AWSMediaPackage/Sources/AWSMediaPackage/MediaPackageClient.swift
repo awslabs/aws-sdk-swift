@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaPackageClient: AWSClientRuntime.AWSServiceClient {
+public final class MediaPackageClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaPackageClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageClient.MediaPackageClientConfiguration

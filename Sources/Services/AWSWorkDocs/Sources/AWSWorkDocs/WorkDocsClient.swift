@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkDocsClient: AWSClientRuntime.AWSServiceClient {
+public final class WorkDocsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkDocsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkDocsClient.WorkDocsClientConfiguration

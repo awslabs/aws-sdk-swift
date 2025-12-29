@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RepostspaceClient: AWSClientRuntime.AWSServiceClient {
+public final class RepostspaceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RepostspaceClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration

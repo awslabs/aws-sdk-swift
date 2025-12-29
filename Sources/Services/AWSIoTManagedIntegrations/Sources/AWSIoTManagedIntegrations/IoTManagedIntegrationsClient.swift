@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTManagedIntegrationsClient: AWSClientRuntime.AWSServiceClient {
+public final class IoTManagedIntegrationsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTManagedIntegrationsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration

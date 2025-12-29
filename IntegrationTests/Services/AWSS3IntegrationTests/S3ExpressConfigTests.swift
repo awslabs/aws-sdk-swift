@@ -50,7 +50,7 @@ final class S3ExpressConfigTests: XCTestCase {
     }
 
     func test_config_usesSigV4ForGeneralPurposeBucketByDefault() async throws {
-        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
+        self.config.addHttpInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: ordinaryBucket, key: "text")
         do {
@@ -62,7 +62,7 @@ final class S3ExpressConfigTests: XCTestCase {
 
     func test_config_usesSigV4ForGeneralPurposeBucketWhenS3ExpressEnabled() async throws {
         self.config.disableS3ExpressSessionAuth = false
-        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
+        self.config.addHttpInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: ordinaryBucket, key: "text")
         do {
@@ -73,7 +73,7 @@ final class S3ExpressConfigTests: XCTestCase {
     }
 
     func test_config_enablesS3ExpressByDefaultForS3ExpressBucket() async throws {
-        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
+        self.config.addHttpInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -85,7 +85,7 @@ final class S3ExpressConfigTests: XCTestCase {
 
     func test_config_enablesS3ExpressExplicitlyForS3ExpressBucket() async throws {
         self.config.disableS3ExpressSessionAuth = false
-        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
+        self.config.addHttpInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -97,7 +97,7 @@ final class S3ExpressConfigTests: XCTestCase {
 
     func test_config_disablesS3ExpressForS3ExpressBucket() async throws {
         self.config.disableS3ExpressSessionAuth = true
-        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
+        self.config.addHttpInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -127,7 +127,7 @@ class CheckSelectedAuthScheme<InputType, OutputType>: Interceptor {
     }
 }
 
-class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider {
+class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider, @unchecked Sendable {
 
     let expectedAuthScheme: AuthScheme
 

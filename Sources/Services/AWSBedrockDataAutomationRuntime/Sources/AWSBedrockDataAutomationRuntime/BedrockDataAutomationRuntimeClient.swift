@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BedrockDataAutomationRuntimeClient: AWSClientRuntime.AWSServiceClient {
+public final class BedrockDataAutomationRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BedrockDataAutomationRuntimeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationRuntimeClient.BedrockDataAutomationRuntimeClientConfiguration

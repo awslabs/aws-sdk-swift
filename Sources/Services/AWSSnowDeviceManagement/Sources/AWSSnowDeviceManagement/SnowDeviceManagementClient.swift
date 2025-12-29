@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SnowDeviceManagementClient: AWSClientRuntime.AWSServiceClient {
+public final class SnowDeviceManagementClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SnowDeviceManagementClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SnowDeviceManagementClient.SnowDeviceManagementClientConfiguration

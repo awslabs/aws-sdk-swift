@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DocDBElasticClient: AWSClientRuntime.AWSServiceClient {
+public final class DocDBElasticClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBElasticClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration

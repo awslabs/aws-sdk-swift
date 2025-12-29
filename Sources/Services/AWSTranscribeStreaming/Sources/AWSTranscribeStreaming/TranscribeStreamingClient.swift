@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TranscribeStreamingClient: AWSClientRuntime.AWSServiceClient {
+public final class TranscribeStreamingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TranscribeStreamingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration

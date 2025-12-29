@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DSQLClient: AWSClientRuntime.AWSServiceClient {
+public final class DSQLClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DSQLClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration

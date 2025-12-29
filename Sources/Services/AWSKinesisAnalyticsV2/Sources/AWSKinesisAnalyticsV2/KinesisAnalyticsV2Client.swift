@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisAnalyticsV2Client: AWSClientRuntime.AWSServiceClient {
+public final class KinesisAnalyticsV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisAnalyticsV2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient {
+public final class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMRecommendedActionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration

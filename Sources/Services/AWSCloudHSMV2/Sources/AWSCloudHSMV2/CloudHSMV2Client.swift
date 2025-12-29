@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudHSMV2Client: AWSClientRuntime.AWSServiceClient {
+public final class CloudHSMV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudHSMV2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMV2Client.CloudHSMV2ClientConfiguration

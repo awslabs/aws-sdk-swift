@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EntityResolutionClient: AWSClientRuntime.AWSServiceClient {
+public final class EntityResolutionClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EntityResolutionClient"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration

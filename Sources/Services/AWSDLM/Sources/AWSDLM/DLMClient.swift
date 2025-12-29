@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DLMClient: AWSClientRuntime.AWSServiceClient {
+public final class DLMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DLMClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DLMClient.DLMClientConfiguration

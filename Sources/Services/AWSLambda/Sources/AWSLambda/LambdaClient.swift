@@ -68,7 +68,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LambdaClient: AWSClientRuntime.AWSServiceClient {
+public final class LambdaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LambdaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration

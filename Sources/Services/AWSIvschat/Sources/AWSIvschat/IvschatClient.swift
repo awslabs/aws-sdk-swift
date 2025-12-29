@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IvschatClient: AWSClientRuntime.AWSServiceClient {
+public final class IvschatClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IvschatClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IvschatClient.IvschatClientConfiguration

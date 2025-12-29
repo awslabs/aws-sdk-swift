@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PinpointClient: AWSClientRuntime.AWSServiceClient {
+public final class PinpointClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PinpointClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointClient.PinpointClientConfiguration

@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RekognitionClient: AWSClientRuntime.AWSServiceClient {
+public final class RekognitionClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RekognitionClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RekognitionClient.RekognitionClientConfiguration

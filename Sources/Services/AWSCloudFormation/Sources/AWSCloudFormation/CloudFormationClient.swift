@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudFormationClient: AWSClientRuntime.AWSServiceClient {
+public final class CloudFormationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudFormationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFormationClient.CloudFormationClientConfiguration

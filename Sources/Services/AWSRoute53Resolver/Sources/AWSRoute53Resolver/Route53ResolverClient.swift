@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53ResolverClient: AWSClientRuntime.AWSServiceClient {
+public final class Route53ResolverClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53ResolverClient"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ResolverClient.Route53ResolverClientConfiguration

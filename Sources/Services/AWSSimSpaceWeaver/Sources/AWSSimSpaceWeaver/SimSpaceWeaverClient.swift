@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SimSpaceWeaverClient: AWSClientRuntime.AWSServiceClient {
+public final class SimSpaceWeaverClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SimSpaceWeaverClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SimSpaceWeaverClient.SimSpaceWeaverClientConfiguration

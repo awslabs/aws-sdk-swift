@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GroundStationClient: AWSClientRuntime.AWSServiceClient {
+public final class GroundStationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GroundStationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GroundStationClient.GroundStationClientConfiguration

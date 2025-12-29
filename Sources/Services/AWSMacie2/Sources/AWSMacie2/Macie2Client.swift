@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Macie2Client: AWSClientRuntime.AWSServiceClient {
+public final class Macie2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Macie2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: Macie2Client.Macie2ClientConfiguration

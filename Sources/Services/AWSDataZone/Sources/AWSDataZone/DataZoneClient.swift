@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DataZoneClient: AWSClientRuntime.AWSServiceClient {
+public final class DataZoneClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataZoneClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DataZoneClient.DataZoneClientConfiguration

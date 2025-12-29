@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LaunchWizardClient: AWSClientRuntime.AWSServiceClient {
+public final class LaunchWizardClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LaunchWizardClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LaunchWizardClient.LaunchWizardClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class XRayClient: AWSClientRuntime.AWSServiceClient {
+public final class XRayClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "XRayClient"
     let client: ClientRuntime.SdkHttpClient
     let config: XRayClient.XRayClientConfiguration

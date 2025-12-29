@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SESClient: AWSClientRuntime.AWSServiceClient {
+public final class SESClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SESClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SESClient.SESClientConfiguration

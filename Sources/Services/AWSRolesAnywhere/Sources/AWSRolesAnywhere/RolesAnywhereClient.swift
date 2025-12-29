@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RolesAnywhereClient: AWSClientRuntime.AWSServiceClient {
+public final class RolesAnywhereClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RolesAnywhereClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RolesAnywhereClient.RolesAnywhereClientConfiguration

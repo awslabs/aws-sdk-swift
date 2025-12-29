@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SagemakerEdgeClient: AWSClientRuntime.AWSServiceClient {
+public final class SagemakerEdgeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SagemakerEdgeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SagemakerEdgeClient.SagemakerEdgeClientConfiguration

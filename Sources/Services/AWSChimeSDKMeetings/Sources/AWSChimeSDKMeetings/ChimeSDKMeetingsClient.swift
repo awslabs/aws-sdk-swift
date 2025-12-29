@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ChimeSDKMeetingsClient: AWSClientRuntime.AWSServiceClient {
+public final class ChimeSDKMeetingsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChimeSDKMeetingsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMeetingsClient.ChimeSDKMeetingsClientConfiguration

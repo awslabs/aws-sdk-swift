@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GrafanaClient: AWSClientRuntime.AWSServiceClient {
+public final class GrafanaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GrafanaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GrafanaClient.GrafanaClientConfiguration

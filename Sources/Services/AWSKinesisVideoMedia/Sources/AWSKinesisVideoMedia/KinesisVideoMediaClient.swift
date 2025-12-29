@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
+public final class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisVideoMediaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration

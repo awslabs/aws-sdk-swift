@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TransferClient: AWSClientRuntime.AWSServiceClient {
+public final class TransferClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TransferClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TransferClient.TransferClientConfiguration

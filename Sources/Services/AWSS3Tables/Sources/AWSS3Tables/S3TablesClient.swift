@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3TablesClient: AWSClientRuntime.AWSServiceClient {
+public final class S3TablesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3TablesClient"
     let client: ClientRuntime.SdkHttpClient
     let config: S3TablesClient.S3TablesClientConfiguration

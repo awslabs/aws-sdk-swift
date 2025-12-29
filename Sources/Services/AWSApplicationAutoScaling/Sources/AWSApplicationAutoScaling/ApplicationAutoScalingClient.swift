@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApplicationAutoScalingClient: AWSClientRuntime.AWSServiceClient {
+public final class ApplicationAutoScalingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationAutoScalingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration

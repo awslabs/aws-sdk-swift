@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TextractClient: AWSClientRuntime.AWSServiceClient {
+public final class TextractClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TextractClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TextractClient.TextractClientConfiguration

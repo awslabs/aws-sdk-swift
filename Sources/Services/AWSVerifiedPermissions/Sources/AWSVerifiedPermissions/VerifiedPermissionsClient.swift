@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class VerifiedPermissionsClient: AWSClientRuntime.AWSServiceClient {
+public final class VerifiedPermissionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VerifiedPermissionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration

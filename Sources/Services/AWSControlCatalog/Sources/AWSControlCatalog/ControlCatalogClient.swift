@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ControlCatalogClient: AWSClientRuntime.AWSServiceClient {
+public final class ControlCatalogClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ControlCatalogClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlCatalogClient.ControlCatalogClientConfiguration

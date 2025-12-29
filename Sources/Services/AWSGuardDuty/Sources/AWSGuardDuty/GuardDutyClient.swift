@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
+public final class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GuardDutyClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration

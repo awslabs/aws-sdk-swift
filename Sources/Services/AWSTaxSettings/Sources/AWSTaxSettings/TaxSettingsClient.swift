@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TaxSettingsClient: AWSClientRuntime.AWSServiceClient {
+public final class TaxSettingsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TaxSettingsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration

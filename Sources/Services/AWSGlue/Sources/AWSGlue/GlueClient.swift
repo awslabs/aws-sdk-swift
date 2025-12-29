@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GlueClient: AWSClientRuntime.AWSServiceClient {
+public final class GlueClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlueClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration

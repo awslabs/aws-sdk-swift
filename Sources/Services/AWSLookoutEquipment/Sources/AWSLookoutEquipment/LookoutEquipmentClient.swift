@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LookoutEquipmentClient: AWSClientRuntime.AWSServiceClient {
+public final class LookoutEquipmentClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LookoutEquipmentClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutEquipmentClient.LookoutEquipmentClientConfiguration

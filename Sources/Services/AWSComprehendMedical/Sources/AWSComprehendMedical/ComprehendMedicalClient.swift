@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ComprehendMedicalClient: AWSClientRuntime.AWSServiceClient {
+public final class ComprehendMedicalClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComprehendMedicalClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration

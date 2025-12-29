@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient {
+public final class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostandUsageReportClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CostandUsageReportClient.CostandUsageReportClientConfiguration

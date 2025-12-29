@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ChatbotClient: AWSClientRuntime.AWSServiceClient {
+public final class ChatbotClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChatbotClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ChatbotClient.ChatbotClientConfiguration

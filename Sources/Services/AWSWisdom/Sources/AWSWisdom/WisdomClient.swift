@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WisdomClient: AWSClientRuntime.AWSServiceClient {
+public final class WisdomClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WisdomClient"
     let client: ClientRuntime.SdkHttpClient
     let config: WisdomClient.WisdomClientConfiguration

@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSServiceClient {
+public final class ComputeOptimizerAutomationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComputeOptimizerAutomationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerAutomationClient.ComputeOptimizerAutomationClientConfiguration

@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CognitoIdentityClient: AWSClientRuntime.AWSServiceClient {
+public final class CognitoIdentityClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CognitoIdentityClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityClient.CognitoIdentityClientConfiguration

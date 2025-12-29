@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ForecastClient: AWSClientRuntime.AWSServiceClient {
+public final class ForecastClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ForecastClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastClient.ForecastClientConfiguration

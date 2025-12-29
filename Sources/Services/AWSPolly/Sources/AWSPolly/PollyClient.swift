@@ -66,7 +66,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PollyClient: AWSClientRuntime.AWSServiceClient {
+public final class PollyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PollyClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PollyClient.PollyClientConfiguration

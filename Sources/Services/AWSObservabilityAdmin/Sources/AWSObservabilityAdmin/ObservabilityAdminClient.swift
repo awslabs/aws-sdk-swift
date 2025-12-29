@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ObservabilityAdminClient: AWSClientRuntime.AWSServiceClient {
+public final class ObservabilityAdminClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ObservabilityAdminClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration

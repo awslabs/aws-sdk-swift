@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudTrailDataClient: AWSClientRuntime.AWSServiceClient {
+public final class CloudTrailDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudTrailDataClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailDataClient.CloudTrailDataClientConfiguration

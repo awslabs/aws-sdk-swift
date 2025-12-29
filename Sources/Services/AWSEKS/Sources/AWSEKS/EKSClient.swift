@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EKSClient: AWSClientRuntime.AWSServiceClient {
+public final class EKSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EKSClient"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration

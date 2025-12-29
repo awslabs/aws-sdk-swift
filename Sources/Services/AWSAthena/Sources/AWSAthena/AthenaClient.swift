@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AthenaClient: AWSClientRuntime.AWSServiceClient {
+public final class AthenaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AthenaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: AthenaClient.AthenaClientConfiguration

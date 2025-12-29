@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IVSRealTimeClient: AWSClientRuntime.AWSServiceClient {
+public final class IVSRealTimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IVSRealTimeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IVSRealTimeClient.IVSRealTimeClientConfiguration

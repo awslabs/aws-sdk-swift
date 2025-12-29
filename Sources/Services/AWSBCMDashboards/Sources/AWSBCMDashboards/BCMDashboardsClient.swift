@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BCMDashboardsClient: AWSClientRuntime.AWSServiceClient {
+public final class BCMDashboardsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMDashboardsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMDashboardsClient.BCMDashboardsClientConfiguration

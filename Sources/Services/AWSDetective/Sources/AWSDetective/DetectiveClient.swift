@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DetectiveClient: AWSClientRuntime.AWSServiceClient {
+public final class DetectiveClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DetectiveClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DetectiveClient.DetectiveClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeDeployClient: AWSClientRuntime.AWSServiceClient {
+public final class CodeDeployClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeDeployClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeDeployClient.CodeDeployClientConfiguration

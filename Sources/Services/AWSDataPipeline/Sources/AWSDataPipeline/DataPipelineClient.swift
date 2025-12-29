@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DataPipelineClient: AWSClientRuntime.AWSServiceClient {
+public final class DataPipelineClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataPipelineClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DataPipelineClient.DataPipelineClientConfiguration

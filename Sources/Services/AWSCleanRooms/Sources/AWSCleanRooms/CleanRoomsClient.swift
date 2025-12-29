@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
+public final class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CleanRoomsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration

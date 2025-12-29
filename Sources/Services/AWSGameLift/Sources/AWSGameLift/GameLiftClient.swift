@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GameLiftClient: AWSClientRuntime.AWSServiceClient {
+public final class GameLiftClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GameLiftClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GameLiftClient.GameLiftClientConfiguration

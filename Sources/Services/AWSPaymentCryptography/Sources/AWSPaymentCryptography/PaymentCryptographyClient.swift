@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PaymentCryptographyClient: AWSClientRuntime.AWSServiceClient {
+public final class PaymentCryptographyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PaymentCryptographyClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyClient.PaymentCryptographyClientConfiguration

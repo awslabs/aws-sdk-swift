@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LexRuntimeV2Client: AWSClientRuntime.AWSServiceClient {
+public final class LexRuntimeV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LexRuntimeV2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeV2Client.LexRuntimeV2ClientConfiguration

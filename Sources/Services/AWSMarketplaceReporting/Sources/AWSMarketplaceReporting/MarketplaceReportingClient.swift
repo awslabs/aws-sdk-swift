@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MarketplaceReportingClient: AWSClientRuntime.AWSServiceClient {
+public final class MarketplaceReportingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MarketplaceReportingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceReportingClient.MarketplaceReportingClientConfiguration

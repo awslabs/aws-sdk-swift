@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MemoryDBClient: AWSClientRuntime.AWSServiceClient {
+public final class MemoryDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MemoryDBClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration

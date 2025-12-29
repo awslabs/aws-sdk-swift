@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DataSyncClient: AWSClientRuntime.AWSServiceClient {
+public final class DataSyncClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataSyncClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration

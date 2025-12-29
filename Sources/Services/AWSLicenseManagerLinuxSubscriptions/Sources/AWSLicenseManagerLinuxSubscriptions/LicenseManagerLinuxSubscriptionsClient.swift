@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LicenseManagerLinuxSubscriptionsClient: AWSClientRuntime.AWSServiceClient {
+public final class LicenseManagerLinuxSubscriptionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LicenseManagerLinuxSubscriptionsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerLinuxSubscriptionsClient.LicenseManagerLinuxSubscriptionsClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RedshiftClient: AWSClientRuntime.AWSServiceClient {
+public final class RedshiftClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RedshiftClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftClient.RedshiftClientConfiguration

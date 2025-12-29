@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3VectorsClient: AWSClientRuntime.AWSServiceClient {
+public final class S3VectorsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3VectorsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: S3VectorsClient.S3VectorsClientConfiguration

@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerGeospatialClient: AWSClientRuntime.AWSServiceClient {
+public final class SageMakerGeospatialClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerGeospatialClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration

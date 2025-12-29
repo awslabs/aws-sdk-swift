@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NeptuneClient: AWSClientRuntime.AWSServiceClient {
+public final class NeptuneClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NeptuneClient"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneClient.NeptuneClientConfiguration

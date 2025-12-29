@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class FraudDetectorClient: AWSClientRuntime.AWSServiceClient {
+public final class FraudDetectorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FraudDetectorClient"
     let client: ClientRuntime.SdkHttpClient
     let config: FraudDetectorClient.FraudDetectorClientConfiguration

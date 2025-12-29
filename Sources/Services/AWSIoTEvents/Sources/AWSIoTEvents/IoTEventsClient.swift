@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTEventsClient: AWSClientRuntime.AWSServiceClient {
+public final class IoTEventsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTEventsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTEventsClient.IoTEventsClientConfiguration

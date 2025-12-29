@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient {
+public final class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PcaConnectorScepClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IAMClient: AWSClientRuntime.AWSServiceClient {
+public final class IAMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IAMClient"
     let client: ClientRuntime.SdkHttpClient
     let config: IAMClient.IAMClientConfiguration

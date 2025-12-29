@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GeoPlacesClient: AWSClientRuntime.AWSServiceClient {
+public final class GeoPlacesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GeoPlacesClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoPlacesClient.GeoPlacesClientConfiguration

@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Inspector2Client: AWSClientRuntime.AWSServiceClient {
+public final class Inspector2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Inspector2Client"
     let client: ClientRuntime.SdkHttpClient
     let config: Inspector2Client.Inspector2ClientConfiguration

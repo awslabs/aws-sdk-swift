@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NotificationsContactsClient: AWSClientRuntime.AWSServiceClient {
+public final class NotificationsContactsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NotificationsContactsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsContactsClient.NotificationsContactsClientConfiguration

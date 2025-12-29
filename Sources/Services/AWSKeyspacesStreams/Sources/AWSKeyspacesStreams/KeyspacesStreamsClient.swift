@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KeyspacesStreamsClient: AWSClientRuntime.AWSServiceClient {
+public final class KeyspacesStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KeyspacesStreamsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfiguration

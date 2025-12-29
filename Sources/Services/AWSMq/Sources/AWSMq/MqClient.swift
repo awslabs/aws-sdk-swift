@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MqClient: AWSClientRuntime.AWSServiceClient {
+public final class MqClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MqClient"
     let client: ClientRuntime.SdkHttpClient
     let config: MqClient.MqClientConfiguration

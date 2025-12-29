@@ -64,7 +64,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DeadlineClient: AWSClientRuntime.AWSServiceClient {
+public final class DeadlineClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DeadlineClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DeadlineClient.DeadlineClientConfiguration

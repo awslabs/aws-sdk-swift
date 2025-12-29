@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class VPCLatticeClient: AWSClientRuntime.AWSServiceClient {
+public final class VPCLatticeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VPCLatticeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration

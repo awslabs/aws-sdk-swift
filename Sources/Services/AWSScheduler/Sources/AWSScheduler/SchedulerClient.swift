@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SchedulerClient: AWSClientRuntime.AWSServiceClient {
+public final class SchedulerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SchedulerClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SchedulerClient.SchedulerClientConfiguration

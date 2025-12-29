@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DirectConnectClient: AWSClientRuntime.AWSServiceClient {
+public final class DirectConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DirectConnectClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectConnectClient.DirectConnectClientConfiguration

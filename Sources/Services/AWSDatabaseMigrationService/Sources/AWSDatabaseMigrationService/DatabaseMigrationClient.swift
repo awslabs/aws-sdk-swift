@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient {
+public final class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DatabaseMigrationClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DatabaseMigrationClient.DatabaseMigrationClientConfiguration

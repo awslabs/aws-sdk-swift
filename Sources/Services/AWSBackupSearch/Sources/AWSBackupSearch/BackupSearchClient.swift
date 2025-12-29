@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BackupSearchClient: AWSClientRuntime.AWSServiceClient {
+public final class BackupSearchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BackupSearchClient"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupSearchClient.BackupSearchClientConfiguration

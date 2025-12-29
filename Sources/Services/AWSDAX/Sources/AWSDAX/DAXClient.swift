@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DAXClient: AWSClientRuntime.AWSServiceClient {
+public final class DAXClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DAXClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DAXClient.DAXClientConfiguration

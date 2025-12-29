@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KafkaClient: AWSClientRuntime.AWSServiceClient {
+public final class KafkaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KafkaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaClient.KafkaClientConfiguration

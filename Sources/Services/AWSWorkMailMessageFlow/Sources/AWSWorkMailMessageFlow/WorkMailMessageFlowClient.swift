@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkMailMessageFlowClient: AWSClientRuntime.AWSServiceClient {
+public final class WorkMailMessageFlowClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkMailMessageFlowClient"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration

@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EventBridgeClient: AWSClientRuntime.AWSServiceClient {
+public final class EventBridgeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EventBridgeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: EventBridgeClient.EventBridgeClientConfiguration

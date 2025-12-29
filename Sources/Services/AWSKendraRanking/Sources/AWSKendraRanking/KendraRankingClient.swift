@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KendraRankingClient: AWSClientRuntime.AWSServiceClient {
+public final class KendraRankingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KendraRankingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraRankingClient.KendraRankingClientConfiguration

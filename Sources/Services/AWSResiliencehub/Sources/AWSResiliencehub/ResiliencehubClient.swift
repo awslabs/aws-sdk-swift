@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ResiliencehubClient: AWSClientRuntime.AWSServiceClient {
+public final class ResiliencehubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResiliencehubClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ResiliencehubClient.ResiliencehubClientConfiguration

@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient {
+public final class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ARCRegionswitchClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration

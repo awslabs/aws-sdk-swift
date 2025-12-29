@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SocialMessagingClient: AWSClientRuntime.AWSServiceClient {
+public final class SocialMessagingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SocialMessagingClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration

@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticBeanstalkClient: AWSClientRuntime.AWSServiceClient {
+public final class ElasticBeanstalkClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticBeanstalkClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfiguration

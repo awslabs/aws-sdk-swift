@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class FirehoseClient: AWSClientRuntime.AWSServiceClient {
+public final class FirehoseClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FirehoseClient"
     let client: ClientRuntime.SdkHttpClient
     let config: FirehoseClient.FirehoseClientConfiguration

@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EMRcontainersClient: AWSClientRuntime.AWSServiceClient {
+public final class EMRcontainersClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EMRcontainersClient"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration

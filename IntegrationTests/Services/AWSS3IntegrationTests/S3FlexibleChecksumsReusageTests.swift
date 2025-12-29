@@ -37,7 +37,7 @@ class S3FlexibleChecksumsReusageTests: XCTestCase {
         self.tempFileURL = tempFileURL
 
         // Create S3 client with mock HTTP client.
-        let config = try await S3Client.S3ClientConfiguration(region: region)
+        var config = try await S3Client.S3ClientConfiguration(region: region)
         config.httpClientEngine = MockHTTPClientEngine(payloadFileURL: tempFileURL)
         client = S3Client(config: config)
     }
@@ -60,7 +60,7 @@ class S3FlexibleChecksumsReusageTests: XCTestCase {
     }
 }
 
-private class MockHTTPClientEngine: HTTPClient {
+private final class MockHTTPClientEngine: HTTPClient, @unchecked Sendable {
     // The temporary payload file used for testing.
     let payloadFileURL: URL
     var requestNum = 0

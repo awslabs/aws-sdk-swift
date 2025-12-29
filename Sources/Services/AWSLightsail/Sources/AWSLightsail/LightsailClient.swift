@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LightsailClient: AWSClientRuntime.AWSServiceClient {
+public final class LightsailClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LightsailClient"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration

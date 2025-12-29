@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class FinspaceClient: AWSClientRuntime.AWSServiceClient {
+public final class FinspaceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FinspaceClient"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspaceClient.FinspaceClientConfiguration

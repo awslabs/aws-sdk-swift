@@ -65,7 +65,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TnbClient: AWSClientRuntime.AWSServiceClient {
+public final class TnbClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TnbClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TnbClient.TnbClientConfiguration

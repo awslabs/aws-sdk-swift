@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DynamoDBStreamsClient: AWSClientRuntime.AWSServiceClient {
+public final class DynamoDBStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DynamoDBStreamsClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBStreamsClient.DynamoDBStreamsClientConfiguration

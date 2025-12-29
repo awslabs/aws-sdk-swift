@@ -59,7 +59,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ConnectContactLensClient: AWSClientRuntime.AWSServiceClient {
+public final class ConnectContactLensClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectContactLensClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectContactLensClient.ConnectContactLensClientConfiguration

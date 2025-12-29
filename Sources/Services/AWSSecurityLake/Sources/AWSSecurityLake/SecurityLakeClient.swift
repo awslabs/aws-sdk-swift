@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecurityLakeClient: AWSClientRuntime.AWSServiceClient {
+public final class SecurityLakeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityLakeClient"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityLakeClient.SecurityLakeClientConfiguration

@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PIClient: AWSClientRuntime.AWSServiceClient {
+public final class PIClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PIClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration

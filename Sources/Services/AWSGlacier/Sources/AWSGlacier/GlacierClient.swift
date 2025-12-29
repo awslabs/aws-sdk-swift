@@ -67,7 +67,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GlacierClient: AWSClientRuntime.AWSServiceClient {
+public final class GlacierClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlacierClient"
     let client: ClientRuntime.SdkHttpClient
     let config: GlacierClient.GlacierClientConfiguration

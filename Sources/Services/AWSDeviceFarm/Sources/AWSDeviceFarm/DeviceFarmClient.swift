@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DeviceFarmClient: AWSClientRuntime.AWSServiceClient {
+public final class DeviceFarmClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DeviceFarmClient"
     let client: ClientRuntime.SdkHttpClient
     let config: DeviceFarmClient.DeviceFarmClientConfiguration

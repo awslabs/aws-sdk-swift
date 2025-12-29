@@ -60,7 +60,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient {
+public final class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TimestreamInfluxDBClient"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration

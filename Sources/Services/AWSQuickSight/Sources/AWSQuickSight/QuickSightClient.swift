@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class QuickSightClient: AWSClientRuntime.AWSServiceClient {
+public final class QuickSightClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QuickSightClient"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration

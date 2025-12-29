@@ -62,7 +62,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RTBFabricClient: AWSClientRuntime.AWSServiceClient {
+public final class RTBFabricClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RTBFabricClient"
     let client: ClientRuntime.SdkHttpClient
     let config: RTBFabricClient.RTBFabricClientConfiguration

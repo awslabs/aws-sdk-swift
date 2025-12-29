@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ARCZonalShiftClient: AWSClientRuntime.AWSServiceClient {
+public final class ARCZonalShiftClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ARCZonalShiftClient"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCZonalShiftClient.ARCZonalShiftClientConfiguration

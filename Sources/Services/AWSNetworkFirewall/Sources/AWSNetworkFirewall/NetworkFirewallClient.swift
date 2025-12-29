@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
+public final class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NetworkFirewallClient"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFirewallClient.NetworkFirewallClientConfiguration

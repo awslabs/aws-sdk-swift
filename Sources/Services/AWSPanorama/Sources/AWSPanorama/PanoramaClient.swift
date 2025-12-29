@@ -61,7 +61,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PanoramaClient: AWSClientRuntime.AWSServiceClient {
+public final class PanoramaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PanoramaClient"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
