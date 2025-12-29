@@ -38,7 +38,9 @@ import protocol AWSClientRuntime.AWSServiceClient
 import protocol AWSSDKIdentityAPI.S3ExpressIdentityResolver
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
+import protocol ClientRuntime.InterceptorProvider
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
@@ -103,39 +105,39 @@ public class S3Client: AWSClientRuntime.AWSServiceClient {
 extension S3Client {
 
     public struct S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
-        public let s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
-        public let useFIPS: Swift.Bool?
-        public let useDualStack: Swift.Bool?
-        public let appID: Swift.String?
-        public let awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-        public let awsRetryMode: AWSClientRuntime.AWSRetryMode
-        public let maxAttempts: Swift.Int?
-        public let requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
-        public let responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
-        public let ignoreConfiguredEndpointURLs: Swift.Bool?
-        public let region: Swift.String?
-        public let signingRegion: Swift.String?
-        public let forcePathStyle: Swift.Bool?
-        public let useArnRegion: Swift.Bool?
-        public let disableMultiRegionAccessPoints: Swift.Bool?
-        public let accelerate: Swift.Bool?
-        public let disableS3ExpressSessionAuth: Swift.Bool?
-        public let useGlobalEndpoint: Swift.Bool?
-        public let endpointResolver: EndpointResolver
-        public let telemetryProvider: ClientRuntime.TelemetryProvider
-        public let retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-        public let clientLogMode: ClientRuntime.ClientLogMode
-        public let endpoint: Swift.String?
-        public let idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public let interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public let httpClientEngine: SmithyHTTPAPI.HTTPClient
-        public let httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public let authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-        public let authSchemePreference: [String]?
-        public let authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-        public let httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public let logger: Smithy.LogAgent
+        public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var forcePathStyle: Swift.Bool?
+        public var useArnRegion: Swift.Bool?
+        public var disableMultiRegionAccessPoints: Swift.Bool?
+        public var accelerate: Swift.Bool?
+        public var disableS3ExpressSessionAuth: Swift.Bool?
+        public var useGlobalEndpoint: Swift.Bool?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider]
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        public var logger: Smithy.LogAgent
 
         public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
@@ -351,6 +353,14 @@ extension S3Client {
 
         public var partitionID: String? {
             return "\(S3Client.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public mutating func addHttpInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

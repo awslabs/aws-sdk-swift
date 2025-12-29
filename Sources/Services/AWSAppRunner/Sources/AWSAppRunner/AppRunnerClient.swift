@@ -29,7 +29,9 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
+import protocol ClientRuntime.InterceptorProvider
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
@@ -83,32 +85,32 @@ public class AppRunnerClient: AWSClientRuntime.AWSServiceClient {
 extension AppRunnerClient {
 
     public struct AppRunnerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
-        public let useFIPS: Swift.Bool?
-        public let useDualStack: Swift.Bool?
-        public let appID: Swift.String?
-        public let awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-        public let awsRetryMode: AWSClientRuntime.AWSRetryMode
-        public let maxAttempts: Swift.Int?
-        public let requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
-        public let responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
-        public let ignoreConfiguredEndpointURLs: Swift.Bool?
-        public let region: Swift.String?
-        public let signingRegion: Swift.String?
-        public let endpointResolver: EndpointResolver
-        public let telemetryProvider: ClientRuntime.TelemetryProvider
-        public let retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-        public let clientLogMode: ClientRuntime.ClientLogMode
-        public let endpoint: Swift.String?
-        public let idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public let interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public let httpClientEngine: SmithyHTTPAPI.HTTPClient
-        public let httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public let authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-        public let authSchemePreference: [String]?
-        public let authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-        public let httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public let logger: Smithy.LogAgent
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider]
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        public var logger: Smithy.LogAgent
 
         public init(
             useFIPS: Swift.Bool? = nil,
@@ -282,6 +284,14 @@ extension AppRunnerClient {
 
         public var partitionID: String? {
             return "\(AppRunnerClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public mutating func addHttpInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }
