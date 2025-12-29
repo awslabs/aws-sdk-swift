@@ -353,10 +353,6 @@ struct DPoPInterceptor<InputType, OutputType>: Interceptor {
 
     let dpopKey: String
 
-    init(dpopKey: String) {
-        self.dpopKey = dpopKey
-    }
-
     // Convert PEM to DER
     func pemToDer(_ pemString: String) -> Data? {
         let lines = pemString.components(separatedBy: .newlines)
@@ -415,10 +411,6 @@ struct DPoPInterceptor<InputType, OutputType>: Interceptor {
 
 struct DPoPInterceptorProvider: HttpInterceptorProvider {
     let dpopKey: String
-
-    init(dpopKey: String) {
-        self.dpopKey = dpopKey
-    }
 
     func create<InputType, OutputType>() -> any Interceptor<
         InputType, OutputType, SmithyHTTPAPI.HTTPRequest, HTTPResponse
