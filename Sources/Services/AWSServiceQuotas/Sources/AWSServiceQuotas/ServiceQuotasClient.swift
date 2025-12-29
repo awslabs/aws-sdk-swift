@@ -9,6 +9,7 @@
 
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import Smithy
 import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.HttpClientConfiguration

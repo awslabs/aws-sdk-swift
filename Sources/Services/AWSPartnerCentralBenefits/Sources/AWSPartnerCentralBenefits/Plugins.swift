@@ -26,9 +26,9 @@ public class PartnerCentralBenefitsClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Since configurations are now immutable structs, we can't mutate them.
-        // The endpoint resolver is already set in the configuration's initializer,
-        // so this plugin doesn't need to do anything.
+        // Configurations are now value-type structs. While they have mutable properties,
+        // we can't effectively mutate through a protocol reference and return the changes.
+        // The endpoint resolver is set in the configuration's initializer instead.
         return clientConfiguration
     }
 }
@@ -38,9 +38,9 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Since configurations are now immutable structs, we can't mutate them.
-        // The defaults are already set in the configuration's initializer,
-        // so this plugin doesn't need to do anything.
+        // Configurations are now value-type structs. While they have mutable properties,
+        // we can't effectively mutate through a protocol reference and return the changes.
+        // Defaults are set in the configuration's initializer instead.
         return clientConfiguration
     }
 }
@@ -61,9 +61,9 @@ public class PartnerCentralBenefitsClientAuthSchemePlugin: ClientRuntime.Plugin 
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Since configurations are now immutable structs, we can't mutate them.
-        // The auth schemes and resolver are already set in the configuration's initializer,
-        // so this plugin doesn't need to do anything.
+        // Configurations are now value-type structs. While they have mutable properties,
+        // we can't effectively mutate through a protocol reference and return the changes.
+        // Auth schemes and resolver are set in the configuration's initializer instead.
         return clientConfiguration
     }
 }
