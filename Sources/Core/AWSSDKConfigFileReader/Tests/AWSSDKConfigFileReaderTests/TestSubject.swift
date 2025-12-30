@@ -6,7 +6,7 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-@_spi(FileBasedConfig) import ConfigFileReader
+@_spi(FileBasedConfig) import AWSSDKConfigFileReader
 
 enum TestSubject {
     

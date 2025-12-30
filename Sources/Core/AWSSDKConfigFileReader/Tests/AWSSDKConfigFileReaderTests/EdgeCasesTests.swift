@@ -7,7 +7,7 @@
 
 import XCTest
 import Foundation
-@_spi(FileBasedConfig) import ConfigFileReader
+@_spi(FileBasedConfig) import AWSSDKConfigFileReader
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 final class edgeCasesTests: XCTestCase {

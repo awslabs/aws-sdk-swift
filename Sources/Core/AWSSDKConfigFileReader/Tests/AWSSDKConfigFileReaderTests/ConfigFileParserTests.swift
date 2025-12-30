@@ -7,7 +7,7 @@
 
 import XCTest
 @_spi(FileBasedConfig) import AWSSDKCommon
-@_spi(FileBasedConfig) import ConfigFileReader
+//@_spi(FileBasedConfig) import ConfigFileReader
 
 struct ParserTests: Decodable {
 
