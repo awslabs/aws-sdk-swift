@@ -65,14 +65,14 @@ class ConfigFileParserTests: XCTestCase {
 
             // If config file contents were given, write them to a file on disk for use during the test.
             // If no config file contents were given, the file will not exist.
-            let configFileURL = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+            let configFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
             if let configFileContents = test.input.configFile {
                 let configData = Data(configFileContents.utf8)
                 try configData.write(to: configFileURL)
             }
 
             // Do the same for credentials file as was done for config.
-            let credentialsFileURL = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+            let credentialsFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
             if let credentialsFileContents = test.input.credentialsFile {
                 let credentialsData = Data(credentialsFileContents.utf8)
                 try credentialsData.write(to: credentialsFileURL)
