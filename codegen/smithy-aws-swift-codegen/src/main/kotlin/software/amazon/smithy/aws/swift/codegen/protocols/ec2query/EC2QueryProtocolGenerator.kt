@@ -41,7 +41,7 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
         // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for Ec2Query
         // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
-        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
+        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx, true))
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")

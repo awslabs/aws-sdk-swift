@@ -6,7 +6,6 @@ import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
@@ -30,9 +29,9 @@ class RulesBasedAuthSchemeResolverGenerator {
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val serviceSpecificDefaultResolverName = "Default$sdkId$AUTH_SCHEME_RESOLVER"
-        val serviceSpecificAuthResolverProtocol = sdkId + AUTH_SCHEME_RESOLVER
+        val clientName = ctx.settings.clientNamePreservingService
+        val serviceSpecificDefaultResolverName = "Default$clientName$AUTH_SCHEME_RESOLVER"
+        val serviceSpecificAuthResolverProtocol = clientName + AUTH_SCHEME_RESOLVER
 
         writer.apply {
             writer.openBlock(
@@ -46,7 +45,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 write("")
                 renderConstructParametersMethod(
                     ctx,
-                    sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name,
+                    clientName + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name,
                     writer,
                 )
             }
@@ -57,8 +56,8 @@ class RulesBasedAuthSchemeResolverGenerator {
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val serviceParamsName = sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name
+        val clientName = ctx.settings.clientNamePreservingService
+        val serviceParamsName = clientName + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name
 
         writer.apply {
             openBlock(
@@ -89,7 +88,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 openBlock("guard let authSchemes = endpoint.authSchemes() else {", "}") {
                     // Call internal modeled model-based auth scheme resolver as fall-back if no auth schemes
                     // are returned by endpoint resolver.
-                    write("return try InternalModeled${sdkId + AUTH_SCHEME_RESOLVER}().resolveAuthScheme(params: params)")
+                    write("return try InternalModeled${clientName + AUTH_SCHEME_RESOLVER}().resolveAuthScheme(params: params)")
                 }
                 writer.write(
                     "let schemes = try authSchemes.map { (input) -> \$N in try \$N(from: input) }",

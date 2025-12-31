@@ -4,7 +4,6 @@ import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -42,7 +41,7 @@ class DefaultAWSAuthSchemePlugin(
                 writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.write(
                         "config.authSchemeResolver = \$L",
-                        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+                        "Default${ctx.settings.clientNamePreservingService}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
                     if (ctx.settings.internalClient) {
