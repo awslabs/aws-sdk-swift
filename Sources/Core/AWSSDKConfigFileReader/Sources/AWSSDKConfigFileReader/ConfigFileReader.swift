@@ -496,10 +496,6 @@ struct Config: FileBasedConfigurationSectionProviding {
         return nil
     }
 }
-extension String: @retroactive Error {
-    var description: String { self }
-    var localizedDescription: String { self }
-}
 
 struct Subsection: FileBasedConfigurationSubsection {
     var subproperties: [String: String]
@@ -514,6 +510,10 @@ struct MyError: Error {
 
     init(_ msg: String) {
         self.localizedDescription = msg
+    }
+    
+    var errorDescription: String? {
+        return localizedDescription
     }
 }
 
