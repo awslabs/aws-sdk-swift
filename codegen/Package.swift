@@ -71,6 +71,11 @@ private var protocolTestTargets: [Target] {
             self.testPath = testPath
             self.buildOnly = buildOnly
         }
+
+        var plugins: [Target.PluginUsage] {
+            guard name.hasPrefix("RPCV2CBOR") else { return [] }
+            return [.plugin(name: "SmithyCodeGenerator", package: "smithy-swift")]
+        }
     }
 
     let baseDir = "../codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
@@ -127,7 +132,7 @@ private var protocolTestTargets: [Target] {
                 .awsSDKChecksums,
             ],
             path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)",
-            plugins: [.plugin(name: "SmithyCodeGenerator", package: "smithy-swift")]
+            plugins: protocolTest.plugins
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",
