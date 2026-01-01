@@ -9,7 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
@@ -206,7 +205,7 @@ class AWSHttpProtocolServiceClient(
 
     private val authSchemeResolverDefaultProvider =
         DefaultProvider(
-            { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
+            { writer.format("Default\$LAuthSchemeResolver()", ctx.settings.clientNamePreservingService) },
             false,
             false,
         )

@@ -36,6 +36,9 @@ rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codege
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/glacier/swift-codegen/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/machinelearning/swift-codegen/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/s3/swift-codegen/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/smithy-rpcv2-cbor/swift-codegen/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/smithy-rpcv2-cbor-non-query-compat/swift-codegen/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/smithy-rpcv2-cbor-query-compat/swift-codegen/Package.swift
 
 # Now do the same for local protocol tests
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift

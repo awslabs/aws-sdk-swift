@@ -34,6 +34,7 @@ extension Target.Dependency {
     static var smithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
     static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
+    static var smithySerialization: Self { .product(name: "SmithySerialization", package: "smithy-swift") }
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
@@ -69,6 +70,11 @@ private var protocolTestTargets: [Target] {
             self.sourcePath = sourcePath
             self.testPath = testPath
             self.buildOnly = buildOnly
+        }
+
+        var plugins: [Target.PluginUsage] {
+            guard name.hasPrefix("RPCV2CBOR") else { return [] }
+            return [.plugin(name: "SmithyCodeGenerator", package: "smithy-swift")]
         }
     }
 
@@ -117,6 +123,7 @@ private var protocolTestTargets: [Target] {
                 .smithyEventStreams,
                 .smithyChecksumsAPI,
                 .smithyChecksums,
+                .smithySerialization,
                 .smithyWaitersAPI,
                 .awsSDKCommon,
                 .awsSDKIdentity,
@@ -124,7 +131,8 @@ private var protocolTestTargets: [Target] {
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
             ],
-            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
+            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)",
+            plugins: protocolTest.plugins
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",

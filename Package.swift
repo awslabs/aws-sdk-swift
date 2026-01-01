@@ -2358,7 +2358,7 @@ private var internalClientDependencies: [Target.Dependency] {
 }
 
 private var internalServiceTargets: [Target] {
-    serviceClientData.filter { $0.serviceType == .internalUse }.map(target(_:))
+    serviceClientData.filter { $0.serviceType == .internalUse }.map { .target(name: $0.name, dependencies: $0.dependencies, path: $0.sourcePath) }
 }
 
 private var runtimeTestTargets: [Target] {
