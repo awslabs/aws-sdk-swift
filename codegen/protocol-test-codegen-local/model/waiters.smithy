@@ -232,6 +232,21 @@ service Waiters {
             }
         ]
     }
+    OrBooleanMatcher: {
+        documentation: "Matches when booleanProperty is true OR stringProperty equals 'match'"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "booleanProperty == `true` || stringProperty == 'match'"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
 )
 operation GetWidget {
     input: WidgetInput,

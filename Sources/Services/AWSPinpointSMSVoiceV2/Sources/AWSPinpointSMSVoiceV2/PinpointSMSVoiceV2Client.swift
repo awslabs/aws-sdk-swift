@@ -746,7 +746,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `CreateOptOutList` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see [ SMS opt out ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout) in the End User MessagingSMS User Guide.
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see [ SMS opt out ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOptOutListInput`)
     ///
@@ -1712,7 +1712,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DeleteKeyword` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteKeywordInput`)
     ///
@@ -2449,7 +2449,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DeleteResourcePolicy` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Deletes the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
@@ -2522,7 +2522,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DeleteTextMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User MessagingSMS User Guide.
+    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteTextMessageSpendLimitOverrideInput`)
     ///
@@ -2668,7 +2668,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DeleteVoiceMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User MessagingSMS User Guide.
+    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVoiceMessageSpendLimitOverrideInput`)
     ///
@@ -2812,7 +2812,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeAccountLimits` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Describes the current End User MessagingSMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User MessagingSMS User Guide.
+    /// Describes the current End User Messaging SMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAccountLimitsInput`)
     ///
@@ -2957,7 +2957,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeKeywords` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeKeywordsInput`)
     ///
@@ -3976,7 +3976,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeSpendLimits` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see [ Requesting increases to your monthly SMS, MMS, or Voice spending quota ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the End User MessagingSMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see [ Requesting increases to your monthly SMS, MMS, or Voice spending quota ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSpendLimitsInput`)
     ///
@@ -4417,7 +4417,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `GetResourcePolicy` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Retrieves the JSON text of the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
@@ -4782,7 +4782,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `PutKeyword` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutKeywordInput`)
     ///
@@ -5152,7 +5152,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `PutResourcePolicy` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Attaches a resource-based policy to a End User MessagingSMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see [Working with shared resources](https://docs.aws.amazon.com/sms-voice/latest/userguide/shared-resources.html) in the End User MessagingSMS User Guide.
+    /// Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see [Working with shared resources](https://docs.aws.amazon.com/sms-voice/latest/userguide/shared-resources.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
@@ -5373,7 +5373,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `RequestPhoneNumber` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Request an origination phone number for use in your account. For more information on phone number request see [Request a phone number](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-request.html) in the End User MessagingSMS User Guide.
+    /// Request an origination phone number for use in your account. For more information on phone number request see [Request a phone number](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-request.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `RequestPhoneNumberInput`)
     ///
@@ -5674,7 +5674,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `SendTextMessage` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the End User MessagingSMS User Guide.
+    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `SendTextMessageInput`)
     ///
@@ -6406,7 +6406,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `TagResource` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the End User MessagingSMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -6480,7 +6480,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `UntagResource` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Removes the association of the specified tags from a resource. For more information on tags see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the End User MessagingSMS User Guide.
+    /// Removes the association of the specified tags from a resource. For more information on tags see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the End User Messaging SMS User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///

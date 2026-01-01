@@ -26756,6 +26756,8 @@ extension QuickSightClientTypes {
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform research-related actions.
         public var research: QuickSightClientTypes.CapabilityState?
+        /// The ability to enable users to upgrade their user role.
+        public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
         public var shareAnalyses: QuickSightClientTypes.CapabilityState?
         /// The ability to share dashboards.
@@ -26804,6 +26806,7 @@ extension QuickSightClientTypes {
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
+            selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
@@ -26842,6 +26845,7 @@ extension QuickSightClientTypes {
             self.publishWithoutApproval = publishWithoutApproval
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.selfUpgradeUserRole = selfUpgradeUserRole
             self.shareAnalyses = shareAnalyses
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
@@ -39875,6 +39879,117 @@ public struct DescribeRoleCustomPermissionOutput: Swift.Sendable {
     }
 }
 
+/// One or more parameter has a value that isn't valid.
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct DescribeSelfUpgradeConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace that you want to describe the Quick Suite self-upgrade configuration for.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adminApproval
+        case autoApproval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeStatus] {
+            return [
+                .adminApproval,
+                .autoApproval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .adminApproval: return "ADMIN_APPROVAL"
+            case .autoApproval: return "AUTO_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The self-upgrade configuration for the Quick Suite account.
+    public struct SelfUpgradeConfiguration: Swift.Sendable {
+        /// Status set for the self-upgrade configuration for the Quick Suite account. It can contain the following values:
+        ///
+        /// * AUTO_APPROVAL: All the self-upgrade requests will be auto approved.
+        ///
+        /// * ADMIN_APPROVAL: All the self-upgrade requests will require admin approval.
+        public var selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus?
+
+        public init(
+            selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus? = nil
+        ) {
+            self.selfUpgradeStatus = selfUpgradeStatus
+        }
+    }
+}
+
+public struct DescribeSelfUpgradeConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The self-upgrade configuration for the Quick Suite account.
+    public var selfUpgradeConfiguration: QuickSightClientTypes.SelfUpgradeConfiguration?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        selfUpgradeConfiguration: QuickSightClientTypes.SelfUpgradeConfiguration? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.selfUpgradeConfiguration = selfUpgradeConfiguration
+        self.status = status
+    }
+}
+
 public struct DescribeTemplateInput: Swift.Sendable {
     /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
     public var aliasName: Swift.String?
@@ -42498,7 +42613,7 @@ public struct GetIdentityContextInput: Swift.Sendable {
 }
 
 public struct GetIdentityContextOutput: Swift.Sendable {
-    /// The identity context information for the user. This is an identity token that should be used as the ContextAssertion parameter in the [STS AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) call to obtain identity enhanced AWS credentials.
+    /// The identity context information for the user. This is an identity token that should be used as the ContextAssertion parameter in the [STS AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) call to obtain identity enhanced Amazon Web Services credentials.
     public var context: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     /// This member is required.
@@ -43777,6 +43892,139 @@ public struct ListRoleMembershipsOutput: Swift.Sendable {
         self.membersList = membersList
         self.nextToken = nextToken
         self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct ListSelfUpgradesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the self-upgrade requests.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The Quick Suite namespace for the self-upgrade requests.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case denied
+        case pending
+        case updateFailed
+        case verifyFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeRequestStatus] {
+            return [
+                .approved,
+                .denied,
+                .pending,
+                .updateFailed,
+                .verifyFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .denied: return "DENIED"
+            case .pending: return "PENDING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .verifyFailed: return "VERIFY_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Details of a self-upgrade request.
+    public struct SelfUpgradeRequestDetail: Swift.Sendable {
+        /// The time when the self-upgrade request was created.
+        public var creationTime: Swift.Int
+        /// The time of the last update attempt for the self-upgrade request.
+        public var lastUpdateAttemptTime: Swift.Int
+        /// The reason for the last update failure, if applicable.
+        public var lastUpdateFailureReason: Swift.String?
+        /// The original role of the user before the upgrade.
+        public var originalRole: QuickSightClientTypes.UserRole?
+        /// An optional note explaining the reason for the self-upgrade request.
+        public var requestNote: Swift.String?
+        /// The status of the self-upgrade request.
+        public var requestStatus: QuickSightClientTypes.SelfUpgradeRequestStatus?
+        /// The role that the user is requesting to upgrade to.
+        public var requestedRole: QuickSightClientTypes.UserRole?
+        /// The ID of the self-upgrade request.
+        public var upgradeRequestId: Swift.String?
+        /// The username of the user who initiated the self-upgrade request.
+        public var userName: Swift.String?
+
+        public init(
+            creationTime: Swift.Int = 0,
+            lastUpdateAttemptTime: Swift.Int = 0,
+            lastUpdateFailureReason: Swift.String? = nil,
+            originalRole: QuickSightClientTypes.UserRole? = nil,
+            requestNote: Swift.String? = nil,
+            requestStatus: QuickSightClientTypes.SelfUpgradeRequestStatus? = nil,
+            requestedRole: QuickSightClientTypes.UserRole? = nil,
+            upgradeRequestId: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastUpdateAttemptTime = lastUpdateAttemptTime
+            self.lastUpdateFailureReason = lastUpdateFailureReason
+            self.originalRole = originalRole
+            self.requestNote = requestNote
+            self.requestStatus = requestStatus
+            self.requestedRole = requestedRole
+            self.upgradeRequestId = upgradeRequestId
+            self.userName = userName
+        }
+    }
+}
+
+public struct ListSelfUpgradesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// A list of self-upgrade request details.
+    public var selfUpgradeRequestDetails: [QuickSightClientTypes.SelfUpgradeRequestDetail]?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        selfUpgradeRequestDetails: [QuickSightClientTypes.SelfUpgradeRequestDetail]? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.selfUpgradeRequestDetails = selfUpgradeRequestDetails
         self.status = status
     }
 }
@@ -47633,6 +47881,121 @@ public struct UpdateRoleCustomPermissionOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeAdminAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approve
+        case deny
+        case verify
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeAdminAction] {
+            return [
+                .approve,
+                .deny,
+                .verify
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approve: return "APPROVE"
+            case .deny: return "DENY"
+            case .verify: return "VERIFY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateSelfUpgradeInput: Swift.Sendable {
+    /// The action to perform on the self-upgrade request. Valid values are APPROVE, DENY, or VERIFY.
+    /// This member is required.
+    public var action: QuickSightClientTypes.SelfUpgradeAdminAction?
+    /// The ID of the Amazon Web Services account that contains the self-upgrade request.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace for the self-upgrade request.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The ID of the self-upgrade request to update.
+    /// This member is required.
+    public var upgradeRequestId: Swift.String?
+
+    public init(
+        action: QuickSightClientTypes.SelfUpgradeAdminAction? = nil,
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        upgradeRequestId: Swift.String? = nil
+    ) {
+        self.action = action
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.upgradeRequestId = upgradeRequestId
+    }
+}
+
+public struct UpdateSelfUpgradeOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// Details of the updated self-upgrade request.
+    public var selfUpgradeRequestDetail: QuickSightClientTypes.SelfUpgradeRequestDetail?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        selfUpgradeRequestDetail: QuickSightClientTypes.SelfUpgradeRequestDetail? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.selfUpgradeRequestDetail = selfUpgradeRequestDetail
+        self.status = status
+    }
+}
+
+public struct UpdateSelfUpgradeConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace that you want to update the Quick Suite self-upgrade configuration for.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The self-upgrade status that you want to set for the Quick Suite account.
+    /// This member is required.
+    public var selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.selfUpgradeStatus = selfUpgradeStatus
+    }
+}
+
+public struct UpdateSelfUpgradeConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateSPICECapacityConfigurationInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the SPICE configuration that you want to update.
     /// This member is required.
@@ -50098,6 +50461,19 @@ extension DescribeRoleCustomPermissionInput {
     }
 }
 
+extension DescribeSelfUpgradeConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeSelfUpgradeConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
+    }
+}
+
 extension DescribeTemplateInput {
 
     static func urlPathProvider(_ value: DescribeTemplateInput) -> Swift.String? {
@@ -51095,6 +51471,35 @@ extension ListRoleMembershipsInput {
 extension ListRoleMembershipsInput {
 
     static func queryItemProvider(_ value: ListRoleMembershipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSelfUpgradesInput {
+
+    static func urlPathProvider(_ value: ListSelfUpgradesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-requests"
+    }
+}
+
+extension ListSelfUpgradesInput {
+
+    static func queryItemProvider(_ value: ListSelfUpgradesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -52169,6 +52574,32 @@ extension UpdateRoleCustomPermissionInput {
     }
 }
 
+extension UpdateSelfUpgradeInput {
+
+    static func urlPathProvider(_ value: UpdateSelfUpgradeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/update-self-upgrade-request"
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSelfUpgradeConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
+    }
+}
+
 extension UpdateSPICECapacityConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateSPICECapacityConfigurationInput) -> Swift.String? {
@@ -53176,6 +53607,23 @@ extension UpdateRoleCustomPermissionInput {
     static func write(value: UpdateRoleCustomPermissionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomPermissionsName"].write(value.customPermissionsName)
+    }
+}
+
+extension UpdateSelfUpgradeInput {
+
+    static func write(value: UpdateSelfUpgradeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["UpgradeRequestId"].write(value.upgradeRequestId)
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationInput {
+
+    static func write(value: UpdateSelfUpgradeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SelfUpgradeStatus"].write(value.selfUpgradeStatus)
     }
 }
 
@@ -54858,6 +55306,20 @@ extension DescribeRoleCustomPermissionOutput {
     }
 }
 
+extension DescribeSelfUpgradeConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSelfUpgradeConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSelfUpgradeConfigurationOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeConfiguration = try reader["SelfUpgradeConfiguration"].readIfPresent(with: QuickSightClientTypes.SelfUpgradeConfiguration.read(from:))
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTemplateOutput {
@@ -55517,6 +55979,21 @@ extension ListRoleMembershipsOutput {
         value.membersList = try reader["MembersList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListSelfUpgradesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSelfUpgradesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSelfUpgradesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeRequestDetails = try reader["SelfUpgradeRequestDetails"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SelfUpgradeRequestDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -56509,6 +56986,33 @@ extension UpdateRoleCustomPermissionOutput {
         var value = UpdateRoleCustomPermissionOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension UpdateSelfUpgradeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSelfUpgradeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSelfUpgradeOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeRequestDetail = try reader["SelfUpgradeRequestDetail"].readIfPresent(with: QuickSightClientTypes.SelfUpgradeRequestDetail.read(from:))
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSelfUpgradeConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSelfUpgradeConfigurationOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
         return value
     }
 }
@@ -58711,6 +59215,27 @@ enum DescribeRoleCustomPermissionOutputError {
     }
 }
 
+enum DescribeSelfUpgradeConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -59543,6 +60068,28 @@ enum ListRefreshSchedulesOutputError {
 }
 
 enum ListRoleMembershipsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSelfUpgradesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -60868,6 +61415,49 @@ enum UpdateRoleCustomPermissionOutputError {
     }
 }
 
+enum UpdateSelfUpgradeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSelfUpgradeConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateSPICECapacityConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61363,6 +61953,20 @@ extension InvalidNextTokenException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -75151,6 +75755,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
+        try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
@@ -75202,6 +75807,7 @@ extension QuickSightClientTypes.Capabilities {
         value.chatAgent = try reader["ChatAgent"].readIfPresent()
         value.createChatAgents = try reader["CreateChatAgents"].readIfPresent()
         value.research = try reader["Research"].readIfPresent()
+        value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         return value
     }
 }
@@ -77861,6 +78467,16 @@ extension QuickSightClientTypes.ScheduleRefreshOnEntity {
     }
 }
 
+extension QuickSightClientTypes.SelfUpgradeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SelfUpgradeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SelfUpgradeConfiguration()
+        value.selfUpgradeStatus = try reader["SelfUpgradeStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.Template {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Template {
@@ -79318,6 +79934,24 @@ extension QuickSightClientTypes.AuthorizedTargetsByService {
         var value = QuickSightClientTypes.AuthorizedTargetsByService()
         value.service = try reader["Service"].readIfPresent()
         value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SelfUpgradeRequestDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SelfUpgradeRequestDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SelfUpgradeRequestDetail()
+        value.upgradeRequestId = try reader["UpgradeRequestId"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.originalRole = try reader["OriginalRole"].readIfPresent()
+        value.requestedRole = try reader["RequestedRole"].readIfPresent()
+        value.requestNote = try reader["RequestNote"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? 0
+        value.requestStatus = try reader["RequestStatus"].readIfPresent()
+        value.lastUpdateAttemptTime = try reader["lastUpdateAttemptTime"].readIfPresent() ?? 0
+        value.lastUpdateFailureReason = try reader["lastUpdateFailureReason"].readIfPresent()
         return value
     }
 }

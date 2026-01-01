@@ -17117,6 +17117,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func resumeContactRecording(input: ResumeContactRecordingInput) async throws -> ResumeContactRecordingOutput {
@@ -19419,6 +19420,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -20131,6 +20133,7 @@ extension ConnectClient {
     /// __Possible Exceptions:__
     /// - `ContactNotFoundException` : The contact with the specified ID does not exist.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -20275,6 +20278,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutput {
@@ -20488,6 +20492,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutput {
@@ -20558,6 +20563,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -20787,6 +20793,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -21075,6 +21082,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -21147,6 +21155,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -21732,6 +21741,7 @@ extension ConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
