@@ -731,10 +731,14 @@ extension ConfigClientTypes {
         case amplifyapp
         case amplifybranch
         case api
+        case apigatewaymethod
+        case apigatewayusageplan
+        case apigatewayv2integration
         case appconfigapplication
         case appconfigconfigurationprofile
         case appconfigdeploymentstrategy
         case appconfigenvironment
+        case appconfigextension
         case appconfigextensionassociation
         case appconfighostedconfigurationversion
         case appflowflow
@@ -749,6 +753,7 @@ extension ConfigClientTypes {
         case appmeshvirtualservice
         case apprunnerservice
         case apprunnervpcconnector
+        case appstreamappblockbuilder
         case appstreamapplication
         case appstreamdirectoryconfig
         case appstreamfleet
@@ -764,29 +769,46 @@ extension ConfigClientTypes {
         case auditmanagerassessment
         case autoscalinggroup
         case autoscalingwarmpool
+        case b2bicapability
+        case bcmdataexportsexport
+        case backupgatewayhypervisor
         case backupplan
         case backuprecoverypoint
         case backupreportplan
+        case backuprestoretestingplan
         case backupselection
         case backupvault
         case batchcomputeenvironment
         case batchjobqueue
         case batchschedulingpolicy
+        case bedrockagentcorebrowsercustom
+        case bedrockagentcoreruntime
+        case bedrockapplicationinferenceprofile
         case bedrockguardrail
         case bedrockknowledgebase
+        case bedrockprompt
         case bucket
         case budgetsbudgetsaction
         case cassandrakeyspace
         case certificate
+        case cleanroomsmltrainingdataset
         case cloud9environmentec2
+        case cloudformationguardhook
+        case cloudformationlambdahook
         case cloudformationproduct
         case cloudformationprovisionedproduct
+        case cloudformationstackset
+        case cloudfrontkeyvaluestore
+        case cloudfrontpublickey
+        case cloudfrontrealtimelogconfig
+        case cloudtraileventdatastore
         case cloudwatchmetricstream
         case cluster
         case clusterparametergroup
         case clustersecuritygroup
         case clustersnapshot
         case clustersubnetgroup
+        case codeartifactdomain
         case codeartifactrepository
         case codebuildreportgroup
         case codedeployapplication
@@ -798,11 +820,16 @@ extension ConfigClientTypes {
         case cognitouserpool
         case cognitouserpoolclient
         case cognitouserpoolgroup
+        case comprehendflywheel
+        case configaggregationauthorization
+        case configconformancepack
+        case configstoredquery
         case conformancepackcompliance
         case connectinstance
         case connectphonenumber
         case connectquickconnect
         case connectrule
+        case connectsecurityprofile
         case connectuser
         case customergateway
         case customerprofilesdomain
@@ -817,6 +844,7 @@ extension ConfigClientTypes {
         case dmsendpoint
         case dmseventsubscription
         case dmsreplicationsubnetgroup
+        case datasyncagent
         case datasynclocationefs
         case datasynclocationfsxlustre
         case datasynclocationfsxwindows
@@ -826,6 +854,9 @@ extension ConfigClientTypes {
         case datasynclocations3
         case datasynclocationsmb
         case datasynctask
+        case deadlinefleet
+        case deadlinemonitor
+        case deadlinequeuefleetassociation
         case detectivegraph
         case devicefarminstanceprofile
         case devicefarmproject
@@ -841,6 +872,7 @@ extension ConfigClientTypes {
         case ec2eipassociation
         case ec2ipam
         case ec2ipampool
+        case ec2ipampoolcidr
         case ec2ipamresourcediscovery
         case ec2ipamresourcediscoveryassociation
         case ec2ipamscope
@@ -849,8 +881,11 @@ extension ConfigClientTypes {
         case ec2networkinsightsanalysis
         case ec2networkinsightspath
         case ec2prefixlist
+        case ec2securitygroupvpcassociation
         case ec2snapshotblockpublicaccess
         case ec2spotfleet
+        case ec2subnetcidrblock
+        case ec2subnetnetworkaclassociation
         case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
@@ -860,11 +895,15 @@ extension ConfigClientTypes {
         case ec2vpcblockpublicaccessexclusion
         case ec2vpcblockpublicaccessoptions
         case ec2vpcendpointconnectionnotification
+        case ec2vpcgatewayattachment
         case ec2vpnconnectionroute
+        case ec2verifiedaccessinstance
         case ecrpublicrepository
         case ecrpullthroughcacherule
         case ecrregistrypolicy
+        case ecrreplicationconfiguration
         case ecrrepository
+        case ecrrepositorycreationtemplate
         case ecscapacityprovider
         case ecscluster
         case ecsservice
@@ -877,9 +916,16 @@ extension ConfigClientTypes {
         case ekscluster
         case eksfargateprofile
         case eksidentityproviderconfig
+        case emrcontainersvirtualcluster
         case emrsecurityconfiguration
+        case emrserverlessapplication
+        case emrstudio
         case egressonlyinternetgateway
+        case elasticloadbalancingv2targetgroup
         case encryptionconfig
+        case entityresolutionidmappingworkflow
+        case entityresolutionmatchingworkflow
+        case entityresolutionschemamapping
         case environment
         case eventschemasdiscoverer
         case eventschemasregistry
@@ -905,10 +951,12 @@ extension ConfigClientTypes {
         case frauddetectoroutcome
         case frauddetectorvariable
         case function
+        case gameliftbuild
         case globalacceleratoraccelerator
         case globalacceleratorendpointgroup
         case globalacceleratorlistener
         case glueclassifier
+        case gluedatabase
         case gluejob
         case gluemltransform
         case grafanaworkspace
@@ -920,6 +968,7 @@ extension ConfigClientTypes {
         case guarddutydetector
         case guarddutyfilter
         case guarddutyipset
+        case guarddutymalwareprotectionplan
         case guarddutythreatintelset
         case healthlakefhirdatastore
         case host
@@ -936,6 +985,7 @@ extension ConfigClientTypes {
         case imagebuilderimagepipeline
         case imagebuilderimagerecipe
         case imagebuilderinfrastructureconfiguration
+        case imagebuilderlifecyclepolicy
         case inspectorv2activation
         case inspectorv2filter
         case instance
@@ -947,8 +997,10 @@ extension ConfigClientTypes {
         case iotanalyticspipeline
         case iotauthorizer
         case iotcacertificate
+        case iotcoredeviceadvisorsuitedefinition
         case iotcustommetric
         case iotdimension
+        case iotdomainconfiguration
         case ioteventsalarmmodel
         case ioteventsdetectormodel
         case ioteventsinput
@@ -960,11 +1012,13 @@ extension ConfigClientTypes {
         case iotrolealias
         case iotscheduledaudit
         case iotsecurityprofile
+        case iotsitewiseasset
         case iotsitewiseassetmodel
         case iotsitewisedashboard
         case iotsitewisegateway
         case iotsitewiseportal
         case iotsitewiseproject
+        case iotthinggroup
         case iottwinmakercomponenttype
         case iottwinmakerentity
         case iottwinmakerscene
@@ -975,6 +1029,7 @@ extension ConfigClientTypes {
         case iotwirelessserviceprofile
         case kmsalias
         case kafkaconnectconnector
+        case kafkaconnectcustomplugin
         case kendraindex
         case key
         case kinesisanalyticsv2application
@@ -995,6 +1050,7 @@ extension ConfigClientTypes {
         case listenerv2
         case loadbalancer
         case loadbalancerv2
+        case locationapikey
         case logsdestination
         case lookoutmetricsalert
         case lookoutvisionproject
@@ -1003,6 +1059,7 @@ extension ConfigClientTypes {
         case mskcluster
         case mskclusterpolicy
         case mskconfiguration
+        case mskserverlesscluster
         case mskvpcconnection
         case managedinstanceinventory
         case managedrulesetv2
@@ -1012,6 +1069,9 @@ extension ConfigClientTypes {
         case mediaconnectgateway
         case mediapackagepackagingconfiguration
         case mediapackagepackaginggroup
+        case mediapackagev2channel
+        case mediapackagev2originendpoint
+        case mediatailorlivesource
         case mediatailorplaybackconfiguration
         case memorydbsubnetgroup
         case natgateway
@@ -1028,10 +1088,15 @@ extension ConfigClientTypes {
         case networkmanagerlink
         case networkmanagerlinkassociation
         case networkmanagersite
+        case networkmanagertransitgatewaypeering
         case networkmanagertransitgatewayregistration
         case opensearchdomain
         case opensearchserverlesscollection
+        case opensearchserverlesssecurityconfig
         case opensearchserverlessvpcendpoint
+        case organizationsorganizationalunit
+        case pcaconnectoradconnector
+        case pcaconnectoraddirectoryregistration
         case panoramapackage
         case patchcompliance
         case personalizedataset
@@ -1057,12 +1122,14 @@ extension ConfigClientTypes {
         case quicksighttemplate
         case quicksighttheme
         case rdsglobalcluster
+        case rdsintegration
         case rdsoptiongroup
         case rumappmonitor
         case ratebasedrule
         case redshiftendpointaccess
         case redshiftendpointauthorization
         case redshifteventsubscription
+        case redshiftintegration
         case redshiftscheduledaction
         case regexpatternsetv2
         case regionalprotection
@@ -1080,8 +1147,12 @@ extension ConfigClientTypes {
         case robomakerrobotapplicationversion
         case robomakersimulationapplication
         case role
+        case rolesanywhereprofile
+        case rolesanywheretrustanchor
+        case route53dnssec
         case route53hostedzone
         case route53profilesprofile
+        case route53profilesprofileassociation
         case route53recoverycontrolcluster
         case route53recoverycontrolcontrolpanel
         case route53recoverycontrolroutingcontrol
@@ -1102,30 +1173,49 @@ extension ConfigClientTypes {
         case rule
         case rulegroup
         case rulegroupv2
+        case s3accessgrant
+        case s3accessgrantsinstance
+        case s3accessgrantslocation
         case s3accesspoint
         case s3expressbucketpolicy
         case s3expressdirectorybucket
         case s3multiregionaccesspoint
         case s3storagelens
         case s3storagelensgroup
+        case s3tablestablebucket
+        case s3tablestablebucketpolicy
         case sesconfigurationset
         case sescontactlist
+        case sesdedicatedippool
+        case sesmailmanagertrafficpolicy
         case sesreceiptfilter
         case sesreceiptruleset
         case sestemplate
+        case ssmcontactscontact
         case ssmdocument
+        case ssmincidentsresponseplan
+        case ssmresourcedatasync
         case sagemakerappimageconfig
         case sagemakercoderepository
+        case sagemakerdataqualityjobdefinition
         case sagemakerdomain
         case sagemakerfeaturegroup
         case sagemakerimage
         case sagemakerinferenceexperiment
+        case sagemakermlflowtrackingserver
         case sagemakermodel
+        case sagemakermodelbiasjobdefinition
+        case sagemakermodelexplainabilityjobdefinition
+        case sagemakermodelqualityjobdefinition
         case sagemakernotebookinstancelifecycleconfig
+        case sagemakerstudiolifecycleconfig
+        case sagemakeruserprofile
         case sagemakerworkteam
         case scalingpolicy
         case scheduledaction
         case secret
+        case secretsmanagerresourcepolicy
+        case secretsmanagerrotationschedule
         case securitygroup
         case securityhubstandard
         case servicediscoveryhttpnamespace
@@ -1147,6 +1237,7 @@ extension ConfigClientTypes {
         case transfercertificate
         case transferconnector
         case transferprofile
+        case transferserver
         case transferworkflow
         case transitgateway
         case transitgatewayattachment
@@ -1177,10 +1268,14 @@ extension ConfigClientTypes {
                 .amplifyapp,
                 .amplifybranch,
                 .api,
+                .apigatewaymethod,
+                .apigatewayusageplan,
+                .apigatewayv2integration,
                 .appconfigapplication,
                 .appconfigconfigurationprofile,
                 .appconfigdeploymentstrategy,
                 .appconfigenvironment,
+                .appconfigextension,
                 .appconfigextensionassociation,
                 .appconfighostedconfigurationversion,
                 .appflowflow,
@@ -1195,6 +1290,7 @@ extension ConfigClientTypes {
                 .appmeshvirtualservice,
                 .apprunnerservice,
                 .apprunnervpcconnector,
+                .appstreamappblockbuilder,
                 .appstreamapplication,
                 .appstreamdirectoryconfig,
                 .appstreamfleet,
@@ -1210,29 +1306,46 @@ extension ConfigClientTypes {
                 .auditmanagerassessment,
                 .autoscalinggroup,
                 .autoscalingwarmpool,
+                .b2bicapability,
+                .bcmdataexportsexport,
+                .backupgatewayhypervisor,
                 .backupplan,
                 .backuprecoverypoint,
                 .backupreportplan,
+                .backuprestoretestingplan,
                 .backupselection,
                 .backupvault,
                 .batchcomputeenvironment,
                 .batchjobqueue,
                 .batchschedulingpolicy,
+                .bedrockagentcorebrowsercustom,
+                .bedrockagentcoreruntime,
+                .bedrockapplicationinferenceprofile,
                 .bedrockguardrail,
                 .bedrockknowledgebase,
+                .bedrockprompt,
                 .bucket,
                 .budgetsbudgetsaction,
                 .cassandrakeyspace,
                 .certificate,
+                .cleanroomsmltrainingdataset,
                 .cloud9environmentec2,
+                .cloudformationguardhook,
+                .cloudformationlambdahook,
                 .cloudformationproduct,
                 .cloudformationprovisionedproduct,
+                .cloudformationstackset,
+                .cloudfrontkeyvaluestore,
+                .cloudfrontpublickey,
+                .cloudfrontrealtimelogconfig,
+                .cloudtraileventdatastore,
                 .cloudwatchmetricstream,
                 .cluster,
                 .clusterparametergroup,
                 .clustersecuritygroup,
                 .clustersnapshot,
                 .clustersubnetgroup,
+                .codeartifactdomain,
                 .codeartifactrepository,
                 .codebuildreportgroup,
                 .codedeployapplication,
@@ -1244,11 +1357,16 @@ extension ConfigClientTypes {
                 .cognitouserpool,
                 .cognitouserpoolclient,
                 .cognitouserpoolgroup,
+                .comprehendflywheel,
+                .configaggregationauthorization,
+                .configconformancepack,
+                .configstoredquery,
                 .conformancepackcompliance,
                 .connectinstance,
                 .connectphonenumber,
                 .connectquickconnect,
                 .connectrule,
+                .connectsecurityprofile,
                 .connectuser,
                 .customergateway,
                 .customerprofilesdomain,
@@ -1263,6 +1381,7 @@ extension ConfigClientTypes {
                 .dmsendpoint,
                 .dmseventsubscription,
                 .dmsreplicationsubnetgroup,
+                .datasyncagent,
                 .datasynclocationefs,
                 .datasynclocationfsxlustre,
                 .datasynclocationfsxwindows,
@@ -1272,6 +1391,9 @@ extension ConfigClientTypes {
                 .datasynclocations3,
                 .datasynclocationsmb,
                 .datasynctask,
+                .deadlinefleet,
+                .deadlinemonitor,
+                .deadlinequeuefleetassociation,
                 .detectivegraph,
                 .devicefarminstanceprofile,
                 .devicefarmproject,
@@ -1287,6 +1409,7 @@ extension ConfigClientTypes {
                 .ec2eipassociation,
                 .ec2ipam,
                 .ec2ipampool,
+                .ec2ipampoolcidr,
                 .ec2ipamresourcediscovery,
                 .ec2ipamresourcediscoveryassociation,
                 .ec2ipamscope,
@@ -1295,8 +1418,11 @@ extension ConfigClientTypes {
                 .ec2networkinsightsanalysis,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
+                .ec2securitygroupvpcassociation,
                 .ec2snapshotblockpublicaccess,
                 .ec2spotfleet,
+                .ec2subnetcidrblock,
+                .ec2subnetnetworkaclassociation,
                 .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
@@ -1306,11 +1432,15 @@ extension ConfigClientTypes {
                 .ec2vpcblockpublicaccessexclusion,
                 .ec2vpcblockpublicaccessoptions,
                 .ec2vpcendpointconnectionnotification,
+                .ec2vpcgatewayattachment,
                 .ec2vpnconnectionroute,
+                .ec2verifiedaccessinstance,
                 .ecrpublicrepository,
                 .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
+                .ecrreplicationconfiguration,
                 .ecrrepository,
+                .ecrrepositorycreationtemplate,
                 .ecscapacityprovider,
                 .ecscluster,
                 .ecsservice,
@@ -1323,9 +1453,16 @@ extension ConfigClientTypes {
                 .ekscluster,
                 .eksfargateprofile,
                 .eksidentityproviderconfig,
+                .emrcontainersvirtualcluster,
                 .emrsecurityconfiguration,
+                .emrserverlessapplication,
+                .emrstudio,
                 .egressonlyinternetgateway,
+                .elasticloadbalancingv2targetgroup,
                 .encryptionconfig,
+                .entityresolutionidmappingworkflow,
+                .entityresolutionmatchingworkflow,
+                .entityresolutionschemamapping,
                 .environment,
                 .eventschemasdiscoverer,
                 .eventschemasregistry,
@@ -1351,10 +1488,12 @@ extension ConfigClientTypes {
                 .frauddetectoroutcome,
                 .frauddetectorvariable,
                 .function,
+                .gameliftbuild,
                 .globalacceleratoraccelerator,
                 .globalacceleratorendpointgroup,
                 .globalacceleratorlistener,
                 .glueclassifier,
+                .gluedatabase,
                 .gluejob,
                 .gluemltransform,
                 .grafanaworkspace,
@@ -1366,6 +1505,7 @@ extension ConfigClientTypes {
                 .guarddutydetector,
                 .guarddutyfilter,
                 .guarddutyipset,
+                .guarddutymalwareprotectionplan,
                 .guarddutythreatintelset,
                 .healthlakefhirdatastore,
                 .host,
@@ -1382,6 +1522,7 @@ extension ConfigClientTypes {
                 .imagebuilderimagepipeline,
                 .imagebuilderimagerecipe,
                 .imagebuilderinfrastructureconfiguration,
+                .imagebuilderlifecyclepolicy,
                 .inspectorv2activation,
                 .inspectorv2filter,
                 .instance,
@@ -1393,8 +1534,10 @@ extension ConfigClientTypes {
                 .iotanalyticspipeline,
                 .iotauthorizer,
                 .iotcacertificate,
+                .iotcoredeviceadvisorsuitedefinition,
                 .iotcustommetric,
                 .iotdimension,
+                .iotdomainconfiguration,
                 .ioteventsalarmmodel,
                 .ioteventsdetectormodel,
                 .ioteventsinput,
@@ -1406,11 +1549,13 @@ extension ConfigClientTypes {
                 .iotrolealias,
                 .iotscheduledaudit,
                 .iotsecurityprofile,
+                .iotsitewiseasset,
                 .iotsitewiseassetmodel,
                 .iotsitewisedashboard,
                 .iotsitewisegateway,
                 .iotsitewiseportal,
                 .iotsitewiseproject,
+                .iotthinggroup,
                 .iottwinmakercomponenttype,
                 .iottwinmakerentity,
                 .iottwinmakerscene,
@@ -1421,6 +1566,7 @@ extension ConfigClientTypes {
                 .iotwirelessserviceprofile,
                 .kmsalias,
                 .kafkaconnectconnector,
+                .kafkaconnectcustomplugin,
                 .kendraindex,
                 .key,
                 .kinesisanalyticsv2application,
@@ -1441,6 +1587,7 @@ extension ConfigClientTypes {
                 .listenerv2,
                 .loadbalancer,
                 .loadbalancerv2,
+                .locationapikey,
                 .logsdestination,
                 .lookoutmetricsalert,
                 .lookoutvisionproject,
@@ -1449,6 +1596,7 @@ extension ConfigClientTypes {
                 .mskcluster,
                 .mskclusterpolicy,
                 .mskconfiguration,
+                .mskserverlesscluster,
                 .mskvpcconnection,
                 .managedinstanceinventory,
                 .managedrulesetv2,
@@ -1458,6 +1606,9 @@ extension ConfigClientTypes {
                 .mediaconnectgateway,
                 .mediapackagepackagingconfiguration,
                 .mediapackagepackaginggroup,
+                .mediapackagev2channel,
+                .mediapackagev2originendpoint,
+                .mediatailorlivesource,
                 .mediatailorplaybackconfiguration,
                 .memorydbsubnetgroup,
                 .natgateway,
@@ -1474,10 +1625,15 @@ extension ConfigClientTypes {
                 .networkmanagerlink,
                 .networkmanagerlinkassociation,
                 .networkmanagersite,
+                .networkmanagertransitgatewaypeering,
                 .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
                 .opensearchserverlesscollection,
+                .opensearchserverlesssecurityconfig,
                 .opensearchserverlessvpcendpoint,
+                .organizationsorganizationalunit,
+                .pcaconnectoradconnector,
+                .pcaconnectoraddirectoryregistration,
                 .panoramapackage,
                 .patchcompliance,
                 .personalizedataset,
@@ -1503,12 +1659,14 @@ extension ConfigClientTypes {
                 .quicksighttemplate,
                 .quicksighttheme,
                 .rdsglobalcluster,
+                .rdsintegration,
                 .rdsoptiongroup,
                 .rumappmonitor,
                 .ratebasedrule,
                 .redshiftendpointaccess,
                 .redshiftendpointauthorization,
                 .redshifteventsubscription,
+                .redshiftintegration,
                 .redshiftscheduledaction,
                 .regexpatternsetv2,
                 .regionalprotection,
@@ -1526,8 +1684,12 @@ extension ConfigClientTypes {
                 .robomakerrobotapplicationversion,
                 .robomakersimulationapplication,
                 .role,
+                .rolesanywhereprofile,
+                .rolesanywheretrustanchor,
+                .route53dnssec,
                 .route53hostedzone,
                 .route53profilesprofile,
+                .route53profilesprofileassociation,
                 .route53recoverycontrolcluster,
                 .route53recoverycontrolcontrolpanel,
                 .route53recoverycontrolroutingcontrol,
@@ -1548,30 +1710,49 @@ extension ConfigClientTypes {
                 .rule,
                 .rulegroup,
                 .rulegroupv2,
+                .s3accessgrant,
+                .s3accessgrantsinstance,
+                .s3accessgrantslocation,
                 .s3accesspoint,
                 .s3expressbucketpolicy,
                 .s3expressdirectorybucket,
                 .s3multiregionaccesspoint,
                 .s3storagelens,
                 .s3storagelensgroup,
+                .s3tablestablebucket,
+                .s3tablestablebucketpolicy,
                 .sesconfigurationset,
                 .sescontactlist,
+                .sesdedicatedippool,
+                .sesmailmanagertrafficpolicy,
                 .sesreceiptfilter,
                 .sesreceiptruleset,
                 .sestemplate,
+                .ssmcontactscontact,
                 .ssmdocument,
+                .ssmincidentsresponseplan,
+                .ssmresourcedatasync,
                 .sagemakerappimageconfig,
                 .sagemakercoderepository,
+                .sagemakerdataqualityjobdefinition,
                 .sagemakerdomain,
                 .sagemakerfeaturegroup,
                 .sagemakerimage,
                 .sagemakerinferenceexperiment,
+                .sagemakermlflowtrackingserver,
                 .sagemakermodel,
+                .sagemakermodelbiasjobdefinition,
+                .sagemakermodelexplainabilityjobdefinition,
+                .sagemakermodelqualityjobdefinition,
                 .sagemakernotebookinstancelifecycleconfig,
+                .sagemakerstudiolifecycleconfig,
+                .sagemakeruserprofile,
                 .sagemakerworkteam,
                 .scalingpolicy,
                 .scheduledaction,
                 .secret,
+                .secretsmanagerresourcepolicy,
+                .secretsmanagerrotationschedule,
                 .securitygroup,
                 .securityhubstandard,
                 .servicediscoveryhttpnamespace,
@@ -1593,6 +1774,7 @@ extension ConfigClientTypes {
                 .transfercertificate,
                 .transferconnector,
                 .transferprofile,
+                .transferserver,
                 .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
@@ -1629,10 +1811,14 @@ extension ConfigClientTypes {
             case .amplifyapp: return "AWS::Amplify::App"
             case .amplifybranch: return "AWS::Amplify::Branch"
             case .api: return "AWS::ApiGatewayV2::Api"
+            case .apigatewaymethod: return "AWS::ApiGateway::Method"
+            case .apigatewayusageplan: return "AWS::ApiGateway::UsagePlan"
+            case .apigatewayv2integration: return "AWS::ApiGatewayV2::Integration"
             case .appconfigapplication: return "AWS::AppConfig::Application"
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appconfigextension: return "AWS::AppConfig::Extension"
             case .appconfigextensionassociation: return "AWS::AppConfig::ExtensionAssociation"
             case .appconfighostedconfigurationversion: return "AWS::AppConfig::HostedConfigurationVersion"
             case .appflowflow: return "AWS::AppFlow::Flow"
@@ -1647,6 +1833,7 @@ extension ConfigClientTypes {
             case .appmeshvirtualservice: return "AWS::AppMesh::VirtualService"
             case .apprunnerservice: return "AWS::AppRunner::Service"
             case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
+            case .appstreamappblockbuilder: return "AWS::AppStream::AppBlockBuilder"
             case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appstreamfleet: return "AWS::AppStream::Fleet"
@@ -1662,29 +1849,46 @@ extension ConfigClientTypes {
             case .auditmanagerassessment: return "AWS::AuditManager::Assessment"
             case .autoscalinggroup: return "AWS::AutoScaling::AutoScalingGroup"
             case .autoscalingwarmpool: return "AWS::AutoScaling::WarmPool"
+            case .b2bicapability: return "AWS::B2BI::Capability"
+            case .bcmdataexportsexport: return "AWS::BCMDataExports::Export"
+            case .backupgatewayhypervisor: return "AWS::BackupGateway::Hypervisor"
             case .backupplan: return "AWS::Backup::BackupPlan"
             case .backuprecoverypoint: return "AWS::Backup::RecoveryPoint"
             case .backupreportplan: return "AWS::Backup::ReportPlan"
+            case .backuprestoretestingplan: return "AWS::Backup::RestoreTestingPlan"
             case .backupselection: return "AWS::Backup::BackupSelection"
             case .backupvault: return "AWS::Backup::BackupVault"
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .batchschedulingpolicy: return "AWS::Batch::SchedulingPolicy"
+            case .bedrockagentcorebrowsercustom: return "AWS::BedrockAgentCore::BrowserCustom"
+            case .bedrockagentcoreruntime: return "AWS::BedrockAgentCore::Runtime"
+            case .bedrockapplicationinferenceprofile: return "AWS::Bedrock::ApplicationInferenceProfile"
             case .bedrockguardrail: return "AWS::Bedrock::Guardrail"
             case .bedrockknowledgebase: return "AWS::Bedrock::KnowledgeBase"
+            case .bedrockprompt: return "AWS::Bedrock::Prompt"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
             case .certificate: return "AWS::ACM::Certificate"
+            case .cleanroomsmltrainingdataset: return "AWS::CleanRoomsML::TrainingDataset"
             case .cloud9environmentec2: return "AWS::Cloud9::EnvironmentEC2"
+            case .cloudformationguardhook: return "AWS::CloudFormation::GuardHook"
+            case .cloudformationlambdahook: return "AWS::CloudFormation::LambdaHook"
             case .cloudformationproduct: return "AWS::ServiceCatalog::CloudFormationProduct"
             case .cloudformationprovisionedproduct: return "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+            case .cloudformationstackset: return "AWS::CloudFormation::StackSet"
+            case .cloudfrontkeyvaluestore: return "AWS::CloudFront::KeyValueStore"
+            case .cloudfrontpublickey: return "AWS::CloudFront::PublicKey"
+            case .cloudfrontrealtimelogconfig: return "AWS::CloudFront::RealtimeLogConfig"
+            case .cloudtraileventdatastore: return "AWS::CloudTrail::EventDataStore"
             case .cloudwatchmetricstream: return "AWS::CloudWatch::MetricStream"
             case .cluster: return "AWS::Redshift::Cluster"
             case .clusterparametergroup: return "AWS::Redshift::ClusterParameterGroup"
             case .clustersecuritygroup: return "AWS::Redshift::ClusterSecurityGroup"
             case .clustersnapshot: return "AWS::Redshift::ClusterSnapshot"
             case .clustersubnetgroup: return "AWS::Redshift::ClusterSubnetGroup"
+            case .codeartifactdomain: return "AWS::CodeArtifact::Domain"
             case .codeartifactrepository: return "AWS::CodeArtifact::Repository"
             case .codebuildreportgroup: return "AWS::CodeBuild::ReportGroup"
             case .codedeployapplication: return "AWS::CodeDeploy::Application"
@@ -1696,11 +1900,16 @@ extension ConfigClientTypes {
             case .cognitouserpool: return "AWS::Cognito::UserPool"
             case .cognitouserpoolclient: return "AWS::Cognito::UserPoolClient"
             case .cognitouserpoolgroup: return "AWS::Cognito::UserPoolGroup"
+            case .comprehendflywheel: return "AWS::Comprehend::Flywheel"
+            case .configaggregationauthorization: return "AWS::Config::AggregationAuthorization"
+            case .configconformancepack: return "AWS::Config::ConformancePack"
+            case .configstoredquery: return "AWS::Config::StoredQuery"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
             case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
             case .connectquickconnect: return "AWS::Connect::QuickConnect"
             case .connectrule: return "AWS::Connect::Rule"
+            case .connectsecurityprofile: return "AWS::Connect::SecurityProfile"
             case .connectuser: return "AWS::Connect::User"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
@@ -1715,6 +1924,7 @@ extension ConfigClientTypes {
             case .dmsendpoint: return "AWS::DMS::Endpoint"
             case .dmseventsubscription: return "AWS::DMS::EventSubscription"
             case .dmsreplicationsubnetgroup: return "AWS::DMS::ReplicationSubnetGroup"
+            case .datasyncagent: return "AWS::DataSync::Agent"
             case .datasynclocationefs: return "AWS::DataSync::LocationEFS"
             case .datasynclocationfsxlustre: return "AWS::DataSync::LocationFSxLustre"
             case .datasynclocationfsxwindows: return "AWS::DataSync::LocationFSxWindows"
@@ -1724,6 +1934,9 @@ extension ConfigClientTypes {
             case .datasynclocations3: return "AWS::DataSync::LocationS3"
             case .datasynclocationsmb: return "AWS::DataSync::LocationSMB"
             case .datasynctask: return "AWS::DataSync::Task"
+            case .deadlinefleet: return "AWS::Deadline::Fleet"
+            case .deadlinemonitor: return "AWS::Deadline::Monitor"
+            case .deadlinequeuefleetassociation: return "AWS::Deadline::QueueFleetAssociation"
             case .detectivegraph: return "AWS::Detective::Graph"
             case .devicefarminstanceprofile: return "AWS::DeviceFarm::InstanceProfile"
             case .devicefarmproject: return "AWS::DeviceFarm::Project"
@@ -1739,6 +1952,7 @@ extension ConfigClientTypes {
             case .ec2eipassociation: return "AWS::EC2::EIPAssociation"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2ipampool: return "AWS::EC2::IPAMPool"
+            case .ec2ipampoolcidr: return "AWS::EC2::IPAMPoolCidr"
             case .ec2ipamresourcediscovery: return "AWS::EC2::IPAMResourceDiscovery"
             case .ec2ipamresourcediscoveryassociation: return "AWS::EC2::IPAMResourceDiscoveryAssociation"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
@@ -1747,8 +1961,11 @@ extension ConfigClientTypes {
             case .ec2networkinsightsanalysis: return "AWS::EC2::NetworkInsightsAnalysis"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
+            case .ec2securitygroupvpcassociation: return "AWS::EC2::SecurityGroupVpcAssociation"
             case .ec2snapshotblockpublicaccess: return "AWS::EC2::SnapshotBlockPublicAccess"
             case .ec2spotfleet: return "AWS::EC2::SpotFleet"
+            case .ec2subnetcidrblock: return "AWS::EC2::SubnetCidrBlock"
+            case .ec2subnetnetworkaclassociation: return "AWS::EC2::SubnetNetworkAclAssociation"
             case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
@@ -1758,11 +1975,15 @@ extension ConfigClientTypes {
             case .ec2vpcblockpublicaccessexclusion: return "AWS::EC2::VPCBlockPublicAccessExclusion"
             case .ec2vpcblockpublicaccessoptions: return "AWS::EC2::VPCBlockPublicAccessOptions"
             case .ec2vpcendpointconnectionnotification: return "AWS::EC2::VPCEndpointConnectionNotification"
+            case .ec2vpcgatewayattachment: return "AWS::EC2::VPCGatewayAttachment"
             case .ec2vpnconnectionroute: return "AWS::EC2::VPNConnectionRoute"
+            case .ec2verifiedaccessinstance: return "AWS::EC2::VerifiedAccessInstance"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
             case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
+            case .ecrreplicationconfiguration: return "AWS::ECR::ReplicationConfiguration"
             case .ecrrepository: return "AWS::ECR::Repository"
+            case .ecrrepositorycreationtemplate: return "AWS::ECR::RepositoryCreationTemplate"
             case .ecscapacityprovider: return "AWS::ECS::CapacityProvider"
             case .ecscluster: return "AWS::ECS::Cluster"
             case .ecsservice: return "AWS::ECS::Service"
@@ -1775,9 +1996,16 @@ extension ConfigClientTypes {
             case .ekscluster: return "AWS::EKS::Cluster"
             case .eksfargateprofile: return "AWS::EKS::FargateProfile"
             case .eksidentityproviderconfig: return "AWS::EKS::IdentityProviderConfig"
+            case .emrcontainersvirtualcluster: return "AWS::EMRContainers::VirtualCluster"
             case .emrsecurityconfiguration: return "AWS::EMR::SecurityConfiguration"
+            case .emrserverlessapplication: return "AWS::EMRServerless::Application"
+            case .emrstudio: return "AWS::EMR::Studio"
             case .egressonlyinternetgateway: return "AWS::EC2::EgressOnlyInternetGateway"
+            case .elasticloadbalancingv2targetgroup: return "AWS::ElasticLoadBalancingV2::TargetGroup"
             case .encryptionconfig: return "AWS::XRay::EncryptionConfig"
+            case .entityresolutionidmappingworkflow: return "AWS::EntityResolution::IdMappingWorkflow"
+            case .entityresolutionmatchingworkflow: return "AWS::EntityResolution::MatchingWorkflow"
+            case .entityresolutionschemamapping: return "AWS::EntityResolution::SchemaMapping"
             case .environment: return "AWS::ElasticBeanstalk::Environment"
             case .eventschemasdiscoverer: return "AWS::EventSchemas::Discoverer"
             case .eventschemasregistry: return "AWS::EventSchemas::Registry"
@@ -1803,10 +2031,12 @@ extension ConfigClientTypes {
             case .frauddetectoroutcome: return "AWS::FraudDetector::Outcome"
             case .frauddetectorvariable: return "AWS::FraudDetector::Variable"
             case .function: return "AWS::Lambda::Function"
+            case .gameliftbuild: return "AWS::GameLift::Build"
             case .globalacceleratoraccelerator: return "AWS::GlobalAccelerator::Accelerator"
             case .globalacceleratorendpointgroup: return "AWS::GlobalAccelerator::EndpointGroup"
             case .globalacceleratorlistener: return "AWS::GlobalAccelerator::Listener"
             case .glueclassifier: return "AWS::Glue::Classifier"
+            case .gluedatabase: return "AWS::Glue::Database"
             case .gluejob: return "AWS::Glue::Job"
             case .gluemltransform: return "AWS::Glue::MLTransform"
             case .grafanaworkspace: return "AWS::Grafana::Workspace"
@@ -1818,6 +2048,7 @@ extension ConfigClientTypes {
             case .guarddutydetector: return "AWS::GuardDuty::Detector"
             case .guarddutyfilter: return "AWS::GuardDuty::Filter"
             case .guarddutyipset: return "AWS::GuardDuty::IPSet"
+            case .guarddutymalwareprotectionplan: return "AWS::GuardDuty::MalwareProtectionPlan"
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
@@ -1834,6 +2065,7 @@ extension ConfigClientTypes {
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderimagerecipe: return "AWS::ImageBuilder::ImageRecipe"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
+            case .imagebuilderlifecyclepolicy: return "AWS::ImageBuilder::LifecyclePolicy"
             case .inspectorv2activation: return "AWS::InspectorV2::Activation"
             case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
@@ -1845,8 +2077,10 @@ extension ConfigClientTypes {
             case .iotanalyticspipeline: return "AWS::IoTAnalytics::Pipeline"
             case .iotauthorizer: return "AWS::IoT::Authorizer"
             case .iotcacertificate: return "AWS::IoT::CACertificate"
+            case .iotcoredeviceadvisorsuitedefinition: return "AWS::IoTCoreDeviceAdvisor::SuiteDefinition"
             case .iotcustommetric: return "AWS::IoT::CustomMetric"
             case .iotdimension: return "AWS::IoT::Dimension"
+            case .iotdomainconfiguration: return "AWS::IoT::DomainConfiguration"
             case .ioteventsalarmmodel: return "AWS::IoTEvents::AlarmModel"
             case .ioteventsdetectormodel: return "AWS::IoTEvents::DetectorModel"
             case .ioteventsinput: return "AWS::IoTEvents::Input"
@@ -1858,11 +2092,13 @@ extension ConfigClientTypes {
             case .iotrolealias: return "AWS::IoT::RoleAlias"
             case .iotscheduledaudit: return "AWS::IoT::ScheduledAudit"
             case .iotsecurityprofile: return "AWS::IoT::SecurityProfile"
+            case .iotsitewiseasset: return "AWS::IoTSiteWise::Asset"
             case .iotsitewiseassetmodel: return "AWS::IoTSiteWise::AssetModel"
             case .iotsitewisedashboard: return "AWS::IoTSiteWise::Dashboard"
             case .iotsitewisegateway: return "AWS::IoTSiteWise::Gateway"
             case .iotsitewiseportal: return "AWS::IoTSiteWise::Portal"
             case .iotsitewiseproject: return "AWS::IoTSiteWise::Project"
+            case .iotthinggroup: return "AWS::IoT::ThingGroup"
             case .iottwinmakercomponenttype: return "AWS::IoTTwinMaker::ComponentType"
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
             case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
@@ -1873,6 +2109,7 @@ extension ConfigClientTypes {
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
             case .kmsalias: return "AWS::KMS::Alias"
             case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
+            case .kafkaconnectcustomplugin: return "AWS::KafkaConnect::CustomPlugin"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
@@ -1893,6 +2130,7 @@ extension ConfigClientTypes {
             case .listenerv2: return "AWS::ElasticLoadBalancingV2::Listener"
             case .loadbalancer: return "AWS::ElasticLoadBalancing::LoadBalancer"
             case .loadbalancerv2: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
+            case .locationapikey: return "AWS::Location::APIKey"
             case .logsdestination: return "AWS::Logs::Destination"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .lookoutvisionproject: return "AWS::LookoutVision::Project"
@@ -1901,6 +2139,7 @@ extension ConfigClientTypes {
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskclusterpolicy: return "AWS::MSK::ClusterPolicy"
             case .mskconfiguration: return "AWS::MSK::Configuration"
+            case .mskserverlesscluster: return "AWS::MSK::ServerlessCluster"
             case .mskvpcconnection: return "AWS::MSK::VpcConnection"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
@@ -1910,6 +2149,9 @@ extension ConfigClientTypes {
             case .mediaconnectgateway: return "AWS::MediaConnect::Gateway"
             case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
             case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
+            case .mediapackagev2channel: return "AWS::MediaPackageV2::Channel"
+            case .mediapackagev2originendpoint: return "AWS::MediaPackageV2::OriginEndpoint"
+            case .mediatailorlivesource: return "AWS::MediaTailor::LiveSource"
             case .mediatailorplaybackconfiguration: return "AWS::MediaTailor::PlaybackConfiguration"
             case .memorydbsubnetgroup: return "AWS::MemoryDB::SubnetGroup"
             case .natgateway: return "AWS::EC2::NatGateway"
@@ -1926,10 +2168,15 @@ extension ConfigClientTypes {
             case .networkmanagerlink: return "AWS::NetworkManager::Link"
             case .networkmanagerlinkassociation: return "AWS::NetworkManager::LinkAssociation"
             case .networkmanagersite: return "AWS::NetworkManager::Site"
+            case .networkmanagertransitgatewaypeering: return "AWS::NetworkManager::TransitGatewayPeering"
             case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
             case .opensearchserverlesscollection: return "AWS::OpenSearchServerless::Collection"
+            case .opensearchserverlesssecurityconfig: return "AWS::OpenSearchServerless::SecurityConfig"
             case .opensearchserverlessvpcendpoint: return "AWS::OpenSearchServerless::VpcEndpoint"
+            case .organizationsorganizationalunit: return "AWS::Organizations::OrganizationalUnit"
+            case .pcaconnectoradconnector: return "AWS::PCAConnectorAD::Connector"
+            case .pcaconnectoraddirectoryregistration: return "AWS::PCAConnectorAD::DirectoryRegistration"
             case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .personalizedataset: return "AWS::Personalize::Dataset"
@@ -1955,12 +2202,14 @@ extension ConfigClientTypes {
             case .quicksighttemplate: return "AWS::QuickSight::Template"
             case .quicksighttheme: return "AWS::QuickSight::Theme"
             case .rdsglobalcluster: return "AWS::RDS::GlobalCluster"
+            case .rdsintegration: return "AWS::RDS::Integration"
             case .rdsoptiongroup: return "AWS::RDS::OptionGroup"
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshiftendpointaccess: return "AWS::Redshift::EndpointAccess"
             case .redshiftendpointauthorization: return "AWS::Redshift::EndpointAuthorization"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
+            case .redshiftintegration: return "AWS::Redshift::Integration"
             case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
             case .regionalprotection: return "AWS::ShieldRegional::Protection"
@@ -1978,8 +2227,12 @@ extension ConfigClientTypes {
             case .robomakerrobotapplicationversion: return "AWS::RoboMaker::RobotApplicationVersion"
             case .robomakersimulationapplication: return "AWS::RoboMaker::SimulationApplication"
             case .role: return "AWS::IAM::Role"
+            case .rolesanywhereprofile: return "AWS::RolesAnywhere::Profile"
+            case .rolesanywheretrustanchor: return "AWS::RolesAnywhere::TrustAnchor"
+            case .route53dnssec: return "AWS::Route53::DNSSEC"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
             case .route53profilesprofile: return "AWS::Route53Profiles::Profile"
+            case .route53profilesprofileassociation: return "AWS::Route53Profiles::ProfileAssociation"
             case .route53recoverycontrolcluster: return "AWS::Route53RecoveryControl::Cluster"
             case .route53recoverycontrolcontrolpanel: return "AWS::Route53RecoveryControl::ControlPanel"
             case .route53recoverycontrolroutingcontrol: return "AWS::Route53RecoveryControl::RoutingControl"
@@ -2000,30 +2253,49 @@ extension ConfigClientTypes {
             case .rule: return "AWS::WAF::Rule"
             case .rulegroup: return "AWS::WAF::RuleGroup"
             case .rulegroupv2: return "AWS::WAFv2::RuleGroup"
+            case .s3accessgrant: return "AWS::S3::AccessGrant"
+            case .s3accessgrantsinstance: return "AWS::S3::AccessGrantsInstance"
+            case .s3accessgrantslocation: return "AWS::S3::AccessGrantsLocation"
             case .s3accesspoint: return "AWS::S3::AccessPoint"
             case .s3expressbucketpolicy: return "AWS::S3Express::BucketPolicy"
             case .s3expressdirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .s3multiregionaccesspoint: return "AWS::S3::MultiRegionAccessPoint"
             case .s3storagelens: return "AWS::S3::StorageLens"
             case .s3storagelensgroup: return "AWS::S3::StorageLensGroup"
+            case .s3tablestablebucket: return "AWS::S3Tables::TableBucket"
+            case .s3tablestablebucketpolicy: return "AWS::S3Tables::TableBucketPolicy"
             case .sesconfigurationset: return "AWS::SES::ConfigurationSet"
             case .sescontactlist: return "AWS::SES::ContactList"
+            case .sesdedicatedippool: return "AWS::SES::DedicatedIpPool"
+            case .sesmailmanagertrafficpolicy: return "AWS::SES::MailManagerTrafficPolicy"
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
             case .sesreceiptruleset: return "AWS::SES::ReceiptRuleSet"
             case .sestemplate: return "AWS::SES::Template"
+            case .ssmcontactscontact: return "AWS::SSMContacts::Contact"
             case .ssmdocument: return "AWS::SSM::Document"
+            case .ssmincidentsresponseplan: return "AWS::SSMIncidents::ResponsePlan"
+            case .ssmresourcedatasync: return "AWS::SSM::ResourceDataSync"
             case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
+            case .sagemakerdataqualityjobdefinition: return "AWS::SageMaker::DataQualityJobDefinition"
             case .sagemakerdomain: return "AWS::SageMaker::Domain"
             case .sagemakerfeaturegroup: return "AWS::SageMaker::FeatureGroup"
             case .sagemakerimage: return "AWS::SageMaker::Image"
             case .sagemakerinferenceexperiment: return "AWS::SageMaker::InferenceExperiment"
+            case .sagemakermlflowtrackingserver: return "AWS::SageMaker::MlflowTrackingServer"
             case .sagemakermodel: return "AWS::SageMaker::Model"
+            case .sagemakermodelbiasjobdefinition: return "AWS::SageMaker::ModelBiasJobDefinition"
+            case .sagemakermodelexplainabilityjobdefinition: return "AWS::SageMaker::ModelExplainabilityJobDefinition"
+            case .sagemakermodelqualityjobdefinition: return "AWS::SageMaker::ModelQualityJobDefinition"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
+            case .sagemakerstudiolifecycleconfig: return "AWS::SageMaker::StudioLifecycleConfig"
+            case .sagemakeruserprofile: return "AWS::SageMaker::UserProfile"
             case .sagemakerworkteam: return "AWS::SageMaker::Workteam"
             case .scalingpolicy: return "AWS::AutoScaling::ScalingPolicy"
             case .scheduledaction: return "AWS::AutoScaling::ScheduledAction"
             case .secret: return "AWS::SecretsManager::Secret"
+            case .secretsmanagerresourcepolicy: return "AWS::SecretsManager::ResourcePolicy"
+            case .secretsmanagerrotationschedule: return "AWS::SecretsManager::RotationSchedule"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
             case .securityhubstandard: return "AWS::SecurityHub::Standard"
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
@@ -2045,6 +2317,7 @@ extension ConfigClientTypes {
             case .transfercertificate: return "AWS::Transfer::Certificate"
             case .transferconnector: return "AWS::Transfer::Connector"
             case .transferprofile: return "AWS::Transfer::Profile"
+            case .transferserver: return "AWS::Transfer::Server"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"
@@ -2619,7 +2892,7 @@ extension ConfigClientTypes {
         public var recordingMode: ConfigClientTypes.RecordingMode?
         /// Specifies whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the specified configuration recorder are recorded for free (INTERNAL) or if it impacts the costs to your bill (PAID).
         public var recordingScope: ConfigClientTypes.RecordingScope?
-        /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
+        /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub CSPM or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
         public var roleARN: Swift.String?
         /// For service-linked configuration recorders, specifies the linked Amazon Web Services service for the configuration recorder.
         public var servicePrincipal: Swift.String?

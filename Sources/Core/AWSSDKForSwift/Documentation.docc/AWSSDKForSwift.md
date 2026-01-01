@@ -383,8 +383,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)
 
-[AWSElasticTranscoder](../../../../../swift/api/awselastictranscoder/latest)
-
 [AWSElasticsearchService](../../../../../swift/api/awselasticsearchservice/latest)
 
 [AWSEntityResolution](../../../../../swift/api/awsentityresolution/latest)
