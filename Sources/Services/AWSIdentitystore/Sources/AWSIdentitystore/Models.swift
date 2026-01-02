@@ -128,7 +128,7 @@ extension IdentitystoreClientTypes {
 
 extension IdentitystoreClientTypes.Address: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Address(country: \"CONTENT_REDACTED\", formatted: \"CONTENT_REDACTED\", locality: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", primary: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\", streetAddress: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+        "Address(primary: \(Swift.String(describing: primary)), country: \"CONTENT_REDACTED\", formatted: \"CONTENT_REDACTED\", locality: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\", streetAddress: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension IdentitystoreClientTypes {
@@ -1148,11 +1148,6 @@ extension IdentitystoreClientTypes {
     }
 }
 
-extension IdentitystoreClientTypes.GroupMembershipExistenceResult: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GroupMembershipExistenceResult(groupId: \(Swift.String(describing: groupId)), memberId: \(Swift.String(describing: memberId)), membershipExists: \"CONTENT_REDACTED\")"}
-}
-
 public struct IsMemberInGroupsOutput: Swift.Sendable {
     /// A list containing the results of membership existence checks.
     /// This member is required.
@@ -1292,7 +1287,7 @@ extension IdentitystoreClientTypes {
 
 extension IdentitystoreClientTypes.Email: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Email(primary: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+        "Email(primary: \(Swift.String(describing: primary)), type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
 extension IdentitystoreClientTypes {
@@ -1360,7 +1355,7 @@ extension IdentitystoreClientTypes {
 
 extension IdentitystoreClientTypes.PhoneNumber: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PhoneNumber(primary: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+        "PhoneNumber(primary: \(Swift.String(describing: primary)), type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
 extension IdentitystoreClientTypes {
@@ -1393,7 +1388,35 @@ extension IdentitystoreClientTypes {
 
 extension IdentitystoreClientTypes.Photo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Photo(display: \"CONTENT_REDACTED\", primary: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+        "Photo(primary: \(Swift.String(describing: primary)), display: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+}
+
+extension IdentitystoreClientTypes {
+
+    /// The role associated with the user.
+    public struct Role: Swift.Sendable {
+        /// A Boolean value representing whether this is the primary role for the associated resource.
+        public var primary: Swift.Bool
+        /// A string representing the type of role. For example, "Work."
+        public var type: Swift.String?
+        /// A string containing a role name. For example, "Researcher."
+        public var value: Swift.String?
+
+        public init(
+            primary: Swift.Bool = false,
+            type: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.primary = primary
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension IdentitystoreClientTypes.Role: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Role(primary: \(Swift.String(describing: primary)), type: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserInput: Swift.Sendable {
@@ -1424,6 +1447,8 @@ public struct CreateUserInput: Swift.Sendable {
     public var preferredLanguage: Swift.String?
     /// A string containing a URL that might be associated with the user.
     public var profileUrl: Swift.String?
+    /// A list of Role objects containing roles associated with the user.
+    public var roles: [IdentitystoreClientTypes.Role]?
     /// A string containing the time zone of the user.
     public var timezone: Swift.String?
     /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
@@ -1449,6 +1474,7 @@ public struct CreateUserInput: Swift.Sendable {
         photos: [IdentitystoreClientTypes.Photo]? = nil,
         preferredLanguage: Swift.String? = nil,
         profileUrl: Swift.String? = nil,
+        roles: [IdentitystoreClientTypes.Role]? = nil,
         timezone: Swift.String? = nil,
         title: Swift.String? = nil,
         userName: Swift.String? = nil,
@@ -1468,6 +1494,7 @@ public struct CreateUserInput: Swift.Sendable {
         self.photos = photos
         self.preferredLanguage = preferredLanguage
         self.profileUrl = profileUrl
+        self.roles = roles
         self.timezone = timezone
         self.title = title
         self.userName = userName
@@ -1478,7 +1505,7 @@ public struct CreateUserInput: Swift.Sendable {
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(addresses: \(Swift.String(describing: addresses)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(addresses: \(Swift.String(describing: addresses)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), roles: \(Swift.String(describing: roles)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserOutput: Swift.Sendable {
@@ -1604,6 +1631,8 @@ public struct DescribeUserOutput: Swift.Sendable {
     public var preferredLanguage: Swift.String?
     /// A URL link for the user's profile.
     public var profileUrl: Swift.String?
+    /// The roles of the user.
+    public var roles: [IdentitystoreClientTypes.Role]?
     /// The time zone for a user.
     public var timezone: Swift.String?
     /// A string containing the title of the user.
@@ -1641,6 +1670,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         photos: [IdentitystoreClientTypes.Photo]? = nil,
         preferredLanguage: Swift.String? = nil,
         profileUrl: Swift.String? = nil,
+        roles: [IdentitystoreClientTypes.Role]? = nil,
         timezone: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -1667,6 +1697,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         self.photos = photos
         self.preferredLanguage = preferredLanguage
         self.profileUrl = profileUrl
+        self.roles = roles
         self.timezone = timezone
         self.title = title
         self.updatedAt = updatedAt
@@ -1681,7 +1712,7 @@ public struct DescribeUserOutput: Swift.Sendable {
 
 extension DescribeUserOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeUserOutput(addresses: \(Swift.String(describing: addresses)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), externalIds: \(Swift.String(describing: externalIds)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), userId: \(Swift.String(describing: userId)), userStatus: \(Swift.String(describing: userStatus)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
+        "DescribeUserOutput(addresses: \(Swift.String(describing: addresses)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), externalIds: \(Swift.String(describing: externalIds)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), roles: \(Swift.String(describing: roles)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), userId: \(Swift.String(describing: userId)), userStatus: \(Swift.String(describing: userStatus)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUsersInput: Swift.Sendable {
@@ -1750,6 +1781,8 @@ extension IdentitystoreClientTypes {
         public var preferredLanguage: Swift.String?
         /// A string containing a URL that might be associated with the user.
         public var profileUrl: Swift.String?
+        /// A list of Role objects containing roles associated with the user.
+        public var roles: [IdentitystoreClientTypes.Role]?
         /// A string containing the time zone of the user.
         public var timezone: Swift.String?
         /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
@@ -1787,6 +1820,7 @@ extension IdentitystoreClientTypes {
             photos: [IdentitystoreClientTypes.Photo]? = nil,
             preferredLanguage: Swift.String? = nil,
             profileUrl: Swift.String? = nil,
+            roles: [IdentitystoreClientTypes.Role]? = nil,
             timezone: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -1813,6 +1847,7 @@ extension IdentitystoreClientTypes {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.roles = roles
             self.timezone = timezone
             self.title = title
             self.updatedAt = updatedAt
@@ -1828,7 +1863,7 @@ extension IdentitystoreClientTypes {
 
 extension IdentitystoreClientTypes.User: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "User(addresses: \(Swift.String(describing: addresses)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), externalIds: \(Swift.String(describing: externalIds)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), userId: \(Swift.String(describing: userId)), userStatus: \(Swift.String(describing: userStatus)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
+        "User(addresses: \(Swift.String(describing: addresses)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), emails: \(Swift.String(describing: emails)), extensions: \(Swift.String(describing: extensions)), externalIds: \(Swift.String(describing: externalIds)), identityStoreId: \(Swift.String(describing: identityStoreId)), name: \(Swift.String(describing: name)), phoneNumbers: \(Swift.String(describing: phoneNumbers)), photos: \(Swift.String(describing: photos)), roles: \(Swift.String(describing: roles)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), userId: \(Swift.String(describing: userId)), userStatus: \(Swift.String(describing: userStatus)), birthdate: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", locale: \"CONTENT_REDACTED\", nickName: \"CONTENT_REDACTED\", preferredLanguage: \"CONTENT_REDACTED\", profileUrl: \"CONTENT_REDACTED\", timezone: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", userName: \"CONTENT_REDACTED\", userType: \"CONTENT_REDACTED\", website: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUsersOutput: Swift.Sendable {
@@ -2044,6 +2079,7 @@ extension CreateUserInput {
         try writer["Photos"].writeList(value.photos, memberWritingClosure: IdentitystoreClientTypes.Photo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PreferredLanguage"].write(value.preferredLanguage)
         try writer["ProfileUrl"].write(value.profileUrl)
+        try writer["Roles"].writeList(value.roles, memberWritingClosure: IdentitystoreClientTypes.Role.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Timezone"].write(value.timezone)
         try writer["Title"].write(value.title)
         try writer["UserName"].write(value.userName)
@@ -2332,6 +2368,7 @@ extension DescribeUserOutput {
         value.photos = try reader["Photos"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Photo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.preferredLanguage = try reader["PreferredLanguage"].readIfPresent()
         value.profileUrl = try reader["ProfileUrl"].readIfPresent()
+        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timezone = try reader["Timezone"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3055,6 +3092,25 @@ extension IdentitystoreClientTypes.Photo {
     }
 }
 
+extension IdentitystoreClientTypes.Role {
+
+    static func write(value: IdentitystoreClientTypes.Role?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Primary"].write(value.primary)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Role {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Role()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension IdentitystoreClientTypes.GroupMembershipExistenceResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembershipExistenceResult {
@@ -3127,6 +3183,7 @@ extension IdentitystoreClientTypes.User {
         value.photos = try reader["Photos"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Photo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.website = try reader["Website"].readIfPresent()
         value.birthdate = try reader["Birthdate"].readIfPresent()
+        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
