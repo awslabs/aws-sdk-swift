@@ -25202,6 +25202,8 @@ extension ConnectClientTypes {
 
     /// A structure of search criteria to be used to return contacts.
     public struct SearchCriteria: Swift.Sendable {
+        /// The list of active regions for contacts in ACGR instances.
+        public var activeRegions: [Swift.String]?
         /// Additional TimeRange used to filter contacts.
         public var additionalTimeRange: ConnectClientTypes.SearchContactsAdditionalTimeRange?
         /// The agent hierarchy groups of the agent at the time of handling the contact.
@@ -25226,6 +25228,7 @@ extension ConnectClientTypes {
         public var searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes?
 
         public init(
+            activeRegions: [Swift.String]? = nil,
             additionalTimeRange: ConnectClientTypes.SearchContactsAdditionalTimeRange? = nil,
             agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups? = nil,
             agentIds: [Swift.String]? = nil,
@@ -25238,6 +25241,7 @@ extension ConnectClientTypes {
             searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil,
             searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes? = nil
         ) {
+            self.activeRegions = activeRegions
             self.additionalTimeRange = additionalTimeRange
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
@@ -33209,6 +33213,8 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The timestamp when the customer endpoint disconnected from Amazon Connect.
         public var disconnectTimestamp: Foundation.Date?
+        /// Additional routing information for contacts created in ACGR instances.
+        public var globalResiliencyMetadata: ConnectClientTypes.GlobalResiliencyMetadata?
         /// The identifier of the contact summary.
         public var id: Swift.String?
         /// If this contact is related to other contacts, this is the ID of the initial contact.
@@ -33235,6 +33241,7 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             disconnectTimestamp: Foundation.Date? = nil,
+            globalResiliencyMetadata: ConnectClientTypes.GlobalResiliencyMetadata? = nil,
             id: Swift.String? = nil,
             initialContactId: Swift.String? = nil,
             initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
@@ -33250,6 +33257,7 @@ extension ConnectClientTypes {
             self.arn = arn
             self.channel = channel
             self.disconnectTimestamp = disconnectTimestamp
+            self.globalResiliencyMetadata = globalResiliencyMetadata
             self.id = id
             self.initialContactId = initialContactId
             self.initiationMethod = initiationMethod
@@ -33266,7 +33274,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -56468,6 +56476,7 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
+        value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
         return value
     }
 }
@@ -57226,6 +57235,7 @@ extension ConnectClientTypes.SearchCriteria {
 
     static func write(value: ConnectClientTypes.SearchCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ActiveRegions"].writeList(value.activeRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AdditionalTimeRange"].write(value.additionalTimeRange, with: ConnectClientTypes.SearchContactsAdditionalTimeRange.write(value:to:))
         try writer["AgentHierarchyGroups"].write(value.agentHierarchyGroups, with: ConnectClientTypes.AgentHierarchyGroups.write(value:to:))
         try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
