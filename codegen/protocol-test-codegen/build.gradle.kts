@@ -111,7 +111,10 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                   }
                 },
                 {
-                    "name": "removeUnusedShapes"
+                  "name": "removeUnusedShapes"
+                },
+                {
+                  "name": "flattenAndRemoveMixins"
                 }
               ],
               "plugins": {

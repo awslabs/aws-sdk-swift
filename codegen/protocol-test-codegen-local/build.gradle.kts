@@ -59,6 +59,11 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
     val projections = tests.joinToString(",\n") {
         """
             "${it.module}": {
+                "transforms": [
+                  {
+                    "name": "flattenAndRemoveMixins"
+                  }
+                ],
                 "plugins": {
                     "swift-codegen": {
                       "service": "${it.service}",
