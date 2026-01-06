@@ -95,6 +95,25 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
+    /// The configuration object that allows encrypting local disks.
+    public struct DiskEncryptionConfiguration: Swift.Sendable {
+        /// Specifies the optional encryption context that will be used when encrypting the data. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The KMS key ARN to encrypt local disks.
+        public var encryptionKeyArn: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            encryptionKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
     /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public struct IdentityCenterConfiguration: Swift.Sendable {
         /// The ARN of the EMR Serverless created IAM Identity Center Application that provides trusted-identity propagation.
@@ -1528,6 +1547,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the application run was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The configuration object that allows encrypting local disks.
+        public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
         /// The IAM Identity Center configuration applied to enable trusted identity propagation.
         public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration?
         /// The image configuration applied to all worker types.
@@ -1576,6 +1597,7 @@ extension EMRServerlessClientTypes {
             autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
             autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
             createdAt: Foundation.Date? = nil,
+            diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
             identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration? = nil,
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
@@ -1601,6 +1623,7 @@ extension EMRServerlessClientTypes {
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
@@ -1629,14 +1652,18 @@ extension EMRServerlessClientTypes {
     public struct ConfigurationOverrides: Swift.Sendable {
         /// The override configurations for the application.
         public var applicationConfiguration: [EMRServerlessClientTypes.Configuration]?
+        /// The override configuration to encrypt local disks.
+        public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
         /// The override configurations for monitoring.
         public var monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
 
         public init(
             applicationConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
+            diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil
         ) {
             self.applicationConfiguration = applicationConfiguration
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
     }
@@ -1652,6 +1679,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to create. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The configuration object that allows encrypting local disks.
+    public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
     /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
@@ -1690,6 +1719,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
@@ -1710,6 +1740,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.diskEncryptionConfiguration = diskEncryptionConfiguration
         self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
@@ -1741,6 +1772,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to update. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The configuration object that allows encrypting local disks.
+    public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
     /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
     public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
@@ -1772,6 +1805,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
@@ -1790,6 +1824,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.diskEncryptionConfiguration = diskEncryptionConfiguration
         self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
@@ -2331,6 +2366,7 @@ extension CreateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2382,6 +2418,7 @@ extension UpdateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2919,6 +2956,7 @@ extension EMRServerlessClientTypes.Application {
         value.workerTypeSpecifications = try reader["workerTypeSpecifications"].readMapIfPresent(valueReadingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
         value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
         value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRServerlessClientTypes.SchedulerConfiguration.read(from:))
         value.identityCenterConfiguration = try reader["identityCenterConfiguration"].readIfPresent(with: EMRServerlessClientTypes.IdentityCenterConfiguration.read(from:))
@@ -2984,6 +3022,23 @@ extension EMRServerlessClientTypes.InteractiveConfiguration {
         var value = EMRServerlessClientTypes.InteractiveConfiguration()
         value.studioEnabled = try reader["studioEnabled"].readIfPresent()
         value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.DiskEncryptionConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.DiskEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.DiskEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.DiskEncryptionConfiguration()
+        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -3376,6 +3431,7 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
     static func write(value: EMRServerlessClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
     }
 
@@ -3384,6 +3440,7 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
         var value = EMRServerlessClientTypes.ConfigurationOverrides()
         value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
         return value
     }
 }
