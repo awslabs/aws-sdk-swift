@@ -52,7 +52,7 @@ extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
     }
 }
 
-public protocol EndpointResolver: Sendable {
+public protocol EndpointResolver {
     func resolve(params: EndpointParams) throws -> SmithyHTTPAPI.Endpoint
 }
 
@@ -66,7 +66,7 @@ extension DefaultEndpointResolver {
     }
 }
 
-extension DefaultEndpointResolver: EndpointResolver where Params == EndpointParams {}
+extension DefaultEndpointResolver: EndpointResolver {}
 
 typealias StaticEndpointResolver = ClientRuntime.StaticEndpointResolver<EndpointParams>
 

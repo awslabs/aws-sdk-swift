@@ -3114,6 +3114,8 @@ extension CostExplorerClientTypes {
         public var databaseEdition: Swift.String?
         /// The database engine that the recommended reservation supports.
         public var databaseEngine: Swift.String?
+        /// Determines whether the recommendation is for a reservation for RDS Custom.
+        public var deploymentModel: Swift.String?
         /// Determines whether the recommendation is for a reservation in a single Availability Zone or a reservation with a backup in a second Availability Zone.
         public var deploymentOption: Swift.String?
         /// The instance family of the recommended reservation.
@@ -3131,6 +3133,7 @@ extension CostExplorerClientTypes {
             currentGeneration: Swift.Bool = false,
             databaseEdition: Swift.String? = nil,
             databaseEngine: Swift.String? = nil,
+            deploymentModel: Swift.String? = nil,
             deploymentOption: Swift.String? = nil,
             family: Swift.String? = nil,
             instanceType: Swift.String? = nil,
@@ -3141,6 +3144,7 @@ extension CostExplorerClientTypes {
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
             self.databaseEngine = databaseEngine
+            self.deploymentModel = deploymentModel
             self.deploymentOption = deploymentOption
             self.family = family
             self.instanceType = instanceType
@@ -11277,6 +11281,7 @@ extension CostExplorerClientTypes.RDSInstanceDetails {
         value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
         value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        value.deploymentModel = try reader["DeploymentModel"].readIfPresent()
         return value
     }
 }
