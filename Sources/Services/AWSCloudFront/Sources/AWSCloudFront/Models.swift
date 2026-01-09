@@ -917,6 +917,29 @@ public struct AssociateAliasInput: Swift.Sendable {
     }
 }
 
+/// The entity limit has been exceeded.
+public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The entity was not found.
 public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5062,29 +5085,6 @@ public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "EntityAlreadyExists" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The entity limit has been exceeded.
-public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityLimitExceeded" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -22165,6 +22165,7 @@ enum AssociateDistributionTenantWebACLOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
@@ -22183,6 +22184,7 @@ enum AssociateDistributionWebACLOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
@@ -24982,6 +24984,7 @@ enum UpdateDistributionWithStagingConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
@@ -25418,6 +25421,19 @@ extension TooManyDistributionCNAMEs {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionCNAMEs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = EntityLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -26224,19 +26240,6 @@ extension EntityAlreadyExists {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = EntityAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = EntityLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
