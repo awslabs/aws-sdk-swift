@@ -453,6 +453,7 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
+    /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
@@ -526,6 +527,7 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
+    /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
@@ -11275,6 +11277,7 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `CNAMEAlreadyExists` : The CNAME specified is already defined for CloudFront.
+    /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntityNotFound` : The entity was not found.
     /// - `IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior` : The specified configuration for field-level encryption can't be associated with the specified cache behavior.
     /// - `IllegalUpdate` : The update contains modifications that are not allowed.

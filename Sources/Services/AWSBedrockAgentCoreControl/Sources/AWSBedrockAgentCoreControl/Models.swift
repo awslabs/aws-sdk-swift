@@ -6517,15 +6517,48 @@ public struct DeleteMemoryOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum MemoryView: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case withoutDecryption
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MemoryView] {
+            return [
+                .full,
+                .withoutDecryption
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "full"
+            case .withoutDecryption: return "without_decryption"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetMemoryInput: Swift.Sendable {
     /// The unique identifier of the memory to retrieve.
     /// This member is required.
     public var memoryId: Swift.String?
+    /// The level of detail to return for the memory.
+    public var view: BedrockAgentCoreControlClientTypes.MemoryView?
 
     public init(
-        memoryId: Swift.String? = nil
+        memoryId: Swift.String? = nil,
+        view: BedrockAgentCoreControlClientTypes.MemoryView? = nil
     ) {
         self.memoryId = memoryId
+        self.view = view
     }
 }
 
@@ -11089,6 +11122,18 @@ extension GetMemoryInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/details"
+    }
+}
+
+extension GetMemoryInput {
+
+    static func queryItemProvider(_ value: GetMemoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let view = value.view {
+            let viewQueryItem = Smithy.URIQueryItem(name: "view".urlPercentEncoding(), value: Swift.String(view.rawValue).urlPercentEncoding())
+            items.append(viewQueryItem)
+        }
+        return items
     }
 }
 
