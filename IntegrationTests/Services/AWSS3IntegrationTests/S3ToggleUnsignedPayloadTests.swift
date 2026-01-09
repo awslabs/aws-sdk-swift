@@ -46,13 +46,13 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         }
     }
 
-    class CheckUnsignedPayloadHeaderProvider: HttpInterceptorProvider {
+    class CheckUnsignedPayloadHeaderProvider: HttpInterceptorProvider, @unchecked Sendable {
         func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
             return CheckUnsignedPayloadHeader()
         }
     }
 
-    class CheckStreamingUnsignedPayloadHeaderProvider: HttpInterceptorProvider {
+    class CheckStreamingUnsignedPayloadHeaderProvider: HttpInterceptorProvider, @unchecked Sendable {
         func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
             return CheckStreamingUnsignedPayloadHeader()
         }
@@ -68,7 +68,7 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
+        s3Config.addHttpInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 
@@ -93,7 +93,7 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
+        s3Config.addHttpInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 

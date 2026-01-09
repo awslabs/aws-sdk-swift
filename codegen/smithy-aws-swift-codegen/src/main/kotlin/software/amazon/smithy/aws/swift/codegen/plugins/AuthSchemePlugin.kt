@@ -61,25 +61,15 @@ class AuthSchemePlugin(
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: \$N) async throws -> \$N {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
+                ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
-                    writer.openBlock("if (self.authSchemes != nil) {", "}") {
-                        writer.write("config.authSchemes = self.authSchemes")
-                    }
-                    writer.write("config.authSchemePreference = self.authSchemePreference")
-                    writer.openBlock("if (self.authSchemeResolver != nil) {", "}") {
-                        writer.write("config.authSchemeResolver = self.authSchemeResolver!")
-                    }
-                    writer.openBlock("if (self.awsCredentialIdentityResolver != nil) {", "}") {
-                        writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
-                    }
-                    writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
-                        writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
-                    }
-                }
+                writer.write("// Configurations are now value-type structs. While they have mutable properties,")
+                writer.write("// we can't effectively mutate through a protocol reference and return the changes.")
+                writer.write("// Auth schemes and resolver are set in the configuration's initializer instead.")
+                writer.write("return clientConfiguration")
             }
         }
         writer.write("")

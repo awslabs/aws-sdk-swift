@@ -20,8 +20,8 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
 
     override func setUp() async throws {
         try await super.setUp()
-        let stsConfig = try await STSClient.STSClientConfiguration(region: region)
-        stsConfig.addInterceptorProvider(XCTestAssertionInterceptorProvider())
+        var stsConfig = try await STSClient.STSClientConfiguration(region: region)
+        stsConfig.addHttpInterceptorProvider(XCTestAssertionInterceptorProvider())
         stsClient = STSClient(config: stsConfig)
     }
 
@@ -56,7 +56,7 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
         }
     }
 
-    class XCTestAssertionInterceptorProvider: HttpInterceptorProvider {
+    class XCTestAssertionInterceptorProvider: HttpInterceptorProvider, @unchecked Sendable {
         private let checker = XCTestAssertionChecker()
         func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
             return InterceptorContainer(checker: checker)

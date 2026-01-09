@@ -14,10 +14,10 @@ public class RegionPlugin: Plugin {
         self.region = region
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) {
-        if var config = clientConfiguration as? AWSRegionClientConfiguration {
-            config.region = self.region
-            config.signingRegion = self.region
-        }
+    public func configureClient(clientConfiguration: ClientConfiguration) async throws -> ClientConfiguration {
+        // Since configurations are now immutable structs, we can't mutate them.
+        // The region is already set in the configuration's initializer,
+        // so this plugin doesn't need to do anything.
+        return clientConfiguration
     }
 }

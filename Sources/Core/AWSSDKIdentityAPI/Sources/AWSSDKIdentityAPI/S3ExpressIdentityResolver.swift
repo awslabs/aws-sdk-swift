@@ -8,4 +8,4 @@
 import struct Smithy.Attributes
 import protocol SmithyIdentityAPI.IdentityResolver
 
-public protocol S3ExpressIdentityResolver: IdentityResolver where IdentityT == S3ExpressIdentity {}
+public protocol S3ExpressIdentityResolver: IdentityResolver, Sendable where IdentityT == S3ExpressIdentity {}
