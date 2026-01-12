@@ -22,6 +22,6 @@ public class DefaultAWSClientPlugin: Plugin {
             config.awsRetryMode,
             config.maxAttempts
         )
-        clientConfiguration = config
+        clientConfiguration = config as ClientConfiguration
     }
 }

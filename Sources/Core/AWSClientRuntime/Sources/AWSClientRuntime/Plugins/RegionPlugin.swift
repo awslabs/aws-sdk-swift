@@ -18,6 +18,8 @@ public class RegionPlugin: Plugin {
         guard var config = clientConfiguration as? any AWSRegionClientConfiguration else { return }
         config.region = self.region
         config.signingRegion = self.region
-        clientConfiguration = config
+        // Force cast is safe since config originated from clientConfiguration which conforms to ClientConfiguration
+        // swiftlint:disable:next force_cast
+        clientConfiguration = config as! ClientConfiguration
     }
 }
