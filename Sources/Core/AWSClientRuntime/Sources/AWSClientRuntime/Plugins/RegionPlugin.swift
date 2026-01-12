@@ -15,10 +15,9 @@ public class RegionPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientConfiguration) async throws {
-        if var config = clientConfiguration as? any AWSRegionClientConfiguration {
-            config.region = self.region
-            config.signingRegion = self.region
-            clientConfiguration = config as! ClientConfiguration
-        }
+        guard var config = clientConfiguration as? any AWSRegionClientConfiguration else { return }
+        config.region = self.region
+        config.signingRegion = self.region
+        clientConfiguration = config
     }
 }
