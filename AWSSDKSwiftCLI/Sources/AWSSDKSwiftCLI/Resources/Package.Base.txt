@@ -19,6 +19,8 @@ extension Target.Dependency {
     // Smithy modules
     static var ClientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
+    static var RPCv2CBOR: Self { .product(name: "RPCv2CBOR", package: "smithy-swift") }
+    static var SmithySerialization: Self { .product(name: "SmithySerialization", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
     static var SmithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
     static var SmithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }

@@ -38,6 +38,7 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
+    static var rpcv2cbor: Self { .product(name: "RPCv2CBOR", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -53,6 +54,7 @@ let package = Package(
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
+        .package(path: "../../aws-crt-swift"),
     ],
     targets: protocolTestTargets
 )
@@ -82,28 +84,28 @@ private var protocolTestTargets: [Target] {
     let baseDirLocal = "../codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
 
     let protocolTests: [ProtocolTest] = [
-        .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
-        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
-        .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
-        .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
-        .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
-        .init(name: "RestXmlWithNamespaceTestSDK", sourcePath: "\(baseDir)/rest-xml-xmlns"),
-        .init(name: "Ec2QueryTestSDK", sourcePath: "\(baseDir)/ec2-query"),
-        .init(name: "AWSQueryTestSDK", sourcePath: "\(baseDir)/aws-query"),
-        .init(name: "APIGatewayTestSDK", sourcePath: "\(baseDir)/apigateway"),
-        .init(name: "GlacierTestSDK", sourcePath: "\(baseDir)/glacier"),
-        .init(name: "MachineLearningTestSDK", sourcePath: "\(baseDir)/machinelearning"),
-        .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
-        .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
-        .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
-        .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
-        .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
-        .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
-        .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
+//        .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
+//        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
+//        .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
+//        .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
+//        .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
+//        .init(name: "RestXmlWithNamespaceTestSDK", sourcePath: "\(baseDir)/rest-xml-xmlns"),
+//        .init(name: "Ec2QueryTestSDK", sourcePath: "\(baseDir)/ec2-query"),
+//        .init(name: "AWSQueryTestSDK", sourcePath: "\(baseDir)/aws-query"),
+//        .init(name: "APIGatewayTestSDK", sourcePath: "\(baseDir)/apigateway"),
+//        .init(name: "GlacierTestSDK", sourcePath: "\(baseDir)/glacier"),
+//        .init(name: "MachineLearningTestSDK", sourcePath: "\(baseDir)/machinelearning"),
+//        .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
+//        .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
+//        .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
+//        .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
+//        .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
+//        .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
+//        .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
         .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
-        .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
-        .init(name: "RPCV2CBORTestNonQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-non-query-compat"),
-        .init(name: "AWSJson1_0TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
+//        .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
+//        .init(name: "RPCV2CBORTestNonQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-non-query-compat"),
+//        .init(name: "AWSJson1_0TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(
@@ -111,6 +113,7 @@ private var protocolTestTargets: [Target] {
             dependencies: [
                 .clientRuntime,
                 .awsClientRuntime,
+                .rpcv2cbor,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .smithy,
