@@ -33,7 +33,7 @@ class UnauthenticatedAPITests: XCTestCase {
 
         // CognitoIdentity client for calling unauthenticated API against an identity pool.
         var config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
-        config.addHttpInterceptorProvider(GetHeadersBeforeTransmitProvider())
+        config.addInterceptorProvider(GetHeadersBeforeTransmitProvider())
         cognitoIdentityUnauthenticatedCheckClient = CognitoIdentityClient(config: config)
 
         // Create identity pool & save its identity pool ID

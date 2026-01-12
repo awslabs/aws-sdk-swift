@@ -68,7 +68,7 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addHttpInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
+        s3Config.addInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 
@@ -93,7 +93,7 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addHttpInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
+        s3Config.addInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 

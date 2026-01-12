@@ -21,7 +21,7 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
         var stsConfig = try await STSClient.STSClientConfiguration(region: region)
-        stsConfig.addHttpInterceptorProvider(XCTestAssertionInterceptorProvider())
+        stsConfig.addInterceptorProvider(XCTestAssertionInterceptorProvider())
         stsClient = STSClient(config: stsConfig)
     }
 

@@ -115,7 +115,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
 
     func test_putGetObject_streamining_unsigned_chunked() async throws {
         var config = try await S3Client.S3ClientConfiguration(region: region)
-        config.addHttpInterceptorProvider(DisablePayloadSigningProvider())
+        config.addInterceptorProvider(DisablePayloadSigningProvider())
         let customizedClient = S3Client(config: config)
 
         let bufferedStream = BufferedStream(data: originalData, isClosed: true)
