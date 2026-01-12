@@ -53,8 +53,8 @@ object AWSClientRuntimeTypes {
         val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON", SwiftDeclaration.LET)
         val AWSDefaultClientConfiguration = runtimeSymbol("AWSDefaultClientConfiguration", SwiftDeclaration.PROTOCOL)
         val AWSRegionClientConfiguration = runtimeSymbol("AWSRegionClientConfiguration", SwiftDeclaration.PROTOCOL)
-        val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", null)
-        val DefaultAWSClientPlugin = runtimeSymbol("DefaultAWSClientPlugin", null)
+        val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", SwiftDeclaration.CLASS)
+        val DefaultAWSClientPlugin = runtimeSymbol("DefaultAWSClientPlugin", SwiftDeclaration.CLASS)
         val Route53TrimHostedZoneMiddleware = runtimeSymbol("Route53TrimHostedZoneMiddleware", SwiftDeclaration.STRUCT)
         val FlexibleChecksumsRequestMiddleware =
             runtimeSymbol("FlexibleChecksumsRequestMiddleware", SwiftDeclaration.STRUCT)

@@ -35,14 +35,11 @@ class EndpointPlugin(
                 writer.write("self.init(endpointResolver: try \$L())", EndpointTypes.DefaultEndpointResolver)
             }
             writer.write("")
-            writer.openBlock(
-                "public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {",
-                "}",
-            ) {
-                writer.write("// Configurations are now value-type structs. While they have mutable properties,")
-                writer.write("// we can't effectively mutate through a protocol reference and return the changes.")
-                writer.write("// The endpoint resolver is set in the configuration's initializer instead.")
-                writer.write("return clientConfiguration")
+            writer.openBlock("public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                    writer.write("config.endpointResolver = self.endpointResolver")
+                    writer.write("clientConfiguration = config")
+                }
             }
         }
         writer.write("")

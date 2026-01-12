@@ -14,10 +14,15 @@ public class DefaultAWSClientPlugin: Plugin {
         self.clientName = clientName
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) async throws -> ClientConfiguration {
-        // Configurations are now value-type structs. While they have mutable properties,
-        // we can't effectively mutate through a protocol reference and return the changes.
-        // Defaults are set in the configuration's initializer instead.
-        return clientConfiguration
+    public func configureClient(clientConfiguration: inout ClientConfiguration) async throws {
+        if var config = clientConfiguration as? (DefaultClientConfiguration
+            & AWSDefaultClientConfiguration
+            & AWSRegionClientConfiguration) {
+            config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
+                config.awsRetryMode,
+                config.maxAttempts
+            )
+            clientConfiguration = config as! ClientConfiguration
+        }
     }
 }

@@ -1,12 +1,18 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
+import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.traits.HttpBearerAuthTrait
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
+import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
 class DefaultAWSAuthSchemePlugin(
     private val serviceConfig: ServiceConfig,
@@ -29,15 +35,40 @@ class DefaultAWSAuthSchemePlugin(
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) async throws -> \$N {",
+                "public func configureClient(clientConfiguration: inout \$N) async throws {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
-                ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.write("// Configurations are now value-type structs. While they have mutable properties,")
-                writer.write("// we can't effectively mutate through a protocol reference and return the changes.")
-                writer.write("// Defaults are set in the configuration's initializer instead.")
-                writer.write("return clientConfiguration")
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                    writer.write(
+                        "config.authSchemeResolver = \$L",
+                        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+                    )
+                    writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
+                    if (ctx.settings.internalClient) {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
+                        )
+                    } else {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                        )
+                    }
+                    if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
+                        writer.write(
+                            "config.bearerTokenIdentityResolver = \$N()",
+                            AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
+                        )
+                    } else {
+                        writer.write(
+                            "config.bearerTokenIdentityResolver = \$N()",
+                            SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
+                        )
+                    }
+                    writer.write("clientConfiguration = config")
+                }
             }
         }
         writer.write("")

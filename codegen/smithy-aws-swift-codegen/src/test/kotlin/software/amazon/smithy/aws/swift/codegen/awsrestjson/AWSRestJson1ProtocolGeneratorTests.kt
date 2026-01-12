@@ -82,7 +82,7 @@ public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
 
 extension ExampleClient {
 
-    public struct ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Sendable {
+    public struct ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -100,14 +100,14 @@ extension ExampleClient {
         public var clientLogMode: ClientRuntime.ClientLogMode
         public var endpoint: Swift.String?
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
+        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
         public var logger: Smithy.LogAgent
 
         public init(
@@ -128,14 +128,14 @@ extension ExampleClient {
             clientLogMode: ClientRuntime.ClientLogMode? = nil,
             endpoint: Swift.String? = nil,
             idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
-            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
             authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
-            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil,
-            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
@@ -154,14 +154,14 @@ extension ExampleClient {
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
-            self.interceptorProviders = interceptorProviders ?? []
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultExampleAuthSchemeResolver()
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.interceptorProviders = interceptorProviders ?? []
+            self.httpInterceptorProviders = httpInterceptorProviders ?? []
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ExampleClient.clientName)
         }
 
@@ -183,14 +183,14 @@ extension ExampleClient {
             clientLogMode: ClientRuntime.ClientLogMode? = nil,
             endpoint: Swift.String? = nil,
             idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
-            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
             authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
-            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil,
-            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
@@ -209,14 +209,14 @@ extension ExampleClient {
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
-            self.interceptorProviders = interceptorProviders ?? []
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultExampleAuthSchemeResolver()
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.interceptorProviders = interceptorProviders ?? []
+            self.httpInterceptorProviders = httpInterceptorProviders ?? []
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ExampleClient.clientName)
         }
 
@@ -239,14 +239,14 @@ extension ExampleClient {
                 clientLogMode: nil,
                 endpoint: nil,
                 idempotencyTokenGenerator: nil,
-                interceptorProviders: nil,
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
                 authSchemePreference: nil,
                 authSchemeResolver: nil,
-                httpInterceptorProviders: nil,
-                bearerTokenIdentityResolver: nil
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
@@ -269,14 +269,14 @@ extension ExampleClient {
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                interceptorProviders: [],
                 httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference: nil,
                 authSchemeResolver: DefaultExampleAuthSchemeResolver(),
-                httpInterceptorProviders: [],
-                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -288,7 +288,7 @@ extension ExampleClient {
             self.interceptorProviders.append(provider)
         }
 
-        public mutating func addHttpInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
             self.httpInterceptorProviders.append(provider)
         }
 

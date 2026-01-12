@@ -298,7 +298,7 @@ extension ExampleClient {
             self.interceptorProviders.append(provider)
         }
 
-        public mutating func addHttpInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
             self.httpInterceptorProviders.append(provider)
         }
 

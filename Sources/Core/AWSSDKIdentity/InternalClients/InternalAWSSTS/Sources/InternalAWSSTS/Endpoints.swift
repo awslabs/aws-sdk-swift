@@ -57,7 +57,7 @@ extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
     }
 }
 
-package protocol EndpointResolver: Sendable {
+package protocol EndpointResolver: Swift.Sendable {
     func resolve(params: EndpointParams) throws -> SmithyHTTPAPI.Endpoint
 }
 

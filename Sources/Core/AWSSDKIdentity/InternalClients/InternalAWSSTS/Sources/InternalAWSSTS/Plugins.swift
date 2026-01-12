@@ -12,6 +12,9 @@ import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+import struct AWSSDKHTTPAuth.SigV4AuthScheme
+@_spi(StaticAWSCredentialIdentityResolver) import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class STSClientEndpointPlugin: Plugin {
@@ -25,11 +28,11 @@ package class STSClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Configurations are now value-type structs. While they have mutable properties,
-        // we can't effectively mutate through a protocol reference and return the changes.
-        // The endpoint resolver is set in the configuration's initializer instead.
-        return clientConfiguration
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? STSClient.STSClientConfiguration {
+            config.endpointResolver = self.endpointResolver
+            clientConfiguration = config
+        }
     }
 }
 
@@ -37,11 +40,14 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Configurations are now value-type structs. While they have mutable properties,
-        // we can't effectively mutate through a protocol reference and return the changes.
-        // Defaults are set in the configuration's initializer instead.
-        return clientConfiguration
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? STSClient.STSClientConfiguration {
+            config.authSchemeResolver = DefaultSTSAuthSchemeResolver()
+            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
+            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            clientConfiguration = config
+        }
     }
 }
 
@@ -60,10 +66,22 @@ package class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) async throws -> ClientRuntime.ClientConfiguration {
-        // Configurations are now value-type structs. While they have mutable properties,
-        // we can't effectively mutate through a protocol reference and return the changes.
-        // Auth schemes and resolver are set in the configuration's initializer instead.
-        return clientConfiguration
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? STSClient.STSClientConfiguration {
+            if (self.authSchemes != nil) {
+                config.authSchemes = self.authSchemes
+            }
+            config.authSchemePreference = self.authSchemePreference
+            if (self.authSchemeResolver != nil) {
+                config.authSchemeResolver = self.authSchemeResolver!
+            }
+            if (self.awsCredentialIdentityResolver != nil) {
+                config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!
+            }
+            if (self.bearerTokenIdentityResolver != nil) {
+                config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
+            }
+            clientConfiguration = config
+        }
     }
 }
