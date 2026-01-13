@@ -790,6 +790,21 @@ extension DataZoneClientTypes.SubscribedGroup: Swift.CustomDebugStringConvertibl
 
 extension DataZoneClientTypes {
 
+    /// The IAM principal that subscribes to the asset.
+    public struct SubscribedIamPrincipal: Swift.Sendable {
+        /// The ARN of the subscribed IAM principal.
+        public var principalArn: Swift.String?
+
+        public init(
+            principalArn: Swift.String? = nil
+        ) {
+            self.principalArn = principalArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The project that has the subscription grant.
     public struct SubscribedProject: Swift.Sendable {
         /// The identifier of the project that has the subscription grant.
@@ -900,6 +915,8 @@ extension DataZoneClientTypes {
         case user(DataZoneClientTypes.SubscribedUser)
         /// The subscribed group.
         case group(DataZoneClientTypes.SubscribedGroup)
+        /// The subscribed IAM principal.
+        case iam(DataZoneClientTypes.SubscribedIamPrincipal)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10762,6 +10779,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The details of the subscribed IAM principal.
+    public struct SubscribedIamPrincipalInput: Swift.Sendable {
+        /// The ARN of the subscribed IAM principal.
+        public var identifier: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil
+        ) {
+            self.identifier = identifier
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The project that is to be given a subscription grant.
     public struct SubscribedProjectInput: Swift.Sendable {
         /// The identifier of the project that is to be given a subscription grant.
@@ -10800,6 +10832,8 @@ extension DataZoneClientTypes {
         case user(DataZoneClientTypes.SubscribedUserInput)
         /// The subscribed group.
         case group(DataZoneClientTypes.SubscribedGroupInput)
+        /// The subscribed IAM principal.
+        case iam(DataZoneClientTypes.SubscribedIamPrincipalInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10931,6 +10965,35 @@ extension CreateSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
 
 extension DataZoneClientTypes {
 
+    public enum SubscriptionGrantCreationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionGrantCreationMode] {
+            return [
+                .automatic,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The details of the subscription target configuration.
     public struct SubscriptionTargetForm: Swift.Sendable {
         /// The content of the subscription target configuration.
@@ -10973,6 +11036,8 @@ public struct CreateSubscriptionTargetInput: Swift.Sendable {
     public var name: Swift.String?
     /// The provider of the subscription target.
     public var provider: Swift.String?
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+    public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
     /// The configuration of the subscription target.
     /// This member is required.
     public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
@@ -10989,6 +11054,7 @@ public struct CreateSubscriptionTargetInput: Swift.Sendable {
         manageAccessRole: Swift.String? = nil,
         name: Swift.String? = nil,
         provider: Swift.String? = nil,
+        subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
         type: Swift.String? = nil
     ) {
@@ -11000,6 +11066,7 @@ public struct CreateSubscriptionTargetInput: Swift.Sendable {
         self.manageAccessRole = manageAccessRole
         self.name = name
         self.provider = provider
+        self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
         self.subscriptionTargetConfig = subscriptionTargetConfig
         self.type = type
     }
@@ -11007,7 +11074,7 @@ public struct CreateSubscriptionTargetInput: Swift.Sendable {
 
 extension CreateSubscriptionTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSubscriptionTargetInput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+        "CreateSubscriptionTargetInput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSubscriptionTargetOutput: Swift.Sendable {
@@ -11043,6 +11110,8 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
     /// The provider of the subscription target.
     /// This member is required.
     public var provider: Swift.String?
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+    public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
     /// The configuration of the subscription target.
     /// This member is required.
     public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
@@ -11066,6 +11135,7 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectId: Swift.String? = nil,
         provider: Swift.String? = nil,
+        subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -11082,6 +11152,7 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
         self.name = name
         self.projectId = projectId
         self.provider = provider
+        self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
         self.subscriptionTargetConfig = subscriptionTargetConfig
         self.type = type
         self.updatedAt = updatedAt
@@ -11091,7 +11162,7 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
 
 extension CreateSubscriptionTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
+        "CreateSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -15927,6 +15998,8 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
     /// The provider of the subscription target.
     /// This member is required.
     public var provider: Swift.String?
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+    public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
     /// The configuration of teh subscription target.
     /// This member is required.
     public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
@@ -15950,6 +16023,7 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectId: Swift.String? = nil,
         provider: Swift.String? = nil,
+        subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -15966,6 +16040,7 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
         self.name = name
         self.projectId = projectId
         self.provider = provider
+        self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
         self.subscriptionTargetConfig = subscriptionTargetConfig
         self.type = type
         self.updatedAt = updatedAt
@@ -15975,7 +16050,7 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
 
 extension GetSubscriptionTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
+        "GetSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTimeSeriesDataPointInput: Swift.Sendable {
@@ -18788,6 +18863,8 @@ public struct ListSubscriptionGrantsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The ID of the owning group.
     public var owningGroupId: Swift.String?
+    /// The ARN of the owning IAM principal.
+    public var owningIamPrincipalArn: Swift.String?
     /// The ID of the owning project of the subscription grants.
     public var owningProjectId: Swift.String?
     /// The ID of the owning user.
@@ -18810,6 +18887,7 @@ public struct ListSubscriptionGrantsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owningGroupId: Swift.String? = nil,
+        owningIamPrincipalArn: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         owningUserId: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortKey? = nil,
@@ -18823,6 +18901,7 @@ public struct ListSubscriptionGrantsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.owningGroupId = owningGroupId
+        self.owningIamPrincipalArn = owningIamPrincipalArn
         self.owningProjectId = owningProjectId
         self.owningUserId = owningUserId
         self.sortBy = sortBy
@@ -18929,6 +19008,8 @@ public struct ListSubscriptionRequestsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The ID of the owning group.
     public var owningGroupId: Swift.String?
+    /// The ARN of the owning IAM principal.
+    public var owningIamPrincipalArn: Swift.String?
     /// The identifier of the project for the subscription requests.
     public var owningProjectId: Swift.String?
     /// The ID of the owning user.
@@ -18949,6 +19030,7 @@ public struct ListSubscriptionRequestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owningGroupId: Swift.String? = nil,
+        owningIamPrincipalArn: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         owningUserId: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortKey? = nil,
@@ -18961,6 +19043,7 @@ public struct ListSubscriptionRequestsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.owningGroupId = owningGroupId
+        self.owningIamPrincipalArn = owningIamPrincipalArn
         self.owningProjectId = owningProjectId
         self.owningUserId = owningUserId
         self.sortBy = sortBy
@@ -19109,6 +19192,8 @@ public struct ListSubscriptionsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The ID of the owning group.
     public var owningGroupId: Swift.String?
+    /// The ARN of the owning IAM principal.
+    public var owningIamPrincipalArn: Swift.String?
     /// The identifier of the owning project.
     public var owningProjectId: Swift.String?
     /// The ID of the owning user.
@@ -19131,6 +19216,7 @@ public struct ListSubscriptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owningGroupId: Swift.String? = nil,
+        owningIamPrincipalArn: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         owningUserId: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortKey? = nil,
@@ -19144,6 +19230,7 @@ public struct ListSubscriptionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.owningGroupId = owningGroupId
+        self.owningIamPrincipalArn = owningIamPrincipalArn
         self.owningProjectId = owningProjectId
         self.owningUserId = owningUserId
         self.sortBy = sortBy
@@ -19302,6 +19389,8 @@ extension DataZoneClientTypes {
         /// The provider of the subscription target.
         /// This member is required.
         public var provider: Swift.String?
+        /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
         /// The configuration of the subscription target.
         /// This member is required.
         public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
@@ -19325,6 +19414,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             projectId: Swift.String? = nil,
             provider: Swift.String? = nil,
+            subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
             subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -19341,6 +19431,7 @@ extension DataZoneClientTypes {
             self.name = name
             self.projectId = projectId
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
             self.updatedAt = updatedAt
@@ -19351,7 +19442,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.SubscriptionTargetSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SubscriptionTargetSummary(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
+        "SubscriptionTargetSummary(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListSubscriptionTargetsOutput: Swift.Sendable {
@@ -22757,6 +22848,8 @@ public struct UpdateSubscriptionTargetInput: Swift.Sendable {
     public var name: Swift.String?
     /// The provider to be updated as part of the UpdateSubscriptionTarget action.
     public var provider: Swift.String?
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+    public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
     /// The configuration to be updated as part of the UpdateSubscriptionTarget action.
     public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
 
@@ -22769,6 +22862,7 @@ public struct UpdateSubscriptionTargetInput: Swift.Sendable {
         manageAccessRole: Swift.String? = nil,
         name: Swift.String? = nil,
         provider: Swift.String? = nil,
+        subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil
     ) {
         self.applicableAssetTypes = applicableAssetTypes
@@ -22779,13 +22873,14 @@ public struct UpdateSubscriptionTargetInput: Swift.Sendable {
         self.manageAccessRole = manageAccessRole
         self.name = name
         self.provider = provider
+        self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
         self.subscriptionTargetConfig = subscriptionTargetConfig
     }
 }
 
 extension UpdateSubscriptionTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSubscriptionTargetInput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), identifier: \(Swift.String(describing: identifier)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), name: \"CONTENT_REDACTED\")"}
+        "UpdateSubscriptionTargetInput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), identifier: \(Swift.String(describing: identifier)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
@@ -22821,6 +22916,8 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
     /// The provider to be updated as part of the UpdateSubscriptionTarget action.
     /// This member is required.
     public var provider: Swift.String?
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+    public var subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode?
     /// The configuration to be updated as part of the UpdateSubscriptionTarget action.
     /// This member is required.
     public var subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]?
@@ -22844,6 +22941,7 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectId: Swift.String? = nil,
         provider: Swift.String? = nil,
+        subscriptionGrantCreationMode: DataZoneClientTypes.SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -22860,6 +22958,7 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
         self.name = name
         self.projectId = projectId
         self.provider = provider
+        self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
         self.subscriptionTargetConfig = subscriptionTargetConfig
         self.type = type
         self.updatedAt = updatedAt
@@ -22869,7 +22968,7 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
 
 extension UpdateSubscriptionTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
+        "UpdateSubscriptionTargetOutput(applicableAssetTypes: \(Swift.String(describing: applicableAssetTypes)), authorizedPrincipals: \(Swift.String(describing: authorizedPrincipals)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), manageAccessRole: \(Swift.String(describing: manageAccessRole)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), subscriptionGrantCreationMode: \(Swift.String(describing: subscriptionGrantCreationMode)), subscriptionTargetConfig: \(Swift.String(describing: subscriptionTargetConfig)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserProfileInput: Swift.Sendable {
@@ -25967,6 +26066,14 @@ extension ListSubscriptionGrantsInput {
             let owningGroupIdQueryItem = Smithy.URIQueryItem(name: "owningGroupId".urlPercentEncoding(), value: Swift.String(owningGroupId).urlPercentEncoding())
             items.append(owningGroupIdQueryItem)
         }
+        if let owningProjectId = value.owningProjectId {
+            let owningProjectIdQueryItem = Smithy.URIQueryItem(name: "owningProjectId".urlPercentEncoding(), value: Swift.String(owningProjectId).urlPercentEncoding())
+            items.append(owningProjectIdQueryItem)
+        }
+        if let owningUserId = value.owningUserId {
+            let owningUserIdQueryItem = Smithy.URIQueryItem(name: "owningUserId".urlPercentEncoding(), value: Swift.String(owningUserId).urlPercentEncoding())
+            items.append(owningUserIdQueryItem)
+        }
         if let environmentId = value.environmentId {
             let environmentIdQueryItem = Smithy.URIQueryItem(name: "environmentId".urlPercentEncoding(), value: Swift.String(environmentId).urlPercentEncoding())
             items.append(environmentIdQueryItem)
@@ -25991,21 +26098,17 @@ extension ListSubscriptionGrantsInput {
             let subscriptionTargetIdQueryItem = Smithy.URIQueryItem(name: "subscriptionTargetId".urlPercentEncoding(), value: Swift.String(subscriptionTargetId).urlPercentEncoding())
             items.append(subscriptionTargetIdQueryItem)
         }
-        if let owningProjectId = value.owningProjectId {
-            let owningProjectIdQueryItem = Smithy.URIQueryItem(name: "owningProjectId".urlPercentEncoding(), value: Swift.String(owningProjectId).urlPercentEncoding())
-            items.append(owningProjectIdQueryItem)
-        }
         if let sortBy = value.sortBy {
             let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
-        if let owningUserId = value.owningUserId {
-            let owningUserIdQueryItem = Smithy.URIQueryItem(name: "owningUserId".urlPercentEncoding(), value: Swift.String(owningUserId).urlPercentEncoding())
-            items.append(owningUserIdQueryItem)
-        }
         if let subscriptionId = value.subscriptionId {
             let subscriptionIdQueryItem = Smithy.URIQueryItem(name: "subscriptionId".urlPercentEncoding(), value: Swift.String(subscriptionId).urlPercentEncoding())
             items.append(subscriptionIdQueryItem)
+        }
+        if let owningIamPrincipalArn = value.owningIamPrincipalArn {
+            let owningIamPrincipalArnQueryItem = Smithy.URIQueryItem(name: "owningIamPrincipalArn".urlPercentEncoding(), value: Swift.String(owningIamPrincipalArn).urlPercentEncoding())
+            items.append(owningIamPrincipalArnQueryItem)
         }
         return items
     }
@@ -26065,6 +26168,10 @@ extension ListSubscriptionRequestsInput {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
+        if let owningIamPrincipalArn = value.owningIamPrincipalArn {
+            let owningIamPrincipalArnQueryItem = Smithy.URIQueryItem(name: "owningIamPrincipalArn".urlPercentEncoding(), value: Swift.String(owningIamPrincipalArn).urlPercentEncoding())
+            items.append(owningIamPrincipalArnQueryItem)
+        }
         return items
     }
 }
@@ -26091,6 +26198,18 @@ extension ListSubscriptionsInput {
             let approverProjectIdQueryItem = Smithy.URIQueryItem(name: "approverProjectId".urlPercentEncoding(), value: Swift.String(approverProjectId).urlPercentEncoding())
             items.append(approverProjectIdQueryItem)
         }
+        if let owningProjectId = value.owningProjectId {
+            let owningProjectIdQueryItem = Smithy.URIQueryItem(name: "owningProjectId".urlPercentEncoding(), value: Swift.String(owningProjectId).urlPercentEncoding())
+            items.append(owningProjectIdQueryItem)
+        }
+        if let owningUserId = value.owningUserId {
+            let owningUserIdQueryItem = Smithy.URIQueryItem(name: "owningUserId".urlPercentEncoding(), value: Swift.String(owningUserId).urlPercentEncoding())
+            items.append(owningUserIdQueryItem)
+        }
+        if let subscriptionRequestIdentifier = value.subscriptionRequestIdentifier {
+            let subscriptionRequestIdentifierQueryItem = Smithy.URIQueryItem(name: "subscriptionRequestIdentifier".urlPercentEncoding(), value: Swift.String(subscriptionRequestIdentifier).urlPercentEncoding())
+            items.append(subscriptionRequestIdentifierQueryItem)
+        }
         if let subscribedListingId = value.subscribedListingId {
             let subscribedListingIdQueryItem = Smithy.URIQueryItem(name: "subscribedListingId".urlPercentEncoding(), value: Swift.String(subscribedListingId).urlPercentEncoding())
             items.append(subscribedListingIdQueryItem)
@@ -26107,25 +26226,17 @@ extension ListSubscriptionsInput {
             let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
-        if let owningProjectId = value.owningProjectId {
-            let owningProjectIdQueryItem = Smithy.URIQueryItem(name: "owningProjectId".urlPercentEncoding(), value: Swift.String(owningProjectId).urlPercentEncoding())
-            items.append(owningProjectIdQueryItem)
-        }
         if let sortBy = value.sortBy {
             let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
-        if let owningUserId = value.owningUserId {
-            let owningUserIdQueryItem = Smithy.URIQueryItem(name: "owningUserId".urlPercentEncoding(), value: Swift.String(owningUserId).urlPercentEncoding())
-            items.append(owningUserIdQueryItem)
-        }
-        if let subscriptionRequestIdentifier = value.subscriptionRequestIdentifier {
-            let subscriptionRequestIdentifierQueryItem = Smithy.URIQueryItem(name: "subscriptionRequestIdentifier".urlPercentEncoding(), value: Swift.String(subscriptionRequestIdentifier).urlPercentEncoding())
-            items.append(subscriptionRequestIdentifierQueryItem)
-        }
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
+        }
+        if let owningIamPrincipalArn = value.owningIamPrincipalArn {
+            let owningIamPrincipalArnQueryItem = Smithy.URIQueryItem(name: "owningIamPrincipalArn".urlPercentEncoding(), value: Swift.String(owningIamPrincipalArn).urlPercentEncoding())
+            items.append(owningIamPrincipalArnQueryItem)
         }
         return items
     }
@@ -27178,6 +27289,7 @@ extension CreateSubscriptionTargetInput {
         try writer["manageAccessRole"].write(value.manageAccessRole)
         try writer["name"].write(value.name)
         try writer["provider"].write(value.provider)
+        try writer["subscriptionGrantCreationMode"].write(value.subscriptionGrantCreationMode)
         try writer["subscriptionTargetConfig"].writeList(value.subscriptionTargetConfig, memberWritingClosure: DataZoneClientTypes.SubscriptionTargetForm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
     }
@@ -27615,6 +27727,7 @@ extension UpdateSubscriptionTargetInput {
         try writer["manageAccessRole"].write(value.manageAccessRole)
         try writer["name"].write(value.name)
         try writer["provider"].write(value.provider)
+        try writer["subscriptionGrantCreationMode"].write(value.subscriptionGrantCreationMode)
         try writer["subscriptionTargetConfig"].writeList(value.subscriptionTargetConfig, memberWritingClosure: DataZoneClientTypes.SubscriptionTargetForm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -28356,6 +28469,7 @@ extension CreateSubscriptionTargetOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionGrantCreationMode = try reader["subscriptionGrantCreationMode"].readIfPresent()
         value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -29413,6 +29527,7 @@ extension GetSubscriptionTargetOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionGrantCreationMode = try reader["subscriptionGrantCreationMode"].readIfPresent()
         value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -30572,6 +30687,7 @@ extension UpdateSubscriptionTargetOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionGrantCreationMode = try reader["subscriptionGrantCreationMode"].readIfPresent()
         value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -34118,9 +34234,21 @@ extension DataZoneClientTypes.SubscribedPrincipal {
                 return .user(try reader["user"].read(with: DataZoneClientTypes.SubscribedUser.read(from:)))
             case "group":
                 return .group(try reader["group"].read(with: DataZoneClientTypes.SubscribedGroup.read(from:)))
+            case "iam":
+                return .iam(try reader["iam"].read(with: DataZoneClientTypes.SubscribedIamPrincipal.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.SubscribedIamPrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedIamPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedIamPrincipal()
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
     }
 }
 
@@ -37815,6 +37943,7 @@ extension DataZoneClientTypes.SubscriptionTargetSummary {
         value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionGrantCreationMode = try reader["subscriptionGrantCreationMode"].readIfPresent()
         return value
     }
 }
@@ -38613,6 +38742,8 @@ extension DataZoneClientTypes.SubscribedPrincipalInput {
         switch value {
             case let .group(group):
                 try writer["group"].write(group, with: DataZoneClientTypes.SubscribedGroupInput.write(value:to:))
+            case let .iam(iam):
+                try writer["iam"].write(iam, with: DataZoneClientTypes.SubscribedIamPrincipalInput.write(value:to:))
             case let .project(project):
                 try writer["project"].write(project, with: DataZoneClientTypes.SubscribedProjectInput.write(value:to:))
             case let .user(user):
@@ -38620,6 +38751,14 @@ extension DataZoneClientTypes.SubscribedPrincipalInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.SubscribedIamPrincipalInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedIamPrincipalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
     }
 }
 
