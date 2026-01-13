@@ -113,6 +113,7 @@ class PresignerGenerator : SwiftIntegration {
                     MiddlewareExecutionGenerator(
                         protocolGeneratorContext,
                         writer,
+                        protocolGenerator.configuratorSymbol,
                         httpBindingResolver,
                         protocolGenerator.customizations,
                         operationMiddleware,

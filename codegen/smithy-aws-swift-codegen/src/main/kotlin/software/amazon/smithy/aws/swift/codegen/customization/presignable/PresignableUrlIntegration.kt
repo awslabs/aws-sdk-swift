@@ -152,6 +152,7 @@ class PresignableUrlIntegration(
                     MiddlewareExecutionGenerator(
                         protocolGeneratorContext,
                         writer,
+                        protocolGenerator.configuratorSymbol,
                         httpBindingResolver,
                         protocolGenerator.customizations,
                         operationMiddleware,

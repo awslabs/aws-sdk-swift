@@ -94,7 +94,7 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -156,7 +156,7 @@ package struct InternalServerException: ClientRuntime.ModeledError, AWSClientRun
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -199,7 +199,7 @@ package struct TooManyRequestsError: ClientRuntime.ModeledError, AWSClientRuntim
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -229,7 +229,7 @@ package struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(

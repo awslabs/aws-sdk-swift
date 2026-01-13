@@ -59,7 +59,7 @@ package struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRunti
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -82,7 +82,7 @@ package struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWS
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -105,7 +105,7 @@ package struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSCli
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -128,7 +128,7 @@ package struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRun
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -323,7 +323,7 @@ package struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSCl
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -346,7 +346,7 @@ package struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientR
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
@@ -369,7 +369,7 @@ package struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSCli
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
+    public var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
