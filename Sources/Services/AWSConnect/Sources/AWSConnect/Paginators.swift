@@ -267,6 +267,38 @@ extension PaginatorSequence where OperationStackInput == ListBotsInput, Operatio
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListChildHoursOfOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChildHoursOfOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChildHoursOfOperationsOutput`
+    public func listChildHoursOfOperationsPaginated(input: ListChildHoursOfOperationsInput) -> ClientRuntime.PaginatorSequence<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChildHoursOfOperations(input:))
+    }
+}
+
+extension ListChildHoursOfOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListChildHoursOfOperationsInput {
+        return ListChildHoursOfOperationsInput(
+            hoursOfOperationId: self.hoursOfOperationId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListChildHoursOfOperationsInput, OperationStackOutput == ListChildHoursOfOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listChildHoursOfOperationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.HoursOfOperationsIdentifier]`
+    /// - Returns: `[ConnectClientTypes.HoursOfOperationsIdentifier]`
+    public func childHoursOfOperationsSummaryList() async throws -> [ConnectClientTypes.HoursOfOperationsIdentifier] {
+        return try await self.asyncCompactMap { item in item.childHoursOfOperationsSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListContactEvaluationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

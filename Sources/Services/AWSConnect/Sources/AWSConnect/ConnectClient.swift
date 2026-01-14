@@ -1017,6 +1017,80 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide [ here ](https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateHoursOfOperations(input: AssociateHoursOfOperationsInput) async throws -> AssociateHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(AssociateHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateHoursOfOperationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateHoursOfOperationsOutput>(AssociateHoursOfOperationsOutput.httpOutput(from:), AssociateHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateHoursOfOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
@@ -3487,6 +3561,7 @@ extension ConnectClient {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutput {
         let context = Smithy.ContextBuilder()
@@ -10294,6 +10369,79 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide [ here ](https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateHoursOfOperations(input: DisassociateHoursOfOperationsInput) async throws -> DisassociateHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(DisassociateHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateHoursOfOperationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateHoursOfOperationsOutput>(DisassociateHoursOfOperationsOutput.httpOutput(from:), DisassociateHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateHoursOfOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
@@ -12822,6 +12970,76 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBots")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListChildHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Provides information about the child hours of operations for the specified parent hours of operation. For more information about child hours of operations, see [Link overrides from different hours of operation](https://docs.aws.amazon.com/connect/latest/adminguide/) in the Administrator Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListChildHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListChildHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listChildHoursOfOperations(input: ListChildHoursOfOperationsInput) async throws -> ListChildHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listChildHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsOutput.httpOutput(from:), ListChildHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListChildHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListChildHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChildHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListChildHoursOfOperations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

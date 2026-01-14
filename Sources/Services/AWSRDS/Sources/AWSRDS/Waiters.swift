@@ -91,7 +91,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBClusterAvailable event on the describeDBClusters operation.
@@ -176,7 +176,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBClusterDeleted event on the describeDBClusters operation.
@@ -270,7 +270,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBClusterSnapshotAvailable event on the describeDBClusterSnapshots operation.
@@ -355,7 +355,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBClusterSnapshotDeleted event on the describeDBClusterSnapshots operation.
@@ -449,7 +449,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBInstanceAvailable event on the describeDBInstances operation.
@@ -534,7 +534,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBInstanceDeleted event on the describeDBInstances operation.
@@ -628,7 +628,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBSnapshotAvailable event on the describeDBSnapshots operation.
@@ -713,7 +713,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the DBSnapshotDeleted event on the describeDBSnapshots operation.
@@ -783,7 +783,7 @@ extension RDSClient {
                 return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the TenantDatabaseAvailable event on the describeTenantDatabases operation.
@@ -820,7 +820,7 @@ extension RDSClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "DBInstanceNotFoundFault"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the TenantDatabaseDeleted event on the describeTenantDatabases operation.

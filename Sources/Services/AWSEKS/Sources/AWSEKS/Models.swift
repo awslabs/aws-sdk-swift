@@ -650,9 +650,11 @@ extension EKSClientTypes {
         case bottlerocketArm64
         case bottlerocketArm64Fips
         case bottlerocketArm64Nvidia
+        case bottlerocketArm64NvidiaFips
         case bottlerocketX8664
         case bottlerocketX8664Fips
         case bottlerocketX8664Nvidia
+        case bottlerocketX8664NvidiaFips
         case custom
         case windowsCore2019X8664
         case windowsCore2022X8664
@@ -673,9 +675,11 @@ extension EKSClientTypes {
                 .bottlerocketArm64,
                 .bottlerocketArm64Fips,
                 .bottlerocketArm64Nvidia,
+                .bottlerocketArm64NvidiaFips,
                 .bottlerocketX8664,
                 .bottlerocketX8664Fips,
                 .bottlerocketX8664Nvidia,
+                .bottlerocketX8664NvidiaFips,
                 .custom,
                 .windowsCore2019X8664,
                 .windowsCore2022X8664,
@@ -702,9 +706,11 @@ extension EKSClientTypes {
             case .bottlerocketArm64: return "BOTTLEROCKET_ARM_64"
             case .bottlerocketArm64Fips: return "BOTTLEROCKET_ARM_64_FIPS"
             case .bottlerocketArm64Nvidia: return "BOTTLEROCKET_ARM_64_NVIDIA"
+            case .bottlerocketArm64NvidiaFips: return "BOTTLEROCKET_ARM_64_NVIDIA_FIPS"
             case .bottlerocketX8664: return "BOTTLEROCKET_x86_64"
             case .bottlerocketX8664Fips: return "BOTTLEROCKET_x86_64_FIPS"
             case .bottlerocketX8664Nvidia: return "BOTTLEROCKET_x86_64_NVIDIA"
+            case .bottlerocketX8664NvidiaFips: return "BOTTLEROCKET_x86_64_NVIDIA_FIPS"
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
             case .windowsCore2022X8664: return "WINDOWS_CORE_2022_x86_64"
@@ -1869,9 +1875,9 @@ public struct AssociateIdentityProviderConfigOutput: Swift.Sendable {
 
 extension EKSClientTypes {
 
-    /// An Amazon EC2 Auto Scaling group that is associated with an Amazon EKS managed node group.
+    /// An Auto Scaling group that is associated with an Amazon EKS managed node group.
     public struct AutoScalingGroup: Swift.Sendable {
-        /// The name of the Amazon EC2 Auto Scaling group associated with an Amazon EKS managed node group.
+        /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
         public var name: Swift.String?
 
         public init(
@@ -4234,7 +4240,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// An object representing the scaling configuration details for the Amazon EC2 Auto Scaling group that is associated with your node group. When creating a node group, you must specify all or none of the properties. When updating a node group, you can specify any or none of the properties.
+    /// An object representing the scaling configuration details for the Auto Scaling group that is associated with your node group. When creating a node group, you must specify all or none of the properties. When updating a node group, you can specify any or none of the properties.
     public struct NodegroupScalingConfig: Swift.Sendable {
         /// The current number of nodes that the managed node group should maintain. If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler#kubernetes-autoscaler), you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down. Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value. When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the desiredSize parameter is altered by the Cluster Autoscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public var desiredSize: Swift.Int?
@@ -4588,9 +4594,9 @@ extension EKSClientTypes {
         ///
         /// * AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.
         ///
-        /// * AsgInstanceLaunchFailures: Your Amazon EC2 Auto Scaling group is experiencing failures while attempting to launch instances.
+        /// * AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.
         ///
-        /// * AutoScalingGroupNotFound: We couldn't find the Amazon EC2 Auto Scaling group associated with the managed node group. You may be able to recreate an Amazon EC2 Auto Scaling group with the same settings to recover.
+        /// * AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.
         ///
         /// * ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
         ///
