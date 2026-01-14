@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HTTPProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
@@ -17,7 +16,6 @@ import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory {
     override fun createHttpProtocolClientGenerator(
         ctx: ProtocolGenerator.GenerationContext,
-        configuratorSymbol: Symbol,
         httpBindingResolver: HttpBindingResolver,
         writer: SwiftWriter,
         serviceName: String,
@@ -29,7 +27,6 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         return HttpProtocolClientGenerator(
             ctx,
             writer,
-            configuratorSymbol,
             config,
             httpBindingResolver,
             defaultContentType,

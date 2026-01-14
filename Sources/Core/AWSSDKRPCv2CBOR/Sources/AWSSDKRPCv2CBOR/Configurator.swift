@@ -23,6 +23,8 @@ public struct Configurator: HTTPConfigurating {
 
     public init() {}
 
+    public var clientProtocol: ClientProtocol { makeClientProtocol() }
+
     public func configure<InputType, OutputType>(
         _ operation: Operation<InputType, OutputType>,
         _ builder: OrchestratorBuilder<InputType, OutputType, HTTPRequest, HTTPResponse>
@@ -32,7 +34,7 @@ public struct Configurator: HTTPConfigurating {
         var configurator = RPCv2CBOR.Configurator()
 
         // Set the configurator to use a ClientProtocol modified for AWS RPCv2CBOR services
-        configurator.makeHTTPClientProtocol = self.makeAWSHTTPClientProtocol
+        configurator.makeHTTPClientProtocol = self.makeClientProtocol
 
         // Run the non-AWS-specific configurator
         configurator.configure(operation, builder)
@@ -46,7 +48,7 @@ public struct Configurator: HTTPConfigurating {
     }
 
     @Sendable
-    private func makeAWSHTTPClientProtocol() -> RPCv2CBOR.HTTPClientProtocol {
+    public func makeClientProtocol() -> RPCv2CBOR.HTTPClientProtocol {
 
         // Create a non-AWS-specific HTTPClientProtocol
         var clientProtocol = RPCv2CBOR.HTTPClientProtocol()
