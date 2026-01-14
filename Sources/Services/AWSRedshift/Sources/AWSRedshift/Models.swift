@@ -3009,6 +3009,8 @@ extension RedshiftClientTypes {
         ///
         /// * Pending - The next snapshot is pending to be taken.
         public var expectedNextSnapshotScheduleTimeStatus: Swift.String?
+        /// A boolean value that, if true, indicates that the cluster allocates additional compute resources to run automatic optimization operations. Default: false
+        public var extraComputeForAutomaticOptimization: Swift.String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public var hsmStatus: RedshiftClientTypes.HsmStatus?
         /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services.
@@ -3106,6 +3108,7 @@ extension RedshiftClientTypes {
             enhancedVpcRouting: Swift.Bool? = nil,
             expectedNextSnapshotScheduleTime: Foundation.Date? = nil,
             expectedNextSnapshotScheduleTimeStatus: Swift.String? = nil,
+            extraComputeForAutomaticOptimization: Swift.String? = nil,
             hsmStatus: RedshiftClientTypes.HsmStatus? = nil,
             iamRoles: [RedshiftClientTypes.ClusterIamRole]? = nil,
             ipAddressType: Swift.String? = nil,
@@ -3169,6 +3172,7 @@ extension RedshiftClientTypes {
             self.enhancedVpcRouting = enhancedVpcRouting
             self.expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime
             self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.hsmStatus = hsmStatus
             self.iamRoles = iamRoles
             self.ipAddressType = ipAddressType
@@ -4428,6 +4432,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     public var hsmClientCertificateIdentifier: Swift.String?
     /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -4518,6 +4524,7 @@ public struct CreateClusterInput: Swift.Sendable {
         elasticIp: Swift.String? = nil,
         encrypted: Swift.Bool? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
@@ -4559,6 +4566,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.elasticIp = elasticIp
         self.encrypted = encrypted
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.iamRoles = iamRoles
@@ -4586,7 +4594,7 @@ public struct CreateClusterInput: Swift.Sendable {
 
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), catalogName: \(Swift.String(describing: catalogName)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), catalogName: \(Swift.String(describing: catalogName)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), extraComputeForAutomaticOptimization: \(Swift.String(describing: extraComputeForAutomaticOptimization)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateClusterOutput: Swift.Sendable {
@@ -6766,6 +6774,7 @@ extension RedshiftClientTypes {
     public enum UsageLimitFeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case concurrencyScaling
         case crossRegionDatasharing
+        case extraComputeForAutomaticOptimization
         case spectrum
         case sdkUnknown(Swift.String)
 
@@ -6773,6 +6782,7 @@ extension RedshiftClientTypes {
             return [
                 .concurrencyScaling,
                 .crossRegionDatasharing,
+                .extraComputeForAutomaticOptimization,
                 .spectrum
             ]
         }
@@ -6786,6 +6796,7 @@ extension RedshiftClientTypes {
             switch self {
             case .concurrencyScaling: return "concurrency-scaling"
             case .crossRegionDatasharing: return "cross-region-datasharing"
+            case .extraComputeForAutomaticOptimization: return "extra-compute-for-automatic-optimization"
             case .spectrum: return "spectrum"
             case let .sdkUnknown(s): return s
             }
@@ -6866,7 +6877,7 @@ public struct CreateUsageLimitInput: Swift.Sendable {
     /// The Amazon Redshift feature that you want to limit.
     /// This member is required.
     public var featureType: RedshiftClientTypes.UsageLimitFeatureType?
-    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned.
+    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned. If FeatureType is extra-compute-for-automatic-optimization, then LimitType must be time.
     /// This member is required.
     public var limitType: RedshiftClientTypes.UsageLimitLimitType?
     /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly.
@@ -12391,6 +12402,8 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     public var hsmClientCertificateIdentifier: Swift.String?
     /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -12466,6 +12479,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         elasticIp: Swift.String? = nil,
         encrypted: Swift.Bool? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         ipAddressType: Swift.String? = nil,
@@ -12496,6 +12510,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         self.elasticIp = elasticIp
         self.encrypted = encrypted
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.ipAddressType = ipAddressType
@@ -12518,7 +12533,7 @@ public struct ModifyClusterInput: Swift.Sendable {
 
 extension ModifyClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), extraComputeForAutomaticOptimization: \(Swift.String(describing: extraComputeForAutomaticOptimization)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyClusterOutput: Swift.Sendable {
@@ -15329,6 +15344,7 @@ extension CreateClusterInput {
         try writer["ElasticIp"].write(value.elasticIp)
         try writer["Encrypted"].write(value.encrypted)
         try writer["EnhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ExtraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["HsmClientCertificateIdentifier"].write(value.hsmClientCertificateIdentifier)
         try writer["HsmConfigurationIdentifier"].write(value.hsmConfigurationIdentifier)
         try writer["IamRoles"].writeList(value.iamRoles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "IamRoleArn", isFlattened: false)
@@ -16557,6 +16573,7 @@ extension ModifyClusterInput {
         try writer["ElasticIp"].write(value.elasticIp)
         try writer["Encrypted"].write(value.encrypted)
         try writer["EnhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ExtraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["HsmClientCertificateIdentifier"].write(value.hsmClientCertificateIdentifier)
         try writer["HsmConfigurationIdentifier"].write(value.hsmConfigurationIdentifier)
         try writer["IpAddressType"].write(value.ipAddressType)
@@ -23401,6 +23418,7 @@ extension RedshiftClientTypes.Cluster {
         value.multiAZSecondary = try reader["MultiAZSecondary"].readIfPresent(with: RedshiftClientTypes.SecondaryClusterInfo.read(from:))
         value.lakehouseRegistrationStatus = try reader["LakehouseRegistrationStatus"].readIfPresent()
         value.catalogArn = try reader["CatalogArn"].readIfPresent()
+        value.extraComputeForAutomaticOptimization = try reader["ExtraComputeForAutomaticOptimization"].readIfPresent()
         return value
     }
 }
