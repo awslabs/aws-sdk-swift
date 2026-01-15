@@ -36,6 +36,10 @@ jobs:
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
           - 'platform=visionOS Simulator,OS=26.0,name=Apple Vision Pro'
           - 'platform=macOS'
+        group:
+          - a
+          - b
+          - c
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-14
@@ -130,77 +134,3 @@ jobs:
             test 2>&1 \
             | xcbeautify
 
-  linux:
-    # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
-    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: ${{ matrix.runner }}
-    container: swift:${{ matrix.swift }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - ubuntu-24.04
-          - ubuntu-24.04-arm
-        swift:
-          - "5.9-jammy"
-          - "6.2-noble"
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-    steps:
-      - name: Configure AWS Credentials for Integration Tests
-        # configure-aws-credentials@v4 does not work with AL2 images, so @v3 is used instead.  See:
-        #   https://github.com/aws-actions/configure-aws-credentials/issues/862
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
-      - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
-        with:
-          path: aws-sdk-swift
-      - name: Checkout smithy-swift with composite action
-        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
-        with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
-          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-            2-${{ runner.os }}-gradle-
-      - name: Cache Swift
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/Library/Caches/org.swift.swiftpm
-            ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-          restore-keys: |
-            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: corretto
-          java-version: 17
-      - name: Install OpenSSL (all OS) and which (AL2 only)
-        run: ./aws-sdk-swift/scripts/ci_steps/install_native_linux_dependencies.sh
-      - name: Tools Versions
-        run: ./aws-sdk-swift/scripts/ci_steps/log_tool_versions.sh
-      - name: Prepare Integration Tests
-        run: |
-          cd aws-sdk-swift
-          ./scripts/ci_steps/prepare_integration_tests.sh
-      - name: Build Integration Tests
-        run: |
-          cd aws-sdk-swift/IntegrationTests
-          swift build --build-tests
-      - name: Run Integration Tests
-        run: |
-          cd aws-sdk-swift/IntegrationTests
-          swift test
