@@ -3579,7 +3579,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -5679,7 +5679,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Sendable {
     /// This value is stored as a lowercase string.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
-    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
+    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine> For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
     ///
     /// * aurora-mysql
     ///
@@ -5790,6 +5790,7 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
+///
 @available(*, deprecated, message: "Please avoid using this fault")
 public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7418,6 +7419,7 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+///
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
@@ -7750,7 +7752,7 @@ public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
 
 ///
 public struct CreateDBParameterGroupInput: Swift.Sendable {
-    /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the MySQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine mysql The output contains duplicates. The following are the valid DB engine values:
+    /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine> For example, to list all of the available parameter group families for the MySQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine mysql The output contains duplicates. The following are the valid DB engine values:
     ///
     /// * aurora-mysql
     ///
@@ -9501,13 +9503,13 @@ extension RDSClientTypes {
         public var isDataLossAllowed: Swift.Bool?
         /// The current status of the global cluster. Possible values are as follows:
         ///
-        /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
+        /// * pending – The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
         ///
-        /// * failing-over  Aurora is promoting the chosen secondary Aurora DB cluster to become the new primary DB cluster to fail over the global cluster.
+        /// * failing-over – Aurora is promoting the chosen secondary Aurora DB cluster to become the new primary DB cluster to fail over the global cluster.
         ///
-        /// * cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
+        /// * cancelling – The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
         ///
-        /// * switching-over  This status covers the range of Aurora internal operations that take place during the switchover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
+        /// * switching-over – This status covers the range of Aurora internal operations that take place during the switchover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
         public var status: RDSClientTypes.FailoverStatus?
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being promoted, and which is associated with this state.
         public var toDbClusterArn: Swift.String?
@@ -10302,7 +10304,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -12533,6 +12535,7 @@ public struct DescribeDBClusterSnapshotsOutput: Swift.Sendable {
     }
 }
 
+///
 public struct DescribeDBEngineVersionsInput: Swift.Sendable {
     /// The name of a specific DB parameter group family to return details for. Constraints:
     ///
@@ -12697,7 +12700,7 @@ extension RDSClientTypes {
         public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
         /// A list of the supported DB engine modes.
         public var supportedEngineModes: [Swift.String]?
-        /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+        /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
         public var supportedFeatureNames: [Swift.String]?
         /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
         public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -13242,6 +13245,7 @@ public struct DescribeDBParameterGroupsOutput: Swift.Sendable {
     }
 }
 
+///
 public struct DescribeDBParametersInput: Swift.Sendable {
     /// The name of a specific DB parameter group to return details for. Constraints:
     ///
@@ -13425,6 +13429,11 @@ extension RDSClientTypes {
             self.sessionPinningFilters = sessionPinningFilters
         }
     }
+}
+
+extension RDSClientTypes.ConnectionPoolConfigurationInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionPoolConfigurationInfo(connectionBorrowTimeout: \(Swift.String(describing: connectionBorrowTimeout)), maxConnectionsPercent: \(Swift.String(describing: maxConnectionsPercent)), maxIdleConnectionsPercent: \(Swift.String(describing: maxIdleConnectionsPercent)), sessionPinningFilters: \(Swift.String(describing: sessionPinningFilters)), initQuery: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -17369,7 +17378,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -18742,6 +18751,11 @@ extension RDSClientTypes {
             self.sessionPinningFilters = sessionPinningFilters
         }
     }
+}
+
+extension RDSClientTypes.ConnectionPoolConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionPoolConfiguration(connectionBorrowTimeout: \(Swift.String(describing: connectionBorrowTimeout)), maxConnectionsPercent: \(Swift.String(describing: maxConnectionsPercent)), maxIdleConnectionsPercent: \(Swift.String(describing: maxIdleConnectionsPercent)), sessionPinningFilters: \(Swift.String(describing: sessionPinningFilters)), initQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBProxyTargetGroupInput: Swift.Sendable {
@@ -33425,8 +33439,8 @@ extension RDSClientTypes.DBSnapshot {
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
-        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         return value
     }
 }
@@ -34582,12 +34596,14 @@ extension RDSClientTypes.DBEngineVersion {
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
         value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
@@ -34612,8 +34628,6 @@ extension RDSClientTypes.DBEngineVersion {
         value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
         value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
         value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
-        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
 }
@@ -35148,8 +35162,8 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsClusters = try reader["SupportsClusters"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
-        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
         value.supportsAdditionalStorageVolumes = try reader["SupportsAdditionalStorageVolumes"].readIfPresent()
+        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
         value.availableAdditionalStorageVolumesOptions = try reader["AvailableAdditionalStorageVolumesOptions"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableAdditionalStorageVolumesOption.read(from:), memberNodeInfo: "AvailableAdditionalStorageVolumesOption", isFlattened: false)
         return value
     }

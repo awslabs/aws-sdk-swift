@@ -10154,6 +10154,78 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetMaterializedViewRefreshTaskRun` operation on the `Glue` service.
+    ///
+    /// Get the associated metadata/information for a task run, given a task run ID.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetMaterializedViewRefreshTaskRunInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetMaterializedViewRefreshTaskRunOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getMaterializedViewRefreshTaskRun(input: GetMaterializedViewRefreshTaskRunInput) async throws -> GetMaterializedViewRefreshTaskRunOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMaterializedViewRefreshTaskRun")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(GetMaterializedViewRefreshTaskRunInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaterializedViewRefreshTaskRunOutput>(GetMaterializedViewRefreshTaskRunOutput.httpOutput(from:), GetMaterializedViewRefreshTaskRunOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMaterializedViewRefreshTaskRunOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.GetMaterializedViewRefreshTaskRun"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMaterializedViewRefreshTaskRunInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMaterializedViewRefreshTaskRunInput, GetMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMaterializedViewRefreshTaskRun")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetPartition` operation on the `Glue` service.
     ///
     /// Retrieves information about a specified partition.
@@ -13857,6 +13929,77 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMaterializedViewRefreshTaskRuns` operation on the `Glue` service.
+    ///
+    /// List all task runs for a particular account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMaterializedViewRefreshTaskRunsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMaterializedViewRefreshTaskRunsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func listMaterializedViewRefreshTaskRuns(input: ListMaterializedViewRefreshTaskRunsInput) async throws -> ListMaterializedViewRefreshTaskRunsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMaterializedViewRefreshTaskRuns")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(ListMaterializedViewRefreshTaskRunsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMaterializedViewRefreshTaskRunsOutput>(ListMaterializedViewRefreshTaskRunsOutput.httpOutput(from:), ListMaterializedViewRefreshTaskRunsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMaterializedViewRefreshTaskRunsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMaterializedViewRefreshTaskRunsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(xAmzTarget: "AWSGlue.ListMaterializedViewRefreshTaskRuns"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMaterializedViewRefreshTaskRunsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMaterializedViewRefreshTaskRunsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMaterializedViewRefreshTaskRuns")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRegistries` operation on the `Glue` service.
     ///
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
@@ -16339,6 +16482,80 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartMaterializedViewRefreshTaskRun` operation on the `Glue` service.
+    ///
+    /// Starts a materialized view refresh task run, for a specified table and columns.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartMaterializedViewRefreshTaskRunInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartMaterializedViewRefreshTaskRunOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `MaterializedViewRefreshTaskRunningException` : Exception thrown when a task is already in running state.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    public func startMaterializedViewRefreshTaskRun(input: StartMaterializedViewRefreshTaskRunInput) async throws -> StartMaterializedViewRefreshTaskRunOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMaterializedViewRefreshTaskRun")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(StartMaterializedViewRefreshTaskRunInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMaterializedViewRefreshTaskRunOutput>(StartMaterializedViewRefreshTaskRunOutput.httpOutput(from:), StartMaterializedViewRefreshTaskRunOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartMaterializedViewRefreshTaskRunOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.StartMaterializedViewRefreshTaskRun"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMaterializedViewRefreshTaskRunInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMaterializedViewRefreshTaskRunInput, StartMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMaterializedViewRefreshTaskRun")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartTrigger` operation on the `Glue` service.
     ///
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
@@ -16762,6 +16979,79 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopCrawlerSchedule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopMaterializedViewRefreshTaskRun` operation on the `Glue` service.
+    ///
+    /// Stops a materialized view refresh task run, for a specified table and columns.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopMaterializedViewRefreshTaskRunInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopMaterializedViewRefreshTaskRunOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `MaterializedViewRefreshTaskNotRunningException` : Exception thrown when stopping a task that is not in running state.
+    /// - `MaterializedViewRefreshTaskStoppingException` : Exception thrown when a task is already in stopping state.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func stopMaterializedViewRefreshTaskRun(input: StopMaterializedViewRefreshTaskRunInput) async throws -> StopMaterializedViewRefreshTaskRunOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopMaterializedViewRefreshTaskRun")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(StopMaterializedViewRefreshTaskRunInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMaterializedViewRefreshTaskRunOutput>(StopMaterializedViewRefreshTaskRunOutput.httpOutput(from:), StopMaterializedViewRefreshTaskRunOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopMaterializedViewRefreshTaskRunOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMaterializedViewRefreshTaskRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(xAmzTarget: "AWSGlue.StopMaterializedViewRefreshTaskRun"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopMaterializedViewRefreshTaskRunInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMaterializedViewRefreshTaskRunInput, StopMaterializedViewRefreshTaskRunOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopMaterializedViewRefreshTaskRun")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

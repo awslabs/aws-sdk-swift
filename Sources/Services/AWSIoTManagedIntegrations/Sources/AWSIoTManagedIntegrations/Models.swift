@@ -2024,6 +2024,29 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public struct WiFiSimpleSetupConfiguration: Swift.Sendable {
+        /// Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices.
+        public var enableAsProvisionee: Swift.Bool?
+        /// Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices.
+        public var enableAsProvisioner: Swift.Bool?
+        /// The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes.
+        public var timeoutInMinutes: Swift.Int?
+
+        public init(
+            enableAsProvisionee: Swift.Bool? = nil,
+            enableAsProvisioner: Swift.Bool? = nil,
+            timeoutInMinutes: Swift.Int? = nil
+        ) {
+            self.enableAsProvisionee = enableAsProvisionee
+            self.enableAsProvisioner = enableAsProvisioner
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+    }
+}
+
 public struct CreateManagedThingInput: Swift.Sendable {
     /// The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
     /// This member is required.
@@ -2060,6 +2083,8 @@ public struct CreateManagedThingInput: Swift.Sendable {
     public var serialNumber: Swift.String?
     /// A set of key/value pairs that are used to manage the managed thing.
     public var tags: [Swift.String: Swift.String]?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         authenticationMaterial: Swift.String? = nil,
@@ -2077,7 +2102,8 @@ public struct CreateManagedThingInput: Swift.Sendable {
         owner: Swift.String? = nil,
         role: IoTManagedIntegrationsClientTypes.Role? = nil,
         serialNumber: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.authenticationMaterial = authenticationMaterial
         self.authenticationMaterialType = authenticationMaterialType
@@ -2095,12 +2121,13 @@ public struct CreateManagedThingInput: Swift.Sendable {
         self.role = role
         self.serialNumber = serialNumber
         self.tags = tags
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension CreateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateManagedThingOutput: Swift.Sendable {
@@ -2135,6 +2162,7 @@ extension IoTManagedIntegrationsClientTypes {
         case deviceLifeCycle
         case deviceOta
         case deviceState
+        case deviceWss
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventType] {
@@ -2148,7 +2176,8 @@ extension IoTManagedIntegrationsClientTypes {
                 .deviceEvent,
                 .deviceLifeCycle,
                 .deviceOta,
-                .deviceState
+                .deviceState,
+                .deviceWss
             ]
         }
 
@@ -2169,6 +2198,7 @@ extension IoTManagedIntegrationsClientTypes {
             case .deviceLifeCycle: return "DEVICE_LIFE_CYCLE"
             case .deviceOta: return "DEVICE_OTA"
             case .deviceState: return "DEVICE_STATE"
+            case .deviceWss: return "DEVICE_WSS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3352,6 +3382,7 @@ extension IoTManagedIntegrationsClientTypes {
 
     public enum DiscoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloud
+        case controllerCapabilityRediscovery
         case custom
         case zigbee
         case zwave
@@ -3360,6 +3391,7 @@ extension IoTManagedIntegrationsClientTypes {
         public static var allCases: [DiscoveryType] {
             return [
                 .cloud,
+                .controllerCapabilityRediscovery,
                 .custom,
                 .zigbee,
                 .zwave
@@ -3374,6 +3406,7 @@ extension IoTManagedIntegrationsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloud: return "CLOUD"
+            case .controllerCapabilityRediscovery: return "CONTROLLER_CAPABILITY_REDISCOVERY"
             case .custom: return "CUSTOM"
             case .zigbee: return "ZIGBEE"
             case .zwave: return "ZWAVE"
@@ -3695,6 +3728,38 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case zigbee
+        case zwave
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtocolType] {
+            return [
+                .custom,
+                .zigbee,
+                .zwave
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .zigbee: return "ZIGBEE"
+            case .zwave: return "ZWAVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
     public var accountAssociationId: Swift.String?
@@ -3714,6 +3779,10 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The discovery type supporting the type of device to be discovered in the device discovery task request.
     /// This member is required.
     public var discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType?
+    /// The unique id of the end device for capability rediscovery. This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+    public var endDeviceIdentifier: Swift.String?
+    /// The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUSTOM). This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+    public var `protocol`: IoTManagedIntegrationsClientTypes.ProtocolType?
     /// A set of key/value pairs that are used to manage the device discovery request.
     @available(*, deprecated, message: "Tags have been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
@@ -3727,6 +3796,8 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         controllerIdentifier: Swift.String? = nil,
         customProtocolDetail: [Swift.String: Swift.String]? = nil,
         discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil,
+        endDeviceIdentifier: Swift.String? = nil,
+        `protocol`: IoTManagedIntegrationsClientTypes.ProtocolType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accountAssociationId = accountAssociationId
@@ -3737,13 +3808,15 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         self.controllerIdentifier = controllerIdentifier
         self.customProtocolDetail = customProtocolDetail
         self.discoveryType = discoveryType
+        self.endDeviceIdentifier = endDeviceIdentifier
+        self.`protocol` = `protocol`
         self.tags = tags
     }
 }
 
 extension StartDeviceDiscoveryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDeviceDiscoveryInput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "StartDeviceDiscoveryInput(protocol: \(Swift.String(describing: `protocol`)), accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), endDeviceIdentifier: \(Swift.String(describing: endDeviceIdentifier)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDeviceDiscoveryOutput: Swift.Sendable {
@@ -4180,7 +4253,7 @@ public struct GetManagedThingOutput: Swift.Sendable {
     public var owner: Swift.String?
     /// Id of the controller device used for the discovery job.
     public var parentControllerId: Swift.String?
-    /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+    /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
     public var provisioningStatus: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
     /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     public var role: IoTManagedIntegrationsClientTypes.Role?
@@ -4192,6 +4265,8 @@ public struct GetManagedThingOutput: Swift.Sendable {
     public var universalProductCode: Swift.String?
     /// The timestamp value of when the managed thing was last updated at.
     public var updatedAt: Foundation.Date?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         activatedAt: Foundation.Date? = nil,
@@ -4219,7 +4294,8 @@ public struct GetManagedThingOutput: Swift.Sendable {
         serialNumber: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         universalProductCode: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.activatedAt = activatedAt
         self.advertisedProductId = advertisedProductId
@@ -4247,12 +4323,13 @@ public struct GetManagedThingOutput: Swift.Sendable {
         self.tags = tags
         self.universalProductCode = universalProductCode
         self.updatedAt = updatedAt
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension GetManagedThingOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
+        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetManagedThingCapabilitiesInput: Swift.Sendable {
@@ -5217,7 +5294,7 @@ public struct ListManagedThingsInput: Swift.Sendable {
     public var ownerFilter: Swift.String?
     /// Filter on a parent controller id for a managed thing.
     public var parentControllerIdentifierFilter: Swift.String?
-    /// Filter on the status of the device.
+    /// Filter on the status of the device. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
     public var provisioningStatusFilter: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
     /// Filter on the type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     public var roleFilter: IoTManagedIntegrationsClientTypes.Role?
@@ -5291,7 +5368,7 @@ extension IoTManagedIntegrationsClientTypes {
         public var owner: Swift.String?
         /// Id of the controller device used for the discovery job.
         public var parentControllerId: Swift.String?
-        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
         public var provisioningStatus: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
         /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
         public var role: IoTManagedIntegrationsClientTypes.Role?
@@ -5458,6 +5535,8 @@ public struct UpdateManagedThingInput: Swift.Sendable {
     public var owner: Swift.String?
     /// The serial number of the device.
     public var serialNumber: Swift.String?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         brand: Swift.String? = nil,
@@ -5472,7 +5551,8 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         model: Swift.String? = nil,
         name: Swift.String? = nil,
         owner: Swift.String? = nil,
-        serialNumber: Swift.String? = nil
+        serialNumber: Swift.String? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.brand = brand
         self.capabilities = capabilities
@@ -5487,12 +5567,13 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         self.name = name
         self.owner = owner
         self.serialNumber = serialNumber
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension UpdateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
+        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotificationConfigurationsInput: Swift.Sendable {
@@ -7436,6 +7517,7 @@ extension CreateManagedThingInput {
         try writer["Role"].write(value.role)
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["WiFiSimpleSetupConfiguration"].write(value.wiFiSimpleSetupConfiguration, with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.write(value:to:))
     }
 }
 
@@ -7575,6 +7657,8 @@ extension StartDeviceDiscoveryInput {
         try writer["ControllerIdentifier"].write(value.controllerIdentifier)
         try writer["CustomProtocolDetail"].writeMap(value.customProtocolDetail, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DiscoveryType"].write(value.discoveryType)
+        try writer["EndDeviceIdentifier"].write(value.endDeviceIdentifier)
+        try writer["Protocol"].write(value.`protocol`)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -7652,6 +7736,7 @@ extension UpdateManagedThingInput {
         try writer["Name"].write(value.name)
         try writer["Owner"].write(value.owner)
         try writer["SerialNumber"].write(value.serialNumber)
+        try writer["WiFiSimpleSetupConfiguration"].write(value.wiFiSimpleSetupConfiguration, with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.write(value:to:))
     }
 }
 
@@ -8101,6 +8186,7 @@ extension GetManagedThingOutput {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.universalProductCode = try reader["UniversalProductCode"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.wiFiSimpleSetupConfiguration = try reader["WiFiSimpleSetupConfiguration"].readIfPresent(with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.read(from:))
         return value
     }
 }
@@ -9128,6 +9214,7 @@ enum DeregisterAccountAssociationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -10541,6 +10628,25 @@ extension IoTManagedIntegrationsClientTypes.ConfigurationError {
         var value = IoTManagedIntegrationsClientTypes.ConfigurationError()
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableAsProvisionee"].write(value.enableAsProvisionee)
+        try writer["EnableAsProvisioner"].write(value.enableAsProvisioner)
+        try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration()
+        value.enableAsProvisioner = try reader["EnableAsProvisioner"].readIfPresent()
+        value.enableAsProvisionee = try reader["EnableAsProvisionee"].readIfPresent()
+        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
         return value
     }
 }
