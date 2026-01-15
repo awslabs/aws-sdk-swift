@@ -55,7 +55,6 @@ let package = Package(
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
-        .package(path: "../../aws-crt-swift"),
     ],
     targets: protocolTestTargets
 )

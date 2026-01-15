@@ -205,7 +205,7 @@ class AWSHttpProtocolServiceClient(
 
     private val authSchemeResolverDefaultProvider =
         DefaultProvider(
-            { writer.format("Default\$LAuthSchemeResolver()", ctx.settings.clientNamePreservingService) },
+            { writer.format("Default\$LAuthSchemeResolver()", ctx.settings.clientBaseNamePreservingService) },
             false,
             false,
         )

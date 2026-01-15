@@ -41,7 +41,7 @@ class DefaultAWSAuthSchemePlugin(
                 writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.write(
                         "config.authSchemeResolver = \$L",
-                        "Default${ctx.settings.clientNamePreservingService}AuthSchemeResolver()",
+                        "Default${ctx.settings.clientBaseNamePreservingService}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
                     if (ctx.settings.internalClient) {

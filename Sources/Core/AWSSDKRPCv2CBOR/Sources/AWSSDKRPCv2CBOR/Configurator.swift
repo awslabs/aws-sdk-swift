@@ -12,6 +12,7 @@ import struct ClientRuntime.MutateHeadersMiddleware
 import class ClientRuntime.OrchestratorBuilder
 import struct RPCv2CBOR.Configurator
 import struct RPCv2CBOR.HTTPClientProtocol
+import struct Smithy.AWSQueryCompatibleTrait
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 import struct SmithySerialization.Operation
@@ -42,7 +43,7 @@ public struct Configurator: HTTPConfigurating {
         // Now, apply AWS-specific customizations.
 
         // Add the `x-amz-query-mode` header if the service supports it
-        if operation.serviceSchema.traits[.init("aws.protocols", "awsQueryCompatible")] != nil {
+        if operation.serviceSchema.hasTrait(AWSQueryCompatibleTrait.self) {
             builder.interceptors.add(MutateHeadersMiddleware(overrides: ["x-amzn-query-mode": "true"]))
         }
     }

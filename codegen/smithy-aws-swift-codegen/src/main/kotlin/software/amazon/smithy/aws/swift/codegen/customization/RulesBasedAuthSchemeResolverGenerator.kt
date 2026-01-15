@@ -29,7 +29,7 @@ class RulesBasedAuthSchemeResolverGenerator {
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        val clientName = ctx.settings.clientNamePreservingService
+        val clientName = ctx.settings.clientBaseNamePreservingService
         val serviceSpecificDefaultResolverName = "Default$clientName$AUTH_SCHEME_RESOLVER"
         val serviceSpecificAuthResolverProtocol = clientName + AUTH_SCHEME_RESOLVER
 
@@ -56,7 +56,7 @@ class RulesBasedAuthSchemeResolverGenerator {
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        val clientName = ctx.settings.clientNamePreservingService
+        val clientName = ctx.settings.clientBaseNamePreservingService
         val serviceParamsName = clientName + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name
 
         writer.apply {
