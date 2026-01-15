@@ -19,7 +19,7 @@ import struct SmithySerialization.Operation
 import protocol SmithySerialization.SerializableStruct
 import protocol SmithySerialization.DeserializableStruct
 
-public struct Configurator: HTTPConfigurating {
+public struct Configurator: HTTPConfigurating, Sendable {
     public typealias ClientProtocol = RPCv2CBOR.HTTPClientProtocol
 
     public init() {}
