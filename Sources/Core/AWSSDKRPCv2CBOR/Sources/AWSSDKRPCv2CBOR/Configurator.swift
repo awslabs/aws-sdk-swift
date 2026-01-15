@@ -18,6 +18,9 @@ import class SmithyHTTPAPI.HTTPResponse
 import struct SmithySerialization.Operation
 import protocol SmithySerialization.SerializableStruct
 import protocol SmithySerialization.DeserializableStruct
+import struct SmithySerialization.TypeRegistry
+import struct Smithy.AWSQueryCompatibleTrait
+import struct Smithy.AWSQueryErrorTrait
 
 public struct Configurator: HTTPConfigurating, Sendable {
     public typealias ClientProtocol = RPCv2CBOR.HTTPClientProtocol
@@ -60,6 +63,24 @@ public struct Configurator: HTTPConfigurating, Sendable {
             return try AwsQueryCompatibleErrorDetails.parse(headerValue)?.code
         }
 
+        // Get the original match block.
+        let originalRegistryMatchBlock = clientProtocol.registryMatchBlock
+
+        // Add query compatibility to the registry match block.
+        // Set the registry matcher block to match by query code if needed.
+        clientProtocol.registryMatchBlock = { service, code, typeRegistry in
+            if let match = try originalRegistryMatchBlock(service, code, typeRegistry) {
+                // Code matched on shape name, return the match
+                return match
+            } else if service.hasTrait(AWSQueryCompatibleTrait.self) {
+                // If unable to match on shape name and this is a query-compatible service,
+                // try to match on the name in the AWSQueryError trait
+                return try typeRegistry.codeLookup(code: code, matcher: Self.queryErrorMatcher(code:entry:))
+            } else {
+                return nil
+            }
+        }
+
         // Set the unknown error block to return an UnknownAWSHTTPServiceError.
         clientProtocol.unknownErrorBlock = { code, message, response in
             UnknownAWSHTTPServiceError(
@@ -72,5 +93,10 @@ public struct Configurator: HTTPConfigurating, Sendable {
 
         // Return the client protocol, with AWS-specific mods applied
         return clientProtocol
+    }
+
+    private static func queryErrorMatcher(code: String, entry: TypeRegistry.Entry) throws -> Bool {
+        let queryErrorCode = try entry.schema.getTrait(AWSQueryErrorTrait.self)?.code
+        return code == queryErrorCode
     }
 }
