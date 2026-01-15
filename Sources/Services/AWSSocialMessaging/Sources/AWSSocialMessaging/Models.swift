@@ -234,7 +234,7 @@ extension SocialMessagingClientTypes {
         ///
         /// * Canada CA
         public var dataLocalizationRegion: Swift.String?
-        /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
+        /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use the [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) API action to find a phone number's id.
         /// This member is required.
         public var id: Swift.String?
         /// An array of key and value pair tags.
@@ -749,7 +749,7 @@ extension SocialMessagingClientTypes {
         /// The bucket name.
         /// This member is required.
         public var bucketName: Swift.String?
-        /// The object key of the media file.
+        /// The S3 key prefix that defines the storage location of your media files. The prefix works like a folder path in S3, and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg, and the key is audio/example.ogg, the final file path is audio/example.ogg123.ogg. For the same mediaId, a key of audio/ results in the file path audio/123.ogg.
         /// This member is required.
         public var key: Swift.String?
 
@@ -805,7 +805,7 @@ public struct DeleteWhatsAppMessageMediaInput: Swift.Sendable {
     /// The unique identifier of the media file to delete. Use the mediaId returned from [PostWhatsAppMessageMedia](https://console.aws.amazon.com/social-messaging/latest/APIReference/API_PostWhatsAppMessageMedia.html).
     /// This member is required.
     public var mediaId: Swift.String?
-    /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
+    /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) to find a phone number's id.
     /// This member is required.
     public var originationPhoneNumberId: Swift.String?
 
@@ -1001,7 +1001,7 @@ public struct GetLinkedWhatsAppBusinessAccountOutput: Swift.Sendable {
 }
 
 public struct GetLinkedWhatsAppBusinessAccountPhoneNumberInput: Swift.Sendable {
-    /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
+    /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) to find a phone number's id.
     /// This member is required.
     public var id: Swift.String?
 
@@ -1064,7 +1064,7 @@ public struct GetWhatsAppMessageMediaInput: Swift.Sendable {
     public var mediaId: Swift.String?
     /// Set to True to get only the metadata for the file.
     public var metadataOnly: Swift.Bool?
-    /// The unique identifier of the originating phone number for the WhatsApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
+    /// The unique identifier of the originating phone number for the WhatsApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) to find a phone number's id.
     /// This member is required.
     public var originationPhoneNumberId: Swift.String?
 
@@ -1089,7 +1089,7 @@ extension GetWhatsAppMessageMediaInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetWhatsAppMessageMediaOutput: Swift.Sendable {
-    /// The file size of the media, in KB.
+    /// The size of the media file, in KB.
     public var fileSize: Swift.Int?
     /// The MIME type of the media.
     public var mimeType: Swift.String?
@@ -1246,129 +1246,6 @@ public struct ListLinkedWhatsAppBusinessAccountsOutput: Swift.Sendable {
     }
 }
 
-public struct PutWhatsAppBusinessAccountEventDestinationsInput: Swift.Sendable {
-    /// An array of WhatsAppBusinessAccountEventDestination event destinations.
-    /// This member is required.
-    public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
-    /// The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use [ListLinkedWhatsAppBusinessAccounts](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_ListLinkedWhatsAppBusinessAccounts.html) to list all WABAs and their details.
-    /// This member is required.
-    public var id: Swift.String?
-
-    public init(
-        eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
-        id: Swift.String? = nil
-    ) {
-        self.eventDestinations = eventDestinations
-        self.id = id
-    }
-}
-
-public struct PutWhatsAppBusinessAccountEventDestinationsOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct PostWhatsAppMessageMediaInput: Swift.Sendable {
-    /// The ID of the phone number to associate with the WhatsApp media file. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
-    /// This member is required.
-    public var originationPhoneNumberId: Swift.String?
-    /// The source S3 url for the media file.
-    public var sourceS3File: SocialMessagingClientTypes.S3File?
-    /// The source presign url of the media file.
-    public var sourceS3PresignedUrl: SocialMessagingClientTypes.S3PresignedUrl?
-
-    public init(
-        originationPhoneNumberId: Swift.String? = nil,
-        sourceS3File: SocialMessagingClientTypes.S3File? = nil,
-        sourceS3PresignedUrl: SocialMessagingClientTypes.S3PresignedUrl? = nil
-    ) {
-        self.originationPhoneNumberId = originationPhoneNumberId
-        self.sourceS3File = sourceS3File
-        self.sourceS3PresignedUrl = sourceS3PresignedUrl
-    }
-}
-
-extension PostWhatsAppMessageMediaInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "PostWhatsAppMessageMediaInput(originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), sourceS3File: \"CONTENT_REDACTED\", sourceS3PresignedUrl: \"CONTENT_REDACTED\")"}
-}
-
-public struct PostWhatsAppMessageMediaOutput: Swift.Sendable {
-    /// The unique identifier of the posted WhatsApp message.
-    public var mediaId: Swift.String?
-
-    public init(
-        mediaId: Swift.String? = nil
-    ) {
-        self.mediaId = mediaId
-    }
-}
-
-public struct SendWhatsAppMessageInput: Swift.Sendable {
-    /// The message to send through WhatsApp. The length is in KB. The message field passes through a WhatsApp Message object, see [Messages](https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages) in the WhatsApp Business Platform Cloud API Reference.
-    /// This member is required.
-    public var message: Foundation.Data?
-    /// The API version for the request formatted as v{VersionNumber}. For a list of supported API versions and Amazon Web Services Regions, see [ Amazon Web Services End User Messaging Social API Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/end-user-messaging.html) in the Amazon Web Services General Reference.
-    /// This member is required.
-    public var metaApiVersion: Swift.String?
-    /// The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccountPhoneNumber.html) to find a phone number's id.
-    /// This member is required.
-    public var originationPhoneNumberId: Swift.String?
-
-    public init(
-        message: Foundation.Data? = nil,
-        metaApiVersion: Swift.String? = nil,
-        originationPhoneNumberId: Swift.String? = nil
-    ) {
-        self.message = message
-        self.metaApiVersion = metaApiVersion
-        self.originationPhoneNumberId = originationPhoneNumberId
-    }
-}
-
-extension SendWhatsAppMessageInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SendWhatsAppMessageInput(metaApiVersion: \(Swift.String(describing: metaApiVersion)), originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), message: \"CONTENT_REDACTED\")"}
-}
-
-public struct SendWhatsAppMessageOutput: Swift.Sendable {
-    /// The unique identifier of the message.
-    public var messageId: Swift.String?
-
-    public init(
-        messageId: Swift.String? = nil
-    ) {
-        self.messageId = messageId
-    }
-}
-
-public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to retrieve the tags from.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    ) {
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// The status code of the response.
-    public var statusCode: Swift.Int?
-    /// The tags for the resource.
-    public var tags: [SocialMessagingClientTypes.Tag]?
-
-    public init(
-        statusCode: Swift.Int? = nil,
-        tags: [SocialMessagingClientTypes.Tag]? = nil
-    ) {
-        self.statusCode = statusCode
-        self.tags = tags
-    }
-}
-
 public struct ListWhatsAppMessageTemplatesInput: Swift.Sendable {
     /// The ID of the WhatsApp Business Account to list templates for.
     /// This member is required.
@@ -1469,6 +1346,8 @@ extension SocialMessagingClientTypes {
     public struct MetaLibraryTemplateDefinition: Swift.Sendable {
         /// The body text of the template.
         public var templateBody: Swift.String?
+        /// Example parameter values for the template body, used to demonstrate how dynamic content appears in the template.
+        public var templateBodyExampleParams: [Swift.String]?
         /// The buttons included in the template.
         public var templateButtons: [SocialMessagingClientTypes.LibraryTemplateButtonList]?
         /// The category of the template (for example, UTILITY or MARKETING).
@@ -1490,6 +1369,7 @@ extension SocialMessagingClientTypes {
 
         public init(
             templateBody: Swift.String? = nil,
+            templateBodyExampleParams: [Swift.String]? = nil,
             templateButtons: [SocialMessagingClientTypes.LibraryTemplateButtonList]? = nil,
             templateCategory: Swift.String? = nil,
             templateHeader: Swift.String? = nil,
@@ -1501,6 +1381,7 @@ extension SocialMessagingClientTypes {
             templateUseCase: Swift.String? = nil
         ) {
             self.templateBody = templateBody
+            self.templateBodyExampleParams = templateBodyExampleParams
             self.templateButtons = templateButtons
             self.templateCategory = templateCategory
             self.templateHeader = templateHeader
@@ -1526,6 +1407,167 @@ public struct ListWhatsAppTemplateLibraryOutput: Swift.Sendable {
     ) {
         self.metaLibraryTemplates = metaLibraryTemplates
         self.nextToken = nextToken
+    }
+}
+
+public struct PutWhatsAppBusinessAccountEventDestinationsInput: Swift.Sendable {
+    /// An array of WhatsAppBusinessAccountEventDestination event destinations.
+    /// This member is required.
+    public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
+    /// The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use [ListLinkedWhatsAppBusinessAccounts](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_ListLinkedWhatsAppBusinessAccounts.html) to list all WABAs and their details.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.eventDestinations = eventDestinations
+        self.id = id
+    }
+}
+
+public struct PutWhatsAppBusinessAccountEventDestinationsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
+    /// When true, disables click tracking for call-to-action URL buttons in the template.
+    public var ctaUrlLinkTrackingOptedOut: Swift.Bool?
+    /// The ID of the WhatsApp Business Account associated with this template.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The numeric ID of the template assigned by Meta.
+    /// This member is required.
+    public var metaTemplateId: Swift.String?
+    /// The format specification for parameters in the template, this can be either 'named' or 'positional'.
+    public var parameterFormat: Swift.String?
+    /// The new category for the template (for example, UTILITY or MARKETING).
+    public var templateCategory: Swift.String?
+    /// The updated components of the template as a JSON blob (maximum 3000 characters).
+    public var templateComponents: Foundation.Data?
+
+    public init(
+        ctaUrlLinkTrackingOptedOut: Swift.Bool? = nil,
+        id: Swift.String? = nil,
+        metaTemplateId: Swift.String? = nil,
+        parameterFormat: Swift.String? = nil,
+        templateCategory: Swift.String? = nil,
+        templateComponents: Foundation.Data? = nil
+    ) {
+        self.ctaUrlLinkTrackingOptedOut = ctaUrlLinkTrackingOptedOut
+        self.id = id
+        self.metaTemplateId = metaTemplateId
+        self.parameterFormat = parameterFormat
+        self.templateCategory = templateCategory
+        self.templateComponents = templateComponents
+    }
+}
+
+public struct UpdateWhatsAppMessageTemplateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PostWhatsAppMessageMediaInput: Swift.Sendable {
+    /// The ID of the phone number to associate with the WhatsApp media file. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) to find a phone number's id.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+    /// The source S3 url for the media file.
+    public var sourceS3File: SocialMessagingClientTypes.S3File?
+    /// The source presign url of the media file.
+    public var sourceS3PresignedUrl: SocialMessagingClientTypes.S3PresignedUrl?
+
+    public init(
+        originationPhoneNumberId: Swift.String? = nil,
+        sourceS3File: SocialMessagingClientTypes.S3File? = nil,
+        sourceS3PresignedUrl: SocialMessagingClientTypes.S3PresignedUrl? = nil
+    ) {
+        self.originationPhoneNumberId = originationPhoneNumberId
+        self.sourceS3File = sourceS3File
+        self.sourceS3PresignedUrl = sourceS3PresignedUrl
+    }
+}
+
+extension PostWhatsAppMessageMediaInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PostWhatsAppMessageMediaInput(originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), sourceS3File: \"CONTENT_REDACTED\", sourceS3PresignedUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct PostWhatsAppMessageMediaOutput: Swift.Sendable {
+    /// The unique identifier of the posted WhatsApp message.
+    public var mediaId: Swift.String?
+
+    public init(
+        mediaId: Swift.String? = nil
+    ) {
+        self.mediaId = mediaId
+    }
+}
+
+public struct SendWhatsAppMessageInput: Swift.Sendable {
+    /// The message to send through WhatsApp. The length is in KB. The message field passes through a WhatsApp Message object, see [Messages](https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages) in the WhatsApp Business Platform Cloud API Reference.
+    /// This member is required.
+    public var message: Foundation.Data?
+    /// The API version for the request formatted as v{VersionNumber}. For a list of supported API versions and Amazon Web Services Regions, see [ Amazon Web Services End User Messaging Social API Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/end-user-messaging.html) in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var metaApiVersion: Swift.String?
+    /// The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use [GetLinkedWhatsAppBusinessAccount](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_GetLinkedWhatsAppBusinessAccount.html) to find a phone number's id.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+
+    public init(
+        message: Foundation.Data? = nil,
+        metaApiVersion: Swift.String? = nil,
+        originationPhoneNumberId: Swift.String? = nil
+    ) {
+        self.message = message
+        self.metaApiVersion = metaApiVersion
+        self.originationPhoneNumberId = originationPhoneNumberId
+    }
+}
+
+extension SendWhatsAppMessageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendWhatsAppMessageInput(metaApiVersion: \(Swift.String(describing: metaApiVersion)), originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), message: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendWhatsAppMessageOutput: Swift.Sendable {
+    /// The unique identifier of the message.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    ) {
+        self.messageId = messageId
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to retrieve the tags from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The status code of the response.
+    public var statusCode: Swift.Int?
+    /// The tags for the resource.
+    public var tags: [SocialMessagingClientTypes.Tag]?
+
+    public init(
+        statusCode: Swift.Int? = nil,
+        tags: [SocialMessagingClientTypes.Tag]? = nil
+    ) {
+        self.statusCode = statusCode
+        self.tags = tags
     }
 }
 
@@ -1583,36 +1625,6 @@ public struct UntagResourceOutput: Swift.Sendable {
     ) {
         self.statusCode = statusCode
     }
-}
-
-public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
-    /// The ID of the WhatsApp Business Account associated with this template.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The numeric ID of the template assigned by Meta.
-    /// This member is required.
-    public var metaTemplateId: Swift.String?
-    /// The new category for the template (for example, UTILITY or MARKETING).
-    public var templateCategory: Swift.String?
-    /// The updated components of the template as a JSON blob (maximum 3000 characters).
-    public var templateComponents: Foundation.Data?
-
-    public init(
-        id: Swift.String? = nil,
-        metaTemplateId: Swift.String? = nil,
-        templateCategory: Swift.String? = nil,
-        templateComponents: Foundation.Data? = nil
-    ) {
-        self.id = id
-        self.metaTemplateId = metaTemplateId
-        self.templateCategory = templateCategory
-        self.templateComponents = templateComponents
-    }
-}
-
-public struct UpdateWhatsAppMessageTemplateOutput: Swift.Sendable {
-
-    public init() { }
 }
 
 /// The request contains an invalid parameter value.
@@ -2070,8 +2082,10 @@ extension UpdateWhatsAppMessageTemplateInput {
 
     static func write(value: UpdateWhatsAppMessageTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ctaUrlLinkTrackingOptedOut"].write(value.ctaUrlLinkTrackingOptedOut)
         try writer["id"].write(value.id)
         try writer["metaTemplateId"].write(value.metaTemplateId)
+        try writer["parameterFormat"].write(value.parameterFormat)
         try writer["templateCategory"].write(value.templateCategory)
         try writer["templateComponents"].write(value.templateComponents)
     }
@@ -2991,6 +3005,7 @@ extension SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
         value.templateBody = try reader["templateBody"].readIfPresent()
         value.templateButtons = try reader["templateButtons"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.LibraryTemplateButtonList.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.templateId = try reader["templateId"].readIfPresent()
+        value.templateBodyExampleParams = try reader["templateBodyExampleParams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

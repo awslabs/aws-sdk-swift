@@ -3082,6 +3082,7 @@ extension BedrockAgentCoreControlClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMemoryInput, GetMemoryOutput>(GetMemoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemoryInput, GetMemoryOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetMemoryInput, GetMemoryOutput>(GetMemoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemoryOutput>(GetMemoryOutput.httpOutput(from:), GetMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemoryInput, GetMemoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

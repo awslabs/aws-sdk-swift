@@ -726,6 +726,7 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
 
     public enum AssociationErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationOldversionexistFailure
         case insufficientDiskspace
         case insufficientMemory
         case internalServerError
@@ -735,6 +736,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [AssociationErrorCode] {
             return [
+                .applicationOldversionexistFailure,
                 .insufficientDiskspace,
                 .insufficientMemory,
                 .internalServerError,
@@ -750,6 +752,7 @@ extension WorkSpacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .applicationOldversionexistFailure: return "ValidationError.ApplicationOldVersionExists"
             case .insufficientDiskspace: return "ValidationError.InsufficientDiskSpace"
             case .insufficientMemory: return "ValidationError.InsufficientMemory"
             case .internalServerError: return "DeploymentError.InternalServerError"
@@ -3819,17 +3822,37 @@ extension WorkSpacesClientTypes {
 
     public enum CustomWorkspaceImageImportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
+        case creatingTestInstance
         case error
+        case generalizing
+        case imageCompatibilityChecking
+        case imageTestingGeneralization
+        case imageTestingStart
+        case installingComponents
         case inProgress
         case pending
+        case processingSourceImage
+        case publishing
+        case updatingOperatingSystem
+        case validating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomWorkspaceImageImportState] {
             return [
                 .completed,
+                .creatingTestInstance,
                 .error,
+                .generalizing,
+                .imageCompatibilityChecking,
+                .imageTestingGeneralization,
+                .imageTestingStart,
+                .installingComponents,
                 .inProgress,
-                .pending
+                .pending,
+                .processingSourceImage,
+                .publishing,
+                .updatingOperatingSystem,
+                .validating
             ]
         }
 
@@ -3841,9 +3864,19 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .completed: return "COMPLETED"
+            case .creatingTestInstance: return "CREATING_TEST_INSTANCE"
             case .error: return "ERROR"
+            case .generalizing: return "GENERALIZING"
+            case .imageCompatibilityChecking: return "IMAGE_COMPATIBILITY_CHECKING"
+            case .imageTestingGeneralization: return "IMAGE_TESTING_GENERALIZATION"
+            case .imageTestingStart: return "IMAGE_TESTING_START"
+            case .installingComponents: return "INSTALLING_COMPONENTS"
             case .inProgress: return "IN_PROGRESS"
             case .pending: return "PENDING"
+            case .processingSourceImage: return "PROCESSING_SOURCE_IMAGE"
+            case .publishing: return "PUBLISHING"
+            case .updatingOperatingSystem: return "UPDATING_OPERATING_SYSTEM"
+            case .validating: return "VALIDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4841,8 +4874,12 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
     public var infrastructureConfigurationArn: Swift.String?
     /// The timestamp when the WorkSpace image import was last updated.
     public var lastUpdatedTime: Foundation.Date?
+    /// The estimated progress percentage of the WorkSpace image import workflow.
+    public var progressPercentage: Swift.Int?
     /// The state of the WorkSpace image.
     public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+    /// The state message of the WorkSpace image import workflow.
+    public var stateMessage: Swift.String?
 
     public init(
         created: Foundation.Date? = nil,
@@ -4852,7 +4889,9 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
         imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
-        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+        progressPercentage: Swift.Int? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil,
+        stateMessage: Swift.String? = nil
     ) {
         self.created = created
         self.errorDetails = errorDetails
@@ -4861,7 +4900,9 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
         self.imageSource = imageSource
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.lastUpdatedTime = lastUpdatedTime
+        self.progressPercentage = progressPercentage
         self.state = state
+        self.stateMessage = stateMessage
     }
 }
 
@@ -10271,7 +10312,9 @@ extension DescribeCustomWorkspaceImageImportOutput {
         value.imageSource = try reader["ImageSource"].readIfPresent(with: WorkSpacesClientTypes.ImageSourceIdentifier.read(from:))
         value.infrastructureConfigurationArn = try reader["InfrastructureConfigurationArn"].readIfPresent()
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.stateMessage = try reader["StateMessage"].readIfPresent()
         return value
     }
 }

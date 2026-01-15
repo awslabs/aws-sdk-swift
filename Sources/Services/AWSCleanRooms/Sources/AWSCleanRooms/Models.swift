@@ -3836,6 +3836,8 @@ public struct CreateCollaborationInput: Swift.Sendable {
     /// A description of the collaboration provided by the collaboration owner.
     /// This member is required.
     public var description: Swift.String?
+    /// An indicator as to whether metrics have been enabled or disabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false.
+    public var isMetricsEnabled: Swift.Bool?
     /// Specifies whether job logs are enabled for this collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     public var jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus?
     /// A list of initial members, not including the creator. This list is immutable.
@@ -3860,6 +3862,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
         dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
         description: Swift.String? = nil,
+        isMetricsEnabled: Swift.Bool? = nil,
         jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus? = nil,
         members: [CleanRoomsClientTypes.MemberSpecification]? = nil,
         name: Swift.String? = nil,
@@ -3875,6 +3878,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         self.creatorPaymentConfiguration = creatorPaymentConfiguration
         self.dataEncryptionMetadata = dataEncryptionMetadata
         self.description = description
+        self.isMetricsEnabled = isMetricsEnabled
         self.jobLogStatus = jobLogStatus
         self.members = members
         self.name = name
@@ -3947,6 +3951,8 @@ extension CleanRoomsClientTypes {
         /// The unique ID for the collaboration.
         /// This member is required.
         public var id: Swift.String?
+        /// An indicator as to whether metrics are enabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries.
+        public var isMetricsEnabled: Swift.Bool?
         /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public var jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus?
         /// The status of a member in a collaboration.
@@ -3977,6 +3983,7 @@ extension CleanRoomsClientTypes {
             dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
+            isMetricsEnabled: Swift.Bool? = nil,
             jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus? = nil,
             memberStatus: CleanRoomsClientTypes.MemberStatus? = nil,
             membershipArn: Swift.String? = nil,
@@ -3995,6 +4002,7 @@ extension CleanRoomsClientTypes {
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
             self.id = id
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.memberStatus = memberStatus
             self.membershipArn = membershipArn
@@ -8553,6 +8561,8 @@ public struct CreateMembershipInput: Swift.Sendable {
     public var defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?
     /// The default protected query result configuration as specified by the member who can receive results.
     public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
+    /// An indicator as to whether Amazon CloudWatch metrics have been enabled or disabled for the membership. Amazon CloudWatch metrics are only available when the collaboration has metrics enabled. This option can be set by collaboration members who have the ability to run queries (analysis runners) or by members who are configured as payers. When true, metrics about query execution are collected in Amazon CloudWatch. The default value is false.
+    public var isMetricsEnabled: Swift.Bool?
     /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     public var jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus?
     /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries. Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
@@ -8567,6 +8577,7 @@ public struct CreateMembershipInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
+        isMetricsEnabled: Swift.Bool? = nil,
         jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
         paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
@@ -8575,6 +8586,7 @@ public struct CreateMembershipInput: Swift.Sendable {
         self.collaborationIdentifier = collaborationIdentifier
         self.defaultJobResultConfiguration = defaultJobResultConfiguration
         self.defaultResultConfiguration = defaultResultConfiguration
+        self.isMetricsEnabled = isMetricsEnabled
         self.jobLogStatus = jobLogStatus
         self.paymentConfiguration = paymentConfiguration
         self.queryLogStatus = queryLogStatus
@@ -8646,6 +8658,8 @@ extension CleanRoomsClientTypes {
         /// The unique ID of the membership.
         /// This member is required.
         public var id: Swift.String?
+        /// An indicator as to whether Amazon CloudWatch metrics are enabled for the membership. When true, metrics about query execution are collected in Amazon CloudWatch.
+        public var isMetricsEnabled: Swift.Bool?
         /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public var jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus?
         /// The abilities granted to the collaboration member.
@@ -8677,6 +8691,7 @@ extension CleanRoomsClientTypes {
             defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration? = nil,
             defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
             id: Swift.String? = nil,
+            isMetricsEnabled: Swift.Bool? = nil,
             jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
             mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
@@ -8695,6 +8710,7 @@ extension CleanRoomsClientTypes {
             self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.memberAbilities = memberAbilities
             self.mlMemberAbilities = mlMemberAbilities
@@ -12419,6 +12435,7 @@ extension CreateCollaborationInput {
         try writer["creatorPaymentConfiguration"].write(value.creatorPaymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
         try writer["dataEncryptionMetadata"].write(value.dataEncryptionMetadata, with: CleanRoomsClientTypes.DataEncryptionMetadata.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["isMetricsEnabled"].write(value.isMetricsEnabled)
         try writer["jobLogStatus"].write(value.jobLogStatus)
         try writer["members"].writeList(value.members, memberWritingClosure: CleanRoomsClientTypes.MemberSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -12522,6 +12539,7 @@ extension CreateMembershipInput {
         try writer["collaborationIdentifier"].write(value.collaborationIdentifier)
         try writer["defaultJobResultConfiguration"].write(value.defaultJobResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.write(value:to:))
         try writer["defaultResultConfiguration"].write(value.defaultResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.write(value:to:))
+        try writer["isMetricsEnabled"].write(value.isMetricsEnabled)
         try writer["jobLogStatus"].write(value.jobLogStatus)
         try writer["paymentConfiguration"].write(value.paymentConfiguration, with: CleanRoomsClientTypes.MembershipPaymentConfiguration.write(value:to:))
         try writer["queryLogStatus"].write(value.queryLogStatus)
@@ -16319,6 +16337,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         value.autoApprovedChangeTypes = try reader["autoApprovedChangeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedResultRegions = try reader["allowedResultRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SupportedS3Region>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isMetricsEnabled = try reader["isMetricsEnabled"].readIfPresent()
         return value
     }
 }
@@ -16870,6 +16889,7 @@ extension CleanRoomsClientTypes.Membership {
         value.defaultResultConfiguration = try reader["defaultResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.read(from:))
         value.defaultJobResultConfiguration = try reader["defaultJobResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.read(from:))
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
+        value.isMetricsEnabled = try reader["isMetricsEnabled"].readIfPresent()
         return value
     }
 }

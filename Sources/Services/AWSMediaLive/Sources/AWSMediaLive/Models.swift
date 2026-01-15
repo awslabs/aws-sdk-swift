@@ -258,7 +258,7 @@ extension MediaLiveClientTypes {
         public var algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
         public var algorithmControl: MediaLiveClientTypes.AudioNormalizationAlgorithmControl?
-        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
+        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act recommends a target of -24 LKFS. The EBU R-128 specification recommends a target of -23 LKFS.
         public var targetLkfs: Swift.Double?
 
         public init(
@@ -4200,21 +4200,29 @@ extension MediaLiveClientTypes {
 
     /// MediaPackage Output Destination Settings
     public struct MediaPackageOutputDestinationSettings: Swift.Sendable {
+        /// Endpoint 1 or 2 of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var channelEndpointId: Swift.String?
         /// Name of the channel group in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public var channelGroup: Swift.String?
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public var channelId: Swift.String?
         /// Name of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public var channelName: Swift.String?
+        /// Region the channel group and channel are located in for MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var mediaPackageRegionName: Swift.String?
 
         public init(
+            channelEndpointId: Swift.String? = nil,
             channelGroup: Swift.String? = nil,
             channelId: Swift.String? = nil,
-            channelName: Swift.String? = nil
+            channelName: Swift.String? = nil,
+            mediaPackageRegionName: Swift.String? = nil
         ) {
+            self.channelEndpointId = channelEndpointId
             self.channelGroup = channelGroup
             self.channelId = channelId
             self.channelName = channelName
+            self.mediaPackageRegionName = mediaPackageRegionName
         }
     }
 }
@@ -8494,6 +8502,22 @@ extension MediaLiveClientTypes {
             flowArn: Swift.String? = nil
         ) {
             self.flowArn = flowArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Additional output destinations for a CMAF Ingest output group
+    public struct MediaPackageAdditionalDestinations: Swift.Sendable {
+        /// The destination location
+        /// This member is required.
+        public var destination: MediaLiveClientTypes.OutputLocationRef?
+
+        public init(
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil
+        ) {
+            self.destination = destination
         }
     }
 }
@@ -12905,6 +12929,8 @@ extension MediaLiveClientTypes {
 
     /// Media Package V2 Group Settings
     public struct MediaPackageV2GroupSettings: Swift.Sendable {
+        /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
+        public var additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]?
         /// Mapping of up to 4 caption channels to caption languages.
         public var captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]?
         /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
@@ -12927,6 +12953,7 @@ extension MediaLiveClientTypes {
         public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
 
         public init(
+            additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]? = nil,
             captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil,
             id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
             klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
@@ -12938,6 +12965,7 @@ extension MediaLiveClientTypes {
             timedMetadataId3Period: Swift.Int? = nil,
             timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
         ) {
+            self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.id3Behavior = id3Behavior
             self.klvBehavior = klvBehavior
@@ -37613,6 +37641,7 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageV2GroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalDestinations"].writeList(value.additionalDestinations, memberWritingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["id3Behavior"].write(value.id3Behavior)
         try writer["klvBehavior"].write(value.klvBehavior)
@@ -37638,6 +37667,22 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
         value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
         value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
         value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
+        value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageAdditionalDestinations {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageAdditionalDestinations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageAdditionalDestinations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageAdditionalDestinations()
+        value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
         return value
     }
 }
@@ -39159,9 +39204,11 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageOutputDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["channelEndpointId"].write(value.channelEndpointId)
         try writer["channelGroup"].write(value.channelGroup)
         try writer["channelId"].write(value.channelId)
         try writer["channelName"].write(value.channelName)
+        try writer["mediaPackageRegionName"].write(value.mediaPackageRegionName)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
@@ -39170,6 +39217,8 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
         value.channelId = try reader["channelId"].readIfPresent()
         value.channelGroup = try reader["channelGroup"].readIfPresent()
         value.channelName = try reader["channelName"].readIfPresent()
+        value.channelEndpointId = try reader["channelEndpointId"].readIfPresent()
+        value.mediaPackageRegionName = try reader["mediaPackageRegionName"].readIfPresent()
         return value
     }
 }

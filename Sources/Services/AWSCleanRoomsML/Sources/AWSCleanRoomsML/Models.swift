@@ -679,6 +679,16 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
+        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        case spark([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
@@ -712,14 +722,18 @@ extension CleanRoomsMLClientTypes {
     public struct WorkerComputeConfiguration: Swift.Sendable {
         /// The number of compute workers that are used.
         public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties?
         /// The instance type of the compute workers that are used.
         public var type: CleanRoomsMLClientTypes.WorkerComputeType?
 
         public init(
             number: Swift.Int? = 16,
+            properties: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties? = nil,
             type: CleanRoomsMLClientTypes.WorkerComputeType? = .cr1x
         ) {
             self.number = number
+            self.properties = properties
             self.type = type
         }
     }
@@ -4314,7 +4328,6 @@ extension CleanRoomsMLClientTypes {
     /// Parameters that control the generation of synthetic data for custom model training, including privacy settings and column classification details.
     public struct MLSyntheticDataParameters: Swift.Sendable {
         /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
-        /// This member is required.
         public var columnClassification: CleanRoomsMLClientTypes.ColumnClassificationDetails?
         /// The epsilon value for differential privacy, which controls the privacy-utility tradeoff in synthetic data generation. Lower values provide stronger privacy guarantees but may reduce data utility.
         /// This member is required.
@@ -5250,7 +5263,7 @@ extension CleanRoomsMLClientTypes {
         /// The instance type that is used to train the model.
         /// This member is required.
         public var instanceType: CleanRoomsMLClientTypes.InstanceType?
-        /// The maximum size of the instance that is used to train the model.
+        /// The volume size of the instance that is used to train the model. Please see [EC2 volume limit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-volumes.html) for volume size limitations on different instance types.
         /// This member is required.
         public var volumeSizeInGB: Swift.Int?
 
@@ -10144,6 +10157,7 @@ extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
     static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["number"].write(value.number)
+        try writer["properties"].write(value.properties, with: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties.write(value:to:))
         try writer["type"].write(value.type)
     }
 
@@ -10152,7 +10166,32 @@ extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
         var value = CleanRoomsMLClientTypes.WorkerComputeConfiguration()
         value.type = try reader["type"].readIfPresent() ?? CleanRoomsMLClientTypes.WorkerComputeType.cr1x
         value.number = try reader["number"].readIfPresent() ?? 16
+        value.properties = try reader["properties"].readIfPresent(with: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties.read(from:))
         return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties {
+
+    static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .spark(spark):
+                try writer["spark"].writeMap(spark, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "spark":
+                return .spark(try reader["spark"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

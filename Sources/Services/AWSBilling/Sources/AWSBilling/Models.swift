@@ -376,6 +376,27 @@ public struct AssociateSourceViewsOutput: Swift.Sendable {
 
 extension BillingClientTypes {
 
+    /// The Cost Categories values used for filtering the costs.
+    public struct CostCategoryValues: Swift.Sendable {
+        /// The unique name of the Cost Category.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The specific value of the Cost Category.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension BillingClientTypes {
+
     public enum Dimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case linkedAccount
         case sdkUnknown(Swift.String)
@@ -463,8 +484,10 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
     public struct Expression: Swift.Sendable {
+        /// The filter that's based on CostCategory values.
+        public var costCategories: BillingClientTypes.CostCategoryValues?
         /// The specific Dimension to use for Expression.
         public var dimensions: BillingClientTypes.DimensionValues?
         /// The specific Tag to use for Expression.
@@ -473,10 +496,12 @@ extension BillingClientTypes {
         public var timeRange: BillingClientTypes.TimeRange?
 
         public init(
+            costCategories: BillingClientTypes.CostCategoryValues? = nil,
             dimensions: BillingClientTypes.DimensionValues? = nil,
             tags: BillingClientTypes.TagValues? = nil,
             timeRange: BillingClientTypes.TimeRange? = nil
         ) {
+            self.costCategories = costCategories
             self.dimensions = dimensions
             self.tags = tags
             self.timeRange = timeRange
@@ -507,7 +532,7 @@ extension BillingClientTypes {
 public struct CreateBillingViewInput: Swift.Sendable {
     /// A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
     public var clientToken: Swift.String?
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
     public var dataFilterExpression: BillingClientTypes.Expression?
     /// The description of the billing view.
     public var description: Swift.String?
@@ -776,7 +801,7 @@ extension BillingClientTypes {
         public var billingViewType: BillingClientTypes.BillingViewType?
         /// The time when the billing view was created.
         public var createdAt: Foundation.Date?
-        /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+        /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
         public var dataFilterExpression: BillingClientTypes.Expression?
         /// The number of billing views that use this billing view as a source.
         public var derivedViewCount: Swift.Int?
@@ -1127,7 +1152,7 @@ public struct UpdateBillingViewInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     /// This member is required.
     public var arn: Swift.String?
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
     public var dataFilterExpression: BillingClientTypes.Expression?
     /// The description of the billing view.
     public var description: Swift.String?
@@ -1886,6 +1911,7 @@ extension BillingClientTypes.Expression {
 
     static func write(value: BillingClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["costCategories"].write(value.costCategories, with: BillingClientTypes.CostCategoryValues.write(value:to:))
         try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
         try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
         try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
@@ -1896,6 +1922,7 @@ extension BillingClientTypes.Expression {
         var value = BillingClientTypes.Expression()
         value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
         value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
+        value.costCategories = try reader["costCategories"].readIfPresent(with: BillingClientTypes.CostCategoryValues.read(from:))
         value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
         return value
     }
@@ -1914,6 +1941,23 @@ extension BillingClientTypes.TimeRange {
         var value = BillingClientTypes.TimeRange()
         value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BillingClientTypes.CostCategoryValues {
+
+    static func write(value: BillingClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.CostCategoryValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.CostCategoryValues()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

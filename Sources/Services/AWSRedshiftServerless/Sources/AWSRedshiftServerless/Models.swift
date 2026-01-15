@@ -85,7 +85,7 @@ extension RedshiftServerlessClientTypes {
 
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter: Swift.Sendable {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -1621,10 +1621,12 @@ extension RedshiftServerlessClientTypes {
 public struct CreateWorkgroupInput: Swift.Sendable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -1654,6 +1656,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
@@ -1669,6 +1672,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.namespaceName = namespaceName
@@ -1747,7 +1751,7 @@ extension RedshiftServerlessClientTypes {
     public struct Workgroup: Swift.Sendable {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: Foundation.Date?
@@ -1763,6 +1767,8 @@ extension RedshiftServerlessClientTypes {
         public var endpoint: RedshiftServerlessClientTypes.Endpoint?
         /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public var enhancedVpcRouting: Swift.Bool?
+        /// A boolean value that, if true, indicates that the workgroup allocates additional compute resources to run automatic optimization operations. Default: false
+        public var extraComputeForAutomaticOptimization: Swift.Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public var ipAddressType: Swift.String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -1806,6 +1812,7 @@ extension RedshiftServerlessClientTypes {
             customDomainName: Swift.String? = nil,
             endpoint: RedshiftServerlessClientTypes.Endpoint? = nil,
             enhancedVpcRouting: Swift.Bool? = nil,
+            extraComputeForAutomaticOptimization: Swift.Bool? = nil,
             ipAddressType: Swift.String? = nil,
             maxCapacity: Swift.Int? = nil,
             namespaceName: Swift.String? = nil,
@@ -1832,6 +1839,7 @@ extension RedshiftServerlessClientTypes {
             self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
@@ -4028,10 +4036,12 @@ public struct UpdateUsageLimitOutput: Swift.Sendable {
 public struct UpdateWorkgroupInput: Swift.Sendable {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -4056,6 +4066,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         port: Swift.Int? = nil,
@@ -4069,6 +4080,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.port = port
@@ -4667,6 +4679,7 @@ extension CreateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["extraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["namespaceName"].write(value.namespaceName)
@@ -5221,6 +5234,7 @@ extension UpdateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["extraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["port"].write(value.port)
@@ -7624,6 +7638,7 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.pricePerformanceTarget = try reader["pricePerformanceTarget"].readIfPresent(with: RedshiftServerlessClientTypes.PerformanceTarget.read(from:))
         value.trackName = try reader["trackName"].readIfPresent()
         value.pendingTrackName = try reader["pendingTrackName"].readIfPresent()
+        value.extraComputeForAutomaticOptimization = try reader["extraComputeForAutomaticOptimization"].readIfPresent()
         return value
     }
 }
