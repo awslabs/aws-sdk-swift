@@ -162,7 +162,7 @@ public let partitions = #"""
     "regionRegex" : "^eusc\\-(de)\\-\\w+\\-\\d+$",
     "regions" : {
       "eusc-de-east-1" : {
-        "description" : "EU (Germany)"
+        "description" : "AWS European Sovereign Cloud (Germany)"
       }
     }
   }, {
