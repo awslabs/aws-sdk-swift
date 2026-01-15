@@ -64,9 +64,9 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -94,9 +94,9 @@ package struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -122,9 +122,9 @@ package struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -150,9 +150,9 @@ package struct InternalServerException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -178,9 +178,9 @@ package struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -206,9 +206,9 @@ package struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -271,9 +271,9 @@ package struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -301,9 +301,9 @@ package struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -329,9 +329,9 @@ package struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -357,9 +357,9 @@ package struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
@@ -385,9 +385,9 @@ package struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: Swift.String? = nil,
