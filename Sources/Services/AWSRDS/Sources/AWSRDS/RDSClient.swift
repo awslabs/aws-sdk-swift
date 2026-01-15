@@ -1785,7 +1785,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
@@ -1867,7 +1867,7 @@ extension RDSClient {
     ///
     /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see [Working with read replicas](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html) and [Migrating from a Multi-AZ DB cluster to a DB instance using a read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html#multi-az-db-clusters-migrating-to-instance-with-read-replica) in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the CreateDBInstance operation. RDS creates read replicas with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified. Your source DB instance or cluster must have backup retention enabled.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateDBInstanceReadReplicaInput`)
+    /// - Parameter input: (Type: `CreateDBInstanceReadReplicaInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CreateDBInstanceReadReplicaOutput`)
     ///
@@ -2756,10 +2756,7 @@ extension RDSClient {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or
-    ///
-    ///
-    /// modify a tenant database to use the name of an existing tenant database.
+    /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or modify a tenant database to use the name of an existing tenant database.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
     public func createTenantDatabase(input: CreateTenantDatabaseInput) async throws -> CreateTenantDatabaseOutput {
         let context = Smithy.ContextBuilder()
@@ -5127,7 +5124,7 @@ extension RDSClient {
     ///
     /// Describes the properties of specific versions of DB engines.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeDBEngineVersionsInput`)
+    /// - Parameter input: (Type: `DescribeDBEngineVersionsInput`)
     ///
     /// - Returns: Contains the result of a successful invocation of the DescribeDBEngineVersions action. (Type: `DescribeDBEngineVersionsOutput`)
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
@@ -5526,7 +5523,7 @@ extension RDSClient {
     ///
     /// Returns the detailed parameter list for a particular DB parameter group.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeDBParametersInput`)
+    /// - Parameter input: (Type: `DescribeDBParametersInput`)
     ///
     /// - Returns: Contains the result of a successful invocation of the DescribeDBParameters action. (Type: `DescribeDBParametersOutput`)
     ///
@@ -8506,7 +8503,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
@@ -9507,10 +9504,7 @@ extension RDSClient {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or
-    ///
-    ///
-    /// modify a tenant database to use the name of an existing tenant database.
+    /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or modify a tenant database to use the name of an existing tenant database.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
     public func modifyTenantDatabase(input: ModifyTenantDatabaseInput) async throws -> ModifyTenantDatabaseOutput {
         let context = Smithy.ContextBuilder()
@@ -10839,7 +10833,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
@@ -10931,7 +10925,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
@@ -11018,7 +11012,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.

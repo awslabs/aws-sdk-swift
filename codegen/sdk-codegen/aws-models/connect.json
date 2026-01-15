@@ -248,6 +248,21 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.connect#ActiveRegion": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1024
+                }
+            }
+        },
+        "com.amazonaws.connect#ActiveRegionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#RegionName"
+            }
+        },
         "com.amazonaws.connect#AdditionalEmailRecipients": {
             "type": "structure",
             "members": {
@@ -1134,6 +1149,9 @@
                     "target": "com.amazonaws.connect#AssociateFlow"
                 },
                 {
+                    "target": "com.amazonaws.connect#AssociateHoursOfOperations"
+                },
+                {
                     "target": "com.amazonaws.connect#AssociateInstanceStorageConfig"
                 },
                 {
@@ -1518,6 +1536,9 @@
                     "target": "com.amazonaws.connect#DisassociateFlow"
                 },
                 {
+                    "target": "com.amazonaws.connect#DisassociateHoursOfOperations"
+                },
+                {
                     "target": "com.amazonaws.connect#DisassociateInstanceStorageConfig"
                 },
                 {
@@ -1621,6 +1642,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#ListBots"
+                },
+                {
+                    "target": "com.amazonaws.connect#ListChildHoursOfOperations"
                 },
                 {
                     "target": "com.amazonaws.connect#ListContactEvaluations"
@@ -3764,6 +3788,77 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.connect#AssociateHoursOfOperations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#AssociateHoursOfOperationsRequest"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#ConditionalOperationFailedException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\"> here </a> for more information on inheriting overrides from parent hours of operation(s).</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/associate-hours",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#AssociateHoursOfOperationsRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in\n   the Amazon Resource Name (ARN) of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "HoursOfOperationId": {
+                    "target": "com.amazonaws.connect#HoursOfOperationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the child hours of operation.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ParentHoursOfOperationConfigs": {
+                    "target": "com.amazonaws.connect#ParentHoursOfOperationConfigList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.connect#AssociateInstanceStorageConfig": {
             "type": "operation",
             "input": {
@@ -4186,7 +4281,7 @@
                 "ManualAssignmentQueueConfigs": {
                     "target": "com.amazonaws.connect#RoutingProfileManualAssignmentQueueConfigList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The manual assignment queues to associate with this routing profile.</p>"
+                        "smithy.api#documentation": "<p>The manual assignment queues to associate with this routing profile.</p>\n         <p>Note: Use this config for chat, email, and task contacts. It does not support voice contacts.</p>"
                     }
                 }
             },
@@ -6942,6 +7037,12 @@
                 }
             }
         },
+        "com.amazonaws.connect#ChildHoursOfOperationsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#HoursOfOperationsIdentifier"
+            }
+        },
         "com.amazonaws.connect#ClaimPhoneNumber": {
             "type": "operation",
             "input": {
@@ -7625,6 +7726,12 @@
                     "target": "com.amazonaws.connect#NextContacts",
                     "traits": {
                         "smithy.api#documentation": "<p> List of next contact entries for the contact. </p>"
+                    }
+                },
+                "GlobalResiliencyMetadata": {
+                    "target": "com.amazonaws.connect#GlobalResiliencyMetadata",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the global resiliency configuration for the contact, including traffic distribution details.</p>"
                     }
                 }
             },
@@ -9066,6 +9173,12 @@
                 },
                 "RoutingCriteria": {
                     "target": "com.amazonaws.connect#RoutingCriteria"
+                },
+                "GlobalResiliencyMetadata": {
+                    "target": "com.amazonaws.connect#GlobalResiliencyMetadata",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional routing information for contacts created in ACGR instances.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10772,6 +10885,9 @@
                     "target": "com.amazonaws.connect#ResourceNotFoundException"
                 },
                 {
+                    "target": "com.amazonaws.connect#ServiceQuotaExceededException"
+                },
+                {
                     "target": "com.amazonaws.connect#ThrottlingException"
                 }
             ],
@@ -10876,6 +10992,18 @@
                         "smithy.api#documentation": "<p>The date until when the hours of operation override is effective.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "RecurrenceConfig": {
+                    "target": "com.amazonaws.connect#RecurrenceConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for a recurring event.</p>"
+                    }
+                },
+                "OverrideType": {
+                    "target": "com.amazonaws.connect#OverrideType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the override will be defined as a <i>standard</i> or as a <i>recurring event</i>.</p>\n         <p>For more information about how override types are applied, see <a href=\"https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\">Build your list of overrides</a> in the\n     <i> Administrator Guide</i>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10932,6 +11060,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration information for the hours of operation: day, start time, and end time.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "ParentHoursOfOperationConfigs": {
+                    "target": "com.amazonaws.connect#ParentHoursOfOperationConfigList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for parent hours of operations. Eg: ResourceArn. </p>\n         <p>For more information about parent hours of operations, see <a href=\"https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\">Link overrides from different hours of operation</a> in the\n     <i> Administrator Guide</i>.</p>"
                     }
                 },
                 "Tags": {
@@ -11962,7 +12096,7 @@
                 "ManualAssignmentQueueConfigs": {
                     "target": "com.amazonaws.connect#RoutingProfileManualAssignmentQueueConfigList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors\n   can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum\n   number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API\n   request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.</p>"
+                        "smithy.api#documentation": "<p>The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors\n   can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum\n   number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API\n   request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.</p>\n         <p>Note: Use this config for chat, email, and task contacts. It does not support voice contacts.</p>"
                     }
                 },
                 "MediaConcurrencies": {
@@ -20033,6 +20167,74 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.connect#DisassociateHoursOfOperations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#DisassociateHoursOfOperationsRequest"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#ConditionalOperationFailedException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\"> here </a> for more information on inheriting overrides from parent hours of operation(s).</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/disassociate-hours",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#DisassociateHoursOfOperationsRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in\n   the Amazon Resource Name (ARN) of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "HoursOfOperationId": {
+                    "target": "com.amazonaws.connect#HoursOfOperationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the child hours of operation.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "ParentHoursOfOperationIds": {
+                    "target": "com.amazonaws.connect#ParentHoursOfOperationIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Names (ARNs) of the parent hours of operation resources to disassociate with the child hours of operation resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.connect#DisassociateInstanceStorageConfig": {
             "type": "operation",
             "input": {
@@ -21059,6 +21261,32 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Information about the hours of operations with the effective override applied.</p>"
+            }
+        },
+        "com.amazonaws.connect#EffectiveOverrideHours": {
+            "type": "structure",
+            "members": {
+                "Date": {
+                    "target": "com.amazonaws.connect#HoursOfOperationOverrideYearMonthDayDateFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date that the hours of operation override applies to.</p>"
+                    }
+                },
+                "OverrideHours": {
+                    "target": "com.amazonaws.connect#OverrideHours",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the hours of operation overrides that apply to a specific date.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the hours of operation overrides which contribute to effective hours of operations.</p>"
+            }
+        },
+        "com.amazonaws.connect#EffectiveOverrideHoursList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#EffectiveOverrideHours"
             }
         },
         "com.amazonaws.connect#Email": {
@@ -25886,6 +26114,12 @@
                         "smithy.api#documentation": "<p>Information about the effective hours of operations.</p>"
                     }
                 },
+                "EffectiveOverrideHoursList": {
+                    "target": "com.amazonaws.connect#EffectiveOverrideHoursList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about override configurations applied to the base hours of operation to calculate the effective hours.</p>\n         <p>For more information about how override types are applied, see <a href=\"https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\">Build your list of overrides</a> in the\n     <i> Administrator Guide</i>.</p>"
+                    }
+                },
                 "TimeZone": {
                     "target": "com.amazonaws.connect#TimeZone",
                     "traits": {
@@ -26654,6 +26888,32 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.connect#GlobalResiliencyMetadata": {
+            "type": "structure",
+            "members": {
+                "ActiveRegion": {
+                    "target": "com.amazonaws.connect#ActiveRegion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current AWS region in which the contact is active. This indicates where the contact is being processed in real-time.</p>"
+                    }
+                },
+                "OriginRegion": {
+                    "target": "com.amazonaws.connect#OriginRegion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The AWS region where the contact was originally created and initiated. This may differ from the ActiveRegion if the contact has been transferred across regions.</p>"
+                    }
+                },
+                "TrafficDistributionGroupId": {
+                    "target": "com.amazonaws.connect#TrafficDistributionGroupId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the traffic distribution group.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the global resiliency configuration for the contact, including traffic distribution details.</p>"
             }
         },
         "com.amazonaws.connect#GlobalSignInEndpoint": {
@@ -27499,6 +27759,12 @@
                         "smithy.api#documentation": "<p>Configuration information for the hours of operation.</p>"
                     }
                 },
+                "ParentHoursOfOperations": {
+                    "target": "com.amazonaws.connect#ParentHoursOfOperationsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about parent hours of operations.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.connect#TagMap",
                     "traits": {
@@ -27680,6 +27946,18 @@
                     "target": "com.amazonaws.connect#HoursOfOperationOverrideYearMonthDayDateFormat",
                     "traits": {
                         "smithy.api#documentation": "<p>The date until the hours of operation override is effective.</p>"
+                    }
+                },
+                "RecurrenceConfig": {
+                    "target": "com.amazonaws.connect#RecurrenceConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for a recurring event.</p>"
+                    }
+                },
+                "OverrideType": {
+                    "target": "com.amazonaws.connect#OverrideType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the override will be defined as a <i>standard</i> or as a <i>recurring event</i>.</p>"
                     }
                 }
             },
@@ -27890,6 +28168,34 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The start time or end time for an hours of operation.</p>"
+            }
+        },
+        "com.amazonaws.connect#HoursOfOperationsIdentifier": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.connect#CommonNameLength127",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Name of the hours of operation</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Id": {
+                    "target": "com.amazonaws.connect#HoursOfOperationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Unique identifier of the hours of operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Arn": {
+                    "target": "com.amazonaws.connect#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Amazon Resource Name (ARN) of the hours of operations.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Identifier for a hours of operations resource: ARN, ID, Name</p>"
             }
         },
         "com.amazonaws.connect#IAMRestrictedPrimaryValue": {
@@ -29016,6 +29322,28 @@
                 }
             }
         },
+        "com.amazonaws.connect#IntervalPositiveInteger": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 6
+                }
+            }
+        },
+        "com.amazonaws.connect#InvalidActiveRegionException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.connect#Message"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.connect#InvalidContactFlowException": {
             "type": "structure",
             "members": {
@@ -29993,6 +30321,116 @@
                     "target": "com.amazonaws.connect#NextToken",
                     "traits": {
                         "smithy.api#documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.connect#ListChildHoursOfOperations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#ListChildHoursOfOperationsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#ListChildHoursOfOperationsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Provides information about the child hours of operations for the specified parent hours of operation.</p>\n         <p>For more information about child hours of operations, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/\">Link overrides from different hours of operation</a> in the\n     <i> Administrator Guide</i>.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/hours",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "ChildHoursOfOperationsSummaryList",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.connect#ListChildHoursOfOperationsRequest": {
+            "type": "structure",
+            "members": {
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in\n   the Amazon Resource Name (ARN) of the instance.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "HoursOfOperationId": {
+                    "target": "com.amazonaws.connect#HoursOfOperationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the parent hours of operation.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token for the next set of results. Use the value returned in the previous \nresponse in the next request to retrieve the next set of results.</p>",
+                        "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.connect#MaxResult100",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to return per page. The default MaxResult size is 100.</p>",
+                        "smithy.api#httpQuery": "maxResults"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.connect#ListChildHoursOfOperationsResponse": {
+            "type": "structure",
+            "members": {
+                "NextToken": {
+                    "target": "com.amazonaws.connect#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+                    }
+                },
+                "ChildHoursOfOperationsSummaryList": {
+                    "target": "com.amazonaws.connect#ChildHoursOfOperationsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the hours of operation.</p>"
+                    }
+                },
+                "LastModifiedTime": {
+                    "target": "com.amazonaws.connect#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when this resource was last modified.</p>"
+                    }
+                },
+                "LastModifiedRegion": {
+                    "target": "com.amazonaws.connect#RegionName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services Region where this resource was last modified.</p>"
                     }
                 }
             },
@@ -31259,6 +31697,12 @@
                     "method": "POST",
                     "uri": "/entity-security-profiles-summary/{InstanceId}",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "SecurityProfiles",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -33924,6 +34368,12 @@
                     "method": "GET",
                     "uri": "/security-profiles-flow-modules/{InstanceId}/{SecurityProfileId}",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "AllowedFlowModules",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -36080,6 +36530,36 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.connect#Month": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 12
+                }
+            }
+        },
+        "com.amazonaws.connect#MonthDay": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": -1,
+                    "max": 31
+                }
+            }
+        },
+        "com.amazonaws.connect#MonthDayList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#MonthDay"
+            }
+        },
+        "com.amazonaws.connect#MonthList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#Month"
+            }
+        },
         "com.amazonaws.connect#MultiSelectQuestionRuleCategoryAutomation": {
             "type": "structure",
             "members": {
@@ -36576,12 +37056,38 @@
                 "target": "com.amazonaws.connect#OperationalHour"
             }
         },
+        "com.amazonaws.connect#OperationalStatus": {
+            "type": "enum",
+            "members": {
+                "OPEN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OPEN"
+                    }
+                },
+                "CLOSED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLOSED"
+                    }
+                }
+            }
+        },
         "com.amazonaws.connect#Origin": {
             "type": "string",
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
                     "max": 267
+                }
+            }
+        },
+        "com.amazonaws.connect#OriginRegion": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1024
                 }
             }
         },
@@ -36875,6 +37381,38 @@
                 }
             }
         },
+        "com.amazonaws.connect#OverrideHour": {
+            "type": "structure",
+            "members": {
+                "Start": {
+                    "target": "com.amazonaws.connect#OverrideTimeSlice"
+                },
+                "End": {
+                    "target": "com.amazonaws.connect#OverrideTimeSlice"
+                },
+                "OverrideName": {
+                    "target": "com.amazonaws.connect#CommonHumanReadableName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Unique identifier name for the override.</p>"
+                    }
+                },
+                "OperationalStatus": {
+                    "target": "com.amazonaws.connect#OperationalStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the status is open or closed during the override period. This status determines how the override modifies the base hours of operation schedule.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about hours of operation override</p>"
+            }
+        },
+        "com.amazonaws.connect#OverrideHours": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#OverrideHour"
+            }
+        },
         "com.amazonaws.connect#OverrideTimeSlice": {
             "type": "structure",
             "members": {
@@ -36897,6 +37435,29 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The start time or end time for an hours of operation override.</p>"
+            }
+        },
+        "com.amazonaws.connect#OverrideType": {
+            "type": "enum",
+            "members": {
+                "STANDARD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "STANDARD"
+                    }
+                },
+                "OPEN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OPEN"
+                    }
+                },
+                "CLOSED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLOSED"
+                    }
+                }
             }
         },
         "com.amazonaws.connect#PEM": {
@@ -37052,6 +37613,50 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains primary color configuration for a workspace theme.</p>"
+            }
+        },
+        "com.amazonaws.connect#ParentHoursOfOperationConfig": {
+            "type": "structure",
+            "members": {
+                "HoursOfOperationId": {
+                    "target": "com.amazonaws.connect#HoursOfOperationId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the hours of operation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains configuration for the parent hours of operation.</p>"
+            }
+        },
+        "com.amazonaws.connect#ParentHoursOfOperationConfigList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#ParentHoursOfOperationConfig"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 3
+                }
+            }
+        },
+        "com.amazonaws.connect#ParentHoursOfOperationIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#HoursOfOperationId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 3
+                }
+            }
+        },
+        "com.amazonaws.connect#ParentHoursOfOperationsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#HoursOfOperationsIdentifier"
             }
         },
         "com.amazonaws.connect#ParticipantCapabilities": {
@@ -41783,6 +42388,84 @@
                 "target": "com.amazonaws.connect#RecordingInfo"
             }
         },
+        "com.amazonaws.connect#RecurrenceConfig": {
+            "type": "structure",
+            "members": {
+                "RecurrencePattern": {
+                    "target": "com.amazonaws.connect#RecurrencePattern",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The recurrence pattern that defines how the event repeats. Example: Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccurrence</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Defines the recurrence configuration for overrides. This configuration uses a recurrence pattern to specify when and how frequently an event should repeat.</p>"
+            }
+        },
+        "com.amazonaws.connect#RecurrenceFrequency": {
+            "type": "enum",
+            "members": {
+                "WEEKLY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "WEEKLY"
+                    }
+                },
+                "MONTHLY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MONTHLY"
+                    }
+                },
+                "YEARLY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "YEARLY"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.connect#RecurrencePattern": {
+            "type": "structure",
+            "members": {
+                "Frequency": {
+                    "target": "com.amazonaws.connect#RecurrenceFrequency",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines how often the pattern repeats. This is the base unit for the recurrence schedule and works in conjunction with the Interval field to determine the exact repetition sequence.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Interval": {
+                    "target": "com.amazonaws.connect#IntervalPositiveInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of frequency units between each occurrence. Must be a positive integer. </p>\n         <p> Examples: To repeat every week, set Interval=1 with WEEKLY frequency. To repeat every two months, set Interval=2 with MONTHLY frequency.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ByMonth": {
+                    "target": "com.amazonaws.connect#MonthList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies which month the event should occur in (1-12, where 1=January, 12=December). Used with YEARLY frequency to schedule events in specific month. </p>\n         <p>Note: It does not accept multiple values in the same list</p>"
+                    }
+                },
+                "ByMonthDay": {
+                    "target": "com.amazonaws.connect#MonthDayList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies which day of the month the event should occur on (1-31). Used with MONTHLY or YEARLY frequency to schedule events on specific date within a month.</p>\n         <p> Examples:\n[15] for events on the 15th of each month, \n[-1] for events on the last day of month. </p>\n         <p>Note: It does not accept multiple values in the same list. If a specified day doesn't exist in a particular month (e.g., day 31 in February), the event will be skipped for that month. This field cannot be used simultaneously with ByWeekdayOccurrence as they represent different scheduling approaches (specific dates vs. relative weekday positions).</p>"
+                    }
+                },
+                "ByWeekdayOccurrence": {
+                    "target": "com.amazonaws.connect#WeekdayOccurrenceList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies which occurrence of a weekday within the month the event should occur on. Must be used with MONTHLY or YEARLY frequency. </p>\n         <p>Example: 2 corresponds to second occurrence of the weekday in the month. -1 corresponds to last occurrence of the weekday in the month </p>\n         <p>The weekday itself is specified separately in the HoursOfOperationConfig. Example: To schedule the recurring event for the 2nd Thursday of April every year, set ByWeekdayOccurrence=[2], Day=THURSDAY, ByMonth=[4], Frequency: YEARLY and INTERVAL=1.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies the detailed pattern for event recurrence. Use this to define complex scheduling rules such as \"every 2nd Tuesday of the month\" or \"every 3 months on the 15th\".</p>"
+            }
+        },
         "com.amazonaws.connect#Reference": {
             "type": "structure",
             "members": {
@@ -42582,6 +43265,9 @@
             "errors": [
                 {
                     "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
                 },
                 {
                     "target": "com.amazonaws.connect#InvalidRequestException"
@@ -44479,6 +45165,12 @@
                     "target": "com.amazonaws.connect#SearchableSegmentAttributes",
                     "traits": {
                         "smithy.api#documentation": "<p>The search criteria based on searchable segment attributes of a contact.</p>"
+                    }
+                },
+                "ActiveRegions": {
+                    "target": "com.amazonaws.connect#ActiveRegionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of active regions for contacts in ACGR instances.</p>"
                     }
                 }
             },
@@ -48156,6 +48848,9 @@
                     "target": "com.amazonaws.connect#InternalServiceException"
                 },
                 {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
+                },
+                {
                     "target": "com.amazonaws.connect#InvalidParameterException"
                 },
                 {
@@ -49330,6 +50025,9 @@
                     "target": "com.amazonaws.connect#InternalServiceException"
                 },
                 {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
+                },
+                {
                     "target": "com.amazonaws.connect#InvalidParameterException"
                 },
                 {
@@ -49423,6 +50121,9 @@
             "errors": [
                 {
                     "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
                 },
                 {
                     "target": "com.amazonaws.connect#InvalidRequestException"
@@ -49911,6 +50612,9 @@
                     "target": "com.amazonaws.connect#InternalServiceException"
                 },
                 {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
+                },
+                {
                     "target": "com.amazonaws.connect#InvalidRequestException"
                 },
                 {
@@ -50005,6 +50709,9 @@
             "errors": [
                 {
                     "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
                 },
                 {
                     "target": "com.amazonaws.connect#InvalidParameterException"
@@ -51386,6 +52093,9 @@
                     "target": "com.amazonaws.connect#InternalServiceException"
                 },
                 {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
+                },
+                {
                     "target": "com.amazonaws.connect#InvalidParameterException"
                 },
                 {
@@ -51748,6 +52458,9 @@
                     "target": "com.amazonaws.connect#InternalServiceException"
                 },
                 {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
+                },
+                {
                     "target": "com.amazonaws.connect#InvalidParameterException"
                 },
                 {
@@ -51780,6 +52493,9 @@
             "errors": [
                 {
                     "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
                 },
                 {
                     "target": "com.amazonaws.connect#InvalidParameterException"
@@ -52537,6 +53253,9 @@
                 },
                 {
                     "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidActiveRegionException"
                 },
                 {
                     "target": "com.amazonaws.connect#InvalidParameterException"
@@ -53432,6 +54151,18 @@
                     "target": "com.amazonaws.connect#HoursOfOperationOverrideYearMonthDayDateFormat",
                     "traits": {
                         "smithy.api#documentation": "<p>The date until the hours of operation override is effective.</p>"
+                    }
+                },
+                "RecurrenceConfig": {
+                    "target": "com.amazonaws.connect#RecurrenceConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for a recurring event.</p>"
+                    }
+                },
+                "OverrideType": {
+                    "target": "com.amazonaws.connect#OverrideType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Whether the override will be defined as a <i>standard</i> or as a <i>recurring event</i>.</p>\n         <p>For more information about how override types are applied, see <a href=\"https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html\">Build your list of overrides</a> in the\n     <i> Administrator Guide</i>.</p>"
                     }
                 }
             },
@@ -58421,6 +59152,27 @@
                     "traits": {
                         "smithy.api#enumValue": "ALL"
                     }
+                }
+            }
+        },
+        "com.amazonaws.connect#WeekdayOccurrenceInteger": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": -1,
+                    "max": 4
+                }
+            }
+        },
+        "com.amazonaws.connect#WeekdayOccurrenceList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.connect#WeekdayOccurrenceInteger"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1
                 }
             }
         },

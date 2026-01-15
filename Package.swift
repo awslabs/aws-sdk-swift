@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.178.0"
-let crtVersion: Version = "0.54.2"
+let crtVersion: Version = "0.56.1"
 
 let excludeRuntimeUnitTests = false
 
@@ -1991,7 +1991,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSTranscribe",
         "transcribe.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI]
     ),
     .init(
         "AWSTranscribeStreaming",

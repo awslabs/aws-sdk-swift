@@ -20554,6 +20554,172 @@ public struct GetMappingOutput: Swift.Sendable {
     }
 }
 
+public struct GetMaterializedViewRefreshTaskRunInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The identifier for the particular materialized view refresh task run.
+    /// This member is required.
+    public var materializedViewRefreshTaskRunId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        materializedViewRefreshTaskRunId: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum MaterializedViewRefreshType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaterializedViewRefreshType] {
+            return [
+                .full,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum MaterializedViewRefreshState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case starting
+        case stopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaterializedViewRefreshState] {
+            return [
+                .failed,
+                .running,
+                .starting,
+                .stopped,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The object that shows the details of the materialized view refresh task run.
+    public struct MaterializedViewRefreshTaskRun: Swift.Sendable {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+        public var catalogId: Swift.String?
+        /// The time that this task was created.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Web Services account ID.
+        public var customerId: Swift.String?
+        /// The database where the table resides.
+        public var databaseName: Swift.String?
+        /// The calculated DPU usage in seconds for all autoscaled workers.
+        public var dpuSeconds: Swift.Double
+        /// The end time of the task.
+        public var endTime: Foundation.Date?
+        /// The error message for the job.
+        public var errorMessage: Swift.String?
+        /// The last point in time when this task was modified.
+        public var lastUpdated: Foundation.Date?
+        /// The identifier of the materialized view refresh task run.
+        public var materializedViewRefreshTaskRunId: Swift.String?
+        /// The number of bytes the refresh task run has scanned to refresh the materialized view.
+        public var processedBytes: Swift.Int?
+        /// The type of the refresh task run. Either FULL or INCREMENTAL.
+        public var refreshType: GlueClientTypes.MaterializedViewRefreshType?
+        /// The IAM role that the service assumes to generate statistics.
+        public var role: Swift.String?
+        /// The start time of the task.
+        public var startTime: Foundation.Date?
+        /// The status of the task run.
+        public var status: GlueClientTypes.MaterializedViewRefreshState?
+        /// The name of the table for which statistics is generated.
+        public var tableName: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            customerId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            dpuSeconds: Swift.Double = 0.0,
+            endTime: Foundation.Date? = nil,
+            errorMessage: Swift.String? = nil,
+            lastUpdated: Foundation.Date? = nil,
+            materializedViewRefreshTaskRunId: Swift.String? = nil,
+            processedBytes: Swift.Int? = nil,
+            refreshType: GlueClientTypes.MaterializedViewRefreshType? = nil,
+            role: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: GlueClientTypes.MaterializedViewRefreshState? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.creationTime = creationTime
+            self.customerId = customerId
+            self.databaseName = databaseName
+            self.dpuSeconds = dpuSeconds
+            self.endTime = endTime
+            self.errorMessage = errorMessage
+            self.lastUpdated = lastUpdated
+            self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+            self.processedBytes = processedBytes
+            self.refreshType = refreshType
+            self.role = role
+            self.startTime = startTime
+            self.status = status
+            self.tableName = tableName
+        }
+    }
+}
+
+public struct GetMaterializedViewRefreshTaskRunOutput: Swift.Sendable {
+    /// A MaterializedViewRefreshTaskRun object representing the details of the task run.
+    public var materializedViewRefreshTaskRun: GlueClientTypes.MaterializedViewRefreshTaskRun?
+
+    public init(
+        materializedViewRefreshTaskRun: GlueClientTypes.MaterializedViewRefreshTaskRun? = nil
+    ) {
+        self.materializedViewRefreshTaskRun = materializedViewRefreshTaskRun
+    }
+}
+
 public struct GetMLTaskRunInput: Swift.Sendable {
     /// The unique identifier of the task run.
     /// This member is required.
@@ -25035,6 +25201,49 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
+public struct ListMaterializedViewRefreshTaskRunsInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The database where the table resides.
+    public var databaseName: Swift.String?
+    /// The maximum size of the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The name of the table for which statistics is generated.
+    public var tableName: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tableName = tableName
+    }
+}
+
+public struct ListMaterializedViewRefreshTaskRunsOutput: Swift.Sendable {
+    /// The results of the ListMaterializedViewRefreshTaskRuns action.
+    public var materializedViewRefreshTaskRuns: [GlueClientTypes.MaterializedViewRefreshTaskRun]?
+    /// A continuation token, if not all task run IDs have yet been returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        materializedViewRefreshTaskRuns: [GlueClientTypes.MaterializedViewRefreshTaskRun]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.materializedViewRefreshTaskRuns = materializedViewRefreshTaskRuns
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListMLTransformsInput: Swift.Sendable {
     /// A TransformFilterCriteria used to filter the machine learning transforms.
     public var filter: GlueClientTypes.TransformFilterCriteria?
@@ -26867,6 +27076,66 @@ public struct StartJobRunOutput: Swift.Sendable {
     }
 }
 
+/// Exception thrown when a task is already in running state.
+public struct MaterializedViewRefreshTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaterializedViewRefreshTaskRunningException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StartMaterializedViewRefreshTaskRunInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// Specifies whether this is a full refresh of the task run.
+    public var fullRefresh: Swift.Bool?
+    /// The name of the table to generate run the materialized view refresh task.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        fullRefresh: Swift.Bool? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.fullRefresh = fullRefresh
+        self.tableName = tableName
+    }
+}
+
+public struct StartMaterializedViewRefreshTaskRunOutput: Swift.Sendable {
+    /// The identifier for the materialized view refresh task run.
+    public var materializedViewRefreshTaskRunId: Swift.String?
+
+    public init(
+        materializedViewRefreshTaskRunId: Swift.String? = nil
+    ) {
+        self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+    }
+}
+
 /// The machine learning transform is not ready to run.
 public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -27186,6 +27455,79 @@ public struct StopCrawlerScheduleInput: Swift.Sendable {
 }
 
 public struct StopCrawlerScheduleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Exception thrown when stopping a task that is not in running state.
+public struct MaterializedViewRefreshTaskNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaterializedViewRefreshTaskNotRunningException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Exception thrown when a task is already in stopping state.
+public struct MaterializedViewRefreshTaskStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaterializedViewRefreshTaskStoppingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StopMaterializedViewRefreshTaskRunInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table to generate statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+public struct StopMaterializedViewRefreshTaskRunOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -30940,6 +31282,13 @@ extension GetMappingInput {
     }
 }
 
+extension GetMaterializedViewRefreshTaskRunInput {
+
+    static func urlPathProvider(_ value: GetMaterializedViewRefreshTaskRunInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetMLTaskRunInput {
 
     static func urlPathProvider(_ value: GetMLTaskRunInput) -> Swift.String? {
@@ -31318,6 +31667,13 @@ extension ListJobsInput {
     }
 }
 
+extension ListMaterializedViewRefreshTaskRunsInput {
+
+    static func urlPathProvider(_ value: ListMaterializedViewRefreshTaskRunsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListMLTransformsInput {
 
     static func urlPathProvider(_ value: ListMLTransformsInput) -> Swift.String? {
@@ -31549,6 +31905,13 @@ extension StartJobRunInput {
     }
 }
 
+extension StartMaterializedViewRefreshTaskRunInput {
+
+    static func urlPathProvider(_ value: StartMaterializedViewRefreshTaskRunInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartMLEvaluationTaskRunInput {
 
     static func urlPathProvider(_ value: StartMLEvaluationTaskRunInput) -> Swift.String? {
@@ -31601,6 +31964,13 @@ extension StopCrawlerInput {
 extension StopCrawlerScheduleInput {
 
     static func urlPathProvider(_ value: StopCrawlerScheduleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopMaterializedViewRefreshTaskRunInput {
+
+    static func urlPathProvider(_ value: StopMaterializedViewRefreshTaskRunInput) -> Swift.String? {
         return "/"
     }
 }
@@ -33177,6 +33547,15 @@ extension GetMappingInput {
     }
 }
 
+extension GetMaterializedViewRefreshTaskRunInput {
+
+    static func write(value: GetMaterializedViewRefreshTaskRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["MaterializedViewRefreshTaskRunId"].write(value.materializedViewRefreshTaskRunId)
+    }
+}
+
 extension GetMLTaskRunInput {
 
     static func write(value: GetMLTaskRunInput?, to writer: SmithyJSON.Writer) throws {
@@ -33754,6 +34133,18 @@ extension ListJobsInput {
     }
 }
 
+extension ListMaterializedViewRefreshTaskRunsInput {
+
+    static func write(value: ListMaterializedViewRefreshTaskRunsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
 extension ListMLTransformsInput {
 
     static func write(value: ListMLTransformsInput?, to writer: SmithyJSON.Writer) throws {
@@ -34115,6 +34506,17 @@ extension StartJobRunInput {
     }
 }
 
+extension StartMaterializedViewRefreshTaskRunInput {
+
+    static func write(value: StartMaterializedViewRefreshTaskRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["FullRefresh"].write(value.fullRefresh)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
 extension StartMLEvaluationTaskRunInput {
 
     static func write(value: StartMLEvaluationTaskRunInput?, to writer: SmithyJSON.Writer) throws {
@@ -34180,6 +34582,16 @@ extension StopCrawlerScheduleInput {
     static func write(value: StopCrawlerScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CrawlerName"].write(value.crawlerName)
+    }
+}
+
+extension StopMaterializedViewRefreshTaskRunInput {
+
+    static func write(value: StopMaterializedViewRefreshTaskRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -36123,6 +36535,18 @@ extension GetMappingOutput {
     }
 }
 
+extension GetMaterializedViewRefreshTaskRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMaterializedViewRefreshTaskRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMaterializedViewRefreshTaskRunOutput()
+        value.materializedViewRefreshTaskRun = try reader["MaterializedViewRefreshTaskRun"].readIfPresent(with: GlueClientTypes.MaterializedViewRefreshTaskRun.read(from:))
+        return value
+    }
+}
+
 extension GetMLTaskRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMLTaskRunOutput {
@@ -36871,6 +37295,19 @@ extension ListJobsOutput {
     }
 }
 
+extension ListMaterializedViewRefreshTaskRunsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMaterializedViewRefreshTaskRunsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMaterializedViewRefreshTaskRunsOutput()
+        value.materializedViewRefreshTaskRuns = try reader["MaterializedViewRefreshTaskRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.MaterializedViewRefreshTaskRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMLTransformsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMLTransformsOutput {
@@ -37283,6 +37720,18 @@ extension StartJobRunOutput {
     }
 }
 
+extension StartMaterializedViewRefreshTaskRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMaterializedViewRefreshTaskRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMaterializedViewRefreshTaskRunOutput()
+        value.materializedViewRefreshTaskRunId = try reader["MaterializedViewRefreshTaskRunId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartMLEvaluationTaskRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMLEvaluationTaskRunOutput {
@@ -37356,6 +37805,13 @@ extension StopCrawlerScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCrawlerScheduleOutput {
         return StopCrawlerScheduleOutput()
+    }
+}
+
+extension StopMaterializedViewRefreshTaskRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopMaterializedViewRefreshTaskRunOutput {
+        return StopMaterializedViewRefreshTaskRunOutput()
     }
 }
 
@@ -40025,6 +40481,23 @@ enum GetMappingOutputError {
     }
 }
 
+enum GetMaterializedViewRefreshTaskRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMLTaskRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40966,6 +41439,22 @@ enum ListJobsOutputError {
     }
 }
 
+enum ListMaterializedViewRefreshTaskRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMLTransformsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -41552,6 +42041,25 @@ enum StartJobRunOutputError {
     }
 }
 
+enum StartMaterializedViewRefreshTaskRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "MaterializedViewRefreshTaskRunningException": return try MaterializedViewRefreshTaskRunningException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartMLEvaluationTaskRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -41689,6 +42197,24 @@ enum StopCrawlerScheduleOutputError {
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             case "SchedulerNotRunningException": return try SchedulerNotRunningException.makeError(baseError: baseError)
             case "SchedulerTransitioningException": return try SchedulerTransitioningException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopMaterializedViewRefreshTaskRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "MaterializedViewRefreshTaskNotRunningException": return try MaterializedViewRefreshTaskNotRunningException.makeError(baseError: baseError)
+            case "MaterializedViewRefreshTaskStoppingException": return try MaterializedViewRefreshTaskStoppingException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -42833,6 +43359,19 @@ extension SchedulerRunningException {
     }
 }
 
+extension MaterializedViewRefreshTaskRunningException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaterializedViewRefreshTaskRunningException {
+        let reader = baseError.errorBodyReader
+        var value = MaterializedViewRefreshTaskRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MLTransformNotReadyException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MLTransformNotReadyException {
@@ -42903,6 +43442,32 @@ extension SchedulerNotRunningException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SchedulerNotRunningException {
         let reader = baseError.errorBodyReader
         var value = SchedulerNotRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MaterializedViewRefreshTaskNotRunningException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaterializedViewRefreshTaskNotRunningException {
+        let reader = baseError.errorBodyReader
+        var value = MaterializedViewRefreshTaskNotRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MaterializedViewRefreshTaskStoppingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaterializedViewRefreshTaskStoppingException {
+        let reader = baseError.errorBodyReader
+        var value = MaterializedViewRefreshTaskStoppingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -48671,6 +49236,30 @@ extension GlueClientTypes.MappingEntry {
         value.targetTable = try reader["TargetTable"].readIfPresent()
         value.targetPath = try reader["TargetPath"].readIfPresent()
         value.targetType = try reader["TargetType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.MaterializedViewRefreshTaskRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MaterializedViewRefreshTaskRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MaterializedViewRefreshTaskRun()
+        value.customerId = try reader["CustomerId"].readIfPresent()
+        value.materializedViewRefreshTaskRunId = try reader["MaterializedViewRefreshTaskRunId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
+        value.refreshType = try reader["RefreshType"].readIfPresent()
+        value.processedBytes = try reader["ProcessedBytes"].readIfPresent()
         return value
     }
 }
