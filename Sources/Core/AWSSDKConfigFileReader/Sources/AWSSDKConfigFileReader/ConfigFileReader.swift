@@ -20,128 +20,152 @@ public class ConfigFileReader {
     var currentPropertyValue: String?
     var currentSubProperty: String?
     var currentLineNumber: Int = 0
-    let commentPattern = " +[#;].*$"
-    let blankLine = try! NSRegularExpression(pattern: "^\\s*$", options: [])
+    var currentFullSectionKey: String?
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
         let env = ProcessInfo.processInfo.environment
-        
         self.configFilePath = env["AWS_CONFIG_FILE"] ?? configFilePath ?? "~/.aws/config"
         self.credentialsFilePath = env["AWS_SHARED_CREDENTIALS_FILE"] ?? credentialsFilePath ?? "~/.aws/credentials"
-            
+        
     }
     
     func extractFileContents(atPath path: String, fileDescription: String) -> String? {
         let expandedPath = (path as NSString).expandingTildeInPath
-            
+        
+        guard FileManager.default.fileExists(atPath: expandedPath) else {
+            print(" \(fileDescription) not found at \(expandedPath). Skipping.")
+            return nil
+        }
+        
         guard let storedData = FileManager.default.contents(atPath: expandedPath) else {
             print("Warning: Could not open \(fileDescription) at \(expandedPath). Treating as empty file.")
-            return ""
+            return nil
         }
-            
+        
         guard let decodedString = String(data: storedData, encoding: .utf8) else {
             print("Error: Could not decode \(fileDescription) as UTF-8. Treating as empty file.")
-            return ""
+            return nil
         }
         
         print("Successfully read \(fileDescription) file at: \(path)")
         return decodedString
     }
     
-    private enum SectionHeaderParser {
+    private func handleParseError(_ error: Error, line: String) {
+        print("Local Error: '\(error.localizedDescription)'")
+        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
+    }
     
+    private enum lineTypeRegexPattern {
+        
         static let sectionRegex: NSRegularExpression? = {
-            // pattern matches: [ (optional type) (name) (optional comment) ]
-            let pattern = #"\[\s*(?:(?<type>\S+)\s+)?(?<name>\S+)\s*(?:[#;].*)?\]"#
+            // pattern matches: [ (optional type) (name) (optional comment) ] (optional comment)
+            let pattern = #"^\[\s*(?:(?<type>[A-Za-z0-9_-]+)\s+)?(?<name>[A-Za-z0-9_-]+)\s*\]\s*(?:[#;].*)?$"#
+            return try? NSRegularExpression(pattern: pattern)
+        }()
+        
+        static let propertiesRegex: NSRegularExpression? = {
+            // pattern matches: (key) (=) (optional value)
+            let pattern = #"^\s*(?<key>\S+)\s*(?:=\s*(?<value>\S+)?\s*)?(?:[#;].*)?$"#
             return try? NSRegularExpression(pattern: pattern)
         }()
     }
-
-    private func parseSectionHeader(from line: String) -> (name: String, type: FileBasedConfigurationSectionType)? {
-        guard let sectionRegex = SectionHeaderParser.sectionRegex else { return nil }
+    
+    static func parseSectionHeader(from line: String) -> (name: String, type: FileBasedConfigurationSectionType,                                    isExplicit: Bool)? {
+        guard let sectionRegex = lineTypeRegexPattern.sectionRegex else { return nil }
         
         let typeAndNameRange = NSRange(line.startIndex..., in: line)
         guard let sectionMatch = sectionRegex.firstMatch(in: line, range: typeAndNameRange) else {
             return nil
         }
-
-        // Helper to safely extract capture groups
-        func capture(at index: Int) -> String? {
-            let nsRange = sectionMatch.range(at: index)
+        
+        func capture(name: String) -> String? {
+            let nsRange = sectionMatch.range(withName: name)
             guard nsRange.location != NSNotFound,
                   let swiftRange = Range(nsRange, in: line) else { return nil }
             return String(line[swiftRange])
         }
-
-        // Group 1: type (optional), Group 2: name
-        let typeStr = capture(at: 1)
-        let name = capture(at: 2) ?? ""
-
+        
+        let typeStr = capture(name: "type")
+        let name = capture(name: "name") ?? ""
+        let hasProfilePrefix = (typeStr == "profile")
+        
         if name == "default" && typeStr == nil {
-            return (name: "default", type: .profile)
+                return (name: "default", type: .profile, isExplicit: false)
         }
-
+        
         let sectionType: FileBasedConfigurationSectionType = switch typeStr {
         case "profile":     .profile
         case "sso-session": .ssoSession
         case "services":    .services
         default:            .profile
         }
-
-        return (name: name, type: sectionType)
-    }
-
-    private func handleNewSectionFound(name sectionName: String,
-                                       type sectionType: FileBasedConfigurationSectionType,
-                                       lineNumber: Int,
-                                       targetDictionary: inout [String: ConfigFileSection]) -> Bool {
-        let typePrefix: String
-            switch sectionType {
-            case .profile:
-                typePrefix = "profile"
-            case .ssoSession:
-                typePrefix = "sso-session"
-            case .services:
-                typePrefix = "services"
-            }
         
-        let fullSectionKey = "\(typePrefix) \(sectionName)"
-        if targetDictionary[fullSectionKey] == nil {
-            let section = ConfigFileSection(name: sectionName)
-            targetDictionary[fullSectionKey] = section
-            currentSection = section
-            targetDictionary[sectionName] = currentSection
-            print("Found new section typed: '\(sectionType)', named: '\(sectionName)' on line number: '\(lineNumber)'")
-            print("The current section that will be tracked is: '\(currentSection!)'")
-            currentProperty = nil
-            currentSubProperty = nil
-            isCurrentSectionValid = true
-            return true
-        } else {
-            print("Found duplicate section matching current section on line number: '\(lineNumber)' current section typed: '\(sectionType)', named: '\(sectionName)' will remain unchanged")
-            isCurrentSectionValid = true
-            currentProperty = nil
-            currentSubProperty = nil
-            return false
-        }
+        return (name: name, type: sectionType, isExplicit: hasProfilePrefix)
     }
     
-    // Extension to strip comments and trim whitespace from raw strings
-    private func strippedCommentsAndWhitespace(from rawString: String) -> String {
+    private func handleNewSectionFound(name sectionName: String,
+                                       type sectionType: FileBasedConfigurationSectionType,
+                                       isExplicit: Bool,
+                                       lineNumber: Int,
+                                       targetDictionary: inout [String: ConfigFileSection]) -> Bool {
+        
+        let isExplicitProfileDefault = (sectionName == "default" && isExplicit)
 
-        if currentSubSection != nil && rawString.hasPrefix(" ") {
-            let cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
-            return cleanString
-        } else if currentPropertyValue != nil || currentSubProperty != nil {
-            let cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
-            return cleanString
-        } else {
-            var cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
-            if let commentRange = cleanString.range(of: commentPattern, options: .regularExpression) {
-                cleanString = String(cleanString[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
-            }
-            return cleanString
+        let typePrefix: String = switch sectionType {
+            case .profile: "profile"
+            case .ssoSession: "sso-session"
+            case .services: "services"
         }
+        let currentKey: String
+        if sectionName == "default" {
+                currentKey = isExplicit ? "profile default" : "default"
+        } else {
+            currentKey = "\(typePrefix) \(sectionName)"
+        }
+        
+        if sectionName == "default" {
+            if isExplicitProfileDefault {
+                if targetDictionary["default"] != nil {
+                    targetDictionary.removeValue(forKey: "default")
+                }
+            } else {
+                if targetDictionary["profile default"] != nil {
+                    isCurrentSectionValid = false
+                    return false
+                }
+            }
+        }
+
+        self.currentFullSectionKey = currentKey
+
+        if let existingSection = targetDictionary[currentKey] {
+            currentSection = existingSection
+        } else {
+            let section = ConfigFileSection(name: sectionName)
+            targetDictionary[currentKey] = section
+            currentSection = section
+        }
+        
+        isCurrentSectionValid = true
+        currentProperty = nil
+        currentSubProperty = nil
+        return true
+    }
+    
+    private func strippedCommentsAndWhitespace(from rawString: String) -> String {
+        var cleanString = rawString.trimmingCharacters(in: .whitespacesAndNewlines)
+        let isValue = currentPropertyValue != nil || currentSubProperty != nil
+        let isIndented = currentSubSection != nil && rawString.hasPrefix(" ")
+        
+        if !isValue && !isIndented {
+            let safeCommentPattern = #"\s+[#;].*"#
+            if let range = cleanString.range(of: safeCommentPattern, options: .regularExpression) {
+                cleanString = String(cleanString[..<range.lowerBound])
+            }
+        }
+        
+        return cleanString.trimmingCharacters(in: .whitespaces)
     }
     
     // Simple check for indentation
@@ -149,308 +173,262 @@ public class ConfigFileReader {
         return line.hasPrefix(" ") || line.hasPrefix("\t")
     }
     
-    private func handleStandardProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
+    private func processProperty(_ rawString: String, into targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard isCurrentSectionValid || !newSection else { return }
         
-            guard let sectionName = currentSection?.name else { throw ParseError("Expected a section definition") }
+        let components = rawString.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+        let key = strippedCommentsAndWhitespace(from: components[0].lowercased())
+        let value = components.count > 1 ? strippedCommentsAndWhitespace(from: components[1]) : ""
         
-            currentProperty = key
-            currentPropertyValue = value
-            currentSection?.properties[key] = value
-            targetDictionary[sectionName] = currentSection
-            
-            print("  Added new property '\(key)' = '\(value)' to section '\(sectionName)'")
-            print("  The current section contains '\(currentSection!)'")
-    }
+        guard !key.isEmpty else { throw ParseError("Property did not have a name") }
         
-        private func handleSubProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
-            
-            guard let sectionName = currentSection?.name,
-                  let currentSubSectionName = currentSubSection,
-                  let currentProp = currentProperty else {
-                throw ParseError("Property did not have a name in sub-property")
-            }
-
-            if key.rangeOfCharacter(from: .whitespaces) == nil {
-                // The logic for subproperties isolated in this function
-                currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
-                var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
-                var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
-                subpropertyKeysAndValues[key] = value
-                subproperties[currentSubSectionName] = subpropertyKeysAndValues
-                currentSection?.subproperties = subproperties
-                targetDictionary[sectionName] = currentSection
-            } else {
-                currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
-                var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
-                let subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [:]
-                subproperties[currentSubSectionName] = subpropertyKeysAndValues
-                currentSection?.subproperties = subproperties
-                targetDictionary[sectionName] = currentSection
-            }
-            print("  Added sub-property key and value '\(key)' = '\(value)' under subsection '\(currentSubSectionName)'")
-            print("  The current section contains '\(currentSection!)'")
-    }
-        
-        private func handleStandardKeyWithoutValue(key: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
-            guard let sectionName = currentSection?.name else { throw ParseError("Expected a section definition") }
-            
-            currentSubSection = key
-            currentProperty = key
-            currentPropertyValue = ""
-            currentSection?.properties[key] = ""
-            targetDictionary[sectionName] = currentSection
-            
-            print("  Added new property '\(key)' with no value to section '\(sectionName)'")
-            print("  Added property '\(key)' as a subsection to current section")
-            print("  The current section contains '\(currentSection!)'")
+        if isIndented(line: rawString) {
+            try !value.isEmpty
+                ? handleSubProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &targetDictionary)
+                : handleSubProptertyKeyWithoutValue(key: key, lineNumber: currentLineNumber, targetDictionary: &targetDictionary)
+        } else {
+            guard key.rangeOfCharacter(from: .whitespaces) == nil else { return }
+            try !value.isEmpty
+                ? handleStandardProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &targetDictionary)
+                : handleStandardKeyWithoutValue(key: key, lineNumber: currentLineNumber, targetDictionary: &targetDictionary)
+        }
     }
     
-        private func handleSubProptertyKeyWithoutValue(key: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
-            guard key.rangeOfCharacter(from: .whitespaces) == nil else {
-                    print("Warning: Silently ignoring subproperty key '\(key)' on line \(lineNumber) because it contains whitespace.")
-                    return // Exit the function silently
-                }
+    private func handleStandardProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard let fullKey = currentFullSectionKey else { throw ParseError("Expected a section definition") }
             
-            guard let sectionName = currentSection?.name,
-                  let currentSubSectionName = currentSubSection,
+        currentProperty = key
+        currentPropertyValue = value
+        currentSection?.properties[key] = value
+        targetDictionary[fullKey] = currentSection!
+            
+        print("Added new property '\(key)' = '\(value)' to section '\(fullKey)'")
+        print("The current section contains '\(currentSection!)'")
+    }
+    
+    private func handleSubProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard let fullKey = currentFullSectionKey,
+                  let subName = currentSubSection,
                   let currentProp = currentProperty else {
                 throw ParseError("Property did not have a name in sub-property")
             }
 
-            currentSection?.properties[currentProp] = nil // Clear standard property if it has subprops
-            var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
-            var subpropertyKeysAndValues = subproperties[currentSubSectionName] ?? [String: String]()
-            subpropertyKeysAndValues[key] = ""
-            subproperties[currentSubSectionName] = subpropertyKeysAndValues
-            currentSection?.subproperties = subproperties
-            targetDictionary[sectionName] = currentSection
+        currentSection?.properties[currentProp] = nil
+        var section = currentSection!
+        var subsectionData = section.subproperties[subName] ?? [:]
+
+        if key.rangeOfCharacter(from: .whitespaces) == nil {
+            subsectionData[key] = value
+            print("Added sub-property '\(key)' to subsection '\(subName)'")
+        }
+        
+        section.subproperties[subName] = subsectionData
+        self.currentSection = section
+        targetDictionary[fullKey] = section
             
-            print("  Added sub-property key: '\(key)' with no value under subsection '\(currentSubSectionName)'")
-            print("  The current section contains '\(currentSection!)'")
+        print("Added sub-property key and value '\(key)' = '\(value)' under subsection '\(subName)'")
+        print("The current section contains '\(currentSection!)'")
+    }
+    
+    private func handleStandardKeyWithoutValue(key: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard let fullKey = currentFullSectionKey else { throw ParseError("Expected a section definition") }
+        
+        currentSubSection = key
+        currentProperty = key
+        currentPropertyValue = ""
+        currentSection?.properties[key] = ""
+        targetDictionary[fullKey] = currentSection!
+        
+        print("Found new property '\(key)' with no value")
+        print("Added property '\(key)' as a subsection to current section '\(fullKey)'")
+        print("The current section contains '\(currentSection!)'")
+    }
+    
+    private func handleSubProptertyKeyWithoutValue(key: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard let fullKey = currentFullSectionKey,
+              let currentSubSectionName = currentSubSection,
+              let currentProp = currentProperty else {
+            throw ParseError("Property did not have a name in sub-property")
+        }
+        
+        guard key.rangeOfCharacter(from: .whitespaces) == nil else { return }
+        
+        var section = currentSection!
+        section.properties[currentProp] = nil
+        var subpropertyKeysAndValues = section.subproperties[currentSubSectionName] ?? [:]
+        subpropertyKeysAndValues[key] = ""
+        section.subproperties[currentSubSectionName] = subpropertyKeysAndValues
+        self.currentSection = section
+        targetDictionary[fullKey] = section
+        
+        print("Added sub-property key: '\(key)' with no value under subsection '\(currentSubSectionName)'")
+        print("The current section contains '\(currentSection!)'")
+    }
+    
+    private func processContinuation(_ rawString: String, into targetDictionary: inout [String: ConfigFileSection]) throws {
+        guard isCurrentSectionValid else { return }
+        guard let currentPropKey = currentProperty, let currentVal = currentPropertyValue else {
+            if isIndented(line: rawString) {
+                throw ParseError("Expected a property definition, found indented continuation")
+            } else {
+                throw ParseError("Expected a property definition")
+            }
+        }
+        
+        guard !currentVal.isEmpty else {
+            throw ParseError("Expected an '=' sign defining a property in sub-property")
+        }
+        
+        try handleLineContinuation(forKey: currentPropKey, value: rawString, targetDictionary: &targetDictionary)
     }
     
     private func handleLineContinuation(forKey key: String, value: String, targetDictionary: inout [String: ConfigFileSection]) throws {
-        guard let sectionName = currentSection?.name else { throw ParseError("No current section for continuation") }
-
+        guard let fullKey = currentFullSectionKey, var section = currentSection else {
+            throw ParseError("No current section for continuation")
+        }
+        
         let lineContinuation = self.strippedCommentsAndWhitespace(from: value)
         if currentSubProperty != nil, let subSectionName = currentSubSection {
-            var subprops = currentSection?.subproperties ?? [:]
-            var subKeyValues = subprops[subSectionName] ?? [:]
-            
-            if let existingValue = subKeyValues[key] {
-                subKeyValues[key] = existingValue + "\n" + lineContinuation
-            } else {
-                subKeyValues[key] = lineContinuation
-            }
-            subprops[subSectionName] = subKeyValues
-            currentSection?.subproperties = subprops
+            var subProps = section.subproperties[subSectionName] ?? [:]
+            let existingValue = subProps[key] ?? ""
+            subProps[key] = existingValue.isEmpty ? lineContinuation : existingValue + "\n" + lineContinuation
+            section.subproperties[subSectionName] = subProps
         } else {
-            if let existingValue = currentSection?.properties[key] {
-                currentSection?.properties[key] = existingValue + "\n" + lineContinuation
-            } else {
-                currentSection?.properties[key] = lineContinuation
-            }
+            let existingValue = section.properties[key] ?? ""
+            section.properties[key] = existingValue.isEmpty ? lineContinuation : existingValue + "\n" + lineContinuation
         }
-        targetDictionary[sectionName] = currentSection
-        print("  Appended value '\(lineContinuation)' to key '\(key)' within section '\(sectionName)'")
+        self.currentSection = section
+        targetDictionary[fullKey] = section
+        print("  Appended value '\(lineContinuation)' to key '\(key)' within section '\(fullKey)'")
     }
     
     private func mergeSectionProperties(configSection: inout ConfigFileSection, credentialSection: ConfigFileSection) {
-        
-        // --- 1. Merge top-level properties ---
+
         for (propKey, credValue) in credentialSection.properties {
-            // If the property exists in config, it's overwritten by cred value.
-            // If it doesn't exist in config, it's added.
             configSection.properties[propKey] = credValue
         }
         
-        // --- 2. Merge subproperties (nested dictionaries) ---
         for (subPropKey, credSubProps) in credentialSection.subproperties {
             
             if var existingConfigSubProps = configSection.subproperties[subPropKey] {
-                // If the subproperty already exists in the config file, we iterate
-                // through the credential's inner keys and merge them in.
                 for (innerKey, innerValue) in credSubProps {
-                    existingConfigSubProps[innerKey] = innerValue // Credentials take precedence
+                    existingConfigSubProps[innerKey] = innerValue
                 }
                 configSection.subproperties[subPropKey] = existingConfigSubProps
-                
             } else {
-                // If the whole subproperty group doesn't exist in config, just add the credential version
                 configSection.subproperties[subPropKey] = credSubProps
             }
         }
     }
-
-
+    
     func config() throws -> FileBasedConfigurationSectionProviding? {
-        
-        // Use the helper function for the config file (which is mandatory)
-        let stringConfigData = extractFileContents(atPath: configFilePath, fileDescription: "Configuration") ?? ""
-        
-        // Use the helper function for the credentials file (handle it optionally, if it fails, stringCredentialsData is nil)
-        let stringCredentialsData = extractFileContents(atPath: credentialsFilePath, fileDescription: "Credentials")
-        
-        let configLines = stringConfigData.split(whereSeparator: \.isNewline)
-        let credentialsLines = stringCredentialsData?.split(whereSeparator: \.isNewline)
-        
-        var sources: [ParsableFile] = [ParsableFile(type: "config", lines: configLines)]
-            if let creds = credentialsLines {
-                sources.append(ParsableFile(type: "credentials", lines: creds))
-            }
-
-        // Initialize separate temporary dictionaries for each file type
+        let configData = extractFileContents(atPath: configFilePath, fileDescription: "Config") ?? ""
+        let credsData = extractFileContents(atPath: credentialsFilePath, fileDescription: "Creds")
+        let sources: [(type: String, lines: [Substring])] = [
+            (type: "config", lines: configData.split(whereSeparator: \.isNewline)),
+            credsData.map { (type: "credentials", lines: $0.split(whereSeparator: \.isNewline)) }
+            ].compactMap { $0 }
         var configSections = [String: ConfigFileSection]()
         var credentialSections = [String: ConfigFileSection]()
-        for source in sources {
-            print("\n--- Starting processing for \(source.type) file ---")
+        
+        print("\n[DEBUG] RAW CONFIG FILE CONTENTS:")
+        print(configData.isEmpty ? "(Empty)" : configData)
             
-            if source.type == "config" {
-                print("Configuration File contents:", stringConfigData.split(whereSeparator: \.isNewline))
-            } else {
-                print("Credential File contents:", stringCredentialsData?.split(whereSeparator: \.isNewline) as Any)
-            }
-            // Initialize a temp dictionary for the inner loop
-            var tempDictionary: [String: ConfigFileSection]!
-                    if source.type == "config" {
-                        tempDictionary = configSections
-                    } else {
-                        tempDictionary = credentialSections
-                    }
+        print("\n[DEBUG] RAW CREDS FILE CONTENTS:")
+        print(credsData?.isEmpty == false ? credsData! : "(Empty or Missing)")
+        
+        print("\n[TEST DEBUG] Number of sources to process: \(sources.count)")
+        
+        for source in sources {
+            print("Source Type: \(source.type), Line Count: \(source.lines.count)")
+            var targetDict = (source.type == "config") ? configSections : credentialSections
             
             for (index, line) in source.lines.enumerated() {
                 currentLineNumber = index + 1
-                guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && blankLine.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) == nil else{
-                    continue
+                let lineString = String(line)
+                
+                do {
+                    try process(line: lineString, into: &targetDict)
+                } catch {
+                    handleParseError(error, line: lineString)
+                    throw error
                 }
-                if line.contains("[") {
-                    newSection = true
-                }
-                switch line {
-                case _ where line.contains("[") && line.contains("]"):
-                        if let sectionHeader = parseSectionHeader(from: String(line)) {
-                            if !handleNewSectionFound(name: sectionHeader.name, type: sectionHeader.type, lineNumber: currentLineNumber, targetDictionary: &tempDictionary) {
-                                continue
-                            }
-                        }
-                case _ where line.contains("="):
-                    do {
-                        if !isCurrentSectionValid, newSection {
-                            print("Skipping line because previous section was invalid: \(line)")
-                            break
-                        }
-                        guard currentSection != nil else {
-                            throw ParseError("Expected a section definition")
-                        }
-                        
-                        let components = line.split(separator: "=", maxSplits: 1)
-                        let equalsIndex = line.firstIndex(of: "=")!
-                        let keyRange = line.startIndex..<equalsIndex
-                        let valueRange = line.index(after: equalsIndex)..<line.endIndex
-                        let key = strippedCommentsAndWhitespace(from: String(line[keyRange].lowercased()))
-                        let value = strippedCommentsAndWhitespace(from: String(line[valueRange]))
-                        
-                        guard !key.isEmpty else {
-                            throw ParseError("Property did not have a name")
-                            }
-                        
-                        guard components.count == 2 else {
-                            // This path handles keys with no values (e.g., just `key=`)
-                            if isIndented(line: String(line)) {
-                                try handleSubProptertyKeyWithoutValue(key: key, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
-                                } else {
-                                    try handleStandardKeyWithoutValue(key: key, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
-                                        }
-                            continue
-                            }
+            }
+            if source.type == "config" { configSections = targetDict }
+            else { credentialSections = targetDict }
+        }
+        
+        func applyPrecedence(_ dict: inout [String: ConfigFileSection]) {
+            if dict["profile default"] != nil && dict["default"] != nil {
+                dict.removeValue(forKey: "default")
+            }
+        }
+                
+        applyPrecedence(&configSections)
+        applyPrecedence(&credentialSections)
+        
+        let finalSections = configSections.merging(credentialSections) { (configSec, credSec) in
+            var updated = configSec
+            mergeSectionProperties(configSection: &updated, credentialSection: credSec)
+            return updated
+        }
 
-                        if isIndented(line: String(line)) {
-                            try handleSubProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
-                            } else {
-                                guard key.rangeOfCharacter(from: .whitespaces) == nil else { break }
-                                try handleStandardProperty(key: key, value: value, lineNumber: currentLineNumber, targetDictionary: &tempDictionary)
-                                    }
-                                            
-                    } catch let error as ParseError {
-                        print("Local Error: '\(error.localizedDescription)', in Property Case")
-                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                        currentSection = nil
-                        isCurrentSectionValid = false
-                        throw error
-                    }
-                    continue
-                case _ where !line.contains("=") && !line.hasPrefix("["):
-                    do {
-                        let lineString = String(line)
-                                
-                        guard currentSection != nil else {
-                            throw ParseError("Expected a section definition but found a value continuation on line: \(currentLineNumber)")
-                        }
-                                
-                        guard isCurrentSectionValid else {
-                            print("Skipping line because previous section was invalid: \(lineString)")
-                            continue
-                        }
-                        guard let currentPropKey = currentProperty else {
-                            // This happens if the continuation line is the very first line after a section header
-                            if isIndented(line: lineString) {
-                                throw ParseError("Expected a property definition, found indented continuation on line: \(currentLineNumber)")
-                            } else {
-                                throw ParseError("Expected a property definition on line: \(currentLineNumber)")
-                                }
-                            }
-                        guard currentPropertyValue != "" else {
-                            throw ParseError("Expected an '=' sign defining a property in sub-property on line: \(currentLineNumber)")
-                        }
-                        try handleLineContinuation(forKey: currentPropKey, value: lineString, targetDictionary: &tempDictionary)
-                        
-                    } catch let error as ParseError {
-                        print("Local Error: '\(error.localizedDescription)', in Property Continuation Case ")
-                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                        throw error
-                    }
-                default:
-                    print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
-                    do{
-                        if line.hasPrefix("[") {
-                            guard line.hasSuffix("]") else{
-                                throw ParseError("Section definition must end with ']'")
-                            }
-                            break
-                        } else if line.contains("=") {
-                            guard currentSection != nil, isCurrentSectionValid else{
-                                throw ParseError("Expected a section definition")
-                            }
-                        }
-                    } catch let error as ParseError {
-                        print("Default Local Error: '\(error.localizedDescription)")
-                        print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
-                        throw error
-                    }
+        var finalResult = finalSections
+        if finalResult["profile default"] != nil && finalResult["default"] != nil {
+            finalResult.removeValue(forKey: "default")
+        }
+
+        print("\n--- Results after the merge of sections ---")
+        print(finalResult)
+        
+        return ConfigFile(sections: finalResult)
+    }
+    
+    private func process(line: String, into dict: inout [String: ConfigFileSection]) throws {
+        switch line.classification {
+        case .blank, .comment:
+            return
+            
+        case .section(let rawString, let header):
+            newSection = true
+            guard rawString.contains("]") else {
+                throw ParseError("Section definition must end with ']'")
+            }
+                
+            if header?.name == "INVALID_SECTION" {
+                isCurrentSectionValid = false
+                currentProperty = nil
+                currentPropertyValue = nil
+            } else {
+                isCurrentSectionValid = handleNewSectionFound(
+                    name: header!.name,
+                    type: header!.type,
+                    isExplicit: header!.isExplicit,
+                    lineNumber: currentLineNumber,
+                    targetDictionary: &dict
+                )
+            }
+            
+        case .property(let rawString, _, _):
+            guard isCurrentSectionValid && newSection else { return }
+            guard currentSection != nil else { throw ParseError("Expected a section definition1") }
+            try processProperty(rawString, into: &dict)
+            
+        case .continuation(let rawString, _):
+            guard isCurrentSectionValid && newSection else { return }
+            guard currentSection != nil else { throw ParseError("Expected a section definition2") }
+            guard currentProperty != nil else {
+                if isIndented(line: rawString) {
+                    throw ParseError("Expected a property definition, found indented continuation")
+                } else {
+                    throw ParseError("Expected a property definition")
                 }
             }
-            if source.type == "config" {
-                configSections = tempDictionary
-            } else {
-                credentialSections = tempDictionary
-            }
+            try processContinuation(rawString, into: &dict)
+            
+        case .unknown(_):
+            throw ParseError("Unknown line")
         }
-        // Merge the final results after both loops complete
-        var mergedSections = configSections
-        for (fullSectionKey, credSection) in credentialSections {
-            // Credentials override config settings
-            if var configSectionToUpdate = mergedSections[fullSectionKey] {
-                // A matching section was found in both files. We must deep merge the properties.
-                mergeSectionProperties(configSection: &configSectionToUpdate, credentialSection: credSection)
-                mergedSections[fullSectionKey] = configSectionToUpdate // Save the updated section back
-            }
-            else {
-                // No matching section found in config; just add the credential section entirely.
-                mergedSections[fullSectionKey] = credSection
-            }
-        }
-        print("\n---Results after the merge of sections--- \n\(mergedSections)\n")
-        return ConfigFile(sections: mergedSections)
     }
 }
 
@@ -461,13 +439,64 @@ public extension ConfigFileReader {
     }
 }
 
+extension String {
+    var classification: lineType {
+        let pattern = #"^\s*$"#
+        let blankLine = try! NSRegularExpression(pattern: pattern)
+        let range = NSRange(self.startIndex..., in: self)
+        
+        if self.isEmpty || blankLine.firstMatch(in: self, options: [], range: range) != nil {
+            return .blank
+        }
+        
+        if self.hasPrefix("#") || self.hasPrefix(";") {
+            return .comment
+        }
+                
+        if self.hasPrefix("[") {
+            let invalidSec = "INVALID_SECTION"
+            if let header = ConfigFileReader.parseSectionHeader(from: self) {
+                return .section(rawString: self, header: (name: header.name, type: header.type, isExplicit: header.isExplicit))
+            } else {
+                return .section(rawString: self, header: (name: invalidSec, type: .profile, isExplicit: false))
+            }
+        }
+                
+        if self.contains("=") {
+            return .property(rawString: self, key: "", value: "")
+        }
+                        
+        if self.hasPrefix(" ") || self.hasPrefix("\t") {
+            return .continuation(rawString: self, value: self)
+        }
+        
+        return .unknown(rawString: self)
+    }
+}
+
 struct ConfigFile: FileBasedConfiguration {
     let sections: [String: ConfigFileSection]
 
     func section(for name: String, type: FileBasedConfigurationSectionType) -> (any FileBasedConfigurationSection)? {
-        let sectionName: String
-        sectionName = name
-        return sections[sectionName]
+        let typePrefix: String
+        switch type {
+        case .profile:
+            typePrefix = "profile"
+        case .ssoSession:
+            typePrefix = "sso-session"
+        case .services:
+            typePrefix = "services"
+        }
+
+        let fullKey: String
+        if name == "default" {
+            if let explicit = sections["profile default"] { return explicit }
+            fullKey = "default"
+        } else {
+            fullKey = "\(typePrefix) \(name)"
+        }
+
+        return sections[fullKey]
     }
 }
 
@@ -500,19 +529,32 @@ struct Subsection: FileBasedConfigurationSubsection {
     }
 }
 
-struct ParseError: Error {
-    let localizedDescription: String
+struct ParseError: Error, LocalizedError {
+    let message: String
+    let line: Int?
 
-    init(_ msg: String) {
-        self.localizedDescription = msg
+    init(_ msg: String, line: Int? = nil) {
+        self.message = msg
+        self.line = line
     }
     
     var errorDescription: String? {
-        return localizedDescription
+        if let line = line {
+            return "Line \(line): \(message)"
+        }
+        return message
     }
 }
 
 struct ParsableFile {
         let type: String
         let lines: [Substring]
+}
+enum lineType {
+    case comment
+    case section(rawString: String, header: (name: String, type: FileBasedConfigurationSectionType, isExplicit: Bool)?)
+    case property(rawString: String, key: String, value: String?)
+    case continuation(rawString: String, value: String)
+    case blank
+    case unknown(rawString: String)
 }
